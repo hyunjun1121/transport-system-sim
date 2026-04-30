@@ -122,7 +122,7 @@ def parse_and_generate(md_path, docx_path):
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             run = p.add_run("─" * 60)
-            set_run_font(run, size=8, color=RGBColor(0x99, 0x99, 0x99))
+            set_run_font(run, size=8, color=RGBColor(0xCC, 0xCC, 0xCC))
             i += 1
             continue
 
@@ -132,11 +132,9 @@ def parse_and_generate(md_path, docx_path):
             level = len(hmatch.group(1))
             text = hmatch.group(2)
             if level == 1:
-                add_styled_paragraph(doc, text, font_size=18, bold=True,
-                                     color=RGBColor(0x1F, 0x38, 0x64))
+                add_styled_paragraph(doc, text, font_size=18, bold=True)
             elif level == 2:
-                add_styled_paragraph(doc, text, font_size=14, bold=True,
-                                     color=RGBColor(0x2E, 0x50, 0x90))
+                add_styled_paragraph(doc, text, font_size=14, bold=True)
             elif level == 3:
                 add_styled_paragraph(doc, text, font_size=12, bold=True)
             else:
@@ -171,8 +169,7 @@ def parse_and_generate(md_path, docx_path):
         # Blockquote (>)
         if stripped.startswith(">"):
             text = stripped.lstrip("> ").strip()
-            p = add_styled_paragraph(doc, text, font_size=11,
-                                     color=RGBColor(0x33, 0x33, 0x33))
+            p = add_styled_paragraph(doc, text, font_size=11)
             p.paragraph_format.left_indent = Cm(1.0)
             i += 1
             continue
