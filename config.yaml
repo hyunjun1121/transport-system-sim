@@ -1,0 +1,51 @@
+# Transport System Simulation Configuration
+# 전시 동원예비군 수송체계 Micro-Simulation 실험 설정
+
+network:
+  nodes: [H, A, S, R, D]
+  # road_links: [from, to, t0(min), capacity(veh/hr), p_fail]
+  road_links:
+    - [A, D1, 30, 500, 0.05]    # 고속도로 구간1
+    - [A, D2, 45, 300, 0.08]    # 일반도로
+    - [D1, D, 20, 400, 0.03]    # 고속도로 구간2
+    - [D2, D, 35, 250, 0.10]    # 우회도로
+    - [A, S, 15, 200, 0.02]     # 셔틀 구간 (A→S 허브)
+    - [R, D, 10, 300, 0.02]     # 라스트마일 (R→D)
+  # rail_link: [from, to, t0(min), headway(min), capacity(pax/train)]
+  rail_link:
+    - [S, R, 40, 10, 500]
+
+personnel:
+  total: 1000            # 총 예비군 인원
+  group_size: 45         # 버스당 탑승인원
+  assembly_time: 480     # 집결 기준시간 (08:00 = 480min)
+
+bpr:
+  alpha: 0.15
+  beta: 4.0
+
+# Phase 1: 혼잡 스케일 × 파손율 그리드
+congestion_scale:
+  levels: [0.8, 1.0, 1.2, 1.5, 2.0]
+
+failure_rate:
+  levels: [0.0, 0.02, 0.05, 0.10, 0.15]
+
+# Phase 2: 지각 강도 × 출발정책
+lateness:
+  distribution: lognormal
+  mu: 2.0               # LogNormal μ
+  sigma_levels: [0.3, 0.5, 0.7, 1.0]
+
+policies:
+  STRICT:
+    type: strict
+  GRACE:
+    type: grace
+    W: [15, 30, 60]      # 최대 대기시간(분)
+    theta: [0.8, 0.9]    # 도착률 임계
+
+experiment:
+  R: 30                  # 반복수
+  seed_base: 42
+  time_limit: 1440       # 시뮬레이션 시간 한계(분) = 24시간
