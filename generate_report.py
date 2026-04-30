@@ -216,8 +216,6 @@ def make_table(rows):
                 p = make_paragraph(cell_runs)
 
             tc.append(p)
-            # Add empty paragraph after to avoid empty cell warning
-            tc.append(make_paragraph([make_run("")]))
 
     return tbl
 
@@ -268,10 +266,8 @@ def build_styles():
     make_sub(h1, _w("next"), {"val": "Normal"})
     make_sub(h1, _w("qFormat"))
     h1ppr = make_sub(h1, _w("pPr"))
-    make_sub(h1ppr, _w("keepNext")
-             if False else _w("keepNext"))
-    make_sub(h1ppr, _w("keepLines")
-             if False else _w("keepLines"))
+    make_sub(h1ppr, _w("keepNext"), {})
+    make_sub(h1ppr, _w("keepLines"), {})
     make_sub(h1ppr, _w("spacing"),
              {"before": "480", "after": "200"})
     h1rpr = make_sub(h1, _w("rPr"))
@@ -342,8 +338,8 @@ def build_styles():
 # ── Document builder ──────────────────────────────────────────────────
 def build_document(blocks):
     """Build word/document.xml from parsed content blocks."""
-    w_body = _w("body")
-    body = make_element(w_body)
+    doc = make_element(_w("document"))
+    body = make_sub(doc, _w("body"))
 
     # ── Page setup (sectPr in body) ──
     # We'll add sectPr at the end
@@ -397,7 +393,7 @@ def build_document(blocks):
                     {"w": str(int(21.0 * CM_TO_TWIPS)),
                      "h": str(int(29.7 * CM_TO_TWIPS))})  # A4
 
-    return body
+    return doc
 
 
 # ── Markdown parser ───────────────────────────────────────────────────
