@@ -19,6 +19,11 @@ OUTPUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "report.docx")
 FONT = "Malgun Gothic"
 
 FIGURES = {
+    "개념도. 연구 전체 흐름": {
+        "path": os.path.join("results", "report_figures", "figure0_pipeline_overview.png"),
+        "width": 6.6,
+        "show_caption": False,
+    },
     "그림 1. 시간과 자원 효율의 핵심 비교": {
         "path": os.path.join("results", "report_figures", "figure1_time_efficiency_summary.png"),
         "width": 6.5,
@@ -114,14 +119,15 @@ def add_figure(doc, caption, figure_spec):
     run = p.add_run()
     run.add_picture(image_path, width=Inches(figure_spec["width"]))
 
-    caption_p = add_styled_paragraph(
-        doc,
-        caption,
-        font_size=9,
-        bold=False,
-        color=RGBColor(0x66, 0x66, 0x66),
-    )
-    caption_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    if figure_spec.get("show_caption", True):
+        caption_p = add_styled_paragraph(
+            doc,
+            caption,
+            font_size=9,
+            bold=False,
+            color=RGBColor(0x66, 0x66, 0x66),
+        )
+        caption_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     doc.add_paragraph()
 
 
