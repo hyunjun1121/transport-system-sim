@@ -18,6 +18,21 @@ OUTPUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "report.docx")
 # Font name for Korean
 FONT = "Malgun Gothic"
 
+FIGURES = {
+    "그림 1. 시간과 자원 효율의 핵심 비교": {
+        "path": os.path.join("results", "report_figures", "figure1_time_efficiency_summary.png"),
+        "width": 6.5,
+    },
+    "그림 2. 장애 강도에 따른 미도착 인원 변화": {
+        "path": os.path.join("results", "report_figures", "figure2_undelivered_risk.png"),
+        "width": 6.3,
+    },
+    "그림 3. 의사결정 관점 요약": {
+        "path": os.path.join("results", "report_figures", "figure3_decision_lens.png"),
+        "width": 6.4,
+    },
+}
+
 
 def set_run_font(run, size=11, bold=False, color=None):
     """Apply consistent Korean font to a run."""
@@ -85,6 +100,31 @@ def add_table(doc, rows):
     doc.add_paragraph()
 
 
+def add_figure(doc, caption, figure_spec):
+    """Add a report figure with a centered caption."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(base_dir, figure_spec["path"])
+    if not os.path.exists(image_path):
+        p = add_styled_paragraph(doc, caption, font_size=9, color=RGBColor(0x66, 0x66, 0x66))
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        return
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run()
+    run.add_picture(image_path, width=Inches(figure_spec["width"]))
+
+    caption_p = add_styled_paragraph(
+        doc,
+        caption,
+        font_size=9,
+        bold=False,
+        color=RGBColor(0x66, 0x66, 0x66),
+    )
+    caption_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    doc.add_paragraph()
+
+
 def parse_and_generate(md_path, docx_path):
     """Parse markdown and generate docx."""
     with open(md_path, "r", encoding="utf-8") as f:
@@ -114,6 +154,12 @@ def parse_and_generate(md_path, docx_path):
 
         # Blank line
         if not stripped:
+            i += 1
+            continue
+
+        # Figure captions mapped to project-local report images.
+        if stripped in FIGURES:
+            add_figure(doc, stripped, FIGURES[stripped])
             i += 1
             continue
 
