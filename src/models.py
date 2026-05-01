@@ -9,6 +9,8 @@
 import networkx as nx
 import numpy as np
 
+from src.disruptions import blocked_edges, sample_edge_disruptions
+
 
 def bpr_travel_time(
     t0: float,
@@ -44,6 +46,10 @@ def sample_link_failures(
     G: nx.DiGraph,
     p_fail_scale: float,
     rng: np.random.Generator,
+    *,
+    mode: str = "blocked",
+    capacity_reduction_factor: float = 0.5,
+    rail_immune: bool = True,
 ) -> list[tuple[str, str]]:
     """Sample which road links fail using Bernoulli trials.
 
@@ -58,13 +64,15 @@ def sample_link_failures(
     Returns:
         List of (from, to) tuples for failed edges
     """
-    failed = []
-    for u, v, data in G.edges(data=True):
-        if data["mode"] == "road":
-            p = min(data["p_fail"] * p_fail_scale, 1.0)
-            if rng.random() < p:
-                failed.append((u, v))
-    return failed
+    disruptions = sample_edge_disruptions(
+        G,
+        p_fail_scale,
+        rng,
+        mode=mode,
+        capacity_reduction_factor=capacity_reduction_factor,
+        rail_immune=rail_immune,
+    )
+    return blocked_edges(disruptions)
 
 
 def sample_arrival_delays(
@@ -113,7 +121,7 @@ def compute_travel_times(
         alpha, beta: BPR parameters
 
     Returns:
-        Dict mapping (from, to) → travel time (min)
+        Dict mapping (from, to) -> travel time (min)
     """
     failed_set = set(failed_edges)
     times = {}

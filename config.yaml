@@ -1,40 +1,120 @@
 # Transport System Simulation Configuration
-# 전시 동원예비군 수송체계 Micro-Simulation 실험 설정
+# Legacy keys remain in place for the current CLI and scenario code.
 
 network:
   nodes: [H, A, S, R, D]
-  # road_links: [from, to, t0(min), capacity(veh/hr), p_fail]
+  variant: baseline
+  # Phase 1 sweeps these variants; other named variants can be selected here
+  # without changing code.
+  variant_levels: [baseline, matched_redundancy]
+  # road_links: [from, to, t0(min), capacity(veh/hr), base p_fail]
   road_links:
-    - [A, D1, 30, 500, 0.05]    # 고속도로 구간1
-    - [A, D2, 45, 300, 0.08]    # 일반도로
-    - [D1, D, 20, 400, 0.03]    # 고속도로 구간2
-    - [D2, D, 35, 250, 0.10]    # 우회도로
-    - [A, S, 15, 200, 0.02]     # 셔틀 구간 (A→S 허브)
-    - [R, D, 10, 300, 0.02]     # 라스트마일 (R→D)
+    - [A, D1, 30, 500, 0.05]
+    - [A, D2, 45, 300, 0.08]
+    - [D1, D, 20, 400, 0.03]
+    - [D2, D, 35, 250, 0.10]
+    - [A, S, 15, 200, 0.02]
+    - [R, D, 10, 300, 0.02]
   # rail_link: [from, to, t0(min), headway(min), capacity(pax/train)]
   rail_link:
     - [S, R, 40, 10, 500]
+  variants:
+    baseline: {}
+    matched_redundancy:
+      road_links:
+        - [A, D1, 30, 500, 0.05]
+        - [A, D2, 45, 300, 0.08]
+        - [A, D3, 38, 350, 0.06]
+        - [D1, D, 20, 400, 0.03]
+        - [D2, D, 35, 250, 0.10]
+        - [D3, D, 24, 350, 0.04]
+        - [A, S, 15, 200, 0.02]
+        - [A, S2, 18, 250, 0.03]
+        - [S2, S, 6, 250, 0.02]
+        - [R, D, 10, 300, 0.02]
+        - [R, L1, 7, 300, 0.02]
+        - [L1, D, 8, 300, 0.02]
+    multimodal_redundant_lastmile:
+      road_links:
+        - [A, D1, 30, 500, 0.05]
+        - [A, D2, 45, 300, 0.08]
+        - [D1, D, 20, 400, 0.03]
+        - [D2, D, 35, 250, 0.10]
+        - [A, S, 15, 200, 0.02]
+        - [R, D, 10, 300, 0.02]
+        - [R, L1, 7, 300, 0.02]
+        - [L1, D, 8, 300, 0.02]
+        - [R, L2, 11, 250, 0.03]
+        - [L2, D, 9, 250, 0.03]
+    bus_single_corridor:
+      road_links:
+        - [A, D1, 30, 500, 0.05]
+        - [D1, D, 20, 400, 0.03]
+        - [A, S, 15, 200, 0.02]
+        - [R, D, 10, 300, 0.02]
 
 personnel:
-  total: 1000            # 총 예비군 인원
-  group_size: 45         # 버스당 탑승인원
-  assembly_time: 480     # 집결 기준시간 (08:00 = 480min)
+  total: 1000
+  group_size: 45
+  assembly_time: 480     # 08:00 = 480 min from midnight
 
 bpr:
   alpha: 0.15
   beta: 4.0
 
-# Phase 1: 혼잡 스케일 × 파손율 그리드
+bus:
+  first_departure_min: 480.0
+  dispatch_interval_min: 5.0
+  fleet_size: 23
+  turnaround_min: 5.0
+
+multimodal:
+  shuttle_first_departure_min: 480.0
+  shuttle_dispatch_interval_min: 5.0
+  shuttle_fleet_size: 23
+  transfer_time_min: 5.0
+  transfer_per_passenger_min: 0.0
+  rail_first_departure_min:
+  lastmile_dispatch_interval_min: 5.0
+  lastmile_fleet_size: 23
+  lastmile_turnaround_min: 5.0
+  lastmile_vehicle_capacity: 45
+  lastmile_first_departure_min:
+
+# Dynamic traffic defaults. background_volume is the baseline vehicles/hour
+# added to rolling-window simulated edge entries.
+traffic:
+  volume_window_min: 60.0
+  background_volume: 100.0
+
+# Failure handling defaults and Phase 1 sensitivity levels.
+failure:
+  mode: blocked
+  capacity_reduction_factor: 0.5
+  mode_levels: [blocked, capacity_reduction]
+  capacity_reduction_factor_levels: [0.25, 0.50, 0.75]
+
+# Metrics defaults. late_penalty_min is the per-censored-passenger penalty used
+# by penalized_makespan.
+metrics:
+  late_penalty_min: 1440.0
+
+# Phase 1: congestion scaling grid.
 congestion_scale:
   levels: [0.8, 1.0, 1.2, 1.5, 2.0]
 
+# Phase 1: failure-rate grid.
+# These levels are p_fail_scale multipliers, not absolute probabilities.
+# Actual road-link failure probability = min(edge_base_p_fail * level, 1.0).
 failure_rate:
-  levels: [0.0, 0.02, 0.05, 0.10, 0.15]
+  parameter: p_fail_scale
+  semantics: multiplier
+  levels: [0.0, 0.25, 0.50, 1.00, 1.50, 2.00, 3.00]
 
-# Phase 2: 지각 강도 × 출발정책
+# Phase 2: lateness severity grid.
 lateness:
   distribution: lognormal
-  mu: 2.0               # LogNormal μ
+  mu: 2.0
   sigma_levels: [0.3, 0.5, 0.7, 1.0]
 
 policies:
@@ -42,10 +122,10 @@ policies:
     type: strict
   GRACE:
     type: grace
-    W: [15, 30, 60]      # 최대 대기시간(분)
-    theta: [0.8, 0.9]    # 도착률 임계
+    W: [15, 30, 60]
+    theta: [0.8, 0.9]
 
 experiment:
-  R: 30                  # 반복수
+  R: 30
   seed_base: 42
-  time_limit: 1440       # 시뮬레이션 시간 한계(분) = 24시간
+  time_limit: 1440

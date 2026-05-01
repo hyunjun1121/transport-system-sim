@@ -24,7 +24,7 @@ def test_bpr_congestion():
     t_free = bpr_travel_time(30, 0, 500)
     t_cong = bpr_travel_time(30, 400, 500)
     assert t_cong > t_free
-    print(f"PASS: BPR congestion ({t_free:.1f} → {t_cong:.1f})")
+    print(f"PASS: BPR congestion ({t_free:.1f} -> {t_cong:.1f})")
 
 
 def test_bpr_scale():
@@ -32,7 +32,7 @@ def test_bpr_scale():
     t_normal = bpr_travel_time(30, 100, 500, scale=1.0)
     t_war = bpr_travel_time(30, 100, 500, scale=2.0)
     assert t_war >= t_normal
-    print(f"PASS: BPR scale ({t_normal:.1f} → {t_war:.1f})")
+    print(f"PASS: BPR scale ({t_normal:.1f} -> {t_war:.1f})")
 
 
 def test_bpr_zero_capacity():
@@ -51,9 +51,9 @@ def test_link_failures():
 
     rng = np.random.default_rng(42)
     fails = sample_link_failures(G, 1.0, rng)
-    # A→B should fail ~50% of runs over many trials
-    # B→C should never fail (p=0)
-    # S→R should never fail (rail)
+    # A->B should fail ~50% of runs over many trials
+    # B->C should never fail (p=0)
+    # S->R should never fail (rail)
     for f in fails:
         assert f != ("B", "C"), "Zero-probability link should not fail"
         assert f != ("S", "R"), "Rail should not fail"

@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """Generate report.docx from report_draft.md using python-docx.
-Properly formatted, Word-compatible .docx generation for Termux.
+
+The output is formatted for Microsoft Word on Windows.
 """
 
 import re
@@ -121,7 +122,7 @@ def parse_and_generate(md_path, docx_path):
             # Add a thin line paragraph
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run("─" * 60)
+            run = p.add_run("-" * 60)
             set_run_font(run, size=8, color=RGBColor(0xCC, 0xCC, 0xCC))
             i += 1
             continue
@@ -188,7 +189,5 @@ def parse_and_generate(md_path, docx_path):
 
     doc.save(docx_path)
     print(f"Generated: {docx_path} ({os.path.getsize(docx_path):,} bytes)")
-
-
 if __name__ == "__main__":
     parse_and_generate(INPUT, OUTPUT)
