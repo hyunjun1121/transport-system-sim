@@ -1,13 +1,23 @@
 # Transport System Simulation
 
-Wartime reserve-force transport micro-simulation comparing **bus-only** and
-**rail-bus multimodal** movement for approximately 1,000 reservists.
+Disrupted regional personnel-transport micro-simulation comparing **bus-only**
+and **rail-bus multimodal** movement for approximately 1,000 people.
+
+The implemented baseline was originally developed for a reserve-force transport
+case. The active research direction is now broader: evolve the model into an
+open-data, region-reusable, real-world or quasi-real transport-resilience study
+for emergency personnel movement, disrupted regional mobility, and
+public-sector contingency transport planning.
 
 The implemented scenarios are:
 
 - `bus_only`: passengers assemble at `A` and travel by road to `D`.
 - `multimodal`: passengers shuttle from `A` to `S`, ride rail from `S` to `R`,
   then complete the last mile by road to `D`.
+
+The current generated results are conditional findings under a representative
+abstract network. They should not be interpreted as calibrated operational
+forecasts.
 
 ## Windows Setup
 
@@ -89,7 +99,28 @@ src/
     plots.py               # Heatmaps, success-rate plots, Pareto, break-even
 tests/                     # Direct-execution regression and unit tests
 results/                   # Generated CSV and PNG experiment outputs
+paper/                     # English paper/manuscript scaffold
+cloned_repo/               # Ignored local public repo reference clones
 ```
+
+## Research And Planning Documents
+
+The current research context is distributed across these Markdown files:
+
+| File | Purpose |
+| --- | --- |
+| `status.md` | Current project context, generated outputs, limitations, research direction, and clone state |
+| `plan.md` | Remaining work plan for implementation and validation |
+| `IMPLEMENTATION_PLAN.md` | Implemented system notes and module contracts |
+| `realistic_simulation_requirements.md` | Korean realism requirements for real-world or quasi-real simulation |
+| `public_github_repo_research.md` | Public repository research for realistic regional simulation |
+| `disrupted_mobilization_resilience_repo_research.md` | Public repository research for disrupted regional resilience framing |
+| `real_world_simulation_implementation_blueprint.md` | Extracted implementation ideas from public repos and phased real-world upgrade plan |
+| `cloned_repo_manifest.md` | Manifest of local shallow clones in ignored `cloned_repo/` |
+| `paper/paper_draft.md` | English manuscript scaffold for a journal-style paper |
+
+`cloned_repo/` is intentionally ignored by git. It contains local reference
+clones only, not vendored dependencies.
 
 ## Config Semantics
 
@@ -215,5 +246,29 @@ before reusing CSV/PNG conclusions.
 - Rail is failure-immune by default and uses a single fixed-headway service.
 - Operational parameters are uncalibrated scenario assumptions, not field
   estimates.
+- The real-world upgrade pipeline has been designed and reference repositories
+  have been cloned locally, but those tools are not yet integrated into
+  production code.
 - Existing generated outputs should be reviewed as stale whenever schedule,
   fleet, KPI, network, or failure experiment semantics change.
+
+## Real-World Upgrade Direction
+
+The next major implementation target is to replace manually defined toy links
+with a reusable open-data regional pipeline:
+
+- OSMnx/Pyrosm road-network extraction
+- GeoPandas/Shapely region clipping and zone handling
+- H3 or administrative-grid sensitive-location abstraction
+- GTFS or documented rail timetable assumptions
+- spatial hazard/exposure overlays and critical-link disruptions
+- routing-engine plausibility checks with tools such as OSRM, Valhalla, r5py,
+  routingpy, or UXsim
+- SALib-based global sensitivity analysis
+
+The intended paper thesis is:
+
+> Rail-bus multimodal transport is a conditional resilience strategy whose
+> performance depends on the joint reliability of access roads, rail service,
+> transfer handling, last-mile capacity, and finite fleet availability under
+> regional network disruption.

@@ -7,6 +7,14 @@ plan or setup guide. Current setup, commands, architecture, and limitations are
 documented in `README.md`, `agents.md`, `IMPLEMENTATION_PLAN.md`, and
 `plan.md`.
 
+Newer research and implementation-planning context is documented in:
+
+- `public_github_repo_research.md`
+- `disrupted_mobilization_resilience_repo_research.md`
+- `real_world_simulation_implementation_blueprint.md`
+- `cloned_repo_manifest.md`
+- `paper/paper_draft.md`
+
 Current implementation status:
 
 - Windows PowerShell and `.\.venv\Scripts\python` are the active local workflow.
@@ -28,6 +36,10 @@ Current implementation status:
 External-data and calibration work remains open. This survey does not imply
 that OSM/GTFS calibration, real Seoul network replacement, empirical traffic
 calibration, or empirical disruption-probability calibration has been completed.
+
+As of the latest context update, public reference repositories have been cloned
+locally under ignored `cloned_repo/` for study only. They are not vendored
+dependencies and are not yet integrated into the production simulator.
 
 ## Survey Takeaways
 

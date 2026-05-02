@@ -33,6 +33,22 @@ The declared network variants also include
 `multimodal_redundant_lastmile` and `bus_single_corridor`, but those are
 selectable sensitivity cases, not part of the current default Phase 1 sweep.
 
+Recent planning and research assets now exist:
+
+- `paper/paper_draft.md`: English manuscript scaffold.
+- `disrupted_mobilization_resilience_repo_research.md`: public repo research
+  for the disrupted regional resilience framing.
+- `real_world_simulation_implementation_blueprint.md`: implementation blueprint
+  focused on extracting the best practical ideas from public repos.
+- `cloned_repo_manifest.md`: manifest of ignored local reference clones under
+  `cloned_repo/`.
+
+The active target is no longer just documenting the abstract simulator. The next
+implementation objective is:
+
+> make the simulation as close as practical to a real-world or quasi-real
+> regional disrupted transport scenario while keeping claims conservative.
+
 ## Standing Rules
 
 - Keep code comments and docstrings in English.
@@ -50,26 +66,92 @@ These items require external data, subject-matter assumptions, or an explicit
 scenario-design decision. They are not complete and should not be marked done
 until the input source or assumption set is recorded.
 
-- Replace the abstract graph with an OSM/calibrated Seoul road and rail network,
-  or explicitly retain the current graph as a controlled toy network.
-- Calibrate road capacities, background volumes, and BPR parameters.
-- Calibrate link disruption probabilities and realistic capacity-reduction
-  factors.
-- Calibrate bus, shuttle, and last-mile fleet sizes against realistic vehicle
-  availability.
-- Calibrate transfer times for platform movement, loading, staging, and command
-  procedures.
-- Decide whether rail should remain failure-immune or receive a rail disruption
-  model.
+- Build an OSMnx/Pyrosm regional road-network extractor.
+- Define a region registry and zone-based OD schema.
+- Replace exact sensitive points with administrative zones, synthetic centroids,
+  or H3/admin-grid cells.
+- Map OSM road attributes to simulation attributes: length, road class,
+  free-flow speed, capacity proxy, and travel time.
+- Add candidate rail access and egress nodes.
+- Create a GTFS-derived or documented rail-assumption table.
+- Calibrate or source road capacities, background volumes, and BPR parameters.
+- Add spatially structured disruption scenarios:
+  - random degradation baseline,
+  - critical-link disruption,
+  - hazard/exposure overlay disruption.
+- Calibrate or source bus, shuttle, and last-mile fleet sizes against plausible
+  vehicle availability.
+- Calibrate or source transfer times for platform movement, loading, staging,
+  and coordination procedures.
+- Decide whether rail remains failure-immune or receives rail delay, capacity
+  reduction, access disruption, or partial unavailability scenarios.
 
 Acceptance criteria:
 
 - Every completed calibration item cites a data source or records a deliberate
   assumption.
+- Regional input artifacts record data snapshot metadata.
+- Sensitive destination handling is documented before any map or OD output is
+  published.
 - If calibration remains incomplete, report conclusions remain conditional and
   do not read as operational forecasts.
 
-## Priority 2: Result Interpretation Guardrails
+## Priority 2: Validation And Benchmarking
+
+Before claiming a real-world or quasi-real result, add validation layers:
+
+- Internal validation:
+  - identical seeds reproduce identical outputs,
+  - more fleet capacity should not worsen completion unless congestion feedback
+    explains it,
+  - greater disruption severity should generally worsen resilience outcomes,
+  - longer transfer delay should not improve multimodal travel time,
+  - blocked critical links should be more damaging than minor capacity
+    reductions,
+  - no-disruption scenarios should outperform disrupted scenarios.
+- External plausibility validation:
+  - compare OSM-derived road distance and free-flow time to public map or
+    routing-engine estimates,
+  - compare GTFS-derived headways and rail travel times to public schedules,
+  - verify access and last-mile distances are plausible,
+  - check road speed and capacity assumptions by road class.
+- Benchmark validation:
+  - use at least one of OSRM, Valhalla, routingpy, r5py/R5, UXsim, or a
+    limited SUMO corridor experiment.
+
+Acceptance criteria:
+
+- Validation outputs are stored or summarized before manuscript claims are
+  strengthened.
+- Benchmark outputs are described as plausibility checks, not ground truth.
+
+## Priority 3: Sensitivity And Policy Expansion
+
+Add formal sensitivity and policy-regime analysis:
+
+- Use SALib for Morris screening or Sobol first-order and total-order indices.
+- Analyze completion rate, censored personnel, penalized makespan, tail arrival
+  times, vehicle-minutes, passenger-minutes, and passengers per service minute.
+- Vary passenger volume, arrival variability, fleet sizes, dispatch interval,
+  background traffic, disruption severity, capacity reduction, rail headway,
+  rail capacity, transfer delay, turnaround time, and access disruption.
+- Expand policy alternatives beyond baseline bus-only and baseline multimodal:
+  - multimodal with redundant last-mile fleet,
+  - multimodal with increased feeder capacity,
+  - staggered dispatch,
+  - adaptive rerouting,
+  - bus-only with alternate corridors,
+  - fleet shortage,
+  - rail delay or partial unavailability.
+
+Acceptance criteria:
+
+- Results report which uncertain parameters determine the winning regime rather
+  than only reporting which mode wins.
+- Policy alternatives are evaluated through speed, reliability, resource, and
+  bottleneck lenses.
+
+## Priority 4: Result Interpretation Guardrails
 
 The current model is useful for controlled comparison, not calibrated
 forecasting. Keep future writeups explicit about the assumptions behind any
@@ -89,7 +171,7 @@ Acceptance criteria:
 - Readers can tell which variants were swept and which were only declared as
   selectable sensitivity cases.
 
-## Priority 3: Variant Coverage Decision
+## Priority 5: Variant Coverage Decision
 
 The default Phase 1 sweep currently covers only `baseline` and
 `matched_redundancy`. Keep that default unless a full four-variant regeneration

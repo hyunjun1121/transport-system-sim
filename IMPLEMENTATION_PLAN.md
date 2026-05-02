@@ -226,3 +226,25 @@ interpretations forward.
   require deliberate result regeneration before they support conclusions.
 - Generated experiment outputs and the Korean report need to be reviewed
   together before drawing final narrative conclusions.
+
+## Current Research Extension Direction
+
+The implemented system remains the core scenario evaluator. The next research
+extension is to surround it with real-world or quasi-real data and validation
+layers rather than replacing it with a large external traffic platform.
+
+Planned extension layers:
+
+- OSMnx/Pyrosm road-network extraction and graph adaptation.
+- GeoPandas/Shapely/H3-style regional and sensitive-zone preprocessing.
+- GTFS or documented rail schedule assumptions.
+- Spatially structured disruptions from critical-link analysis and
+  hazard/exposure overlays.
+- Routing or multimodal plausibility checks with tools such as OSRM, Valhalla,
+  routingpy, r5py/R5, UXsim, or limited SUMO benchmarks.
+- SALib sensitivity analysis.
+- Result-schema and reproducibility checks using tools such as Frictionless and
+  scripted analysis workflows.
+
+The local `cloned_repo/` directory contains ignored shallow clones of public
+repositories for reference. It is not part of the implemented source tree.

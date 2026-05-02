@@ -2,7 +2,7 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-05-01
+- Date: 2026-05-03
 - Workspace: `C:\project\transport-system-sim`
 - Platform in use: Windows PowerShell
 - Git branch: `main`
@@ -10,12 +10,22 @@
 
 ## Project Goal
 
-This project is a wartime reserve-force transport micro-simulation. It compares:
+This project is a disrupted regional personnel-transport micro-simulation. The
+implemented baseline compares:
 
 - Bus-only transport
 - Rail-bus multimodal transport
 
-The baseline scenario moves about 1,000 reservists from a Seoul Songpa-gu assembly context toward a forward-area destination. The long-term goal is to evolve this from an abstract comparative simulator into a more realistic, reusable, region-extensible simulation framework that could support a high-quality research paper.
+The baseline scenario moves about 1,000 people from an assembly context toward
+a destination zone. The original use case was reserve-force transport, but the
+current research direction is broader and more publishable:
+
+> open-data, region-reusable, real-world or quasi-real simulation of emergency
+> personnel movement, disrupted regional mobility, and public-sector
+> contingency transport planning.
+
+The goal is to make the simulator as close as practical to a real-world
+disrupted regional transport scenario while keeping claims conservative.
 
 ## Current Implementation State
 
@@ -101,21 +111,28 @@ Recent completed commits and pushes:
 - `1ba6519 Simplify report narrative`
 - `c2d0a38 Add report figures`
 - `7aed7a6 Add pipeline overview figure to report`
+- `d742cb1 Document realistic simulation roadmap`
 
 The pipeline overview figure was inserted into `report.docx` and pushed in commit `7aed7a6`.
+The realistic simulation roadmap, public GitHub repository research, and this status document were added in commit `d742cb1`.
 
 ## Current Git Working Tree Notes
 
-At the time this status file is being written, there are uncommitted changes:
+After commit `d742cb1`, a documentation and research-context update was made.
+The update includes:
 
-- `report.docx` is modified
-- `realistic_simulation_requirements.md` is newly added
-- `public_github_repo_research.md` is newly added
-- `status.md` is newly added
+- `.gitignore` entry for ignored local `cloned_repo/` references
+- `disrupted_mobilization_resilience_repo_research.md`
+- `paper/paper_draft.md`
+- `real_world_simulation_implementation_blueprint.md`
+- `cloned_repo_manifest.md`
+- updates to `agents.md`, `README.md`, `plan.md`, `IMPLEMENTATION_PLAN.md`,
+  `repo_survey_results.md`, and this status file
 
-The `report.docx` modification may be due to local Word/temp or regeneration state. Check before committing.
+If this file is being read after additional edits, run `git status --short`
+before committing.
 
-There was also a Word temporary file observed earlier:
+A Word temporary file was observed earlier:
 
 - `~$report.docx`
 
@@ -192,6 +209,62 @@ Feature areas researched:
 4. Fleet dispatch, queueing, and discrete-event modeling
 5. Scenario management, sensitivity, and reproducibility
 6. Geospatial anonymization, regional inputs, and OD generation
+
+## Disrupted Resilience Repository Research
+
+A second repository research document was added:
+
+- `disrupted_mobilization_resilience_repo_research.md`
+
+This document focuses specifically on the reframed research direction:
+
+> disrupted regional mobilization transport resilience framework
+
+It was produced with six GPT-5.5 high subagents in parallel. The subagents
+searched public GitHub repositories for:
+
+1. Transport network resilience metrics and critical-link analysis
+2. Disruption scenario generation and hazard-overlay modeling
+3. Emergency evacuation, mass movement, and multimodal simulation engines
+4. Constrained fleet logistics and contingency routing
+5. Public-data validation and calibration
+6. Resilience visualization, reproducibility, and decision-support reporting
+
+Main conclusion:
+
+> Keep the current Python micro-simulation as the core evaluator, and add
+> external repositories as data, validation, benchmark, optimization, and
+> reporting layers around it.
+
+Recommended immediate additions for this new framing:
+
+- `NetworkX` and `OSMnx` for real road networks and critical-link metrics
+- `snail` for hazard or disruption raster overlay onto transport edges
+- `gtfs-validator` and `gtfs_kit` for public transit feed validation
+- `Frictionless` for result and benchmark data package validation
+
+Recommended evaluation targets:
+
+- `r5py` for multimodal accessibility benchmarking
+- `routingpy` with OSRM or Valhalla for road travel-time plausibility checks
+- `OR-Tools` or `PyVRP` for optimizer-generated fleet and contingency policies
+- `UXsim` for a Python-native road-congestion benchmark
+- `Streamlit`, `Papermill`, and `Quarto` for decision-support and reproducible
+  paper packaging
+
+Recommended benchmark/reference-only tools:
+
+- SUMO
+- MATSim
+- OpenTripPlanner
+- R5
+- Valhalla
+- AequilibraE
+- Path4GMNS
+- open-gira
+- transcrit
+- pyincore
+- CLIMADA
 
 ## Recommended Open-Source Stack
 
@@ -292,28 +365,179 @@ Potential research question framing:
 - How do last-mile redundancy, transfer delay, and fleet shortage affect completion probability?
 - Can a region-reusable open-map pipeline support robust reserve-force transport planning under uncertainty?
 
+## High-IF SCI Framing Assessment
+
+The idea can become a research paper, but the current version should not be framed as ready for a high-impact SCI journal. The current strongest assessment is:
+
+> The project has a promising research seed and a non-trivial simulator, but the claim structure is still weaker than the evidence standard expected by high-impact transportation, logistics, reliability, or system-safety journals.
+
+The main weakness is not the number of simulation runs. The main weakness is real-world alignment:
+
+- The current network is representative and abstract.
+- Major parameters are not yet supported by a source table.
+- Rail availability, station access, transfer capacity, and last-mile reliability are not calibrated.
+- Validation is not yet strong enough for operational or policy claims.
+- The contribution is currently mixed between simulator, case result, and methodology.
+
+The best high-impact framing is not:
+
+> A wartime reserve-force transport simulator proves which mode is better.
+
+The better framing is:
+
+> An open-data, region-reusable decision framework that combines geospatial networks and discrete-event micro-simulation to identify when rail-bus multimodal mobilization transport becomes resilient or fragile under network degradation and constrained fleet operations.
+
+This framing reduces military specificity, improves generalizability, and aligns the work with resilience, disrupted logistics, emergency mobilization, and multimodal network reliability.
+
+## Strongest Paper Claim Direction
+
+The most promising research question is:
+
+> Under which disruption and resource constraints does rail-bus multimodal transport outperform bus-only mobilization transport?
+
+A strong paper should produce conditional decision rules, such as:
+
+- Multimodal transport becomes competitive only when rail access and last-mile redundancy remain available.
+- Bus-only transport can dominate travel time under direct-road access but becomes vulnerable under fleet shortage or major corridor disruption.
+- Transfer delay and last-mile bottlenecks can erase the theoretical capacity benefit of rail.
+- Completion probability, censored personnel, and tail-risk are more decision-relevant than raw mean makespan.
+
+The final claim should be about regimes, thresholds, and bottlenecks, not absolute superiority.
+
+## Three-Month Research Upgrade Plan
+
+Month 1: Realistic network prototype.
+
+- Build an OSMnx-based road network prototype for one non-sensitive pilot region.
+- Represent sensitive destinations as zones or synthetic nodes.
+- Add a minimum rail/GTFS input path using partridge or gtfs_kit.
+- Define the region input schema and network persistence format.
+
+Month 2: Calibration and parameter evidence.
+
+- Run the existing simulator on the new quasi-real network.
+- Create a parameter-source table.
+- Classify each value as public-data, literature, expert-assumption, or sensitivity-only.
+- Add sanity checks for road travel time, rail headway, bus turnaround, transfer time, and queue behavior.
+
+Month 3: Scientific analysis package.
+
+- Add SALib-based global sensitivity analysis.
+- Expand policy scenarios: last-mile redundancy, rail delay, feeder capacity expansion, fleet shortage, adaptive routing, and staggered dispatch.
+- Report completion probability, censored personnel, 95th-percentile arrival, bottleneck attribution, and resource efficiency.
+- Prepare a reproducibility package with input snapshots, seeds, scenario tables, and result-generation steps.
+
 ## Immediate Next Steps
 
 Suggested next work:
 
-1. Decide whether to commit the newly added planning documents.
-2. Clean or ignore Word temp files if present.
-3. Decide whether `report.docx` should be committed again or left unchanged.
-4. Build a first OSMnx prototype for one non-sensitive pilot region.
-5. Define a region input schema.
-6. Define how exact sensitive points will be replaced by zones.
-7. Create a parameter-source table separating:
+1. Build a first OSMnx/Pyrosm prototype for one non-sensitive pilot region.
+2. Define a reusable region input schema and zone-based OD schema.
+3. Define how exact sensitive points will be replaced by administrative zones,
+   H3/admin-grid cells, or synthetic centroids.
+4. Map OSM edge attributes into simulation fields: length, road class,
+   free-flow speed, travel time, capacity proxy, and disruption exposure.
+5. Add rail input handling through GTFS where available or a documented
+   rail-assumption table where GTFS is incomplete.
+6. Create a parameter-source table separating:
    - public-data values
    - literature values
+   - agency/timetable values
+   - benchmark-calibrated values
    - expert assumptions
    - sensitivity-only assumptions
-8. Add a SALib experiment design plan.
+7. Add spatially structured disruption scenarios:
+   - random degradation baseline
+   - critical-link disruption
+   - hazard/exposure overlay disruption
+8. Add validation and plausibility checks for road travel time, rail, fleet,
+   transfer, station access, and last-mile assumptions.
+9. Add a SALib sensitivity-analysis design.
+10. Expand policy alternatives beyond bus-only vs baseline rail-bus multimodal.
 
-## Files Added In Current Uncommitted Work
+## Files Added In Recent Roadmap Work
 
 - `realistic_simulation_requirements.md`
 - `public_github_repo_research.md`
+- `disrupted_mobilization_resilience_repo_research.md`
+- `paper/paper_draft.md`
+- `real_world_simulation_implementation_blueprint.md`
+- `cloned_repo_manifest.md`
 - `status.md`
+
+## Paper Draft State
+
+A paper draft scaffold was added under:
+
+- `paper/paper_draft.md`
+
+The draft is written in English and frames the project as:
+
+> A region-reusable decision framework for disrupted mobilization transport
+> resilience under network degradation and constrained fleet operations.
+
+The draft includes:
+
+- working title options
+- abstract draft
+- research questions
+- contribution claims
+- related-work plan
+- framework architecture
+- data and regional reuse design
+- simulation model description
+- disruption and resilience metrics
+- experimental design
+- validation and sensitivity plan
+- preliminary baseline interpretation guardrails
+- figure and table plan
+- manuscript claim guardrails
+- immediate author TODOs
+
+## Public Repository Clone State
+
+A local reference clone directory was created:
+
+- `cloned_repo/`
+
+It is ignored by git and should be treated as a local reference cache, not as
+vendored source code.
+
+The following repositories were shallow-cloned successfully:
+
+- `networkx`
+- `osmnx`
+- `geopandas`
+- `shapely`
+- `pyrosm`
+- `h3-py`
+- `snail`
+- `open-gira`
+- `gtfs_kit`
+- `gtfs-validator`
+- `SALib`
+- `frictionless-py`
+- `GOSTnets`
+- `pysal-access`
+- `r5py`
+- `routingpy`
+- `or-tools`
+- `PyVRP`
+- `UXsim`
+- `transcrit`
+- `Path4GMNS`
+- `aequilibrae`
+- `osrm-backend`
+- `valhalla`
+
+The clone manifest is tracked separately in:
+
+- `cloned_repo_manifest.md`
+
+Heavy full-platform tools such as SUMO, MATSim, and OpenTripPlanner were not
+cloned in this pass because the immediate implementation target is the
+open-data real-world pipeline around the current simulator rather than a full
+platform migration.
 
 ## Caution For Future Work
 

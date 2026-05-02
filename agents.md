@@ -2,9 +2,19 @@
 
 ## Project Overview
 
-Wartime reserve-force transport micro-simulation: compares **bus-only** vs
-**rail-bus multimodal** transport for moving approximately 1,000 reservists
-from Seoul Songpa-gu to a forward area.
+Disrupted regional personnel-transport resilience simulation. The implemented
+baseline compares **bus-only** vs **rail-bus multimodal** transport for moving
+approximately 1,000 people from an assembly context toward a destination zone.
+
+The current research direction is broader than the original wartime/reserve
+framing:
+
+> build an open-data, region-reusable, real-world or quasi-real simulation
+> pipeline for emergency personnel movement, disrupted regional mobility, and
+> public-sector contingency transport planning.
+
+Do not present the current model as an operational route plan or real-world
+forecast. It is a decision-support and resilience-evaluation framework.
 
 **Environment**: Windows PowerShell. Use the Python Launcher (`py`) to create a
 local virtual environment, then run project commands through
@@ -20,6 +30,18 @@ generate_report.py         # Generates report.docx from report_draft.md
 report_draft.md            # Korean narrative report source
 report.docx                # Generated Word document
 microsim_experiment_proposal_v3.docx  # Original proposal
+status.md                  # Current project context and limitations
+plan.md                    # Remaining work guide
+IMPLEMENTATION_PLAN.md     # Implemented system notes
+realistic_simulation_requirements.md  # Korean realism requirements
+public_github_repo_research.md        # Public repo research synthesis
+disrupted_mobilization_resilience_repo_research.md
+                           # Disrupted-resilience repo research synthesis
+real_world_simulation_implementation_blueprint.md
+                           # Implementation blueprint from public repo research
+cloned_repo_manifest.md    # Manifest for ignored local reference clones
+paper/
+  paper_draft.md           # English paper/manuscript scaffold
 src/
   sim_types.py             # Shared immutable simulation records
   network.py               # Build NetworkX DiGraph from config
@@ -52,10 +74,15 @@ tests/
   test_analysis.py         # CI and summary tests
   test_scenario.py         # End-to-end scenario regression tests
 results/                   # Generated CSV outputs and PNG plots
+cloned_repo/               # Ignored local shallow clones of public reference repos
 ```
 
 `refs/` may be used for local reference clones if needed; keep it out of active
 implementation and generated-output changes.
+
+`cloned_repo/` is also a local reference cache and is ignored by git. Do not
+vendor code from cloned public repositories into this project. Extract design
+patterns and implement project-owned code in `src/` instead.
 
 ## Windows Setup
 
@@ -190,6 +217,33 @@ The default Phase 1 sweep includes only `baseline` and `matched_redundancy`;
 `multimodal_redundant_lastmile` and `bus_single_corridor` are declared
 selectable sensitivity variants outside the current default full result set.
 
+## Current Research Upgrade Direction
+
+The next major implementation goal is to move from a representative abstract
+network to a real-world or quasi-real regional case.
+
+Priority implementation layers:
+
+1. **Open-data regional network input** using OSMnx/Pyrosm,
+   GeoPandas/Shapely, and zone abstraction such as H3/admin-grid cells.
+2. **Spatially structured disruptions** using critical-link scenarios and
+   hazard/exposure overlays inspired by `snail` and `open-gira`.
+3. **Public transit and rail validation** using GTFS where available, or a
+   documented rail-assumption table when GTFS is incomplete.
+4. **Plausibility benchmarking** with routing or multimodal tools such as
+   OSRM, Valhalla, routingpy, r5py/R5, or UXsim as appropriate.
+5. **Policy alternatives** beyond baseline bus-only and baseline multimodal:
+   redundant last-mile fleet, increased feeder capacity, staggered dispatch,
+   adaptive rerouting, fleet shortage, and rail delay/unavailability.
+6. **Formal sensitivity analysis** with SALib over fleet, arrival, disruption,
+   transfer, road-traffic, and rail parameters.
+
+The main thesis for the paper direction is:
+
+> Rail-bus multimodal transport is a conditional resilience strategy whose
+> performance depends on access roads, rail service, transfer handling,
+> last-mile capacity, and finite fleet availability under disruption.
+
 ## Report Workflow
 
 `report_draft.md` is the Korean source document. Regenerate the Word document
@@ -218,11 +272,17 @@ change, rerun full experiments before carrying result conclusions forward.
 
 ## Remaining Limitations
 
-- The network is abstract and intentionally small.
+- The currently implemented experiment network is abstract and intentionally
+  small.
 - Dynamic traffic uses rolling-window BPR, not full traffic assignment or
   microscopic road simulation.
 - Rail is a single fixed-headway service and is failure-immune by default.
 - Operational parameters are uncalibrated scenario assumptions.
+- The public repository clone cache exists for reference only; none of those
+  tools have yet been integrated into the production simulation pipeline.
+- The paper draft and real-world implementation blueprint define the next
+  research direction but do not by themselves create calibrated real-world
+  results.
 - The default Phase 1 sweep covers `baseline` and `matched_redundancy`; the
   additional declared sensitivity variants require an explicit result
   regeneration before they are used in conclusions.
