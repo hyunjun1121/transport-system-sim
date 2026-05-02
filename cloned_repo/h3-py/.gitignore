@@ -1,0 +1,57 @@
+# Byte-compiled / optimized
+*.py[cod]
+__pycache__/
+
+# C extensions
+*.so
+
+# Generated C code from Cython test
+tests/**/*.c
+# Cython HTML annotations
+*.html
+
+# Build artifacts
+build/
+dist/
+*.egg-info
+
+# Coverage
+.coverage
+coverage.xml
+coverage.lcov
+htmlcov/
+
+# Test
+.pytest_cache/
+
+# Tools
+.ruff_cache/
+.cache/
+
+# Docs
+_build/
+docs/_build/
+
+# Environment
+.venv/
+uv.lock
+
+# OS
+.DS_Store
+
+# Editor backup files
+*~
+\#*\#
+.\#*
+.*.sw*
+
+# IDE
+.idea/
+
+# IPython / Jupyter
+.ipynb_checkpoints/
+
+# Legacy build dirs
+_skbuild/
+h3c/
+h3/out/

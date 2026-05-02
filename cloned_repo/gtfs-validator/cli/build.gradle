@@ -1,0 +1,68 @@
+/*
+ * Copyright 2020 Google LLC, MobilityData IO
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+    id 'application'
+    id 'java'
+    alias(libs.plugins.shadow.jar)
+}
+
+applicationDefaultJvmArgs = [ "-Xmx8G" ]
+
+jar {
+    // Add the manifest within the JAR, using gtfs-validator as the title
+    manifest {
+        attributes('Implementation-Title': rootProject.name,
+                'Implementation-Version': project.version,
+                'Main-Class': 'org.mobilitydata.gtfsvalidator.cli.Main',
+                'Multi-Release': 'true')
+    }
+}
+
+shadowJar {
+    minimize {
+        // Validator classes are loaded dynamically from the main project, so we exclude the project
+        // from minimization.
+        exclude(project(':main'))
+        exclude(dependency(libs.httpclient5.get().toString()))
+        // Keep SLF4J implementation to avoid warnings
+        // Note that SLF4J comes from some transitive dependencies
+        exclude(dependency('org.slf4j:slf4j-jdk14'))
+    }
+    // Change the JAR name from 'main' to 'gtfs-validator'
+    archiveBaseName = rootProject.name
+    // Change the JAR suffix from 'all' to 'cli'
+    archiveClassifier = 'cli'
+}
+
+mainClassName = 'org.mobilitydata.gtfsvalidator.cli.Main'
+
+dependencies {
+    implementation project(':core')
+    implementation project(':main')
+    implementation libs.jcommander
+    implementation libs.gson
+    implementation libs.flogger
+    implementation libs.flogger.system.backend
+    implementation libs.guava
+    implementation libs.slf4j.jul
+
+    testImplementation libs.junit
+    testImplementation libs.truth
+    testImplementation libs.truth.extension
+    testImplementation libs.mockito.core
+}
+

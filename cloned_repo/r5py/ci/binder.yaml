@@ -1,0 +1,35 @@
+name: r5py
+
+channels:
+    - conda-forge
+
+dependencies:
+    - python=3.11
+    - openjdk>=21
+
+    - r5py
+
+    - contextily
+    - folium
+    - gitpython
+    - h3
+    - jupyterlab
+    - jupyterlab-myst
+    - jupytext[myst]
+    - mapclassify
+    - matplotlib
+    - myst-nb
+    - nbsphinx
+    - nbstripout
+    - notebook
+    - pyarrow
+    - r5py.sampledata.helsinki>=0.1.1dev2
+    - r5py.sampledata.sao_paulo>=0.1.1dev2
+    - sphinx
+    - sphinx-book-theme
+    - sphinx-design
+    - sphinxcontrib-bibtex
+
+    - pip
+    - pip:
+        - pybtex-apa7-style

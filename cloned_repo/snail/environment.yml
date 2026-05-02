@@ -1,0 +1,33 @@
+name: snail-dev
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.13
+  - affine
+  - black
+  - contextily
+  - geopandas
+  - jupyter
+  - matplotlib
+  - nbstripout
+  - networkx
+  - numpy
+  - openpyxl
+  - pip
+  - pyarrow
+  - pyogrio
+  - pytest
+  - pytest-cov
+  - rasterio
+  - seaborn
+  - shapely
+  - scipy
+  - pip:
+      - hilbertcurve
+      - irv_autopkg_client
+      - pandera>=0.20.0
+      - python-igraph
+      - snkit
+      - tqdm
+      - -e .[dev,docs,tutorials]

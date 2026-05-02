@@ -1,0 +1,144 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0.0", "wheel"]
+
+[project]
+name = "r5py"
+description = "Python wrapper for the R5 routing analysis engine"
+readme = "README.md"
+
+authors = [
+    { name = "Christoph Fink" },
+    { name = "Willem Klumpenhouwer" },
+    { name = "Marcus Sairava" },
+    { name = "Rafael Pereira" },
+    { name = "Henrikki Tenkanen" }
+]
+
+dependencies = [
+    "ConfigArgParse",
+    "filelock",
+    "geohexgrid",
+    "geopandas",
+    "joblib",
+    "jpype1",
+    "numpy",
+    "pandas",
+    "psutil",
+    "pyproj",
+    "rasterio",
+    "requests",
+    "scikit-learn",
+    "shapely",
+    "simplification",
+    "typing_extensions; python_version < '3.13'"
+]
+requires-python = ">=3.10"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+keywords = ["accessibility", "transport", "routing", "research"]
+license = {text = "GPL-3.0-or-later or MIT"}
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "flake8-bugbear",
+    "flake8-pyproject",
+    "pydocstyle",
+    "pylint",
+]
+docs = [
+    "contextily",
+    "folium",
+    "GitPython",
+    "h3",
+    "jupyterlab_myst",
+    "mapclassify",
+    "matplotlib",
+    "myst-nb",
+    "nbsphinx",
+    "pybtex-apa7-style",
+    # "pybtex-apa7-style @ git+https://github.com/christophfink/pybtex-apa7-style.git@5-allow-newer-pybtex",
+    "r5py.sampledata.helsinki>=1.1.1",
+    "r5py.sampledata.sao_paulo",
+    "shapely",
+    "sphinx",
+    "sphinx-book-theme",
+    "sphinx-design",
+    "sphinxcontrib-bibtex",
+    "sphinxcontrib-images",
+]
+tests = [
+    "pyarrow",
+    "pytest",
+    "pytest-cov",
+    "pytest-lazy-fixtures",
+    "r5py.sampledata.helsinki",
+    "r5py.sampledata.sao_paulo",
+    "typing-extensions",
+]
+
+
+[project.urls]
+Documentation = "https://r5py.readthedocs.org/"
+Repository = "https://github.com/r5py/r5py.git"
+"Change log" = "https://github.com/r5py/r5py/blob/main/CHANGELOG.md"
+"Bug tracker" = "https://github.com/r5py/r5py/issues"
+
+[tool.coverage.paths]
+equivalent_sources = [
+    "src/r5py/",
+    ".virtualenv/lib/python*/site-packages/r5py/",
+    "/opt/hostedtoolcache/Python/*/x64/lib/python*/site-packages/r5py/",
+    "/Library/Frameworks/Python.framework/Versions/*/lib/python*/site-packages/r5py/",
+    "C:/hostedtoolcache/windows/Python/*/x64/Lib/site-packages/r5py/"
+]
+
+[tool.coverage.report]
+exclude_also = [
+    'if __name__ == .__main__.:',
+]
+
+[tool.coverage.run]
+omit = ["tests/*", ".virtualenv/**/*"]
+
+[tool.flake8]
+exclude = ["build", "dist", "docs/conf.py", ".virtualenv"]
+extent-ignore = ["E203", "E501", "E701"]
+extent-select = ["B950"]
+max-line-length = 88
+
+[tool.isort]
+profile = "black"
+skip = ["build", "dist", "docs/conf.py", ".virtualenv"]
+
+[tool.jupytext.formats]
+"docs/notebooks/" = "ipynb"
+"docs/md/" = "md"
+
+[tool.pydocstyle]
+match-dir = "^src"
+
+[tool.pylintrc]
+good-names = ["i", "j", "k", "e", "ex", "id", "Run", "_"]
+max-line-length = 88
+
+[tool.pytest.ini_options]
+addopts = "-p no:faulthandler --cov=r5py --cov-report term-missing --cov-report xml --import-mode=importlib --junitxml=junit.xml -o junit_family=legacy"
+filterwarnings = [
+    "error",
+    "ignore:Could not find R5 jar, trying to download it from upstream",
+    "ignore:Successfully downloaded r5-"
+]
+testpaths = ["tests"]
+
+[tool.setuptools.dynamic]
+version = {attr = "r5py.__version__"}

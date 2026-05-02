@@ -2,17 +2,20 @@
 
 ## Purpose
 
-The `cloned_repo/` directory contains local shallow clones of public
-repositories needed as implementation references for the real-world disrupted
-regional transport simulation upgrade.
+The `cloned_repo/` directory contains source snapshots of public repositories
+needed as implementation references for the real-world disrupted regional
+transport simulation upgrade.
 
-These repositories are **not vendored dependencies**. They are local references
-for reading implementation patterns, tests, data schemas, and examples. The
-directory is ignored by git through `.gitignore`.
+The nested `.git` metadata directories were removed before adding these files to
+this repository. These snapshots are references for reading implementation
+patterns, tests, data schemas, and examples. They should not be treated as
+production code owned by this project unless a later change explicitly ports a
+small, reviewed idea into `src/`.
 
 ## Clone Status
 
-All repositories below were cloned successfully into `cloned_repo/`.
+All repositories below were cloned successfully into `cloned_repo/`, then their
+nested `.git` metadata was removed.
 
 | Local path | Source URL | Primary use in this project |
 |---|---|---|
@@ -43,7 +46,7 @@ All repositories below were cloned successfully into `cloned_repo/`.
 
 ## Deliberately Not Cloned In This Pass
 
-The following tools remain useful but were not cloned because they are heavy
+The following tools remain useful but were not included because they are heavy
 full-platform benchmark systems and are not required for the immediate
 real-world implementation path:
 
@@ -51,7 +54,7 @@ real-world implementation path:
 - MATSim
 - OpenTripPlanner
 
-Clone them only after a specific external benchmark experiment is accepted.
+Add them only after a specific external benchmark experiment is accepted.
 
 ## Near-Term Usage Order
 

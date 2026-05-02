@@ -40,8 +40,8 @@ Recent planning and research assets now exist:
   for the disrupted regional resilience framing.
 - `real_world_simulation_implementation_blueprint.md`: implementation blueprint
   focused on extracting the best practical ideas from public repos.
-- `cloned_repo_manifest.md`: manifest of ignored local reference clones under
-  `cloned_repo/`.
+- `cloned_repo_manifest.md`: manifest of public repository source snapshots
+  under `cloned_repo/`.
 
 The active target is no longer just documenting the abstract simulator. The next
 implementation objective is:

@@ -1,0 +1,104 @@
+# Documentation
+_build
+_static
+_templates
+sg_execution_times.rst
+_auto_examples
+_generated
+data_model
+_autosummary
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+
+.idea/aequilibrae.iml
+.idea/pyquilibrae.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/*
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# CMake
+cmake-build-debug/
+
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Sonarlint plugin
+.idea/sonarlint
+
+# Build of plugin
+aequilibrae/**/*.pyd
+aequilibrae/**/*.c
+aequilibrae/**/*.html
+aequilibrae/**/build/*
+*.cpp 
+
+# Build documentation
+docs/build/*
+docs/source/project_database/*
+
+#Virtual environment
+.venv/
+
+# Test files
+tests/**/*.aem
+tests/**/*.csv
+tests/**/*.omx
+
+#### Snippet from https://github.com/github/gitignore/blob/main/Python.gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+*.egg-info/
+*.egg
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+coverage.xml
+
+#### End snippet
+.DS_Store
+.vscode

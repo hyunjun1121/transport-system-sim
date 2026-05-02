@@ -1,0 +1,20 @@
+routingpy/__version__.py
+examples/*with_keys*
+**/.ipynb*
+conda/
+dist/
+*egg-info/**
+.coverage
+htmlcov/
+**/build
+examples.py
+test.py
+.venv/
+*.pyc
+*.idea/
+.DS_Store
+docs/_build/
+
+# Visual Studio Code
+.vscode
+.history

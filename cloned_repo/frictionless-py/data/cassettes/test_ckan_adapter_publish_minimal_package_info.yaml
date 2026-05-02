@@ -1,0 +1,217 @@
+interactions:
+- request:
+    body: '{"name": "name", "extras": [{"key": "$frictionless", "value": "package/v2"}],
+      "owner_org": "frictionless-organization"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '119'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: POST
+    uri: http://localhost:5000//api/action/package_create
+  response:
+    body:
+      string: '{"help": "http://localhost:5000/api/3/action/help_show?name=package_create",
+        "success": true, "result": {"author": null, "author_email": null, "creator_user_id":
+        "38bc2990-bae8-4c81-a4fc-b0327e102d0b", "id": "0696c380-3fe6-4a62-9948-c0f09f17b389",
+        "isopen": false, "license_id": null, "license_title": null, "maintainer":
+        null, "maintainer_email": null, "metadata_created": "2023-03-27T08:33:01.540519",
+        "metadata_modified": "2023-03-27T08:33:01.540525", "name": "name", "notes":
+        null, "num_resources": 0, "num_tags": 0, "organization": {"id": "966a1b8e-0e15-4c78-acfb-64a81d91b07b",
+        "name": "frictionless-organization", "title": "Frictionless organization",
+        "type": "organization", "description": "Frictionless organization", "image_url":
+        "", "created": "2023-03-24T16:50:27.994079", "is_organization": true, "approval_status":
+        "approved", "state": "active"}, "owner_org": "966a1b8e-0e15-4c78-acfb-64a81d91b07b",
+        "private": false, "state": "active", "title": "name", "type": "dataset", "url":
+        null, "version": null, "extras": [{"key": "$frictionless", "value": "package/v2"}],
+        "resources": [], "tags": [], "groups": [], "relationships_as_subject": [],
+        "relationships_as_object": []}}'
+    headers:
+      Cache-Control:
+      - public, max-age=0, must-revalidate
+      Content-Length:
+      - '1184'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 27 Mar 2023 08:33:01 GMT
+      Server:
+      - Werkzeug/2.1.1 Python/3.8.10
+      Set-cookie:
+      - ckan=3325e4211fff712108dc611079833b24979875215ae37803051d49069fee95bbbe1b6e28;
+        expires=Tue, 19-Jan-2038 08:59:07 GMT; Path=/; SameSite=Lax
+    status:
+      code: 200
+      message: OK
+- request:
+    body: "--0cc0ce6a54d8c35007e5c2bf2c7322a7\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\npackage\r\n--0cc0ce6a54d8c35007e5c2bf2c7322a7\r\nContent-Disposition:
+      form-data; name=\"type\"\r\n\r\njson\r\n--0cc0ce6a54d8c35007e5c2bf2c7322a7\r\nContent-Disposition:
+      form-data; name=\"package_id\"\r\n\r\n0696c380-3fe6-4a62-9948-c0f09f17b389\r\n--0cc0ce6a54d8c35007e5c2bf2c7322a7\r\nContent-Disposition:
+      form-data; name=\"upload\"; filename=\"package.json\"\r\nContent-Type: application/octet-stream\r\n\r\n{\n
+      \ \"name\": \"name\",\n  \"extras\": [\n    {\n      \"key\": \"$frictionless\",\n
+      \     \"value\": \"package/v2\"\n    }\n  ],\n  \"owner_org\": \"frictionless-organization\"\n}\r\n--0cc0ce6a54d8c35007e5c2bf2c7322a7--\r\n"
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '651'
+      Content-Type:
+      - multipart/form-data; boundary=0cc0ce6a54d8c35007e5c2bf2c7322a7
+      Cookie:
+      - ckan=3325e4211fff712108dc611079833b24979875215ae37803051d49069fee95bbbe1b6e28
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: POST
+    uri: http://localhost:5000//api/action/resource_create
+  response:
+    body:
+      string: '{"help": "http://localhost:5000/api/3/action/help_show?name=resource_create",
+        "success": true, "result": {"cache_last_updated": null, "cache_url": null,
+        "created": "2023-03-27T08:33:01.827335", "datastore_contains_all_records_of_source_file":
+        false, "description": null, "format": "JSON", "hash": "", "id": "feacd5af-879a-4628-9a06-359ca2bfb284",
+        "last_modified": "2023-03-27T08:33:01.815900", "metadata_modified": "2023-03-27T08:33:01.823217",
+        "mimetype": "application/json", "mimetype_inner": null, "name": "package",
+        "package_id": "0696c380-3fe6-4a62-9948-c0f09f17b389", "position": 0, "resource_type":
+        null, "size": 153, "state": "active", "type": "json", "url": "http://localhost:5000/dataset/0696c380-3fe6-4a62-9948-c0f09f17b389/resource/feacd5af-879a-4628-9a06-359ca2bfb284/download/package.json",
+        "url_type": "upload"}}'
+    headers:
+      Cache-Control:
+      - public, max-age=0, must-revalidate
+      Content-Length:
+      - '827'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 27 Mar 2023 08:33:01 GMT
+      Server:
+      - Werkzeug/2.1.1 Python/3.8.10
+    status:
+      code: 200
+      message: OK
+- request:
+    body: "--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\nname\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"type\"\r\n\r\ntable\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"scheme\"\r\n\r\nfile\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"format\"\r\n\r\ncsv\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"mimetype\"\r\n\r\ntext/csv\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"package_id\"\r\n\r\n0696c380-3fe6-4a62-9948-c0f09f17b389\r\n--773ea55cc69b7a2ffff92cea76f592a5\r\nContent-Disposition:
+      form-data; name=\"upload\"; filename=\"table.csv\"\r\nContent-Type: application/octet-stream\r\n\r\nid,name\n1,english\n2,\u4E2D\u56FD\u4EBA\n\r\n--773ea55cc69b7a2ffff92cea76f592a5--\r\n"
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '801'
+      Content-Type:
+      - multipart/form-data; boundary=773ea55cc69b7a2ffff92cea76f592a5
+      Cookie:
+      - ckan=3325e4211fff712108dc611079833b24979875215ae37803051d49069fee95bbbe1b6e28
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: POST
+    uri: http://localhost:5000//api/action/resource_create
+  response:
+    body:
+      string: '{"help": "http://localhost:5000/api/3/action/help_show?name=resource_create",
+        "success": true, "result": {"cache_last_updated": null, "cache_url": null,
+        "created": "2023-03-27T08:33:02.019298", "datastore_contains_all_records_of_source_file":
+        false, "description": null, "format": "CSV", "hash": "", "id": "2ef5a5b1-2dcf-4c5d-9384-5344fb016eae",
+        "last_modified": "2023-03-27T08:33:02.010127", "metadata_modified": "2023-03-27T08:33:02.017474",
+        "mimetype": "text/csv", "mimetype_inner": null, "name": "name", "package_id":
+        "0696c380-3fe6-4a62-9948-c0f09f17b389", "position": 1, "resource_type": null,
+        "scheme": "file", "size": 30, "state": "active", "type": "table", "url": "http://localhost:5000/dataset/0696c380-3fe6-4a62-9948-c0f09f17b389/resource/2ef5a5b1-2dcf-4c5d-9384-5344fb016eae/download/table.csv",
+        "url_type": "upload"}}'
+    headers:
+      Cache-Control:
+      - public, max-age=0, must-revalidate
+      Content-Length:
+      - '830'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 27 Mar 2023 08:33:02 GMT
+      Server:
+      - Werkzeug/2.1.1 Python/3.8.10
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Cookie:
+      - ckan=3325e4211fff712108dc611079833b24979875215ae37803051d49069fee95bbbe1b6e28
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: http://localhost:5000//api/3/action/package_show?id=name
+  response:
+    body:
+      string: '{"help": "http://localhost:5000/api/3/action/help_show?name=package_show",
+        "success": true, "result": {"author": null, "author_email": null, "creator_user_id":
+        "38bc2990-bae8-4c81-a4fc-b0327e102d0b", "id": "0696c380-3fe6-4a62-9948-c0f09f17b389",
+        "isopen": false, "license_id": null, "license_title": null, "maintainer":
+        null, "maintainer_email": null, "metadata_created": "2023-03-27T08:33:01.540519",
+        "metadata_modified": "2023-03-27T08:33:02.014254", "name": "name", "notes":
+        null, "num_resources": 2, "num_tags": 0, "organization": {"id": "966a1b8e-0e15-4c78-acfb-64a81d91b07b",
+        "name": "frictionless-organization", "title": "Frictionless organization",
+        "type": "organization", "description": "Frictionless organization", "image_url":
+        "", "created": "2023-03-24T16:50:27.994079", "is_organization": true, "approval_status":
+        "approved", "state": "active"}, "owner_org": "966a1b8e-0e15-4c78-acfb-64a81d91b07b",
+        "private": false, "state": "active", "title": "name", "type": "dataset", "url":
+        null, "version": null, "extras": [{"key": "$frictionless", "value": "package/v2"}],
+        "resources": [{"cache_last_updated": null, "cache_url": null, "created": "2023-03-27T08:33:01.827335",
+        "datastore_contains_all_records_of_source_file": false, "description": null,
+        "format": "JSON", "hash": "", "id": "feacd5af-879a-4628-9a06-359ca2bfb284",
+        "last_modified": "2023-03-27T08:33:01.815900", "metadata_modified": "2023-03-27T08:33:02.017334",
+        "mimetype": "application/json", "mimetype_inner": null, "name": "package",
+        "package_id": "0696c380-3fe6-4a62-9948-c0f09f17b389", "position": 0, "resource_type":
+        null, "size": 153, "state": "active", "type": "json", "url": "http://localhost:5000/dataset/0696c380-3fe6-4a62-9948-c0f09f17b389/resource/feacd5af-879a-4628-9a06-359ca2bfb284/download/package.json",
+        "url_type": "upload"}, {"cache_last_updated": null, "cache_url": null, "created":
+        "2023-03-27T08:33:02.019298", "datastore_contains_all_records_of_source_file":
+        false, "description": null, "format": "CSV", "hash": "", "id": "2ef5a5b1-2dcf-4c5d-9384-5344fb016eae",
+        "last_modified": "2023-03-27T08:33:02.010127", "metadata_modified": "2023-03-27T08:33:02.017474",
+        "mimetype": "text/csv", "mimetype_inner": null, "name": "name", "package_id":
+        "0696c380-3fe6-4a62-9948-c0f09f17b389", "position": 1, "resource_type": null,
+        "scheme": "file", "size": 30, "state": "active", "type": "table", "url": "http://localhost:5000/dataset/0696c380-3fe6-4a62-9948-c0f09f17b389/resource/2ef5a5b1-2dcf-4c5d-9384-5344fb016eae/download/table.csv",
+        "url_type": "upload"}], "tags": [], "groups": [], "relationships_as_subject":
+        [], "relationships_as_object": []}}'
+    headers:
+      Cache-Control:
+      - public, max-age=0, must-revalidate
+      Content-Length:
+      - '2629'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 27 Mar 2023 08:33:02 GMT
+      Server:
+      - Werkzeug/2.1.1 Python/3.8.10
+    status:
+      code: 200
+      message: OK
+version: 1

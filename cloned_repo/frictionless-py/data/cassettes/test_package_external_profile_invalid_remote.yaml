@@ -1,0 +1,748 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/tdwg/camtrap-dp/main/camtrap-dp-profile.json
+  response:
+    body:
+      string: "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"title\":
+        \"Camera Trap Data Package\",\n  \"description\": \"Data exchange format for
+        camera trap data. <https://camtrap-dp.tdwg.org>\",\n  \"type\": \"object\",\n
+        \ \"$defs\": {\n    \"version\": {\n      \"pattern\": \"1\\\\.0\"\n    }\n
+        \ },\n  \"allOf\": [\n    {\n      \"$ref\": \"https://frictionlessdata.io/schemas/data-package.json\"\n
+        \   },\n    {\n      \"required\": [\n        \"profile\",\n        \"created\",\n
+        \       \"contributors\",\n        \"project\",\n        \"spatial\",\n        \"temporal\",\n
+        \       \"taxonomic\"\n      ],\n      \"properties\": {\n        \"resources\":
+        {\n          \"description\": \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#resource-information).
+        Camtrap DP further requires each object to be a [Tabular Data Resource](https://specs.frictionlessdata.io/tabular-data-resource/)
+        with a specific `name` and `schema`. See [Data](https://camtrap-dp.tdwg.org/data)
+        for the requirements for those resources.\",\n          \"minItems\": 3,\n
+        \         \"items\": {\n            \"oneOf\": [\n              {\n                \"required\":
+        [\n                  \"name\",\n                  \"path\",\n                  \"profile\",\n
+        \                 \"schema\"\n                ],\n                \"properties\":
+        {\n                  \"name\": {\n                    \"description\": \"Identifier
+        of the resource.\",\n                    \"enum\": [\n                      \"deployments\",\n
+        \                     \"media\",\n                      \"observations\"\n
+        \                   ]\n                  },\n                  \"path\": {\n
+        \                   \"description\": \"Path or URL to the data file.\"\n                  },\n
+        \                 \"profile\": {\n                    \"description\": \"[Profile](https://specs.frictionlessdata.io/profiles/)
+        of the resource.\",\n                    \"enum\": [\n                      \"tabular-data-resource\"\n
+        \                   ]\n                  },\n                  \"schema\":
+        {\n                    \"description\": \"URL of the used Camtrap DP Table
+        Schema version (e.g. `https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/deployments-table-schema.json`).\",\n
+        \                   \"allOf\": [\n                      {\n                        \"$ref\":
+        \"#$defs/version\"\n                      },\n                      {\n                        \"type\":
+        \"string\",\n                        \"format\": \"uri\"\n                      }\n
+        \                   ]\n                  }\n                }\n              },\n
+        \             {\n                \"required\": [\n                  \"name\"\n
+        \               ],\n                \"properties\": {\n                  \"name\":
+        {\n                    \"not\": {\n                      \"enum\": [\n                        \"deployments\",\n
+        \                       \"media\",\n                        \"observations\"\n
+        \                     ]\n                    }\n                  }\n                }\n
+        \             }\n            ]\n          }\n        },\n        \"profile\":
+        {\n          \"description\": \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#profile).
+        Camtrap DP further requires this to be the URL of the used Camtrap DP Profile
+        version (e.g. `https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json`).\",\n
+        \         \"format\": \"uri\"\n        },\n        \"name\": {\n          \"description\":
+        \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#name).\"\n
+        \       },\n        \"id\": {\n          \"description\": \"See [Data Package
+        specification](https://specs.frictionlessdata.io/data-package/#id).\"\n        },\n
+        \       \"created\": {\n          \"description\": \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#created).
+        Camtrap DP makes this a required property.\"\n        },\n        \"title\":
+        {\n          \"description\": \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#title).
+        Not to be confused with the title of the project that originated the package
+        (`package.project.title`).\"\n        },\n        \"contributors\": {\n          \"description\":
+        \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#contributors).
+        Camtrap DP makes this a required property and restricts `role` values. Can
+        include people and organizations.\",\n          \"items\": {\n            \"properties\":
+        {\n              \"role\": {\n                \"description\": \"Role of the
+        contributor. Defaults to `contributor`.\",\n                \"enum\": [\n
+        \                 \"contact\",\n                  \"principalInvestigator\",\n
+        \                 \"rightsHolder\",\n                  \"publisher\",\n                  \"contributor\"\n
+        \               ]\n              }\n            }\n          }\n        },\n
+        \       \"description\": {\n          \"description\": \"See [Data Package
+        specification](https://specs.frictionlessdata.io/data-package/#description).
+        Not to be confused with the description of the project that originated the
+        package (`package.project.description`).\"\n        },\n        \"version\":
+        {\n          \"description\": \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#version).\"\n
+        \       },\n        \"keywords\": {\n          \"description\": \"See [Data
+        Package specification](https://specs.frictionlessdata.io/data-package/#keywords).\"\n
+        \       },\n        \"image\": {\n          \"description\": \"See [Data Package
+        specification](https://specs.frictionlessdata.io/data-package/#image).\"\n
+        \       },\n        \"homepage\": {\n          \"description\": \"See [Data
+        Package specification](https://specs.frictionlessdata.io/data-package/#homepage).\"\n
+        \       },\n        \"sources\": {\n          \"description\": \"See [Data
+        Package specification](https://specs.frictionlessdata.io/data-package/#sources).
+        Can include the data management platform from which the package was derived
+        (e.g. Agouti, Trapper, Wildlife Insights).\",\n          \"items\": {\n            \"properties\":
+        {\n              \"version\": {\n                \"description\": \"Version
+        of the source.\",\n                \"type\": \"string\"\n              }\n
+        \           }\n          }\n        },\n        \"licenses\": {\n          \"description\":
+        \"See [Data Package specification](https://specs.frictionlessdata.io/data-package/#licenses).
+        If provided, Camtrap DP further requires at least a license for the content
+        of the package and one for the media files.\",\n          \"minItems\": 2,\n
+        \         \"items\": {\n            \"required\": [\n              \"scope\"\n
+        \           ],\n            \"properties\": {\n              \"scope\": {\n
+        \               \"description\": \"Scope of the license. `data` applies to
+        the content of the package and resources, `media` to the (locally or externally
+        hosted) media files referenced in `media.filePath`.\",\n                \"type\":
+        \"string\",\n                \"enum\": [\n                  \"data\",\n                  \"media\"\n
+        \               ]\n              }\n            }\n          }\n        },\n
+        \       \"bibliographicCitation\": {\n          \"description\": \"Bibliographic/recommended
+        citation for the package.\",\n          \"skos:exactMatch\": \"http://purl.org/dc/terms/bibliographicCitation\",\n
+        \         \"type\": \"string\"\n        },\n        \"project\": {\n          \"description\":
+        \"Camera trap project or study that originated the package.\",\n          \"type\":
+        \"object\",\n          \"required\": [\n            \"title\",\n            \"samplingDesign\",\n
+        \           \"captureMethod\",\n            \"individualAnimals\",\n            \"observationLevel\"\n
+        \         ],\n          \"properties\": {\n            \"id\": {\n              \"description\":
+        \"Unique identifier of the project.\",\n              \"type\": \"string\"\n
+        \           },\n            \"title\": {\n              \"description\": \"Title
+        of the project. Not to be confused with the title of the package (`package.title`).\",\n
+        \             \"type\": \"string\"\n            },\n            \"acronym\":
+        {\n              \"description\": \"Project acronym.\",\n              \"type\":
+        \"string\"\n            },\n            \"description\": {\n              \"description\":
+        \"Description of the project. Preferably formatted as [Markdown](http://commonmark.org/).
+        Not to be confused with the description of the package (`package.description`).\",\n
+        \             \"type\": \"string\"\n            },\n            \"path\":
+        {\n              \"description\": \"Project website.\",\n              \"type\":
+        \"string\",\n              \"format\": \"uri\"\n            },\n            \"samplingDesign\":
+        {\n              \"description\": \"Type of a sampling design/layout. The
+        values are based on [Wearn & Glover-Kapfer (2017)](https://doi.org/10.13140/RG.2.2.23409.17767),
+        pages 80-82: `simple random`: random distribution of sampling locations; `systematic
+        random`: random distribution of sampling locations, but arranged in a regular
+        pattern; `clustered random`: random distribution of sampling locations, but
+        clustered in arrays; `experimental`: non-random distribution aimed to study
+        an effect, including the before-after control-impact (BACI) design; `targeted`:
+        non-random distribution optimized for capturing specific target species (often
+        using various bait types); `opportunistic`: opportunistic camera trapping
+        (usually with a small number of cameras).\",\n              \"skos:broadMatch\":
+        \"http://rs.tdwg.org/eco/terms/inventoryTypes\",\n              \"type\":
+        \"string\",\n              \"enum\": [\n                \"simpleRandom\",\n
+        \               \"systematicRandom\",\n                \"clusteredRandom\",\n
+        \               \"experimental\",\n                \"targeted\",\n                \"opportunistic\"\n
+        \             ]\n            },\n            \"captureMethod\": {\n              \"description\":
+        \"Method(s) used to capture the media files.\",\n              \"type\": \"array\",\n
+        \             \"items\": {\n                \"type\": \"string\",\n                \"enum\":
+        [\n                  \"activityDetection\",\n                  \"timeLapse\"\n
+        \               ]\n              },\n              \"uniqueItems\": true,\n
+        \             \"minItems\": 1\n            },\n            \"individualAnimals\":
+        {\n              \"description\": \"`true` if the project includes marked
+        or recognizable individuals. See also `observations.individualID`.\",\n              \"type\":
+        \"boolean\"\n            },\n            \"observationLevel\": {\n              \"description\":
+        \"Level at which observations are provided. See also `observations.observationLevel`.\",\n
+        \             \"type\": \"array\",\n              \"items\": {\n                \"type\":
+        \"string\",\n                \"enum\": [\n                  \"media\",\n                  \"event\"\n
+        \               ]\n              }\n            }\n          }\n        },\n
+        \       \"coordinatePrecision\": {\n          \"description\": \"Least precise
+        coordinate precision of the `deployments.latitude` and `deployments.longitude`
+        (e.g. `0.01` for coordinates with a precision of 0.01 and 0.001 degree). Especially
+        relevant when coordinates have been rounded to protect sensitive species.\",\n
+        \         \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/coordinatePrecision\",\n
+        \         \"type\": \"number\",\n          \"example\": 0.001\n        },\n
+        \       \"spatial\": {\n          \"description\": \"Spatial coverage of the
+        package, expressed as GeoJSON.\",\n          \"skos:exactMatch\": \"http://purl.org/dc/terms/spatial\",\n
+        \         \"type\": \"object\",\n          \"$ref\": \"http://json.schemastore.org/geojson.json\"\n
+        \       },\n        \"temporal\": {\n          \"description\": \"Temporal
+        coverage of the package.\",\n          \"skos:exactMatch\": \"http://purl.org/dc/terms/temporal\",\n
+        \         \"type\": \"object\",\n          \"required\": [\n            \"start\",\n
+        \           \"end\"\n          ],\n          \"properties\": {\n            \"start\":
+        {\n              \"description\": \"Start date of the first deployment. Formatted
+        as an ISO 8601 string (`YYYY-MM-DD`).\",\n              \"type\": \"string\",\n
+        \             \"format\": \"date\"\n            },\n            \"end\": {\n
+        \             \"description\": \"End date of the last (completed) deployment.
+        Formatted as an ISO 8601 string (`YYYY-MM-DD`).\",\n              \"type\":
+        \"string\",\n              \"format\": \"date\"\n            }\n          }\n
+        \       },\n        \"taxonomic\": {\n          \"description\": \"Taxonomic
+        coverage of the package, based on the unique `observations.scientificName`.\",\n
+        \         \"type\": \"array\",\n          \"items\": {\n            \"type\":
+        \"object\",\n            \"required\": [\n              \"scientificName\"\n
+        \           ],\n            \"properties\": {\n              \"scientificName\":
+        {\n                \"description\": \"Scientific name of the taxon.\",\n                \"skos:exactMatch\":
+        \"http://rs.tdwg.org/dwc/terms/scientificName\",\n                \"type\":
+        \"string\",\n                \"example\": \"Canis lupus\"\n              },\n
+        \             \"taxonID\": {\n                \"description\": \"Unique identifier
+        of the taxon. Preferably a global unique identifier issued by an authoritative
+        checklist.\",\n                \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/taxonID\",\n
+        \               \"type\": \"string\",\n                \"example\": \"https://www.checklistbank.org/dataset/COL2023/taxon/QLXL\"\n
+        \             },\n              \"taxonRank\": {\n                \"description\":
+        \"Taxonomic rank of the scientific name.\",\n                \"skos:exactMatch\":
+        \"http://rs.tdwg.org/dwc/terms/taxonRank\",\n                \"type\": \"string\",\n
+        \               \"enum\": [\n                  \"kingdom\",\n                  \"phylum\",\n
+        \                 \"class\",\n                  \"order\",\n                  \"family\",\n
+        \                 \"genus\",\n                  \"species\",\n                  \"subspecies\"\n
+        \               ],\n                \"example\": \"species\"\n              },\n
+        \             \"kingdom\": {\n                \"description\": \"Kingdom in
+        which the taxon is classified.\",\n                \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/kingdom\",\n
+        \               \"type\": \"string\",\n                \"example\": \"Animalia\"\n
+        \             },\n              \"phylum\": {\n                \"description\":
+        \"Phylum or division in which the taxon is classified\",\n                \"skos:exactMatch\":
+        \"http://rs.tdwg.org/dwc/terms/phylum\",\n                \"type\": \"string\",\n
+        \               \"example\": \"Chordata\"\n              },\n              \"class\":
+        {\n                \"description\": \"Class in which the taxon is classified.\",\n
+        \               \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/class\",\n
+        \               \"type\": \"string\",\n                \"example\": \"Mammalia\"\n
+        \             },\n              \"order\": {\n                \"description\":
+        \"Order in which the taxon is classified.\",\n                \"skos:exactMatch\":
+        \"http://rs.tdwg.org/dwc/terms/order\",\n                \"type\": \"string\",\n
+        \               \"example\": \"Carnivora\"\n              },\n              \"family\":
+        {\n                \"description\": \"Family in which the taxon is classified.\",\n
+        \               \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/family\",\n
+        \               \"type\": \"string\",\n                \"example\": \"Canidae\"\n
+        \             },\n              \"genus\": {\n                \"description\":
+        \"Genus in which the taxon is classified.\",\n                \"skos:exactMatch\":
+        \"http://rs.tdwg.org/dwc/terms/genus\",\n                \"type\": \"string\",\n
+        \               \"example\": \"Canis\"\n              },\n              \"vernacularNames\":
+        {\n                \"description\": \"Common or vernacular names of the taxon,
+        as `languageCode: vernacular name` pairs. Language codes should follow ISO
+        693-3 (e.g. `eng` for English).\",\n                \"type\": \"object\",\n
+        \               \"patternProperties\": {\n                  \"^[a-z]{3}$\":
+        {\n                    \"description\": \"Common or vernacular name of the
+        taxon in that language.\",\n                    \"skos:exactMatch\": \"http://rs.tdwg.org/dwc/terms/vernacularName\",\n
+        \                   \"type\": \"string\"\n                  }\n                },\n
+        \               \"additionalProperties\": false,\n                \"example\":
+        \"{'eng': 'wolf', 'fra': 'loup gris'}\"\n              }\n            }\n
+        \         }\n        },\n        \"relatedIdentifiers\": {\n          \"description\":
+        \"Identifiers of resources related to the package (e.g. papers, project pages,
+        derived datasets, APIs, etc.).\",\n          \"type\": \"array\",\n          \"items\":
+        {\n            \"description\": \"Related identifier.\",\n            \"required\":
+        [\n              \"relationType\",\n              \"relatedIdentifier\",\n
+        \             \"relatedIdentifierType\"\n            ],\n            \"properties\":
+        {\n              \"relationType\": {\n                \"description\": \"Description
+        of the relationship between the resource (the package) and the related resource.\",\n
+        \               \"skos:exactMatch\": \"https://schema.datacite.org/meta/kernel-4.4/include/datacite-relationType-v4.xsd\",\n
+        \               \"type\": \"string\",\n                \"enum\": [\n                  \"IsCitedBy\",\n
+        \                 \"Cites\",\n                  \"IsSupplementTo\",\n                  \"IsSupplementedBy\",\n
+        \                 \"IsContinuedBy\",\n                  \"Continues\",\n                  \"IsNewVersionOf\",\n
+        \                 \"IsPreviousVersionOf\",\n                  \"IsPartOf\",\n
+        \                 \"HasPart\",\n                  \"IsPublishedIn\",\n                  \"IsReferencedBy\",\n
+        \                 \"References\",\n                  \"IsDocumentedBy\",\n
+        \                 \"Documents\",\n                  \"IsCompiledBy\",\n                  \"Compiles\",\n
+        \                 \"IsVariantFormOf\",\n                  \"IsOriginalFormOf\",\n
+        \                 \"IsIdenticalTo\",\n                  \"HasMetadata\",\n
+        \                 \"IsMetadataFor\",\n                  \"Reviews\",\n                  \"IsReviewedBy\",\n
+        \                 \"IsDerivedFrom\",\n                  \"IsSourceOf\",\n
+        \                 \"Describes\",\n                  \"IsDescribedBy\",\n                  \"HasVersion\",\n
+        \                 \"IsVersionOf\",\n                  \"Requires\",\n                  \"IsRequiredBy\",\n
+        \                 \"Obsoletes\",\n                  \"IsObsoletedBy\"\n                ]\n
+        \             },\n              \"relatedIdentifier\": {\n                \"description\":
+        \"Unique identifier of the related resource (e.g. a DOI or URL).\",\n                \"type\":
+        \"string\"\n              },\n              \"resourceTypeGeneral\": {\n                \"description\":
+        \"General type of the related resource.\",\n                \"skos:exactMatch\":
+        \"https://schema.datacite.org/meta/kernel-4.4/include/datacite-resourceType-v4.xsd\",\n
+        \               \"type\": \"string\",\n                \"enum\": [\n                  \"Audiovisual\",\n
+        \                 \"Book\",\n                  \"BookChapter\",\n                  \"Collection\",\n
+        \                 \"ComputationalNotebook\",\n                  \"ConferencePaper\",\n
+        \                 \"ConferenceProceeding\",\n                  \"DataPaper\",\n
+        \                 \"Dataset\",\n                  \"Dissertation\",\n                  \"Event\",\n
+        \                 \"Image\",\n                  \"InteractiveResource\",\n
+        \                 \"Journal\",\n                  \"JournalArticle\",\n                  \"Model\",\n
+        \                 \"OutputManagementPlan\",\n                  \"PeerReview\",\n
+        \                 \"PhysicalObject\",\n                  \"Preprint\",\n                  \"Report\",\n
+        \                 \"Service\",\n                  \"Software\",\n                  \"Sound\",\n
+        \                 \"Standard\",\n                  \"Text\",\n                  \"Workflow\",\n
+        \                 \"Other\"\n                ]\n              },\n              \"relatedIdentifierType\":
+        {\n                \"description\": \"Type of the `RelatedIdentifier`.\",\n
+        \               \"skos:exactMatch\": \"https://schema.datacite.org/meta/kernel-4.4/include/datacite-relatedIdentifierType-v4.xsd\",\n
+        \               \"type\": \"string\",\n                \"enum\": [\n                  \"ARK\",\n
+        \                 \"arXiv\",\n                  \"bibcode\",\n                  \"DOI\",\n
+        \                 \"EAN13\",\n                  \"EISSN\",\n                  \"Handle\",\n
+        \                 \"IGSN\",\n                  \"ISBN\",\n                  \"ISSN\",\n
+        \                 \"ISTC\",\n                  \"LISSN\",\n                  \"LSID\",\n
+        \                 \"PMID\",\n                  \"PURL\",\n                  \"UPC\",\n
+        \                 \"URL\",\n                  \"URN\",\n                  \"w3id\"\n
+        \               ]\n              }\n            }\n          }\n        },\n
+        \       \"references\": {\n          \"description\": \"List of references
+        related to the package (e.g. references cited in `package.project.description`).
+        References preferably include a DOI.\",\n          \"type\": \"array\",\n
+        \         \"items\": {\n            \"type\": \"string\"\n          }\n        }\n
+        \     }\n    }\n  ]\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '4054'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:50:35 GMT
+      ETag:
+      - W/"eed283e295c0905f4c11c743cf39a1959fb419b6a5ea4da38e8ccc082925b5ab"
+      Expires:
+      - Wed, 24 Jan 2024 11:55:35 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - ab94cda55fb77f386362950b0f7fd4828b700485
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - D1FC:58267:843AE0:8A1BF3:65B0F98A
+      X-Served-By:
+      - cache-lis1490034-LIS
+      X-Timer:
+      - S1706097035.021677,VS0,VE223
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: https://frictionlessdata.io/schemas/data-package.json
+  response:
+    body:
+      string: ''
+    headers:
+      CF-RAY:
+      - 84a80f484ad96660-MAD
+      Cache-Control:
+      - max-age=3600
+      Connection:
+      - keep-alive
+      Date:
+      - Wed, 24 Jan 2024 11:50:35 GMT
+      Expires:
+      - Wed, 24 Jan 2024 12:50:35 GMT
+      Location:
+      - https://specs.frictionlessdata.io/schemas/data-package.json
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=OKpIHfKiVMj16xOjJ46wiI2P5jix88mY6k4xOi2ND%2B9DhKnBXIz23VvlECgX3tIAsgb%2FUKgUZPTN6AL2tM9ucphUWT21hCXPC6eK%2FiQdzXEsZAiH2%2FnaEpmIKBvAeFbEswdoVIf5"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      alt-svc:
+      - h3=":443"; ma=86400
+    status:
+      code: 301
+      message: Moved Permanently
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: https://specs.frictionlessdata.io/schemas/data-package.json
+  response:
+    body:
+      string: "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"title\":
+        \"Data Package\",\n  \"description\": \"Data Package is a simple specification
+        for data access and delivery.\",\n  \"type\": \"object\",\n  \"required\":
+        [\n    \"resources\"\n  ],\n  \"properties\": {\n    \"profile\": {\n      \"default\":
+        \"data-package\",\n      \"propertyOrder\": 10,\n      \"title\": \"Profile\",\n
+        \     \"description\": \"The profile of this descriptor.\",\n      \"context\":
+        \"Every Package and Resource descriptor has a profile. The default profile,
+        if none is declared, is `data-package` for Package and `data-resource` for
+        Resource.\",\n      \"type\": \"string\",\n      \"examples\": [\n        \"{\\n
+        \ \\\"profile\\\": \\\"tabular-data-package\\\"\\n}\\n\",\n        \"{\\n
+        \ \\\"profile\\\": \\\"http://example.com/my-profiles-json-schema.json\\\"\\n}\\n\"\n
+        \     ]\n    },\n    \"name\": {\n      \"propertyOrder\": 20,\n      \"title\":
+        \"Name\",\n      \"description\": \"An identifier string. Lower case characters
+        with `.`, `_`, `-` and `/` are allowed.\",\n      \"type\": \"string\",\n
+        \     \"pattern\": \"^([-a-z0-9._/])+$\",\n      \"context\": \"This is ideally
+        a url-usable and human-readable name. Name `SHOULD` be invariant, meaning
+        it `SHOULD NOT` change when its parent descriptor is updated.\",\n      \"examples\":
+        [\n        \"{\\n  \\\"name\\\": \\\"my-nice-name\\\"\\n}\\n\"\n      ]\n
+        \   },\n    \"id\": {\n      \"propertyOrder\": 30,\n      \"title\": \"ID\",\n
+        \     \"description\": \"A property reserved for globally unique identifiers.
+        Examples of identifiers that are unique include UUIDs and DOIs.\",\n      \"context\":
+        \"A common usage pattern for Data Packages is as a packaging format within
+        the bounds of a system or platform. In these cases, a unique identifier for
+        a package is desired for common data handling workflows, such as updating
+        an existing package. While at the level of the specification, global uniqueness
+        cannot be validated, consumers using the `id` property `MUST` ensure identifiers
+        are globally unique.\",\n      \"type\": \"string\",\n      \"examples\":
+        [\n        \"{\\n  \\\"id\\\": \\\"b03ec84-77fd-4270-813b-0c698943f7ce\\\"\\n}\\n\",\n
+        \       \"{\\n  \\\"id\\\": \\\"http://dx.doi.org/10.1594/PANGAEA.726855\\\"\\n}\\n\"\n
+        \     ]\n    },\n    \"title\": {\n      \"propertyOrder\": 40,\n      \"title\":
+        \"Title\",\n      \"description\": \"A human-readable title.\",\n      \"type\":
+        \"string\",\n      \"examples\": [\n        \"{\\n  \\\"title\\\": \\\"My
+        Package Title\\\"\\n}\\n\"\n      ]\n    },\n    \"description\": {\n      \"propertyOrder\":
+        50,\n      \"format\": \"textarea\",\n      \"title\": \"Description\",\n
+        \     \"description\": \"A text description. Markdown is encouraged.\",\n
+        \     \"type\": \"string\",\n      \"examples\": [\n        \"{\\n  \\\"description\\\":
+        \\\"# My Package description\\\\nAll about my package.\\\"\\n}\\n\"\n      ]\n
+        \   },\n    \"homepage\": {\n      \"propertyOrder\": 60,\n      \"title\":
+        \"Home Page\",\n      \"description\": \"The home on the web that is related
+        to this data package.\",\n      \"type\": \"string\",\n      \"format\": \"uri\",\n
+        \     \"examples\": [\n        \"{\\n  \\\"homepage\\\": \\\"http://example.com/\\\"\\n}\\n\"\n
+        \     ]\n    },\n    \"created\": {\n      \"propertyOrder\": 70,\n      \"title\":
+        \"Created\",\n      \"description\": \"The datetime on which this descriptor
+        was created.\",\n      \"context\": \"The datetime must conform to the string
+        formats for datetime as described in [RFC3339](https://tools.ietf.org/html/rfc3339#section-5.6)\",\n
+        \     \"type\": \"string\",\n      \"format\": \"date-time\",\n      \"examples\":
+        [\n        \"{\\n  \\\"created\\\": \\\"1985-04-12T23:20:50.52Z\\\"\\n}\\n\"\n
+        \     ]\n    },\n    \"contributors\": {\n      \"propertyOrder\": 80,\n      \"title\":
+        \"Contributors\",\n      \"description\": \"The contributors to this descriptor.\",\n
+        \     \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"title\":
+        \"Contributor\",\n        \"description\": \"A contributor to this descriptor.\",\n
+        \       \"properties\": {\n          \"title\": {\n            \"title\":
+        \"Title\",\n            \"description\": \"A human-readable title.\",\n            \"type\":
+        \"string\",\n            \"examples\": [\n              \"{\\n  \\\"title\\\":
+        \\\"My Package Title\\\"\\n}\\n\"\n            ]\n          },\n          \"path\":
+        {\n            \"title\": \"Path\",\n            \"description\": \"A fully
+        qualified URL, or a POSIX file path.\",\n            \"type\": \"string\",\n
+        \           \"pattern\": \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n            \"examples\":
+        [\n              \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n              \"{\\n
+        \ \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n            ],\n
+        \           \"context\": \"Implementations need to negotiate the type of path
+        provided, and dereference the data accordingly.\"\n          },\n          \"email\":
+        {\n            \"title\": \"Email\",\n            \"description\": \"An email
+        address.\",\n            \"type\": \"string\",\n            \"format\": \"email\",\n
+        \           \"examples\": [\n              \"{\\n  \\\"email\\\": \\\"example@example.com\\\"\\n}\\n\"\n
+        \           ]\n          },\n          \"organization\": {\n            \"title\":
+        \"Organization\",\n            \"description\": \"An organizational affiliation
+        for this contributor.\",\n            \"type\": \"string\"\n          },\n
+        \         \"role\": {\n            \"type\": \"string\",\n            \"default\":
+        \"contributor\"\n          }\n        },\n        \"required\": [\n          \"title\"\n
+        \       ],\n        \"context\": \"Use of this property does not imply that
+        the person was the original creator of, or a contributor to, the data in the
+        descriptor, but refers to the composition of the descriptor itself.\"\n      },\n
+        \     \"examples\": [\n        \"{\\n  \\\"contributors\\\": [\\n    {\\n
+        \     \\\"title\\\": \\\"Joe Bloggs\\\"\\n    }\\n  ]\\n}\\n\",\n        \"{\\n
+        \ \\\"contributors\\\": [\\n    {\\n      \\\"title\\\": \\\"Joe Bloggs\\\",\\n
+        \     \\\"email\\\": \\\"joe@example.com\\\",\\n      \\\"role\\\": \\\"author\\\"\\n
+        \   }\\n  ]\\n}\\n\"\n      ]\n    },\n    \"keywords\": {\n      \"propertyOrder\":
+        90,\n      \"title\": \"Keywords\",\n      \"description\": \"A list of keywords
+        that describe this package.\",\n      \"type\": \"array\",\n      \"minItems\":
+        1,\n      \"items\": {\n        \"type\": \"string\"\n      },\n      \"examples\":
+        [\n        \"{\\n  \\\"keywords\\\": [\\n    \\\"data\\\",\\n    \\\"fiscal\\\",\\n
+        \   \\\"transparency\\\"\\n  ]\\n}\\n\"\n      ]\n    },\n    \"image\": {\n
+        \     \"propertyOrder\": 100,\n      \"title\": \"Image\",\n      \"description\":
+        \"A image to represent this package.\",\n      \"type\": \"string\",\n      \"examples\":
+        [\n        \"{\\n  \\\"image\\\": \\\"http://example.com/image.jpg\\\"\\n}\\n\",\n
+        \       \"{\\n  \\\"image\\\": \\\"relative/to/image.jpg\\\"\\n}\\n\"\n      ]\n
+        \   },\n    \"licenses\": {\n      \"propertyOrder\": 110,\n      \"title\":
+        \"Licenses\",\n      \"description\": \"The license(s) under which this package
+        is published.\",\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\":
+        {\n        \"title\": \"License\",\n        \"description\": \"A license for
+        this descriptor.\",\n        \"type\": \"object\",\n        \"anyOf\": [\n
+        \         {\n            \"required\": [\n              \"name\"\n            ]\n
+        \         },\n          {\n            \"required\": [\n              \"path\"\n
+        \           ]\n          }\n        ],\n        \"properties\": {\n          \"name\":
+        {\n            \"title\": \"Open Definition license identifier\",\n            \"description\":
+        \"MUST be an Open Definition license identifier, see http://licenses.opendefinition.org/\",\n
+        \           \"type\": \"string\",\n            \"pattern\": \"^([-a-zA-Z0-9._])+$\"\n
+        \         },\n          \"path\": {\n            \"title\": \"Path\",\n            \"description\":
+        \"A fully qualified URL, or a POSIX file path.\",\n            \"type\": \"string\",\n
+        \           \"pattern\": \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n            \"examples\":
+        [\n              \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n              \"{\\n
+        \ \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n            ],\n
+        \           \"context\": \"Implementations need to negotiate the type of path
+        provided, and dereference the data accordingly.\"\n          },\n          \"title\":
+        {\n            \"title\": \"Title\",\n            \"description\": \"A human-readable
+        title.\",\n            \"type\": \"string\",\n            \"examples\": [\n
+        \             \"{\\n  \\\"title\\\": \\\"My Package Title\\\"\\n}\\n\"\n            ]\n
+        \         }\n        },\n        \"context\": \"Use of this property does
+        not imply that the person was the original creator of, or a contributor to,
+        the data in the descriptor, but refers to the composition of the descriptor
+        itself.\"\n      },\n      \"context\": \"This property is not legally binding
+        and does not guarantee that the package is licensed under the terms defined
+        herein.\",\n      \"examples\": [\n        \"{\\n  \\\"licenses\\\": [\\n
+        \   {\\n      \\\"name\\\": \\\"odc-pddl-1.0\\\",\\n      \\\"path\\\": \\\"http://opendatacommons.org/licenses/pddl/\\\",\\n
+        \     \\\"title\\\": \\\"Open Data Commons Public Domain Dedication and License
+        v1.0\\\"\\n    }\\n  ]\\n}\\n\"\n      ]\n    },\n    \"resources\": {\n      \"propertyOrder\":
+        120,\n      \"title\": \"Data Resources\",\n      \"description\": \"An `array`
+        of Data Resource objects, each compliant with the [Data Resource](/data-resource/)
+        specification.\",\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\":
+        {\n        \"title\": \"Data Resource\",\n        \"description\": \"Data
+        Resource.\",\n        \"type\": \"object\",\n        \"oneOf\": [\n          {\n
+        \           \"required\": [\n              \"name\",\n              \"data\"\n
+        \           ]\n          },\n          {\n            \"required\": [\n              \"name\",\n
+        \             \"path\"\n            ]\n          }\n        ],\n        \"properties\":
+        {\n          \"profile\": {\n            \"propertyOrder\": 10,\n            \"default\":
+        \"data-resource\",\n            \"title\": \"Profile\",\n            \"description\":
+        \"The profile of this descriptor.\",\n            \"context\": \"Every Package
+        and Resource descriptor has a profile. The default profile, if none is declared,
+        is `data-package` for Package and `data-resource` for Resource.\",\n            \"type\":
+        \"string\",\n            \"examples\": [\n              \"{\\n  \\\"profile\\\":
+        \\\"tabular-data-package\\\"\\n}\\n\",\n              \"{\\n  \\\"profile\\\":
+        \\\"http://example.com/my-profiles-json-schema.json\\\"\\n}\\n\"\n            ]\n
+        \         },\n          \"name\": {\n            \"propertyOrder\": 20,\n
+        \           \"title\": \"Name\",\n            \"description\": \"An identifier
+        string. Lower case characters with `.`, `_`, `-` and `/` are allowed.\",\n
+        \           \"type\": \"string\",\n            \"pattern\": \"^([-a-z0-9._/])+$\",\n
+        \           \"context\": \"This is ideally a url-usable and human-readable
+        name. Name `SHOULD` be invariant, meaning it `SHOULD NOT` change when its
+        parent descriptor is updated.\",\n            \"examples\": [\n              \"{\\n
+        \ \\\"name\\\": \\\"my-nice-name\\\"\\n}\\n\"\n            ]\n          },\n
+        \         \"path\": {\n            \"propertyOrder\": 30,\n            \"title\":
+        \"Path\",\n            \"description\": \"A reference to the data for this
+        resource, as either a path as a string, or an array of paths as strings. of
+        valid URIs.\",\n            \"oneOf\": [\n              {\n                \"title\":
+        \"Path\",\n                \"description\": \"A fully qualified URL, or a
+        POSIX file path.\",\n                \"type\": \"string\",\n                \"pattern\":
+        \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n                \"examples\": [\n
+        \                 \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n                  \"{\\n
+        \ \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n                ],\n
+        \               \"context\": \"Implementations need to negotiate the type
+        of path provided, and dereference the data accordingly.\"\n              },\n
+        \             {\n                \"type\": \"array\",\n                \"minItems\":
+        1,\n                \"items\": {\n                  \"title\": \"Path\",\n
+        \                 \"description\": \"A fully qualified URL, or a POSIX file
+        path.\",\n                  \"type\": \"string\",\n                  \"pattern\":
+        \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n                  \"examples\":
+        [\n                    \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n
+        \                   \"{\\n  \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n
+        \                 ],\n                  \"context\": \"Implementations need
+        to negotiate the type of path provided, and dereference the data accordingly.\"\n
+        \               },\n                \"examples\": [\n                  \"[
+        \\\"file.csv\\\" ]\\n\",\n                  \"[ \\\"http://example.com/file.csv\\\"
+        ]\\n\"\n                ]\n              }\n            ],\n            \"context\":
+        \"The dereferenced value of each referenced data source in `path` `MUST` be
+        commensurate with a native, dereferenced representation of the data the resource
+        describes. For example, in a *Tabular* Data Resource, this means that the
+        dereferenced value of `path` `MUST` be an array.\",\n            \"examples\":
+        [\n              \"{\\n  \\\"path\\\": [\\n    \\\"file.csv\\\",\\n    \\\"file2.csv\\\"\\n
+        \ ]\\n}\\n\",\n              \"{\\n  \\\"path\\\": [\\n    \\\"http://example.com/file.csv\\\",\\n
+        \   \\\"http://example.com/file2.csv\\\"\\n  ]\\n}\\n\",\n              \"{\\n
+        \ \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n            ]\n
+        \         },\n          \"data\": {\n            \"propertyOrder\": 230,\n
+        \           \"title\": \"Data\",\n            \"description\": \"Inline data
+        for this resource.\"\n          },\n          \"schema\": {\n            \"propertyOrder\":
+        40,\n            \"title\": \"Schema\",\n            \"description\": \"A
+        schema for this resource.\",\n            \"type\": [\n              \"string\",\n
+        \             \"object\"\n            ]\n          },\n          \"title\":
+        {\n            \"title\": \"Title\",\n            \"description\": \"A human-readable
+        title.\",\n            \"type\": \"string\",\n            \"examples\": [\n
+        \             \"{\\n  \\\"title\\\": \\\"My Package Title\\\"\\n}\\n\"\n            ],\n
+        \           \"propertyOrder\": 50\n          },\n          \"description\":
+        {\n            \"propertyOrder\": 60,\n            \"format\": \"textarea\",\n
+        \           \"title\": \"Description\",\n            \"description\": \"A
+        text description. Markdown is encouraged.\",\n            \"type\": \"string\",\n
+        \           \"examples\": [\n              \"{\\n  \\\"description\\\": \\\"#
+        My Package description\\\\nAll about my package.\\\"\\n}\\n\"\n            ]\n
+        \         },\n          \"homepage\": {\n            \"propertyOrder\": 70,\n
+        \           \"title\": \"Home Page\",\n            \"description\": \"The
+        home on the web that is related to this data package.\",\n            \"type\":
+        \"string\",\n            \"format\": \"uri\",\n            \"examples\": [\n
+        \             \"{\\n  \\\"homepage\\\": \\\"http://example.com/\\\"\\n}\\n\"\n
+        \           ]\n          },\n          \"sources\": {\n            \"propertyOrder\":
+        140,\n            \"options\": {\n              \"hidden\": true\n            },\n
+        \           \"title\": \"Sources\",\n            \"description\": \"The raw
+        sources for this resource.\",\n            \"type\": \"array\",\n            \"minItems\":
+        0,\n            \"items\": {\n              \"title\": \"Source\",\n              \"description\":
+        \"A source file.\",\n              \"type\": \"object\",\n              \"required\":
+        [\n                \"title\"\n              ],\n              \"properties\":
+        {\n                \"title\": {\n                  \"title\": \"Title\",\n
+        \                 \"description\": \"A human-readable title.\",\n                  \"type\":
+        \"string\",\n                  \"examples\": [\n                    \"{\\n
+        \ \\\"title\\\": \\\"My Package Title\\\"\\n}\\n\"\n                  ]\n
+        \               },\n                \"path\": {\n                  \"title\":
+        \"Path\",\n                  \"description\": \"A fully qualified URL, or
+        a POSIX file path.\",\n                  \"type\": \"string\",\n                  \"pattern\":
+        \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n                  \"examples\":
+        [\n                    \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n
+        \                   \"{\\n  \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n
+        \                 ],\n                  \"context\": \"Implementations need
+        to negotiate the type of path provided, and dereference the data accordingly.\"\n
+        \               },\n                \"email\": {\n                  \"title\":
+        \"Email\",\n                  \"description\": \"An email address.\",\n                  \"type\":
+        \"string\",\n                  \"format\": \"email\",\n                  \"examples\":
+        [\n                    \"{\\n  \\\"email\\\": \\\"example@example.com\\\"\\n}\\n\"\n
+        \                 ]\n                }\n              }\n            },\n
+        \           \"examples\": [\n              \"{\\n  \\\"sources\\\": [\\n    {\\n
+        \     \\\"title\\\": \\\"World Bank and OECD\\\",\\n      \\\"path\\\": \\\"http://data.worldbank.org/indicator/NY.GDP.MKTP.CD\\\"\\n
+        \   }\\n  ]\\n}\\n\"\n            ]\n          },\n          \"licenses\":
+        {\n            \"description\": \"The license(s) under which the resource
+        is published.\",\n            \"propertyOrder\": 150,\n            \"options\":
+        {\n              \"hidden\": true\n            },\n            \"title\":
+        \"Licenses\",\n            \"type\": \"array\",\n            \"minItems\":
+        1,\n            \"items\": {\n              \"title\": \"License\",\n              \"description\":
+        \"A license for this descriptor.\",\n              \"type\": \"object\",\n
+        \             \"anyOf\": [\n                {\n                  \"required\":
+        [\n                    \"name\"\n                  ]\n                },\n
+        \               {\n                  \"required\": [\n                    \"path\"\n
+        \                 ]\n                }\n              ],\n              \"properties\":
+        {\n                \"name\": {\n                  \"title\": \"Open Definition
+        license identifier\",\n                  \"description\": \"MUST be an Open
+        Definition license identifier, see http://licenses.opendefinition.org/\",\n
+        \                 \"type\": \"string\",\n                  \"pattern\": \"^([-a-zA-Z0-9._])+$\"\n
+        \               },\n                \"path\": {\n                  \"title\":
+        \"Path\",\n                  \"description\": \"A fully qualified URL, or
+        a POSIX file path.\",\n                  \"type\": \"string\",\n                  \"pattern\":
+        \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n                  \"examples\":
+        [\n                    \"{\\n  \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n
+        \                   \"{\\n  \\\"path\\\": \\\"http://example.com/file.csv\\\"\\n}\\n\"\n
+        \                 ],\n                  \"context\": \"Implementations need
+        to negotiate the type of path provided, and dereference the data accordingly.\"\n
+        \               },\n                \"title\": {\n                  \"title\":
+        \"Title\",\n                  \"description\": \"A human-readable title.\",\n
+        \                 \"type\": \"string\",\n                  \"examples\": [\n
+        \                   \"{\\n  \\\"title\\\": \\\"My Package Title\\\"\\n}\\n\"\n
+        \                 ]\n                }\n              },\n              \"context\":
+        \"Use of this property does not imply that the person was the original creator
+        of, or a contributor to, the data in the descriptor, but refers to the composition
+        of the descriptor itself.\"\n            },\n            \"context\": \"This
+        property is not legally binding and does not guarantee that the package is
+        licensed under the terms defined herein.\",\n            \"examples\": [\n
+        \             \"{\\n  \\\"licenses\\\": [\\n    {\\n      \\\"name\\\": \\\"odc-pddl-1.0\\\",\\n
+        \     \\\"path\\\": \\\"http://opendatacommons.org/licenses/pddl/\\\",\\n
+        \     \\\"title\\\": \\\"Open Data Commons Public Domain Dedication and License
+        v1.0\\\"\\n    }\\n  ]\\n}\\n\"\n            ]\n          },\n          \"format\":
+        {\n            \"propertyOrder\": 80,\n            \"title\": \"Format\",\n
+        \           \"description\": \"The file format of this resource.\",\n            \"context\":
+        \"`csv`, `xls`, `json` are examples of common formats.\",\n            \"type\":
+        \"string\",\n            \"examples\": [\n              \"{\\n  \\\"format\\\":
+        \\\"xls\\\"\\n}\\n\"\n            ]\n          },\n          \"mediatype\":
+        {\n            \"propertyOrder\": 90,\n            \"title\": \"Media Type\",\n
+        \           \"description\": \"The media type of this resource. Can be any
+        valid media type listed with [IANA](https://www.iana.org/assignments/media-types/media-types.xhtml).\",\n
+        \           \"type\": \"string\",\n            \"pattern\": \"^(.+)/(.+)$\",\n
+        \           \"examples\": [\n              \"{\\n  \\\"mediatype\\\": \\\"text/csv\\\"\\n}\\n\"\n
+        \           ]\n          },\n          \"encoding\": {\n            \"propertyOrder\":
+        100,\n            \"title\": \"Encoding\",\n            \"description\": \"The
+        file encoding of this resource.\",\n            \"type\": \"string\",\n            \"default\":
+        \"utf-8\",\n            \"examples\": [\n              \"{\\n  \\\"encoding\\\":
+        \\\"utf-8\\\"\\n}\\n\"\n            ]\n          },\n          \"bytes\":
+        {\n            \"propertyOrder\": 110,\n            \"options\": {\n              \"hidden\":
+        true\n            },\n            \"title\": \"Bytes\",\n            \"description\":
+        \"The size of this resource in bytes.\",\n            \"type\": \"integer\",\n
+        \           \"examples\": [\n              \"{\\n  \\\"bytes\\\": 2082\\n}\\n\"\n
+        \           ]\n          },\n          \"hash\": {\n            \"propertyOrder\":
+        120,\n            \"options\": {\n              \"hidden\": true\n            },\n
+        \           \"title\": \"Hash\",\n            \"type\": \"string\",\n            \"description\":
+        \"The MD5 hash of this resource. Indicate other hashing algorithms with the
+        {algorithm}:{hash} format.\",\n            \"pattern\": \"^([^:]+:[a-fA-F0-9]+|[a-fA-F0-9]{32}|)$\",\n
+        \           \"examples\": [\n              \"{\\n  \\\"hash\\\": \\\"d25c9c77f588f5dc32059d2da1136c02\\\"\\n}\\n\",\n
+        \             \"{\\n  \\\"hash\\\": \\\"SHA256:5262f12512590031bbcc9a430452bfd75c2791ad6771320bb4b5728bfb78c4d0\\\"\\n}\\n\"\n
+        \           ]\n          }\n        }\n      },\n      \"examples\": [\n        \"{\\n
+        \ \\\"resources\\\": [\\n    {\\n      \\\"name\\\": \\\"my-data\\\",\\n      \\\"data\\\":
+        [\\n        \\\"data.csv\\\"\\n      ],\\n      \\\"mediatype\\\": \\\"text/csv\\\"\\n
+        \   }\\n  ]\\n}\\n\"\n      ]\n    },\n    \"sources\": {\n      \"propertyOrder\":
+        200,\n      \"options\": {\n        \"hidden\": true\n      },\n      \"title\":
+        \"Sources\",\n      \"description\": \"The raw sources for this resource.\",\n
+        \     \"type\": \"array\",\n      \"minItems\": 0,\n      \"items\": {\n        \"title\":
+        \"Source\",\n        \"description\": \"A source file.\",\n        \"type\":
+        \"object\",\n        \"required\": [\n          \"title\"\n        ],\n        \"properties\":
+        {\n          \"title\": {\n            \"title\": \"Title\",\n            \"description\":
+        \"A human-readable title.\",\n            \"type\": \"string\",\n            \"examples\":
+        [\n              \"{\\n  \\\"title\\\": \\\"My Package Title\\\"\\n}\\n\"\n
+        \           ]\n          },\n          \"path\": {\n            \"title\":
+        \"Path\",\n            \"description\": \"A fully qualified URL, or a POSIX
+        file path.\",\n            \"type\": \"string\",\n            \"pattern\":
+        \"^(?=^[^./~])(^((?!\\\\.{2}).)*$).*$\",\n            \"examples\": [\n              \"{\\n
+        \ \\\"path\\\": \\\"file.csv\\\"\\n}\\n\",\n              \"{\\n  \\\"path\\\":
+        \\\"http://example.com/file.csv\\\"\\n}\\n\"\n            ],\n            \"context\":
+        \"Implementations need to negotiate the type of path provided, and dereference
+        the data accordingly.\"\n          },\n          \"email\": {\n            \"title\":
+        \"Email\",\n            \"description\": \"An email address.\",\n            \"type\":
+        \"string\",\n            \"format\": \"email\",\n            \"examples\":
+        [\n              \"{\\n  \\\"email\\\": \\\"example@example.com\\\"\\n}\\n\"\n
+        \           ]\n          }\n        }\n      },\n      \"examples\": [\n        \"{\\n
+        \ \\\"sources\\\": [\\n    {\\n      \\\"title\\\": \\\"World Bank and OECD\\\",\\n
+        \     \\\"path\\\": \\\"http://data.worldbank.org/indicator/NY.GDP.MKTP.CD\\\"\\n
+        \   }\\n  ]\\n}\\n\"\n      ]\n    }\n  }\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Age:
+      - '0'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 84a80f4a3e84314a-MAD
+      Cache-Control:
+      - max-age=600
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '3886'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 24 Jan 2024 11:50:36 GMT
+      ETag:
+      - W/"65685295-5828"
+      Last-Modified:
+      - Thu, 30 Nov 2023 09:15:01 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=gWX%2BmeqUnlCu8E7RroUPRFCi1ahbTap5rtbhlQM%2Fh%2FDz8Qxj%2B8AuH4nD9Zq8%2BcfesOu2Xm8yOc2c8C0KPg5nFItqdg5X61c7%2BfIKIm6C5FuUCcuyj%2FK%2FxOUuiykc%2BZx%2BL38w91kEUDYAsT8h"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Vary:
+      - Accept-Encoding
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Fastly-Request-ID:
+      - aa0eefe65bafbe85bcee6a91091dae238739b937
+      X-GitHub-Request-Id:
+      - CE34:39FA1D:962984:9AC3BE:65B0F962
+      X-Served-By:
+      - cache-mad2200134-MAD
+      X-Timer:
+      - S1706097036.885636,VS0,VE598
+      alt-svc:
+      - h3=":443"; ma=86400
+      expires:
+      - Wed, 24 Jan 2024 11:59:55 GMT
+      x-proxy-cache:
+      - MISS
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,0 +1,190 @@
+"""
+Snakemake file for open-gira.
+
+Snakemake is a workflow organiser. Snakemake is given a list of desired output files
+(see rule all below), and if those files don't exist (or aren't up to date), for each
+of those files it looks for a rule that can be used to generate it. The process is
+then repeated for that rule -- if the files required to build _these files_ don't exist,
+look for a rule that will produce them -- and so on.
+
+The Snakemake workflow is covered in detail in the documentation.
+"""
+
+import math
+import os.path
+from glob import glob
+
+import numpy as np
+import requests
+
+from open_gira.assets import Assets
+
+
+configfile: "config/config.yaml"
+
+# Check configfile
+if any(["/" in h for h in config['hazard_datasets'].keys()]):
+    raise ValueError("""Error in config: Hazard dataset names cannot contain / or _""")
+if any(["/" in h for h in config['network_filters'].keys()]):
+    raise ValueError("""Error in config: Network filter names cannot contain / or _""")
+if any(["/" in h for h in config['infrastructure_datasets'].keys()]):
+    raise ValueError("""Error in config: Infrastructure dataset names cannot contain / or _""")
+
+# Number of slices to cut dataset into -- must be a square number
+if not isinstance(config['slice_count'], int) or \
+        (math.sqrt(config['slice_count']) % 1 > 0 and config['slice_count'] != 1):
+    raise ValueError("""Error in config: slice_count must be an integer, either a square number or 1""")
+
+for network, file_path in config['network_filters'].items():
+    if not os.path.exists(file_path):
+        raise FileNotFoundError((
+            "Error in config: could not locate network_filter at "
+            f"{os.path.join(os.getcwd(), file_path)}"
+        ))
+
+if len(config["hazard_datasets"].keys()) != len(config["hazard_types"].keys()):
+    raise ValueError(f"{config['hazard_datasets']=} not the same length as {config['hazard_types']=}")
+
+permitted_hazard_types = {"flood", "landslide"}
+configured_hazard_types = set(config["hazard_types"].values())
+if not configured_hazard_types.issubset(permitted_hazard_types):
+    raise ValueError(f"unsupported hazard types: {permitted_hazard_types - configured_hazard_types}")
+
+# check requested direct damage asset types
+requested_asset_damage_types = set(config['direct_damages']['asset_types'])
+if len(requested_asset_damage_types) == 0:
+    # if we were passed an empty list, mutate the config to use all available
+    # asset types for direct damage calculation
+    config['direct_damages']['asset_types'] = Assets.implemented_assets()
+else:
+    # if we have a non-empty list, check the request against what's implemented
+    # will raise ValueError in case of mismatch
+    Assets.valid_selection(requested_asset_damage_types)
+
+# check tropical cyclone / grid workflow return period array is valid
+TC_RPs = np.array(config["return_period_years"])
+if not np.all(np.diff(TC_RPs) > 0):
+    raise ValueError("config.return_period_years should be monotonically increasing")
+if not np.all(TC_RPs > 0):
+    raise ValueError("config.return_period_years values must be strictly positive")
+
+# check transmission wind speed damage thresholds
+if not config["best_estimate_windspeed_failure_threshold"] in config["transmission_windspeed_failure"]:
+    raise ValueError(
+        "config.transmissions_windspeed_failure must contain config.best_estimate_windspeed_failure_threshold"
+    )
+
+wildcard_constraints:
+    ADMIN_SLUG="admin-level-[0-4]",
+    AGG_FUNC_SLUG="agg-sum",
+    CHAZ_MODEL="GCM-CESM2|GCM-CNRM-CM6-1|GCM-EC-Earth3|GCM-IPSL-CM6A-LR|GCM-MIROC6|GCM-UKESM1-0-LL",
+    CHAZ_SCENARIO = r"CHAZ_SSP-[0-9]+_GCM-[^\/]+_epoch-[0-9]+",
+    CHUNK_SLUG=r"chunk-[\d]+",
+    COST_OR_FRACTION="cost|fraction",
+    DATASET="[^_/]+",
+    DIRECT_DAMAGE_TYPES="fraction_per_RP|cost_per_RP|EAD|EAD_and_cost_per_RP|EAD_and_cost_per_trigger",
+    EMANUEL_SCENARIO = r"emanuel_ssp-[0-9]+_gcm-[^\/]+_epoch-[0-9]+",
+    EVENTS_OR_RASTERS="events|wind_speed_raster|RP_raster",
+    FILTER_SLUG="filter-[^_/]+",
+    FILENAME="[^/]+",
+    HAZARD_SLUG="hazard-[^_/]+|nbs-[^_/]+",
+    IRIS_SCENARIO="PRESENT|SSP1-2050|SSP2-2050|SSP5-2050",
+    # The output dir must end in 'results'
+    # e.g. '/data/open-gira/results', './results', '/my-results', etc.
+    # This prevents us matching past it into other folders for an incorrect OUTPUT_DIR,
+    # but is more flexible than reading a value from, for example, config.yaml
+    OUTPUT_DIR="^.*results",
+    PROJECT_SLUG="project-[^_/]+",
+    SLICE_SLUG="slice-[0-9]+",
+    STORM_BASIN="EP|NA|NI|SI|SP|WP",
+    STORM_MODEL="constant|CMCC-CM2-VHR4|CNRM-CM6-1-HR|EC-Earth3P-HR|HadGEM3-GC31-HM",
+    STORM_MODEL_FUTURE="CMCC-CM2-VHR4|CNRM-CM6-1-HR|EC-Earth3P-HR|HadGEM3-GC31-HM",
+    STORM_RP="[0-9]+",
+    STORM_SET=r"(?:IBTrACS|STORM|IRIS|CHAZ|emanuel)[^/]*",
+    SAMPLE=r"\d+",
+    # May be upper or lower, one 'f' or two
+    TIFF_FILE=r"[^\/\.\s]+\.[tT][iI][fF][fF]?",
+
+# How many samples to run for each trackset?
+SAMPLES_PER_TRACKSET = {
+    "IBTrACS": 1,  # Maximum 1
+    "STORM": 1,  # Maximum 10
+    "IRIS": 1,  # Maximum 10
+    "CHAZ": 1,  # Some scenarios have more, but 5 is the minimum
+    "emanuel": 1,  # Maximum 1
+}
+
+def storm_set_family(storm_set: str) -> str:
+    return storm_set.split("_")[0]
+
+##### load rules #####
+include: "context/coastlines.smk"
+include: "context/gadm.smk"
+include: "context/natural-earth.smk"
+
+include: "buildings/worldbank-cwon.smk"
+include: "buildings/penn-world-tables.smk"
+include: "buildings/imf-investment-capital-stock.smk"
+include: "buildings/ghsl-built.smk"
+include: "buildings/giri-bem.smk"
+include: "buildings/disaggregate_bem.smk"
+
+include: "nature-ecosystems/land-cover.smk"
+include: "nature-ecosystems/hydrobasins.smk"
+include: "nature-ecosystems/nbs-suitability.smk"
+include: "nature-ecosystems/combine.smk"
+
+include: "population-economy/dryad-gdp.smk"
+include: "population-economy/ghsl-pop.smk"
+
+include: "power/gridfinder.smk"
+include: "power/wri-powerplants.smk"
+include: "power/gridfinder-targets.smk"
+include: "power/create_network.smk"
+
+include: "transport/openstreetmap.smk"
+include: "transport/create_bbox_extracts.smk"
+include: "transport/slice.smk"
+include: "transport/join_network.smk"
+include: "transport/create_network.smk"
+include: "transport/osm_to_geoparquet.smk"
+include: "transport/create_overall_bbox.smk"
+include: "transport/join_data.smk"
+include: "transport/maritime/maritime.smk"
+include: "transport/multi-modal/multi_modal.smk"
+include: "transport/flow_allocation/allocate.smk"
+
+include: "flood/aqueduct.smk"
+include: "flood/coastal_deltares.smk"
+include: "flood/river_jrc.smk"
+include: "flood/trim_hazard_data.smk"
+
+include: "landslide/landslide_arup.smk"
+
+include: "tropical-cyclone/CHAZ.smk"
+include: "tropical-cyclone/IBTrACS.smk"
+include: "tropical-cyclone/IRIS.smk"
+include: "tropical-cyclone/emanuel.smk"
+include: "tropical-cyclone/STORM.smk"
+include: "tropical-cyclone/join_tracks.smk"
+include: "tropical-cyclone/wind_fields/wind_fields.smk"
+
+include: "transport-flood/network_raster_intersection.smk"
+include: "transport-flood/flood_damages.smk"
+include: "transport-flood/aggregate_to_admin_area.smk"
+
+include: "transport-landslide/damages.smk"
+
+include: "power-flood/network_raster_intersection.smk"
+
+include: "power-tc/network_raster_intersection.smk"
+include: "power-tc/intersection.smk"
+include: "power-tc/exposure.smk"
+include: "power-tc/disruption.smk"
+include: "power-tc/network_components.smk"
+include: "power-tc/map/storm_tracks.smk"
+include: "power-tc/map/outages.smk"
+include: "power-tc/map/wind_fields.smk"
+include: "power-tc/map/target_disruption.smk"
+include: "power-tc/map/customers_affected_by_storm.smk"
+include: "power-tc/cyclone-grid.smk"

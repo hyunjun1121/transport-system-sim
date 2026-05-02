@@ -1,0 +1,651 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk2.headless.csv
+  response:
+    body:
+      string: "2,\u4E2D\u56FD\u4EBA\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '33'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:53 GMT
+      ETag:
+      - W/"105334a6edab5d2148569768a2ec672f25a2bc61384cad431ca782859600d70f"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:53 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 1cd4ca93e0461b93c874e4a59c601a9d4bcc365f
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F14C:214C6F:84203C:8A0606:65B0FB40
+      X-Served-By:
+      - cache-lis1490042-LIS
+      X-Timer:
+      - S1706097474.694668,VS0,VE228
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk2.headless.csv
+  response:
+    body:
+      string: "2,\u4E2D\u56FD\u4EBA\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '33'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:54 GMT
+      ETag:
+      - W/"105334a6edab5d2148569768a2ec672f25a2bc61384cad431ca782859600d70f"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:54 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 3fc8d7329ad1d529f29843d785247e2eea2cdbe5
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F14C:214C6F:84203C:8A0606:65B0FB40
+      X-Served-By:
+      - cache-lis1490040-LIS
+      X-Timer:
+      - S1706097474.192175,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk3.csv
+  response:
+    body:
+      string: '3,german
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '29'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:54 GMT
+      ETag:
+      - W/"f8a3d72050aae7c5eaabadd34b627de263b8b4c18e991ae4c3c26253dbb3bb65"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:54 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 392b633fac7a7042b2e4bb158ad7cb71b6704520
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F240:2C5B2C:86321A:8C1DCE:65B0FB42
+      X-Served-By:
+      - cache-lis1490021-LIS
+      X-Timer:
+      - S1706097474.463741,VS0,VE222
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk3.csv
+  response:
+    body:
+      string: '3,german
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '29'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:54 GMT
+      ETag:
+      - W/"f8a3d72050aae7c5eaabadd34b627de263b8b4c18e991ae4c3c26253dbb3bb65"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:54 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 7fae2af38da3d0e02f6c5cb4ba9ac86f13a1743a
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F240:2C5B2C:86321A:8C1DCE:65B0FB42
+      X-Served-By:
+      - cache-lis1490028-LIS
+      X-Timer:
+      - S1706097475.981180,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk2.headless.csv
+  response:
+    body:
+      string: "2,\u4E2D\u56FD\u4EBA\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '33'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:55 GMT
+      ETag:
+      - W/"105334a6edab5d2148569768a2ec672f25a2bc61384cad431ca782859600d70f"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:55 GMT
+      Source-Age:
+      - '1'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 81d1038a103a9e7cadde8c69a282f1e25e04ac54
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F14C:214C6F:84203C:8A0606:65B0FB40
+      X-Served-By:
+      - cache-lis1490051-LIS
+      X-Timer:
+      - S1706097475.242413,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk2.headless.csv
+  response:
+    body:
+      string: "2,\u4E2D\u56FD\u4EBA\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '33'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:55 GMT
+      ETag:
+      - W/"105334a6edab5d2148569768a2ec672f25a2bc61384cad431ca782859600d70f"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:55 GMT
+      Source-Age:
+      - '1'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '2'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 906ca3efaf1a40a000d72e562617e6642e6ea6a0
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F14C:214C6F:84203C:8A0606:65B0FB40
+      X-Served-By:
+      - cache-lis1490040-LIS
+      X-Timer:
+      - S1706097476.503996,VS0,VE0
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk3.csv
+  response:
+    body:
+      string: '3,german
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '29'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:55 GMT
+      ETag:
+      - W/"f8a3d72050aae7c5eaabadd34b627de263b8b4c18e991ae4c3c26253dbb3bb65"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:55 GMT
+      Source-Age:
+      - '1'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - f0be3394a530a51cfdb2fa6915541771ee51a038
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F240:2C5B2C:86321A:8C1DCE:65B0FB42
+      X-Served-By:
+      - cache-lis1490032-LIS
+      X-Timer:
+      - S1706097476.772544,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/chunk3.csv
+  response:
+    body:
+      string: '3,german
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '29'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:56 GMT
+      ETag:
+      - W/"f8a3d72050aae7c5eaabadd34b627de263b8b4c18e991ae4c3c26253dbb3bb65"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:56 GMT
+      Source-Age:
+      - '1'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 45c763dc64139e9560cd8addd916c09d0402713f
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - F240:2C5B2C:86321A:8C1DCE:65B0FB42
+      X-Served-By:
+      - cache-lis1490055-LIS
+      X-Timer:
+      - S1706097476.041658,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/frictionless-py/master/data/schema.json
+  response:
+    body:
+      string: "{\n    \"fields\": [\n        {\n            \"name\": \"id\",\n            \"type\":
+        \"integer\"\n        },\n        {\n            \"name\": \"name\",\n            \"type\":
+        \"string\"\n        }\n    ]\n}\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '92'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:57:56 GMT
+      ETag:
+      - W/"dc46a8e33aaac98524ccf0ac9691a1fa1f0557925dfa873723d9164df436f640"
+      Expires:
+      - Wed, 24 Jan 2024 12:02:56 GMT
+      Source-Age:
+      - '233'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 90bc35c52b4b80cce1d275f681886ffe695a2ad7
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 1B0E:571A8:831858:88FE4C:65B0FA5A
+      X-Served-By:
+      - cache-lis1490029-LIS
+      X-Timer:
+      - S1706097476.291679,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

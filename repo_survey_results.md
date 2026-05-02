@@ -37,9 +37,10 @@ External-data and calibration work remains open. This survey does not imply
 that OSM/GTFS calibration, real Seoul network replacement, empirical traffic
 calibration, or empirical disruption-probability calibration has been completed.
 
-As of the latest context update, public reference repositories have been cloned
-locally under ignored `cloned_repo/` for study only. They are not vendored
-dependencies and are not yet integrated into the production simulator.
+As of the latest context update, public reference repositories have been added
+under `cloned_repo/` with nested `.git` metadata removed. They are source
+snapshots for study only and are not yet integrated into the production
+simulator.
 
 ## Survey Takeaways
 

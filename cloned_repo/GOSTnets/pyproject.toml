@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=64.0", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "GOSTnets"
+dynamic = ["version", "dependencies", "optional-dependencies"]
+description = "Network wrapper to simplify network analysis using geospatial data"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE.md" }
+authors = [{ name = "World Bank", email = "github@worldbank.org" }]
+maintainers = [
+	{ name = "Benjamin P. Stewart", email = "bstewart@worldbankgroup.org" },
+	{ name = "Andres Chamorro", email = "achamorroelizond@worldbank.org" },
+]
+classifiers = [
+	"Programming Language :: Python :: 3 :: Only",
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Developers",
+	"Operating System :: OS Independent",
+]
+requires-python = ">=3.8"
+
+[project.urls]
+"Homepage" = "https://github.com/worldbank/GOSTnets"
+"Bug Reports" = "https://github.com/worldbank/GOSTnets/issues"
+"Source" = "https://github.com/worldbank/GOSTnets"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = ["requirements-dev.txt"] }
+tutorials = { file = ["requirements-tutorial.txt"] }
+
+[tool.setuptools_scm]
+
+[tool.codespell]
+skip = 'docs/_build,docs/references.bib,__pycache__,*.png,*.gz,*.whl'
+ignore-regex = '^\s*"image\/png":\s.*'
+ignore-words-list = "gost,nd,ans,chck,lenth"
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
+
+[tool.ruff]
+exclude = ["__init__.py"]
+
+[tool.coverage.run]
+omit = [
+	"tests/*",
+	"docs/*",
+	"Tutorials/*",
+	"src/GOSTnets/__init__.py",
+]

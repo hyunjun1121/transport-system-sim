@@ -1,0 +1,51 @@
+name: Web client CI
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'web/client/**'
+      - '.github/workflows/web_client_pr.yml'
+
+env:
+  NODE_VERSION: "20"
+  java_version: '17'
+  java_distribution: 'zulu'
+
+jobs:
+
+  web_ci:
+    name: Build web client
+    runs-on: ubuntu-latest
+
+    env:
+      ENV_NAME              : prd
+      CLOUDSDK_CORE_PROJECT : web-based-gtfs-validator
+
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          # We need to download all tags so that the axion-release-plugin
+          # can resolve the most recent version tag.
+          fetch-depth: 0
+
+      - name: Set up JDK ${{ env.java_version }}-${{ env.java_distribution }}
+        uses: actions/setup-java@v4
+        with:
+          # We need a recent version of Java with jpackage included.
+          java-version: ${{ env.java_version }}
+          # We use the zulu distribution, which is an OpenJDK distro.
+          distribution: ${{ env.java_distribution }}
+
+      # for npm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: run gradle tasks
+        shell: bash
+        run: |
+          ENV_FILE=web/pipeline/${ENV_NAME}.env source web/pipeline/env-file.sh
+          ./gradlew ':web:client:webTest' ':web:client:webBuild'

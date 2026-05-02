@@ -1,0 +1,38 @@
+# Notebooks
+.ipynb_checkpoints
+
+# Python
+.eggs
+.pytest_cache
+__pycache__
+*.egg-info
+.coverage
+venv
+dist
+
+# Editor
+.vscode
+
+# Data
+data
+*.asc
+tests/integration/*.parquet
+tests/integration/tmp.geojson
+
+# cpp
+*.out
+*.o
+*.so
+build/*
+_skbuild
+CMakeCache.txt
+CMakeFiles/*
+
+# Docs
+docs/build
+docs/source/tutorials
+.DS_Store
+
+# WIP
+extension-rust
+tmp.*

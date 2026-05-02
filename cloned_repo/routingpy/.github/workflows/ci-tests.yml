@@ -1,0 +1,94 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.gitignore'
+      - '**.md'
+      - '**.rst'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '.gitignore'
+      - '**.md'
+      - '**.rst'
+        
+# Cancel CI runs on a branch when new commits were pushed
+# See https://stackoverflow.com/a/72408109/2582935
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_version: [
+            '3.9',
+            '3.10',
+            '3.11',
+            '3.12',
+            '3.13',
+            '3.14',
+            'pypy3.9',
+            'pypy3.10',
+        ]
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python_version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python_version }}
+        cache: pip
+
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/pre-commit
+        key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        poetry --version
+
+    - name: Install dependencies
+      run: |
+        poetry install --with dev
+
+    - name: Style & lint checks
+      run: |
+        poetry run pre-commit run --all-files --color=always
+
+    - name: pytest and coverage
+      run: |
+        poetry run coverage run --source=routingpy --module pytest
+        poetry run coverage lcov --include "routingpy/*"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload coverage artifact
+      if: matrix.python_version == '3.12'
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-lcov
+        path: coverage.lcov
+
+  coveralls:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-lcov
+      - name: Send coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage.lcov

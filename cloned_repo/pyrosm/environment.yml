@@ -1,0 +1,17 @@
+name: test
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python
+  - geopandas
+  - descartes
+  - matplotlib
+  - mapclassify
+  - scikit-learn
+  - python-igraph
+  - networkx
+  - pandana
+  - pyrosm
+  - osmnx

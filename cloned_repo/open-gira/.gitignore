@@ -1,0 +1,67 @@
+# Python
+**/.ipynb_checkpoints
+*.pyc
+*.egg-info
+__pycache__/*
+venv/*
+src/snkit
+build
+
+# Data
+data/*
+results/*
+notebooks/**/*.cpg
+notebooks/**/*.csv
+notebooks/**/*.dbf
+notebooks/**/*.geojson
+notebooks/**/*.gpkg
+notebooks/**/*.html
+notebooks/**/*.png
+notebooks/**/*.prj
+notebooks/**/*.qgz
+notebooks/**/*.shp
+notebooks/**/*.shx
+notebooks/**/*.tif
+notebooks/**/*.txt
+notebooks/**/*.xml
+notebooks/**/*.zip
+*.bak
+*.zarr
+
+soge-sync
+push
+pull
+SCRATCH
+
+# snakemake
+.snakemake/
+*.snakemake_timestamp
+
+# Logs
+*.out
+
+# Tester files
+tester/*
+
+# IDE
+.idea
+*.swp
+.vscode
+
+# Rendered documentation
+docs/book/
+
+# Cluster
+slurm
+
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+# Jobs
+jobs/log
+jobs/plugin
+# Dynamically generated job submission scripts
+jobs/tc-grid/1-core-large.sh
+jobs/tc-grid/1-core-medium.sh
+jobs/tc-grid/1-core-small.sh

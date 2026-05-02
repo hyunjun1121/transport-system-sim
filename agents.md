@@ -74,15 +74,16 @@ tests/
   test_analysis.py         # CI and summary tests
   test_scenario.py         # End-to-end scenario regression tests
 results/                   # Generated CSV outputs and PNG plots
-cloned_repo/               # Ignored local shallow clones of public reference repos
+cloned_repo/               # Public repo source snapshots for reference
 ```
 
 `refs/` may be used for local reference clones if needed; keep it out of active
 implementation and generated-output changes.
 
-`cloned_repo/` is also a local reference cache and is ignored by git. Do not
-vendor code from cloned public repositories into this project. Extract design
-patterns and implement project-owned code in `src/` instead.
+`cloned_repo/` contains source snapshots of public repositories with nested
+`.git` metadata removed. Do not directly wire these snapshots into production
+simulation imports. Extract design patterns and implement project-owned code in
+`src/` instead.
 
 ## Windows Setup
 

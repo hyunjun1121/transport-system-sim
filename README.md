@@ -100,7 +100,7 @@ src/
 tests/                     # Direct-execution regression and unit tests
 results/                   # Generated CSV and PNG experiment outputs
 paper/                     # English paper/manuscript scaffold
-cloned_repo/               # Ignored local public repo reference clones
+cloned_repo/               # Public repo source snapshots for reference
 ```
 
 ## Research And Planning Documents
@@ -119,8 +119,9 @@ The current research context is distributed across these Markdown files:
 | `cloned_repo_manifest.md` | Manifest of local shallow clones in ignored `cloned_repo/` |
 | `paper/paper_draft.md` | English manuscript scaffold for a journal-style paper |
 
-`cloned_repo/` is intentionally ignored by git. It contains local reference
-clones only, not vendored dependencies.
+`cloned_repo/` contains public repository source snapshots with nested `.git`
+metadata removed. These snapshots are references for studying implementation
+patterns, not production modules imported by the simulator.
 
 ## Config Semantics
 

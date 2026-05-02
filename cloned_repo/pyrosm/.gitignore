@@ -1,0 +1,11 @@
+.idea
+pyrobuf
+*.pyd
+*.c
+*.html
+build
+dist
+temp
+pyrosm.egg-info
+.coverage
+.pytest_cache

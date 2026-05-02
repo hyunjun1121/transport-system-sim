@@ -1,0 +1,105 @@
+package org.mobilitydata.gtfsvalidator.validator;
+
+import static org.mobilitydata.gtfsvalidator.notice.SeverityLevel.ERROR;
+
+import com.google.common.collect.Multimaps;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.inject.Inject;
+import org.mobilitydata.gtfsvalidator.annotation.GtfsValidationNotice;
+import org.mobilitydata.gtfsvalidator.annotation.GtfsValidationNotice.FileRefs;
+import org.mobilitydata.gtfsvalidator.annotation.GtfsValidator;
+import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.notice.ValidationNotice;
+import org.mobilitydata.gtfsvalidator.table.GtfsFrequency;
+import org.mobilitydata.gtfsvalidator.table.GtfsFrequencySchema;
+import org.mobilitydata.gtfsvalidator.table.GtfsFrequencyTableContainer;
+import org.mobilitydata.gtfsvalidator.type.GtfsTime;
+
+/**
+ * Validates that <i>frequencies.txt</i> entries referring to the same trip do not overlap.
+ *
+ * <p>Two entries X and Y are considered to directly overlap if <i>X.start_time &lt;=
+ * Y.start_time</i> and <i>Y.start_time &lt; X.end_time</i>.
+ *
+ * <p>Time complexity: <i>O(n log n)</i> where <i>n</i> is the number of entries in
+ * <i>frequencies.txt</i>.
+ *
+ * <p>Generated notice: {@link OverlappingFrequencyNotice}.
+ */
+@GtfsValidator
+public class OverlappingFrequencyValidator extends FileValidator {
+
+  private final GtfsFrequencyTableContainer table;
+
+  @Inject
+  OverlappingFrequencyValidator(GtfsFrequencyTableContainer table) {
+    this.table = table;
+  }
+
+  @Override
+  public void validate(NoticeContainer noticeContainer) {
+    for (List<GtfsFrequency> unorderedList : Multimaps.asMap(table.byTripIdMap()).values()) {
+      List<GtfsFrequency> frequencyList = new ArrayList<>(unorderedList);
+      Collections.sort(
+          frequencyList,
+          Comparator.comparing(GtfsFrequency::startTime)
+              .thenComparing(GtfsFrequency::endTime)
+              .thenComparing(GtfsFrequency::headwaySecs));
+      for (int i = 1; i < frequencyList.size(); ++i) {
+        GtfsFrequency prev = frequencyList.get(i - 1);
+        GtfsFrequency curr = frequencyList.get(i);
+        if (curr.startTime().isBefore(prev.endTime())) {
+          noticeContainer.addValidationNotice(
+              new OverlappingFrequencyNotice(
+                  prev.csvRowNumber(),
+                  prev.endTime(),
+                  curr.csvRowNumber(),
+                  curr.startTime(),
+                  prev.tripId()));
+        }
+      }
+    }
+  }
+
+  /**
+   * Trip frequencies overlap.
+   *
+   * <p>Trip frequencies must not overlap in time. Two entries X and Y are considered to directly
+   * overlap if X.start_time is less than or equal to Y.start_time and Y.start_time is less than
+   * X.end_time.
+   */
+  @GtfsValidationNotice(severity = ERROR, files = @FileRefs(GtfsFrequencySchema.class))
+  static class OverlappingFrequencyNotice extends ValidationNotice {
+
+    /** The row number of the first frequency. */
+    private final long prevCsvRowNumber;
+
+    /** The first frequency end time. */
+    private final GtfsTime prevEndTime;
+
+    /** The overlapping frequency's row number. */
+    private final long currCsvRowNumber;
+
+    /** The overlapping frequency's start time. */
+    private final GtfsTime currStartTime;
+
+    /** The trip id associated to the first frequency. */
+    private final String tripId;
+
+    OverlappingFrequencyNotice(
+        long prevCsvRowNumber,
+        GtfsTime prevEndTime,
+        long currCsvRowNumber,
+        GtfsTime currStartTime,
+        String tripId) {
+      this.prevCsvRowNumber = prevCsvRowNumber;
+      this.prevEndTime = prevEndTime;
+      this.currCsvRowNumber = currCsvRowNumber;
+      this.currStartTime = currStartTime;
+      this.tripId = tripId;
+    }
+  }
+}

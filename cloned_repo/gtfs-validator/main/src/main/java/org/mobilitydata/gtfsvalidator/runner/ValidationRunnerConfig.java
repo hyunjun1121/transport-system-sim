@@ -1,0 +1,115 @@
+/*
+ * Copyright 2020-2022 Google LLC, MobilityData IO
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.mobilitydata.gtfsvalidator.runner;
+
+import com.google.auto.value.AutoValue;
+import java.net.URI;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Optional;
+import org.mobilitydata.gtfsvalidator.input.CountryCode;
+
+/** Defines execution parameters for {@link ValidationRunner}. */
+@AutoValue
+public abstract class ValidationRunnerConfig {
+  // The GTFS input, as a URI to a local file or an external URL.
+  public abstract URI gtfsSource();
+
+  // The directory where all validation reports will be written.
+  // Optional when using stdout mode.
+  public abstract Optional<Path> outputDirectory();
+
+  // An optional storage directory to be used when downloading a GTFS feed
+  // from an external URL.
+  public abstract Optional<Path> storageDirectory();
+
+  public abstract String validationReportFileName();
+
+  public abstract String htmlReportFileName();
+
+  public Optional<Path> htmlReportPath() {
+    return outputDirectory().map(dir -> dir.resolve(htmlReportFileName()));
+  }
+
+  public abstract String systemErrorsReportFileName();
+
+  public Optional<Path> systemErrorsReportPath() {
+    return outputDirectory().map(dir -> dir.resolve(systemErrorsReportFileName()));
+  }
+
+  // Determines the number of parallel threads of execution used during
+  // validation.
+  public abstract int numThreads();
+
+  // The country code for the country containing the transit service to be
+  // validated.
+  public abstract CountryCode countryCode();
+
+  // The date to use for validation.
+  public abstract LocalDate dateForValidation();
+
+  // If true, any output json will be pretty-printed.
+  public abstract boolean prettyJson();
+
+  // If true, the validator will not check for a new validator version
+  public abstract boolean skipValidatorUpdate();
+
+  // If true, output JSON report to stdout instead of writing to files
+  public abstract boolean stdoutOutput();
+
+  public static Builder builder() {
+    // Set reasonable defaults where appropriate.
+    return new AutoValue_ValidationRunnerConfig.Builder()
+        .setValidationReportFileName("report.json")
+        .setHtmlReportFileName("report.html")
+        .setSystemErrorsReportFileName("system_errors.json")
+        .setNumThreads(1)
+        .setPrettyJson(false)
+        .setCountryCode(CountryCode.forStringOrUnknown(CountryCode.ZZ))
+        .setDateForValidation(LocalDate.now())
+        .setSkipValidatorUpdate(false)
+        .setStdoutOutput(false);
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setGtfsSource(URI gtfsSource);
+
+    public abstract Builder setOutputDirectory(Optional<Path> outputDirectory);
+
+    public abstract Builder setStorageDirectory(Path storageDirectory);
+
+    public abstract Builder setValidationReportFileName(String validationReportFileName);
+
+    public abstract Builder setHtmlReportFileName(String htmlReportFileName);
+
+    public abstract Builder setSystemErrorsReportFileName(String systemErrorsReportFileName);
+
+    public abstract Builder setNumThreads(int numThreads);
+
+    public abstract Builder setCountryCode(CountryCode countryCode);
+
+    public abstract Builder setDateForValidation(LocalDate dateForValidation);
+
+    public abstract Builder setPrettyJson(boolean prettyJson);
+
+    public abstract Builder setSkipValidatorUpdate(boolean skipValidatorUpdate);
+
+    public abstract Builder setStdoutOutput(boolean stdoutOutput);
+
+    public abstract ValidationRunnerConfig build();
+  }
+}

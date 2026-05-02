@@ -246,5 +246,6 @@ Planned extension layers:
 - Result-schema and reproducibility checks using tools such as Frictionless and
   scripted analysis workflows.
 
-The local `cloned_repo/` directory contains ignored shallow clones of public
-repositories for reference. It is not part of the implemented source tree.
+The `cloned_repo/` directory contains public repository source snapshots with
+nested `.git` metadata removed. It is available for implementation reference,
+but it is not part of the simulator's production module tree.

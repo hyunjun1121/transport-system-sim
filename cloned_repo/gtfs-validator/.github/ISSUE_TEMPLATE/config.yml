@@ -1,0 +1,7 @@
+contact_links:
+  - name: Slack channel
+    url: https://share.mobilitydata.org/slack
+    about: Join the gtfs-validators channel to discuss with other community members, and receive updates.
+  - name: Discussions
+    url: https://github.com/MobilityData/gtfs-validator/discussions/new
+    about: Ask questions to other users and developers.

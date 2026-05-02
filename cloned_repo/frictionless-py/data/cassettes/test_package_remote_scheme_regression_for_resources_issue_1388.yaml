@@ -1,0 +1,225 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/fdtester/test-write-package-with-dialect/main/datapackage.json
+  response:
+    body:
+      string: "{\n  \"resources\": [\n    {\n      \"name\": \"countries\",\n      \"type\":
+        \"table\",\n      \"path\": \"countries.csv\",\n      \"scheme\": \"file\",\n
+        \     \"format\": \"csv\",\n      \"encoding\": \"utf-8\",\n      \"mediatype\":
+        \"text/csv\",\n      \"dialect\": {\n        \"csv\": {\n          \"delimiter\":
+        \";\"\n        }\n      },\n      \"schema\": {\n        \"fields\": [\n          {\n
+        \           \"name\": \"id\",\n            \"type\": \"integer\"\n          },\n
+        \         {\n            \"name\": \"neighbor_id\",\n            \"type\":
+        \"string\"\n          },\n          {\n            \"name\": \"name\",\n            \"type\":
+        \"string\"\n          },\n          {\n            \"name\": \"population\",\n
+        \           \"type\": \"string\"\n          }\n        ]\n      }\n    }\n
+        \ ]\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '236'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:31 GMT
+      ETag:
+      - W/"b18decb9765eb64f28f00c0c688e1a63e8bd9bb0f6831b58d169ae553f12d3d8"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:31 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 1bfa0c11b85c15702bd83de80331e09a204ef6af
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 6E50:5707B:8219DF:87F7E6:65B0F90C
+      X-Served-By:
+      - cache-lis1490044-LIS
+      X-Timer:
+      - S1706096911.441721,VS0,VE225
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/fdtester/test-write-package-with-dialect/main/countries.csv
+  response:
+    body:
+      string: "id;neighbor_id;name;population\r\n1;Ireland;Britain;67\r\n2;3;France;n/a\r\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '88'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:32 GMT
+      ETag:
+      - W/"20592dd6b8619643e51e4f7b4b0669e731e1c0487fc58c71f722104f075edf0d"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:32 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 984f5b14c361e64637409b47f7a4a03412157ed4
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 3536:54DE0:84597B:8A378D:65B0F909
+      X-Served-By:
+      - cache-lis1490022-LIS
+      X-Timer:
+      - S1706096912.910982,VS0,VE230
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/fdtester/test-write-package-with-dialect/main/countries.csv
+  response:
+    body:
+      string: "id;neighbor_id;name;population\r\n1;Ireland;Britain;67\r\n2;3;France;n/a\r\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '88'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:32 GMT
+      ETag:
+      - W/"20592dd6b8619643e51e4f7b4b0669e731e1c0487fc58c71f722104f075edf0d"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:32 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - fda9f46f2d38e3f290efc900fa7fed3c17b7c9fb
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 3536:54DE0:84597B:8A378D:65B0F909
+      X-Served-By:
+      - cache-lis1490043-LIS
+      X-Timer:
+      - S1706096912.411955,VS0,VE1
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

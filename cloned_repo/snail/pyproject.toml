@@ -1,0 +1,72 @@
+[project]
+name = "nismod-snail"
+version = "0.5.4"
+license = { file = "LICENSE" }
+description = "The spatial networks impact assessment library"
+readme = "README.md"
+authors = [
+    { name = "Tom Russell", email = "tomalrussell@gmail.com" },
+    { name = "Thibault Lestang" },
+    { name = "Raghav Pant" },
+    { name = "Lena Fuldauer" },
+]
+maintainers = [{ name = "Tom Russell", email = "tomalrussell@gmail.com" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Utilities"
+]
+keywords = []
+requires-python = ">=3.10"
+dependencies = [
+    "geopandas",
+    "matplotlib",
+    "numpy",
+    "openpyxl",
+    "pandera",
+    "pyarrow",
+    "pyogrio",
+    "igraph",
+    "rasterio",
+    "shapely",
+    "scipy"
+]
+
+[project.optional-dependencies]
+dev = ["affine", "black", "hilbertcurve", "nbstripout", "pytest-cov", "pytest"]
+docs = ["sphinx", "nbsphinx", "sphinx_gallery", "numpydoc"]
+tutorials = [
+    "contextily",
+    "irv_autopkg_client",
+    "jupyter",
+    "networkx",
+    "seaborn",
+    "snkit",
+    "tqdm",
+]
+
+[project.urls]
+Homepage = "https://github.com/nismod/snail"
+Documentation = "https://nismod.github.io/snail/"
+Repository = "https://github.com/nismod/snail.git"
+
+[project.scripts]
+snail = "snail.cli:snail"
+
+[build-system]
+requires = ["scikit-build-core>=0.3.3", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+wheel.packages = ["src/snail"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 79

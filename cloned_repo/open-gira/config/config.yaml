@@ -1,0 +1,181 @@
+#########################
+### TRANSPORT DAMAGES ###
+#########################
+
+# OSM datasets in PBF format, principally from: https://download.geofabrik.de/ #
+infrastructure_datasets:
+  # note that there is a JSON index with country ISO-A2 codes here:
+  # https://download.geofabrik.de/index-v1-nogeom.json
+  # we could do lookup from ISO code to URL using this file, to avoid registering URLs here
+  #
+  # whole planet file
+  planet-latest: "https://planet.osm.org/pbf/planet-latest.osm.pbf"
+  # 'continent' extracts
+  africa-latest: "http://download.geofabrik.de/africa-latest.osm.pbf"
+  asia-latest: "http://download.geofabrik.de/asia-latest.osm.pbf"
+  australia-oceania-latest: "http://download.geofabrik.de/australia-oceania-latest.osm.pbf"
+  central-america-latest: "https://download.geofabrik.de/central-america-latest.osm.pbf"
+  europe-latest: "https://download.geofabrik.de/europe-latest.osm.pbf"
+  north-america-latest: "http://download.geofabrik.de/north-america-latest.osm.pbf"
+  south-america-latest: "http://download.geofabrik.de/south-america-latest.osm.pbf"
+  # country extracts
+  bangladesh-latest: "https://download.geofabrik.de/asia/bangladesh-latest.osm.pbf"
+  cambodia-latest: "https://download.geofabrik.de/asia/cambodia-latest.osm.pbf"
+  china-latest: "https://download.geofabrik.de/asia/china-latest.osm.pbf"
+  djibouti-latest: "https://download.geofabrik.de/africa/djibouti-latest.osm.pbf"
+  egypt-latest: "http://download.geofabrik.de/africa/egypt-latest.osm.pbf"
+  great-britain-latest: "http://download.geofabrik.de/europe/great-britain-latest.osm.pbf"
+  india-latest: "https://download.geofabrik.de/asia/india-latest.osm.pbf"
+  jamaica-latest: "http://download.geofabrik.de/central-america/jamaica-latest.osm.pbf"
+  kenya-latest: "http://download.geofabrik.de/africa/kenya-latest.osm.pbf"
+  laos-latest: "https://download.geofabrik.de/asia/laos-latest.osm.pbf"
+  myanmar-latest: "https://download.geofabrik.de/asia/myanmar-latest.osm.pbf"
+  tanzania-latest: "https://download.geofabrik.de/africa/tanzania-latest.osm.pbf"
+  thailand-latest: "https://download.geofabrik.de/asia/thailand-latest.osm.pbf"
+  wales-latest: "https://download.geofabrik.de/europe/great-britain/wales-latest.osm.pbf"
+  spain-latest: "https://download.geofabrik.de/europe/spain-latest.osm.pbf"
+  vietnam-latest: "https://download.geofabrik.de/asia/vietnam-latest.osm.pbf"
+
+  # small extract for testing purposes
+  tanzania-mini: "https://raw.githubusercontent.com/mjaquiery/aqueduct/main/tanzania-mini.osm.pbf"
+
+# these files contain osmium filter expressions for selecting relevant nodes, ways and relations from .osm.pbf files
+# the keys in the mapping, i.e. 'road' and 'rail' will be used to create FILTER_SLUG in rules
+network_filters:
+  road-residential: "config/osm_filters/road-residential.txt"
+  road-tertiary: "config/osm_filters/road-tertiary.txt"
+  road-secondary: "config/osm_filters/road-secondary.txt"
+  road-primary: "config/osm_filters/road-primary.txt"
+  rail: "config/osm_filters/rail.txt"
+
+# define a set of partial transport networks to create and interconnect
+# file should be a CSV with `infrastructure_dataset` and `network_filters` columns (with header)
+# e.g.
+# infrastructure_dataset,network_filter
+# thailand-latest,road-secondary
+# cambodia-latest,road-primary
+# laos-latest,road-primary
+composite_network:
+  south-east-asia-road: "config/composite_network/south-east-asia-road.csv"
+  south-east-asia-rail: "config/composite_network/south-east-asia-rail.csv"
+
+# OSM tag data to retain on selected features, typically for usage in network annotation/analysis
+# N.B. feature SELECTION is done with the expressions pointed to from network_filters
+keep_tags:
+  road: ["highway", "surface", "bridge", "maxspeed", "lanes"]
+  rail: ["railway", "bridge", "name", "gauge", "usage", "electrified", "passenger_lines", "voltage", "maxspeed"]
+
+# Number of slices to cut dataset into -- must be a square number
+slice_count: 64
+
+####################################
+### MULTI-MODAL NETWORK CREATION ###
+####################################
+
+# country for which trade OD has been prepared, and we are to route land trade flows
+study_country_iso_a3: "THA"
+
+# transport cost information
+# road
+road_cost_USD_t_km: 0.05
+road_cost_USD_t_h: 0.48
+road_default_speed_limit_km_h: 80
+# rail
+rail_cost_USD_t_km: 0.05
+rail_cost_USD_t_h: 0.38
+rail_average_freight_speed_km_h: 40
+
+# cost of changing transport mode in USD per tonne
+# from mistral/ccg-critical-minerals/processed_data/transport_costs/intermodal.xlsx, 20240611
+intermodal_cost_USD_t:
+  road_rail: 5
+  maritime_road: 4
+  maritime_rail: 5
+
+############################
+### TRANSPORT DISRUPTION ###
+############################
+
+# drop trade flows with less volume than this (accelerate flow allocation)
+# N.B. 50t threshold preserves 91% of total volume and 88% of total value
+# for combined agriculture & manufacturing flows between Thailand road nodes -> partner countries
+minimum_flow_volume_t: 50
+
+# if disrupting a network, remove edges experiencing hazard values in excess of this
+edge_failure_threshold: 0.5
+
+##########################
+### TRANSPORT FLOODING ###
+##########################
+
+hazard_datasets:
+  # hazard rasters to retrieve
+  aqueduct-coast: "config/hazard_resource_locations/aqueduct-coast_wtsub_perc95.txt"
+  aqueduct-river: "config/hazard_resource_locations/aqueduct-river.txt"
+  river-jrc: "config/hazard_resource_locations/river-jrc.txt"
+  jba-event: "config/hazard_resource_locations/jba-events.txt"
+  landslide-arup: "config/hazard_resource_locations/landslide-arup.txt"
+  coastal-deltares: "config/hazard_resource_locations/coastal-deltares.txt"
+
+hazard_types:
+  aqueduct-coast: "flood"
+  aqueduct-river: "flood"
+  river-jrc: "flood"
+  jba-event: "flood"
+  landslide-arup: "landslide"
+  coastal-deltares: "flood"
+
+direct_damages:
+  # assets to calculate direct damages for
+  # e.g. ['road_motorway', 'road_trunk', 'rail_railway']
+  # use empty list to process direct damages for all implemented asset types
+  asset_types:
+    [
+      "road_motorway",
+      "road_trunk",
+      "road_primary",
+      "road_tertiary",
+      "road_secondary",
+      "road_residential",
+      "road_unclassified",
+      "road_paved",
+      "road_unpaved",
+      "rail_railway",
+    ]
+
+##################################
+### CYCLONE / ELECTRICITY GRID ###
+##################################
+
+# sets of storm ids to process for potentially many country networks
+storm_sets:
+  # files containing a list of storm id strings that constitute the storm set
+  # key should follow the pattern: <dataset>_<storm_set_reference>
+  # where dataset belongs to:
+  # {IBTrACS, STORM-constant, STORM-CMCC-CM2-VHR4, etc.}
+  IBTrACS_maria-2017: "config/tc_grid/storm_sets/maria.json"
+  IBTrACS_irma-2017: "config/tc_grid/storm_sets/irma.json"
+  IBTrACS_black-marble-validation: "config/tc_grid/storm_sets/20230120_black_marble.json"
+
+# consider countries at risk of a storm if within this many degrees of any storm track point
+max_track_search_radius_deg: 3
+
+# wind speed is constant within a square area of sides wind_grid_resolution_deg
+# note that for large domains, e.g. USA or CHN, 0.05 deg resolution requires
+# on the order of 4GB RAM per storm wind estimate
+wind_grid_resolution_deg: 0.1 # approx 11km latitude
+
+# Failure thresholds m/s. These values are the thresholds at which the network assets
+# are expected to fail based on available literature.
+transmission_windspeed_failure: [20., 22.5, 25., 27.5, 30., 32.5, 35., 37.5, 40., 42.5, 45., 47.5, 50., 52.5, 55.]
+# when plotting, mark this threshold as the central value
+best_estimate_windspeed_failure_threshold: 32.5
+
+# return periods at which to report
+return_period_years: [2, 5, 10, 20, 50, 100, 200, 500, 1000]
+
+# whether to plot maximum wind fields and storm track animations for each storm
+plot_wind:
+  max_speed: False
+  # WARNING: plotting the animation is slow.. you probably only ever want it for historic tracks
+  animation: False

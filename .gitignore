@@ -1,5 +1,4 @@
 refs/
-cloned_repo/
 __pycache__/
 *.pyc
 .venv/

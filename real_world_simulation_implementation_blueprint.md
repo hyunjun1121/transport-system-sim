@@ -339,8 +339,11 @@ Primary repo ideas:
 
 ## Near-Term Clone Set
 
-The `cloned_repo/` directory is for local reference clones only. It is ignored
-by git. These clones are not vendored dependencies and should not be committed.
+The `cloned_repo/` directory contains public repository source snapshots for
+reference. Their nested `.git` metadata should be removed before they are
+tracked by this repository. These snapshots are not production dependencies; use
+them for implementation study and port only small, reviewed project-owned code
+into `src/`.
 
 Clone priorities:
 

@@ -1,0 +1,261 @@
+/*
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.mobilitydata.gtfsvalidator.validator;
+
+import static com.google.common.truth.Truth.assertThat;
+
+import com.google.common.collect.ImmutableList;
+import java.time.ZoneId;
+import java.util.List;
+import java.util.Locale;
+import javax.annotation.Nullable;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.mobilitydata.gtfsvalidator.notice.MissingRecommendedFieldNotice;
+import org.mobilitydata.gtfsvalidator.notice.MissingRequiredAgencyIdNotice;
+import org.mobilitydata.gtfsvalidator.notice.NoticeContainer;
+import org.mobilitydata.gtfsvalidator.notice.ValidationNotice;
+import org.mobilitydata.gtfsvalidator.table.GtfsAgency;
+import org.mobilitydata.gtfsvalidator.table.GtfsAgencyTableContainer;
+import org.mobilitydata.gtfsvalidator.validator.AgencyConsistencyValidator.InconsistentAgencyLangNotice;
+import org.mobilitydata.gtfsvalidator.validator.AgencyConsistencyValidator.InconsistentAgencyTimezoneNotice;
+
+@RunWith(JUnit4.class)
+public class AgencyConsistencyValidatorTest {
+
+  private static List<ValidationNotice> generateNotices(List<GtfsAgency> agencies) {
+    NoticeContainer noticeContainer = new NoticeContainer();
+    new AgencyConsistencyValidator(GtfsAgencyTableContainer.forEntities(agencies, noticeContainer))
+        .validate(noticeContainer);
+    return noticeContainer.getValidationNotices();
+  }
+
+  public static GtfsAgency createAgency(
+      int csvRowNumber,
+      String agencyId,
+      String agencyName,
+      String agencyUrl,
+      ZoneId agencyTimezone,
+      @Nullable Locale agencyLang) {
+    return new GtfsAgency.Builder()
+        .setCsvRowNumber(csvRowNumber)
+        .setAgencyId(agencyId)
+        .setAgencyName(agencyName)
+        .setAgencyUrl(agencyUrl)
+        .setAgencyTimezone(agencyTimezone)
+        .setAgencyLang(agencyLang)
+        .build();
+  }
+
+  @Test
+  public void singleAgencyPresentButNoAgencyIdSetShouldGenerateWarningNotice() {
+    List<ValidationNotice> notices =
+        generateNotices(
+            ImmutableList.of(
+                createAgency(
+                    0,
+                    null,
+                    "agency name",
+                    "www.mobilitydata.org",
+                    ZoneId.of("America/Montreal"),
+                    Locale.CANADA)));
+    assertThat(notices)
+        .containsExactly(
+            new MissingRecommendedFieldNotice(
+                GtfsAgency.FILENAME, 0, GtfsAgency.AGENCY_ID_FIELD_NAME));
+  }
+
+  @Test
+  public void multipleAgenciesPresentButNoAgencyIdSetShouldGenerateErrorNotice() {
+    List<ValidationNotice> notices =
+        generateNotices(
+            ImmutableList.of(
+                createAgency(
+                    0,
+                    "first agency",
+                    "agency name",
+                    "www.mobilitydata.org",
+                    ZoneId.of("America/Montreal"),
+                    Locale.CANADA),
+                createAgency(
+                    1,
+                    null,
+                    "agency name",
+                    "www.mobilitydata.org",
+                    ZoneId.of("America/Montreal"),
+                    Locale.CANADA)));
+    assertThat(notices)
+        .containsExactly(new MissingRequiredAgencyIdNotice(GtfsAgency.FILENAME, 1, "agency name"));
+  }
+
+  @Test
+  public void agenciesWithDifferentTimezoneShouldGenerateNotice() {
+    assertThat(
+            generateNotices(
+                ImmutableList.of(
+                    createAgency(
+                        0,
+                        "first agency",
+                        "first agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Bogota"),
+                        Locale.CANADA),
+                    createAgency(
+                        1,
+                        "second agency",
+                        "second agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA))))
+        .containsExactly(
+            new InconsistentAgencyTimezoneNotice(1, "America/Bogota", "America/Montreal"));
+  }
+
+  @Test
+  public void agenciesWithSameTimezoneShouldNotGenerateNotice() {
+    assertThat(
+            generateNotices(
+                ImmutableList.of(
+                    createAgency(
+                        0,
+                        "first agency",
+                        "first agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA),
+                    createAgency(
+                        1,
+                        "second agency",
+                        "second agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA))))
+        .isEmpty();
+  }
+
+  @Test
+  public void agenciesWithDifferentLanguagesShouldGenerateNotice() {
+    assertThat(
+            generateNotices(
+                ImmutableList.of(
+                    createAgency(
+                        0,
+                        "first agency",
+                        "first agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA),
+                    createAgency(
+                        1,
+                        "second agency",
+                        "second agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.FRANCE))))
+        .containsExactly(new InconsistentAgencyLangNotice(1, "en", "fr"));
+  }
+
+  @Test
+  public void agenciesWithSameLanguagesShouldNotGenerateNotice() {
+    assertThat(
+            generateNotices(
+                ImmutableList.of(
+                    createAgency(
+                        0,
+                        "first agency",
+                        "first agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA),
+                    createAgency(
+                        1,
+                        "second agency",
+                        "second agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA))))
+        .isEmpty();
+  }
+
+  @Test
+  public void agenciesWithOmittedLanguageShouldNotGenerateNotice() {
+    assertThat(
+            generateNotices(
+                ImmutableList.of(
+                    createAgency(
+                        1,
+                        "first agency",
+                        "first agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        null),
+                    createAgency(
+                        2,
+                        "second agency",
+                        "second agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA_FRENCH),
+                    createAgency(
+                        3,
+                        "third agency",
+                        "third agency name",
+                        "www.mobilitydata.org",
+                        ZoneId.of("America/Montreal"),
+                        Locale.CANADA_FRENCH))))
+        .isEmpty();
+  }
+
+  @Test
+  public void shouldCallValidate_falseWhenAgencyTableNull() {
+    AgencyConsistencyValidator validator = new AgencyConsistencyValidator(null);
+
+    assertThat(validator.shouldCallValidate()).isFalse();
+  }
+
+  @Test
+  public void shouldCallValidate_falseWhenAgencyTableEmpty() {
+    NoticeContainer noticeContainer = new NoticeContainer();
+    GtfsAgencyTableContainer emptyAgencyTable =
+        GtfsAgencyTableContainer.forEntities(ImmutableList.of(), noticeContainer);
+
+    AgencyConsistencyValidator validator = new AgencyConsistencyValidator(emptyAgencyTable);
+
+    assertThat(validator.shouldCallValidate()).isFalse();
+  }
+
+  @Test
+  public void shouldCallValidate_trueWhenAgencyTableNonEmpty() {
+    NoticeContainer noticeContainer = new NoticeContainer();
+    GtfsAgencyTableContainer agencyTable =
+        GtfsAgencyTableContainer.forEntities(
+            ImmutableList.of(
+                createAgency(
+                    0,
+                    "agency1",
+                    "Agency 1",
+                    "www.mobilitydata.org",
+                    ZoneId.of("America/Montreal"),
+                    Locale.CANADA)),
+            noticeContainer);
+
+    AgencyConsistencyValidator validator = new AgencyConsistencyValidator(agencyTable);
+
+    assertThat(validator.shouldCallValidate()).isTrue();
+  }
+}

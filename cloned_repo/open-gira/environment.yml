@@ -1,0 +1,60 @@
+name: open-gira
+channels:
+- conda-forge
+- bioconda
+- nodefaults
+dependencies:
+- python ==3.12
+- pip *
+- cython *
+- black *
+- flake8 *
+- ipykernel *
+- jupyter *
+- nb_conda_kernels *
+- nbstripout *
+- snakemake *
+- snakemake-executor-plugin-slurm *
+- gdal *
+- geopandas *
+- geopy *
+- contextily *
+- osmium-tool ==1.14.0
+- pyogrio *
+- pyproj *
+- pyrosm *
+- rasterio *
+- rasterstats *
+- rioxarray *
+- snkit *
+- dask *
+- datashader *
+- igraph *
+- matplotlib *
+- netcdf4 *
+- networkx *
+- numpy *
+- openpyxl *
+- pandas *
+- pathos *
+- pyarrow *
+- scipy *
+- spatialpandas *
+- xarray *
+- zarr *
+- jq *
+- requests *
+- tabulate *
+- tqdm *
+- zenodo_get *
+- pytest *
+- pytest-xdist *
+- pulp >=2.8.0,<3
+- ruff *
+- pip
+- pip:
+  - nismod-snail
+  - osmium
+  - irv-datapkg
+  - -e .
+

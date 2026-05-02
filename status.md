@@ -121,7 +121,8 @@ The realistic simulation roadmap, public GitHub repository research, and this st
 After commit `d742cb1`, a documentation and research-context update was made.
 The update includes:
 
-- `.gitignore` entry for ignored local `cloned_repo/` references
+- `cloned_repo/` source snapshots of public reference repositories with nested
+  `.git` metadata removed
 - `disrupted_mobilization_resilience_repo_research.md`
 - `paper/paper_draft.md`
 - `real_world_simulation_implementation_blueprint.md`
@@ -496,14 +497,16 @@ The draft includes:
 
 ## Public Repository Clone State
 
-A local reference clone directory was created:
+A public repository source snapshot directory was added:
 
 - `cloned_repo/`
 
-It is ignored by git and should be treated as a local reference cache, not as
-vendored source code.
+Nested `.git` metadata was removed from each cloned repository before adding it
+to this project. Treat these files as reference snapshots for implementation
+study, not as production simulator modules.
 
-The following repositories were shallow-cloned successfully:
+The following repositories were shallow-cloned successfully and then stripped of
+their nested `.git` directories:
 
 - `networkx`
 - `osmnx`
@@ -530,12 +533,12 @@ The following repositories were shallow-cloned successfully:
 - `osrm-backend`
 - `valhalla`
 
-The clone manifest is tracked separately in:
+The source snapshot manifest is tracked separately in:
 
 - `cloned_repo_manifest.md`
 
 Heavy full-platform tools such as SUMO, MATSim, and OpenTripPlanner were not
-cloned in this pass because the immediate implementation target is the
+included in this pass because the immediate implementation target is the
 open-data real-world pipeline around the current simulator rather than a full
 platform migration.
 

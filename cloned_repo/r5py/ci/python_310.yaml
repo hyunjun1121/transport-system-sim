@@ -1,0 +1,8 @@
+name: r5py
+
+channels:
+    - conda-forge
+
+dependencies:
+    - python=3.10
+    - r5py

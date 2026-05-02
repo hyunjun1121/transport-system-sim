@@ -1,0 +1,408 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/transparencia-mg/datapackage-reprex/foreign-key-constraint/datapackage.json
+  response:
+    body:
+      string: "{\n  \"profile\": \"tabular-data-package\",\n  \"resources\": [\n    {\n
+        \     \"name\": \"estados\",\n      \"path\": \"data/estados.csv\",\n      \"profile\":
+        \"tabular-data-resource\",\n      \"schema\": \"schema/estados.json\",\n      \"title\":
+        \"Estados brasileiros\",\n      \"format\": \"csv\",\n      \"encoding\":
+        \"utf-8\",\n      \"description\": \"Cont\xE9m as seguintes informa\xE7\xF5es
+        para os estados brasileiros\\n\\n- C\xF3digo\\n- Nome\\n- Sigla\"\n    },\n
+        \   {\n      \"name\": \"pib-per-capita\",\n      \"path\": \"data/pib-per-capita.csv\",\n
+        \     \"profile\": \"tabular-data-resource\",\n      \"schema\": \"schema/pib-per-capita.json\",\n
+        \     \"format\": \"csv\",\n      \"encoding\": \"utf-8\"\n    }\n  ],\n  \"keywords\":
+        [\n    \"estados\",\n    \"brasil\",\n    \"federa\xE7\xE3o\"\n  ],\n  \"licenses\":
+        [\n    {\n      \"name\": \"CC0-1.0\",\n      \"title\": \"CC0 1.0\",\n      \"path\":
+        \"https://creativecommons.org/publicdomain/zero/1.0/\"\n    }\n  ],\n  \"homepage\":
+        \"https://github.com/dados-mg/datapackage-reprex\",\n  \"version\": \"0.0.0.9000\",\n
+        \ \"contributors\": [\n    {\n      \"title\": \"Francisco Alves\",\n      \"role\":
+        \"author\"\n    }\n  ],\n  \"name\": \"datapackage-reprex\",\n  \"owner_org\":
+        \"controladoria-geral-do-estado-cge\",\n  \"title\": \"Data packages for Reproducible
+        Examples\",\n  \"description\": \"Esse reposit\xF3rio armazena exemplos de
+        [data packages](https://specs.frictionlessdata.io/) para constru\xE7\xE3o
+        de [minimal, reproducible examples (reprex)](https://stackoverflow.com/help/minimal-reproducible-example)\"\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '613'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:46 GMT
+      ETag:
+      - W/"48f5be5dffa0abf58676f1637d11d41c458131dda940fc8223713b0c828dde06"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:46 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - ef11b19269f8344dbfdefde76acd285b7d46441b
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 81A2:214C6F:826961:8841F0:65B0F91C
+      X-Served-By:
+      - cache-lis1490058-LIS
+      X-Timer:
+      - S1706096926.434203,VS0,VE263
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/transparencia-mg/datapackage-reprex/foreign-key-constraint/schema/estados.json
+  response:
+    body:
+      string: "{\n  \"fields\": [\n    {\n      \"name\": \"COD\",\n      \"type\":
+        \"integer\",\n      \"format\": \"default\",\n      \"description\": \"C\xF3digo
+        de dois d\xEDgitos que identificam o estado\\n\\n> Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.\\n\",\n      \"title\": \"C\xF3digo do
+        Estado\"\n    },\n    {\n      \"name\": \"NOME\",\n      \"type\": \"string\",\n
+        \     \"format\": \"default\",\n      \"title\": \"Nome do Estado\"\n    },\n
+        \   {\n      \"name\": \"SIGLA\",\n      \"type\": \"string\",\n      \"format\":
+        \"default\",\n      \"title\": \"Sigla do Estado\"\n    }\n  ],\n  \"primaryKey\":
+        \"COD\"\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '474'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:47 GMT
+      ETag:
+      - W/"785df2a40004c180afec8b3e344c578ab96ccf7e7e062568d100a50e5d3094a2"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:47 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 4a3776871799cae52590b280f7ce1a28426a6346
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - BA14:1AE42F:824228:88207D:65B0F91E
+      X-Served-By:
+      - cache-lis1490036-LIS
+      X-Timer:
+      - S1706096927.923721,VS0,VE238
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/transparencia-mg/datapackage-reprex/foreign-key-constraint/schema/pib-per-capita.json
+  response:
+    body:
+      string: "{\n  \"fields\": [\n    {\n      \"name\": \"COD\",\n      \"type\":
+        \"integer\"\n    },\n    {\n      \"name\": \"POP_2013\",\n      \"type\":
+        \"number\",\n      \"groupChar\": \".\",\n      \"decimalChar\": \",\"\n    },\n
+        \   {\n      \"name\": \"PIB_2013\",\n      \"type\": \"number\",\n      \"groupChar\":
+        \".\",\n      \"decimalChar\": \",\"\n    },\n    {\n      \"name\": \"PIB_PER_CAPITA_2013\",\n
+        \     \"type\": \"number\",\n      \"groupChar\": \".\",\n      \"decimalChar\":
+        \",\"\n    }\n  ],\n  \"primaryKey\": \"COD\",\n  \"foreignKeys\": [\n    {\n
+        \     \"fields\": \"COD\",\n      \"reference\": {\n        \"resource\":
+        \"estados\",\n        \"fields\": \"COD\"\n      }\n    }\n  ]\n}"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '209'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:47 GMT
+      ETag:
+      - W/"13ee2c7d9494ff4630a1c88dc97c9914efbbd788f2f94b21a34442fb9c41b113"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:47 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - dc67ddfa1dce8ca3b2e035d599bf4f1ad5f49119
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 9FDA:223D98:83A3BC:89821E:65B0F91E
+      X-Served-By:
+      - cache-lis1490040-LIS
+      X-Timer:
+      - S1706096927.473380,VS0,VE226
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/transparencia-mg/datapackage-reprex/foreign-key-constraint/data/estados.csv
+  response:
+    body:
+      string: "COD,NOME,SIGLA\n35,S\xE3o Paulo, SP\n41,Paran\xE1, PR\n42,Santa Catarina,
+        SC\n43,Rio Grande do Sul, RS\n50,Mato Grosso do Sul, MS\n11,Rond\xF4nia, RO\n12,Acre,
+        AC\n13,Amazonas, AM\n14,Roraima, RR\n15,Par\xE1, PA\n16,Amap\xE1, AP\n17,Tocantins,
+        TO\n21,Maranh\xE3o, MA\n24,Rio Grande do Norte, RN\n25,Para\xEDba, PB\n26,Pernambuco,
+        PE\n27,Alagoas, AL\n28,Sergipe, SE\n29,Bahia, BA\n31,Minas Gerais, MG\n33,Rio
+        de Janeiro, RJ\n51,Mato Grosso, MT\n52,Goi\xE1s, GO\n53,Distrito Federal,
+        DF\n22,Piau\xED, PI\n23,Cear\xE1, CE\n32,Esp\xEDrito Santo, ES\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '360'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:48 GMT
+      ETag:
+      - W/"b67e0d25b954a11e06ec6c439ae8fa1f760541890de81d14dcd4f0302e98d56e"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:48 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 519589d1abac6bdf1a3ae7f7082d2687fc0a67f2
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 38D2:3AF103:846459:8A3D15:65B0F91C
+      X-Served-By:
+      - cache-lis1490028-LIS
+      X-Timer:
+      - S1706096928.945699,VS0,VE227
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/transparencia-mg/datapackage-reprex/foreign-key-constraint/data/estados.csv
+  response:
+    body:
+      string: "COD,NOME,SIGLA\n35,S\xE3o Paulo, SP\n41,Paran\xE1, PR\n42,Santa Catarina,
+        SC\n43,Rio Grande do Sul, RS\n50,Mato Grosso do Sul, MS\n11,Rond\xF4nia, RO\n12,Acre,
+        AC\n13,Amazonas, AM\n14,Roraima, RR\n15,Par\xE1, PA\n16,Amap\xE1, AP\n17,Tocantins,
+        TO\n21,Maranh\xE3o, MA\n24,Rio Grande do Norte, RN\n25,Para\xEDba, PB\n26,Pernambuco,
+        PE\n27,Alagoas, AL\n28,Sergipe, SE\n29,Bahia, BA\n31,Minas Gerais, MG\n33,Rio
+        de Janeiro, RJ\n51,Mato Grosso, MT\n52,Goi\xE1s, GO\n53,Distrito Federal,
+        DF\n22,Piau\xED, PI\n23,Cear\xE1, CE\n32,Esp\xEDrito Santo, ES\n"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '360'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cross-Origin-Resource-Policy:
+      - cross-origin
+      Date:
+      - Wed, 24 Jan 2024 11:48:48 GMT
+      ETag:
+      - W/"b67e0d25b954a11e06ec6c439ae8fa1f760541890de81d14dcd4f0302e98d56e"
+      Expires:
+      - Wed, 24 Jan 2024 11:53:48 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding,Origin
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - 495cccd39997e2b0b7833a954ce721868899370e
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - 38D2:3AF103:846459:8A3D15:65B0F91C
+      X-Served-By:
+      - cache-lis1490028-LIS
+      X-Timer:
+      - S1706096928.401974,VS0,VE0
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

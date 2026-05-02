@@ -1,0 +1,121 @@
+# Everyone
+
+Please take some time to review our [code of conduct](CODE-OF-CONDUCT.md) to help guide your interactions with others on this project.
+
+# User
+
+Before you open a new issue, please search for older ones that cover the same issue.
+In general "me too" comments/issues are frowned upon.
+You can add a :+1: emoji reaction to the issue if you want to express interest in this.
+
+# Developer
+
+We follow the [LLVM AI Tool policy](https://llvm.org/docs/AIToolPolicy.html).
+
+In short that means:
+- You are the author of your change and need to fully understand it regardless of how it was generated.
+- Your contribution should be worth more to the project than the time it takes to review it.
+- If your contribution is a large change and to signficiant amounts authored by AI tools, you should disclose that.
+- You are responsible for ensuring you have the right to license your contributions.
+
+If you can not follow these guidelines PLEASE REFRAIN FROM CONTRIBUTING.
+
+We use `clang-format` version `15` to consistently format the code base. There is a helper script under `scripts/format.sh`.
+The format is automatically checked by the `mason-linux-release` job of a Travis CI build.
+To save development time a local hook `.git/hooks/pre-push`
+```
+#!/bin/sh
+
+remote="$1"
+if [ x"$remote" = xorigin  ] ; then
+    if [ $(git rev-parse --abbrev-ref HEAD) = master ] ; then
+        echo "Rejected push to $remote/master" ; exit 1
+    fi
+
+    ./scripts/format.sh && ./scripts/error_on_dirty.sh
+    if [ $? -ne 0 ] ; then
+        echo "Unstaged format changes" ; exit 1
+    fi
+fi
+```
+could check code format, modify a local repository and reject the push due to unstaged formatting changes.
+Also the `pre-push` hook rejects direct pushes to `origin/master`.
+
+⚠️ `scripts/format.sh` checks all local files that match `*.cpp` or `*.hpp` patterns.
+
+
+In general changes that affect the API and/or increase the memory consumption need to be discussed first.
+Often we don't include changes that would increase the memory consumption a lot if they are not generally usable (e.g. elevation data is a good example).
+
+## Pull Request
+
+### Conventional Commits
+
+All pull request titles must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. The CI will automatically validate this.
+
+**Format:** `<type>[optional scope][optional !]: <description>`
+
+**Allowed types:**
+- `feat` – A new feature
+- `fix` – A bug fix
+- `docs` – Documentation changes
+- `style` – Code style changes (formatting, semicolons, etc.)
+- `refactor` – Code refactoring without feature/bug fix changes
+- `perf` – Performance improvements
+- `test` – Test-related changes
+- `ci` – CI/CD changes
+- `chore` – Maintenance tasks, dependency updates
+- `build` – Build system changes
+
+**Examples:**
+- `feat: add new routing algorithm`
+- `fix(api): resolve nearest endpoint crash`
+- `docs: update API documentation`
+- `feat(profiles)!: remove deprecated car profile option`
+- `feat(api)!: change response format` (breaking change with scope)
+
+**Breaking Changes:** Use the `!` suffix before the colon in the pull request title (e.g., `feat!:`).
+
+### Release Notes
+
+Pull request titles must follow [Conventional Commits](https://www.conventionalcommits.org/) format as described above. This format is validated in CI and is used to structure the commit history for release organization.
+
+For API changes, additionally update the docs in `docs/http.md`. See the [releasing documentation](docs/releasing.md) on how breaking changes affect the version.
+
+Early feedback is also important.
+You will see that a lot of the PR have tags like `[not ready]` or `[wip]`.
+We like to open PRs as soon as we are starting to work on something to make it visible to the rest of the team.
+If your work is going in entirely the wrong direction, there is a good chance someone will pick up on this before it is too late.
+Everyone is encouraged to read PRs of other people and give feedback.
+
+For every significant code change we require a pull request review before it is merged.
+If your pull request modifies the API this needs to be signed off by a team discussion.
+This means you will need to find another member of the team with commit access and request a review of your pull request.
+
+Once your pull request is reviewed you can merge it! If you don't have commit access, ping someone that has commit access.
+If you do have commit access there are in general two accepted styles to merging:
+
+1. Make sure the branch is up to date with `master`. Run `git rebase master` to find out.
+2. Once that is ensured you can either:
+  - Click the nice green merge button (for a non-fast-forward merge)
+  - Merge by hand using a fast-forward merge
+
+Which merge you prefer is up to personal preference. In general it is recommended to use fast-forward merges because it creates a history that is sequential and easier to understand.
+
+# Maintainer
+
+## Doing a release
+
+There is an in-depth guide around how to push out a release once it is ready [here](docs/releasing.md).
+
+## The API
+
+Changes to the API need to be discussed and signed off by the team. Breaking changes even more so than additive changes.
+
+## Milestones
+
+If a pull request or an issue is applicable for the current or next milestone, depends on the target version number.
+Since we use semantic versioning we restrict breaking changes to major releases.
+After a Release Candidate is released we usually don't change the API anymore if it is not critical.
+Bigger code changes after a RC was released should also be avoided.
+

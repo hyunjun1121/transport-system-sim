@@ -1,0 +1,140 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/tabulator-py/master/data/table.csv.gz
+  response:
+    body:
+      string: !!binary |
+        H4sICDeFHVgAA3RhYmxlLmNzdgDLTNHJS8xN5TLUSc1Lz8kszuAy0nmyY+3T2Xuf7NrFBQABbkCN
+        HgAAAA==
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '61'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - application/octet-stream
+      Date:
+      - Tue, 09 Feb 2021 08:44:32 GMT
+      ETag:
+      - W/"44195189d889529a8fce30db32bd4edafbdd8dee7d370fce1c98b70cb3d3157c"
+      Expires:
+      - Tue, 09 Feb 2021 08:49:32 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding, Accept-Encoding
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - b347ec654cbab006eb82a591a6899ab5b632c2c4
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - AE34:E685:193F1D:1AE26E:60224B6E
+      X-Served-By:
+      - cache-fra19124-FRA
+      X-Timer:
+      - S1612860272.847774,VS0,VE169
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://raw.githubusercontent.com/frictionlessdata/tabulator-py/master/data/table.csv.gz
+  response:
+    body:
+      string: !!binary |
+        H4sICDeFHVgAA3RhYmxlLmNzdgDLTNHJS8xN5TLUSc1Lz8kszuAy0nmyY+3T2Xuf7NrFBQABbkCN
+        HgAAAA==
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Cache-Control:
+      - max-age=300
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '61'
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'; sandbox
+      Content-Type:
+      - application/octet-stream
+      Date:
+      - Tue, 09 Feb 2021 08:44:32 GMT
+      ETag:
+      - W/"44195189d889529a8fce30db32bd4edafbdd8dee7d370fce1c98b70cb3d3157c"
+      Expires:
+      - Tue, 09 Feb 2021 08:49:32 GMT
+      Source-Age:
+      - '0'
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Authorization,Accept-Encoding, Accept-Encoding
+      Via:
+      - 1.1 varnish
+      X-Cache:
+      - HIT
+      X-Cache-Hits:
+      - '1'
+      X-Content-Type-Options:
+      - nosniff
+      X-Fastly-Request-ID:
+      - b4c5b8e45f78d5acda14a535ac66b0be2b6aaf90
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - AE34:E685:193F1D:1AE26E:60224B6E
+      X-Served-By:
+      - cache-fra19124-FRA
+      X-Timer:
+      - S1612860272.070379,VS0,VE0
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

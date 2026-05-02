@@ -1,0 +1,252 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://umweltanwendungen.schleswig-holstein.de/pegel/jsp/frictionless.jsp?mstnr=114069&thema=w
+  response:
+    body:
+      string: '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>302 Found</title>
+
+        </head><body>
+
+        <h1>Found</h1>
+
+        <p>The document has moved <a href="https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&amp;thema=w">here</a>.</p>
+
+        </body></html>
+
+        '
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '302'
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Date:
+      - Wed, 24 Jan 2024 11:39:38 GMT
+      Feature-Policy:
+      - geolocation 'none'; midi 'none'; camera 'none'; usb 'none'; magnetometer 'none';
+        accelerometer 'none'; vr 'none'; speaker 'none'; ambient-light-sensor 'none';
+        gyroscope 'none'; microphone 'none'
+      Keep-Alive:
+      - timeout=5, max=100
+      Location:
+      - https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&thema=w
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=15768000; includeSubDomains
+      - max-age=157680000
+    status:
+      code: 302
+      message: Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&thema=w
+  response:
+    body:
+      string: "\uFEFF<!DOCTYPE html>\r\n<html lang=\"en\">\r\n    <head>\r\n        <link
+        rel=\"stylesheet\" href=\"/dataport-errorpages/style.css\">\r\n    </head>\r\n
+        \   <body>\r\n        <div class=\"error\">\r\n            <div class=\"title\">\r\n
+        \               HTTP 404 - Not Found\r\n            </div>\r\n            <div
+        class=\"message\">\r\n                Die von Ihnen angeforderte Datei wurde
+        nicht gefunden. Evtl. ist der gew\xE4hlte Link nicht mehr aktuell.<br>\r\n
+        \               Bitte stellen Sie sicher, dass die ggf. manuell eingegebene
+        URL korrekt ist.\r\n            </div>\r\n        </div>\r\n        <img class=\"image\"
+        src=\"/dataport-errorpages/img/400.svg\" alt=\"Confused Screen\">\r\n        <div
+        class=\"footer\">\r\n            <div class=\"divider\"></div>\r\n            <div
+        class=\"footerBox\">\r\n                <div class=\"leftContent footerContent\">\r\n
+        \                   <div class=\"company\">\r\n                        Dataport
+        A\xF6R\r\n                    </div>\r\n                    <div class=\"url\">\r\n
+        \                       <a href=\"http://www.dataport.de\" target=\"_blank\"
+        rel=\"noopener noreferrer\">www.dataport.de</a>\r\n                    </div>\r\n
+        \               </div>\r\n                <div class=\"spacer\"></div>\r\n
+        \               <div class=\"rightContent footerContent\">\r\n                    <img
+        class=\"dataportLogo\" src=\"/dataport-errorpages/img/Dataport-farbe-rgb-pos-2@2x.png\"
+        alt=\"Dataport Logo\">\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n    </body>\r\n</html>"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '1445'
+      Content-Type:
+      - text/html
+      Date:
+      - Wed, 24 Jan 2024 11:39:39 GMT
+      ETag:
+      - '"5a5-5f6c1e5330380"'
+      Feature-Policy:
+      - geolocation 'none'; midi 'none'; camera 'none'; usb 'none'; magnetometer 'none';
+        accelerometer 'none'; vr 'none'; speaker 'none'; ambient-light-sensor 'none';
+        gyroscope 'none'; microphone 'none'
+      Keep-Alive:
+      - timeout=5, max=99
+      Last-Modified:
+      - Mon, 13 Mar 2023 06:05:18 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=15768000; includeSubDomains
+      - max-age=157680000
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://umweltanwendungen.schleswig-holstein.de/pegel/jsp/frictionless.jsp?mstnr=114069&thema=w
+  response:
+    body:
+      string: '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>302 Found</title>
+
+        </head><body>
+
+        <h1>Found</h1>
+
+        <p>The document has moved <a href="https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&amp;thema=w">here</a>.</p>
+
+        </body></html>
+
+        '
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '302'
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Date:
+      - Wed, 24 Jan 2024 11:39:40 GMT
+      Feature-Policy:
+      - geolocation 'none'; midi 'none'; camera 'none'; usb 'none'; magnetometer 'none';
+        accelerometer 'none'; vr 'none'; speaker 'none'; ambient-light-sensor 'none';
+        gyroscope 'none'; microphone 'none'
+      Keep-Alive:
+      - timeout=5, max=98
+      Location:
+      - https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&thema=w
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=15768000; includeSubDomains
+      - max-age=157680000
+    status:
+      code: 302
+      message: Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/54.0.2840.87 Safari/537.36
+    method: GET
+    uri: https://umweltanwendungen.schleswig-holstein.de/Wartungsseite/index.html/jsp/frictionless.jsp?mstnr=114069&thema=w
+  response:
+    body:
+      string: "\uFEFF<!DOCTYPE html>\r\n<html lang=\"en\">\r\n    <head>\r\n        <link
+        rel=\"stylesheet\" href=\"/dataport-errorpages/style.css\">\r\n    </head>\r\n
+        \   <body>\r\n        <div class=\"error\">\r\n            <div class=\"title\">\r\n
+        \               HTTP 404 - Not Found\r\n            </div>\r\n            <div
+        class=\"message\">\r\n                Die von Ihnen angeforderte Datei wurde
+        nicht gefunden. Evtl. ist der gew\xE4hlte Link nicht mehr aktuell.<br>\r\n
+        \               Bitte stellen Sie sicher, dass die ggf. manuell eingegebene
+        URL korrekt ist.\r\n            </div>\r\n        </div>\r\n        <img class=\"image\"
+        src=\"/dataport-errorpages/img/400.svg\" alt=\"Confused Screen\">\r\n        <div
+        class=\"footer\">\r\n            <div class=\"divider\"></div>\r\n            <div
+        class=\"footerBox\">\r\n                <div class=\"leftContent footerContent\">\r\n
+        \                   <div class=\"company\">\r\n                        Dataport
+        A\xF6R\r\n                    </div>\r\n                    <div class=\"url\">\r\n
+        \                       <a href=\"http://www.dataport.de\" target=\"_blank\"
+        rel=\"noopener noreferrer\">www.dataport.de</a>\r\n                    </div>\r\n
+        \               </div>\r\n                <div class=\"spacer\"></div>\r\n
+        \               <div class=\"rightContent footerContent\">\r\n                    <img
+        class=\"dataportLogo\" src=\"/dataport-errorpages/img/Dataport-farbe-rgb-pos-2@2x.png\"
+        alt=\"Dataport Logo\">\r\n                </div>\r\n            </div>\r\n
+        \       </div>\r\n    </body>\r\n</html>"
+    headers:
+      Accept-Ranges:
+      - bytes
+      Connection:
+      - Keep-Alive
+      Content-Length:
+      - '1445'
+      Content-Type:
+      - text/html
+      Date:
+      - Wed, 24 Jan 2024 11:39:40 GMT
+      ETag:
+      - '"5a5-5f6c1e5330380"'
+      Feature-Policy:
+      - geolocation 'none'; midi 'none'; camera 'none'; usb 'none'; magnetometer 'none';
+        accelerometer 'none'; vr 'none'; speaker 'none'; ambient-light-sensor 'none';
+        gyroscope 'none'; microphone 'none'
+      Keep-Alive:
+      - timeout=5, max=97
+      Last-Modified:
+      - Mon, 13 Mar 2023 06:05:18 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - Apache
+      Strict-Transport-Security:
+      - max-age=15768000; includeSubDomains
+      - max-age=157680000
+      X-XSS-Protection:
+      - 1; mode=block
+    status:
+      code: 404
+      message: Not Found
+version: 1

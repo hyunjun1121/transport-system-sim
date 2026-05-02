@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'application'
+    alias(libs.plugins.shadow.jar)
+}
+
+dependencies {
+    implementation project(':model')
+    implementation project(':core')
+    implementation libs.commons.io
+    implementation libs.api.client
+    annotationProcessor libs.auto.value
+    compileOnly libs.auto.value.annotations
+    implementation libs.guava
+    implementation libs.flogger
+    implementation libs.flogger.system.backend
+    implementation libs.jcommander
+    implementation libs.gson
+    testImplementation libs.truth
+    testImplementation libs.junit
+}
+
+jar {
+    // Add the manifest within the JAR, using comparator as the title
+    manifest {
+        attributes('Implementation-Title': 'output-comparator',
+                'Implementation-Version': project.version,
+                'Main-Class': 'org.mobilitydata.gtfsvalidator.outputcomparator.cli.Main',
+                'Multi-Release': 'true')
+    }
+}
+
+
+shadowJar {
+    // Change the JAR suffix from 'all' to 'cli'
+    archiveClassifier = 'cli'
+}
+
+mainClassName = 'org.mobilitydata.gtfsvalidator.outputcomparator.cli.Main'
