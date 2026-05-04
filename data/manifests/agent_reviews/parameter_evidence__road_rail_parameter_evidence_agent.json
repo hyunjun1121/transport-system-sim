@@ -10,9 +10,13 @@
     "data/parameters/parameter_evidence_review_manifest.json",
     "data/parameters/parameter_evidence_source_request_packet.csv",
     "data/parameters/parameter_evidence_source_request_manifest.json",
+    "data/parameters/parameter_source_readiness_packet.csv",
+    "data/parameters/parameter_source_readiness_manifest.json",
+    "docs/parameter_source_readiness_packet.md",
     "scripts/audit_parameter_evidence.py",
     "scripts/write_parameter_review_packet.py",
     "scripts/write_parameter_evidence_source_request_packet.py",
+    "scripts/write_parameter_source_readiness_packet.py",
     "data/parameters/road_evidence_review_packet.csv",
     "data/parameters/rail_evidence_review_packet.csv",
     "docs/review_packets/cached_osm_input.md",
@@ -20,7 +24,7 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "parameter_evidence",
-  "generated_at": "2026-05-04T12:46:54+00:00",
+  "generated_at": "2026-05-04T13:32:58+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -41,9 +45,13 @@
     "data/parameters/parameter_sources.csv",
     "data/parameters/parameter_evidence_review_manifest.json",
     "data/parameters/parameter_evidence_source_request_manifest.json",
+    "data/parameters/parameter_source_readiness_packet.csv",
+    "data/parameters/parameter_source_readiness_manifest.json",
+    "docs/parameter_source_readiness_packet.md",
     "scripts/audit_parameter_evidence.py",
     "scripts/write_parameter_review_packet.py",
-    "scripts/write_parameter_evidence_source_request_packet.py"
+    "scripts/write_parameter_evidence_source_request_packet.py",
+    "scripts/write_parameter_source_readiness_packet.py"
   ],
   "risks": [
     "Road capacity and speed fallbacks are proxy values.",

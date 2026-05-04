@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T12:46:54+00:00`
+- Generated at: `2026-05-04T13:32:58+00:00`
 
 ## Decision
 
@@ -105,28 +105,25 @@ Formal acceptance artifacts:
       "repository_input_pending_review": 4
     },
     "source_url_can_mark_complete": false,
-    "source_url_live_check_performed": true,
+    "source_url_live_check_performed": false,
     "source_url_publication_ready": false,
-    "source_url_remediation_blocking_issue_count": 6,
+    "source_url_remediation_blocking_issue_count": 0,
     "source_url_remediation_can_mark_complete": false,
-    "source_url_remediation_live_check_required_count": 0,
+    "source_url_remediation_live_check_required_count": 12,
     "source_url_remediation_manifest_present": true,
     "source_url_remediation_publication_ready": false,
-    "source_url_remediation_row_count": 13,
+    "source_url_remediation_row_count": 16,
     "source_url_remediation_status_counts": {
-      "blocked_unreachable_or_http_error": 6,
-      "local_citation_needs_review": 4,
-      "reachable_needs_license_review": 3
+      "live_check_required": 12,
+      "local_citation_needs_review": 4
     },
     "source_url_review_manifest_present": true,
     "source_url_review_packet_present": true,
     "source_url_status_counts": {
-      "http_error": 5,
-      "network_error": 1,
       "no_url_detected": 4,
-      "reachable": 3
+      "not_checked": 12
     },
-    "source_url_unreachable_or_error_count": 6
+    "source_url_unreachable_or_error_count": 0
   },
   "evidence": [
     "data/manifests/provenance_acceptance.json",

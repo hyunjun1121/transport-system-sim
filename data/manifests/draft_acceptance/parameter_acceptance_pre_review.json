@@ -97,6 +97,24 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_source_readiness_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_source_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/parameter_source_readiness_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/audit_parameter_evidence.py"
     },
     {
@@ -115,6 +133,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_parameter_source_readiness_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/parameters/rail_evidence_review_manifest.json"
     },
     {
@@ -122,6 +146,24 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/rail/rail_timing_source_request_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_fetch_readiness_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_fetch_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/rail_fetch_readiness_packet.md"
     },
     {
       "claim_supported": "Repository evidence cited for parameter_acceptance",
@@ -140,6 +182,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_rail_timing_source_request_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_rail_fetch_readiness_packet.py"
     },
     {
       "claim_supported": "Repository evidence cited for parameter_acceptance",
@@ -193,7 +241,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/parameter_acceptance.csv",
   "gate": "parameter_acceptance",
-  "generated_at": "2026-05-04T12:47:17+00:00",
+  "generated_at": "2026-05-04T13:33:21+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

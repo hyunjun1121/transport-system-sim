@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T12:46:54+00:00`
+- Generated at: `2026-05-04T13:32:58+00:00`
 
 ## Decision
 
@@ -22,9 +22,13 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - data/parameters/parameter_sources.csv
 - data/parameters/parameter_evidence_review_manifest.json
 - data/parameters/parameter_evidence_source_request_manifest.json
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_source_readiness_manifest.json
+- docs/parameter_source_readiness_packet.md
 - scripts/audit_parameter_evidence.py
 - scripts/write_parameter_review_packet.py
 - scripts/write_parameter_evidence_source_request_packet.py
+- scripts/write_parameter_source_readiness_packet.py
 
 ## Evidence And Source Paths
 
@@ -33,9 +37,13 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - data/parameters/parameter_evidence_review_manifest.json
 - data/parameters/parameter_evidence_source_request_packet.csv
 - data/parameters/parameter_evidence_source_request_manifest.json
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_source_readiness_manifest.json
+- docs/parameter_source_readiness_packet.md
 - scripts/audit_parameter_evidence.py
 - scripts/write_parameter_review_packet.py
 - scripts/write_parameter_evidence_source_request_packet.py
+- scripts/write_parameter_source_readiness_packet.py
 - data/parameters/road_evidence_review_packet.csv
 - data/parameters/rail_evidence_review_packet.csv
 - docs/review_packets/cached_osm_input.md
@@ -92,16 +100,35 @@ Formal acceptance artifacts:
     "strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing",
     "support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays"
   ],
-  "details": {},
+  "details": {
+    "parameter_publication_ready": false,
+    "source_readiness_blocking_request_count": 1,
+    "source_readiness_can_mark_complete": false,
+    "source_readiness_human_review_request_count": 5,
+    "source_readiness_manifest_present": true,
+    "source_readiness_publication_ready": false,
+    "source_readiness_status_counts": {
+      "blocked_missing_transfer_source": 1,
+      "needs_human_review_demand_scenario": 1,
+      "needs_human_review_dispatch_policy": 1,
+      "needs_human_review_disruption_parameter_scenario": 1,
+      "needs_human_review_fleet_package": 1,
+      "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+    }
+  },
   "evidence": [
     "data/parameters/parameter_sources.csv",
     "data/parameters/parameter_evidence_review_packet.csv",
     "data/parameters/parameter_evidence_review_manifest.json",
     "data/parameters/parameter_evidence_source_request_packet.csv",
     "data/parameters/parameter_evidence_source_request_manifest.json",
+    "data/parameters/parameter_source_readiness_packet.csv",
+    "data/parameters/parameter_source_readiness_manifest.json",
+    "docs/parameter_source_readiness_packet.md",
     "scripts/audit_parameter_evidence.py",
     "scripts/write_parameter_review_packet.py",
-    "scripts/write_parameter_evidence_source_request_packet.py"
+    "scripts/write_parameter_evidence_source_request_packet.py",
+    "scripts/write_parameter_source_readiness_packet.py"
   ],
   "gate_id": "parameter_evidence",
   "label": "Parameter Evidence",

@@ -216,14 +216,22 @@ Evidence inspected:
 - `data/rail/rail_timing_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/parameter_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_parameter_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_evidence_source_request_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_parameter_source_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/rail_fetch_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_rail_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_rail_evidence_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_rail_timing_source_request_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_rail_fetch_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/fetch_rail_timetable_cache.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/derive_rail_headway_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/derive_rail_service_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -306,10 +314,14 @@ Evidence inspected:
 - `data/parameters/road_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/road_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_speed_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_capacity_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_evidence_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_evidence_source_request_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_road_source_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_class_override_template.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_road_overrides.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
