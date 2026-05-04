@@ -480,7 +480,10 @@ def _prepare_checkout_dir(
                 tempfile.mkdtemp(prefix="transport_system_clean_checkout_")
             )
             return checkout_root / "checkout", lambda: None
-        temp_dir = tempfile.TemporaryDirectory(prefix="transport_system_clean_checkout_")
+        temp_dir = tempfile.TemporaryDirectory(
+            prefix="transport_system_clean_checkout_",
+            ignore_cleanup_errors=True,
+        )
         checkout_dir = Path(temp_dir.name) / "checkout"
         return checkout_dir, temp_dir.cleanup
 
