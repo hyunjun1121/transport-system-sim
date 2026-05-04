@@ -120,7 +120,10 @@ def main() -> int:
     """Refresh review artifacts, write agent records, and print a JSON summary."""
 
     args = _parse_args()
-    refreshed = _refresh_existing_review_packets()
+    refreshed = _refresh_existing_review_packets(
+        live_source_url_checks=args.live_source_url_checks,
+        source_url_timeout_sec=args.source_url_timeout_sec,
+    )
     manifest = write_acceptance_orchestration_outputs()
     formal_guard = audit_formal_acceptance_artifacts()
     formal_package = write_formal_acceptance_package_audit()
@@ -269,7 +272,11 @@ def main() -> int:
     return 0
 
 
-def _refresh_existing_review_packets() -> list[str]:
+def _refresh_existing_review_packets(
+    *,
+    live_source_url_checks: bool = False,
+    source_url_timeout_sec: float = 8.0,
+) -> list[str]:
     refreshed: list[str] = []
     pilot_privacy_rows = build_pilot_privacy_review_rows()
     write_pilot_privacy_review_packet(rows=pilot_privacy_rows)
@@ -298,7 +305,10 @@ def _refresh_existing_review_packets() -> list[str]:
     source_license_rows = build_source_license_review_rows()
     write_source_license_review_packet(rows=source_license_rows)
     refreshed.append("data/manifests/source_license_review_packet.csv")
-    source_url_rows = build_source_url_review_rows()
+    source_url_rows = build_source_url_review_rows(
+        live_check=live_source_url_checks,
+        timeout_sec=source_url_timeout_sec,
+    )
     write_source_url_review_packet(rows=source_url_rows)
     refreshed.append("data/manifests/source_url_review_packet.csv")
     claim_alignment_rows = build_claim_alignment_review_rows()
@@ -335,6 +345,20 @@ def _parse_args() -> argparse.Namespace:
         "--fail-on-blockers",
         action="store_true",
         help="Return exit code 1 when final-study gates remain blocked.",
+    )
+    parser.add_argument(
+        "--live-source-url-checks",
+        action="store_true",
+        help=(
+            "Run bounded live HTTP reachability checks for source URL review rows. "
+            "This records reviewer-aid evidence only and never closes provenance acceptance."
+        ),
+    )
+    parser.add_argument(
+        "--source-url-timeout-sec",
+        type=float,
+        default=8.0,
+        help="Per-URL timeout for --live-source-url-checks.",
     )
     return parser.parse_args()
 

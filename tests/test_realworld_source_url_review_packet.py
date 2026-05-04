@@ -120,7 +120,7 @@ def test_write_source_url_review_packet_outputs_artifacts() -> None:
 
 
 def test_shipped_source_url_review_packet_matches_current_manifest() -> None:
-    """Current shipped packet should match deterministic provenance inputs."""
+    """Current shipped packet should preserve provenance inputs and non-acceptance."""
 
     rows = build_source_url_review_rows()
 
@@ -137,8 +137,23 @@ def test_shipped_source_url_review_packet_matches_current_manifest() -> None:
 
     assert len(written_rows) == len(rows)
     assert [row["url"] for row in written_rows] == [row["url"] for row in rows]
+    assert {row["claim_boundary"] for row in written_rows} == {SOURCE_URL_REVIEW_SCOPE}
+    assert all(
+        row["can_support_final_provenance_gate"] == "false" for row in written_rows
+    )
     assert manifest["publication_ready"] is False
+    assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == SOURCE_URL_REVIEW_SCOPE
+    assert manifest["provenance_gate_closure_candidate_count"] == 0
+    assert manifest["row_count"] == len(rows)
+    assert manifest["requires_reviewer_confirmation_count"] == len(rows)
+    for row in written_rows:
+        if row["url"]:
+            assert row["check_mode"] in {"not_checked", "live_http"}
+            assert row["url_status"] != "no_url_detected"
+        else:
+            assert row["check_mode"] == "not_checked"
+            assert row["url_status"] == "no_url_detected"
 
     print("PASS: shipped source URL review packet matches current manifest")
 

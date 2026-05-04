@@ -176,6 +176,35 @@ def test_data_provenance_gate_requires_source_provenance_manifest() -> None:
     print("PASS: data provenance gate requires source provenance diagnostics")
 
 
+def test_data_provenance_gate_reports_source_url_review_details() -> None:
+    """Source URL live-check evidence should be visible but non-accepting."""
+
+    gate = _data_provenance_gate(
+        _reproducibility_manifest(),
+        _missing_provenance_summary(),
+        _source_provenance_summary(),
+        {
+            "live_check_performed": True,
+            "url_status_counts": {"reachable": 2, "http_error": 1},
+            "unreachable_or_error_count": 1,
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["source_url_live_check_performed"] is True
+    assert gate["details"]["source_url_status_counts"] == {
+        "reachable": 2,
+        "http_error": 1,
+    }
+    assert gate["details"]["source_url_unreachable_or_error_count"] == 1
+    assert gate["details"]["source_url_publication_ready"] is False
+    assert gate["details"]["source_url_can_mark_complete"] is False
+
+    print("PASS: data provenance gate reports source URL review details")
+
+
 def test_validation_gate_requires_acceptance_and_final_summary_scope() -> None:
     """Acceptance alone should not close a scaffold validation summary."""
 
@@ -629,6 +658,7 @@ if __name__ == "__main__":
     test_data_provenance_gate_requires_acceptance_and_final_manifest()
     test_data_provenance_gate_requires_acceptance_record()
     test_data_provenance_gate_requires_source_provenance_manifest()
+    test_data_provenance_gate_reports_source_url_review_details()
     test_validation_gate_requires_acceptance_and_final_summary_scope()
     test_sensitivity_scope_blocks_scaffold_language()
     test_sensitivity_gate_requires_acceptance_and_final_scope()

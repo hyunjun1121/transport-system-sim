@@ -31,10 +31,15 @@ acceptance artifacts.
 
 ```powershell
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
+.\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
 ```
+
+The live source-URL option records volatile reachability evidence for
+`docs/source_url_review_packet.md`. It is a reviewer aid only; it does not
+certify licenses, attribution, source suitability, or provenance acceptance.
 
 2. Inspect the aggregate blockers:
 

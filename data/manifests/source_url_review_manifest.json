@@ -5,14 +5,17 @@
   "row_count": 13,
   "source_count": 10,
   "check_mode_counts": {
-    "not_checked": 13
+    "live_http": 9,
+    "not_checked": 4
   },
   "url_status_counts": {
+    "http_error": 5,
+    "network_error": 2,
     "no_url_detected": 4,
-    "not_checked": 9
+    "reachable": 2
   },
-  "live_check_performed": false,
-  "unreachable_or_error_count": 0,
+  "live_check_performed": true,
+  "unreachable_or_error_count": 7,
   "requires_reviewer_confirmation_count": 13,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,

@@ -60,6 +60,9 @@ DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH = (
 DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "experiment_package_review_manifest.json"
 )
+DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "source_url_review_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -118,6 +121,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
     reproducibility_review_manifest = _load_json(
         DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH
     )
+    source_url_review_manifest = _load_json(DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH)
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -145,6 +149,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             reproducibility_manifest,
             provenance_acceptance,
             source_provenance,
+            source_url_review_manifest,
         ),
         _evidence_gate(
             gate_id="parameter_evidence",
@@ -491,6 +496,7 @@ def _data_provenance_gate(
     reproducibility_manifest: dict[str, Any] | None,
     provenance_acceptance: dict[str, Any],
     source_provenance: dict[str, Any],
+    source_url_review_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest) and bool(
         source_provenance.get("manifest_present", False)
@@ -499,6 +505,7 @@ def _data_provenance_gate(
     remaining = list((reproducibility_manifest or {}).get("remaining_upgrades", []))
     acceptance_ready = bool(provenance_acceptance["acceptance_ready"])
     source_provenance_ready = bool(source_provenance.get("diagnostics_ready", False))
+    url_manifest = source_url_review_manifest or {}
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
@@ -563,6 +570,23 @@ def _data_provenance_gate(
             "source_url_review_manifest_present": (
                 PROJECT_ROOT / "data" / "manifests" / "source_url_review_manifest.json"
             ).exists(),
+            "source_url_live_check_performed": url_manifest.get(
+                "live_check_performed",
+                False,
+            ),
+            "source_url_status_counts": url_manifest.get("url_status_counts", {}),
+            "source_url_unreachable_or_error_count": url_manifest.get(
+                "unreachable_or_error_count",
+                0,
+            ),
+            "source_url_publication_ready": url_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "source_url_can_mark_complete": url_manifest.get(
+                "can_mark_complete",
+                False,
+            ),
             "scope": scope,
             "remaining_upgrade_count": len(remaining),
         },
