@@ -13,9 +13,9 @@
   "claim_boundary": "This packet records clean-checkout reproducibility review status. It does not create data/manifests/reproducibility_acceptance.json, does not prove full clean-checkout reproduction, and does not support operational routing or calibrated real-world claims.",
   "clean_checkout_test_performed": false,
   "command_count": 45,
-  "git_modified_or_staged_count": 10,
-  "git_status_line_count": 99,
-  "git_untracked_count": 89,
+  "git_modified_or_staged_count": 5,
+  "git_status_line_count": 5,
+  "git_untracked_count": 0,
   "input_artifact_paths": {
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
     "reproducibility_manifest": "data/manifests/reproducibility_manifest.json"
@@ -45,9 +45,9 @@
     "blocked_full_clean_checkout_not_run": 1,
     "blocked_no_reproducibility_acceptance_record": 1,
     "blocked_scaffold_only_manifest_scope": 1,
-    "blocked_untracked_reproducibility_artifacts": 1,
     "ready_for_review_command_ladder_present": 1,
-    "ready_for_review_no_cloned_repo_runtime_imports": 1
+    "ready_for_review_no_cloned_repo_runtime_imports": 1,
+    "ready_for_review_no_untracked_reproducibility_artifacts": 1
   },
   "validation_command_count": 70
 }
