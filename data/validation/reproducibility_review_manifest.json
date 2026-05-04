@@ -19,8 +19,8 @@
   "clean_checkout_test_performed": true,
   "command_count": 46,
   "full_clean_environment_tested": false,
-  "git_modified_or_staged_count": 26,
-  "git_status_line_count": 26,
+  "git_modified_or_staged_count": 1,
+  "git_status_line_count": 1,
   "git_untracked_count": 0,
   "input_artifact_paths": {
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
@@ -48,11 +48,11 @@
   "runtime_cloned_repo_import_hits": [],
   "schema_version": 1,
   "status_counts": {
-    "blocked_dirty_worktree": 1,
     "blocked_full_clean_checkout_not_run": 1,
     "blocked_no_reproducibility_acceptance_record": 1,
     "blocked_scaffold_only_manifest_scope": 1,
     "ready_for_review_bounded_clean_checkout_smoke": 1,
+    "ready_for_review_clean_worktree": 1,
     "ready_for_review_command_ladder_present": 1,
     "ready_for_review_no_cloned_repo_runtime_imports": 1,
     "ready_for_review_no_untracked_reproducibility_artifacts": 1
