@@ -75,6 +75,9 @@ DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH = (
 DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "parameters" / "parameter_source_readiness_manifest.json"
 )
+DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -144,6 +147,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     parameter_source_readiness_manifest = _load_json(
         DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
     )
+    validation_strategy_readiness_manifest = _load_json(
+        DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH
+    )
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -180,7 +186,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             parameter_source_readiness_manifest,
         ),
         _rail_gate(rail_service_audit, rail_station_audit, rail_fetch_readiness_manifest),
-        _validation_gate(validation_acceptance),
+        _validation_gate(validation_acceptance, validation_strategy_readiness_manifest),
         _structured_disruption_gate(),
         _policy_gate(),
         _sensitivity_gate(morris_manifest, sensitivity_acceptance),
@@ -806,7 +812,10 @@ def _rail_gate(
     )
 
 
-def _validation_gate(validation_acceptance: dict[str, Any]) -> dict[str, Any]:
+def _validation_gate(
+    validation_acceptance: dict[str, Any],
+    validation_strategy_readiness_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     summary_path = PROJECT_ROOT / "data" / "validation" / "validation_summary.md"
     review_manifest_path = (
         PROJECT_ROOT / "data" / "validation" / "validation_review_manifest.json"
@@ -835,6 +844,18 @@ def _validation_gate(validation_acceptance: dict[str, Any]) -> dict[str, Any]:
         / "validation"
         / "canonical_route_road_evidence_exposure_manifest.json"
     )
+    strategy_readiness_packet_path = (
+        PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_packet.csv"
+    )
+    strategy_readiness_manifest_path = (
+        PROJECT_ROOT
+        / "data"
+        / "validation"
+        / "validation_strategy_readiness_manifest.json"
+    )
+    strategy_readiness_doc_path = (
+        PROJECT_ROOT / "docs" / "validation_strategy_readiness_packet.md"
+    )
     text = _read_text(summary_path)
     review_manifest = _load_json(review_manifest_path)
     artifact_present = (
@@ -845,15 +866,36 @@ def _validation_gate(validation_acceptance: dict[str, Any]) -> dict[str, Any]:
         and accessibility_summary_path.exists()
         and route_exposure_path.exists()
         and route_exposure_manifest_path.exists()
+        and strategy_readiness_packet_path.exists()
+        and strategy_readiness_manifest_path.exists()
+        and strategy_readiness_doc_path.exists()
     )
     acceptance_ready = bool(validation_acceptance["acceptance_ready"])
     summary_scope_blocked = _validation_summary_scope_is_blocked(text)
     ready = artifact_present and acceptance_ready and not summary_scope_blocked
     blockers: list[str] = []
     if not artifact_present:
-        blockers.append("create validation summary and benchmark summary artifacts")
+        blockers.append(
+            "create validation summary, benchmark summary, and strategy-readiness artifacts"
+        )
     if not acceptance_ready:
         blockers.extend(validation_acceptance["remaining_blockers"])
+        strategy_blocking_count = _dict_int(
+            validation_strategy_readiness_manifest,
+            "blocking_request_count",
+        )
+        strategy_human_review_count = _dict_int(
+            validation_strategy_readiness_manifest,
+            "human_review_request_count",
+        )
+        if strategy_blocking_count:
+            blockers.append(
+                "resolve validation strategy-readiness blockers before validation acceptance"
+            )
+        if strategy_human_review_count:
+            blockers.append(
+                "review validation strategy-readiness human-decision items before validation acceptance"
+            )
     if summary_scope_blocked:
         blockers.append(
             "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
@@ -875,12 +917,16 @@ def _validation_gate(validation_acceptance: dict[str, Any]) -> dict[str, Any]:
             "data/validation/canonical_route_road_evidence_exposure_manifest.json",
             "data/validation/validation_review_packet.csv",
             "data/validation/validation_review_manifest.json",
+            "data/validation/validation_strategy_readiness_packet.csv",
+            "data/validation/validation_strategy_readiness_manifest.json",
+            "docs/validation_strategy_readiness_packet.md",
             "scripts/run_plausibility_validation.py",
             "scripts/run_accessibility_loss_analysis.py",
             "scripts/write_route_road_evidence_exposure.py",
             "scripts/run_osrm_route_benchmark.py",
             "scripts/write_osrm_snapshot_manifest.py",
             "scripts/write_validation_review_packet.py",
+            "scripts/write_validation_strategy_readiness_packet.py",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -919,6 +965,24 @@ def _validation_gate(validation_acceptance: dict[str, Any]) -> dict[str, Any]:
                 review_manifest,
                 "optional_osrm_benchmark_unpinned_row_count",
             ),
+            "strategy_readiness_manifest_present": bool(
+                validation_strategy_readiness_manifest
+            ),
+            "strategy_readiness_blocking_request_count": (
+                validation_strategy_readiness_manifest or {}
+            ).get("blocking_request_count", 0),
+            "strategy_readiness_human_review_request_count": (
+                validation_strategy_readiness_manifest or {}
+            ).get("human_review_request_count", 0),
+            "strategy_readiness_status_counts": (
+                validation_strategy_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "strategy_readiness_publication_ready": (
+                validation_strategy_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "strategy_readiness_can_mark_complete": (
+                validation_strategy_readiness_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

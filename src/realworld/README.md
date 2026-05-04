@@ -99,6 +99,11 @@ Implemented extension modules now also cover:
   cross-cutting parameter source requests. It separates demand, fleet,
   dispatch, transfer, disruption, and traffic/BPR review states without
   accepting weak assumptions or changing parameter tables.
+- `validation_strategy_readiness_packet.py`: preflight worksheet generated
+  from validation review rows. It separates internal warning rows, fallback
+  benchmark warnings, unpinned OSRM snapshots, accessibility diagnostics,
+  weak route-road exposure, summary scope, and missing validation acceptance
+  without accepting a benchmark strategy.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

@@ -83,6 +83,8 @@ The codebase currently includes:
   - `data/validation/canonical_route_road_evidence_exposure_manifest.json`
   - `data/validation/validation_review_packet.csv`
   - `data/validation/validation_review_manifest.json`
+  - `data/validation/validation_strategy_readiness_packet.csv`
+  - `data/validation/validation_strategy_readiness_manifest.json`
   - `data/scenarios/disruption_scenarios.csv`
   - `data/scenarios/policy_alternatives.csv`
   - explicit graph-scale acceptance validation in
@@ -316,6 +318,11 @@ The codebase currently includes:
     route-level road-evidence exposure, validation summary scope, and the
     benchmark-strategy decision while keeping
     `publication_ready: false` and `acceptance_ready: false`
+  - validation strategy-readiness packet generation in
+    `src/realworld/validation_strategy_readiness_packet.py` and
+    `scripts/write_validation_strategy_readiness_packet.py`; the generated
+    7-row packet classifies validation blockers and human-review items without
+    choosing or approving a benchmark strategy
   - OSRM snapshot manifest generation in
     `src/realworld/osrm_snapshot_manifest.py` and
     `scripts/write_osrm_snapshot_manifest.py`; the current manifest records 3
@@ -916,6 +923,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python tests\test_realworld_sensitivity_review_packet.py`
 - `.\.venv\Scripts\python tests\test_realworld_osrm_snapshot_manifest.py`
 - `.\.venv\Scripts\python tests\test_realworld_validation_review_packet.py`
+- `.\.venv\Scripts\python tests\test_realworld_validation_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python tests\test_realworld_route_road_evidence_exposure.py`
 - `.\.venv\Scripts\python scripts\run_pilot_smoke.py`
 - `.\.venv\Scripts\python scripts\run_full_graph_smoke.py`
@@ -953,6 +961,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py`
 - `.\.venv\Scripts\python scripts\write_sensitivity_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_validation_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py`
 - `.\.venv\Scripts\python scripts\run_reproducibility_smoke.py`
 - `.\.venv\Scripts\python scripts\run_acceptance_audit.py`
@@ -1314,6 +1323,7 @@ Suggested next work:
 - `src/realworld/sensitivity_diagnostics.py`
 - `src/realworld/sensitivity_review_packet.py`
 - `src/realworld/validation_review_packet.py`
+- `src/realworld/validation_strategy_readiness_packet.py`
 - `src/realworld/route_road_evidence_exposure.py`
 - `scripts/run_sensitivity.py`
 - `scripts/audit_sensitivity_diagnostics.py`
@@ -1321,6 +1331,7 @@ Suggested next work:
 - `src/realworld/osrm_snapshot_manifest.py`
 - `scripts/write_osrm_snapshot_manifest.py`
 - `scripts/write_validation_review_packet.py`
+- `scripts/write_validation_strategy_readiness_packet.py`
 - `scripts/write_reproducibility_review_packet.py`
 - `scripts/run_reproducibility_smoke.py`
 - `scripts/audit_formal_evidence_paths.py`
@@ -1331,6 +1342,7 @@ Suggested next work:
 - `tests/test_realworld_sensitivity_review_packet.py`
 - `tests/test_realworld_osrm_snapshot_manifest.py`
 - `tests/test_realworld_validation_review_packet.py`
+- `tests/test_realworld_validation_strategy_readiness_packet.py`
 - `tests/test_realworld_route_road_evidence_exposure.py`
 - `results/realworld_pilot/sensitivity_results.csv`
 - `results/realworld_pilot/sensitivity_summary.csv`
@@ -1341,6 +1353,8 @@ Suggested next work:
 - `data/validation/sensitivity_review_packet.csv`
 - `data/validation/sensitivity_review_manifest.json`
 - `data/validation/validation_review_packet.csv`
+- `data/validation/validation_strategy_readiness_packet.csv`
+- `data/validation/validation_strategy_readiness_manifest.json`
 - `data/validation/reproducibility_review_packet.csv`
 - `data/validation/reproducibility_smoke_manifest.json`
 - `data/validation/reproducibility_smoke_log.jsonl`

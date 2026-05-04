@@ -99,6 +99,7 @@ src/
     road_override_audit.py  # Optional road-class override readiness audit
     plausibility.py         # Offline pilot route plausibility checks
     validation_review_packet.py # Validation-strategy review worksheet generator
+    validation_strategy_readiness_packet.py # Validation blocker/readiness worksheet
     route_road_evidence_exposure.py # Route-level road evidence exposure review aid
     graph_scale_diagnostics.py # Full-vs-reduced route parity and alternate-route diagnostics
     graph_scale_review.py   # Graph-scale method option review worksheet
@@ -194,6 +195,7 @@ tests/
   test_realworld_sensitivity_review_packet.py
   test_realworld_osrm_snapshot_manifest.py
   test_realworld_validation_review_packet.py
+  test_realworld_validation_strategy_readiness_packet.py
   test_realworld_route_road_evidence_exposure.py
   test_realworld_acceptance_records.py
   test_realworld_acceptance_orchestration.py
@@ -225,6 +227,8 @@ data/
   validation/
     validation_review_packet.csv # 7-row validation-strategy review aid
     validation_review_manifest.json
+    validation_strategy_readiness_packet.csv # 7-row validation blocker/readiness aid
+    validation_strategy_readiness_manifest.json
     reproducibility_review_packet.csv # 7-row clean-checkout review aid
     reproducibility_review_manifest.json
     reproducibility_smoke_manifest.json # current-worktree smoke summary
@@ -289,6 +293,7 @@ scripts/
   audit_sensitivity_diagnostics.py
   write_sensitivity_review_packet.py
   write_validation_review_packet.py
+  write_validation_strategy_readiness_packet.py
   write_reproducibility_review_packet.py
   run_reproducibility_smoke.py
   write_route_road_evidence_exposure.py
@@ -388,6 +393,7 @@ Direct test commands:
 .\.venv\Scripts\python tests\test_realworld_sensitivity_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_osrm_snapshot_manifest.py
 .\.venv\Scripts\python tests\test_realworld_validation_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_route_road_evidence_exposure.py
 .\.venv\Scripts\python tests\test_realworld_pilot_figures.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
@@ -807,6 +813,13 @@ Implemented behavior:
   route-level road-evidence exposure, and validation-summary scope artifacts
   into a 7-row review
   worksheet without closing the validation gate.
+- `src/realworld/validation_strategy_readiness_packet.py` and
+  `scripts/write_validation_strategy_readiness_packet.py` convert that 7-row
+  validation worksheet into pre-review readiness statuses. The packet keeps
+  internal warnings, fallback benchmark warnings, unpinned OSRM snapshot risk,
+  accessibility diagnostics, weak route-road evidence exposure, summary scope,
+  and missing validation acceptance visible without approving a benchmark
+  strategy.
 - `src/realworld/route_road_evidence_exposure.py` and
   `scripts/write_route_road_evidence_exposure.py` generate a 76-row
   route-level worksheet that links weak road speed, capacity, disruption, and

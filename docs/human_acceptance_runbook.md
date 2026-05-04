@@ -36,6 +36,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
@@ -60,6 +61,12 @@ The parameter source-readiness packet does not accept weak assumptions. It
 records whether demand, fleet, dispatch, transfer, disruption, and traffic/BPR
 source requests are blocked or require human review before final parameter
 claims.
+
+The validation strategy-readiness packet does not choose the final benchmark
+strategy. It records whether internal checks, fallback benchmarks, optional
+OSRM snapshots, accessibility diagnostics, route-road exposure, validation
+summary scope, and the missing validation acceptance record are blockers or
+human-review items.
 
 2. Inspect the aggregate blockers:
 

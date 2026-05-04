@@ -130,6 +130,10 @@ from src.realworld.validation_review_packet import (  # noqa: E402
     build_validation_review_rows,
     write_validation_review_packet,
 )
+from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
+    build_validation_strategy_readiness_rows,
+    write_validation_strategy_readiness_packet,
+)
 
 
 def main() -> int:
@@ -365,6 +369,11 @@ def _refresh_existing_review_packets(
     validation_rows = build_validation_review_rows()
     write_validation_review_packet(rows=validation_rows)
     refreshed.append("data/validation/validation_review_packet.csv")
+    validation_readiness_rows = build_validation_strategy_readiness_rows(
+        review_rows=validation_rows,
+    )
+    write_validation_strategy_readiness_packet(rows=validation_readiness_rows)
+    refreshed.append("data/validation/validation_strategy_readiness_packet.csv")
     reproducibility_rows = build_reproducibility_review_rows()
     write_reproducibility_review_packet(rows=reproducibility_rows)
     refreshed.append("data/validation/reproducibility_review_packet.csv")

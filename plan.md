@@ -494,6 +494,14 @@ First pilot-smoke artifacts also exist:
   decision. It keeps `publication_ready: false`, does
   not create `data/manifests/validation_acceptance.json`, and does not close
   the validation gate.
+- `src/realworld/validation_strategy_readiness_packet.py` and
+  `scripts/write_validation_strategy_readiness_packet.py` convert the 7-row
+  validation worksheet into concrete pre-review readiness statuses under
+  `data/validation/validation_strategy_readiness_packet.csv`. It separates
+  internal warnings, fallback benchmark warnings, unpinned OSRM snapshot risk,
+  accessibility diagnostics, weak route-road evidence exposure,
+  validation-summary scope, and the missing validation acceptance record
+  without choosing or approving a benchmark strategy.
 - `scripts/make_pilot_statistics.py` writes full-pilot uncertainty summaries
   from seed replications: 819 metric confidence-interval rows and 702 paired
   policy-delta confidence-interval rows. These support experiment review but do
@@ -1092,6 +1100,12 @@ Current status:
   `data/validation/validation_review_manifest.json`. This is the validation
   gate worksheet only; it is not validation acceptance and does not treat any
   benchmark as ground truth.
+- `scripts/write_validation_strategy_readiness_packet.py` turns that
+  validation worksheet into `data/validation/validation_strategy_readiness_packet.csv`,
+  `data/validation/validation_strategy_readiness_manifest.json`, and
+  `docs/validation_strategy_readiness_packet.md`. This is a pre-review blocker
+  classifier only; it does not create `data/manifests/validation_acceptance.json`
+  and cannot close the validation gate.
 
 Validation layers:
 
@@ -1126,6 +1140,8 @@ Create:
 - `data/validation/canonical_route_road_evidence_exposure_manifest.json`
 - `data/validation/validation_review_packet.csv`
 - `data/validation/validation_review_manifest.json`
+- `data/validation/validation_strategy_readiness_packet.csv`
+- `data/validation/validation_strategy_readiness_manifest.json`
 - `data/validation/validation_summary.md`
 - tests for validation logic where deterministic.
 
@@ -1814,6 +1830,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
+.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
@@ -1950,8 +1967,10 @@ Concrete next tasks:
    whether the current optional OSRM snapshot is sufficient as a plausibility
    benchmark or whether cached Valhalla, routingpy, R5/OpenTripPlanner, UXsim,
    or equivalent evidence is needed within the publication schedule. Use
-   `data/validation/validation_review_packet.csv` as the benchmark-strategy
-   worksheet before creating any validation acceptance record.
+   `data/validation/validation_review_packet.csv` and
+   `data/validation/validation_strategy_readiness_packet.csv` as the
+   benchmark-strategy and blocker-classification worksheets before creating
+   any validation acceptance record.
 9. Review the current sample/staged/full pilot runner outputs as the candidate
    accepted scenario, policy, and seed design.
 10. Regenerate pilot-region figures, paper tables, Korean report updates, and
