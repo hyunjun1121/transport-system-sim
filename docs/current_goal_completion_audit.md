@@ -194,16 +194,29 @@ The smoke manifest records bounded validation commands run in the current worktr
 - Clean checkout tested: `false`
 - Can mark complete: `false`
 
+## Bounded Clean-Checkout Smoke
+
+This smoke manifest records a fresh clone of the committed source tree and a minimal evidence profile run with the current Python environment. It is useful source-checkout evidence, but it is not a clean-environment dependency reinstall, full artifact-regeneration run, or formal reproducibility acceptance.
+
+- Manifest present: `true`
+- Manifest path: `data/validation/clean_checkout_reproducibility_smoke_manifest.json`
+- Result scope: `clean_checkout_source_tree_smoke_not_formal_acceptance`
+- Commands passed: 8 / 8
+- Smoke passed: `true`
+- Clean checkout tested: `true`
+- Full clean environment tested: `false`
+- Can mark complete: `false`
+
 ## Tracked Artifact Packaging Audit
 
 This audit lists changed reproducibility artifacts that a clean checkout of the current Git HEAD would not reproduce unless they are committed, packaged, or explicitly excluded. It is packaging hygiene only and cannot close the reproducibility gate.
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 31
-- Blocking changed artifacts: 31
+- Changed reproducibility artifacts: 0
+- Blocking changed artifacts: 0
 - Untracked artifacts: 0
-- Modified or staged artifacts: 31
+- Modified or staged artifacts: 0
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
@@ -230,6 +243,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\audit_formal_evidence_paths.py
 .\.venv\Scripts\python scripts\validate_formal_acceptance_package.py --fail-on-blockers
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
+.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py --fail-on-blockers
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py --fail-on-blockers
 Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }

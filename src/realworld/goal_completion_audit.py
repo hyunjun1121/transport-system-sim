@@ -34,6 +34,7 @@ from src.realworld.formal_evidence_path_audit import (
 from src.realworld.formal_acceptance_package import (
     build_formal_acceptance_package_summary,
 )
+from src.realworld.clean_checkout_smoke import summarize_clean_checkout_smoke
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke
 from src.realworld.tracked_artifact_audit import summarize_tracked_artifact_audit
 
@@ -87,6 +88,7 @@ def build_goal_completion_audit_markdown(
     formal_evidence_paths = audit_formal_evidence_paths()
     formal_package = build_formal_acceptance_package_summary()
     reproducibility_smoke = summarize_reproducibility_smoke()
+    clean_checkout_smoke = summarize_clean_checkout_smoke()
     tracked_artifacts = summarize_tracked_artifact_audit()
     ready_gate_ids = list(audit.get("ready_gate_ids", []))
     blocked_gate_ids = list(audit.get("blocked_gate_ids", []))
@@ -335,6 +337,19 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
+            "## Bounded Clean-Checkout Smoke",
+            "",
+            "This smoke manifest records a fresh clone of the committed source tree and a minimal evidence profile run with the current Python environment. It is useful source-checkout evidence, but it is not a clean-environment dependency reinstall, full artifact-regeneration run, or formal reproducibility acceptance.",
+            "",
+            f"- Manifest present: `{str(clean_checkout_smoke.get('manifest_present', False)).lower()}`",
+            f"- Manifest path: `{clean_checkout_smoke.get('path', '')}`",
+            f"- Result scope: `{clean_checkout_smoke.get('result_scope', '')}`",
+            f"- Commands passed: {clean_checkout_smoke.get('passed_count', 0)} / {clean_checkout_smoke.get('command_count', 0)}",
+            f"- Smoke passed: `{str(clean_checkout_smoke.get('smoke_passed', False)).lower()}`",
+            f"- Clean checkout tested: `{str(clean_checkout_smoke.get('clean_checkout_test_performed', False)).lower()}`",
+            f"- Full clean environment tested: `{str(clean_checkout_smoke.get('full_clean_environment_tested', False)).lower()}`",
+            f"- Can mark complete: `{str(clean_checkout_smoke.get('can_mark_complete', False)).lower()}`",
+            "",
             "## Tracked Artifact Packaging Audit",
             "",
             "This audit lists changed reproducibility artifacts that a clean checkout of the current Git HEAD would not reproduce unless they are committed, packaged, or explicitly excluded. It is packaging hygiene only and cannot close the reproducibility gate.",
@@ -376,6 +391,7 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\audit_formal_evidence_paths.py",
             ".\\.venv\\Scripts\\python scripts\\validate_formal_acceptance_package.py --fail-on-blockers",
             ".\\.venv\\Scripts\\python scripts\\run_reproducibility_smoke.py",
+            ".\\.venv\\Scripts\\python scripts\\run_clean_checkout_smoke.py",
             ".\\.venv\\Scripts\\python scripts\\audit_publication_readiness.py --fail-on-blockers",
             ".\\.venv\\Scripts\\python scripts\\audit_final_study_readiness.py --fail-on-blockers",
             "Get-ChildItem tests\\test_*.py | ForEach-Object { .\\.venv\\Scripts\\python $_.FullName }",
