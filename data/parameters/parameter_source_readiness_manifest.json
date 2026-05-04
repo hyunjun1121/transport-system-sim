@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval. This packet cannot close parameter evidence or formal acceptance gates.",
+  "result_scope": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval.",
+  "row_count": 6,
+  "weak_parameter_count": 20,
+  "readiness_status_counts": {
+    "blocked_missing_transfer_source": 1,
+    "needs_human_review_demand_scenario": 1,
+    "needs_human_review_dispatch_policy": 1,
+    "needs_human_review_disruption_parameter_scenario": 1,
+    "needs_human_review_fleet_package": 1,
+    "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+  },
+  "parameter_group_counts": {
+    "demand_time_censoring": 1,
+    "disruption": 1,
+    "fleet": 2,
+    "road": 1,
+    "transfer": 1
+  },
+  "blocking_request_count": 1,
+  "human_review_request_count": 5,
+  "parameter_evidence_gate_closure_candidate_count": 0,
+  "acceptance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "parameter_evidence_source_request_packet": "data/parameters/parameter_evidence_source_request_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/parameters/parameter_source_readiness_packet.csv",
+    "manifest": "data/parameters/parameter_source_readiness_manifest.json",
+    "doc": "docs/parameter_source_readiness_packet.md"
+  },
+  "review_items": [
+    "replace weak demand, fleet, transfer, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
+    "update parameter_sources.csv or fleet_assumptions.csv only after source review",
+    "use parameter_acceptance.csv separately for retained weak assumptions",
+    "rerun parameter, publication-readiness, and final-study-readiness audits after source changes"
+  ],
+  "remaining_blockers": [
+    "all rows require human review or external source decisions before final claims",
+    "this packet is readiness evidence only and cannot create accepted parameter values",
+    "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
+  ]
+}

@@ -57,6 +57,10 @@ from src.realworld.parameter_evidence_request_packet import (  # noqa: E402
     build_parameter_evidence_source_request_rows,
     write_parameter_evidence_source_request_packet,
 )
+from src.realworld.parameter_source_readiness_packet import (  # noqa: E402
+    build_parameter_source_readiness_rows,
+    write_parameter_source_readiness_packet,
+)
 from src.realworld.parameter_review_packet import (  # noqa: E402
     build_parameter_review_rows,
     write_parameter_review_packet,
@@ -302,6 +306,11 @@ def _refresh_existing_review_packets(
     parameter_request_rows = build_parameter_evidence_source_request_rows()
     write_parameter_evidence_source_request_packet(rows=parameter_request_rows)
     refreshed.append("data/parameters/parameter_evidence_source_request_packet.csv")
+    parameter_readiness_rows = build_parameter_source_readiness_rows(
+        request_rows=parameter_request_rows,
+    )
+    write_parameter_source_readiness_packet(rows=parameter_readiness_rows)
+    refreshed.append("data/parameters/parameter_source_readiness_packet.csv")
     rail_rows = build_rail_evidence_review_rows()
     write_rail_evidence_review_packet(rows=rail_rows)
     refreshed.append("data/parameters/rail_evidence_review_packet.csv")

@@ -95,6 +95,10 @@ Implemented extension modules now also cover:
   evidence source requests. It separates sparse speed candidates, missing
   capacity sources, benchmark/disruption human-review decisions, and missing
   reviewed override application without approving road evidence.
+- `parameter_source_readiness_packet.py`: preflight worksheet generated from
+  cross-cutting parameter source requests. It separates demand, fleet,
+  dispatch, transfer, disruption, and traffic/BPR review states without
+  accepting weak assumptions or changing parameter tables.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

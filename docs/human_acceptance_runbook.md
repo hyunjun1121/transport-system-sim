@@ -35,6 +35,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
@@ -54,6 +55,11 @@ The road source-readiness packet does not fetch external road data. It records
 whether road source requests are blocked by missing capacity/override evidence
 or require human review for sparse speed candidates, benchmark strategy, and
 scenario-only disruption treatment.
+
+The parameter source-readiness packet does not accept weak assumptions. It
+records whether demand, fleet, dispatch, transfer, disruption, and traffic/BPR
+source requests are blocked or require human review before final parameter
+claims.
 
 2. Inspect the aggregate blockers:
 

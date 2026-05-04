@@ -339,6 +339,12 @@ First pilot-smoke artifacts also exist:
   transfer, disruption, and traffic/BPR evidence collection. The generated
   packet covers 22 parameters, keeps `publication_ready: false`, and does not
   close the parameter-evidence or weak-parameter acceptance gates.
+- `src/realworld/parameter_source_readiness_packet.py` and
+  `scripts/write_parameter_source_readiness_packet.py` now classify those 6
+  parameter source requests into concrete readiness states. The current packet
+  covers 20 weak parameters, separates human-review rows from blocker rows,
+  keeps `publication_ready: false`, and cannot approve weak assumptions or
+  final parameter claims.
 - `src/realworld/parameter_acceptance.py` and
   `docs/parameter_acceptance_schema.md` define the optional reviewer record
   needed when weak expert/sensitivity-only parameters are retained inside the
@@ -634,6 +640,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py
@@ -1789,6 +1796,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py

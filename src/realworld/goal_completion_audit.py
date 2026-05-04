@@ -386,6 +386,7 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\write_source_url_remediation_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_rail_fetch_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_road_source_readiness_packet.py",
+            ".\\.venv\\Scripts\\python scripts\\write_parameter_source_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_acceptance_task_assignments.py",
             ".\\.venv\\Scripts\\python scripts\\write_formal_acceptance_evidence_matrix.py",
             ".\\.venv\\Scripts\\python scripts\\write_formal_acceptance_pre_review.py",

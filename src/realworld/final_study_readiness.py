@@ -72,6 +72,9 @@ DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH = (
 DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "road" / "road_source_readiness_manifest.json"
 )
+DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "parameters" / "parameter_source_readiness_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -138,6 +141,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     road_source_readiness_manifest = _load_json(
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
     )
+    parameter_source_readiness_manifest = _load_json(
+        DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
+    )
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -169,21 +175,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
             source_url_review_manifest,
             source_url_remediation_manifest,
         ),
-        _evidence_gate(
-            gate_id="parameter_evidence",
-            label="Parameter Evidence",
-            audit=parameter_audit,
-            ready_key="publication_ready",
-            evidence=[
-                "data/parameters/parameter_sources.csv",
-                "data/parameters/parameter_evidence_review_packet.csv",
-                "data/parameters/parameter_evidence_review_manifest.json",
-                "data/parameters/parameter_evidence_source_request_packet.csv",
-                "data/parameters/parameter_evidence_source_request_manifest.json",
-                "scripts/audit_parameter_evidence.py",
-                "scripts/write_parameter_review_packet.py",
-                "scripts/write_parameter_evidence_source_request_packet.py",
-            ],
+        _parameter_gate(
+            parameter_audit,
+            parameter_source_readiness_manifest,
         ),
         _rail_gate(rail_service_audit, rail_station_audit, rail_fetch_readiness_manifest),
         _validation_gate(validation_acceptance),
@@ -664,6 +658,65 @@ def _data_provenance_gate(
             ),
             "scope": scope,
             "remaining_upgrade_count": len(remaining),
+        },
+    )
+
+
+def _parameter_gate(
+    parameter_audit: dict[str, Any],
+    parameter_source_readiness_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Return the parameter-evidence gate with source-readiness detail."""
+
+    ready = bool(parameter_audit["publication_ready"])
+    readiness = parameter_source_readiness_manifest or {}
+    return _gate(
+        "parameter_evidence",
+        "Parameter Evidence",
+        ready=ready,
+        artifact_present=True,
+        evidence=[
+            "data/parameters/parameter_sources.csv",
+            "data/parameters/parameter_evidence_review_packet.csv",
+            "data/parameters/parameter_evidence_review_manifest.json",
+            "data/parameters/parameter_evidence_source_request_packet.csv",
+            "data/parameters/parameter_evidence_source_request_manifest.json",
+            "data/parameters/parameter_source_readiness_packet.csv",
+            "data/parameters/parameter_source_readiness_manifest.json",
+            "docs/parameter_source_readiness_packet.md",
+            "scripts/audit_parameter_evidence.py",
+            "scripts/write_parameter_review_packet.py",
+            "scripts/write_parameter_evidence_source_request_packet.py",
+            "scripts/write_parameter_source_readiness_packet.py",
+        ],
+        blockers=[]
+        if ready
+        else list(parameter_audit.get("remaining_blockers", [])),
+        details={
+            "parameter_publication_ready": parameter_audit["publication_ready"],
+            "source_readiness_manifest_present": bool(
+                parameter_source_readiness_manifest
+            ),
+            "source_readiness_blocking_request_count": readiness.get(
+                "blocking_request_count",
+                0,
+            ),
+            "source_readiness_human_review_request_count": readiness.get(
+                "human_review_request_count",
+                0,
+            ),
+            "source_readiness_status_counts": readiness.get(
+                "readiness_status_counts",
+                {},
+            ),
+            "source_readiness_publication_ready": readiness.get(
+                "publication_ready",
+                False,
+            ),
+            "source_readiness_can_mark_complete": readiness.get(
+                "can_mark_complete",
+                False,
+            ),
         },
     )
 
