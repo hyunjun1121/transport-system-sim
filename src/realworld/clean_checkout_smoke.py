@@ -96,7 +96,15 @@ def run_clean_checkout_smoke(
             _run_step(
                 "git_clone_source_tree",
                 "Clone committed source tree",
-                ("git", "clone", "--no-tags", str(source_path), str(checkout_dir)),
+                (
+                    "git",
+                    "-c",
+                    "core.longpaths=true",
+                    "clone",
+                    "--no-tags",
+                    str(source_path),
+                    str(checkout_dir),
+                ),
                 cwd=checkout_dir.parent,
                 timeout_sec=timeout_sec,
             )
@@ -106,7 +114,7 @@ def run_clean_checkout_smoke(
                 _run_step(
                     "git_checkout_source_commit",
                     "Checkout exact source commit",
-                    ("git", "checkout", source_commit),
+                    ("git", "-c", "core.longpaths=true", "checkout", source_commit),
                     cwd=checkout_dir,
                     timeout_sec=120,
                 )
