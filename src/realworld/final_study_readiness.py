@@ -69,6 +69,9 @@ DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH = (
 DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "rail" / "rail_fetch_readiness_manifest.json"
 )
+DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "road" / "road_source_readiness_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -132,6 +135,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
     )
     rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
+    road_source_readiness_manifest = _load_json(
+        DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
+    )
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -152,6 +158,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             road_override_audit,
             road_override_application_audit,
             road_diagnostics=road_diagnostics,
+            road_source_readiness_manifest=road_source_readiness_manifest,
         ),
         _real_input_smoke_gate(pilot_manifest),
         _graph_scale_gate(pilot_manifest, graph_scale_acceptance),
@@ -278,6 +285,7 @@ def _cached_osm_gate(
     road_override_audit: dict[str, Any],
     road_override_application_audit: dict[str, Any],
     road_diagnostics: dict[str, Any] | None = None,
+    road_source_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     road_diagnostics = road_diagnostics or {
         "diagnostics_ready": True,
@@ -320,10 +328,14 @@ def _cached_osm_gate(
             "data/parameters/road_evidence_review_manifest.json",
             "data/road/road_evidence_source_request_packet.csv",
             "data/road/road_evidence_source_request_manifest.json",
+            "data/road/road_source_readiness_packet.csv",
+            "data/road/road_source_readiness_manifest.json",
+            "docs/road_source_readiness_packet.md",
             "scripts/write_road_speed_evidence.py",
             "scripts/write_road_capacity_evidence.py",
             "scripts/write_road_evidence_review_packet.py",
             "scripts/write_road_evidence_source_request_packet.py",
+            "scripts/write_road_source_readiness_packet.py",
             "data/parameters/road_class_overrides_draft.csv",
             "scripts/write_road_class_override_template.py",
             "scripts/audit_road_overrides.py",
@@ -349,6 +361,22 @@ def _cached_osm_gate(
             "override_application_ready": road_override_application_audit[
                 "publication_ready"
             ],
+            "source_readiness_manifest_present": bool(road_source_readiness_manifest),
+            "source_readiness_blocking_request_count": (
+                road_source_readiness_manifest or {}
+            ).get("blocking_request_count", 0),
+            "source_readiness_human_review_request_count": (
+                road_source_readiness_manifest or {}
+            ).get("human_review_request_count", 0),
+            "source_readiness_status_counts": (
+                road_source_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "source_readiness_publication_ready": (
+                road_source_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "source_readiness_can_mark_complete": (
+                road_source_readiness_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

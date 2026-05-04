@@ -113,6 +113,11 @@ from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
     DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH,
     DEFAULT_RAIL_FETCH_READINESS_PACKET_PATH,
 )
+from src.realworld.road_source_readiness_packet import (  # noqa: E402
+    DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
+    DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
+    DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
+)
 from src.realworld.reproducibility_smoke import (  # noqa: E402
     summarize_reproducibility_smoke,
 )
@@ -208,6 +213,11 @@ CSV_EXPECTATIONS = (
         "road_evidence_review_packet",
         ROOT / "data" / "parameters" / "road_evidence_review_packet.csv",
         10,
+    ),
+    CsvExpectation(
+        "road_source_readiness_packet",
+        DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
+        5,
     ),
     CsvExpectation(
         "road_evidence_source_request_packet",
@@ -536,6 +546,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "road_source_readiness_manifest",
+        DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "pilot_privacy_review_manifest",
         DEFAULT_PILOT_PRIVACY_REVIEW_MANIFEST_PATH,
     ),
@@ -796,6 +810,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "rail_evidence_review_packet.md",
     ROOT / "docs" / "rail_timing_source_request_packet.md",
     DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
+    DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     ROOT / "paper" / "paper_draft.md",
 )
 

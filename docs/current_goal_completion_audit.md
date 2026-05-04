@@ -24,7 +24,7 @@ The active objective is complete only when every final-study gate below is ready
 | Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
 | --- | --- | --- | --- |
 | Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+2 more | create an explicit pilot acceptance record after privacy and case-scope review |
-| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+13 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+4 more |
+| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+17 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+4 more |
 | Real Input Smoke | ready | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
 | Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+19 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review |
 | Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+14 more | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance |
@@ -237,6 +237,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
+.\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py

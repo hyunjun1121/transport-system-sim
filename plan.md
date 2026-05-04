@@ -264,6 +264,13 @@ First pilot-smoke artifacts also exist:
   source-request worksheet naming the speed, capacity, benchmark, disruption,
   and override-application inputs required before reviewed road-class
   overrides can be built and applied.
+- `src/realworld/road_source_readiness_packet.py` and
+  `scripts/write_road_source_readiness_packet.py` now classify those 5 road
+  source requests into concrete readiness states. The current packet has 2
+  blocking rows, for missing capacity evidence and missing reviewed
+  `road_class_overrides.csv`, and 3 human-review rows for sparse speed
+  candidates, benchmark strategy, and scenario-only disruption treatment.
+  It remains readiness evidence only and cannot approve road inputs.
 - `src/realworld/road_override_template.py` and
   `scripts/write_road_class_override_template.py` can create a draft
   non-acceptance road-class override template from those diagnostics. The draft
@@ -352,6 +359,12 @@ First pilot-smoke artifacts also exist:
   `scripts/write_rail_timing_source_request_packet.py` now write a 5-row
   source-request worksheet naming the API-key, GTFS, capacity, and availability
   inputs required before cached rail timing evidence can be derived.
+- `src/realworld/rail_fetch_readiness_packet.py` and
+  `scripts/write_rail_fetch_readiness_packet.py` now classify those 5 rail
+  timing requests into concrete readiness states. The current packet has 3
+  blocking rows, for missing `DATA_GO_KR_KEY` or reviewed GTFS input, and 2
+  human-review rows for rail capacity and availability treatment. It remains
+  readiness evidence only and cannot approve rail service evidence.
 - `data/rail/pilot_station_binding_cache.csv`,
   `data/parameters/rail_station_bindings.csv`, and
   `src/realworld/rail_station_binding.py` now bind `S` and `R` to official
@@ -616,6 +629,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
+.\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -626,6 +640,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_road_speed_evidence.py
 .\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
+.\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python tests\test_realworld_road_override_template.py
 .\.venv\Scripts\python scripts\audit_source_provenance.py
@@ -1769,6 +1784,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
+.\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -1779,6 +1795,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_road_speed_evidence.py
 .\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
+.\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py

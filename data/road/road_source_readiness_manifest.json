@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Road source-readiness packet only; not reviewed road-class overrides, not calibrated speed or capacity evidence, not accepted disruption evidence, not proof that overrides were applied, and not operational routing evidence. This packet cannot close cached-road, parameter, validation, or formal road acceptance gates.",
+  "result_scope": "Road source-readiness packet only; not reviewed road-class overrides, not calibrated speed or capacity evidence, not accepted disruption evidence, not proof that overrides were applied, and not operational routing evidence.",
+  "row_count": 5,
+  "readiness_status_counts": {
+    "blocked_missing_capacity_source": 1,
+    "blocked_missing_reviewed_road_class_overrides": 1,
+    "needs_human_review_benchmark_strategy": 1,
+    "needs_human_review_disruption_scenario": 1,
+    "needs_human_review_sparse_speed_candidates": 1
+  },
+  "source_type_counts": {
+    "hazard_incident_or_reviewed_scenario_source_required": 1,
+    "public_speed_limit_or_benchmark_source_required": 1,
+    "reviewed_override_table_and_manifest_application_required": 1,
+    "routing_or_observed_traffic_benchmark_required": 1,
+    "traffic_count_or_capacity_reference_required": 1
+  },
+  "blocking_request_count": 2,
+  "human_review_request_count": 3,
+  "road_evidence_gate_closure_candidate_count": 0,
+  "road_application_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "road_evidence_source_request_packet": "data/road/road_evidence_source_request_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/road/road_source_readiness_packet.csv",
+    "manifest": "data/road/road_source_readiness_manifest.json",
+    "doc": "docs/road_source_readiness_packet.md"
+  },
+  "review_items": [
+    "replace sparse speed candidates with reviewed speed evidence or accepted assumptions",
+    "provide traffic counts, agency capacity references, or reviewed capacity assumptions",
+    "review benchmark and disruption scenario treatment before final claims",
+    "create data/parameters/road_class_overrides.csv only after source-backed review",
+    "rerun pilot outputs with reviewed overrides before road calibration claims"
+  ],
+  "remaining_blockers": [
+    "reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "capacity and disruption evidence still require external source or formal assumption decisions",
+    "this packet is readiness evidence only and cannot create road-class overrides"
+  ]
+}

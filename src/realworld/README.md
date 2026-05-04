@@ -91,6 +91,10 @@ Implemented extension modules now also cover:
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching
   live data or approving rail evidence.
+- `road_source_readiness_packet.py`: preflight worksheet generated from road
+  evidence source requests. It separates sparse speed candidates, missing
+  capacity sources, benchmark/disruption human-review decisions, and missing
+  reviewed override application without approving road evidence.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.
