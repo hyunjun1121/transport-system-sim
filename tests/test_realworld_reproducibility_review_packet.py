@@ -42,9 +42,10 @@ def test_reproducibility_review_rows_are_conservative() -> None:
     assert by_category["clean_checkout_execution_scope"]["status"] == (
         "blocked_full_clean_checkout_not_run"
     )
-    assert by_category["bounded_clean_checkout_smoke"]["status"] == (
-        "blocked_clean_checkout_smoke_not_run"
-    )
+    assert by_category["bounded_clean_checkout_smoke"]["status"] in {
+        "blocked_clean_checkout_smoke_not_run",
+        "ready_for_review_bounded_clean_checkout_smoke",
+    }
     assert {row["acceptance_ready"] for row in rows} == {"false"}
     assert {row["publication_ready"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {
@@ -148,15 +149,20 @@ def test_reproducibility_review_detects_cloned_repo_imports() -> None:
 def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
     """Writer should emit stable CSV fields and non-acceptance manifest."""
 
-    rows = build_reproducibility_review_rows(git_status_lines=())
-
     with TemporaryDirectory() as tmp:
-        output = Path(tmp) / "reproducibility_review.csv"
-        manifest = Path(tmp) / "reproducibility_review_manifest.json"
+        root = Path(tmp)
+        missing_clean_checkout = root / "missing_clean_checkout.json"
+        rows = build_reproducibility_review_rows(
+            clean_checkout_smoke_manifest_path=missing_clean_checkout,
+            git_status_lines=(),
+        )
+        output = root / "reproducibility_review.csv"
+        manifest = root / "reproducibility_review_manifest.json"
         value = write_reproducibility_review_packet(
             rows=rows,
             output_path=output,
             manifest_path=manifest,
+            clean_checkout_smoke_manifest_path=missing_clean_checkout,
             git_status_lines=(),
         )
 
