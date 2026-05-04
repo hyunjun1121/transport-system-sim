@@ -281,15 +281,11 @@ def check_url_reachability(url: str, timeout_sec: float = 8.0) -> UrlCheckResult
                 notes="HEAD request completed",
             )
     except HTTPError as exc:
-        if exc.code in {403, 405}:
-            return _fallback_get(url, timeout_sec=timeout_sec, checked_at=checked_at)
-        return UrlCheckResult(
-            url_status="http_error",
-            http_status=str(exc.code),
-            final_url=exc.url or "",
-            content_type=exc.headers.get("content-type", "") if exc.headers else "",
+        return _fallback_get(
+            url,
+            timeout_sec=timeout_sec,
             checked_at=checked_at,
-            notes=str(exc.reason),
+            fallback_reason=f"HEAD returned HTTP {exc.code}: {exc.reason}",
         )
     except (OSError, URLError) as exc:
         return UrlCheckResult(
@@ -299,7 +295,13 @@ def check_url_reachability(url: str, timeout_sec: float = 8.0) -> UrlCheckResult
         )
 
 
-def _fallback_get(url: str, *, timeout_sec: float, checked_at: str) -> UrlCheckResult:
+def _fallback_get(
+    url: str,
+    *,
+    timeout_sec: float,
+    checked_at: str,
+    fallback_reason: str,
+) -> UrlCheckResult:
     try:
         request = Request(url, method="GET", headers={"User-Agent": "transport-system-sim-source-review/1.0"})
         with urlopen(request, timeout=timeout_sec) as response:
@@ -309,7 +311,7 @@ def _fallback_get(url: str, *, timeout_sec: float, checked_at: str) -> UrlCheckR
                 final_url=response.geturl(),
                 content_type=response.headers.get("content-type", ""),
                 checked_at=checked_at,
-                notes="GET fallback completed after HEAD was unavailable",
+                notes=f"GET fallback completed after {fallback_reason}",
             )
     except HTTPError as exc:
         return UrlCheckResult(
@@ -318,7 +320,7 @@ def _fallback_get(url: str, *, timeout_sec: float, checked_at: str) -> UrlCheckR
             final_url=exc.url or "",
             content_type=exc.headers.get("content-type", "") if exc.headers else "",
             checked_at=checked_at,
-            notes=str(exc.reason),
+            notes=f"{fallback_reason}; GET returned HTTP {exc.code}: {exc.reason}",
         )
     except (OSError, URLError) as exc:
         return UrlCheckResult(

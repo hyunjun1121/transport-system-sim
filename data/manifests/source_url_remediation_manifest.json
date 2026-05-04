@@ -4,15 +4,15 @@
   "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
   "row_count": 13,
   "remediation_status_counts": {
-    "blocked_unreachable_or_http_error": 6,
+    "blocked_unreachable_or_http_error": 2,
     "local_citation_needs_review": 4,
-    "reachable_needs_license_review": 3
+    "reachable_needs_license_review": 7
   },
   "priority_counts": {
-    "high": 6,
-    "medium": 7
+    "high": 2,
+    "medium": 11
   },
-  "blocking_issue_count": 6,
+  "blocking_issue_count": 2,
   "live_check_required_count": 0,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,

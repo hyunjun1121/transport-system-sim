@@ -9,13 +9,13 @@
     "not_checked": 4
   },
   "url_status_counts": {
-    "http_error": 5,
+    "http_error": 1,
     "network_error": 1,
     "no_url_detected": 4,
-    "reachable": 3
+    "reachable": 7
   },
   "live_check_performed": true,
-  "unreachable_or_error_count": 6,
+  "unreachable_or_error_count": 2,
   "requires_reviewer_confirmation_count": 13,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,

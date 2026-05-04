@@ -8,9 +8,11 @@ import os
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from urllib.error import HTTPError
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import src.realworld.source_url_review_packet as source_url_module  # noqa: E402
 from src.realworld.source_url_review_packet import (  # noqa: E402
     DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH,
     DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
@@ -18,6 +20,7 @@ from src.realworld.source_url_review_packet import (  # noqa: E402
     SOURCE_URL_REVIEW_SCOPE,
     UrlCheckResult,
     build_source_url_review_rows,
+    check_url_reachability,
     extract_urls,
     write_source_url_review_packet,
 )
@@ -83,6 +86,48 @@ def test_source_url_review_rows_support_injected_live_checker() -> None:
     assert {row["check_mode"] for row in rows if not row["url"]} == {"not_checked"}
 
     print("PASS: source URL review rows support injected live checker")
+
+
+def test_check_url_reachability_falls_back_from_head_http_error() -> None:
+    """HEAD-only HTTP errors should try GET before marking a URL unreachable."""
+
+    class FakeResponse:
+        status = 200
+        headers = {"content-type": "text/html"}
+
+        def __init__(self, url: str) -> None:
+            self._url = url
+
+        def __enter__(self) -> "FakeResponse":
+            return self
+
+        def __exit__(self, *args: object) -> None:
+            return None
+
+        def geturl(self) -> str:
+            return self._url
+
+    def fake_urlopen(request: object, timeout: float) -> FakeResponse:
+        assert timeout == 2.0
+        method = request.get_method()  # type: ignore[attr-defined]
+        url = request.full_url  # type: ignore[attr-defined]
+        if method == "HEAD":
+            raise HTTPError(url, 400, "Bad Request", {}, None)
+        assert method == "GET"
+        return FakeResponse(url)
+
+    original_urlopen = source_url_module.urlopen
+    source_url_module.urlopen = fake_urlopen  # type: ignore[assignment]
+    try:
+        result = check_url_reachability("https://example.com/source", timeout_sec=2.0)
+    finally:
+        source_url_module.urlopen = original_urlopen  # type: ignore[assignment]
+
+    assert result.url_status == "reachable"
+    assert result.http_status == "200"
+    assert "HEAD returned HTTP 400" in result.notes
+
+    print("PASS: source URL reachability falls back from HEAD HTTP errors")
 
 
 def test_write_source_url_review_packet_outputs_artifacts() -> None:
@@ -162,6 +207,7 @@ if __name__ == "__main__":
     test_extract_urls_handles_semicolon_separated_citations()
     test_source_url_review_rows_are_non_acceptance_rows()
     test_source_url_review_rows_support_injected_live_checker()
+    test_check_url_reachability_falls_back_from_head_http_error()
     test_write_source_url_review_packet_outputs_artifacts()
     test_shipped_source_url_review_packet_matches_current_manifest()
     print("\n=== REALWORLD SOURCE URL REVIEW PACKET TESTS PASSED ===")
