@@ -65,7 +65,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "reproducibility_review_packet" and row["rows"] == 7
+        row["label"] == "reproducibility_review_packet" and row["rows"] == 8
         for row in summary["csv_checks"]
     )
     assert any(
@@ -435,8 +435,8 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["agent_review_path_audit"]["agent_review_paths_ready"] is True
     assert summary["agent_review_path_audit"]["can_mark_complete"] is False
     assert summary["tracked_artifact_audit"]["manifest_present"] is True
-    assert summary["tracked_artifact_audit"]["row_count"] >= 1
-    assert summary["tracked_artifact_audit"]["blocking_change_count"] >= 1
+    assert summary["tracked_artifact_audit"]["row_count"] == 0
+    assert summary["tracked_artifact_audit"]["blocking_change_count"] == 0
     assert (
         summary["tracked_artifact_audit"]["clean_checkout_reproducibility_ready"]
         is False

@@ -440,7 +440,7 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "reproducibility_review_packet",
         DEFAULT_REPRODUCIBILITY_REVIEW_PACKET_PATH,
-        7,
+        8,
     ),
     CsvExpectation(
         "graph_scale_route_comparison",
