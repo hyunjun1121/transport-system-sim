@@ -53,6 +53,10 @@ from src.realworld.formal_acceptance_pre_review import (  # noqa: E402
 from src.realworld.goal_completion_audit import write_goal_completion_audit  # noqa: E402
 from src.realworld.graph_scale_review import write_graph_scale_review_packet  # noqa: E402
 from src.realworld.graph_scale_review import build_graph_scale_review_rows  # noqa: E402
+from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
+    build_graph_scale_strategy_readiness_rows,
+    write_graph_scale_strategy_readiness_packet,
+)
 from src.realworld.parameter_evidence_request_packet import (  # noqa: E402
     build_parameter_evidence_source_request_rows,
     write_parameter_evidence_source_request_packet,
@@ -304,6 +308,11 @@ def _refresh_existing_review_packets(
     graph_scale_rows = build_graph_scale_review_rows()
     write_graph_scale_review_packet(rows=graph_scale_rows)
     refreshed.append("data/validation/graph_scale_review_packet.csv")
+    graph_scale_readiness_rows = build_graph_scale_strategy_readiness_rows(
+        review_rows=graph_scale_rows,
+    )
+    write_graph_scale_strategy_readiness_packet(rows=graph_scale_readiness_rows)
+    refreshed.append("data/validation/graph_scale_strategy_readiness_packet.csv")
     parameter_rows = build_parameter_review_rows()
     write_parameter_review_packet(rows=parameter_rows)
     refreshed.append("data/parameters/parameter_evidence_review_packet.csv")

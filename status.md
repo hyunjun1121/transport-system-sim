@@ -310,6 +310,11 @@ The codebase currently includes:
     summarizes Morris structural readiness, 168 missing/non-finite index rows,
     4,272 zero `mu_star` rows, reduced-graph scope, scaffold result scope, and
     the Morris-vs-Sobol decision while keeping `publication_ready: false`
+  - graph-scale strategy-readiness packet generation in
+    `src/realworld/graph_scale_strategy_readiness_packet.py` and
+    `scripts/write_graph_scale_strategy_readiness_packet.py`; the generated
+    5-row packet classifies reduced-corridor, multi-corridor, full-graph, and
+    missing-acceptance blockers without choosing a graph-scale method
   - validation review packet generation in
     `src/realworld/validation_review_packet.py` and
     `scripts/write_validation_review_packet.py`; the generated 7-row packet
@@ -929,6 +934,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\run_full_graph_smoke.py`
 - `.\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py`
 - `.\.venv\Scripts\python scripts\write_graph_scale_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py`
 - `.\.venv\Scripts\python scripts\audit_rail_evidence.py`
 - `.\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py`
@@ -1322,12 +1328,14 @@ Suggested next work:
 - `src/realworld/sensitivity_acceptance.py`
 - `src/realworld/sensitivity_diagnostics.py`
 - `src/realworld/sensitivity_review_packet.py`
+- `src/realworld/graph_scale_strategy_readiness_packet.py`
 - `src/realworld/validation_review_packet.py`
 - `src/realworld/validation_strategy_readiness_packet.py`
 - `src/realworld/route_road_evidence_exposure.py`
 - `scripts/run_sensitivity.py`
 - `scripts/audit_sensitivity_diagnostics.py`
 - `scripts/write_sensitivity_review_packet.py`
+- `scripts/write_graph_scale_strategy_readiness_packet.py`
 - `src/realworld/osrm_snapshot_manifest.py`
 - `scripts/write_osrm_snapshot_manifest.py`
 - `scripts/write_validation_review_packet.py`
@@ -1340,6 +1348,7 @@ Suggested next work:
 - `tests/test_realworld_sensitivity_acceptance.py`
 - `tests/test_realworld_sensitivity_diagnostics.py`
 - `tests/test_realworld_sensitivity_review_packet.py`
+- `tests/test_realworld_graph_scale_strategy_readiness_packet.py`
 - `tests/test_realworld_osrm_snapshot_manifest.py`
 - `tests/test_realworld_validation_review_packet.py`
 - `tests/test_realworld_validation_strategy_readiness_packet.py`
@@ -1352,6 +1361,8 @@ Suggested next work:
 - `results/realworld_pilot/morris_manifest.json`
 - `data/validation/sensitivity_review_packet.csv`
 - `data/validation/sensitivity_review_manifest.json`
+- `data/validation/graph_scale_strategy_readiness_packet.csv`
+- `data/validation/graph_scale_strategy_readiness_manifest.json`
 - `data/validation/validation_review_packet.csv`
 - `data/validation/validation_strategy_readiness_packet.csv`
 - `data/validation/validation_strategy_readiness_manifest.json`

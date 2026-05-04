@@ -103,6 +103,7 @@ src/
     route_road_evidence_exposure.py # Route-level road evidence exposure review aid
     graph_scale_diagnostics.py # Full-vs-reduced route parity and alternate-route diagnostics
     graph_scale_review.py   # Graph-scale method option review worksheet
+    graph_scale_strategy_readiness_packet.py # Graph-scale blocker/readiness worksheet
     disruption_scenarios.py # Structured disruption scenario definitions
     policy_alternatives.py  # Policy alternative config variants
     pilot_experiments.py    # Cached pilot scaffold experiment runner
@@ -159,6 +160,7 @@ tests/
   test_realworld_graph_scale_acceptance.py
   test_realworld_graph_scale_diagnostics.py
   test_realworld_graph_scale_review.py
+  test_realworld_graph_scale_strategy_readiness_packet.py
   test_realworld_graph_scale_result_comparison.py
   test_realworld_validation_acceptance.py
   test_realworld_final_audit_acceptance.py
@@ -229,6 +231,8 @@ data/
     validation_review_manifest.json
     validation_strategy_readiness_packet.csv # 7-row validation blocker/readiness aid
     validation_strategy_readiness_manifest.json
+    graph_scale_strategy_readiness_packet.csv # 5-row graph-scale blocker/readiness aid
+    graph_scale_strategy_readiness_manifest.json
     reproducibility_review_packet.csv # 7-row clean-checkout review aid
     reproducibility_review_manifest.json
     reproducibility_smoke_manifest.json # current-worktree smoke summary
@@ -275,6 +279,7 @@ scripts/
   fetch_rail_shortest_path_cache.py
   run_graph_scale_diagnostics.py
   write_graph_scale_review_packet.py
+  write_graph_scale_strategy_readiness_packet.py
   write_graph_scale_result_comparison.py
   run_acceptance_audit.py
   write_experiment_package_review_packet.py
@@ -592,6 +597,10 @@ Implemented behavior:
   246-edge full-profile multi-corridor candidate, and full-graph options into
   a 4-row review worksheet. Treat it as graph-scale method review support
   only, not acceptance.
+- `src/realworld/graph_scale_strategy_readiness_packet.py` and
+  `scripts/write_graph_scale_strategy_readiness_packet.py` classify the
+  current graph-scale method options into blocker and human-review states
+  without choosing or accepting the source-vs-analysis graph.
 - `src/realworld/graph_scale_result_comparison.py` and
   `scripts/write_graph_scale_result_comparison.py` compare the current full
   pilot summary with the full-profile multi-corridor candidate summary. Treat
@@ -721,6 +730,10 @@ Implemented behavior:
   method worksheet and manifest under `data/validation/`; this helps choose
   between reduced-corridor, small multi-corridor, full-profile
   multi-corridor, and full-graph methods but does not close the graph-scale
+  gate.
+- `scripts/write_graph_scale_strategy_readiness_packet.py` writes a 5-row
+  graph-scale strategy-readiness packet and manifest under `data/validation/`;
+  this makes graph-method blockers concrete but does not close the graph-scale
   gate.
 - `scripts/write_graph_scale_result_comparison.py` writes the 819-row
   current-vs-full-profile-candidate graph-scale result-delta table and

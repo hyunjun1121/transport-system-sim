@@ -75,6 +75,12 @@ DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH = (
 DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "parameters" / "parameter_source_readiness_manifest.json"
 )
+DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT
+    / "data"
+    / "validation"
+    / "graph_scale_strategy_readiness_manifest.json"
+)
 DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json"
 )
@@ -147,6 +153,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     parameter_source_readiness_manifest = _load_json(
         DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
     )
+    graph_scale_strategy_readiness_manifest = _load_json(
+        DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH
+    )
     validation_strategy_readiness_manifest = _load_json(
         DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -173,7 +182,11 @@ def audit_final_study_readiness() -> dict[str, Any]:
             road_source_readiness_manifest=road_source_readiness_manifest,
         ),
         _real_input_smoke_gate(pilot_manifest),
-        _graph_scale_gate(pilot_manifest, graph_scale_acceptance),
+        _graph_scale_gate(
+            pilot_manifest,
+            graph_scale_acceptance,
+            graph_scale_strategy_readiness_manifest,
+        ),
         _data_provenance_gate(
             reproducibility_manifest,
             provenance_acceptance,
@@ -402,8 +415,32 @@ def _real_input_smoke_gate(pilot_manifest: dict[str, Any] | None) -> dict[str, A
 def _graph_scale_gate(
     pilot_manifest: dict[str, Any] | None,
     graph_scale_acceptance: dict[str, Any],
+    graph_scale_strategy_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     accepted = bool(graph_scale_acceptance["acceptance_ready"])
+    readiness_blocking_count = _dict_int(
+        graph_scale_strategy_readiness_manifest,
+        "blocking_request_count",
+    )
+    readiness_human_review_count = _dict_int(
+        graph_scale_strategy_readiness_manifest,
+        "human_review_request_count",
+    )
+    readiness_packet_path = (
+        PROJECT_ROOT
+        / "data"
+        / "validation"
+        / "graph_scale_strategy_readiness_packet.csv"
+    )
+    readiness_manifest_path = DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH
+    readiness_doc_path = (
+        PROJECT_ROOT / "docs" / "graph_scale_strategy_readiness_packet.md"
+    )
+    readiness_artifacts_present = (
+        readiness_packet_path.exists()
+        and readiness_manifest_path.exists()
+        and readiness_doc_path.exists()
+    )
     if not pilot_manifest:
         return _gate(
             "graph_scale_strategy",
@@ -417,10 +454,31 @@ def _graph_scale_gate(
             blockers=[
                 "create a pilot full manifest with source and analysis graph scale",
                 *([] if accepted else list(graph_scale_acceptance["remaining_blockers"])),
+                *(
+                    [
+                        "resolve graph-scale strategy-readiness blockers before graph-scale acceptance"
+                    ]
+                    if readiness_blocking_count
+                    else []
+                ),
+                *(
+                    [
+                        "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+                    ]
+                    if readiness_human_review_count
+                    else []
+                ),
             ],
             details={
                 "acceptance_record_present": graph_scale_acceptance["record_present"],
                 "acceptance_path": graph_scale_acceptance["path"],
+                "strategy_readiness_manifest_present": bool(
+                    graph_scale_strategy_readiness_manifest
+                ),
+                "strategy_readiness_blocking_request_count": readiness_blocking_count,
+                "strategy_readiness_human_review_request_count": (
+                    readiness_human_review_count
+                ),
             },
         )
     count_blockers = _graph_scale_count_blockers(
@@ -431,11 +489,21 @@ def _graph_scale_gate(
         *([] if accepted else list(graph_scale_acceptance["remaining_blockers"])),
         *count_blockers,
     ]
+    if not readiness_artifacts_present:
+        blockers.append("create graph-scale strategy-readiness artifacts")
+    if not accepted and readiness_blocking_count:
+        blockers.append(
+            "resolve graph-scale strategy-readiness blockers before graph-scale acceptance"
+        )
+    if not accepted and readiness_human_review_count:
+        blockers.append(
+            "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+        )
     return _gate(
         "graph_scale_strategy",
         "Graph-Scale Strategy",
-        ready=accepted and not count_blockers,
-        artifact_present="graph_scale" in pilot_manifest,
+        ready=accepted and not count_blockers and readiness_artifacts_present,
+        artifact_present="graph_scale" in pilot_manifest and readiness_artifacts_present,
         evidence=[
             "data/manifests/graph_scale_acceptance.json",
             "docs/analysis_corridor_method_note.md",
@@ -448,9 +516,13 @@ def _graph_scale_gate(
             "data/validation/graph_scale_multi_corridor_routes_summary.md",
             "data/validation/graph_scale_review_packet.csv",
             "data/validation/graph_scale_review_manifest.json",
+            "data/validation/graph_scale_strategy_readiness_packet.csv",
+            "data/validation/graph_scale_strategy_readiness_manifest.json",
+            "docs/graph_scale_strategy_readiness_packet.md",
             "data/validation/graph_scale_result_comparison.csv",
             "data/validation/graph_scale_result_comparison_manifest.json",
             "scripts/write_graph_scale_review_packet.py",
+            "scripts/write_graph_scale_strategy_readiness_packet.py",
             "scripts/write_graph_scale_result_comparison.py",
             "scripts/run_graph_scale_diagnostics.py",
             "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -486,6 +558,20 @@ def _graph_scale_gate(
             "source_graph_edges": pilot_manifest.get("source_graph_edges"),
             "analysis_graph_nodes": pilot_manifest.get("graph_nodes"),
             "analysis_graph_edges": pilot_manifest.get("graph_edges"),
+            "strategy_readiness_manifest_present": bool(
+                graph_scale_strategy_readiness_manifest
+            ),
+            "strategy_readiness_blocking_request_count": readiness_blocking_count,
+            "strategy_readiness_human_review_request_count": readiness_human_review_count,
+            "strategy_readiness_status_counts": (
+                graph_scale_strategy_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "strategy_readiness_publication_ready": (
+                graph_scale_strategy_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "strategy_readiness_can_mark_complete": (
+                graph_scale_strategy_readiness_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

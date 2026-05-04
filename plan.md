@@ -313,6 +313,15 @@ First pilot-smoke artifacts also exist:
   246-edge full-profile multi-corridor candidate, and full bus-practical graph
   into a 4-row graph-scale method review packet. This is a worksheet for
   deciding the final graph-scale method, not acceptance evidence.
+- `src/realworld/graph_scale_strategy_readiness_packet.py` and
+  `scripts/write_graph_scale_strategy_readiness_packet.py` convert that
+  4-option worksheet and the current-vs-candidate result-delta manifest into
+  a 5-row pre-review readiness packet under
+  `data/validation/graph_scale_strategy_readiness_packet.csv`. It separates
+  current reduced-corridor alternate-route warnings, incomplete small
+  multi-corridor output, full-profile candidate result deltas, missing
+  full-graph experiment output, and the missing graph-scale acceptance record
+  without choosing or approving a graph-scale method.
 - `src/realworld/graph_scale_result_comparison.py` and
   `scripts/write_graph_scale_result_comparison.py` now compare the current
   full-pilot summary with the full-profile multi-corridor candidate summary.
@@ -635,8 +644,10 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_diagnostics.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_review.py
+.\.venv\Scripts\python tests\test_realworld_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_rail_gtfs.py
 .\.venv\Scripts\python tests\test_realworld_rail_shortest_path_api.py
 .\.venv\Scripts\python tests\test_realworld_rail_timetable_api.py
@@ -1803,6 +1814,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
@@ -1951,8 +1963,9 @@ Concrete next tasks:
    corridor-selection rule, whether to regenerate experiments on the
    164-node / 246-edge candidate graph, or whether to replace the current
    graph method with full-graph runtime evidence or a multi-corridor ensemble
-   before graph-scale acceptance. Use the graph-scale review packet as the
-   consolidated method-selection worksheet.
+   before graph-scale acceptance. Use the graph-scale review packet and
+   graph-scale strategy-readiness packet as the consolidated method-selection
+   and blocker-classification worksheets.
 6. Review the source-graph and analysis-graph scale fields now recorded in
    every pilot, sensitivity, Morris, and figure/table manifest, and keep this
    distinction visible in all manuscript/report result text.

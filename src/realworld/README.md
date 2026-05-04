@@ -50,6 +50,11 @@ Implemented extension modules now also cover:
   corridor, small multi-corridor candidate, full-profile multi-corridor
   candidate, and full bus-practical graph. It is review support only and not
   graph-scale acceptance.
+- `graph_scale_strategy_readiness_packet.py`: preflight worksheet generated
+  from the graph-scale review rows and result-comparison manifest. It separates
+  reduced-corridor alternate-route warnings, incomplete multi-corridor output,
+  full-profile candidate result deltas, missing full-graph outputs, and missing
+  graph-scale acceptance without choosing a graph-scale method.
 - `graph_scale_result_comparison.py`: generated current-vs-full-profile
   multi-corridor candidate result-delta worksheet. It is review support only
   and not graph-scale acceptance.
