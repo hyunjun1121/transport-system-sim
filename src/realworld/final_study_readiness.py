@@ -66,6 +66,9 @@ DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH = (
 DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "source_url_remediation_manifest.json"
 )
+DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "rail" / "rail_fetch_readiness_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -128,6 +131,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
     source_url_remediation_manifest = _load_json(
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
     )
+    rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -174,7 +178,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
                 "scripts/write_parameter_evidence_source_request_packet.py",
             ],
         ),
-        _rail_gate(rail_service_audit, rail_station_audit),
+        _rail_gate(rail_service_audit, rail_station_audit, rail_fetch_readiness_manifest),
         _validation_gate(validation_acceptance),
         _structured_disruption_gate(),
         _policy_gate(),
@@ -658,6 +662,7 @@ def _evidence_gate(
 def _rail_gate(
     rail_service_audit: dict[str, Any],
     rail_station_audit: dict[str, Any],
+    rail_fetch_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     ready = bool(
         rail_service_audit["publication_ready"] and rail_station_audit["binding_ready"]
@@ -684,9 +689,13 @@ def _rail_gate(
             "data/parameters/rail_evidence_review_manifest.json",
             "data/rail/rail_timing_source_request_packet.csv",
             "data/rail/rail_timing_source_request_manifest.json",
+            "data/rail/rail_fetch_readiness_packet.csv",
+            "data/rail/rail_fetch_readiness_manifest.json",
+            "docs/rail_fetch_readiness_packet.md",
             "scripts/audit_rail_evidence.py",
             "scripts/write_rail_evidence_review_packet.py",
             "scripts/write_rail_timing_source_request_packet.py",
+            "scripts/write_rail_fetch_readiness_packet.py",
             "scripts/fetch_rail_timetable_cache.py",
             "scripts/derive_rail_headway_evidence.py",
             "scripts/derive_rail_service_evidence.py",
@@ -699,6 +708,19 @@ def _rail_gate(
         details={
             "service_publication_ready": rail_service_audit["publication_ready"],
             "station_binding_ready": rail_station_audit["binding_ready"],
+            "fetch_readiness_manifest_present": bool(rail_fetch_readiness_manifest),
+            "fetch_readiness_blocking_request_count": (
+                rail_fetch_readiness_manifest or {}
+            ).get("blocking_request_count", 0),
+            "fetch_readiness_status_counts": (
+                rail_fetch_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "fetch_readiness_publication_ready": (
+                rail_fetch_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "fetch_readiness_can_mark_complete": (
+                rail_fetch_readiness_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

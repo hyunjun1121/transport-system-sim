@@ -142,6 +142,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
+        row["label"] == "rail_fetch_readiness_packet" and row["rows"] == 5
+        for row in summary["csv_checks"]
+    )
+    assert any(
         row["label"] == "parameter_evidence_review_packet" and row["rows"] == 29
         for row in summary["csv_checks"]
     )
@@ -208,6 +212,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     assert any(
         row["label"] == "rail_timing_source_request_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "rail_fetch_readiness_manifest" and row["ok"]
         for row in summary["json_checks"]
     )
     assert any(

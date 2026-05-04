@@ -87,6 +87,10 @@ Implemented extension modules now also cover:
   from the source URL review packet. It separates reachable URLs, unreachable
   public URLs, live-check gaps, and local-only citations without approving
   provenance.
+- `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail
+  timing source requests. It separates missing API keys, missing reviewed GTFS
+  files, and human-review-only capacity/availability decisions without fetching
+  live data or approving rail evidence.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

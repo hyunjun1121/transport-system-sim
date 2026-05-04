@@ -33,6 +33,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
@@ -43,6 +44,10 @@ The live source-URL option records volatile reachability evidence for
 statuses into source-specific reviewer actions. Both are reviewer aids only;
 they do not certify licenses, attribution, source suitability, or provenance
 acceptance.
+
+The rail fetch-readiness packet does not fetch live data. It records whether
+rail timing source requests are blocked by missing API keys, missing reviewed
+GTFS files, or human-review-only capacity and availability decisions.
 
 2. Inspect the aggregate blockers:
 

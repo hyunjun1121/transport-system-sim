@@ -78,6 +78,10 @@ from src.realworld.rail_timing_request_packet import (  # noqa: E402
     build_rail_timing_source_request_rows,
     write_rail_timing_source_request_packet,
 )
+from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
+    build_rail_fetch_readiness_rows,
+    write_rail_fetch_readiness_packet,
+)
 from src.realworld.road_evidence_request_packet import (  # noqa: E402
     build_road_evidence_source_request_rows,
     write_road_evidence_source_request_packet,
@@ -300,6 +304,9 @@ def _refresh_existing_review_packets(
     rail_request_rows = build_rail_timing_source_request_rows()
     write_rail_timing_source_request_packet(rows=rail_request_rows)
     refreshed.append("data/rail/rail_timing_source_request_packet.csv")
+    rail_fetch_rows = build_rail_fetch_readiness_rows(request_rows=rail_request_rows)
+    write_rail_fetch_readiness_packet(rows=rail_fetch_rows)
+    refreshed.append("data/rail/rail_fetch_readiness_packet.csv")
     road_rows = build_road_evidence_review_rows()
     write_road_evidence_review_packet(rows=road_rows)
     refreshed.append("data/parameters/road_evidence_review_packet.csv")
