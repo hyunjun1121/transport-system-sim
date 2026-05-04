@@ -38,6 +38,17 @@ def test_extract_urls_handles_semicolon_separated_citations() -> None:
     print("PASS: source URL extraction handles citation separators")
 
 
+def test_extract_urls_preserves_url_internal_semicolon_and_commas() -> None:
+    """URL extraction should keep OSRM-style coordinate separators intact."""
+
+    url = "https://router.project-osrm.org/route/v1/driving/127.1,37.5;127.2,37.6?overview=false"
+    urls = extract_urls(f"{url}; https://example.com/terms")
+
+    assert urls == (url, "https://example.com/terms")
+
+    print("PASS: source URL extraction preserves internal URL separators")
+
+
 def test_source_url_review_rows_are_non_acceptance_rows() -> None:
     """Rows should turn source citations into concrete URL-review actions."""
 
@@ -205,6 +216,7 @@ def test_shipped_source_url_review_packet_matches_current_manifest() -> None:
 
 if __name__ == "__main__":
     test_extract_urls_handles_semicolon_separated_citations()
+    test_extract_urls_preserves_url_internal_semicolon_and_commas()
     test_source_url_review_rows_are_non_acceptance_rows()
     test_source_url_review_rows_support_injected_live_checker()
     test_check_url_reachability_falls_back_from_head_http_error()

@@ -136,7 +136,7 @@
                         "source_id":  "osrm_public_route_benchmark",
                         "source_name":  "OSRM public demo route benchmark snapshot",
                         "source_type":  "public_router",
-                        "source_url_or_citation":  "https://router.project-osrm.org",
+                        "source_url_or_citation":  "https://router.project-osrm.org; https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false",
                         "license_or_terms":  "OSRM public demo service is a plausibility reference only; not ground truth and not an operational dependency.",
                         "snapshot_or_access_date":  "2026-05-04",
                         "local_artifact_paths":  [

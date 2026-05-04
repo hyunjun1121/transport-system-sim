@@ -2,17 +2,16 @@
   "schema_version": 1,
   "claim_boundary": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. Remediation rows identify review work only and cannot close data/manifests/provenance_acceptance.json.",
   "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
-  "row_count": 13,
+  "row_count": 16,
   "remediation_status_counts": {
-    "blocked_unreachable_or_http_error": 2,
+    "alternate_reachable_url_needs_review": 2,
     "local_citation_needs_review": 4,
-    "reachable_needs_license_review": 7
+    "reachable_needs_license_review": 10
   },
   "priority_counts": {
-    "high": 2,
-    "medium": 11
+    "medium": 16
   },
-  "blocking_issue_count": 2,
+  "blocking_issue_count": 0,
   "live_check_required_count": 0,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,

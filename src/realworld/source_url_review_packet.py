@@ -59,7 +59,7 @@ SOURCE_URL_REVIEW_COLUMNS: tuple[str, ...] = (
     "claim_boundary",
     "notes",
 )
-URL_PATTERN = re.compile(r"https?://[^\s;,\]\)>\"]+", re.IGNORECASE)
+URL_PATTERN = re.compile(r"https?://[^\s\]\)>\"]+", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -258,7 +258,7 @@ def extract_urls(text: str) -> tuple[str, ...]:
     seen: set[str] = set()
     urls: list[str] = []
     for match in URL_PATTERN.finditer(text):
-        url = match.group(0).rstrip(".")
+        url = match.group(0).rstrip(".,;")
         if url not in seen:
             seen.add(url)
             urls.append(url)

@@ -28,6 +28,8 @@ def test_source_url_remediation_rows_classify_review_actions() -> None:
         url_rows=[
             _url_row("osm", "public_map", "reachable"),
             _url_row("api", "public_api", "http_error"),
+            _url_row("api_with_alt", "public_api", "reachable"),
+            _url_row("api_with_alt", "public_api", "network_error"),
             _url_row("repo", "repository_input", "no_url_detected", url=""),
             _url_row("api_unchecked", "public_api", "not_checked"),
         ]
@@ -36,6 +38,15 @@ def test_source_url_remediation_rows_classify_review_actions() -> None:
 
     assert by_id["osm"]["remediation_status"] == "reachable_needs_license_review"
     assert by_id["api"]["remediation_status"] == "blocked_unreachable_or_http_error"
+    assert by_id["api_with_alt"]["remediation_status"] in {
+        "reachable_needs_license_review",
+        "alternate_reachable_url_needs_review",
+    }
+    assert any(
+        row["source_id"] == "api_with_alt"
+        and row["remediation_status"] == "alternate_reachable_url_needs_review"
+        for row in rows
+    )
     assert by_id["repo"]["remediation_status"] == "local_citation_needs_review"
     assert by_id["api_unchecked"]["remediation_status"] == "live_check_required"
     assert {row["claim_boundary"] for row in rows} == {SOURCE_URL_REMEDIATION_SCOPE}

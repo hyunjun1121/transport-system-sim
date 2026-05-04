@@ -60,7 +60,12 @@ def build_source_url_remediation_rows(
     """Return remediation rows from URL review rows or a review-packet CSV."""
 
     rows = list(url_rows) if url_rows is not None else _load_url_rows(url_review_packet_path)
-    return [_remediation_row(row) for row in rows]
+    reachable_source_ids = {
+        str(row.get("source_id", ""))
+        for row in rows
+        if row.get("url_status") == "reachable"
+    }
+    return [_remediation_row(row, reachable_source_ids=reachable_source_ids) for row in rows]
 
 
 def write_source_url_remediation_packet(
@@ -226,15 +231,21 @@ def build_source_url_remediation_markdown(
     return "\n".join(lines)
 
 
-def _remediation_row(row: Mapping[str, str]) -> dict[str, str]:
+def _remediation_row(
+    row: Mapping[str, str],
+    *,
+    reachable_source_ids: set[str],
+) -> dict[str, str]:
+    source_id = str(row.get("source_id", ""))
     source_type = str(row.get("source_type", ""))
     url_status = str(row.get("url_status", ""))
     remediation_status, priority, evidence_gap, action = _classify(
+        source_has_reachable_url=source_id in reachable_source_ids,
         source_type=source_type,
         url_status=url_status,
     )
     return {
-        "source_id": str(row.get("source_id", "")),
+        "source_id": source_id,
         "source_name": str(row.get("source_name", "")),
         "source_type": source_type,
         "url": str(row.get("url", "")),
@@ -254,6 +265,7 @@ def _remediation_row(row: Mapping[str, str]) -> dict[str, str]:
 
 def _classify(
     *,
+    source_has_reachable_url: bool,
     source_type: str,
     url_status: str,
 ) -> tuple[str, str, str, str]:
@@ -286,6 +298,13 @@ def _classify(
             "add a verified official URL, source citation, cached extract, or exclusion decision",
         )
     if url_status in {"http_error", "network_error"}:
+        if source_has_reachable_url:
+            return (
+                "alternate_reachable_url_needs_review",
+                "medium",
+                "one cited URL failed, but the same source has at least one reachable URL row",
+                "verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance",
+            )
         return (
             "blocked_unreachable_or_http_error",
             "high",
