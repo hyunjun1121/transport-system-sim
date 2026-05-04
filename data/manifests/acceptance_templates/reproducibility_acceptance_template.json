@@ -12,9 +12,11 @@
     "data/validation/reproducibility_review_packet.csv",
     "data/validation/reproducibility_review_manifest.json",
     "data/validation/reproducibility_smoke_manifest.json",
-    "docs/reproducibility_smoke.md"
+    "docs/reproducibility_smoke.md",
+    "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+    "docs/clean_checkout_reproducibility_smoke.md"
   ],
-  "expected_validation_command_count": 42,
+  "expected_validation_command_count": 43,
   "manifest_paths_reviewed": false,
   "no_runtime_cloned_repo_imports": false,
   "record_type": "formal_acceptance_template_not_approval",

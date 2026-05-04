@@ -62,6 +62,18 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/reproducibility_smoke.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for reproducibility",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/clean_checkout_reproducibility_smoke_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for reproducibility",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/clean_checkout_reproducibility_smoke.md"
     }
   ],
   "files_to_create_or_update_after_human_decision": [
@@ -73,7 +85,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-05-04T11:48:04+00:00",
+  "generated_at": "2026-05-04T12:26:20+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

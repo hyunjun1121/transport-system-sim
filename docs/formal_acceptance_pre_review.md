@@ -580,6 +580,8 @@ Evidence inspected:
 - `scripts/audit_plan_artifacts.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_smoke.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/clean_checkout_reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/clean_checkout_reproducibility_smoke.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks

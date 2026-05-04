@@ -12,10 +12,12 @@
     "data/validation/reproducibility_review_manifest.json",
     "data/validation/reproducibility_smoke_manifest.json",
     "docs/reproducibility_smoke.md",
+    "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+    "docs/clean_checkout_reproducibility_smoke.md",
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-04T11:47:40+00:00",
+  "generated_at": "2026-05-04T12:25:58+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
@@ -31,7 +33,9 @@
     "data/manifests/reproducibility_acceptance.json",
     "data/validation/reproducibility_review_manifest.json",
     "data/validation/reproducibility_smoke_manifest.json",
-    "docs/reproducibility_smoke.md"
+    "docs/reproducibility_smoke.md",
+    "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+    "docs/clean_checkout_reproducibility_smoke.md"
   ],
   "risks": [
     "Local dirty-tree validation can miss missing files or untracked artifacts.",

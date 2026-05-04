@@ -36,7 +36,7 @@ The active objective is complete only when every final-study gate below is ready
 | Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+5 more | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level |
 | Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+3 more | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>accept or regenerate full pilot outputs after input validation and graph-scale decision<br>review experiment-package rows before formal experiment acceptance |
 | Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+4 more | close evidence gates before final paper/report claims<br>create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>revise figure/table claim boundary from scaffold to accepted study scope<br>+1 more |
-| Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+3 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package |
+| Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+5 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package |
 | Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility |
 
 ## Named Acceptance Artifacts
@@ -200,10 +200,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
+- Changed reproducibility artifacts: 31
+- Blocking changed artifacts: 31
 - Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Modified or staged artifacts: 31
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
