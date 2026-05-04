@@ -14,6 +14,11 @@ import subprocess
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
+from src.realworld.clean_checkout_smoke import (
+    DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
+    summarize_clean_checkout_smoke,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_REPRODUCIBILITY_MANIFEST_PATH = (
@@ -31,6 +36,9 @@ DEFAULT_REPRODUCIBILITY_REVIEW_PACKET_PATH = (
 )
 DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json"
+)
+DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH = (
+    PROJECT_ROOT / "docs" / "clean_checkout_reproducibility_smoke.md"
 )
 
 REPRODUCIBILITY_REVIEW_PACKET_SCOPE = (
@@ -63,6 +71,8 @@ def build_reproducibility_review_rows(
     reproducibility_acceptance_path: str | Path = DEFAULT_REPRODUCIBILITY_ACCEPTANCE_PATH,
     reproducibility_package_doc_path: str | Path = DEFAULT_REPRODUCIBILITY_PACKAGE_DOC_PATH,
     goal_audit_path: str | Path = DEFAULT_GOAL_AUDIT_PATH,
+    clean_checkout_smoke_manifest_path: str
+    | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     git_status_lines: Sequence[str] | None = None,
     scan_dirs: Sequence[str | Path] = DEFAULT_SCAN_DIRS,
 ) -> list[dict[str, str]]:
@@ -77,6 +87,9 @@ def build_reproducibility_review_rows(
         else tuple(_git_status_lines())
     )
     import_hits = _cloned_repo_import_hits(scan_dirs)
+    clean_checkout_smoke = summarize_clean_checkout_smoke(
+        clean_checkout_smoke_manifest_path
+    )
 
     return [
         _manifest_scope_row(reproducibility_manifest_path, manifest),
@@ -85,6 +98,10 @@ def build_reproducibility_review_rows(
         _untracked_artifact_row(status_lines),
         _command_ladder_row(reproducibility_manifest_path, manifest),
         _cloned_repo_import_row(import_hits),
+        _clean_checkout_smoke_row(
+            clean_checkout_smoke_manifest_path,
+            clean_checkout_smoke,
+        ),
         _clean_checkout_scope_row(
             reproducibility_package_doc_path,
             goal_audit_path,
@@ -101,6 +118,8 @@ def write_reproducibility_review_packet(
     manifest_path: str | Path = DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH,
     reproducibility_manifest_path: str | Path = DEFAULT_REPRODUCIBILITY_MANIFEST_PATH,
     reproducibility_acceptance_path: str | Path = DEFAULT_REPRODUCIBILITY_ACCEPTANCE_PATH,
+    clean_checkout_smoke_manifest_path: str
+    | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     git_status_lines: Sequence[str] | None = None,
     scan_dirs: Sequence[str | Path] = DEFAULT_SCAN_DIRS,
 ) -> dict[str, Any]:
@@ -125,6 +144,9 @@ def write_reproducibility_review_packet(
     )
     import_hits = _cloned_repo_import_hits(scan_dirs)
     source_manifest = _read_json_object(reproducibility_manifest_path)
+    clean_checkout_smoke = summarize_clean_checkout_smoke(
+        clean_checkout_smoke_manifest_path
+    )
     status_counts = _counts(row.get("status", "") for row in rows)
     command_count, validation_command_count = _command_counts(source_manifest)
     modified_count = _git_status_prefix_count(status_lines, prefixes=("M", "A", "D", "R", "C"))
@@ -159,16 +181,26 @@ def write_reproducibility_review_packet(
         "git_untracked_count": untracked_count,
         "no_runtime_cloned_repo_imports": len(import_hits) == 0,
         "runtime_cloned_repo_import_hits": import_hits,
-        "clean_checkout_test_performed": False,
+        "clean_checkout_smoke_present": clean_checkout_smoke["manifest_present"],
+        "clean_checkout_smoke_passed": clean_checkout_smoke["smoke_passed"],
+        "clean_checkout_smoke_scope": clean_checkout_smoke["result_scope"],
+        "clean_checkout_smoke_command_count": clean_checkout_smoke["command_count"],
+        "clean_checkout_test_performed": clean_checkout_smoke[
+            "clean_checkout_test_performed"
+        ],
+        "full_clean_environment_tested": clean_checkout_smoke[
+            "full_clean_environment_tested"
+        ],
         "claim_boundary": (
             "This packet records clean-checkout reproducibility review status. "
             "It does not create data/manifests/reproducibility_acceptance.json, "
-            "does not prove full clean-checkout reproduction, and does not "
+            "does not prove full clean-environment reproduction, and does not "
             "support operational routing or calibrated real-world claims."
         ),
         "review_items": [
             "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
             "run clean-checkout validation from a fresh clone or exported package and preserve command logs",
+            "decide whether bounded current-Python clean-checkout smoke is sufficient or whether a clean-environment dependency reinstall is required",
             "review manifest command counts and artifact regeneration scope",
             "keep cloned_repo snapshots out of runtime imports",
             "record any accepted decision only in data/manifests/reproducibility_acceptance.json",
@@ -333,6 +365,43 @@ def _cloned_repo_import_row(import_hits: Sequence[str]) -> dict[str, str]:
             "boundary has changed before reproducibility acceptance."
         ),
         evidence_paths=["src", "tests", "scripts"],
+    )
+
+
+def _clean_checkout_smoke_row(
+    path: str | Path,
+    summary: Mapping[str, Any],
+) -> dict[str, str]:
+    present = bool(summary.get("manifest_present", False))
+    passed = bool(summary.get("smoke_passed", False))
+    full_environment = bool(summary.get("full_clean_environment_tested", False))
+    if not present:
+        status = "blocked_clean_checkout_smoke_not_run"
+    elif not passed:
+        status = "blocked_clean_checkout_smoke_failed"
+    elif full_environment:
+        status = "ready_for_review_full_clean_checkout_smoke"
+    else:
+        status = "ready_for_review_bounded_clean_checkout_smoke"
+    return _review_row(
+        category_id="bounded_clean_checkout_smoke",
+        check_name="Bounded clean-checkout source-tree smoke",
+        artifact_path=path,
+        artifact_present=present,
+        status=status,
+        status_detail=(
+            f"scope={summary.get('result_scope', '') or '<missing>'}; "
+            f"passed={_bool_text(passed)}; "
+            f"commands={summary.get('command_count', 0)}; "
+            f"full_clean_environment_tested={_bool_text(full_environment)}; "
+            f"source_commit={summary.get('source_commit', '')}"
+        ),
+        required_action=(
+            "Use this as bounded source-checkout evidence only. Review whether "
+            "a full clean-environment reproduction with dependency installation "
+            "and artifact regeneration is required before acceptance."
+        ),
+        evidence_paths=[path, DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH],
     )
 
 

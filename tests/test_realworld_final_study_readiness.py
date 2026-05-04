@@ -300,9 +300,10 @@ def test_reproducibility_gate_requires_acceptance_and_final_manifest() -> None:
     assert gate["ready"] is False
     assert any("clean-checkout" in item for item in gate["blockers"])
     assert gate["details"]["review_packet_present"] is True
-    assert gate["details"]["review_packet_row_count"] == 7
+    assert gate["details"]["review_packet_row_count"] == 8
     assert gate["details"]["current_worktree_smoke_present"] is True
     assert gate["details"]["current_worktree_smoke_passed"] is True
+    assert gate["details"]["clean_checkout_smoke_present"] is None
 
     print("PASS: reproducibility gate requires final manifest scope")
 
@@ -570,7 +571,7 @@ def _reproducibility_manifest_for_gate(
 
 def _reproducibility_review_manifest_for_gate() -> dict[str, object]:
     return {
-        "row_count": 7,
+        "row_count": 8,
         "clean_checkout_test_performed": False,
         "git_status_line_count": 3,
         "git_untracked_count": 1,

@@ -25,7 +25,7 @@ def test_reproducibility_review_rows_are_conservative() -> None:
     rows = build_reproducibility_review_rows()
     by_category = {row["category_id"]: row for row in rows}
 
-    assert len(rows) == 7
+    assert len(rows) == 8
     assert set(by_category) == {
         "reproducibility_manifest_scope",
         "formal_reproducibility_acceptance_record",
@@ -33,6 +33,7 @@ def test_reproducibility_review_rows_are_conservative() -> None:
         "untracked_required_artifact_risk",
         "validation_command_ladder",
         "runtime_cloned_repo_import_boundary",
+        "bounded_clean_checkout_smoke",
         "clean_checkout_execution_scope",
     }
     assert by_category["formal_reproducibility_acceptance_record"]["status"] == (
@@ -40,6 +41,9 @@ def test_reproducibility_review_rows_are_conservative() -> None:
     )
     assert by_category["clean_checkout_execution_scope"]["status"] == (
         "blocked_full_clean_checkout_not_run"
+    )
+    assert by_category["bounded_clean_checkout_smoke"]["status"] == (
+        "blocked_clean_checkout_smoke_not_run"
     )
     assert {row["acceptance_ready"] for row in rows} == {"false"}
     assert {row["publication_ready"] for row in rows} == {"false"}
@@ -162,13 +166,14 @@ def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
             assert tuple(reader.fieldnames or ()) == REPRODUCIBILITY_REVIEW_COLUMNS
         written_manifest = json.loads(manifest.read_text(encoding="utf-8"))
 
-        assert len(written_rows) == 7
+        assert len(written_rows) == 8
         assert value["acceptance_ready"] is False
         assert value["publication_ready"] is False
         assert value["clean_checkout_test_performed"] is False
+        assert value["clean_checkout_smoke_present"] is False
         assert value["acceptance_gate_closure_candidate_count"] == 0
-        assert written_manifest["row_count"] == 7
-        assert "does not prove full clean-checkout reproduction" in written_manifest[
+        assert written_manifest["row_count"] == 8
+        assert "does not prove full clean-environment reproduction" in written_manifest[
             "claim_boundary"
         ]
 

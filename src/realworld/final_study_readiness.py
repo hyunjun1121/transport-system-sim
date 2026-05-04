@@ -46,6 +46,7 @@ from src.realworld.reproducibility_review_packet import (
     DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH,
 )
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke
+from src.realworld.clean_checkout_smoke import summarize_clean_checkout_smoke
 from src.realworld.sensitivity_acceptance import summarize_sensitivity_acceptance
 from src.realworld.source_provenance import summarize_source_provenance_manifest
 from src.realworld.validation_acceptance import summarize_validation_acceptance
@@ -127,6 +128,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
     manuscript_acceptance = summarize_manuscript_acceptance()
     reproducibility_acceptance = summarize_reproducibility_acceptance()
     reproducibility_smoke = summarize_reproducibility_smoke()
+    clean_checkout_smoke = summarize_clean_checkout_smoke()
     final_audit_acceptance = summarize_final_audit_acceptance()
 
     pre_final_gates = [
@@ -181,6 +183,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             reproducibility_acceptance,
             reproducibility_review_manifest,
             reproducibility_smoke,
+            clean_checkout_smoke,
         ),
     ]
     gates = [
@@ -1134,6 +1137,7 @@ def _reproducibility_gate(
     reproducibility_acceptance: dict[str, Any],
     reproducibility_review_manifest: dict[str, Any] | None,
     reproducibility_smoke: dict[str, Any],
+    clean_checkout_smoke: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest)
     scope = str((reproducibility_manifest or {}).get("scope", ""))
@@ -1163,6 +1167,11 @@ def _reproducibility_gate(
         )
     if not review_manifest:
         blockers.append("create reproducibility review packet before clean-checkout acceptance")
+    clean_smoke = clean_checkout_smoke or {}
+    if clean_smoke and clean_smoke.get("manifest_present") and not clean_smoke.get(
+        "smoke_passed"
+    ):
+        blockers.append("resolve failed bounded clean-checkout smoke before acceptance")
     return _gate(
         "reproducibility",
         "Reproducibility",
@@ -1176,6 +1185,8 @@ def _reproducibility_gate(
             "data/validation/reproducibility_review_manifest.json",
             "data/validation/reproducibility_smoke_manifest.json",
             "docs/reproducibility_smoke.md",
+            "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+            "docs/clean_checkout_reproducibility_smoke.md",
         ],
         blockers=blockers,
         details={
@@ -1212,6 +1223,17 @@ def _reproducibility_gate(
             ),
             "current_worktree_smoke_scope": reproducibility_smoke.get(
                 "result_scope"
+            ),
+            "clean_checkout_smoke_present": clean_smoke.get("manifest_present"),
+            "clean_checkout_smoke_passed": clean_smoke.get("smoke_passed"),
+            "clean_checkout_smoke_command_count": clean_smoke.get("command_count"),
+            "clean_checkout_smoke_failed_count": clean_smoke.get("failed_count"),
+            "clean_checkout_smoke_scope": clean_smoke.get("result_scope"),
+            "clean_checkout_smoke_environment_scope": clean_smoke.get(
+                "environment_scope"
+            ),
+            "clean_checkout_smoke_full_clean_environment_tested": clean_smoke.get(
+                "full_clean_environment_tested"
             ),
         },
     )
