@@ -83,6 +83,10 @@ Implemented extension modules now also cover:
   snapshot, privacy, and reproducibility review worksheet generated from the
   source provenance manifest. It makes provenance blockers concrete but does
   not certify licenses or create `provenance_acceptance.json`.
+- `source_url_remediation_packet.py`: URL-status remediation queue generated
+  from the source URL review packet. It separates reachable URLs, unreachable
+  public URLs, live-check gaps, and local-only citations without approving
+  provenance.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

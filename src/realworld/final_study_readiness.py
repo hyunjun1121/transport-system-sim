@@ -63,6 +63,9 @@ DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH = (
 DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "source_url_review_manifest.json"
 )
+DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "source_url_remediation_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -122,6 +125,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
         DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH
     )
     source_url_review_manifest = _load_json(DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH)
+    source_url_remediation_manifest = _load_json(
+        DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
+    )
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -150,6 +156,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             provenance_acceptance,
             source_provenance,
             source_url_review_manifest,
+            source_url_remediation_manifest,
         ),
         _evidence_gate(
             gate_id="parameter_evidence",
@@ -497,6 +504,7 @@ def _data_provenance_gate(
     provenance_acceptance: dict[str, Any],
     source_provenance: dict[str, Any],
     source_url_review_manifest: dict[str, Any] | None = None,
+    source_url_remediation_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest) and bool(
         source_provenance.get("manifest_present", False)
@@ -506,6 +514,7 @@ def _data_provenance_gate(
     acceptance_ready = bool(provenance_acceptance["acceptance_ready"])
     source_provenance_ready = bool(source_provenance.get("diagnostics_ready", False))
     url_manifest = source_url_review_manifest or {}
+    url_remediation_manifest = source_url_remediation_manifest or {}
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
@@ -535,14 +544,18 @@ def _data_provenance_gate(
             "data/manifests/source_license_review_manifest.json",
             "data/manifests/source_url_review_packet.csv",
             "data/manifests/source_url_review_manifest.json",
+            "data/manifests/source_url_remediation_packet.csv",
+            "data/manifests/source_url_remediation_manifest.json",
             "data/manifests/reproducibility_manifest.json",
             "docs/source_license_review_packet.md",
             "docs/source_url_review_packet.md",
+            "docs/source_url_remediation_packet.md",
             "docs/reproducibility_package.md",
             "docs/pilot_region_data_card.md",
             "scripts/audit_source_provenance.py",
             "scripts/write_source_license_review_packet.py",
             "scripts/write_source_url_review_packet.py",
+            "scripts/write_source_url_remediation_packet.py",
         ],
         blockers=blockers,
         details={
@@ -584,6 +597,36 @@ def _data_provenance_gate(
                 False,
             ),
             "source_url_can_mark_complete": url_manifest.get(
+                "can_mark_complete",
+                False,
+            ),
+            "source_url_remediation_manifest_present": (
+                PROJECT_ROOT
+                / "data"
+                / "manifests"
+                / "source_url_remediation_manifest.json"
+            ).exists(),
+            "source_url_remediation_row_count": url_remediation_manifest.get(
+                "row_count",
+                0,
+            ),
+            "source_url_remediation_status_counts": url_remediation_manifest.get(
+                "remediation_status_counts",
+                {},
+            ),
+            "source_url_remediation_blocking_issue_count": url_remediation_manifest.get(
+                "blocking_issue_count",
+                0,
+            ),
+            "source_url_remediation_live_check_required_count": url_remediation_manifest.get(
+                "live_check_required_count",
+                0,
+            ),
+            "source_url_remediation_publication_ready": url_remediation_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "source_url_remediation_can_mark_complete": url_remediation_manifest.get(
                 "can_mark_complete",
                 False,
             ),

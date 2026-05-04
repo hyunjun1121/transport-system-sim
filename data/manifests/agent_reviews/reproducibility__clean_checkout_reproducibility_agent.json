@@ -17,7 +17,7 @@
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-04T12:25:58+00:00",
+  "generated_at": "2026-05-04T12:46:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",

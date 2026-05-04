@@ -8,7 +8,7 @@ Source URL review packet only; not source acceptance, not license certification,
 - Can mark complete: `false`
 - URL rows: 13
 - Live check performed: `true`
-- URL statuses: `{'http_error': 5, 'network_error': 2, 'no_url_detected': 4, 'reachable': 2}`
+- URL statuses: `{'http_error': 5, 'network_error': 1, 'no_url_detected': 4, 'reachable': 3}`
 
 ## URL Review Rows
 
@@ -22,7 +22,7 @@ Source URL review packet only; not source acceptance, not license certification,
 | seoul_shortest_path_api_context | https://data.seoul.go.kr/dataList/OA-22724/A/1/datasetView.do | http_error | 404 | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
 | seoul_shortest_path_api_context | https://www.data.go.kr/en/data/15143842/openapi.do | network_error |  | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
 | seoul_timetable_api_context | https://data.seoul.go.kr/dataList/32/literacyView.do | http_error | 404 | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
-| seoul_timetable_api_context | https://www.data.go.kr/en/data/15143847/openapi.do | network_error |  | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
+| seoul_timetable_api_context | https://www.data.go.kr/en/data/15143847/openapi.do | reachable | 200 | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
 | metro9_capacity_context | https://www.metro9.co.kr/eng/sub03_02_01.do | http_error | 400 | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
 | osrm_public_route_benchmark | https://router.project-osrm.org | http_error | 400 | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |
 | structured_scenario_tables |  | no_url_detected |  | Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. |

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. Remediation rows identify review work only and cannot close data/manifests/provenance_acceptance.json.",
+  "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+  "row_count": 13,
+  "remediation_status_counts": {
+    "blocked_unreachable_or_http_error": 6,
+    "local_citation_needs_review": 4,
+    "reachable_needs_license_review": 3
+  },
+  "priority_counts": {
+    "high": 6,
+    "medium": 7
+  },
+  "blocking_issue_count": 6,
+  "live_check_required_count": 0,
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "source_url_review_packet": "data/manifests/source_url_review_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/manifests/source_url_remediation_packet.csv",
+    "manifest": "data/manifests/source_url_remediation_manifest.json",
+    "doc": "docs/source_url_remediation_packet.md"
+  },
+  "review_items": [
+    "manually open or replace unreachable public URLs",
+    "cache retained public data extracts or exclude context-only references from final claims",
+    "confirm project-owned local citations where no public URL is expected",
+    "verify license, attribution, derivative-use, and snapshot records before provenance acceptance",
+    "create data/manifests/provenance_acceptance.json only after source-backed review"
+  ],
+  "remaining_blockers": [
+    "formal provenance acceptance record is absent",
+    "remediation rows do not certify official source identity or license compatibility",
+    "unreachable, network-error, not-checked, or local-citation rows require reviewer decisions"
+  ]
+}

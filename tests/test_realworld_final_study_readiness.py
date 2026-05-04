@@ -177,7 +177,7 @@ def test_data_provenance_gate_requires_source_provenance_manifest() -> None:
 
 
 def test_data_provenance_gate_reports_source_url_review_details() -> None:
-    """Source URL live-check evidence should be visible but non-accepting."""
+    """Source URL review and remediation evidence should stay non-accepting."""
 
     gate = _data_provenance_gate(
         _reproducibility_manifest(),
@@ -187,6 +187,17 @@ def test_data_provenance_gate_reports_source_url_review_details() -> None:
             "live_check_performed": True,
             "url_status_counts": {"reachable": 2, "http_error": 1},
             "unreachable_or_error_count": 1,
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 3,
+            "remediation_status_counts": {
+                "blocked_unreachable_or_http_error": 1,
+                "reachable_needs_license_review": 2,
+            },
+            "blocking_issue_count": 1,
+            "live_check_required_count": 0,
             "publication_ready": False,
             "can_mark_complete": False,
         },
@@ -201,6 +212,17 @@ def test_data_provenance_gate_reports_source_url_review_details() -> None:
     assert gate["details"]["source_url_unreachable_or_error_count"] == 1
     assert gate["details"]["source_url_publication_ready"] is False
     assert gate["details"]["source_url_can_mark_complete"] is False
+    assert gate["details"]["source_url_remediation_row_count"] == 3
+    assert gate["details"]["source_url_remediation_blocking_issue_count"] == 1
+    assert gate["details"]["source_url_remediation_live_check_required_count"] == 0
+    assert (
+        gate["details"]["source_url_remediation_status_counts"][
+            "blocked_unreachable_or_http_error"
+        ]
+        == 1
+    )
+    assert gate["details"]["source_url_remediation_publication_ready"] is False
+    assert gate["details"]["source_url_remediation_can_mark_complete"] is False
 
     print("PASS: data provenance gate reports source URL review details")
 

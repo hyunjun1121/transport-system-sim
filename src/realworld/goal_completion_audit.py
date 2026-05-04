@@ -383,6 +383,7 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\audit_plan_artifacts.py",
             ".\\.venv\\Scripts\\python scripts\\run_acceptance_audit.py",
             ".\\.venv\\Scripts\\python scripts\\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12",
+            ".\\.venv\\Scripts\\python scripts\\write_source_url_remediation_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_acceptance_task_assignments.py",
             ".\\.venv\\Scripts\\python scripts\\write_formal_acceptance_evidence_matrix.py",
             ".\\.venv\\Scripts\\python scripts\\write_formal_acceptance_pre_review.py",

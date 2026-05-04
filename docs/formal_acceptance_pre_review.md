@@ -154,12 +154,16 @@ Evidence inspected:
 - `data/manifests/source_license_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_url_remediation_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_url_remediation_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_license_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/source_url_remediation_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_region_data_card.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_source_provenance.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_source_license_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_source_url_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_source_url_remediation_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review

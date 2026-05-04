@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T12:25:58+00:00`
+- Generated at: `2026-05-04T12:46:54+00:00`
 
 ## Decision
 
@@ -23,12 +23,16 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_license_review_manifest.json
 - data/manifests/source_url_review_packet.csv
 - data/manifests/source_url_review_manifest.json
+- data/manifests/source_url_remediation_packet.csv
+- data/manifests/source_url_remediation_manifest.json
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
+- docs/source_url_remediation_packet.md
 - docs/pilot_region_data_card.md
 - scripts/audit_source_provenance.py
 - scripts/write_source_license_review_packet.py
 - scripts/write_source_url_review_packet.py
+- scripts/write_source_url_remediation_packet.py
 
 ## Evidence And Source Paths
 
@@ -38,14 +42,18 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_license_review_manifest.json
 - data/manifests/source_url_review_packet.csv
 - data/manifests/source_url_review_manifest.json
+- data/manifests/source_url_remediation_packet.csv
+- data/manifests/source_url_remediation_manifest.json
 - data/manifests/reproducibility_manifest.json
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
+- docs/source_url_remediation_packet.md
 - docs/reproducibility_package.md
 - docs/pilot_region_data_card.md
 - scripts/audit_source_provenance.py
 - scripts/write_source_license_review_packet.py
 - scripts/write_source_url_review_packet.py
+- scripts/write_source_url_remediation_packet.py
 - docs/review_packets/data_provenance.md
 - data/cache/pilot_region_road_manifest.json
 - cloned_repo_manifest.md
@@ -96,8 +104,29 @@ Formal acceptance artifacts:
       "context_only_not_cached": 3,
       "repository_input_pending_review": 4
     },
+    "source_url_can_mark_complete": false,
+    "source_url_live_check_performed": true,
+    "source_url_publication_ready": false,
+    "source_url_remediation_blocking_issue_count": 6,
+    "source_url_remediation_can_mark_complete": false,
+    "source_url_remediation_live_check_required_count": 0,
+    "source_url_remediation_manifest_present": true,
+    "source_url_remediation_publication_ready": false,
+    "source_url_remediation_row_count": 13,
+    "source_url_remediation_status_counts": {
+      "blocked_unreachable_or_http_error": 6,
+      "local_citation_needs_review": 4,
+      "reachable_needs_license_review": 3
+    },
     "source_url_review_manifest_present": true,
-    "source_url_review_packet_present": true
+    "source_url_review_packet_present": true,
+    "source_url_status_counts": {
+      "http_error": 5,
+      "network_error": 1,
+      "no_url_detected": 4,
+      "reachable": 3
+    },
+    "source_url_unreachable_or_error_count": 6
   },
   "evidence": [
     "data/manifests/provenance_acceptance.json",
@@ -106,14 +135,18 @@ Formal acceptance artifacts:
     "data/manifests/source_license_review_manifest.json",
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_review_manifest.json",
+    "data/manifests/source_url_remediation_packet.csv",
+    "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
+    "docs/source_url_remediation_packet.md",
     "docs/reproducibility_package.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
     "scripts/write_source_license_review_packet.py",
-    "scripts/write_source_url_review_packet.py"
+    "scripts/write_source_url_review_packet.py",
+    "scripts/write_source_url_remediation_packet.py"
   ],
   "gate_id": "data_provenance",
   "label": "Data Provenance",

@@ -94,6 +94,10 @@ from src.realworld.source_url_review_packet import (  # noqa: E402
     build_source_url_review_rows,
     write_source_url_review_packet,
 )
+from src.realworld.source_url_remediation_packet import (  # noqa: E402
+    build_source_url_remediation_rows,
+    write_source_url_remediation_packet,
+)
 from src.realworld.reproducibility_review_packet import (  # noqa: E402
     build_reproducibility_review_rows,
     write_reproducibility_review_packet,
@@ -311,6 +315,11 @@ def _refresh_existing_review_packets(
     )
     write_source_url_review_packet(rows=source_url_rows)
     refreshed.append("data/manifests/source_url_review_packet.csv")
+    source_url_remediation_rows = build_source_url_remediation_rows(
+        url_rows=source_url_rows,
+    )
+    write_source_url_remediation_packet(rows=source_url_remediation_rows)
+    refreshed.append("data/manifests/source_url_remediation_packet.csv")
     claim_alignment_rows = build_claim_alignment_review_rows()
     write_claim_alignment_review_packet(rows=claim_alignment_rows)
     refreshed.append("data/manifests/claim_alignment_review_packet.csv")

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Pilot Region & Privacy Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T12:25:58+00:00`
+- Generated at: `2026-05-04T12:46:54+00:00`
 
 ## Decision
 

@@ -235,6 +235,17 @@ from .source_url_review_packet import (
     extract_urls,
     write_source_url_review_packet,
 )
+from .source_url_remediation_packet import (
+    DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH,
+    DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH,
+    DEFAULT_SOURCE_URL_REMEDIATION_PACKET_PATH,
+    SOURCE_URL_REMEDIATION_COLUMNS,
+    SOURCE_URL_REMEDIATION_SCOPE,
+    build_source_url_remediation_manifest,
+    build_source_url_remediation_markdown,
+    build_source_url_remediation_rows,
+    write_source_url_remediation_packet,
+)
 from .claim_alignment_review_packet import (
     CLAIM_ALIGNMENT_REVIEW_COLUMNS,
     CLAIM_ALIGNMENT_REVIEW_SCOPE,
@@ -979,6 +990,7 @@ __all__ = [
     "write_acceptance_record_schema",
     "write_experiment_package_review_packet",
     "write_claim_alignment_review_packet",
+    "write_source_url_remediation_packet",
     "write_rail_evidence_review_packet",
     "write_rail_timing_source_request_packet",
     "write_pilot_statistics_outputs",

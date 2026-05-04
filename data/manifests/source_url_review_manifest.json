@@ -10,12 +10,12 @@
   },
   "url_status_counts": {
     "http_error": 5,
-    "network_error": 2,
+    "network_error": 1,
     "no_url_detected": 4,
-    "reachable": 2
+    "reachable": 3
   },
   "live_check_performed": true,
-  "unreachable_or_error_count": 7,
+  "unreachable_or_error_count": 6,
   "requires_reviewer_confirmation_count": 13,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
