@@ -14,7 +14,8 @@ The packet makes the clean-checkout blocker auditable by checking:
 - whether untracked generated artifacts could be missing from a fresh checkout;
 - whether the validation command ladder is present;
 - whether runtime code imports from `cloned_repo`;
-- whether a real clean-checkout execution log exists.
+- whether bounded clean source-checkout smoke evidence exists;
+- whether a full clean-environment reproduction is still required.
 
 ## Command
 
@@ -42,6 +43,22 @@ It writes `data/validation/reproducibility_smoke_manifest.json`,
 review, but it is not clean-checkout reproduction and cannot close
 `data/manifests/reproducibility_acceptance.json`.
 
+## Bounded Clean-Checkout Smoke Companion
+
+Use this command when a reviewer needs evidence from a fresh clone of the
+committed source tree:
+
+```powershell
+.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py
+```
+
+It writes `data/validation/clean_checkout_reproducibility_smoke_manifest.json`,
+`data/validation/clean_checkout_reproducibility_smoke_log.jsonl`, and
+`docs/clean_checkout_reproducibility_smoke.md`. This is bounded
+source-checkout evidence using the current Python environment. It is not a
+clean-environment dependency reinstall, full validation ladder, artifact
+regeneration acceptance, or formal reviewer approval.
+
 ## Tracked-Artifact Audit Companion
 
 Use this command when a reviewer needs a concrete list of changed artifacts
@@ -58,8 +75,9 @@ commit files, accept reproducibility, or close the final-study gate.
 
 ## Claim Boundary
 
-This packet records review status only. A reviewer still needs to run or inspect
-a fresh-clone or exported-package reproduction, review command logs, confirm
-artifact regeneration, verify manifest paths, check the runtime import
+This packet records review status only. A reviewer still needs to decide
+whether bounded clean-checkout smoke is sufficient for the intended scope or
+whether a full clean-environment reproduction is required, review command logs,
+confirm artifact regeneration, verify manifest paths, check the runtime import
 boundary, and then create `data/manifests/reproducibility_acceptance.json` if
 the package is accepted.

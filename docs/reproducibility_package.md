@@ -154,9 +154,16 @@ Current reproducible artifacts are scaffold-only:
   untracked artifact risk, validation command ladder coverage, runtime
   `cloned_repo` import boundary, and the fact that full clean-checkout
   reproduction has not been accepted
+- bounded clean source-checkout smoke manifest, command log, and markdown
+  summary; the current clean-checkout smoke clones the committed tree with
+  Windows long-path support and runs an 8-command minimal profile using the
+  current Python environment, but it is not clean-environment dependency
+  reinstall evidence and does not close reproducibility acceptance
 - bounded current-worktree reproducibility smoke manifest and command log; the
-  current smoke has 17 passing commands, but it is not a fresh-clone or
-  clean-checkout reproduction and cannot close reproducibility acceptance
+  current smoke records passing command counts in
+  `data/validation/reproducibility_smoke_manifest.json`, but it is not a
+  formal clean-checkout acceptance record and cannot close reproducibility
+  acceptance
 - reduced-corridor method note and route-parity diagnostic explaining the
   current graph-scale boundary
 
@@ -199,6 +206,7 @@ Run from the repository root on Windows PowerShell:
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_review_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
+.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --multi-corridor
@@ -465,6 +473,7 @@ git diff --check
 | `docs/reproducibility_acceptance_schema.md` | Optional final-study reproducibility acceptance schema | future reviewed clean-checkout reproduction decision only; no accepted record is committed |
 | `docs/reproducibility_review_packet.md` | Clean-checkout reproducibility review packet documentation | review support only; not reproducibility acceptance |
 | `docs/reproducibility_smoke.md` | Current-worktree reproducibility smoke summary | execution evidence only; not clean-checkout acceptance |
+| `docs/clean_checkout_reproducibility_smoke.md` | Bounded clean source-checkout smoke summary | source-checkout smoke evidence only; not clean-environment reproduction or acceptance |
 | `docs/final_audit_acceptance_schema.md` | Optional final-study independent-audit acceptance schema | future reviewed prompt-to-artifact completion decision only; no accepted record is committed |
 | `docs/parameter_evidence_review_packet.md` | Parameter review packet documentation | review support only; not accepted calibration |
 | `docs/parameter_evidence_source_request_packet.md` | Parameter evidence source-request packet documentation | request support only; not accepted calibration |
@@ -521,9 +530,11 @@ git diff --check
 | `data/validation/canonical_route_road_evidence_exposure.csv` | Route-level road-evidence exposure worksheet | 76 rows linking weak road evidence to canonical route candidates; review aid only |
 | `data/validation/canonical_route_road_evidence_exposure_manifest.json` | Route exposure manifest | non-acceptance summary; `publication_ready: false` and `acceptance_ready: false` |
 | `data/validation/validation_review_packet.csv` | Validation-strategy review worksheet | 7 rows summarizing internal plausibility, fallback/OSRM benchmarks, accessibility loss, route road-evidence exposure, summary scope, and benchmark-strategy decision requirement |
-| `data/validation/reproducibility_review_packet.csv` | Clean-checkout reproducibility review worksheet | 7 rows summarizing scaffold scope, formal acceptance absence, Git worktree state, untracked artifact risk, validation command ladder, runtime import boundary, and clean-checkout execution scope |
-| `data/validation/reproducibility_smoke_manifest.json` | Current-worktree smoke manifest | 17-command bounded smoke summary with `can_mark_complete: false` |
+| `data/validation/reproducibility_review_packet.csv` | Clean-checkout reproducibility review worksheet | 8 rows summarizing scaffold scope, formal acceptance absence, Git worktree state, untracked artifact risk, validation command ladder, runtime import boundary, bounded clean-checkout smoke, and clean-environment execution scope |
+| `data/validation/reproducibility_smoke_manifest.json` | Current-worktree smoke manifest | bounded smoke summary with `can_mark_complete: false` |
 | `data/validation/reproducibility_smoke_log.jsonl` | Current-worktree smoke command log | JSONL command records for smoke review |
+| `data/validation/clean_checkout_reproducibility_smoke_manifest.json` | Bounded clean source-checkout smoke manifest | 8-command clean-checkout minimal profile; `can_mark_complete: false` |
+| `data/validation/clean_checkout_reproducibility_smoke_log.jsonl` | Bounded clean source-checkout smoke command log | JSONL outer-step and inner-command records for smoke review |
 | `data/validation/validation_review_manifest.json` | Validation review manifest | non-acceptance summary; `publication_ready: false`, `acceptance_ready: false`, and 0 acceptance-gate closure candidates |
 | `data/validation/graph_scale_route_comparison.csv` | Full-vs-reduced route parity checks for `A -> D`, `A -> S`, and `R -> D` | scaffold graph-scale review evidence, not acceptance |
 | `data/validation/graph_scale_route_comparison_summary.md` | Route parity summary and claim boundary | current 3-row diagnostic summary, not acceptance |
@@ -585,6 +596,7 @@ git diff --check
 | `scripts/write_validation_review_packet.py` | Validation review packet generator | review support only, not validation acceptance or benchmark-strategy approval |
 | `scripts/write_reproducibility_review_packet.py` | Reproducibility review packet generator | review support only, not clean-checkout acceptance |
 | `scripts/run_reproducibility_smoke.py` | Current-worktree reproducibility smoke runner | bounded execution evidence only, not clean-checkout acceptance |
+| `scripts/run_clean_checkout_smoke.py` | Bounded clean source-checkout smoke runner | clones the committed source tree and runs a minimal smoke profile; not full clean-environment acceptance |
 | `scripts/write_osrm_snapshot_manifest.py` | OSRM snapshot manifest generator | review support only, not validation acceptance |
 | `scripts/write_route_road_evidence_exposure.py` | Route road-evidence exposure generator | review support only, not road calibration or validation acceptance |
 | `scripts/audit_road_evidence_diagnostics.py` | Road-class evidence diagnostic audit | ranks current cached OSM road classes for speed/capacity/disruption review |
@@ -777,6 +789,12 @@ Not allowed:
 - Use `data/validation/reproducibility_review_packet.csv` first to inspect
   scaffold scope, dirty or untracked worktree state, runtime import boundaries,
   and whether a true clean-checkout execution log exists.
+- Use `data/validation/clean_checkout_reproducibility_smoke_manifest.json` and
+  `data/validation/clean_checkout_reproducibility_smoke_log.jsonl` as bounded
+  clean source-checkout smoke evidence. They show that the committed source
+  tree can be cloned and a minimal evidence profile can pass, but they do not
+  prove dependency reinstall, full validation-ladder execution, artifact
+  regeneration, or final reproducibility acceptance.
 - Use `data/validation/reproducibility_smoke_manifest.json` and
   `data/validation/reproducibility_smoke_log.jsonl` as current-worktree smoke
   evidence only. They can help reviewers inspect the command ladder, but they
