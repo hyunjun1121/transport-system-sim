@@ -1,0 +1,31 @@
+{
+  "claim_boundary": "This packet organizes parameter evidence review. It does not create accepted parameter values, calibration, or final-study publication readiness.",
+  "outputs": {
+    "manifest": "data/parameters/parameter_evidence_review_manifest.json",
+    "parameter_evidence_review_packet": "data/parameters/parameter_evidence_review_packet.csv"
+  },
+  "parameter_dir": "data/parameters",
+  "publication_ready": false,
+  "result_scope": "Parameter evidence review packet; not accepted parameter calibration, operational evidence, or publication-readiness approval.",
+  "review_items": [
+    "replace weak rows with public, literature, agency, timetable, or benchmark evidence where possible",
+    "use parameter_acceptance.csv only for reviewed weak assumptions retained inside conservative claim boundaries",
+    "rerun publication-readiness and final-study-readiness audits after parameter evidence changes"
+  ],
+  "review_priority_counts": {
+    "high": 11,
+    "low": 4,
+    "medium": 14
+  },
+  "row_count": 29,
+  "schema_version": 1,
+  "weak_for_final_claim_count": 25,
+  "weak_group_counts": {
+    "demand_time_censoring": 5,
+    "disruption": 4,
+    "fleet": 7,
+    "rail": 3,
+    "road": 4,
+    "transfer": 2
+  }
+}

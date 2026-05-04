@@ -1,0 +1,169 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "current_status": "blocked",
+  "evidence_checked": [
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/osrm_route_benchmark_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/canonical_route_road_evidence_exposure.csv"
+    },
+    {
+      "claim_supported": "Formal target required for validation_package",
+      "exists": false,
+      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "path": "data/manifests/validation_acceptance.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/validation_package.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/validation_review_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/osrm_route_benchmark_manifest.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_summary.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/external_route_benchmarks.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/external_route_benchmarks_osrm.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/accessibility_loss.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/accessibility_loss_summary.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/run_plausibility_validation.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/run_accessibility_loss_analysis.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_route_road_evidence_exposure.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/run_osrm_route_benchmark.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_osrm_snapshot_manifest.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_validation_review_packet.py"
+    }
+  ],
+  "files_to_create_or_update_after_human_decision": [
+    "data/manifests/validation_acceptance.json"
+  ],
+  "final_study_ready": false,
+  "formal_approval": false,
+  "formal_ready": false,
+  "formal_record_present": false,
+  "formal_target": "data/manifests/validation_acceptance.json",
+  "gate": "validation_package",
+  "generated_at": "2026-05-04T11:34:10+00:00",
+  "human_decision_required": true,
+  "human_reviewer_action_required": [
+    "Inspect the listed review packets and evidence paths.",
+    "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
+    "Approve, reject, or keep blocked based on the existing review packet evidence.",
+    "Resolve each missing-evidence item listed in this record.",
+    "After a real decision, create or update data/manifests/validation_acceptance.json.",
+    "Rerun scripts/validate_formal_acceptance_package.py."
+  ],
+  "label": "Validation Acceptance",
+  "missing_evidence": [
+    "create an explicit validation acceptance record after benchmark-strategy review",
+    "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
+    "data/manifests/validation_acceptance.json is absent"
+  ],
+  "must_not_be_used_as_final_acceptance": true,
+  "recommendation": "blocked_requires_human_decision",
+  "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
+  "related_plan_gate_ids": [
+    "validation_package"
+  ],
+  "residual_risks": [
+    "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
+    "Create validation_acceptance.json after benchmark-strategy review.",
+    "create an explicit validation acceptance record after benchmark-strategy review",
+    "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
+    "data/manifests/validation_acceptance.json is absent",
+    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
+    "Final-study readiness remains false until formal validators accept source-backed records."
+  ],
+  "schema_version": 1,
+  "status": "draft_pre_review"
+}

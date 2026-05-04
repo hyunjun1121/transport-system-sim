@@ -1,0 +1,47 @@
+{
+  "claim_boundary": "This packet organizes rail-evidence review. It does not derive headway or travel time from a cached timetable, GTFS feed, or shortest-path artifact, and it does not certify emergency rail availability or operational route feasibility.",
+  "evidence_status_counts": {
+    "derivation_path_available_no_default_cache": 3,
+    "missing_cached_timing_evidence": 2,
+    "official_station_code_bound": 2,
+    "scheduled_public_service_proxy": 1,
+    "source_backed_or_sensitivity_acknowledged": 1,
+    "uncalibrated_availability_rule": 1
+  },
+  "inputs": {
+    "rail_assumptions": "data\\parameters\\rail_assumptions.csv",
+    "rail_service_evidence": "data\\parameters\\rail_service_evidence.csv",
+    "rail_station_bindings": "data\\parameters\\rail_station_bindings.csv"
+  },
+  "outputs": {
+    "manifest": "data\\parameters\\rail_evidence_review_manifest.json",
+    "rail_evidence_review_packet": "data\\parameters\\rail_evidence_review_packet.csv"
+  },
+  "publication_ready": false,
+  "result_scope": "Rail evidence review packet; not accepted rail-service calibration, GTFS validation, emergency rail availability evidence, or operational routing evidence.",
+  "review_items": [
+    "cache and review timetable, GTFS, or shortest-path timing evidence",
+    "derive headway and travel time into rail_service_evidence.csv with source artifact SHA256",
+    "keep rail capacity source-backed or explicitly sensitivity-only",
+    "add rail delay, unavailability, and station-access scenarios before stronger resilience claims",
+    "rerun rail, publication-readiness, and final-study-readiness audits after rail evidence changes"
+  ],
+  "review_priority_counts": {
+    "high": 6,
+    "low": 2,
+    "medium": 2
+  },
+  "row_count": 10,
+  "schema_version": 1,
+  "service_publication_ready": false,
+  "source_artifact_status_counts": {
+    "capacity_retained_as_sensitivity_axis": 1,
+    "no_cached_timing_artifact": 2,
+    "no_disruption_or_availability_artifact": 1,
+    "no_emergency_service_artifact": 1,
+    "no_reviewed_default_source_cache": 3,
+    "station_binding_cache_committed": 2
+  },
+  "station_binding_ready": true,
+  "weak_for_final_claim_count": 7
+}

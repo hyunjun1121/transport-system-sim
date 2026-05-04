@@ -1,0 +1,52 @@
+{
+  "baseline_policy_id": "bus_only",
+  "ci_method": "normal_approximation_mean_plus_minus_1_96_standard_errors",
+  "claim_boundary": "Confidence intervals summarize seed-replication variability in the current scaffold outputs. They do not certify calibrated real-world accuracy, field validation, or operational routing readiness.",
+  "metric_ci_row_count": 208,
+  "metric_columns": [
+    "completion_rate",
+    "censored_count",
+    "penalized_makespan",
+    "makespan",
+    "road_vehicle_service_minutes",
+    "train_service_minutes",
+    "total_service_minutes",
+    "passenger_travel_minutes",
+    "passengers_per_total_service_minute",
+    "first_arrival_time",
+    "median_arrival_time",
+    "p80_arrival_time",
+    "p95_arrival_time"
+  ],
+  "output_prefix": "pilot_multi_corridor",
+  "outputs": {
+    "manifest": "results/realworld_pilot/tables/pilot_multi_corridor_statistics_manifest.json",
+    "metric_ci": "results/realworld_pilot/tables/pilot_multi_corridor_metric_ci.csv",
+    "paired_delta_ci": "results/realworld_pilot/tables/pilot_multi_corridor_paired_delta_ci.csv"
+  },
+  "paired_delta_ci_row_count": 156,
+  "pairing": "Policy deltas are paired by region, graph source, scenario, and seed against bus_only when both rows are present.",
+  "result_scope": "Pilot scaffold uncertainty summary; not calibrated real-world confidence evidence or an operational forecast.",
+  "schema_version": 1,
+  "source_graph_scale": {
+    "analysis": {
+      "corridor_path_count": 3,
+      "edges": 246,
+      "graph_corridor_path_count": 3,
+      "graph_corridor_strategy": "multi_shortest_time_route_corridor_candidate",
+      "graph_reduction_strategy": "multi_corridor",
+      "nodes": 164,
+      "reduced": true,
+      "strategy": "multi_shortest_time_route_corridor_candidate_with_top3_paths_not_accepted"
+    },
+    "source": {
+      "edges": 9148,
+      "nodes": 4608
+    }
+  },
+  "source_manifest_path": "results/realworld_pilot/pilot_multi_corridor_manifest.json",
+  "source_results_path": "results/realworld_pilot/pilot_multi_corridor_results.csv",
+  "source_row_count": 32,
+  "source_run_profile": "multi_corridor_candidate",
+  "source_summary_row_count": 16
+}

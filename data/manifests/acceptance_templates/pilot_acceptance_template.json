@@ -1,0 +1,20 @@
+{
+  "acceptance_scope": "REVIEW_REQUIRED",
+  "accepted": false,
+  "accepted_by": "REVIEW_REQUIRED",
+  "accepted_date": "REVIEW_REQUIRED",
+  "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
+  "evidence_paths": [
+    "data/regions/pilot_region.yaml",
+    "docs/pilot_region_data_card.md",
+    "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_privacy_review_manifest.json",
+    "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_acceptance.json"
+  ],
+  "graph_scale_decision": "corridor_abstraction",
+  "privacy_review_complete": false,
+  "record_type": "formal_acceptance_template_not_approval",
+  "region_id": "songpa_public_demo",
+  "template_only": true
+}

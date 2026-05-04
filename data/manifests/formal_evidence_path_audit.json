@@ -1,0 +1,110 @@
+{
+  "artifact_count": 11,
+  "artifacts": [
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/pilot_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/graph_scale_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/provenance_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "csv",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/parameters/parameter_acceptance.csv"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "csv",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/parameters/road_class_overrides.csv"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/validation_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/sensitivity_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/experiment_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/manuscript_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/reproducibility_acceptance.json"
+    },
+    {
+      "artifact_present": false,
+      "artifact_type": "json",
+      "blockers": [],
+      "evidence_item_count": 0,
+      "evidence_items": [],
+      "path": "data/manifests/final_audit_acceptance.json"
+    }
+  ],
+  "can_mark_complete": false,
+  "claim_boundary": "This audit checks whether formal acceptance artifacts point to concrete local evidence files or explicit external references. It does not approve the evidence, validate licenses, certify calibration, or close final-study gates.",
+  "empty_evidence_record_count": 0,
+  "evidence_item_count": 0,
+  "formal_evidence_paths_ready": false,
+  "missing_local_evidence_count": 0,
+  "placeholder_evidence_count": 0,
+  "present_artifact_count": 0,
+  "remaining_blockers": [],
+  "review_items": [
+    "review all external references for source, license, and citation compatibility",
+    "replace REVIEW_REQUIRED placeholders before any formal acceptance package is considered",
+    "ensure every local evidence path exists in the repository or generated package",
+    "treat this as path hygiene only; scientific sufficiency still requires human review"
+  ],
+  "schema_version": 1,
+  "status_counts": {}
+}

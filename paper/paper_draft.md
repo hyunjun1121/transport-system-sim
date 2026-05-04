@@ -1,4 +1,4 @@
-# A Region-Reusable Decision Framework for Disrupted Mobilization Transport Resilience
+# A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
 
 ## Draft Status
 
@@ -8,33 +8,161 @@ publishable study.
 
 The current implemented simulator already supports queue-based passenger
 dispatch, finite fleets, rail-bus multimodal movement, road congestion,
-structured disruptions, censoring-aware metrics, and paired experiments.
-However, the current result set is based on a representative abstract network.
-This draft therefore separates:
+structured disruptions, censoring-aware metrics, paired experiments, and a
+first real-world/quasi-real input pipeline. The current full result set remains
+based on a representative abstract network. A separate pilot scaffold now
+exists with an Overpass/OSM-derived cached road graph, but its outputs are
+explicitly scaffold-only and are not calibrated real-world findings. This draft
+therefore separates:
 
 - what is already implemented,
 - what can be reported as preliminary baseline evidence,
 - what must be added before making real-world or SCI-grade claims.
 
-The intended high-level framing is:
+The intended high-level framing is civilian and public-sector oriented:
 
 > An open-data, region-reusable decision framework for evaluating when
-> multimodal mobilization transport becomes resilient or fragile under disrupted
-> regional networks and constrained fleet operations.
+> multimodal personnel transport becomes resilient or fragile under disrupted
+> regional mobility, contingency transport planning, and constrained fleet
+> operations.
+
+## Current Implementation Snapshot
+
+The repository now contains a first executable open-data-style scaffold for the
+real-world extension:
+
+- `src/realworld/` converts OSM-like cached road graphs into the existing
+  simulator graph contract.
+- `data/regions/pilot_region.yaml` defines the non-sensitive
+  `songpa_public_demo` scaffold region.
+- `data/cache/pilot_region_road.graphml` stores an offline pilot road graph
+  cache whose manifest records `live_overpass_osm_snapshot` provenance.
+- `data/parameters/` records parameter, rail, fleet, and road-evidence review
+  tables. The current `road_class_overrides_draft.csv` has 10 road-class rows,
+  all still labeled as expert-assumption review scaffolds rather than accepted
+  road evidence. The current `road_speed_evidence_candidates.csv` also has 10
+  routeable road-class rows and 5 rows with observed cached OSM `maxspeed`
+  tags, but this remains speed-review support rather than calibrated speed
+  evidence. The current `road_capacity_evidence_candidates.csv` has 10
+  routeable road-class rows and 0 rows with observed cached OSM `lanes` tags,
+  so it documents a capacity evidence gap rather than source-backed capacity
+  evidence. The current `road_evidence_review_packet.csv` consolidates the
+  road-class diagnostic, sparse speed-tag, lane-count, and draft-override
+  evidence status into 10 routeable road-class review rows; all 10 remain weak
+  for final-study road claims. The current
+  `road_evidence_source_request_packet.csv` adds 5 request rows that identify
+  the source-backed speed, capacity, benchmark, disruption, and
+  override-application inputs needed before reviewed road overrides can be
+  built; it is not road evidence. The current
+  `parameter_evidence_review_packet.csv` has 29 core-parameter rows and marks
+  25 as weak for final-study claims; it is a prioritization worksheet, not
+  accepted calibration. The current
+  `parameter_evidence_source_request_packet.csv` adds 6 request rows covering
+  22 demand, fleet, dispatch, transfer, disruption, and traffic/BPR parameters;
+  it names required source inputs but is not parameter evidence or acceptance.
+- `data/rail/pilot_station_binding_cache.csv` and
+  `data/parameters/rail_station_bindings.csv` now bind the pilot rail points
+  to official line-specific station identifiers, while keeping rail service
+  timing and capacity claims separate.
+- `data/parameters/rail_evidence_review_packet.csv` now consolidates rail
+  station-binding status, timing gaps, capacity treatment, service-window
+  assumptions, availability assumptions, and derivation paths into 10 review
+  rows. It keeps service publication readiness false until cached timetable,
+  GTFS, shortest-path, or equivalent evidence derives headway and travel time.
+- `data/rail/rail_timing_source_request_packet.csv` now records the exact
+  API-key, GTFS, capacity, and rail-availability inputs required before those
+  cached timing artifacts can be produced. It is a request worksheet, not rail
+  timing evidence.
+- Cached timetable, static-GTFS, and shortest-path derivation paths now exist
+  for future reviewed rail timing evidence; no reviewed GTFS feed or timetable
+  extract is committed for the current pilot, so the current rail-service row
+  remains an assumption proxy and capacity remains sensitivity-only.
+- `data/validation/` stores route plausibility sanity checks for the pilot
+  scaffold, including an offline fallback benchmark and an optional OSRM
+  snapshot with a non-acceptance checksum/query manifest.
+- `data/validation/accessibility_loss.csv` stores route-level directed
+  edge-removal diagnostics for the current baseline road legs, with 127
+  scaffold rows and 22 disconnected edge-removal cases.
+- `data/validation/canonical_route_road_evidence_exposure.csv` stores a 76-row
+  route-level road-evidence exposure worksheet linking weak road speed,
+  capacity, disruption, and connector assumptions to 18 canonical route
+  candidates. It is prioritization support only, not road calibration.
+- `data/validation/validation_review_packet.csv` stores a 7-row validation
+  review worksheet covering internal plausibility, fallback benchmark, optional
+  OSRM snapshot/manifest status, accessibility-loss coverage, route-level
+  road-evidence exposure, validation-summary scope, and benchmark-strategy decision
+  requirements. It is not validation acceptance.
+- `data/scenarios/` stores deterministic disruption, policy, and sensitivity
+  design tables.
+- `results/realworld_pilot/` stores separated pilot scaffold sample/staged/full
+  outputs, deterministic sensitivity screening outputs, SALib Morris scaffold
+  outputs, first/median/80th/95th arrival-time KPIs, and scaffold-only figures,
+  bottleneck/regime tables, and claim-boundary tables.
+- The current cached graph pipeline records three graph scales: 13,268 raw
+  cached OSM nodes / 28,947 raw cached edges, 4,608 bus-practical simulator
+  nodes / 9,148 simulator edges after filtering, and a 118-node / 174-edge
+  reduced analysis corridor used by the current pilot, figure, and sensitivity
+  scaffold outputs.
+- A separate graph-scale route parity diagnostic compares the full
+  bus-practical graph and reduced corridor for `A -> D`, `A -> S`, and
+  `R -> D`. The current 3 rows all pass for baseline shortest-time path
+  preservation. A companion alternate-route diagnostic has 9 rows: 3 rank-1
+  pass rows and 6 alternate-route warning rows. Together, these diagnostics
+  make the current graph-scale abstraction more transparent, but they do not
+  evaluate spillback, traffic assignment, hazard exposure, or operational
+  detours.
+- A candidate multi-corridor graph preserving the top 3 full-graph route
+  candidates per canonical leg has 164 nodes and 246 edges. Its diagnostic has
+  9 pass rows. A separated smoke-scale candidate profile now produces 32 raw
+  rows and 16 summary rows on that graph, and a full-profile candidate now
+  produces 1,890 raw rows and 63 summary rows on the same 7-policy,
+  9-scenario, 30-seed matrix as the current full pilot. This is a candidate
+  graph-scale upgrade path, not accepted final-study evidence.
+- A generated graph-scale method review packet now compares four options in
+  one worksheet: the current 118-node / 174-edge reduced corridor, the small
+  164-node / 246-edge multi-corridor candidate, the full-profile 164-node /
+  246-edge multi-corridor candidate, and the full 4,608-node / 9,148-edge
+  bus-practical graph. This packet supports method selection but does not
+  replace a reviewed graph-scale acceptance record.
+- Current pilot scaffold outputs include 1,890 full pilot rows and 63 full
+  summary rows. Current SALib Morris scaffold outputs include 4,320 raw rows
+  and 7,056 summary rows over the current policy/scenario sensitivity design.
+  A separate 6-row sensitivity review packet summarizes Morris structural
+  readiness, missing/non-finite index rows, zero `mu_star` rows, reduced graph
+  scope, scaffold result scope, and the Morris-vs-Sobol decision; it is not a
+  sensitivity acceptance record and does not waive Sobol analysis.
+- Full pilot seed-replication uncertainty tables add 819 metric confidence
+  interval rows and 702 paired policy-delta confidence interval rows. These are
+  scaffold uncertainty summaries, not calibrated real-world confidence evidence.
+- The small multi-corridor candidate output has matching uncertainty tables
+  with 208 metric confidence interval rows and 156 paired policy-delta rows.
+  The full-profile multi-corridor candidate output has 819 metric confidence
+  interval rows and 702 paired policy-delta rows. These are graph-scale review
+  summaries only.
+- The current-vs-full-profile-candidate graph-scale result comparison adds
+  819 metric-level delta rows. It currently reports 741 same-or-close rows,
+  24 candidate-improves rows, 24 candidate-worsens rows, and 30 non-finite
+  difference rows. These differences require graph-scale review before any
+  manuscript claim uses the candidate graph.
+
+These artifacts are useful for implementation verification and manuscript
+structure. They should not be described as calibrated real-world results,
+calibrated sensitivity evidence, Sobol indices, or operational route guidance.
 
 ## Working Title
 
-**A Region-Reusable Decision Framework for Disrupted Mobilization Transport
-Resilience under Network Degradation and Constrained Fleet Operations**
+**A Region-Reusable Decision Framework for Disrupted Regional Personnel
+Transport Resilience under Network Degradation and Constrained Fleet
+Operations**
 
 Alternative titles:
 
-- **Evaluating Multimodal Mobilization Transport Resilience under Regional
-  Network Disruption**
+- **Evaluating Multimodal Personnel Transport Resilience under Regional Network
+  Disruption**
 - **Open-Data Micro-Simulation of Disrupted Regional Personnel Movement with
   Constrained Road and Rail Resources**
-- **When Does Rail-Bus Multimodal Transport Improve Mobilization Resilience? A
-  Network Disruption Simulation Framework**
+- **When Does Rail-Bus Multimodal Transport Improve Disrupted Regional Mobility?
+  A Network Disruption Simulation Framework**
 
 ## Target Paper Type
 
@@ -42,11 +170,11 @@ Recommended paper type:
 
 - applied transportation resilience study
 - simulation-based decision framework
-- disrupted logistics and emergency mobilization planning paper
+- disrupted logistics and emergency or contingency transport planning paper
 
 The paper should not be framed as:
 
-- a purely military operations report,
+- a military operations report,
 - a one-region case study with operational predictions,
 - a claim that the current abstract network proves real-world modal superiority.
 
@@ -60,7 +188,7 @@ availability of road corridors, transit access, fleet resources, transfer
 capacity, and dispatch policy. Although multimodal transport can reduce direct
 road-vehicle requirements, its performance may collapse when access roads,
 transfer points, or last-mile services become bottlenecks. This study develops
-a region-reusable micro-simulation framework for evaluating mobilization
+a region-reusable micro-simulation framework for evaluating regional personnel
 transport resilience under network degradation and constrained fleet
 operations. The framework compares bus-only and rail-bus multimodal strategies
 using queue-based passenger dispatch, finite vehicle fleets, fixed-headway rail
@@ -68,21 +196,25 @@ service, transfer delays, dynamic road travel time, and disruption states
 including blockage and capacity reduction. Resilience is assessed using
 completion probability, censored personnel, penalized makespan,
 resource-efficiency measures, tail arrival times, and bottleneck attribution.
-The current implementation is first demonstrated on a representative abstract
-network, with common-random-number paired experiments across disruption and
-policy scenarios. The proposed full research design extends this baseline with
-OpenStreetMap-derived regional road networks, GTFS-based transit validation,
-spatially structured hazard overlays, critical-link analysis, and formal global
-sensitivity analysis. The expected contribution is not a universal ranking of
-transport modes, but a decision framework that identifies the disruption and
-resource regimes in which multimodal mobilization transport is robust,
-competitive, or fragile.
+The current full experiment is demonstrated on a representative abstract
+network, while a separate pilot scaffold demonstrates cached regional
+graph ingestion, source tables, route plausibility checks, structured
+disruption scenarios, policy alternatives, sample/staged/full pilot runs,
+deterministic sensitivity screening, and SALib Morris screening on the current
+full policy/scenario scaffold. The proposed full research design still requires a
+reviewed OSM-derived regional snapshot or acceptance review of the current
+cache, GTFS or timetable validation, stronger benchmark checks, broader pilot
+experiments, and staged/full-profile sensitivity interpretation. The expected contribution
+is not a universal ranking of transport
+modes, but a decision framework that identifies the disruption and resource
+regimes in which multimodal personnel transport is robust, competitive, or
+fragile.
 
 ## Keywords
 
 - transport resilience
 - disrupted logistics
-- mobilization transport
+- emergency personnel movement
 - multimodal simulation
 - road-rail integration
 - network degradation
@@ -95,7 +227,7 @@ competitive, or fragile.
 
 ### 1.1 Problem Context
 
-Regional mobilization and emergency personnel movement require moving a large
+Regional emergency, contingency, and public-sector personnel movement require moving a large
 number of people within a constrained time window. In normal conditions, direct
 road transport can appear operationally simple because passengers are loaded
 onto vehicles and moved from an assembly area to a destination. Under disrupted
@@ -118,7 +250,7 @@ question.
 
 Existing transport simulation tools can model road traffic, public transit,
 evacuation, routing, or fleet operations. However, a decision maker evaluating
-regional mobilization transport under disruption needs an integrated view of:
+regional personnel transport under disruption needs an integrated view of:
 
 - passenger arrival uncertainty,
 - dispatch policy,
@@ -131,7 +263,7 @@ regional mobilization transport under disruption needs an integrated view of:
 - sensitivity to uncertain assumptions.
 
 Large traffic platforms can be powerful, but they can also obscure the specific
-policy logic of mobilization transport. Conversely, small abstract simulations
+policy logic of coordinated personnel transport. Conversely, small abstract simulations
 are easy to interpret but can be criticized as insufficiently realistic. This
 paper addresses that gap by proposing a staged framework: a transparent
 micro-simulation core, surrounded by open-data network input, validation,
@@ -142,7 +274,7 @@ hazard-overlay, and sensitivity-analysis layers.
 Primary research question:
 
 > Under which network-disruption and resource-constraint regimes does rail-bus
-> multimodal mobilization transport outperform bus-only transport?
+> multimodal personnel transport outperform bus-only transport?
 
 Supporting questions:
 
@@ -324,7 +456,7 @@ Benchmark or optional stack:
 
 ### 4.1 Application Context
 
-The motivating application is regional mobilization transport from an urban
+The motivating application is regional emergency or contingency personnel transport from an urban
 assembly context toward destination zones. The current baseline represents a
 movement of approximately 1,000 personnel and compares:
 
@@ -394,6 +526,11 @@ Example parameter groups:
 - passenger arrival distribution,
 - simulation time limit,
 - late-arrival penalty.
+
+The current repository also includes a generated parameter review packet that
+turns the audit into a 29-row reviewer worksheet. It should be used to
+prioritize evidence upgrades and explicit assumption review, but it should not
+be cited as calibration evidence.
 
 ## 5. Simulation Model
 
@@ -605,17 +742,18 @@ representative-network results rather than real-world calibrated findings.
 
 ### 7.2 Required SCI-Grade Extension
 
-The full paper should add:
+The full paper should add or strengthen:
 
-1. OSM-derived real or quasi-real road network for a pilot region.
-2. Zone-based origin and destination representation.
+1. Reviewed OSM-derived real or quasi-real road network for a pilot region.
+2. Zone-based origin and destination representation beyond scaffold points.
 3. GTFS-based rail schedule validation or a documented rail assumption set.
-4. Public-data or literature-supported parameter-source table.
-5. Spatially structured disruption scenarios.
+4. Public-data, benchmark, or literature-supported parameter-source table.
+5. Spatially structured disruption scenarios beyond scaffold definitions.
 6. Critical-link and accessibility-loss analysis.
-7. Formal sensitivity analysis.
+7. Formal sensitivity analysis beyond deterministic screening.
 8. Independent routing or transit benchmark checks.
-9. Policy alternatives beyond bus-only and baseline rail-bus.
+9. Broader policy alternatives and seed/scenario coverage beyond the current
+   sample subset.
 
 ### 7.3 Scenario Axes
 
@@ -646,13 +784,27 @@ to transport strategy rather than random arrival or disruption draws.
 
 ### 7.5 Sensitivity Analysis
 
-Formal sensitivity analysis should be added using a tool such as SALib.
+Formal sensitivity analysis should be applied with a tool such as SALib. The
+current repository contains both a deterministic one-at-a-time screening
+scaffold and a SALib Morris screening path for the current full
+policy/scenario scaffold.
+These are useful for implementation testing and preliminary parameter ranking,
+but they should not be reported as calibrated real-world sensitivity evidence
+or Sobol sensitivity evidence. The generated sensitivity review packet should
+be used to document index handling and method-scope review before any
+manuscript claim is upgraded.
+
+The generated validation review packet should likewise be used to document
+internal plausibility warnings, fallback benchmark limitations, optional OSRM
+snapshot/manifest provenance, accessibility-loss interpretation, and the
+final benchmark-strategy decision before any validation claim is upgraded.
 
 Recommended outputs:
 
 - first-order sensitivity indices,
 - total-order sensitivity indices,
-- Morris screening if the full Sobol design is too expensive,
+- Morris screening for the accepted staged/full pilot design if the full Sobol
+  design is too expensive,
 - ranked parameter influence on completion rate,
 - ranked parameter influence on censored passengers,
 - ranked parameter influence on penalized makespan,
@@ -698,6 +850,37 @@ Recommended benchmark tools:
 - SUMO only for a small corridor-level microscopic benchmark if necessary.
 
 Benchmark outputs should be treated as plausibility checks, not ground truth.
+The current optional OSRM snapshot has 3 pass rows after bus-practical road
+filtering. Its manifest records 3 live/unpinned rows, query URLs, and
+checksums. This supports route-plausibility screening, but it still does not
+calibrate travel times, emergency operations, or route choice.
+
+The current graph-scale route parity diagnostic also has 3 pass rows for the
+canonical baseline road legs. A companion alternate-route diagnostic has 9
+rows: 3 rank-1 paths are preserved, while 6 alternate full-graph route
+candidates warn because they are not exactly preserved in the reduced
+corridor. This supports review of the reduced-corridor abstraction, but it is
+not evidence that all alternate corridors or regional route-choice dynamics are
+represented.
+
+A candidate multi-corridor graph preserving the top 3 route candidates for
+each canonical road leg has 164 nodes and 246 edges, with 9 pass rows in the
+same alternate-route diagnostic schema. This suggests a concrete graph-scale
+upgrade path. A small separated profile has been run on that graph to produce
+32 raw rows and 16 summary rows, and a full-profile candidate has been run to
+produce 1,890 raw rows and 63 summary rows. Any result claim based on that
+graph still requires a reviewed graph-scale decision.
+
+The graph-scale review packet consolidates these options into a method
+selection worksheet. It should be used to decide whether the paper reports a
+reduced-corridor abstraction, regenerates on the multi-corridor candidate,
+uses full-graph runtime evidence, or defines an ensemble method. The packet is
+review support only and does not validate the chosen graph scale by itself.
+
+The current-vs-candidate result comparison provides a second review layer by
+showing where the full-profile multi-corridor candidate changes full-pilot
+summary metrics. It is useful for identifying graph-choice-sensitive claims,
+but it is not graph-scale acceptance and does not replace reviewer judgment.
 
 ## 9. Preliminary Baseline Interpretation
 
@@ -722,6 +905,11 @@ The defensible claim is conditional:
 > The relative value of multimodal transport depends on disruption location,
 > last-mile redundancy, fleet availability, transfer handling, and rail service
 > assumptions.
+
+The separated `results/realworld_pilot/` outputs should be interpreted even
+more narrowly: they are scaffold-only sample, staged, full, and sensitivity
+outputs used to verify the real-world workflow, not empirical evidence about
+Songpa-gu or any operational system.
 
 ## 10. Expected Results Section Structure
 
@@ -833,6 +1021,23 @@ The paper must be explicit about limitations.
 Current limitations:
 
 - The current full outputs are based on an abstract representative network.
+- The current pilot outputs use a scaffold-level cached OSM snapshot and
+  reduced analysis corridor, not a reviewed or calibrated regional network.
+- Sparse OSM `maxspeed` tags have been summarized for road-class review, but
+  the candidate table has not been accepted as speed calibration and is not an
+  applied road-class override table.
+- Cached OSM lane-count tags do not currently support road-class capacity
+  calibration; the lane-count candidate table preserves this evidence gap.
+- The consolidated road-input review packet makes speed, capacity, and
+  disruption-evidence gaps visible by routeable road class, but it is not
+  accepted calibration evidence.
+- The current route parity diagnostic preserves three baseline shortest-time
+  paths, and the alternate-route diagnostic flags six omitted alternate
+  candidates; neither validates traffic assignment, spillback, hazard exposure,
+  or operational detours.
+- The current multi-corridor candidate preserves those top alternate
+  candidates and has separated 32-row smoke-scale and 1,890-row full-profile
+  candidate outputs, but it has not been accepted as final pilot evidence.
 - Road capacities and background traffic are not yet fully calibrated.
 - Disruption probabilities are scenario assumptions.
 - Rail availability is simplified.
@@ -841,6 +1046,13 @@ Current limitations:
 - The current model does not perform full microscopic traffic simulation.
 - Public OSM and GTFS data cannot represent all emergency or mobilization
   operating constraints.
+- The current Morris output is formal scaffold screening on the current full
+  policy/scenario design,
+  not calibrated real-world sensitivity evidence or Sobol analysis.
+- The current sensitivity review packet is a review worksheet, not acceptance
+  evidence and not a substitute for `data/manifests/sensitivity_acceptance.json`.
+- The current validation review packet is a review worksheet, not acceptance
+  evidence and not a substitute for `data/manifests/validation_acceptance.json`.
 
 For a strong paper, limitations should be framed as model boundaries rather
 than hidden weaknesses.
@@ -929,7 +1141,7 @@ Avoid this type of language:
 ## 17. Draft Conclusion
 
 This paper proposes a region-reusable decision framework for evaluating
-mobilization transport resilience under disrupted regional networks and
+regional personnel-transport resilience under disrupted regional networks and
 constrained fleet operations. The framework compares direct bus-only movement
 with rail-bus multimodal movement using a transparent micro-simulation model
 that captures passenger arrival uncertainty, queue-based dispatch, finite road
@@ -942,27 +1154,47 @@ The current implementation provides a meaningful baseline on a representative
 network, but it should not be interpreted as a calibrated operational forecast.
 The proposed SCI-grade extension adds OSM-derived regional networks,
 GTFS-based transit validation, spatially structured disruption overlays,
-critical-link and accessibility-loss metrics, and formal sensitivity analysis.
+critical-link and accessibility-loss metrics, and staged/full-profile formal
+sensitivity interpretation.
 Under this framing, the central finding is not that one mode is universally
 better. The expected contribution is a method for identifying the disruption and
-resource regimes in which multimodal mobilization transport is robust,
+resource regimes in which multimodal personnel transport is robust,
 competitive, or fragile.
 
 ## 18. Immediate Author TODOs
 
-1. Add a real or quasi-real OSM-derived pilot network.
-2. Define zone-based origin and destination inputs.
-3. Create the parameter-source table.
-4. Validate GTFS or documented rail assumptions.
-5. Add spatially structured disruption scenarios.
-6. Add critical-link and accessibility-loss metrics.
-7. Add SALib-based global sensitivity analysis.
-8. Add at least two policy alternatives beyond bus-only and baseline
-   multimodal.
-9. Decide whether to include an external benchmark using r5py, OSRM, Valhalla,
-   UXsim, or SUMO.
-10. Rewrite the results section after the calibrated or quasi-real experiment
-    outputs are generated.
+1. Review the current pilot OSM-derived cache as an accepted snapshot or
+   replace it with a better accepted snapshot.
+2. Strengthen zone-based origin and destination inputs.
+3. Strengthen the parameter-source table with public, literature, benchmark,
+   OSM speed-tag review, and timetable evidence.
+4. Validate rail timing using the cached static-GTFS, timetable, or
+   shortest-path derivation path, or document rail assumptions when no reviewed
+   feed is available.
+5. Expand spatially structured disruption scenarios beyond scaffold definitions.
+6. Review the current critical-link/accessibility-loss diagnostic and decide
+   whether directed-edge, bidirectional-link, or corridor-level loss is the
+   accepted final-study representation.
+7. Review the current graph-scale route parity, alternate-route, and
+   multi-corridor candidate diagnostics. Decide whether the six
+   alternate-route warning rows are acceptable under a documented
+   corridor-selection rule, whether to regenerate on the 164-node / 246-edge
+   candidate graph, or whether full-graph runtime or a multi-corridor ensemble
+   is the final study method. Use the graph-scale review packet as the
+   method-selection worksheet before writing final result claims.
+8. Review the current SALib Morris outputs with the sensitivity review packet
+   for the accepted staged/full pilot profile, resolve missing/non-finite index
+   handling and zero `mu_star` interpretation, and add Sobol only if compute
+   budget and interpretation justify it.
+9. Review the generated policy alternatives and seed/scenario coverage beyond
+   the current sample outputs.
+10. Review the validation review packet, OSRM snapshot manifest, and
+   route-level road-evidence exposure rows, then decide whether the current
+   optional OSRM snapshot is enough or whether to add another external
+   benchmark using r5py, Valhalla, UXsim, or SUMO before creating a validation
+   acceptance record.
+11. Rewrite the results section after accepted quasi-real or calibrated
+    experiment outputs are generated.
 
 ## 19. Suggested Manuscript Outline
 
@@ -980,7 +1212,7 @@ competitive, or fragile.
 
 ## 20. One-Sentence Paper Thesis
 
-Rail-bus multimodal mobilization transport should be evaluated as a conditional
+Rail-bus multimodal personnel transport should be evaluated as a conditional
 resilience strategy whose value depends on the joint reliability of access
 roads, rail service, transfer handling, last-mile capacity, and fleet
 availability under regional network disruption.

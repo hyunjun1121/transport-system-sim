@@ -1,0 +1,56 @@
+region_id: songpa_public_demo
+name: Songpa Public Demonstration Region
+boundary:
+  type: bbox
+  north: 37.5300
+  south: 37.5000
+  east: 127.1400
+  west: 127.0900
+assembly_zones:
+  - id: A
+    name: Olympic Park Public Assembly Zone
+    lat: 37.5202
+    lon: 127.1210
+    metadata:
+      coordinate_class: public
+      role: assembly_demo
+      sensitivity: non_sensitive_public_civic_area
+destination_zones:
+  - id: D
+    name: Jamsil Public Destination Zone
+    lat: 37.5180
+    lon: 127.1025
+    metadata:
+      coordinate_class: synthetic
+      role: destination_demo
+      sensitivity: non_sensitive_public_zone_centroid
+rail:
+  access:
+    id: S
+    name: Olympic Park Station Public Access Point
+    lat: 37.5166
+    lon: 127.1302
+    metadata:
+      coordinate_class: public
+      role: rail_access_demo
+      sensitivity: public_station_area
+  egress:
+    id: R
+    name: Jamsil Station Public Egress Point
+    lat: 37.5133
+    lon: 127.1002
+    metadata:
+      coordinate_class: public
+      role: rail_egress_demo
+      sensitivity: public_station_area
+  travel_time_min: 20
+  headway_min: 10
+  capacity_pax_per_train: 500
+  metadata:
+    source_class: documented_assumption
+    operational_claim: scheduled_service_proxy_not_emergency_availability
+metadata:
+  pilot_status: quasi_real_public_demo
+  data_sensitivity: non_sensitive
+  coordinate_policy: public_or_synthetic_points_only
+  cache_path: data/cache/pilot_region_road.graphml

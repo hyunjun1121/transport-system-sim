@@ -29,6 +29,10 @@ def test_complete_run_keeps_legacy_makespan():
 
     result = metrics.as_dict()
     assert result["makespan"] == 30.0
+    assert result["first_arrival_time"] == 20.0
+    assert result["median_arrival_time"] == 25.0
+    assert result["p80_arrival_time"] == 28.0
+    assert result["p95_arrival_time"] == 29.5
     assert result["success_rate"] == 1.0
     assert result["censored_count"] == 0
     assert result["completion_rate"] == 1.0
@@ -154,6 +158,10 @@ def test_late_arrivals_are_censored():
     assert metrics.success_count == 1
     assert metrics.censored_count == 1
     assert_close(metrics.completion_rate, 0.5, label="completion rate")
+    assert metrics.first_arrival_time == 50.0
+    assert metrics.median_arrival_time == 50.0
+    assert metrics.p80_arrival_time == 50.0
+    assert metrics.p95_arrival_time == 50.0
     assert metrics.penalized_makespan == 75.0
     print("PASS: late arrivals are censored")
 

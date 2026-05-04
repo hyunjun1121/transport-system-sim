@@ -1,0 +1,53 @@
+{
+  "agent": "Sensitivity Analysis Review Agent",
+  "agent_id": "sensitivity_analysis_review_agent",
+  "can_mark_complete": false,
+  "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
+  "decision": "Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the current final-study readiness audit reports blockers.",
+  "evidence": [
+    "data/manifests/sensitivity_acceptance.json",
+    "results/realworld_pilot/morris_results.csv",
+    "results/realworld_pilot/morris_summary.csv",
+    "results/realworld_pilot/morris_manifest.json",
+    "data/validation/sensitivity_review_packet.csv",
+    "data/validation/sensitivity_review_manifest.json",
+    "scripts/run_sensitivity.py",
+    "scripts/audit_sensitivity_diagnostics.py",
+    "scripts/write_sensitivity_review_packet.py",
+    "docs/review_packets/sensitivity_analysis.md"
+  ],
+  "gate_id": "sensitivity_analysis",
+  "generated_at": "2026-05-04T11:33:48+00:00",
+  "record_type": "sub_agent_gate_review",
+  "required_actions": [
+    "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
+    "Create sensitivity_acceptance.json after final input and graph scope are accepted.",
+    "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+    "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
+  ],
+  "reviewed_inputs": [
+    "data/validation/sensitivity_review_packet.csv",
+    "data/validation/sensitivity_review_manifest.json",
+    "scripts/run_sensitivity.py",
+    "data/manifests/sensitivity_acceptance.json",
+    "results/realworld_pilot/morris_results.csv",
+    "results/realworld_pilot/morris_summary.csv",
+    "results/realworld_pilot/morris_manifest.json",
+    "scripts/audit_sensitivity_diagnostics.py",
+    "scripts/write_sensitivity_review_packet.py"
+  ],
+  "risks": [
+    "Sensitivity outputs are scaffold-level while upstream evidence gates remain blocked.",
+    "Wrong parameter ranges can reverse strategy-regime conclusions.",
+    "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+    "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
+  ],
+  "schema_version": 1,
+  "source_paths": [
+    "results/realworld_pilot/morris_manifest.json",
+    "results/realworld_pilot/morris_results.csv",
+    "results/realworld_pilot/morris_summary.csv",
+    "data/manifests/sensitivity_acceptance.json"
+  ],
+  "status": "blocked"
+}

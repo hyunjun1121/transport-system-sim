@@ -1,0 +1,13 @@
+{
+  "region_id": "songpa_public_demo",
+  "cache_path": "data\\cache\\pilot_region_road.graphml",
+  "region_path": "data\\regions\\pilot_region.yaml",
+  "source": "live_overpass_osm_snapshot",
+  "created_utc": "2026-05-03T12:57:13+00:00",
+  "node_count": 13268,
+  "edge_count": 28947,
+  "graph_type": "MultiDiGraph",
+  "live_services_required_for_default_tests": false,
+  "attribution": "OpenStreetMap contributors; respect OSM/Overpass attribution requirements.",
+  "claim_limit": "Cached Overpass/OSM snapshot supports offline pilot smoke and sample runs; publication claims still require human source review, parameter evidence, rail evidence, external plausibility benchmarks, and uncertainty analysis."
+}

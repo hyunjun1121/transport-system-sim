@@ -1,0 +1,51 @@
+{
+  "agent": "Clean-Checkout Reproducibility Agent",
+  "agent_id": "clean_checkout_reproducibility_agent",
+  "can_mark_complete": false,
+  "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
+  "decision": "Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the current final-study readiness audit reports blockers.",
+  "evidence": [
+    "data/manifests/reproducibility_acceptance.json",
+    "docs/reproducibility_package.md",
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_packet.csv",
+    "data/validation/reproducibility_review_manifest.json",
+    "data/validation/reproducibility_smoke_manifest.json",
+    "docs/reproducibility_smoke.md",
+    "docs/review_packets/reproducibility.md"
+  ],
+  "gate_id": "reproducibility",
+  "generated_at": "2026-05-04T11:33:48+00:00",
+  "record_type": "sub_agent_gate_review",
+  "required_actions": [
+    "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
+    "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
+    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+    "replace scaffold-only manifest with clean-checkout final reproduction package"
+  ],
+  "reviewed_inputs": [
+    "docs/reproducibility_package.md",
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_packet.csv",
+    "scripts/audit_plan_artifacts.py",
+    "data/manifests/reproducibility_acceptance.json",
+    "data/validation/reproducibility_review_manifest.json",
+    "data/validation/reproducibility_smoke_manifest.json",
+    "docs/reproducibility_smoke.md"
+  ],
+  "risks": [
+    "Local dirty-tree validation can miss missing files or untracked artifacts.",
+    "Scaffold reproducibility manifests do not prove final package reproducibility.",
+    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+    "replace scaffold-only manifest with clean-checkout final reproduction package"
+  ],
+  "schema_version": 1,
+  "source_paths": [
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_manifest.json",
+    "docs/reproducibility_package.md",
+    "requirements.txt",
+    "data/manifests/reproducibility_acceptance.json"
+  ],
+  "status": "blocked"
+}

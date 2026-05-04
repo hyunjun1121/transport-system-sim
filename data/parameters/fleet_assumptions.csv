@@ -1,0 +1,14 @@
+parameter,value,unit,source_class,source_name,source_url_or_citation,applies_to,uncertainty_range,notes
+bus_capacity,45,pax/vehicle,expert assumption,Config personnel group size,config.yaml,direct bus and feeder dispatch,20-60,Proxy load used for comparative simulation; no agency fleet roster is used
+last_mile_vehicle_capacity,45,pax/vehicle,expert assumption,Config multimodal lastmile_vehicle_capacity,config.yaml,multimodal last-mile dispatch,20-60,Matches the baseline bus capacity assumption unless varied by policy
+direct_bus_fleet_size,23,vehicles,expert assumption,Config bus fleet_size,config.yaml,bus_only origin fleet,5-40,Planning assumption for the quasi-real pilot and not an operational inventory
+feeder_fleet_size,23,vehicles,expert assumption,Config multimodal shuttle_fleet_size,config.yaml,multimodal feeder fleet,5-40,Planning assumption aligned with the direct bus baseline
+last_mile_fleet_size,23,vehicles,expert assumption,Config multimodal lastmile_fleet_size,config.yaml,multimodal last-mile fleet,5-40,Planning assumption to vary in policy and sensitivity runs
+turnaround_time,5,min,expert assumption,Config and scenario turnaround defaults,config.yaml and src/scenario.py,all road vehicle fleets,0-30,Generic turnaround assumption used by the shipped parameter-source coverage check
+direct_bus_turnaround_time,5,min,expert assumption,Config bus turnaround_min,config.yaml,bus_only origin fleet,0-30,Short operational proxy; not depot or layover validated
+feeder_turnaround_time,5,min,expert assumption,Scenario shuttle turnaround default,src/scenario.py,multimodal feeder fleet,0-30,Default applies because config.yaml does not set shuttle_turnaround_min
+last_mile_turnaround_time,5,min,expert assumption,Config multimodal lastmile_turnaround_min,config.yaml,multimodal last-mile fleet,0-30,Short operational proxy; not depot or layover validated
+dispatch_interval,5,min,expert assumption,Config dispatch intervals,config.yaml,all scheduled road dispatches,0-15,Generic dispatch assumption used by the shipped parameter-source coverage check
+direct_bus_dispatch_interval,5,min,expert assumption,Config bus dispatch_interval_min,config.yaml,bus_only origin fleet,0-15,Fixed schedule proxy; not an operating timetable
+feeder_dispatch_interval,5,min,expert assumption,Config multimodal shuttle_dispatch_interval_min,config.yaml,multimodal feeder fleet,0-15,Fixed schedule proxy; not an operating timetable
+last_mile_dispatch_interval,5,min,expert assumption,Config multimodal lastmile_dispatch_interval_min,config.yaml,multimodal last-mile fleet,0-15,Fixed schedule proxy; can be replaced by on-demand logic when interval is zero

@@ -1,0 +1,183 @@
+"""Tests for reproducibility review packet generation."""
+
+from __future__ import annotations
+
+import csv
+import json
+import os
+import sys
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.realworld.reproducibility_review_packet import (  # noqa: E402
+    REPRODUCIBILITY_REVIEW_COLUMNS,
+    REPRODUCIBILITY_REVIEW_PACKET_SCOPE,
+    build_reproducibility_review_rows,
+    write_reproducibility_review_packet,
+)
+
+
+def test_reproducibility_review_rows_are_conservative() -> None:
+    """Current package review rows should not imply acceptance."""
+
+    rows = build_reproducibility_review_rows()
+    by_category = {row["category_id"]: row for row in rows}
+
+    assert len(rows) == 7
+    assert set(by_category) == {
+        "reproducibility_manifest_scope",
+        "formal_reproducibility_acceptance_record",
+        "git_worktree_state",
+        "untracked_required_artifact_risk",
+        "validation_command_ladder",
+        "runtime_cloned_repo_import_boundary",
+        "clean_checkout_execution_scope",
+    }
+    assert by_category["formal_reproducibility_acceptance_record"]["status"] == (
+        "blocked_no_reproducibility_acceptance_record"
+    )
+    assert by_category["clean_checkout_execution_scope"]["status"] == (
+        "blocked_full_clean_checkout_not_run"
+    )
+    assert {row["acceptance_ready"] for row in rows} == {"false"}
+    assert {row["publication_ready"] for row in rows} == {"false"}
+    assert {row["claim_boundary"] for row in rows} == {
+        REPRODUCIBILITY_REVIEW_PACKET_SCOPE
+    }
+
+    print("PASS: reproducibility review rows are conservative")
+
+
+def test_reproducibility_review_rows_handle_fixture_state() -> None:
+    """Fixture inputs should expose dirty/untracked worktree risk."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        manifest = root / "reproducibility_manifest.json"
+        package_doc = root / "reproducibility_package.md"
+        goal_audit = root / "goal.md"
+        acceptance = root / "reproducibility_acceptance.json"
+        scan_dir = root / "src"
+        scan_dir.mkdir()
+        (scan_dir / "ok.py").write_text("import os\n", encoding="utf-8")
+        manifest.write_text(
+            json.dumps(
+                {
+                    "scope": "scaffold-only test package",
+                    "commands": ["cmd one", "cmd two"],
+                    "validation_commands": [["test one"], "test two"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        package_doc.write_text("This scaffold package is not final.\n", encoding="utf-8")
+        goal_audit.write_text("Final-study ready: `false`\n", encoding="utf-8")
+
+        rows = build_reproducibility_review_rows(
+            reproducibility_manifest_path=manifest,
+            reproducibility_acceptance_path=acceptance,
+            reproducibility_package_doc_path=package_doc,
+            goal_audit_path=goal_audit,
+            git_status_lines=(" M plan.md", "?? data/new.csv"),
+            scan_dirs=(scan_dir,),
+        )
+        by_category = {row["category_id"]: row for row in rows}
+
+        assert by_category["reproducibility_manifest_scope"]["status"] == (
+            "blocked_scaffold_only_manifest_scope"
+        )
+        assert by_category["git_worktree_state"]["status"] == "blocked_dirty_worktree"
+        assert by_category["untracked_required_artifact_risk"]["status"] == (
+            "blocked_untracked_reproducibility_artifacts"
+        )
+        assert by_category["validation_command_ladder"]["status"] == (
+            "ready_for_review_command_ladder_present"
+        )
+        assert by_category["runtime_cloned_repo_import_boundary"]["status"] == (
+            "ready_for_review_no_cloned_repo_runtime_imports"
+        )
+
+    print("PASS: reproducibility review rows handle fixture state")
+
+
+def test_reproducibility_review_detects_cloned_repo_imports() -> None:
+    """Runtime cloned_repo imports should block the review row."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        manifest = root / "reproducibility_manifest.json"
+        package_doc = root / "reproducibility_package.md"
+        goal_audit = root / "goal.md"
+        acceptance = root / "reproducibility_acceptance.json"
+        scan_dir = root / "src"
+        scan_dir.mkdir()
+        (scan_dir / "bad.py").write_text("from cloned_repo.example import x\n", encoding="utf-8")
+        manifest.write_text(
+            json.dumps({"scope": "final", "commands": ["cmd"], "validation_commands": ["test"]}),
+            encoding="utf-8",
+        )
+        package_doc.write_text("package\n", encoding="utf-8")
+        goal_audit.write_text("Final-study ready: `false`\n", encoding="utf-8")
+
+        rows = build_reproducibility_review_rows(
+            reproducibility_manifest_path=manifest,
+            reproducibility_acceptance_path=acceptance,
+            reproducibility_package_doc_path=package_doc,
+            goal_audit_path=goal_audit,
+            git_status_lines=(),
+            scan_dirs=(scan_dir,),
+        )
+        by_category = {row["category_id"]: row for row in rows}
+
+        assert by_category["runtime_cloned_repo_import_boundary"]["status"] == (
+            "blocked_runtime_cloned_repo_imports"
+        )
+        assert "bad.py:1" in by_category["runtime_cloned_repo_import_boundary"][
+            "status_detail"
+        ]
+
+    print("PASS: reproducibility review detects cloned_repo imports")
+
+
+def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
+    """Writer should emit stable CSV fields and non-acceptance manifest."""
+
+    rows = build_reproducibility_review_rows(git_status_lines=())
+
+    with TemporaryDirectory() as tmp:
+        output = Path(tmp) / "reproducibility_review.csv"
+        manifest = Path(tmp) / "reproducibility_review_manifest.json"
+        value = write_reproducibility_review_packet(
+            rows=rows,
+            output_path=output,
+            manifest_path=manifest,
+            git_status_lines=(),
+        )
+
+        with output.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            written_rows = list(reader)
+            assert tuple(reader.fieldnames or ()) == REPRODUCIBILITY_REVIEW_COLUMNS
+        written_manifest = json.loads(manifest.read_text(encoding="utf-8"))
+
+        assert len(written_rows) == 7
+        assert value["acceptance_ready"] is False
+        assert value["publication_ready"] is False
+        assert value["clean_checkout_test_performed"] is False
+        assert value["acceptance_gate_closure_candidate_count"] == 0
+        assert written_manifest["row_count"] == 7
+        assert "does not prove full clean-checkout reproduction" in written_manifest[
+            "claim_boundary"
+        ]
+
+    print("PASS: reproducibility review packet writer emits CSV and manifest")
+
+
+if __name__ == "__main__":
+    test_reproducibility_review_rows_are_conservative()
+    test_reproducibility_review_rows_handle_fixture_state()
+    test_reproducibility_review_detects_cloned_repo_imports()
+    test_write_reproducibility_review_packet_outputs_csv_and_manifest()
+    print("\n=== REALWORLD REPRODUCIBILITY REVIEW PACKET TESTS PASSED ===")

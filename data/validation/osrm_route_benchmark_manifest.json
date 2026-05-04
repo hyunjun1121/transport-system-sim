@@ -1,0 +1,59 @@
+{
+  "acceptance_ready": false,
+  "benchmark_artifact_present": true,
+  "benchmark_method_counts": {
+    "osrm_route_v1_driving": 3
+  },
+  "claim_boundary": "This manifest records an optional OSRM route benchmark snapshot for plausibility review only. It is not validation acceptance, not calibrated traffic evidence, not benchmark ground truth, and not operational routing guidance.",
+  "csv_sha256": "2b0456534afc0ab3b7c19f6d0848db10b6e9e9c38446955f98f57f189a6cd785",
+  "distance_status_counts": {
+    "pass": 3
+  },
+  "inputs": {
+    "benchmark_csv": "data/validation/external_route_benchmarks_osrm.csv",
+    "summary_markdown": "data/validation/osrm_route_benchmark_summary.md"
+  },
+  "publication_ready": false,
+  "query_url_count": 3,
+  "query_urls": [
+    "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+    "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+    "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false"
+  ],
+  "reference_source_counts": {
+    "https://router.project-osrm.org": 3
+  },
+  "reference_version_counts": {
+    "live_snapshot_unpinned": 3
+  },
+  "result_scope": "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance",
+  "review_items": [
+    "replace live/unpinned OSRM rows with a reviewed cached snapshot if final claims depend on them",
+    "review OSRM service terms, attribution, access date, and row-level query URLs before publication use",
+    "keep OSRM as a plausibility comparator only; it is not calibrated local traffic evidence",
+    "record any final benchmark strategy only in data/manifests/validation_acceptance.json after review"
+  ],
+  "review_required": true,
+  "route_check_ids": [
+    "route_bus_direct",
+    "route_last_mile",
+    "route_rail_access"
+  ],
+  "row_count": 3,
+  "schema_version": 1,
+  "source_class_counts": {
+    "live_external_router_snapshot": 3
+  },
+  "status_counts": {
+    "pass": 3
+  },
+  "summary_artifact_present": true,
+  "summary_sha256": "61b72a6353d5bc7fd69de6c3e1a7e4809d719602600635dd313dc966457b9d75",
+  "time_status_counts": {
+    "pass": 3
+  },
+  "unpinned_reference_versions": [
+    "live_snapshot_unpinned"
+  ],
+  "unpinned_row_count": 3
+}

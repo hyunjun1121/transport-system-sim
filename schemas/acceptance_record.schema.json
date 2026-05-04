@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "agent": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "can_mark_complete": {
+      "type": "boolean"
+    },
+    "claim_boundary": {
+      "type": "string"
+    },
+    "decision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "gate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "generated_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_type": {
+      "type": "string"
+    },
+    "required_actions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "reviewed_inputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "risks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "schema_version": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "source_paths": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "accepted",
+        "blocked",
+        "needs_human_review",
+        "not_applicable"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "gate_id",
+    "agent",
+    "status",
+    "decision",
+    "evidence",
+    "source_paths",
+    "reviewed_inputs",
+    "risks",
+    "required_actions",
+    "generated_at",
+    "can_mark_complete"
+  ],
+  "title": "Transport Simulation Sub-Agent Acceptance Record",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. URL reachability is only a reviewer aid and cannot close data/manifests/provenance_acceptance.json.",
+  "result_scope": "Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+  "row_count": 13,
+  "source_count": 10,
+  "check_mode_counts": {
+    "not_checked": 13
+  },
+  "url_status_counts": {
+    "no_url_detected": 4,
+    "not_checked": 9
+  },
+  "live_check_performed": false,
+  "unreachable_or_error_count": 0,
+  "requires_reviewer_confirmation_count": 13,
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/manifests/source_url_review_packet.csv",
+    "manifest": "data/manifests/source_url_review_manifest.json",
+    "doc": "docs/source_url_review_packet.md"
+  },
+  "review_items": [
+    "open each URL and verify it is the intended official or retained source",
+    "record license, attribution, derivative-use, and snapshot decisions outside this packet",
+    "cache context-only public sources or exclude them from final claims",
+    "treat live reachability as volatile and not as source acceptance",
+    "create data/manifests/provenance_acceptance.json only after reviewer decisions"
+  ],
+  "remaining_blockers": [
+    "formal provenance acceptance record is absent",
+    "URL reachability does not certify license compatibility or evidence quality",
+    "context-only URLs still need cached extracts or explicit exclusion from final claims"
+  ]
+}

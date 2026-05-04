@@ -1,0 +1,242 @@
+# Current Goal Completion Audit
+
+Audit date: 2026-05-04
+
+## Objective
+
+Implement every requirement planned in plan.md for the final real-world or quasi-real regional transport-resilience study.
+
+## Completion Verdict
+
+- Final-study ready: `false`
+- Verdict: `final_real_world_study_blocked`
+- Ready gates: 3 / 15
+- Blocked gates: 12 / 15
+
+This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.
+
+## Concrete Success Criteria
+
+The active objective is complete only when every final-study gate below is ready, every acceptance artifact is reviewed, and the final audit gate confirms that no proxy signal was treated as completion.
+
+## Prompt-To-Artifact Checklist
+
+| Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
+| --- | --- | --- | --- |
+| Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+2 more | create an explicit pilot acceptance record after privacy and case-scope review |
+| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+13 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+4 more |
+| Real Input Smoke | ready | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
+| Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+19 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review |
+| Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+10 more | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance |
+| Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/parameter_evidence_source_request_packet.csv<br>+4 more | justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+3 more |
+| Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+12 more | rail service evidence: cache timetable, shortest-path, or GTFS-derived records<br>rail service evidence: derive headway and travel time from the cached records |
+| Validation Package | blocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+13 more | create an explicit validation acceptance record after benchmark-strategy review<br>revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review |
+| Structured Disruptions | ready | data/scenarios/disruption_scenarios.csv | none recorded |
+| Policy Alternatives | ready | data/scenarios/policy_alternatives.csv | none recorded |
+| Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+5 more | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level |
+| Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+3 more | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>accept or regenerate full pilot outputs after input validation and graph-scale decision<br>review experiment-package rows before formal experiment acceptance |
+| Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+4 more | close evidence gates before final paper/report claims<br>create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>revise figure/table claim boundary from scaffold to accepted study scope<br>+1 more |
+| Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+3 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package |
+| Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility |
+
+## Named Acceptance Artifacts
+
+These files are required before final completion can be claimed. Missing files are expected in the current scaffold unless a reviewed acceptance decision has been made.
+
+| Artifact | Current State |
+| --- | --- |
+| `data/manifests/pilot_acceptance.json` | missing or intentionally absent |
+| `data/manifests/graph_scale_acceptance.json` | missing or intentionally absent |
+| `data/manifests/provenance_acceptance.json` | missing or intentionally absent |
+| `data/parameters/parameter_acceptance.csv` | missing or intentionally absent |
+| `data/parameters/road_class_overrides.csv` | missing or intentionally absent |
+| `data/manifests/validation_acceptance.json` | missing or intentionally absent |
+| `data/manifests/sensitivity_acceptance.json` | missing or intentionally absent |
+| `data/manifests/experiment_acceptance.json` | missing or intentionally absent |
+| `data/manifests/manuscript_acceptance.json` | missing or intentionally absent |
+| `data/manifests/reproducibility_acceptance.json` | missing or intentionally absent |
+| `docs/final_study_audit.md` | missing or intentionally absent |
+| `data/manifests/final_audit_acceptance.json` | missing or intentionally absent |
+
+## Sub-Agent Acceptance Orchestration
+
+The orchestration records below are review aids. They do not replace formal acceptance artifacts and cannot mark the final study complete by themselves.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/acceptance_orchestration_manifest.json`
+- Review record count: 12
+- Status counts: `{'blocked': 9, 'needs_human_review': 3}`
+- Can-mark-complete records: 0
+- Blocked or human-review records: 12
+
+## Formal Acceptance Decision Templates
+
+The generated templates are copy/edit worksheets for reviewers. They intentionally keep `accepted: false` and do not replace the formal acceptance artifacts listed above.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/acceptance_decision_template_manifest.json`
+- JSON template count: 9
+- Parameter template rows: 25
+- Can mark complete: `false`
+- Formal acceptance created: `false`
+
+## Human Acceptance Runbook
+
+`docs/human_acceptance_runbook.md` gives reviewers the gate-by-gate workflow for inspecting review packets, converting non-approval templates into formal artifacts only after source-backed decisions, and rerunning package audits. It is instructional only and does not close any gate.
+
+## Formal Acceptance Blocker Queue
+
+The blocker queue converts the formal package blockers into one CSV row per unresolved reviewer action. It is a work queue only and cannot close any gate.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/formal_acceptance_blocker_queue_manifest.json`
+- Queue rows: 15
+- Formal acceptance ready: `false`
+- Can mark complete: `false`
+
+## Acceptance Task Assignments
+
+The task assignment table maps each unresolved formal blocker to a deterministic review-agent role. It is a work-assignment aid only and cannot approve evidence or close any gate.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/acceptance_task_assignments_manifest.json`
+- Task rows: 15
+- Assigned agents: 10
+- Human-review tasks: 15
+- Formal acceptance ready: `false`
+- Can mark complete: `false`
+
+## Formal Acceptance Evidence Matrix
+
+The evidence matrix joins each required formal target with its assigned review agent, template or worksheet, review packets, current blockers, and validation command. It is an intake index only and cannot approve evidence or close any gate.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/formal_acceptance_evidence_matrix_manifest.json`
+- Matrix rows: 12
+- Formal gates: 12
+- Human decisions required: 12
+- Formal acceptance ready: `false`
+- Can mark complete: `false`
+
+## Formal Acceptance Pre-Review
+
+The pre-review package classifies each remaining formal target as a draft recommendation for human reviewers. It is deliberately stored under `data/manifests/draft_acceptance/` and cannot approve evidence or close any gate.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json`
+- Draft records: 12
+- Recommendation counts: `{'blocked_missing_evidence': 8, 'blocked_requires_human_decision': 4}`
+- Human decisions required: 12
+- Formal approval made: `false`
+- Final-study ready: `false`
+- Can mark complete: `false`
+
+## Agent Review Path Hygiene
+
+This audit checks whether sub-agent records cite existing local review inputs or explicit formal acceptance targets. It is path hygiene only and cannot approve any gate.
+
+- Review records: 12
+- Missing required paths: 0
+- Missing formal targets: 36
+- Agent review paths ready: `true`
+- Can mark complete: `false`
+
+## Formal Acceptance Artifact Guard
+
+The guard checks that formal acceptance paths do not contain copied templates, placeholders, draft overrides, or current-state audit text masquerading as final approval.
+
+- Formal artifact count: 12
+- Present formal artifacts: 0
+- Missing formal artifacts: 12
+- Template or placeholder artifacts detected: 0
+- Formal acceptance ready: `false`
+- Can mark complete: `false`
+
+This guard detects placeholder/template misuse in formal acceptance paths. It does not create approvals, validate source claims, or mark the final study complete.
+
+## Formal Evidence Path Hygiene
+
+The evidence-path audit checks reviewer-supplied formal artifacts for missing local evidence, unresolved placeholders, empty evidence records, and external references that still require source/license review. It is necessary hygiene only and cannot certify evidence sufficiency.
+
+- Formal artifact paths checked: 11
+- Present formal artifacts checked: 0
+- Evidence items found: 0
+- Missing local evidence paths: 0
+- Placeholder evidence values: 0
+- Empty evidence records: 0
+- Formal evidence paths ready: `false`
+- Can mark complete: `false`
+
+This audit checks whether formal acceptance artifacts point to concrete local evidence files or explicit external references. It does not approve the evidence, validate licenses, certify calibration, or close final-study gates.
+
+## Formal Acceptance Package Intake
+
+The package intake validates reviewer-supplied formal acceptance artifacts as a group. It does not create approvals and cannot override missing source-backed evidence.
+
+- Formal package gates: 12
+- Ready formal package gates: 0
+- Blocked formal package gates: 12
+- Invalid formal package gates: 0
+- Formal package ready: `false`
+- Can mark complete: `false`
+
+This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.
+
+## Current-Worktree Reproducibility Smoke
+
+The smoke manifest records bounded validation commands run in the current worktree. It is useful execution evidence, but it is not clean-checkout reproduction and cannot close the reproducibility gate.
+
+- Manifest present: `true`
+- Manifest path: `data/validation/reproducibility_smoke_manifest.json`
+- Result scope: `current_worktree_smoke_not_clean_checkout`
+- Commands passed: 24 / 24
+- Smoke passed: `true`
+- Clean checkout tested: `false`
+- Can mark complete: `false`
+
+## Tracked Artifact Packaging Audit
+
+This audit lists changed reproducibility artifacts that a clean checkout of the current Git HEAD would not reproduce unless they are committed, packaged, or explicitly excluded. It is packaging hygiene only and cannot close the reproducibility gate.
+
+- Manifest present: `true`
+- Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
+- Changed reproducibility artifacts: 96
+- Blocking changed artifacts: 96
+- Untracked artifacts: 88
+- Modified or staged artifacts: 8
+- Clean-checkout reproducibility ready: `false`
+- Can mark complete: `false`
+
+
+## Proxy Signals Rejected
+
+- Passing tests are necessary but do not close evidence, review, acceptance, or calibration gates.
+- Generated CSV, JSON, figure, and report artifacts are scaffold evidence unless their claim scope is accepted.
+- OSRM and fallback router checks are plausibility snapshots, not ground truth.
+- OSM-derived road data are not by themselves calibrated traffic, capacity, or disruption evidence.
+- The regenerated Korean report and English paper draft must stay in scaffold scope until manuscript acceptance is reviewed.
+
+## Commands To Re-Run Before Final Completion
+
+```powershell
+.\.venv\Scripts\python scripts\audit_plan_artifacts.py
+.\.venv\Scripts\python scripts\run_acceptance_audit.py
+.\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
+.\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
+.\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
+.\.venv\Scripts\python scripts\audit_agent_review_paths.py
+.\.venv\Scripts\python scripts\audit_tracked_artifacts.py
+.\.venv\Scripts\python scripts\audit_formal_acceptance_artifacts.py
+.\.venv\Scripts\python scripts\audit_formal_evidence_paths.py
+.\.venv\Scripts\python scripts\validate_formal_acceptance_package.py --fail-on-blockers
+.\.venv\Scripts\python scripts\run_reproducibility_smoke.py
+.\.venv\Scripts\python scripts\audit_publication_readiness.py --fail-on-blockers
+.\.venv\Scripts\python scripts\audit_final_study_readiness.py --fail-on-blockers
+Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }
+rg -n "(^|\s)(from|import)\s+cloned_repo" src tests scripts
+git diff --check
+```
+
+## Next Required Input
+
+The remaining work cannot be honestly completed by code alone. It requires reviewed pilot, provenance, graph-scale, road, rail, parameter, validation, sensitivity, experiment, manuscript, reproducibility, and final-audit acceptance decisions.

@@ -1,0 +1,88 @@
+{
+  "acceptance_gate_closure_candidate_count": 0,
+  "claim_boundary": "This packet identifies required cross-cutting parameter source inputs and review commands. It does not contain reviewed source observations, accepted parameter values, weak-parameter acceptance, calibration proof, or final-study publication readiness.",
+  "covered_parameter_count": 22,
+  "covered_parameters": [
+    "background_traffic_multiplier",
+    "base_disruption_probability",
+    "blockage_rule",
+    "bpr_alpha",
+    "bpr_beta",
+    "bus_capacity",
+    "capacity_reduction_factor",
+    "censored_passenger_penalty",
+    "direct_bus_fleet_size",
+    "dispatch_interval",
+    "disruption_probability",
+    "feeder_fleet_size",
+    "last_mile_fleet_size",
+    "last_mile_vehicle_capacity",
+    "late_arrival_penalty",
+    "passenger_arrival_distribution",
+    "passenger_volume",
+    "simulation_time_horizon",
+    "traffic_volume_window",
+    "transfer_fixed_delay",
+    "transfer_per_passenger_delay",
+    "turnaround_time"
+  ],
+  "evidence_field_counts": {
+    "arrival_distribution": 1,
+    "background_traffic_multiplier": 1,
+    "base_disruption_probability": 1,
+    "blockage_rule": 1,
+    "bpr_alpha": 1,
+    "bpr_beta": 1,
+    "capacity_reduction_factor": 1,
+    "censored_passenger_penalty": 1,
+    "dispatch_interval": 1,
+    "disruption_probability": 1,
+    "first_departure_anchor": 1,
+    "fleet_size": 1,
+    "late_arrival_penalty": 1,
+    "load_factor": 1,
+    "passenger_volume": 1,
+    "simulation_time_horizon": 1,
+    "traffic_volume_window": 1,
+    "transfer_fixed_delay": 1,
+    "transfer_per_passenger_delay": 1,
+    "turnaround_time": 1,
+    "vehicle_capacity": 1
+  },
+  "inputs": {
+    "parameter_dir": "data/parameters",
+    "parameter_evidence_review_packet": "data/parameters/parameter_evidence_review_packet.csv"
+  },
+  "outputs": {
+    "manifest": "data/parameters/parameter_evidence_source_request_manifest.json",
+    "parameter_evidence_source_request_packet": "data/parameters/parameter_evidence_source_request_packet.csv"
+  },
+  "parameter_evidence_gate_closure_candidate_count": 0,
+  "parameter_group_counts": {
+    "demand_time_censoring": 1,
+    "disruption": 1,
+    "fleet": 2,
+    "road": 1,
+    "transfer": 1
+  },
+  "publication_ready": false,
+  "requires_reviewed_external_input_count": 6,
+  "result_scope": "Parameter evidence source-request packet; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, and not publication-readiness approval.",
+  "review_items": [
+    "collect reviewed source packages for demand, fleet, dispatch, transfer, disruption, and traffic/BPR assumptions",
+    "update parameter_sources.csv or fleet_assumptions.csv only after source review",
+    "use parameter_acceptance.csv separately for retained weak assumptions inside conservative claim boundaries",
+    "rerun parameter review, publication-readiness, and final-study-readiness audits after source changes"
+  ],
+  "row_count": 6,
+  "schema_version": 1,
+  "source_type_counts": {
+    "agency_fleet_roster_or_planning_source_required": 1,
+    "hazard_incident_or_scenario_rule_source_required": 1,
+    "operating_schedule_or_planning_rule_required": 1,
+    "planning_scenario_or_literature_source_required": 1,
+    "station_layout_or_pedestrian_flow_source_required": 1,
+    "traffic_benchmark_or_literature_calibration_required": 1
+  },
+  "weak_parameter_count": 20
+}

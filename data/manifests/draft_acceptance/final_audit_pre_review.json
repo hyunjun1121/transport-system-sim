@@ -1,0 +1,89 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "current_status": "blocked",
+  "evidence_checked": [
+    {
+      "claim_supported": "Repository evidence cited for final_audit",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/current_goal_completion_audit.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for final_audit",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/acceptance_orchestration_manifest.json"
+    },
+    {
+      "claim_supported": "Formal target required for final_audit",
+      "exists": false,
+      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "path": "data/manifests/final_audit_acceptance.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for final_audit",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/final_audit.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for final_audit",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/audit_final_study_readiness.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for final_audit",
+      "exists": false,
+      "notes": "local supporting artifact absent",
+      "path": "docs/final_study_audit.md"
+    }
+  ],
+  "files_to_create_or_update_after_human_decision": [
+    "data/manifests/final_audit_acceptance.json",
+    "docs/final_study_audit.md"
+  ],
+  "final_study_ready": false,
+  "formal_approval": false,
+  "formal_ready": false,
+  "formal_record_present": false,
+  "formal_target": "data/manifests/final_audit_acceptance.json",
+  "gate": "final_audit",
+  "generated_at": "2026-05-04T11:34:10+00:00",
+  "human_decision_required": true,
+  "human_reviewer_action_required": [
+    "Inspect the listed review packets and evidence paths.",
+    "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
+    "Supply or regenerate the missing evidence items before deciding.",
+    "Wait until every pre-final formal gate is accepted before creating final-audit artifacts.",
+    "Resolve each missing-evidence item listed in this record.",
+    "After a real decision, create or update data/manifests/final_audit_acceptance.json.",
+    "Rerun scripts/validate_formal_acceptance_package.py."
+  ],
+  "label": "Final Audit Acceptance",
+  "missing_evidence": [
+    "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+    "create docs/final_study_audit.md after all other gates close",
+    "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+    "data/manifests/final_audit_acceptance.json is absent"
+  ],
+  "must_not_be_used_as_final_acceptance": true,
+  "recommendation": "blocked_missing_evidence",
+  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "related_plan_gate_ids": [
+    "final_audit"
+  ],
+  "residual_risks": [
+    "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
+    "Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence.",
+    "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+    "create docs/final_study_audit.md after all other gates close",
+    "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+    "data/manifests/final_audit_acceptance.json is absent",
+    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
+    "Final-study readiness remains false until formal validators accept source-backed records."
+  ],
+  "schema_version": 1,
+  "status": "draft_pre_review"
+}

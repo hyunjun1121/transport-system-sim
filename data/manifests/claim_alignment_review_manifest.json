@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/manuscript_acceptance.json after evidence gates and result claims are reviewed.",
+  "result_scope": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval.",
+  "row_count": 113,
+  "source_counts": {
+    "paper/paper_draft.md": 105,
+    "results/realworld_pilot/tables/figure_table_manifest.json": 8
+  },
+  "claim_category_counts": {
+    "acceptance_claim": 16,
+    "calibration_claim": 17,
+    "causal_or_superiority_claim": 4,
+    "figure_caption_boundary": 6,
+    "figure_table_boundary": 2,
+    "operational_claim": 21,
+    "publication_claim": 4,
+    "readiness_claim": 1,
+    "real_world_claim": 4,
+    "validation_claim": 38
+  },
+  "gate_dependency_counts": {
+    "final_audit": 16,
+    "manuscript_report_alignment": 42,
+    "parameter_evidence": 17,
+    "validation_package": 38
+  },
+  "review_status_counts": {
+    "guardrail_language": 21,
+    "requires_revision_or_acceptance": 92
+  },
+  "overclaim_candidate_count": 92,
+  "guardrail_language_count": 21,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "paper_draft": "paper/paper_draft.md",
+    "report_draft": "report_draft.md",
+    "figure_table_manifest": "results/realworld_pilot/tables/figure_table_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/manifests/claim_alignment_review_packet.csv",
+    "manifest": "data/manifests/claim_alignment_review_manifest.json",
+    "doc": "docs/claim_alignment_review_packet.md"
+  },
+  "review_items": [
+    "review all non-guardrail real-world, calibrated, validated, accepted, operational, and superiority language",
+    "keep figure/table captions within scaffold-only claim boundaries until acceptance gates close",
+    "revise Korean report text after fixing encoding/readability issues before formal manuscript acceptance",
+    "create data/manifests/manuscript_acceptance.json only after claim-by-claim review"
+  ],
+  "remaining_blockers": [
+    "formal manuscript/report acceptance record is absent",
+    "claim-alignment rows are review aids and do not approve manuscript claims",
+    "evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
+  ]
+}

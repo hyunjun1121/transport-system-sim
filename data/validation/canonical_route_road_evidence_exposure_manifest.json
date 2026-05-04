@@ -1,0 +1,50 @@
+{
+  "acceptance_ready": false,
+  "claim_boundary": "This artifact links current weak road-evidence classes to canonical route candidates. It does not create reviewed road inputs, calibrated traffic behavior, validation acceptance, graph-scale acceptance, or operational routing claims.",
+  "graph_variant_counts": {
+    "current_reduced_corridor": 38,
+    "multi_corridor_candidate": 38
+  },
+  "highway_counts": {
+    "connector": 18,
+    "primary": 12,
+    "primary_link": 6,
+    "residential": 12,
+    "secondary": 14,
+    "tertiary": 12,
+    "tertiary_link": 2
+  },
+  "inputs": {
+    "graph_variant_route_tables": {
+      "current_reduced_corridor": "data/validation/graph_scale_alternate_routes.csv",
+      "multi_corridor_candidate": "data/validation/graph_scale_multi_corridor_routes.csv"
+    },
+    "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv"
+  },
+  "outputs": {
+    "manifest": "data/validation/canonical_route_road_evidence_exposure_manifest.json",
+    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv",
+    "summary": "data/validation/canonical_route_road_evidence_exposure_summary.md"
+  },
+  "publication_ready": false,
+  "result_scope": "Canonical route road-evidence exposure review aid; not accepted road calibration, not benchmark validation, not graph-scale acceptance, and not operational routing evidence.",
+  "review_items": [
+    "prioritize reviewed road evidence for weak classes that dominate canonical route distance or time",
+    "review connector exposure separately from OSM road-class calibration",
+    "rerun this exposure after road-class overrides, OSM cache, or graph-scale method changes",
+    "use this artifact as validation and road-evidence review support only"
+  ],
+  "route_candidate_count": 18,
+  "route_count": 3,
+  "route_status_counts": {
+    "pass": 51,
+    "warn": 25
+  },
+  "row_count": 76,
+  "schema_version": 1,
+  "weak_distance_share_sum_by_variant": {
+    "current_reduced_corridor": 9.000001,
+    "multi_corridor_candidate": 9.000001
+  },
+  "weak_for_final_claim_count": 76
+}

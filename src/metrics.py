@@ -30,6 +30,7 @@ class MetricsCollector:
         - censored_count: personnel not delivered within the simulation horizon
         - completion_rate: fraction delivered within the simulation horizon
         - penalized_makespan: makespan with a penalty for censored personnel
+        - first/median/80th/95th arrival time for successful arrivals
     """
 
     total_personnel: int = 0
@@ -95,6 +96,29 @@ class MetricsCollector:
             return 0.0
         completed = self.total_personnel - self.censored_count
         return max(0.0, min(1.0, completed / self.total_personnel))
+
+    @property
+    def first_arrival_time(self) -> float:
+        """Earliest successful destination arrival time."""
+        successful = self._successful_arrival_times()
+        if not successful:
+            return float("inf")
+        return successful[0]
+
+    @property
+    def median_arrival_time(self) -> float:
+        """Median successful destination arrival time."""
+        return self._arrival_quantile(0.50)
+
+    @property
+    def p80_arrival_time(self) -> float:
+        """80th percentile successful destination arrival time."""
+        return self._arrival_quantile(0.80)
+
+    @property
+    def p95_arrival_time(self) -> float:
+        """95th percentile successful destination arrival time."""
+        return self._arrival_quantile(0.95)
 
     @property
     def penalized_makespan(self) -> float:
@@ -164,6 +188,29 @@ class MetricsCollector:
             return float(penalty)
         return max(0.0, float(penalty))
 
+    def _successful_arrival_times(self) -> list[float]:
+        """Return sorted arrival times within the configured time limit."""
+        return sorted(t for _, t in self.arrivals if t <= self.time_limit)
+
+    def _arrival_quantile(self, q: float) -> float:
+        """Return a linearly interpolated successful-arrival quantile."""
+        values = self._successful_arrival_times()
+        if not values:
+            return float("inf")
+        if len(values) == 1:
+            return values[0]
+
+        q = max(0.0, min(1.0, float(q)))
+        position = q * (len(values) - 1)
+        lower_index = int(math.floor(position))
+        upper_index = int(math.ceil(position))
+        if lower_index == upper_index:
+            return values[lower_index]
+        fraction = position - lower_index
+        return values[lower_index] + fraction * (
+            values[upper_index] - values[lower_index]
+        )
+
     def _delivered_per_service_minute(self, service_minutes: float) -> float:
         """Return delivered-passenger rate for a service-minute denominator."""
         if not math.isfinite(service_minutes) or service_minutes <= 0:
@@ -197,4 +244,8 @@ class MetricsCollector:
             "censored_count": self.censored_count,
             "completion_rate": self.completion_rate,
             "penalized_makespan": self.penalized_makespan,
+            "first_arrival_time": self.first_arrival_time,
+            "median_arrival_time": self.median_arrival_time,
+            "p80_arrival_time": self.p80_arrival_time,
+            "p95_arrival_time": self.p95_arrival_time,
         }

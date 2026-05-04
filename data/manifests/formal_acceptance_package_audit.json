@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.",
+  "gate_count": 12,
+  "ready_gate_count": 0,
+  "blocked_gate_count": 12,
+  "invalid_gate_count": 0,
+  "formal_acceptance_ready": false,
+  "final_study_ready": false,
+  "can_mark_complete": false,
+  "gates": [
+    {
+      "gate_id": "pilot_region_accepted",
+      "label": "Pilot Region Acceptance",
+      "path": "data/manifests/pilot_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit pilot acceptance record after privacy and case-scope review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/pilot_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit pilot acceptance record after privacy and case-scope review"
+        ]
+      }
+    },
+    {
+      "gate_id": "graph_scale_strategy",
+      "label": "Graph-Scale Acceptance",
+      "path": "data/manifests/graph_scale_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/graph_scale_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
+        ]
+      }
+    },
+    {
+      "gate_id": "data_provenance",
+      "label": "Source/License/Provenance Acceptance",
+      "path": "data/manifests/provenance_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/provenance_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review"
+        ]
+      }
+    },
+    {
+      "gate_id": "parameter_acceptance",
+      "label": "Weak-Parameter Acceptance",
+      "path": "data/parameters/parameter_acceptance.csv",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create reviewed parameter acceptance records only for weak assumptions retained in final claims",
+        "parameter_acceptance.csv is missing"
+      ],
+      "summary": {
+        "path": "data/parameters/parameter_acceptance.csv",
+        "record_present": false,
+        "accepted_parameter_count": 0,
+        "ready_parameter_count": 0,
+        "ready_parameters": [],
+        "remaining_blockers": [
+          "create reviewed parameter acceptance records only for weak assumptions retained in final claims",
+          "parameter_acceptance.csv is missing"
+        ],
+        "acceptance_ready": false
+      }
+    },
+    {
+      "gate_id": "road_class_overrides",
+      "label": "Road-Class Override Acceptance",
+      "path": "data/parameters/road_class_overrides.csv",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+        "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
+        "reviewed road-class override table is absent"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "record_present": false,
+        "path": "data/parameters/road_class_overrides.csv",
+        "evidence_publication_ready": false,
+        "application_publication_ready": false,
+        "remaining_blockers": [
+          "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+          "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
+          "reviewed road-class override table is absent"
+        ],
+        "evidence": {
+          "publication_ready": false,
+          "path": "data/parameters/road_class_overrides.csv",
+          "override_table_present": false,
+          "row_count": 0,
+          "draft_table_present": true,
+          "draft_path": "data/parameters/road_class_overrides_draft.csv",
+          "draft_row_count": 10,
+          "draft_highway_classes": [
+            "primary",
+            "primary_link",
+            "residential",
+            "secondary",
+            "secondary_link",
+            "tertiary",
+            "tertiary_link",
+            "trunk",
+            "trunk_link",
+            "unclassified"
+          ],
+          "draft_source_class_counts": {
+            "expert assumption": 10
+          },
+          "draft_claim_boundary": "The draft override table is a reviewer worksheet populated with current mapper defaults. It is not reviewed road evidence and does not close publication-readiness gates.",
+          "claim_boundary": "Road-class override evidence is absent. The mapper still uses built-in fallback speed, capacity, and base-disruption proxies.",
+          "remaining_blockers": [
+            "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+            "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs"
+          ]
+        },
+        "application": {
+          "publication_ready": false,
+          "override_path": "data/parameters/road_class_overrides.csv",
+          "manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
+          "override_table_present": false,
+          "manifest_present": true,
+          "overrides_applied": false,
+          "sha256_matches": false,
+          "claim_boundary": "Road-calibration claims require both reviewed override evidence and an accepted result manifest proving those overrides were applied.",
+          "remaining_blockers": [
+            "reviewed road-class override table is absent"
+          ]
+        }
+      }
+    },
+    {
+      "gate_id": "validation_package",
+      "label": "Validation Acceptance",
+      "path": "data/manifests/validation_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit validation acceptance record after benchmark-strategy review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/validation_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit validation acceptance record after benchmark-strategy review"
+        ]
+      }
+    },
+    {
+      "gate_id": "sensitivity_analysis",
+      "label": "Sensitivity Acceptance",
+      "path": "data/manifests/sensitivity_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/sensitivity_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review"
+        ]
+      }
+    },
+    {
+      "gate_id": "full_experiment_output",
+      "label": "Experiment Acceptance",
+      "path": "data/manifests/experiment_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/experiment_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review"
+        ]
+      }
+    },
+    {
+      "gate_id": "manuscript_report_alignment",
+      "label": "Manuscript/Report Acceptance",
+      "path": "data/manifests/manuscript_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/manuscript_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed"
+        ]
+      }
+    },
+    {
+      "gate_id": "reproducibility",
+      "label": "Reproducibility Acceptance",
+      "path": "data/manifests/reproducibility_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/reproducibility_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks"
+        ]
+      }
+    },
+    {
+      "gate_id": "final_audit_document",
+      "label": "Final Study Audit Document",
+      "path": "docs/final_study_audit.md",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create docs/final_study_audit.md after all other gates close"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "record_present": false,
+        "path": "docs/final_study_audit.md",
+        "remaining_blockers": [
+          "create docs/final_study_audit.md after all other gates close"
+        ]
+      }
+    },
+    {
+      "gate_id": "final_audit",
+      "label": "Final Audit Acceptance",
+      "path": "data/manifests/final_audit_acceptance.json",
+      "record_present": false,
+      "ready": false,
+      "status": "blocked",
+      "remaining_blockers": [
+        "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed"
+      ],
+      "summary": {
+        "acceptance_ready": false,
+        "path": "data/manifests/final_audit_acceptance.json",
+        "record_present": false,
+        "remaining_blockers": [
+          "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed"
+        ]
+      }
+    }
+  ],
+  "formal_acceptance_guard": {
+    "artifact_count": 12,
+    "present_count": 0,
+    "missing_count": 12,
+    "template_or_placeholder_count": 0,
+    "formal_acceptance_ready": false,
+    "can_mark_complete": false
+  },
+  "formal_evidence_path_audit": {
+    "artifact_count": 11,
+    "present_artifact_count": 0,
+    "evidence_item_count": 0,
+    "missing_local_evidence_count": 0,
+    "placeholder_evidence_count": 0,
+    "empty_evidence_record_count": 0,
+    "can_mark_complete": false
+  },
+  "final_study_readiness": {
+    "gate_count": 15,
+    "ready_gate_ids": [
+      "real_input_smoke",
+      "structured_disruptions",
+      "policy_alternatives"
+    ],
+    "blocked_gate_ids": [
+      "pilot_region_accepted",
+      "cached_osm_input",
+      "graph_scale_strategy",
+      "data_provenance",
+      "parameter_evidence",
+      "rail_evidence",
+      "validation_package",
+      "sensitivity_analysis",
+      "full_experiment_output",
+      "manuscript_report_alignment",
+      "reproducibility",
+      "final_audit"
+    ],
+    "verdict": "final_real_world_study_blocked"
+  },
+  "remaining_blockers": [
+    "pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review",
+    "graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+    "data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "parameter_acceptance: create reviewed parameter acceptance records only for weak assumptions retained in final claims",
+    "parameter_acceptance: parameter_acceptance.csv is missing",
+    "road_class_overrides: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+    "road_class_overrides: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
+    "road_class_overrides: reviewed road-class override table is absent",
+    "validation_package: create an explicit validation acceptance record after benchmark-strategy review",
+    "sensitivity_analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+    "full_experiment_output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+    "manuscript_report_alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
+    "reproducibility: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+    "final_audit_document: create docs/final_study_audit.md after all other gates close",
+    "final_audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+    "formal_acceptance_guard: data/manifests/pilot_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/graph_scale_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/provenance_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/parameters/parameter_acceptance.csv: create formal acceptance artifact",
+    "formal_acceptance_guard: data/parameters/road_class_overrides.csv: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/validation_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/sensitivity_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/experiment_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/manuscript_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/reproducibility_acceptance.json: create formal acceptance artifact",
+    "formal_acceptance_guard: docs/final_study_audit.md: create formal acceptance artifact",
+    "formal_acceptance_guard: data/manifests/final_audit_acceptance.json: create formal acceptance artifact",
+    "final_study_readiness: final-study readiness audit is still false"
+  ]
+}

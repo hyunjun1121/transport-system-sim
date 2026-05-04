@@ -1,0 +1,117 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "current_status": "blocked",
+  "evidence_checked": [
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "results/realworld_pilot/pilot_full_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "results/realworld_pilot/pilot_full_results.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "results/realworld_pilot/pilot_full_summary.csv"
+    },
+    {
+      "claim_supported": "Formal target required for full_experiment_output",
+      "exists": false,
+      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "path": "data/manifests/experiment_acceptance.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/full_experiment_output.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/run_pilot_experiments.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/scenarios/disruption_scenarios.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/scenarios/policy_alternatives.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_package_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_package_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/experiment_package_review_packet.md"
+    }
+  ],
+  "files_to_create_or_update_after_human_decision": [
+    "data/manifests/experiment_acceptance.json"
+  ],
+  "final_study_ready": false,
+  "formal_approval": false,
+  "formal_ready": false,
+  "formal_record_present": false,
+  "formal_target": "data/manifests/experiment_acceptance.json",
+  "gate": "full_experiment_output",
+  "generated_at": "2026-05-04T11:34:10+00:00",
+  "human_decision_required": true,
+  "human_reviewer_action_required": [
+    "Inspect the listed review packets and evidence paths.",
+    "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
+    "Supply or regenerate the missing evidence items before deciding.",
+    "Resolve each missing-evidence item listed in this record.",
+    "After a real decision, create or update data/manifests/experiment_acceptance.json.",
+    "Rerun scripts/validate_formal_acceptance_package.py."
+  ],
+  "label": "Experiment Acceptance",
+  "missing_evidence": [
+    "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+    "accept or regenerate full pilot outputs after input validation and graph-scale decision",
+    "review experiment-package rows before formal experiment acceptance",
+    "data/manifests/experiment_acceptance.json is absent"
+  ],
+  "must_not_be_used_as_final_acceptance": true,
+  "recommendation": "blocked_missing_evidence",
+  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "related_plan_gate_ids": [
+    "full_experiment_output"
+  ],
+  "residual_risks": [
+    "Regenerate or accept full outputs after input, graph-scale, and validation gates close.",
+    "Create experiment_acceptance.json with matching run profile and row counts.",
+    "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+    "accept or regenerate full pilot outputs after input validation and graph-scale decision",
+    "review experiment-package rows before formal experiment acceptance",
+    "data/manifests/experiment_acceptance.json is absent",
+    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
+    "Final-study readiness remains false until formal validators accept source-backed records."
+  ],
+  "schema_version": 1,
+  "status": "draft_pre_review"
+}

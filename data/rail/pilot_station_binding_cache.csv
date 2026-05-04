@@ -1,0 +1,5 @@
+point_id,station_name,station_id,station_code,line
+S,올림픽공원,2556,P550,05호선
+S,올림픽공원,4136,936,09호선
+R,잠실,0216,216,02호선
+R,잠실,2815,814,08호선

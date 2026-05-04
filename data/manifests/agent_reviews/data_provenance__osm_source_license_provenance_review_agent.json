@@ -1,0 +1,65 @@
+{
+  "agent": "OSM / Source / License / Provenance Review Agent",
+  "agent_id": "osm_source_license_provenance_review_agent",
+  "can_mark_complete": false,
+  "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
+  "decision": "OSM / Source / License / Provenance Review Agent cannot accept gate data_provenance; the current final-study readiness audit reports blockers.",
+  "evidence": [
+    "data/manifests/provenance_acceptance.json",
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_license_review_manifest.json",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_review_manifest.json",
+    "data/manifests/reproducibility_manifest.json",
+    "docs/source_license_review_packet.md",
+    "docs/source_url_review_packet.md",
+    "docs/reproducibility_package.md",
+    "docs/pilot_region_data_card.md",
+    "scripts/audit_source_provenance.py",
+    "scripts/write_source_license_review_packet.py",
+    "scripts/write_source_url_review_packet.py",
+    "docs/review_packets/data_provenance.md"
+  ],
+  "gate_id": "data_provenance",
+  "generated_at": "2026-05-04T11:33:48+00:00",
+  "record_type": "sub_agent_gate_review",
+  "required_actions": [
+    "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
+    "Create data/manifests/provenance_acceptance.json only after source-backed review.",
+    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance"
+  ],
+  "reviewed_inputs": [
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/reproducibility_manifest.json",
+    "docs/reproducibility_package.md",
+    "cloned_repo_manifest.md",
+    "data/manifests/provenance_acceptance.json",
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_license_review_manifest.json",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_review_manifest.json",
+    "docs/source_license_review_packet.md",
+    "docs/source_url_review_packet.md",
+    "docs/pilot_region_data_card.md",
+    "scripts/audit_source_provenance.py",
+    "scripts/write_source_license_review_packet.py",
+    "scripts/write_source_url_review_packet.py"
+  ],
+  "risks": [
+    "License or attribution requirements may be incomplete.",
+    "Scaffold reproducibility scope cannot support final calibrated claims.",
+    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance"
+  ],
+  "schema_version": 1,
+  "source_paths": [
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/reproducibility_manifest.json",
+    "data/cache/pilot_region_road_manifest.json",
+    "cloned_repo_manifest.md",
+    "data/manifests/provenance_acceptance.json"
+  ],
+  "status": "blocked"
+}
