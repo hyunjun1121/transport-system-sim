@@ -433,6 +433,7 @@ from .clean_checkout_smoke import (
     summarize_clean_checkout_smoke,
     write_clean_checkout_smoke_outputs,
 )
+from .reproducibility_smoke import CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS
 from .rail_timetable import (
     RailEvidenceDerivationConfig,
     RailHeadwayEvidenceConfig,
@@ -703,6 +704,7 @@ __all__ = [
     "ACCESSIBILITY_CLAIM_SCOPE",
     "ACCESSIBILITY_CSV_FIELDS",
     "CLEAN_CHECKOUT_SMOKE_SCOPE",
+    "CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS",
     "DEFAULT_ACCESSIBILITY_ROUTES",
     "AccessibilityLossRecord",
     "AccessibilityRoute",

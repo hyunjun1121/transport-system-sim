@@ -127,6 +127,8 @@ def run_clean_checkout_smoke(
                     (
                         str(python_executable),
                         "scripts/run_reproducibility_smoke.py",
+                        "--profile",
+                        "clean-checkout-minimal",
                     ),
                     cwd=checkout_dir,
                     timeout_sec=timeout_sec,

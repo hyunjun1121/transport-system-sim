@@ -12,6 +12,7 @@ from tempfile import TemporaryDirectory
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.realworld.reproducibility_smoke import (  # noqa: E402
+    CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS,
     REPRODUCIBILITY_SMOKE_SCOPE,
     SmokeCommand,
     SmokeCommandResult,
@@ -123,6 +124,20 @@ def test_run_reproducibility_smoke_subset_records_command_status() -> None:
     print("PASS: reproducibility smoke subset records command status")
 
 
+def test_clean_checkout_minimal_profile_is_bounded() -> None:
+    """The clean-checkout profile should stay small enough for clone smoke."""
+
+    ids = {command.command_id for command in CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS}
+
+    assert len(CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS) == 8
+    assert "test_clean_checkout_smoke" in ids
+    assert "formal_acceptance_package_audit" in ids
+    assert "final_study_readiness_audit" in ids
+    assert "runtime_cloned_repo_import_boundary" in ids
+
+    print("PASS: clean-checkout minimal smoke profile is bounded")
+
+
 def _result(command_id: str, *, passed: bool) -> SmokeCommandResult:
     return SmokeCommandResult(
         command_id=command_id,
@@ -143,4 +158,5 @@ if __name__ == "__main__":
     test_write_smoke_outputs_and_summary()
     test_missing_smoke_summary_is_blocked()
     test_run_reproducibility_smoke_subset_records_command_status()
+    test_clean_checkout_minimal_profile_is_bounded()
     print("\n=== REALWORLD REPRODUCIBILITY SMOKE TESTS PASSED ===")

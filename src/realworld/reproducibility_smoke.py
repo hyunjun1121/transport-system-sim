@@ -252,6 +252,71 @@ DEFAULT_SMOKE_COMMANDS: tuple[SmokeCommand, ...] = (
     ),
 )
 
+CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS: tuple[SmokeCommand, ...] = (
+    SmokeCommand(
+        "py_compile_clean_checkout_evidence",
+        "Compile clean-checkout and acceptance evidence modules",
+        (
+            "{python}",
+            "-m",
+            "py_compile",
+            "src/realworld/clean_checkout_smoke.py",
+            "src/realworld/reproducibility_smoke.py",
+            "src/realworld/reproducibility_review_packet.py",
+            "src/realworld/final_study_readiness.py",
+            "scripts/run_clean_checkout_smoke.py",
+            "scripts/run_reproducibility_smoke.py",
+            "scripts/validate_formal_acceptance_package.py",
+            "scripts/audit_final_study_readiness.py",
+            "tests/test_realworld_clean_checkout_smoke.py",
+            "tests/test_realworld_reproducibility_review_packet.py",
+            "tests/test_realworld_final_study_readiness.py",
+        ),
+        timeout_sec=120,
+    ),
+    SmokeCommand(
+        "test_clean_checkout_smoke",
+        "Clean-checkout smoke evidence tests",
+        ("{python}", "tests/test_realworld_clean_checkout_smoke.py"),
+        timeout_sec=120,
+    ),
+    SmokeCommand(
+        "test_reproducibility_review_packet",
+        "Reproducibility review packet tests",
+        ("{python}", "tests/test_realworld_reproducibility_review_packet.py"),
+        timeout_sec=120,
+    ),
+    SmokeCommand(
+        "test_final_study_readiness",
+        "Final study readiness tests",
+        ("{python}", "tests/test_realworld_final_study_readiness.py"),
+        timeout_sec=180,
+    ),
+    SmokeCommand(
+        "formal_acceptance_package_audit",
+        "Validate formal acceptance package",
+        ("{python}", "scripts/validate_formal_acceptance_package.py"),
+        timeout_sec=120,
+    ),
+    SmokeCommand(
+        "final_study_readiness_audit",
+        "Run final-study readiness audit",
+        ("{python}", "scripts/audit_final_study_readiness.py"),
+        timeout_sec=120,
+    ),
+    SmokeCommand(
+        "runtime_cloned_repo_import_boundary",
+        "Check runtime cloned_repo import boundary",
+        kind="internal_cloned_repo_import_boundary",
+    ),
+    SmokeCommand(
+        "git_diff_check",
+        "Run git diff whitespace check",
+        ("git", "diff", "--check"),
+        timeout_sec=120,
+    ),
+)
+
 
 def run_reproducibility_smoke(
     *,
@@ -577,6 +642,7 @@ __all__ = [
     "DEFAULT_REPRODUCIBILITY_SMOKE_LOG_PATH",
     "DEFAULT_REPRODUCIBILITY_SMOKE_MANIFEST_PATH",
     "DEFAULT_SMOKE_COMMANDS",
+    "CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS",
     "REPRODUCIBILITY_SMOKE_SCOPE",
     "SmokeCommand",
     "SmokeCommandResult",
