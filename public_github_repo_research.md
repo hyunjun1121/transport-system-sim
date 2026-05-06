@@ -8,6 +8,19 @@ The research was split by feature area and assigned to parallel GPT-5.5 xhigh su
 
 The goal is not to copy large external frameworks into this project. The goal is to choose a practical stack that improves realism while keeping the current Python/NetworkX simulation maintainable.
 
+## Current Progress Boundary
+
+As of 2026-05-06, this research has informed the project-owned quasi-real pilot
+scaffold, but it has not produced a calibrated real-world study or operational
+route plan. The final-study audit remains `final_study_ready=false`: 3/15
+gates are ready (`real_input_smoke`, `structured_disruptions`,
+`policy_alternatives`) and 12/15 are blocked.
+
+Formal acceptance is 0/12 ready, with required formal acceptance artifacts
+intentionally absent until source-backed human review. The implemented
+`validation_strategy_readiness` and `graph_scale_strategy_readiness` packets
+are review/blocker aids only.
+
 ## Executive Recommendation
 
 The most practical path is a staged integration:

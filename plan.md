@@ -23,6 +23,20 @@ The model predicts actual emergency operations or proves one mode is always
 superior in the real world.
 ```
 
+## Current Audit Snapshot
+
+As of 2026-05-06, the final-study readiness audit remains blocked:
+`final_study_ready=false`. The ready final gates are 3/15:
+`real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
+The other 12/15 gates are blocked.
+
+Formal acceptance remains 0/12 ready. The required formal acceptance artifacts
+are intentionally absent and must stay absent until reviewers provide real,
+source-backed decisions. The implemented `validation_strategy_readiness` and
+`graph_scale_strategy_readiness` packets turn blockers into reviewable rows,
+but they do not create acceptance, calibration, or operational routing
+authority. Current outputs remain quasi-real scaffold evidence only.
+
 ## Review Verdict
 
 The plan covers the final research target as a master execution guide: real or

@@ -12,6 +12,19 @@ patterns, tests, data schemas, and examples. They should not be treated as
 production code owned by this project unless a later change explicitly ports a
 small, reviewed idea into `src/`.
 
+## Current Usage Boundary
+
+As of 2026-05-06, these snapshots remain reference material only. They have not
+converted the project into a calibrated real-world model or operational route
+planner. The latest final-study audit is `final_study_ready=false`: 3/15 gates
+are ready and 12/15 are blocked. Formal acceptance is 0/12 ready, and the
+formal acceptance artifacts are intentionally absent until source-backed human
+review.
+
+The implemented `validation_strategy_readiness` and
+`graph_scale_strategy_readiness` packets are project-owned review aids; they do
+not change the status of the third-party snapshots or create acceptance.
+
 ## Clone Status
 
 All repositories below were cloned successfully into `cloned_repo/`, then their

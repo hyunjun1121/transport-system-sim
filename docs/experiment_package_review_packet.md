@@ -1,5 +1,8 @@
 # Experiment Package Review Packet
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/experiment_acceptance.json after graph scope, input validation, scenario-policy-seed design, CRN pairing, counts, and claim boundaries are reviewed.
 
 ## Verdict

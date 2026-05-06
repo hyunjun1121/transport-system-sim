@@ -1,6 +1,9 @@
 # Graph-Scale Route Diagnostics
 
-Date: 2026-05-04
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
+Date: 2026-05-06
 
 ## Purpose
 
@@ -103,7 +106,8 @@ rows plus 63 summary rows for graph-scale review. Both outputs are still
 review support only: accepting this as the final graph-scale method would
 require a documented corridor-selection rule, reviewed comparison against the
 current reduced-corridor full pilot, review of the 819-row
-`graph_scale_result_comparison.csv` delta table, regenerated downstream
+`graph_scale_result_comparison.csv` delta table, review of the latest
+`docs/graph_scale_strategy_readiness_packet.md`, regenerated downstream
 sensitivity or figure/table outputs as needed, and a reviewed
 `data/manifests/graph_scale_acceptance.json` record.
 
@@ -154,3 +158,7 @@ in the results.
 Final graph-scale claims still require a reviewed
 `data/manifests/graph_scale_acceptance.json` record. That record is
 intentionally absent in the current scaffold.
+
+Current final-study status remains blocked: only 3 / 15 plan gates are ready,
+12 / 15 are blocked, and formal acceptance is 0 / 12 ready with required
+formal artifacts absent.

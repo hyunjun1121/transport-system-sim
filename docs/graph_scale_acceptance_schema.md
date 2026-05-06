@@ -1,5 +1,8 @@
 # Graph-Scale Acceptance Schema
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 Final-study claims require an explicit graph-scale decision before a reduced
 analysis graph, full cached graph, or multi-corridor ensemble can be treated as
 accepted study input. The current repository intentionally does not commit this

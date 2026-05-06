@@ -1,5 +1,8 @@
 # Sensitivity Acceptance Schema
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 Final-study claims require an explicit sensitivity-analysis decision before
 Morris, Sobol, or deterministic screening outputs can be treated as accepted
 evidence. The current repository intentionally does not commit this record, so

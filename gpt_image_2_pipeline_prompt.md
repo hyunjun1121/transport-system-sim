@@ -9,6 +9,19 @@ Recommended settings:
 - Size: `2560x1440` for a polished 16:9 report figure, or `1536x864` for a faster draft
 - Output format: PNG
 
+## Current Status Note
+
+Any generated overview figure should preserve the current claim boundary. As of
+2026-05-06, `final_study_ready=false`: 3/15 final gates are ready
+(`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and
+12/15 are blocked. Formal acceptance is 0/12 ready, and the formal acceptance
+artifacts are intentionally absent until source-backed review.
+
+The `validation_strategy_readiness` and `graph_scale_strategy_readiness`
+packets are implemented review aids only. The figure must not imply calibrated
+real-world results, operational routing, field forecasting, or final-study
+acceptance.
+
 ## Prompt
 
 Create a single first-page executive overview figure for a Korean research report.
@@ -17,7 +30,7 @@ Use case: professional research-report infographic and workflow diagram.
 
 Asset type: landscape 16:9 opening figure for a Word report.
 
-Subject: a wartime reserve-force transportation simulation that compares bus-only transport against rail-bus multimodal transport. The figure should explain the full study pipeline in one glance, from input assumptions to transport alternatives, uncertainty, simulation, evaluation, and decision interpretation.
+Subject: a decision-support transport-resilience simulation for emergency personnel movement that compares bus-only transport against rail-bus multimodal transport. The figure should explain the full study pipeline in one glance, from input assumptions to transport alternatives, uncertainty, simulation, evaluation, and bounded decision interpretation.
 
 Visual style: clean flat editorial infographic, polished government/research-report style, white background, restrained colors, no photorealism, no stock-photo feeling, no decorative clutter. Use the same visual tone as a senior-level briefing slide: clear hierarchy, quiet confidence, high readability.
 

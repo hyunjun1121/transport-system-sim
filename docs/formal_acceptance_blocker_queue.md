@@ -1,12 +1,19 @@
 # Formal Acceptance Blocker Queue
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 Formal acceptance blocker queue only. Rows are work items for reviewers; they do not create approvals, source evidence, calibrated validation, or operational routing permission.
 
 ## Summary
 
 - Queue rows: 15
 - Formal acceptance ready: `false`
+- Formal acceptance artifacts present: 0 / 12
+- Formal acceptance artifacts absent: 12 / 12
 - Final-study ready: `false`
+- Ready plan gates: 3 / 15
+- Blocked plan gates: 12 / 15
 - Can mark complete: `false`
 - CSV: `data/manifests/formal_acceptance_blocker_queue.csv`
 
@@ -33,3 +40,8 @@ Formal acceptance blocker queue only. Rows are work items for reviewers; they do
 ## Use
 
 Work this queue from top to bottom. If evidence is missing, leave the formal target absent. If evidence exists, update the formal target with a real reviewed decision and rerun the formal acceptance audits.
+
+Use `docs/graph_scale_strategy_readiness_packet.md` and
+`docs/validation_strategy_readiness_packet.md` as the latest method-specific
+blocker context for the graph-scale and validation rows. They do not approve
+those gates.

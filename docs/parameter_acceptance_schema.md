@@ -1,5 +1,8 @@
 # Parameter Acceptance Schema
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 The parameter-source tables may retain expert assumptions or sensitivity-only
 values when stronger public, literature, agency, timetable, or benchmark
 evidence is unavailable. Those weak rows should not support final claims unless

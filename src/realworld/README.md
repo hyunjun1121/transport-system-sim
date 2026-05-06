@@ -16,6 +16,17 @@ Rules:
 The first implementation target is an OSM-derived road graph adapter that emits
 a simulator-compatible NetworkX graph for `run_scenario(...)`.
 
+## Current Scaffold Status
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- `data/validation/validation_strategy_readiness_packet.csv` and
+  `data/validation/graph_scale_strategy_readiness_packet.csv` are implemented
+  preflight review aids only.
+- Current abstract-network and pilot outputs are not calibrated real-world
+  results, formal approvals, or operational route plans.
+
 Implemented extension modules now also cover:
 
 - `acceptance_decision_templates.py`: non-approval templates for formal

@@ -1,5 +1,8 @@
 # A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 ## Draft Status
 
 This is a working paper draft. It is written as a research design and manuscript
@@ -12,7 +15,11 @@ structured disruptions, censoring-aware metrics, paired experiments, and a
 first real-world/quasi-real input pipeline. The current full result set remains
 based on a representative abstract network. A separate pilot scaffold now
 exists with an Overpass/OSM-derived cached road graph, but its outputs are
-explicitly scaffold-only and are not calibrated real-world findings. This draft
+explicitly scaffold-only and are not calibrated real-world findings. The formal
+evidence boundary is also explicit: final-study readiness is `false`, only
+`3/15` final-study gates are ready, `12/15` gates remain blocked, formal
+acceptance readiness is `0/12`, and no formal approvals or calibrated
+real-world results are present. This draft
 therefore separates:
 
 - what is already implemented,
@@ -92,6 +99,10 @@ real-world extension:
   OSRM snapshot/manifest status, accessibility-loss coverage, route-level
   road-evidence exposure, validation-summary scope, and benchmark-strategy decision
   requirements. It is not validation acceptance.
+- `data/validation/validation_strategy_readiness_packet.csv` stores a 7-row
+  validation strategy-readiness worksheet with 3 blocking requests and 4
+  human-review requests. It is implemented preflight support only and cannot
+  close `data/manifests/validation_acceptance.json`.
 - `data/scenarios/` stores deterministic disruption, policy, and sensitivity
   design tables.
 - `results/realworld_pilot/` stores separated pilot scaffold sample/staged/full
@@ -124,6 +135,10 @@ real-world extension:
   246-edge multi-corridor candidate, and the full 4,608-node / 9,148-edge
   bus-practical graph. This packet supports method selection but does not
   replace a reviewed graph-scale acceptance record.
+- `data/validation/graph_scale_strategy_readiness_packet.csv` stores a 5-row
+  graph-scale strategy-readiness worksheet with 3 blocking requests and 2
+  human-review requests. It is implemented preflight support only and cannot
+  close `data/manifests/graph_scale_acceptance.json`.
 - Current pilot scaffold outputs include 1,890 full pilot rows and 63 full
   summary rows. Current SALib Morris scaffold outputs include 4,320 raw rows
   and 7,056 summary rows over the current policy/scenario sensitivity design.
@@ -798,6 +813,9 @@ The generated validation review packet should likewise be used to document
 internal plausibility warnings, fallback benchmark limitations, optional OSRM
 snapshot/manifest provenance, accessibility-loss interpretation, and the
 final benchmark-strategy decision before any validation claim is upgraded.
+The validation strategy-readiness packet and graph-scale strategy-readiness
+packet are implemented, but both are blocker triage aids, not formal acceptance
+records.
 
 Recommended outputs:
 
@@ -1021,6 +1039,10 @@ The paper must be explicit about limitations.
 Current limitations:
 
 - The current full outputs are based on an abstract representative network.
+- Final-study readiness is currently `false`: `3/15` final-study gates are
+  ready and `12/15` remain blocked.
+- Formal acceptance readiness is `0/12`; no formal approval artifacts are
+  present, and templates or packets must not be treated as approvals.
 - The current pilot outputs use a scaffold-level cached OSM snapshot and
   reduced analysis corridor, not a reviewed or calibrated regional network.
 - Sparse OSM `maxspeed` tags have been summarized for road-class review, but
@@ -1053,6 +1075,9 @@ Current limitations:
   evidence and not a substitute for `data/manifests/sensitivity_acceptance.json`.
 - The current validation review packet is a review worksheet, not acceptance
   evidence and not a substitute for `data/manifests/validation_acceptance.json`.
+- The current validation and graph-scale strategy readiness packets are
+  implemented preflight worksheets, not substitutes for formal acceptance
+  records or calibrated real-world validation.
 
 For a strong paper, limitations should be framed as model boundaries rather
 than hidden weaknesses.
@@ -1180,8 +1205,9 @@ competitive, or fragile.
    alternate-route warning rows are acceptable under a documented
    corridor-selection rule, whether to regenerate on the 164-node / 246-edge
    candidate graph, or whether full-graph runtime or a multi-corridor ensemble
-   is the final study method. Use the graph-scale review packet as the
-   method-selection worksheet before writing final result claims.
+   is the final study method. Use the graph-scale review packet and graph-scale
+   strategy-readiness packet as method-selection worksheets before writing
+   final result claims.
 8. Review the current SALib Morris outputs with the sensitivity review packet
    for the accepted staged/full pilot profile, resolve missing/non-finite index
    handling and zero `mu_star` interpretation, and add Sobol only if compute
@@ -1192,8 +1218,11 @@ competitive, or fragile.
    route-level road-evidence exposure rows, then decide whether the current
    optional OSRM snapshot is enough or whether to add another external
    benchmark using r5py, Valhalla, UXsim, or SUMO before creating a validation
-   acceptance record.
-11. Rewrite the results section after accepted quasi-real or calibrated
+   acceptance record. Use the validation strategy-readiness packet to track
+   blocker and human-review closure.
+11. Keep final-study readiness `false` until the 12 blocked gates and all
+    12 formal acceptance targets are resolved by reviewer-supplied evidence.
+12. Rewrite the results section after accepted quasi-real or calibrated
     experiment outputs are generated.
 
 ## 19. Suggested Manuscript Outline

@@ -14,6 +14,20 @@ platform. The target is a layered implementation:
 > disruption generation + transparent micro-simulation + validation benchmarks
 > + sensitivity analysis + reproducible outputs.
 
+## Current Progress Boundary
+
+As of 2026-05-06, parts of this blueprint have been implemented as a
+quasi-real pilot scaffold, but the final study is not ready:
+`final_study_ready=false`. The final audit has 3/15 ready gates
+(`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and
+12/15 blocked gates.
+
+Formal acceptance remains 0/12 ready. The formal acceptance artifacts are
+intentionally absent until reviewers provide source-backed decisions. The
+implemented `validation_strategy_readiness` and
+`graph_scale_strategy_readiness` packets are blocker/readiness aids only; they
+do not provide calibration, operational route planning, or acceptance.
+
 ## Core Principle
 
 Keep the current simulator as the authoritative scenario evaluator because it

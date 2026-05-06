@@ -1,5 +1,8 @@
 # Road Evidence Diagnostics
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 `scripts/audit_road_evidence_diagnostics.py` summarizes the cached
 OSM/GraphML road graph by normalized highway class. It is a review aid for the
 road-input evidence gate, not an acceptance record.

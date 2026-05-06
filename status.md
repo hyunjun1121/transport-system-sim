@@ -2,11 +2,40 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-05-04
+- Date: 2026-05-06
 - Workspace: `C:\project\transport-system-sim`
 - Platform in use: Windows PowerShell
 - Git branch: `main`
 - Remote: `https://github.com/hyunjun1121/transport-system-sim.git`
+
+## Latest Audit Snapshot
+
+- `final_study_ready=false`.
+- Final-study gate count: 15.
+- Ready gates: 3/15:
+  - `real_input_smoke`
+  - `structured_disruptions`
+  - `policy_alternatives`
+- Blocked gates: 12/15:
+  - `pilot_region_accepted`
+  - `cached_osm_input`
+  - `graph_scale_strategy`
+  - `data_provenance`
+  - `parameter_evidence`
+  - `rail_evidence`
+  - `validation_package`
+  - `sensitivity_analysis`
+  - `full_experiment_output`
+  - `manuscript_report_alignment`
+  - `reproducibility`
+  - `final_audit`
+- Formal acceptance readiness: 0/12. The required formal acceptance artifacts
+  are intentionally absent until reviewers supply real, source-backed
+  decisions.
+- Latest blocker/readiness packets are implemented for
+  `validation_strategy_readiness` and `graph_scale_strategy_readiness`. They
+  make the remaining review work explicit but do not close acceptance gates.
+- There is still no calibrated real-world result and no operational route plan.
 
 ## Project Goal
 

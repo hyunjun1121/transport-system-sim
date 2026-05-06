@@ -42,12 +42,21 @@ experiment outputs.
 Final claims require a reviewer-created
 `data/manifests/graph_scale_acceptance.json` after deciding which graph-scale
 method is valid for the study and after regenerating any affected outputs.
+The latest graph-scale strategy-readiness packet is present at
+`docs/graph_scale_strategy_readiness_packet.md` with data artifacts
+`data/validation/graph_scale_strategy_readiness_packet.csv` and
+`data/validation/graph_scale_strategy_readiness_manifest.json`; it records
+current blockers and human-review items, not acceptance. Current final-study
+status remains `final_study_ready=false` with 3 / 15 plan gates ready, 12 / 15
+blocked, and formal acceptance 0 / 12 ready.
 
 ## Regeneration
 
 ```powershell
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
+.\.venv\Scripts\python tests\test_realworld_graph_scale_strategy_readiness_packet.py
 ```
 
 Do not create `data/manifests/graph_scale_acceptance.json` from this packet

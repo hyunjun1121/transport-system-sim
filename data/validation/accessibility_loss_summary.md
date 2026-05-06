@@ -6,6 +6,14 @@ Evidence class: scaffold route-fragility diagnostic. This is not
 calibrated real-world accessibility evidence and is not an operational
 routing recommendation.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Validation and graph-scale strategy readiness packets are implemented as review aids only.
+- This diagnostic is scaffold evidence only; it is not a calibrated real-world result.
+
 ## Inputs
 
 - Region spec: `data/regions/pilot_region.yaml`

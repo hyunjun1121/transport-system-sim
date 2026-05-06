@@ -7,6 +7,14 @@ This table compares top full-graph shortest-time route candidates with
 the multi-corridor candidate graph. It is not graph-scale acceptance and not calibrated
 real-world validation.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Graph-scale strategy readiness is implemented in `data/validation/graph_scale_strategy_readiness_packet.csv`, but it is review support only.
+- This diagnostic is scaffold evidence only; it is not a calibrated real-world result.
+
 ## Inputs
 
 - Region spec: `data/regions/pilot_region.yaml`

@@ -2,6 +2,14 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Validation and graph-scale strategy readiness packets are implemented as review aids only.
+- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
+
 - Gate ID: `full_experiment_output`
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`

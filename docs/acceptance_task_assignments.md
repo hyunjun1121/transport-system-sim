@@ -1,5 +1,8 @@
 # Acceptance Task Assignments
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 Sub-agent task assignments only. These rows assign review work; they do not approve evidence, certify licenses, validate calibration, or close final-study gates.
 
 ## Summary
@@ -7,7 +10,10 @@ Sub-agent task assignments only. These rows assign review work; they do not appr
 - Tasks: 15
 - Assigned agents: 10
 - Formal acceptance ready: `false`
+- Formal acceptance artifacts present: 0 / 12
 - Final-study ready: `false`
+- Ready plan gates: 3 / 15
+- Blocked plan gates: 12 / 15
 - Can mark complete: `false`
 - CSV: `data/manifests/acceptance_task_assignments.csv`
 
@@ -34,3 +40,8 @@ Sub-agent task assignments only. These rows assign review work; they do not appr
 ## Use
 
 Use this file to assign human/source-backed review work to the deterministic sub-agent roles. If a task cannot be resolved with evidence, keep the formal target absent or explicitly blocked and rerun the audit.
+
+Current graph-scale and validation method blockers are detailed in
+`docs/graph_scale_strategy_readiness_packet.md` and
+`docs/validation_strategy_readiness_packet.md`. Those packets are review aids
+only and do not create formal acceptance.

@@ -3,6 +3,20 @@
 This document records the current implemented system. It is an implementation
 record, not a worker launch schedule.
 
+## Current Audit Snapshot
+
+As of 2026-05-06, the implementation supports the quasi-real scaffold but does
+not complete the final study. The final-study audit reports
+`final_study_ready=false`: 3 of 15 gates are ready
+(`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and 12
+are blocked. Formal acceptance is 0/12 ready, with the required formal
+acceptance artifacts intentionally absent until source-backed human review.
+
+The current `validation_strategy_readiness` and
+`graph_scale_strategy_readiness` packets are implemented review aids. They do
+not create calibrated real-world results, operational route plans, or formal
+acceptance.
+
 ## Implemented Scope
 
 The current codebase implements the design fixes that replaced the original

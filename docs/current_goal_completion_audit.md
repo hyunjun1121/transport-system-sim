@@ -1,6 +1,9 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-05-04
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
+Audit date: 2026-05-06
 
 ## Objective
 
@@ -13,7 +16,22 @@ Implement every requirement planned in plan.md for the final real-world or quasi
 - Ready gates: 3 / 15
 - Blocked gates: 12 / 15
 
+Current ready gates are `real_input_smoke`, `structured_disruptions`, and
+`policy_alternatives`. All other plan-level gates remain blocked. Formal
+acceptance is also blocked: 0 / 12 formal gates are ready, all 12 required
+formal acceptance artifacts are absent, and no final approval has been made.
+
 This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.
+
+Latest blocker-detail packets are present for the two strategy gates that need
+method decisions:
+
+- `docs/graph_scale_strategy_readiness_packet.md` and
+  `data/validation/graph_scale_strategy_readiness_manifest.json`: 5 rows, 3
+  blocking requests, and 2 human-review requests.
+- `docs/validation_strategy_readiness_packet.md` and
+  `data/validation/validation_strategy_readiness_manifest.json`: 7 rows, 3
+  blocking requests, and 4 human-review requests.
 
 ## Concrete Success Criteria
 

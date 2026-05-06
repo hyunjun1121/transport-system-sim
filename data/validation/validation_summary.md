@@ -6,6 +6,15 @@ Evidence class: scaffold/sanity evidence for the committed offline pilot graph.
 This is not calibrated real-world validation and is not ground truth for
 emergency operations or public transport service.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Validation strategy readiness is implemented in `data/validation/validation_strategy_readiness_packet.csv`, but it is review support only and cannot close `data/manifests/validation_acceptance.json`.
+- Graph-scale strategy readiness is implemented in `data/validation/graph_scale_strategy_readiness_packet.csv`, but it is review support only and cannot close `data/manifests/graph_scale_acceptance.json`.
+- Current validation outputs are scaffold checks; no calibrated real-world result or operational route plan is accepted.
+
 ## Inputs
 
 - Region spec: `data/regions/pilot_region.yaml`

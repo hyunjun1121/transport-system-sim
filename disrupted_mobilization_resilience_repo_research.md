@@ -22,6 +22,20 @@ platform. The goal is to identify which repositories should become practical
 dependencies, which should be used as benchmark engines, and which should only
 inform model design.
 
+## Current Progress Boundary
+
+As of 2026-05-06, the repository research has been partly translated into
+project-owned quasi-real scaffolding, but the final study remains blocked:
+`final_study_ready=false`. Ready gates are 3/15
+(`real_input_smoke`, `structured_disruptions`, `policy_alternatives`); blocked
+gates are 12/15.
+
+Formal acceptance is 0/12 ready, and required formal acceptance artifacts are
+intentionally absent until reviewers provide source-backed decisions. The
+latest `validation_strategy_readiness` and `graph_scale_strategy_readiness`
+packets are implemented review aids only. No current result is calibrated
+real-world evidence or an operational route plan.
+
 ## Executive Recommendation
 
 Keep the current Python micro-simulation as the core scenario engine. It already

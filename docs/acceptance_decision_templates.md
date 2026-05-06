@@ -1,5 +1,8 @@
 # Acceptance Decision Templates
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.
 
 These files are copy/edit starting points for human reviewers. They are not formal acceptance artifacts and do not close final-study gates.
@@ -7,6 +10,8 @@ These files are copy/edit starting points for human reviewers. They are not form
 - Final-study ready at generation: `false`
 - JSON templates: 9
 - Parameter acceptance template rows: 25
+- Formal acceptance ready: 0 / 12
+- Formal acceptance artifacts present: 0 / 12
 - Can mark complete: `false`
 
 ## JSON Templates
@@ -34,4 +39,7 @@ These files are copy/edit starting points for human reviewers. They are not form
 - Review the corresponding packet in `docs/review_packets/` first.
 - Replace every `REVIEW_REQUIRED` placeholder with a real source-backed decision.
 - Copy a template to the formal target path only after review.
+- Treat `docs/graph_scale_strategy_readiness_packet.md` and
+  `docs/validation_strategy_readiness_packet.md` as current blocker-detail
+  inputs, not approval records.
 - Re-run `scripts/audit_final_study_readiness.py --fail-on-blockers` after formal records are created.

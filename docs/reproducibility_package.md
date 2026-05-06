@@ -7,6 +7,15 @@ study scaffold. It does not certify calibrated real-world accuracy.
 
 Current reproducible artifacts are scaffold-only:
 
+- current final-study status remains `final_study_ready=false`;
+- the plan-level audit reports 3 / 15 ready gates
+  (`real_input_smoke`, `structured_disruptions`, and `policy_alternatives`) and
+  12 / 15 blocked gates;
+- formal acceptance remains 0 / 12 ready, with all required formal acceptance
+  artifacts absent and no final approval recorded;
+- graph-scale and validation strategy-readiness packets are present as review
+  aids at `docs/graph_scale_strategy_readiness_packet.md` and
+  `docs/validation_strategy_readiness_packet.md`;
 - cached public-coordinate Overpass/OSM pilot graph input
 - cached road-input evidence audit for OSM length, highway, maxspeed,
   capacity, and base-disruption proxy coverage

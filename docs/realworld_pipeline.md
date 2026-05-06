@@ -1,9 +1,28 @@
 # Real-World / Quasi-Real Pipeline
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 This document records the implemented MVP for feeding open-map-style regional
 road data into the existing transport micro-simulator. The pipeline is
 decision-support research infrastructure. It is not a calibrated operational
 routing model.
+
+## Current Status Boundary
+
+As of the current audit, `final_study_ready` remains `false`. The plan-level
+audit reports 3 / 15 ready gates (`real_input_smoke`,
+`structured_disruptions`, and `policy_alternatives`) and 12 / 15 blocked gates.
+Formal acceptance is not ready: 0 / 12 formal gates are ready, the required
+formal acceptance artifacts are absent, and no final approval should be
+claimed.
+
+The latest strategy-detail packets exist and are review aids only:
+
+- `docs/graph_scale_strategy_readiness_packet.md` with
+  `data/validation/graph_scale_strategy_readiness_manifest.json`
+- `docs/validation_strategy_readiness_packet.md` with
+  `data/validation/validation_strategy_readiness_manifest.json`
 
 ## Implemented Scope
 
@@ -82,12 +101,14 @@ The repository now includes a first non-sensitive offline pilot scaffold:
 | `data/validation/` | Current route plausibility checks, fallback benchmark checks, optional OSRM snapshot, OSRM manifest, and summaries |
 | `data/validation/canonical_route_road_evidence_exposure.csv` | Route-level road-evidence exposure worksheet; 76 rows across 18 route candidates, review support only |
 | `data/validation/validation_review_packet.csv` | Validation review worksheet; 7 rows for internal plausibility, fallback benchmark, OSRM snapshot, accessibility-loss, route evidence exposure, summary scope, and benchmark-strategy decision review |
+| `data/validation/validation_strategy_readiness_packet.csv` | Validation strategy-readiness worksheet; 7 rows with 3 blocking requests and 4 human-review requests; not validation acceptance |
 | `data/validation/graph_scale_route_comparison.csv` | Full-vs-reduced route parity diagnostic; 3 current rows, all pass for baseline shortest-time paths |
 | `data/validation/graph_scale_route_comparison_summary.md` | Graph-scale diagnostic summary and claim boundary |
 | `data/validation/graph_scale_alternate_routes.csv` | Full-vs-reduced alternate-route diagnostic; 9 current rows with 3 pass and 6 warn statuses |
 | `data/validation/graph_scale_alternate_routes_summary.md` | Alternate-route diagnostic summary and claim boundary |
 | `data/validation/graph_scale_multi_corridor_routes.csv` | Multi-corridor candidate diagnostic; 9 current rows, all pass |
 | `data/validation/graph_scale_multi_corridor_routes_summary.md` | Multi-corridor candidate summary and claim boundary |
+| `data/validation/graph_scale_strategy_readiness_packet.csv` | Graph-scale strategy-readiness worksheet; 5 rows with 3 blocking requests and 2 human-review requests; not graph-scale acceptance |
 | `data/validation/sensitivity_review_packet.csv` | Morris sensitivity review worksheet; 6 rows for structural readiness, index issues, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
 | `data/scenarios/` | Structured disruption and policy-alternative scenario tables |
 | `data/manifests/reproducibility_manifest.json` | Current scaffold-only reproduction manifest |
@@ -285,6 +306,12 @@ Current limitations:
   snapshot/manifest status, accessibility-loss coverage, validation-summary
   scope, and the benchmark-strategy decision requirement. It is not validation
   acceptance and does not create `data/manifests/validation_acceptance.json`.
+- The validation strategy-readiness packet writes
+  `data/validation/validation_strategy_readiness_packet.csv`,
+  `data/validation/validation_strategy_readiness_manifest.json`, and
+  `docs/validation_strategy_readiness_packet.md`. It records current validation
+  blockers and human-review items, but it cannot close
+  `data/manifests/validation_acceptance.json`.
 - Full-pilot statistics generation now writes
   `results/realworld_pilot/tables/pilot_full_metric_ci.csv`,
   `results/realworld_pilot/tables/pilot_full_paired_delta_ci.csv`, and
@@ -301,6 +328,12 @@ Current limitations:
   `data/validation/graph_scale_result_comparison.csv` and
   `data/validation/graph_scale_result_comparison_manifest.json`. The current
   comparison has 819 metric-level rows and remains review support only.
+- The graph-scale strategy-readiness packet writes
+  `data/validation/graph_scale_strategy_readiness_packet.csv`,
+  `data/validation/graph_scale_strategy_readiness_manifest.json`, and
+  `docs/graph_scale_strategy_readiness_packet.md`. It records current
+  source-vs-analysis graph blockers and human-review items, but it cannot close
+  `data/manifests/graph_scale_acceptance.json`.
 - Pilot, sensitivity, Morris, and figure/table manifests record both the
   bus-practical source graph scale and the reduced analysis graph scale. This
   keeps the current corridor abstraction visible but does not accept it as the

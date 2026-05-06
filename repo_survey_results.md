@@ -32,6 +32,13 @@ Current implementation status:
 - The default Phase 1 sweep covers `baseline` and `matched_redundancy`; the
   `multimodal_redundant_lastmile` and `bus_single_corridor` variants are
   selectable sensitivity cases outside the current default result set.
+- Latest final-study readiness is `final_study_ready=false`: 3/15 gates are
+  ready (`real_input_smoke`, `structured_disruptions`,
+  `policy_alternatives`) and 12/15 are blocked.
+- Formal acceptance readiness is 0/12. Required formal acceptance artifacts are
+  intentionally absent until source-backed review supplies them.
+- The `validation_strategy_readiness` and `graph_scale_strategy_readiness`
+  packets are implemented blocker/readiness aids only, not acceptance records.
 
 External-data and calibration work remains open. This survey does not imply
 that OSM/GTFS calibration, real Seoul network replacement, empirical traffic

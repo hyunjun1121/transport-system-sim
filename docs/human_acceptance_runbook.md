@@ -8,6 +8,11 @@ acceptance artifacts.
 
 ## Current Boundary
 
+- Current final-study status: `final_study_ready=false`.
+- Current plan gates: 3 / 15 ready (`real_input_smoke`,
+  `structured_disruptions`, and `policy_alternatives`) and 12 / 15 blocked.
+- Current formal acceptance status: 0 / 12 formal gates ready; all required
+  formal acceptance artifacts are absent.
 - `docs/current_goal_completion_audit.md` is the current-state gap audit.
 - `docs/final_study_audit.md` must not be created until every pre-final gate is
   accepted with evidence.
@@ -66,13 +71,19 @@ claims.
 The graph-scale strategy-readiness packet does not choose the final
 source-vs-analysis graph. It records whether the current reduced corridor,
 multi-corridor candidates, full graph, result deltas, and missing
-`graph_scale_acceptance.json` are blockers or human-review items.
+`graph_scale_acceptance.json` are blockers or human-review items. Current
+cross-references are `docs/graph_scale_strategy_readiness_packet.md`,
+`data/validation/graph_scale_strategy_readiness_packet.csv`, and
+`data/validation/graph_scale_strategy_readiness_manifest.json`.
 
 The validation strategy-readiness packet does not choose the final benchmark
 strategy. It records whether internal checks, fallback benchmarks, optional
 OSRM snapshots, accessibility diagnostics, route-road exposure, validation
 summary scope, and the missing validation acceptance record are blockers or
-human-review items.
+human-review items. Current cross-references are
+`docs/validation_strategy_readiness_packet.md`,
+`data/validation/validation_strategy_readiness_packet.csv`, and
+`data/validation/validation_strategy_readiness_manifest.json`.
 
 2. Inspect the aggregate blockers:
 

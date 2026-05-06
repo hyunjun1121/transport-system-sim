@@ -2,6 +2,14 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Validation and graph-scale strategy readiness packets are implemented as review aids only.
+- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
+
 - Gate ID: `validation_package`
 - Agent: `Validation Benchmark Strategy Agent`
 - Status: `needs_human_review`
@@ -17,6 +25,8 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - docs/validation_review_packet.md
 - docs/osrm_route_benchmark_manifest.md
 - data/validation/validation_review_manifest.json
+- data/validation/validation_strategy_readiness_packet.csv
+- data/validation/validation_strategy_readiness_manifest.json
 - data/manifests/validation_acceptance.json
 - data/validation/validation_summary.md
 - data/validation/external_route_benchmarks.csv
@@ -47,6 +57,8 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - data/validation/canonical_route_road_evidence_exposure_manifest.json
 - data/validation/validation_review_packet.csv
 - data/validation/validation_review_manifest.json
+- data/validation/validation_strategy_readiness_packet.csv
+- data/validation/validation_strategy_readiness_manifest.json
 - scripts/run_plausibility_validation.py
 - scripts/run_accessibility_loss_analysis.py
 - scripts/write_route_road_evidence_exposure.py
@@ -59,6 +71,7 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 
 - Live or unpinned route benchmarks are not reproducible enough for final claims.
 - Plausibility checks cannot prove operational accuracy.
+- The validation strategy readiness packet reports 3 blocking requests and 4 human-review requests; it cannot close `data/manifests/validation_acceptance.json`.
 - create an explicit validation acceptance record after benchmark-strategy review
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 
@@ -66,6 +79,7 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 
 - Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - Create validation_acceptance.json after benchmark-strategy review.
+- Use `data/validation/validation_strategy_readiness_packet.csv` to resolve benchmark-strategy blockers before formal acceptance.
 - create an explicit validation acceptance record after benchmark-strategy review
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 

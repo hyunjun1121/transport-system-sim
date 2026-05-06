@@ -15,6 +15,20 @@
 - 결과를 재현 가능하고 검증 가능한 형태로 정리한다.
 - 보고서 결론이 “모형 안에서의 조건부 비교”인지, “현실적 운용 판단에 가까운 결과”인지 명확히 구분한다.
 
+## 최신 감사 상태 (2026-05-06)
+
+- `final_study_ready=false`이다.
+- 최종 연구 게이트 15개 중 ready는 3개이다:
+  `real_input_smoke`, `structured_disruptions`, `policy_alternatives`.
+- 나머지 12개 게이트는 blocked 상태이다.
+- formal acceptance는 12개 대상 중 0개가 ready이다. 필요한 formal
+  acceptance 산출물은 실제 근거와 reviewer 결정이 생길 때까지 의도적으로
+  비워 둔다.
+- 최신 `validation_strategy_readiness` 및
+  `graph_scale_strategy_readiness` packet은 구현되어 있지만, 이는 blocker와
+  review 항목을 정리하는 자료일 뿐 acceptance, 보정(calibration), 실제
+  운용 경로 계획을 의미하지 않는다.
+
 ## 현재 모형의 위치
 
 현재 모형은 다음 성격을 가진다.

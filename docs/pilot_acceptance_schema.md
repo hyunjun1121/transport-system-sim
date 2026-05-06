@@ -1,5 +1,8 @@
 # Pilot Acceptance Schema
 
+> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+
+
 The final study must not treat the existence of `pilot_region.yaml` and the
 pilot data card as human acceptance of the case design. If the pilot case is
 accepted for final-study claims, record that decision in:

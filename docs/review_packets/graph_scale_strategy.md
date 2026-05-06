@@ -2,6 +2,14 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
+## Current Scaffold Boundary
+
+- Final-study ready: `false`.
+- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
+- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
+- Validation and graph-scale strategy readiness packets are implemented as review aids only.
+- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
+
 - Gate ID: `graph_scale_strategy`
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
@@ -17,6 +25,8 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - docs/analysis_corridor_method_note.md
 - docs/graph_scale_diagnostics.md
 - data/validation/graph_scale_review_packet.csv
+- data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_strategy_readiness_manifest.json
 - data/validation/graph_scale_result_comparison.csv
 - data/manifests/graph_scale_acceptance.json
 - data/validation/graph_scale_route_comparison.csv
@@ -51,6 +61,8 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_multi_corridor_routes_summary.md
 - data/validation/graph_scale_review_packet.csv
 - data/validation/graph_scale_review_manifest.json
+- data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_strategy_readiness_manifest.json
 - data/validation/graph_scale_result_comparison.csv
 - data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
@@ -69,12 +81,14 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 
 - Reduced corridor may omit detours or alternate-route behavior.
 - Full graph may be computationally expensive without accepted sampling strategy.
+- The graph-scale strategy readiness packet reports 3 blocking requests and 2 human-review requests; it cannot close `data/manifests/graph_scale_acceptance.json`.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 
 ## Required Actions
 
 - Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
+- Use `data/validation/graph_scale_strategy_readiness_packet.csv` to resolve method-selection blockers before formal acceptance.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 
 ## Formal Acceptance Boundary

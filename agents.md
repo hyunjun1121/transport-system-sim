@@ -20,6 +20,19 @@ forecast. It is a decision-support and resilience-evaluation framework.
 local virtual environment, then run project commands through
 `.\.venv\Scripts\python`.
 
+## Current Audit Snapshot
+
+As of 2026-05-06, `final_study_ready=false`. The current final-study audit has
+15 gates: 3 ready (`real_input_smoke`, `structured_disruptions`,
+`policy_alternatives`) and 12 blocked. Formal acceptance is 0/12 ready, and
+the required formal acceptance artifacts are intentionally absent until
+source-backed human review supplies them.
+
+The latest `validation_strategy_readiness` and
+`graph_scale_strategy_readiness` packets are implemented, but they are
+blocker/readiness review aids only. Do not treat them as acceptance records,
+calibration evidence, operational route plans, or final-study approval.
+
 ## Repository Structure
 
 ```text
