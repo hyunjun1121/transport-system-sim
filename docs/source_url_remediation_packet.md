@@ -1,8 +1,5 @@
 # Source URL Remediation Packet
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. Remediation rows identify review work only and cannot close data/manifests/provenance_acceptance.json.
 
 ## Verdict
@@ -11,27 +8,27 @@ Source URL remediation packet only; not source acceptance, not license certifica
 - Can mark complete: `false`
 - Remediation rows: 16
 - Blocking issues: 0
-- Live checks still required: 0
-- Status counts: `{'alternate_reachable_url_needs_review': 2, 'local_citation_needs_review': 4, 'reachable_needs_license_review': 10}`
+- Live checks still required: 12
+- Status counts: `{'live_check_required': 12, 'local_citation_needs_review': 4}`
 
 ## Remediation Rows
 
 | Source | URL Status | Remediation | Priority | Required Action |
 | --- | --- | --- | --- | --- |
-| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osm_overpass_road_snapshot | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osm_overpass_road_snapshot | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
 | pilot_region_spec | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 | parameter_source_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| seoul_station_binding_cache | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_shortest_path_api_context | network_error | alternate_reachable_url_needs_review | medium | verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance |
-| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| metro9_capacity_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | http_error | alternate_reachable_url_needs_review | medium | verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_station_binding_cache | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| seoul_shortest_path_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| seoul_shortest_path_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| seoul_timetable_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| seoul_timetable_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| metro9_capacity_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
 | structured_scenario_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 | reproducibility_package | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 

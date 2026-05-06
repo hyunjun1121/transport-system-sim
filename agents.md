@@ -28,8 +28,8 @@ As of 2026-05-06, `final_study_ready=false`. The current final-study audit has
 the required formal acceptance artifacts are intentionally absent until
 source-backed human review supplies them.
 
-The latest `validation_strategy_readiness` and
-`graph_scale_strategy_readiness` packets are implemented, but they are
+The latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+and `sensitivity_strategy_readiness` packets are implemented, but they are
 blocker/readiness review aids only. Do not treat them as acceptance records,
 calibration evidence, operational route plans, or final-study approval.
 
@@ -129,6 +129,7 @@ src/
     sensitivity_acceptance.py # Explicit sensitivity acceptance validation
     sensitivity_diagnostics.py # Morris output review diagnostics
     sensitivity_review_packet.py # Morris diagnostics review worksheet generator
+    sensitivity_strategy_readiness_packet.py # Sensitivity blocker/readiness worksheet
     pilot_figures.py        # Scaffold-only figures and claim-boundary tables
     publication_readiness.py # Aggregated final-claim readiness audit
     final_study_readiness.py # Plan-level final-study gate audit
@@ -208,6 +209,7 @@ tests/
   test_realworld_sensitivity_acceptance.py
   test_realworld_sensitivity_diagnostics.py
   test_realworld_sensitivity_review_packet.py
+  test_realworld_sensitivity_strategy_readiness_packet.py
   test_realworld_osrm_snapshot_manifest.py
   test_realworld_validation_review_packet.py
   test_realworld_validation_strategy_readiness_packet.py
@@ -254,6 +256,8 @@ data/
     canonical_route_road_evidence_exposure_manifest.json
     sensitivity_review_packet.csv # 6-row Morris diagnostics review aid
     sensitivity_review_manifest.json
+    sensitivity_strategy_readiness_packet.csv # 7-row sensitivity blocker/readiness aid
+    sensitivity_strategy_readiness_manifest.json
   scenarios/
   manifests/reproducibility_manifest.json
   manifests/formal_evidence_path_audit.json # formal evidence-path hygiene summary
@@ -310,6 +314,7 @@ scripts/
   run_sensitivity.py
   audit_sensitivity_diagnostics.py
   write_sensitivity_review_packet.py
+  write_sensitivity_strategy_readiness_packet.py
   write_validation_review_packet.py
   write_validation_strategy_readiness_packet.py
   write_reproducibility_review_packet.py
@@ -833,6 +838,12 @@ Implemented behavior:
   a 6-row review worksheet that keeps index handling, zero-effect
   interpretation, reduced graph scope, and the Morris-vs-Sobol decision
   visible without closing the sensitivity gate.
+- `src/realworld/sensitivity_strategy_readiness_packet.py` and
+  `scripts/write_sensitivity_strategy_readiness_packet.py` convert that
+  6-row worksheet into 7 pre-review readiness rows. The packet keeps
+  missing/non-finite indices, zero `mu_star` interpretation, reduced graph
+  scope, scaffold result scope, Morris-vs-Sobol decision, and missing
+  sensitivity acceptance visible without accepting final sensitivity evidence.
 - `src/realworld/validation_review_packet.py` and
   `scripts/write_validation_review_packet.py` convert route plausibility,
   fallback/OSRM benchmark, OSRM snapshot manifest, accessibility-loss,

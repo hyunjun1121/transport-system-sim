@@ -33,8 +33,9 @@
   are intentionally absent until reviewers supply real, source-backed
   decisions.
 - Latest blocker/readiness packets are implemented for
-  `validation_strategy_readiness` and `graph_scale_strategy_readiness`. They
-  make the remaining review work explicit but do not close acceptance gates.
+  `validation_strategy_readiness`, `graph_scale_strategy_readiness`, and
+  `sensitivity_strategy_readiness`. They make the remaining review work
+  explicit but do not close acceptance gates.
 - There is still no calibrated real-world result and no operational route plan.
 
 ## Project Goal
@@ -114,6 +115,8 @@ The codebase currently includes:
   - `data/validation/validation_review_manifest.json`
   - `data/validation/validation_strategy_readiness_packet.csv`
   - `data/validation/validation_strategy_readiness_manifest.json`
+  - `data/validation/sensitivity_strategy_readiness_packet.csv`
+  - `data/validation/sensitivity_strategy_readiness_manifest.json`
   - `data/scenarios/disruption_scenarios.csv`
   - `data/scenarios/policy_alternatives.csv`
   - explicit graph-scale acceptance validation in
@@ -339,6 +342,11 @@ The codebase currently includes:
     summarizes Morris structural readiness, 168 missing/non-finite index rows,
     4,272 zero `mu_star` rows, reduced-graph scope, scaffold result scope, and
     the Morris-vs-Sobol decision while keeping `publication_ready: false`
+  - sensitivity strategy-readiness packet generation in
+    `src/realworld/sensitivity_strategy_readiness_packet.py` and
+    `scripts/write_sensitivity_strategy_readiness_packet.py`; the generated
+    7-row packet classifies 5 blocking requests and 2 human-review requests
+    before any sensitivity acceptance record can be created
   - graph-scale strategy-readiness packet generation in
     `src/realworld/graph_scale_strategy_readiness_packet.py` and
     `scripts/write_graph_scale_strategy_readiness_packet.py`; the generated
@@ -955,6 +963,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python tests\test_realworld_sensitivity.py`
 - `.\.venv\Scripts\python tests\test_realworld_sensitivity_acceptance.py`
 - `.\.venv\Scripts\python tests\test_realworld_sensitivity_review_packet.py`
+- `.\.venv\Scripts\python tests\test_realworld_sensitivity_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python tests\test_realworld_osrm_snapshot_manifest.py`
 - `.\.venv\Scripts\python tests\test_realworld_validation_review_packet.py`
 - `.\.venv\Scripts\python tests\test_realworld_validation_strategy_readiness_packet.py`
@@ -995,6 +1004,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all`
 - `.\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py`
 - `.\.venv\Scripts\python scripts\write_sensitivity_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_validation_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py`

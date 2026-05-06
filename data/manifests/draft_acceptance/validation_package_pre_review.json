@@ -91,6 +91,24 @@
       "claim_supported": "Repository evidence cited for validation_package",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_strategy_readiness_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_strategy_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/validation_strategy_readiness_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/run_plausibility_validation.py"
     },
     {
@@ -122,6 +140,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_validation_review_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_validation_strategy_readiness_packet.py"
     }
   ],
   "files_to_create_or_update_after_human_decision": [
@@ -133,7 +157,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/validation_acceptance.json",
   "gate": "validation_package",
-  "generated_at": "2026-05-04T13:33:21+00:00",
+  "generated_at": "2026-05-06T06:16:32+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -146,6 +170,8 @@
   "label": "Validation Acceptance",
   "missing_evidence": [
     "create an explicit validation acceptance record after benchmark-strategy review",
+    "resolve validation strategy-readiness blockers before validation acceptance",
+    "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "data/manifests/validation_acceptance.json is absent"
   ],
@@ -159,6 +185,8 @@
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
     "Create validation_acceptance.json after benchmark-strategy review.",
     "create an explicit validation acceptance record after benchmark-strategy review",
+    "resolve validation strategy-readiness blockers before validation acceptance",
+    "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "data/manifests/validation_acceptance.json is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",

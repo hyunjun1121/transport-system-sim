@@ -130,6 +130,10 @@ from src.realworld.sensitivity_review_packet import (  # noqa: E402
     build_sensitivity_review_rows,
     write_sensitivity_review_packet,
 )
+from src.realworld.sensitivity_strategy_readiness_packet import (  # noqa: E402
+    build_sensitivity_strategy_readiness_rows,
+    write_sensitivity_strategy_readiness_packet,
+)
 from src.realworld.validation_review_packet import (  # noqa: E402
     build_validation_review_rows,
     write_validation_review_packet,
@@ -372,6 +376,11 @@ def _refresh_existing_review_packets(
     sensitivity_rows = build_sensitivity_review_rows()
     write_sensitivity_review_packet(rows=sensitivity_rows)
     refreshed.append("data/validation/sensitivity_review_packet.csv")
+    sensitivity_readiness_rows = build_sensitivity_strategy_readiness_rows(
+        review_rows=sensitivity_rows,
+    )
+    write_sensitivity_strategy_readiness_packet(rows=sensitivity_readiness_rows)
+    refreshed.append("data/validation/sensitivity_strategy_readiness_packet.csv")
     experiment_rows = build_experiment_package_review_rows()
     write_experiment_package_review_packet(rows=experiment_rows)
     refreshed.append("data/manifests/experiment_package_review_packet.csv")

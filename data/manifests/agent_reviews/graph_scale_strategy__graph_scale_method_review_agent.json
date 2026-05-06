@@ -16,9 +16,13 @@
     "data/validation/graph_scale_multi_corridor_routes_summary.md",
     "data/validation/graph_scale_review_packet.csv",
     "data/validation/graph_scale_review_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "docs/graph_scale_strategy_readiness_packet.md",
     "data/validation/graph_scale_result_comparison.csv",
     "data/validation/graph_scale_result_comparison_manifest.json",
     "scripts/write_graph_scale_review_packet.py",
+    "scripts/write_graph_scale_strategy_readiness_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -31,12 +35,14 @@
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "gate_id": "graph_scale_strategy",
-  "generated_at": "2026-05-04T13:32:58+00:00",
+  "generated_at": "2026-05-06T06:16:11+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
+    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
+    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
   ],
   "reviewed_inputs": [
     "docs/analysis_corridor_method_note.md",
@@ -51,8 +57,12 @@
     "data/validation/graph_scale_multi_corridor_routes.csv",
     "data/validation/graph_scale_multi_corridor_routes_summary.md",
     "data/validation/graph_scale_review_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "docs/graph_scale_strategy_readiness_packet.md",
     "data/validation/graph_scale_result_comparison_manifest.json",
     "scripts/write_graph_scale_review_packet.py",
+    "scripts/write_graph_scale_strategy_readiness_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -66,7 +76,9 @@
   "risks": [
     "Reduced corridor may omit detours or alternate-route behavior.",
     "Full graph may be computationally expensive without accepted sampling strategy.",
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
+    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
+    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
   ],
   "schema_version": 1,
   "source_paths": [

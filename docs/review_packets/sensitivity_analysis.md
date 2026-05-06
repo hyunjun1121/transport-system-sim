@@ -2,19 +2,11 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation and graph-scale strategy readiness packets are implemented as review aids only.
-- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
-
 - Gate ID: `sensitivity_analysis`
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T13:32:58+00:00`
+- Generated at: `2026-05-06T06:16:11+00:00`
 
 ## Decision
 
@@ -29,8 +21,12 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - results/realworld_pilot/morris_results.csv
 - results/realworld_pilot/morris_summary.csv
 - results/realworld_pilot/morris_manifest.json
+- data/validation/sensitivity_strategy_readiness_packet.csv
+- data/validation/sensitivity_strategy_readiness_manifest.json
+- docs/sensitivity_strategy_readiness_packet.md
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
+- scripts/write_sensitivity_strategy_readiness_packet.py
 
 ## Evidence And Source Paths
 
@@ -40,9 +36,13 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - results/realworld_pilot/morris_manifest.json
 - data/validation/sensitivity_review_packet.csv
 - data/validation/sensitivity_review_manifest.json
+- data/validation/sensitivity_strategy_readiness_packet.csv
+- data/validation/sensitivity_strategy_readiness_manifest.json
+- docs/sensitivity_strategy_readiness_packet.md
 - scripts/run_sensitivity.py
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
+- scripts/write_sensitivity_strategy_readiness_packet.py
 - docs/review_packets/sensitivity_analysis.md
 
 ## Risks
@@ -50,6 +50,8 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - Sensitivity outputs are scaffold-level while upstream evidence gates remain blocked.
 - Wrong parameter ranges can reverse strategy-regime conclusions.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 
 ## Required Actions
@@ -57,6 +59,8 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - Review parameter ranges and decide whether Morris is enough or Sobol is required.
 - Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 
 ## Formal Acceptance Boundary
@@ -74,6 +78,8 @@ Formal acceptance artifacts:
   "artifact_present": true,
   "blockers": [
     "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+    "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
+    "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
     "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
   ],
   "details": {
@@ -90,6 +96,21 @@ Formal acceptance artifacts:
     "row_count": 4320,
     "scope_blocked": true,
     "sobol_requirement_decision": "",
+    "strategy_readiness_artifacts_present": true,
+    "strategy_readiness_blocking_request_count": 5,
+    "strategy_readiness_can_mark_complete": false,
+    "strategy_readiness_human_review_request_count": 2,
+    "strategy_readiness_manifest_present": true,
+    "strategy_readiness_publication_ready": false,
+    "strategy_readiness_status_counts": {
+      "blocked_missing_morris_vs_sobol_decision": 1,
+      "blocked_missing_or_nonfinite_morris_indices": 1,
+      "blocked_missing_sensitivity_acceptance_record": 1,
+      "blocked_reduced_graph_scope_for_sensitivity_claims": 1,
+      "blocked_scaffold_or_not_calibrated_result_scope": 1,
+      "needs_human_review_morris_artifact_selection": 1,
+      "needs_human_review_zero_mu_star_interpretation": 1
+    },
     "summary_row_count": 7056
   },
   "evidence": [
@@ -99,9 +120,13 @@ Formal acceptance artifacts:
     "results/realworld_pilot/morris_manifest.json",
     "data/validation/sensitivity_review_packet.csv",
     "data/validation/sensitivity_review_manifest.json",
+    "data/validation/sensitivity_strategy_readiness_packet.csv",
+    "data/validation/sensitivity_strategy_readiness_manifest.json",
+    "docs/sensitivity_strategy_readiness_packet.md",
     "scripts/run_sensitivity.py",
     "scripts/audit_sensitivity_diagnostics.py",
-    "scripts/write_sensitivity_review_packet.py"
+    "scripts/write_sensitivity_review_packet.py",
+    "scripts/write_sensitivity_strategy_readiness_packet.py"
   ],
   "gate_id": "sensitivity_analysis",
   "label": "Sensitivity Analysis",

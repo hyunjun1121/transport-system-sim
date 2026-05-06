@@ -2,19 +2,11 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation and graph-scale strategy readiness packets are implemented as review aids only.
-- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
-
 - Gate ID: `reproducibility`
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T13:32:58+00:00`
+- Generated at: `2026-05-06T06:16:11+00:00`
 
 ## Decision
 
@@ -95,11 +87,11 @@ Formal acceptance artifacts:
     "current_worktree_smoke_present": true,
     "current_worktree_smoke_scope": "current_worktree_smoke_not_clean_checkout",
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 7,
+    "review_packet_git_status_line_count": 38,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,
-    "review_packet_untracked_count": 0,
+    "review_packet_untracked_count": 6,
     "scope": "scaffold-only real-world pilot package",
     "validation_command_count": 43
   },

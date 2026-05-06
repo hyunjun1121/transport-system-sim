@@ -1,9 +1,6 @@
 # Current Goal Completion Audit
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
-Audit date: 2026-05-06
+Audit date: 2026-05-04
 
 ## Objective
 
@@ -16,22 +13,7 @@ Implement every requirement planned in plan.md for the final real-world or quasi
 - Ready gates: 3 / 15
 - Blocked gates: 12 / 15
 
-Current ready gates are `real_input_smoke`, `structured_disruptions`, and
-`policy_alternatives`. All other plan-level gates remain blocked. Formal
-acceptance is also blocked: 0 / 12 formal gates are ready, all 12 required
-formal acceptance artifacts are absent, and no final approval has been made.
-
 This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.
-
-Latest blocker-detail packets are present for the two strategy gates that need
-method decisions:
-
-- `docs/graph_scale_strategy_readiness_packet.md` and
-  `data/validation/graph_scale_strategy_readiness_manifest.json`: 5 rows, 3
-  blocking requests, and 2 human-review requests.
-- `docs/validation_strategy_readiness_packet.md` and
-  `data/validation/validation_strategy_readiness_manifest.json`: 7 rows, 3
-  blocking requests, and 4 human-review requests.
 
 ## Concrete Success Criteria
 
@@ -51,7 +33,7 @@ The active objective is complete only when every final-study gate below is ready
 | Validation Package | blocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+17 more | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>review validation strategy-readiness human-decision items before validation acceptance<br>+1 more |
 | Structured Disruptions | ready | data/scenarios/disruption_scenarios.csv | none recorded |
 | Policy Alternatives | ready | data/scenarios/policy_alternatives.csv | none recorded |
-| Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+5 more | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level |
+| Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+9 more | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>review sensitivity strategy-readiness human-decision items before sensitivity acceptance<br>+1 more |
 | Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+3 more | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>accept or regenerate full pilot outputs after input validation and graph-scale decision<br>review experiment-package rows before formal experiment acceptance |
 | Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+4 more | close evidence gates before final paper/report claims<br>create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>revise figure/table claim boundary from scaffold to accepted study scope<br>+1 more |
 | Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+5 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package |
@@ -231,10 +213,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
-- Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Changed reproducibility artifacts: 73
+- Blocking changed artifacts: 73
+- Untracked artifacts: 6
+- Modified or staged artifacts: 67
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 

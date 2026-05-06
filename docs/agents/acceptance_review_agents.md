@@ -1,21 +1,8 @@
 # Acceptance Review Agents
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
 These deterministic sub-agents convert final-study blockers into auditable review tasks. They do not approve the study by themselves.
-
-## Current Readiness Snapshot
-
-- Final-study ready: `false`
-- Ready plan gates: 3 / 15 (`real_input_smoke`, `structured_disruptions`, and
-  `policy_alternatives`)
-- Blocked plan gates: 12 / 15
-- Formal acceptance ready: 0 / 12 formal gates
-- Formal acceptance artifacts: absent
-- Final approval recorded: `false`
 
 ## Pilot Region & Privacy Review Agent
 
@@ -62,8 +49,6 @@ Decision rules:
 
 Required actions when not ready:
 - Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
-- Review `docs/graph_scale_strategy_readiness_packet.md` for the latest
-  graph-scale blockers and human-review items.
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 
 ## Road / Rail / Parameter Evidence Agent
@@ -96,8 +81,6 @@ Decision rules:
 
 Required actions when not ready:
 - Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
-- Review `docs/validation_strategy_readiness_packet.md` for the latest
-  validation-strategy blockers and human-review items.
 - Create validation_acceptance.json after benchmark-strategy review.
 
 ## Sensitivity Analysis Review Agent

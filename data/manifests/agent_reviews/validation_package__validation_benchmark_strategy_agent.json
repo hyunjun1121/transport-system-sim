@@ -16,21 +16,27 @@
     "data/validation/canonical_route_road_evidence_exposure_manifest.json",
     "data/validation/validation_review_packet.csv",
     "data/validation/validation_review_manifest.json",
+    "data/validation/validation_strategy_readiness_packet.csv",
+    "data/validation/validation_strategy_readiness_manifest.json",
+    "docs/validation_strategy_readiness_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
     "scripts/run_osrm_route_benchmark.py",
     "scripts/write_osrm_snapshot_manifest.py",
     "scripts/write_validation_review_packet.py",
+    "scripts/write_validation_strategy_readiness_packet.py",
     "docs/review_packets/validation_package.md"
   ],
   "gate_id": "validation_package",
-  "generated_at": "2026-05-04T13:32:58+00:00",
+  "generated_at": "2026-05-06T06:16:11+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
     "Create validation_acceptance.json after benchmark-strategy review.",
     "create an explicit validation acceptance record after benchmark-strategy review",
+    "resolve validation strategy-readiness blockers before validation acceptance",
+    "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
   ],
   "reviewed_inputs": [
@@ -47,17 +53,23 @@
     "data/validation/canonical_route_road_evidence_exposure.csv",
     "data/validation/canonical_route_road_evidence_exposure_manifest.json",
     "data/validation/validation_review_packet.csv",
+    "data/validation/validation_strategy_readiness_packet.csv",
+    "data/validation/validation_strategy_readiness_manifest.json",
+    "docs/validation_strategy_readiness_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
     "scripts/run_osrm_route_benchmark.py",
     "scripts/write_osrm_snapshot_manifest.py",
-    "scripts/write_validation_review_packet.py"
+    "scripts/write_validation_review_packet.py",
+    "scripts/write_validation_strategy_readiness_packet.py"
   ],
   "risks": [
     "Live or unpinned route benchmarks are not reproducible enough for final claims.",
     "Plausibility checks cannot prove operational accuracy.",
     "create an explicit validation acceptance record after benchmark-strategy review",
+    "resolve validation strategy-readiness blockers before validation acceptance",
+    "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
   ],
   "schema_version": 1,

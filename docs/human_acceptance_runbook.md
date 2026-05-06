@@ -43,6 +43,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
@@ -84,6 +85,15 @@ human-review items. Current cross-references are
 `docs/validation_strategy_readiness_packet.md`,
 `data/validation/validation_strategy_readiness_packet.csv`, and
 `data/validation/validation_strategy_readiness_manifest.json`.
+
+The sensitivity strategy-readiness packet does not accept Morris output,
+waive Sobol analysis, or approve final sensitivity claims. It records whether
+missing/non-finite Morris indices, zero `mu_star` interpretation, reduced graph
+scope, scaffold result scope, the Morris-vs-Sobol decision, and the missing
+sensitivity acceptance record are blockers or human-review items. Current
+cross-references are `docs/sensitivity_strategy_readiness_packet.md`,
+`data/validation/sensitivity_strategy_readiness_packet.csv`, and
+`data/validation/sensitivity_strategy_readiness_manifest.json`.
 
 2. Inspect the aggregate blockers:
 

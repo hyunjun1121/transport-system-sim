@@ -84,6 +84,12 @@ DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH = (
 DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json"
 )
+DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT
+    / "data"
+    / "validation"
+    / "sensitivity_strategy_readiness_manifest.json"
+)
 FINAL_GATE_IDS: tuple[str, ...] = (
     "pilot_region_accepted",
     "cached_osm_input",
@@ -159,6 +165,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     validation_strategy_readiness_manifest = _load_json(
         DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH
     )
+    sensitivity_strategy_readiness_manifest = _load_json(
+        DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH
+    )
     pilot_acceptance = summarize_pilot_acceptance()
     graph_scale_acceptance = summarize_graph_scale_acceptance()
     validation_acceptance = summarize_validation_acceptance()
@@ -202,7 +211,11 @@ def audit_final_study_readiness() -> dict[str, Any]:
         _validation_gate(validation_acceptance, validation_strategy_readiness_manifest),
         _structured_disruption_gate(),
         _policy_gate(),
-        _sensitivity_gate(morris_manifest, sensitivity_acceptance),
+        _sensitivity_gate(
+            morris_manifest,
+            sensitivity_acceptance,
+            sensitivity_strategy_readiness_manifest,
+        ),
         _full_experiment_gate(
             pilot_manifest,
             experiment_acceptance,
@@ -1134,13 +1147,36 @@ def _policy_gate() -> dict[str, Any]:
 def _sensitivity_gate(
     morris_manifest: dict[str, Any] | None,
     sensitivity_acceptance: dict[str, Any],
+    sensitivity_strategy_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     review_manifest = _load_json(
         PROJECT_ROOT / "data" / "validation" / "sensitivity_review_manifest.json"
     )
+    strategy_readiness_packet_path = (
+        PROJECT_ROOT / "data" / "validation" / "sensitivity_strategy_readiness_packet.csv"
+    )
+    strategy_readiness_manifest_path = (
+        DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH
+    )
+    strategy_readiness_doc_path = (
+        PROJECT_ROOT / "docs" / "sensitivity_strategy_readiness_packet.md"
+    )
+    strategy_readiness_artifacts_present = (
+        strategy_readiness_packet_path.exists()
+        and strategy_readiness_manifest_path.exists()
+        and strategy_readiness_doc_path.exists()
+    )
     artifact_present = bool(morris_manifest)
     scope = str((morris_manifest or {}).get("result_scope", ""))
     acceptance_ready = bool(sensitivity_acceptance["acceptance_ready"])
+    strategy_blocking_count = _dict_int(
+        sensitivity_strategy_readiness_manifest,
+        "blocking_request_count",
+    )
+    strategy_human_review_count = _dict_int(
+        sensitivity_strategy_readiness_manifest,
+        "human_review_request_count",
+    )
     scope_blocked = _sensitivity_scope_is_blocked(scope)
     count_blockers = _sensitivity_count_blockers(
         morris_manifest,
@@ -1149,14 +1185,27 @@ def _sensitivity_gate(
     ready = (
         artifact_present
         and acceptance_ready
+        and strategy_readiness_artifacts_present
+        and strategy_blocking_count == 0
+        and strategy_human_review_count == 0
         and not scope_blocked
         and not count_blockers
     )
     blockers: list[str] = []
+    if not strategy_readiness_artifacts_present:
+        blockers.append("create sensitivity strategy-readiness packet, manifest, and doc")
     if not artifact_present:
         blockers.append("create accepted sensitivity outputs and manifest")
     if not acceptance_ready:
         blockers.extend(sensitivity_acceptance["remaining_blockers"])
+        if strategy_blocking_count:
+            blockers.append(
+                "resolve sensitivity strategy-readiness blockers before sensitivity acceptance"
+            )
+        if strategy_human_review_count:
+            blockers.append(
+                "review sensitivity strategy-readiness human-decision items before sensitivity acceptance"
+            )
     if scope_blocked:
         blockers.append(
             "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
@@ -1174,9 +1223,13 @@ def _sensitivity_gate(
             "results/realworld_pilot/morris_manifest.json",
             "data/validation/sensitivity_review_packet.csv",
             "data/validation/sensitivity_review_manifest.json",
+            "data/validation/sensitivity_strategy_readiness_packet.csv",
+            "data/validation/sensitivity_strategy_readiness_manifest.json",
+            "docs/sensitivity_strategy_readiness_packet.md",
             "scripts/run_sensitivity.py",
             "scripts/audit_sensitivity_diagnostics.py",
             "scripts/write_sensitivity_review_packet.py",
+            "scripts/write_sensitivity_strategy_readiness_packet.py",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -1205,6 +1258,23 @@ def _sensitivity_gate(
                 "zero_mu_star_count",
                 0,
             ),
+            "strategy_readiness_manifest_present": bool(
+                sensitivity_strategy_readiness_manifest
+            ),
+            "strategy_readiness_artifacts_present": strategy_readiness_artifacts_present,
+            "strategy_readiness_blocking_request_count": strategy_blocking_count,
+            "strategy_readiness_human_review_request_count": (
+                strategy_human_review_count
+            ),
+            "strategy_readiness_status_counts": (
+                sensitivity_strategy_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "strategy_readiness_publication_ready": (
+                sensitivity_strategy_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "strategy_readiness_can_mark_complete": (
+                sensitivity_strategy_readiness_manifest or {}
+            ).get("can_mark_complete", False),
             "result_scope": scope,
             "scope_blocked": scope_blocked,
         },

@@ -29,10 +29,10 @@ The remaining 12 gates are blocked.
 Formal acceptance is also not ready: 0 of 12 required formal acceptance targets
 are ready, and the corresponding formal acceptance artifacts are intentionally
 absent until source-backed human review supplies them. The current
-`validation_strategy_readiness` and `graph_scale_strategy_readiness` packets
-are implemented blocker/readiness aids, not acceptance records. No generated
-output in this repository is a calibrated real-world result or an operational
-route plan.
+`validation_strategy_readiness`, `graph_scale_strategy_readiness`, and
+`sensitivity_strategy_readiness` packets are implemented blocker/readiness
+aids, not acceptance records. No generated output in this repository is a
+calibrated real-world result or an operational route plan.
 
 ## Windows Setup
 
@@ -578,6 +578,13 @@ Implemented pieces:
   `scripts/write_sensitivity_review_packet.py` turn those diagnostics into a
   6-row reviewer worksheet under `data/validation/`. It is review support only,
   not sensitivity acceptance or a Sobol waiver.
+- `src.realworld.sensitivity_strategy_readiness_packet` and
+  `scripts/write_sensitivity_strategy_readiness_packet.py` turn the 6-row
+  sensitivity review worksheet into a 7-row blocker/readiness packet. It
+  separates missing/non-finite Morris indices, zero `mu_star` interpretation,
+  reduced graph scope, scaffold result scope, missing Morris-vs-Sobol decision,
+  and missing `sensitivity_acceptance.json` without accepting sensitivity
+  evidence.
 - `src.realworld.validation_review_packet` and
   `scripts/write_validation_review_packet.py` turn route plausibility,
   fallback/OSRM benchmark, OSRM snapshot-manifest, accessibility-loss,
@@ -725,6 +732,7 @@ Default validation is offline:
 .\.venv\Scripts\python tests\test_realworld_sensitivity.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_osrm_snapshot_manifest.py
 .\.venv\Scripts\python tests\test_realworld_validation_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_route_road_evidence_exposure.py
@@ -782,6 +790,7 @@ OSRM benchmark command:
 .\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full

@@ -2,19 +2,11 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation and graph-scale strategy readiness packets are implemented as review aids only.
-- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
-
 - Gate ID: `graph_scale_strategy`
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-04T13:32:58+00:00`
+- Generated at: `2026-05-06T06:16:11+00:00`
 
 ## Decision
 
@@ -25,8 +17,6 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - docs/analysis_corridor_method_note.md
 - docs/graph_scale_diagnostics.md
 - data/validation/graph_scale_review_packet.csv
-- data/validation/graph_scale_strategy_readiness_packet.csv
-- data/validation/graph_scale_strategy_readiness_manifest.json
 - data/validation/graph_scale_result_comparison.csv
 - data/manifests/graph_scale_acceptance.json
 - data/validation/graph_scale_route_comparison.csv
@@ -36,8 +26,12 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_multi_corridor_routes.csv
 - data/validation/graph_scale_multi_corridor_routes_summary.md
 - data/validation/graph_scale_review_manifest.json
+- data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_strategy_readiness_manifest.json
+- docs/graph_scale_strategy_readiness_packet.md
 - data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
+- scripts/write_graph_scale_strategy_readiness_packet.py
 - scripts/write_graph_scale_result_comparison.py
 - scripts/run_graph_scale_diagnostics.py
 - results/realworld_pilot/pilot_multi_corridor_results.csv
@@ -63,9 +57,11 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_review_manifest.json
 - data/validation/graph_scale_strategy_readiness_packet.csv
 - data/validation/graph_scale_strategy_readiness_manifest.json
+- docs/graph_scale_strategy_readiness_packet.md
 - data/validation/graph_scale_result_comparison.csv
 - data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
+- scripts/write_graph_scale_strategy_readiness_packet.py
 - scripts/write_graph_scale_result_comparison.py
 - scripts/run_graph_scale_diagnostics.py
 - results/realworld_pilot/pilot_multi_corridor_results.csv
@@ -81,15 +77,17 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 
 - Reduced corridor may omit detours or alternate-route behavior.
 - Full graph may be computationally expensive without accepted sampling strategy.
-- The graph-scale strategy readiness packet reports 3 blocking requests and 2 human-review requests; it cannot close `data/manifests/graph_scale_acceptance.json`.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 
 ## Required Actions
 
 - Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
-- Use `data/validation/graph_scale_strategy_readiness_packet.csv` to resolve method-selection blockers before formal acceptance.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 
 ## Formal Acceptance Boundary
 
@@ -105,7 +103,9 @@ Formal acceptance artifacts:
 {
   "artifact_present": true,
   "blockers": [
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
+    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
+    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
   ],
   "details": {
     "acceptance_analysis_graph_edges": null,
@@ -120,7 +120,19 @@ Formal acceptance artifacts:
     "analysis_graph_reduced": true,
     "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
     "source_graph_edges": 9148,
-    "source_graph_nodes": 4608
+    "source_graph_nodes": 4608,
+    "strategy_readiness_blocking_request_count": 3,
+    "strategy_readiness_can_mark_complete": false,
+    "strategy_readiness_human_review_request_count": 2,
+    "strategy_readiness_manifest_present": true,
+    "strategy_readiness_publication_ready": false,
+    "strategy_readiness_status_counts": {
+      "blocked_incomplete_multi_corridor_run_profile": 1,
+      "blocked_missing_full_graph_experiment_outputs": 1,
+      "blocked_missing_graph_scale_acceptance_record": 1,
+      "needs_human_review_multi_corridor_result_deltas": 1,
+      "needs_human_review_reduced_corridor_alternate_route_warnings": 1
+    }
   },
   "evidence": [
     "data/manifests/graph_scale_acceptance.json",
@@ -134,9 +146,13 @@ Formal acceptance artifacts:
     "data/validation/graph_scale_multi_corridor_routes_summary.md",
     "data/validation/graph_scale_review_packet.csv",
     "data/validation/graph_scale_review_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "docs/graph_scale_strategy_readiness_packet.md",
     "data/validation/graph_scale_result_comparison.csv",
     "data/validation/graph_scale_result_comparison_manifest.json",
     "scripts/write_graph_scale_review_packet.py",
+    "scripts/write_graph_scale_strategy_readiness_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",

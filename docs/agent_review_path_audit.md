@@ -1,8 +1,5 @@
 # Agent Review Path Audit
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 This audit checks sub-agent review-record path hygiene only. It does not approve evidence quality, licenses, calibration, reviewer decisions, or final-study readiness.
 
 ## Summary
@@ -10,8 +7,8 @@ This audit checks sub-agent review-record path hygiene only. It does not approve
 - Agent review paths ready: `true`
 - Can mark complete: `false`
 - Review records: 12
-- Path references: 408
-- Present paths: 372
+- Path references: 432
+- Present paths: 396
 - Missing required paths: 0
 - Missing formal targets: 36
 

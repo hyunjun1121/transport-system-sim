@@ -22,7 +22,8 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
 - Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
 - Formal acceptance ready: `0/12`; no formal approval artifacts are present.
 - `data/validation/validation_strategy_readiness_packet.csv` and
-  `data/validation/graph_scale_strategy_readiness_packet.csv` are implemented
+  `data/validation/graph_scale_strategy_readiness_packet.csv`, and
+  `data/validation/sensitivity_strategy_readiness_packet.csv` are implemented
   preflight review aids only.
 - Current abstract-network and pilot outputs are not calibrated real-world
   results, formal approvals, or operational route plans.
@@ -172,6 +173,10 @@ Implemented extension modules now also cover:
   diagnostics into review items for index handling, zero-effect interpretation,
   reduced graph scope, and Morris-vs-Sobol decision support without accepting
   sensitivity evidence.
+- `sensitivity_strategy_readiness_packet.py`: generated 7-row worksheet that
+  classifies sensitivity blockers and human-review items before any formal
+  sensitivity acceptance record is created. It does not accept Morris/Sobol
+  scope or final sensitivity evidence.
 - `pilot_figures.py`: scaffold-only figures, tables, and claim-boundary
   artifacts generated from current pilot sample CSVs.
 - `pilot_statistics.py`: seed-replication metric confidence intervals and

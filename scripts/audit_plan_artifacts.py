@@ -133,6 +133,11 @@ from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     DEFAULT_VALIDATION_STRATEGY_READINESS_PACKET_PATH,
 )
+from src.realworld.sensitivity_strategy_readiness_packet import (  # noqa: E402
+    DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH,
+    DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH,
+    DEFAULT_SENSITIVITY_STRATEGY_READINESS_PACKET_PATH,
+)
 from src.realworld.reproducibility_smoke import (  # noqa: E402
     summarize_reproducibility_smoke,
 )
@@ -374,6 +379,11 @@ CSV_EXPECTATIONS = (
         6,
     ),
     CsvExpectation(
+        "sensitivity_strategy_readiness_packet",
+        DEFAULT_SENSITIVITY_STRATEGY_READINESS_PACKET_PATH,
+        7,
+    ),
+    CsvExpectation(
         "main_result_table",
         ROOT / "results" / "realworld_pilot" / "tables" / "main_result_table.csv",
         63,
@@ -535,6 +545,10 @@ JSON_EXPECTATIONS = (
     JsonExpectation(
         "sensitivity_review_manifest",
         ROOT / "data" / "validation" / "sensitivity_review_manifest.json",
+    ),
+    JsonExpectation(
+        "sensitivity_strategy_readiness_manifest",
+        DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH,
     ),
     JsonExpectation(
         "validation_review_manifest",
@@ -797,6 +811,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "sensitivity_acceptance_schema.md",
     ROOT / "docs" / "sensitivity_diagnostics.md",
     ROOT / "docs" / "sensitivity_review_packet.md",
+    DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH,
     ROOT / "docs" / "road_evidence_diagnostics.md",
     ROOT / "docs" / "road_evidence_review_packet.md",
     ROOT / "docs" / "road_evidence_source_request_packet.md",

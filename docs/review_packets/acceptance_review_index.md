@@ -2,14 +2,6 @@
 
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation and graph-scale strategy readiness packets are implemented as review aids only.
-- Current outputs are scaffold or abstract-network results; no calibrated real-world result or operational route plan is accepted.
-
 - Final-study ready: `false`
 - Record count: 12
 - Can-mark-complete records: 0
@@ -18,12 +10,12 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 2 |
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 4 |
-| `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 3 |
+| `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 5 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 9 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 8 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 4 |
-| `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 4 |
-| `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 4 |
+| `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 6 |
+| `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 6 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 5 |
 | `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 6 |
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
@@ -40,6 +32,8 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- graph_scale_strategy: resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- graph_scale_strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - cached_osm_input: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - cached_osm_input: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - cached_osm_input: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration
@@ -64,10 +58,14 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - validation_package: Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - validation_package: Create validation_acceptance.json after benchmark-strategy review.
 - validation_package: create an explicit validation acceptance record after benchmark-strategy review
+- validation_package: resolve validation strategy-readiness blockers before validation acceptance
+- validation_package: review validation strategy-readiness human-decision items before validation acceptance
 - validation_package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - sensitivity_analysis: Review parameter ranges and decide whether Morris is enough or Sobol is required.
 - sensitivity_analysis: Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - sensitivity_analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- sensitivity_analysis: resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- sensitivity_analysis: review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - sensitivity_analysis: accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - full_experiment_output: Regenerate or accept full outputs after input, graph-scale, and validation gates close.
 - full_experiment_output: Create experiment_acceptance.json with matching run profile and row counts.
@@ -98,6 +96,8 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Cached OSM Input: road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
 - Cached OSM Input: road override application: reviewed road-class override table is absent
 - Graph-Scale Strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- Graph-Scale Strategy: resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- Graph-Scale Strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - Data Provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - Data Provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
@@ -109,8 +109,12 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - Rail Evidence: rail service evidence: derive headway and travel time from the cached records
 - Validation Package: create an explicit validation acceptance record after benchmark-strategy review
+- Validation Package: resolve validation strategy-readiness blockers before validation acceptance
+- Validation Package: review validation strategy-readiness human-decision items before validation acceptance
 - Validation Package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - Sensitivity Analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- Sensitivity Analysis: resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- Sensitivity Analysis: review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - Sensitivity Analysis: accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - Full Experiment Output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
 - Full Experiment Output: accept or regenerate full pilot outputs after input validation and graph-scale decision

@@ -1,8 +1,5 @@
 # Formal Acceptance Pre-Review
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.
 
 ## Summary
@@ -11,29 +8,21 @@ Draft pre-review recommendations only. These records classify remaining formal a
 - Recommendation counts: `{'blocked_requires_human_decision': 4, 'blocked_missing_evidence': 8}`
 - Human decisions required: 12
 - Formal approval made: `false`
-- Formal acceptance artifacts present: 0 / 12
 - Final-study ready: `false`
-- Ready plan gates: 3 / 15
-- Blocked plan gates: 12 / 15
 - Can mark complete: `false`
 - Draft directory: `data/manifests/draft_acceptance`
-
-Latest strategy-readiness packets are present at
-`docs/graph_scale_strategy_readiness_packet.md` and
-`docs/validation_strategy_readiness_packet.md`. They are review inputs for the
-corresponding draft recommendations, not formal approval records.
 
 ## Gate Recommendations
 
 | Gate | Current Status | Recommendation | Formal Target | Missing Evidence | Human Action |
 | --- | --- | --- | --- | --- | --- |
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>data/manifests/graph_scale_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>accept or regenerate full pilot outputs after input validation and graph-scale decision<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -109,8 +98,12 @@ Evidence inspected:
 - `data/validation/graph_scale_alternate_routes_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_multi_corridor_routes_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/graph_scale_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_graph_scale_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_result_comparison.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_graph_scale_diagnostics.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/pilot_multi_corridor_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -122,12 +115,16 @@ Evidence inspected:
 
 Missing evidence:
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 
 Residual risks:
 - Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
+- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.
@@ -405,15 +402,21 @@ Evidence inspected:
 - `data/validation/accessibility_loss.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/accessibility_loss_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/canonical_route_road_evidence_exposure_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/validation_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_plausibility_validation.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_accessibility_loss_analysis.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_route_road_evidence_exposure.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_osrm_route_benchmark.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_osrm_snapshot_manifest.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_validation_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit validation acceptance record after benchmark-strategy review
+- resolve validation strategy-readiness blockers before validation acceptance
+- review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
 
@@ -421,6 +424,8 @@ Residual risks:
 - Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - Create validation_acceptance.json after benchmark-strategy review.
 - create an explicit validation acceptance record after benchmark-strategy review
+- resolve validation strategy-readiness blockers before validation acceptance
+- review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
@@ -456,11 +461,17 @@ Evidence inspected:
 - `data/validation/sensitivity_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_sensitivity.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/sensitivity_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/sensitivity_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/sensitivity_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_sensitivity_diagnostics.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_sensitivity_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_sensitivity_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - data/manifests/sensitivity_acceptance.json is absent
 
@@ -468,6 +479,8 @@ Residual risks:
 - Review parameter ranges and decide whether Morris is enough or Sobol is required.
 - Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
+- resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - data/manifests/sensitivity_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
