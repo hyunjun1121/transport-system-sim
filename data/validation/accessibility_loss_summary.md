@@ -11,7 +11,7 @@ routing recommendation.
 - Final-study ready: `false`.
 - Final-study gate status: `3/15` ready and `12/15` blocked.
 - Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation and graph-scale strategy readiness packets are implemented as review aids only.
+- Validation, graph-scale, sensitivity, and experiment strategy-readiness packets are implemented as review aids only.
 - This diagnostic is scaffold evidence only; it is not a calibrated real-world result.
 
 ## Inputs

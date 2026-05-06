@@ -29,10 +29,11 @@ The remaining 12 gates are blocked.
 Formal acceptance is also not ready: 0 of 12 required formal acceptance targets
 are ready, and the corresponding formal acceptance artifacts are intentionally
 absent until source-backed human review supplies them. The current
-`validation_strategy_readiness`, `graph_scale_strategy_readiness`, and
-`sensitivity_strategy_readiness` packets are implemented blocker/readiness
-aids, not acceptance records. No generated output in this repository is a
-calibrated real-world result or an operational route plan.
+`validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are implemented blocker/readiness aids, not acceptance records. No generated
+output in this repository is a calibrated real-world result or an operational
+route plan.
 
 ## Windows Setup
 
@@ -46,6 +47,24 @@ py -3.11 -m venv .venv
 
 If `py -3.11` is unavailable, install Python 3.11+ for Windows and enable the
 Python Launcher during installation.
+
+## Git Handoff
+
+The handoff target is a fresh clone on another computer after the main agent
+commits and pushes the intended repository state to `main`.
+
+```powershell
+git clone https://github.com/hyunjun1121/transport-system-sim.git
+cd transport-system-sim
+py -3.11 -m venv .venv
+.\.venv\Scripts\python -m pip install --upgrade pip
+.\.venv\Scripts\python -m pip install -r requirements.txt
+```
+
+Before handoff, verify that every required source, Markdown, data, manifest,
+and generated-result artifact is committed or deliberately excluded. A clean
+clone will not include local `.venv` contents, Word lock files such as
+`~$report.docx`, or uncommitted working-tree artifacts.
 
 ## Run
 
@@ -280,6 +299,7 @@ The current research context is distributed across these Markdown files:
 | `docs/source_license_review_packet.md` | Source/license review worksheet; not provenance acceptance |
 | `docs/source_url_review_packet.md` | URL-level source review worksheet; not provenance acceptance |
 | `docs/experiment_package_review_packet.md` | Full experiment output worksheet; not experiment acceptance |
+| `docs/experiment_strategy_readiness_packet.md` | Experiment blocker/readiness worksheet; not experiment acceptance |
 | `docs/pilot_privacy_review_packet.md` | Pilot privacy/sensitivity review worksheet; not pilot acceptance |
 | `docs/claim_alignment_review_packet.md` | Paper/report/figure claim worksheet; not manuscript acceptance |
 | `docs/parameter_evidence_review_packet.md` | Parameter evidence review packet scope and regeneration notes |
@@ -566,6 +586,12 @@ Implemented pieces:
   experiment outputs, graph scope, input validation, scenario-policy-seed
   design, common-random-number pairing, and not-operational claim boundaries.
   The file is intentionally absent in the current scaffold.
+- `src.realworld.experiment_strategy_readiness_packet` and
+  `scripts/write_experiment_strategy_readiness_packet.py` turn the 9-row full
+  experiment-package worksheet into blocker/readiness rows. It separates
+  scaffold result scope, graph-scale dependency, upstream input-evidence
+  dependency, row-count/checksum/design/CRN review, and missing
+  `experiment_acceptance.json` without accepting full outputs.
 - `scripts/run_sensitivity.py --sample` writes scaffold sensitivity screening
   outputs and a SALib-compatible problem manifest under `results/realworld_pilot/`.
 - `scripts/run_sensitivity.py --method morris --all` writes SALib Morris
@@ -729,6 +755,7 @@ Default validation is offline:
 .\.venv\Scripts\python tests\test_realworld_pilot_experiments.py
 .\.venv\Scripts\python tests\test_realworld_experiment_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_experiment_package_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity_review_packet.py
@@ -778,6 +805,7 @@ OSRM benchmark command:
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_review_packet.py
+.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\audit_formal_evidence_paths.py

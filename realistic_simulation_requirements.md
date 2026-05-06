@@ -24,10 +24,10 @@
 - formal acceptance는 12개 대상 중 0개가 ready이다. 필요한 formal
   acceptance 산출물은 실제 근거와 reviewer 결정이 생길 때까지 의도적으로
   비워 둔다.
-- 최신 `validation_strategy_readiness` 및
-  `graph_scale_strategy_readiness` packet은 구현되어 있지만, 이는 blocker와
-  review 항목을 정리하는 자료일 뿐 acceptance, 보정(calibration), 실제
-  운용 경로 계획을 의미하지 않는다.
+- 최신 `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+  `sensitivity_strategy_readiness`, `experiment_strategy_readiness` packet들은
+  구현되어 있지만, 이는 blocker와 review 항목을 정리하는 자료일 뿐
+  acceptance, 보정(calibration), 실제 운용 경로 계획을 의미하지 않는다.
 
 ## 현재 모형의 위치
 

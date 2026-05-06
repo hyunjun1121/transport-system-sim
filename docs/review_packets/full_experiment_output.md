@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:16:11+00:00`
+- Generated at: `2026-05-06T06:39:24+00:00`
 
 ## Decision
 
@@ -24,6 +24,9 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - data/manifests/experiment_package_review_packet.csv
 - data/manifests/experiment_package_review_manifest.json
 - docs/experiment_package_review_packet.md
+- data/manifests/experiment_strategy_readiness_packet.csv
+- data/manifests/experiment_strategy_readiness_manifest.json
+- docs/experiment_strategy_readiness_packet.md
 
 ## Evidence And Source Paths
 
@@ -34,6 +37,9 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - data/manifests/experiment_package_review_packet.csv
 - data/manifests/experiment_package_review_manifest.json
 - docs/experiment_package_review_packet.md
+- data/manifests/experiment_strategy_readiness_packet.csv
+- data/manifests/experiment_strategy_readiness_manifest.json
+- docs/experiment_strategy_readiness_packet.md
 - docs/review_packets/full_experiment_output.md
 
 ## Risks
@@ -41,6 +47,8 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - Current outputs are useful scaffold runs, not final calibrated study results.
 - Upstream input changes invalidate current experiment summaries.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- resolve experiment strategy-readiness blockers before experiment acceptance
+- review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 
@@ -49,6 +57,8 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - Regenerate or accept full outputs after input, graph-scale, and validation gates close.
 - Create experiment_acceptance.json with matching run profile and row counts.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- resolve experiment strategy-readiness blockers before experiment acceptance
+- review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 
@@ -67,6 +77,8 @@ Formal acceptance artifacts:
   "artifact_present": true,
   "blockers": [
     "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+    "resolve experiment strategy-readiness blockers before experiment acceptance",
+    "review experiment strategy-readiness human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance"
   ],
@@ -82,6 +94,22 @@ Formal acceptance artifacts:
     "result_scope": "Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
     "row_count": 1890,
     "scope_blocked": true,
+    "strategy_readiness_artifacts_present": true,
+    "strategy_readiness_blocking_request_count": 4,
+    "strategy_readiness_can_mark_complete": false,
+    "strategy_readiness_human_review_request_count": 5,
+    "strategy_readiness_manifest_present": true,
+    "strategy_readiness_publication_ready": false,
+    "strategy_readiness_status_counts": {
+      "blocked_graph_scale_dependency": 1,
+      "blocked_input_evidence_dependency": 1,
+      "blocked_missing_experiment_acceptance_record": 1,
+      "blocked_scaffold_or_not_calibrated_experiment_scope": 1,
+      "needs_human_review_common_random_numbers": 1,
+      "needs_human_review_experiment_checksums": 1,
+      "needs_human_review_experiment_row_counts": 2,
+      "needs_human_review_scenario_policy_seed_design": 1
+    },
     "summary_row_count": 63
   },
   "evidence": [
@@ -91,7 +119,10 @@ Formal acceptance artifacts:
     "results/realworld_pilot/pilot_full_manifest.json",
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_package_review_manifest.json",
-    "docs/experiment_package_review_packet.md"
+    "docs/experiment_package_review_packet.md",
+    "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_strategy_readiness_manifest.json",
+    "docs/experiment_strategy_readiness_packet.md"
   ],
   "gate_id": "full_experiment_output",
   "label": "Full Experiment Output",

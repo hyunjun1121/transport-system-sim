@@ -12,10 +12,10 @@ not complete the final study. The final-study audit reports
 are blocked. Formal acceptance is 0/12 ready, with the required formal
 acceptance artifacts intentionally absent until source-backed human review.
 
-The current `validation_strategy_readiness` and
-`graph_scale_strategy_readiness` packets are implemented review aids. They do
-not create calibrated real-world results, operational route plans, or formal
-acceptance.
+The current `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are implemented review aids. They do not create calibrated real-world results,
+operational route plans, or formal acceptance.
 
 ## Implemented Scope
 

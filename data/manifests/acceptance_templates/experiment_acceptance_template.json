@@ -11,7 +11,10 @@
     "results/realworld_pilot/pilot_full_manifest.json",
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_package_review_manifest.json",
-    "docs/experiment_package_review_packet.md"
+    "docs/experiment_package_review_packet.md",
+    "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_strategy_readiness_manifest.json",
+    "docs/experiment_strategy_readiness_packet.md"
   ],
   "expected_row_count": 1890,
   "expected_summary_row_count": 63,

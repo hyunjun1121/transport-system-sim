@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Paper / Report Claim Alignment Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:16:11+00:00`
+- Generated at: `2026-05-06T06:39:24+00:00`
 
 ## Decision
 
@@ -77,10 +77,10 @@ Formal acceptance artifacts:
   "details": {
     "acceptance_path": "data/manifests/manuscript_acceptance.json",
     "acceptance_record_present": false,
-    "claim_alignment_overclaim_candidate_count": 106,
+    "claim_alignment_overclaim_candidate_count": 108,
     "claim_alignment_publication_ready": false,
     "claim_alignment_review_manifest_present": true,
-    "claim_alignment_review_row_count": 129,
+    "claim_alignment_review_row_count": 131,
     "figure_claim_boundary_scope_blocked": true,
     "publication_ready": false
   },

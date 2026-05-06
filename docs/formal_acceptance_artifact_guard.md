@@ -32,5 +32,8 @@ For current blocker context, cross-check
 `docs/current_goal_completion_audit.md`,
 `docs/formal_acceptance_package_audit.md`,
 `docs/graph_scale_strategy_readiness_packet.md`, and
-`docs/validation_strategy_readiness_packet.md`. These documents are review
+`docs/validation_strategy_readiness_packet.md`. For the sensitivity and full
+experiment gates, also cross-check
+`docs/sensitivity_strategy_readiness_packet.md` and
+`docs/experiment_strategy_readiness_packet.md`. These documents are review
 inputs only; none of them is final approval.

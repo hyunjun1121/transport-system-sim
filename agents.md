@@ -29,9 +29,10 @@ the required formal acceptance artifacts are intentionally absent until
 source-backed human review supplies them.
 
 The latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-and `sensitivity_strategy_readiness` packets are implemented, but they are
-blocker/readiness review aids only. Do not treat them as acceptance records,
-calibration evidence, operational route plans, or final-study approval.
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are implemented, but they are blocker/readiness review aids only. Do not treat
+them as acceptance records, calibration evidence, operational route plans, or
+final-study approval.
 
 ## Repository Structure
 
@@ -122,6 +123,7 @@ src/
     pilot_experiments.py    # Cached pilot scaffold experiment runner
     experiment_acceptance.py # Explicit pilot experiment-output acceptance validation
     experiment_package_review_packet.py # Full experiment output review worksheet
+    experiment_strategy_readiness_packet.py # Experiment blocker/readiness worksheet
     reproducibility_acceptance.py # Explicit clean-checkout acceptance validation
     reproducibility_review_packet.py # Clean-checkout review worksheet generator
     reproducibility_smoke.py # Current-worktree smoke evidence runner
@@ -202,6 +204,7 @@ tests/
   test_realworld_policy_alternatives.py
   test_realworld_pilot_experiments.py
   test_realworld_experiment_acceptance.py
+  test_realworld_experiment_strategy_readiness_packet.py
   test_realworld_reproducibility_acceptance.py
   test_realworld_reproducibility_review_packet.py
   test_realworld_reproducibility_smoke.py
@@ -250,6 +253,8 @@ data/
     graph_scale_strategy_readiness_manifest.json
     reproducibility_review_packet.csv # 7-row clean-checkout review aid
     reproducibility_review_manifest.json
+    experiment_strategy_readiness_packet.csv # 9-row experiment blocker/readiness aid
+    experiment_strategy_readiness_manifest.json
     reproducibility_smoke_manifest.json # current-worktree smoke summary
     reproducibility_smoke_log.jsonl # current-worktree smoke command log
     canonical_route_road_evidence_exposure.csv # 76-row route-level road-evidence exposure aid
@@ -300,6 +305,7 @@ scripts/
   write_graph_scale_result_comparison.py
   run_acceptance_audit.py
   write_experiment_package_review_packet.py
+  write_experiment_strategy_readiness_packet.py
   write_acceptance_decision_templates.py
   write_acceptance_blocker_queue.py
   write_acceptance_task_assignments.py
@@ -825,6 +831,12 @@ Implemented behavior:
   scenario-policy-seed design counts, graph scope, input dependencies, CRN
   declaration, checksums, and formal acceptance absence without accepting the
   experiment package.
+- `src/realworld/experiment_strategy_readiness_packet.py` and
+  `scripts/write_experiment_strategy_readiness_packet.py` convert that
+  worksheet into 9 pre-review readiness rows. The packet keeps scaffold result
+  scope, graph-scale dependency, upstream input-evidence dependency,
+  row-count/checksum/design/CRN review, and missing experiment acceptance
+  visible without accepting full outputs.
 - `scripts/run_sensitivity.py --sample` runs deterministic one-at-a-time
   scaffold screening and writes SALib-compatible manifest metadata.
 - `scripts/run_sensitivity.py --method morris --all` runs SALib Morris
@@ -1072,6 +1084,10 @@ change, rerun full experiments before carrying result conclusions forward.
 - Configure local commit identity if commits are needed:
   `git config user.name "hyunjun1121"` and
   `git config user.email "hyunjun1121@users.noreply.github.com"`
+- Handoff target: main agent commits and pushes the intended state to `main`,
+  then the next computer uses `git clone` plus the Windows setup commands
+  above. Do not assume uncommitted local artifacts, `.venv`, or Word lock files
+  will be present after clone.
 
 ## Conventions
 

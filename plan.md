@@ -33,10 +33,17 @@ The other 12/15 gates are blocked.
 Formal acceptance remains 0/12 ready. The required formal acceptance artifacts
 are intentionally absent and must stay absent until reviewers provide real,
 source-backed decisions. The implemented `validation_strategy_readiness`,
-`graph_scale_strategy_readiness`, and `sensitivity_strategy_readiness` packets
-turn blockers into reviewable rows, but they do not create acceptance,
-calibration, or operational routing authority. Current outputs remain
-quasi-real scaffold evidence only.
+`graph_scale_strategy_readiness`, `sensitivity_strategy_readiness`, and
+`experiment_strategy_readiness` packets turn blockers into reviewable rows, but
+they do not create acceptance, calibration, or operational routing authority.
+Current outputs remain quasi-real scaffold evidence only.
+
+## Handoff Boundary
+
+For a git handoff to another computer, the main agent should commit and push
+the intended state to `main`, then validate the handoff from a fresh clone using
+the Windows setup in `README.md`. Local uncommitted artifacts, `.venv`, editor
+state, and Word lock files are not part of the handoff.
 
 ## Review Verdict
 
@@ -214,6 +221,13 @@ First pilot-smoke artifacts also exist:
   `data/manifests/experiment_package_review_manifest.json`, and
   `docs/experiment_package_review_packet.md` are reviewer aids only and do not
   accept the experiment package.
+- `src/realworld/experiment_strategy_readiness_packet.py` and
+  `scripts/write_experiment_strategy_readiness_packet.py` convert the
+  experiment-package worksheet into concrete blocker/readiness rows under
+  `data/manifests/experiment_strategy_readiness_packet.csv`. It separates
+  scaffold result scope, graph-scale dependency, input-evidence dependency,
+  row-count/checksum/design/CRN review, and missing experiment acceptance
+  without accepting full pilot outputs.
 - `src/realworld/provenance_acceptance.py` and
   `docs/provenance_acceptance_schema.md` define the explicit review record
   required before the data-provenance gate can close. The actual
@@ -1876,6 +1890,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
@@ -2009,7 +2024,11 @@ Concrete next tasks:
    benchmark-strategy and blocker-classification worksheets before creating
    any validation acceptance record.
 9. Review the current sample/staged/full pilot runner outputs as the candidate
-   accepted scenario, policy, and seed design.
+   accepted scenario, policy, and seed design. Use
+   `data/manifests/experiment_package_review_packet.csv` and
+   `data/manifests/experiment_strategy_readiness_packet.csv` as the
+   row-count/checksum/design/dependency worksheets before creating any
+   experiment acceptance record.
 10. Regenerate pilot-region figures, paper tables, Korean report updates, and
    final reproducibility manifests after validation passes; keep the current
    regenerated report in scaffold scope until manuscript acceptance is reviewed.

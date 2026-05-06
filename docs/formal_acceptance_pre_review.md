@@ -23,7 +23,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>accept or regenerate full pilot outputs after input validation and graph-scale decision<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+4 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | final_audit_document | `blocked` | `blocked_missing_evidence` | `docs/final_study_audit.md` | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
@@ -519,9 +519,14 @@ Evidence inspected:
 - `data/manifests/experiment_package_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/experiment_package_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/experiment_package_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/experiment_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/experiment_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/experiment_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- resolve experiment strategy-readiness blockers before experiment acceptance
+- review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 - data/manifests/experiment_acceptance.json is absent
@@ -530,6 +535,8 @@ Residual risks:
 - Regenerate or accept full outputs after input, graph-scale, and validation gates close.
 - Create experiment_acceptance.json with matching run profile and row counts.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- resolve experiment strategy-readiness blockers before experiment acceptance
+- review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 - data/manifests/experiment_acceptance.json is absent

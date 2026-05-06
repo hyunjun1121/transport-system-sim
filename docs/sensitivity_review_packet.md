@@ -41,10 +41,18 @@ Final-study sensitivity claims remain blocked until a real reviewer decision is
 recorded separately in `data/manifests/sensitivity_acceptance.json`. This
 packet must not be used to create that acceptance record automatically.
 
+The companion sensitivity strategy-readiness packet exists at
+`docs/sensitivity_strategy_readiness_packet.md` with data artifacts
+`data/validation/sensitivity_strategy_readiness_packet.csv` and
+`data/validation/sensitivity_strategy_readiness_manifest.json`. It records
+current blockers and human-review items, but it is not sensitivity acceptance
+and not a Sobol waiver.
+
 ## Regeneration
 
 ```powershell
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py

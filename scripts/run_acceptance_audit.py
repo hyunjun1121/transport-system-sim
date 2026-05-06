@@ -38,6 +38,10 @@ from src.realworld.experiment_package_review_packet import (  # noqa: E402
     build_experiment_package_review_rows,
     write_experiment_package_review_packet,
 )
+from src.realworld.experiment_strategy_readiness_packet import (  # noqa: E402
+    build_experiment_strategy_readiness_rows,
+    write_experiment_strategy_readiness_packet,
+)
 from src.realworld.formal_acceptance_guard import (  # noqa: E402
     audit_formal_acceptance_artifacts,
 )
@@ -384,6 +388,11 @@ def _refresh_existing_review_packets(
     experiment_rows = build_experiment_package_review_rows()
     write_experiment_package_review_packet(rows=experiment_rows)
     refreshed.append("data/manifests/experiment_package_review_packet.csv")
+    experiment_readiness_rows = build_experiment_strategy_readiness_rows(
+        review_rows=experiment_rows,
+    )
+    write_experiment_strategy_readiness_packet(rows=experiment_readiness_rows)
+    refreshed.append("data/manifests/experiment_strategy_readiness_packet.csv")
     validation_rows = build_validation_review_rows()
     write_validation_review_packet(rows=validation_rows)
     refreshed.append("data/validation/validation_review_packet.csv")

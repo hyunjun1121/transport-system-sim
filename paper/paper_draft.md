@@ -19,8 +19,9 @@ explicitly scaffold-only and are not calibrated real-world findings. The formal
 evidence boundary is also explicit: final-study readiness is `false`, only
 `3/15` final-study gates are ready, `12/15` gates remain blocked, formal
 acceptance readiness is `0/12`, and no formal approvals or calibrated
-real-world results are present. This draft
-therefore separates:
+real-world results are present. The validation, graph-scale, sensitivity, and
+experiment strategy-readiness packets are blocker/review aids only; they are
+not acceptance records. This draft therefore separates:
 
 - what is already implemented,
 - what can be reported as preliminary baseline evidence,
@@ -146,6 +147,14 @@ real-world extension:
   readiness, missing/non-finite index rows, zero `mu_star` rows, reduced graph
   scope, scaffold result scope, and the Morris-vs-Sobol decision; it is not a
   sensitivity acceptance record and does not waive Sobol analysis.
+- `data/validation/sensitivity_strategy_readiness_packet.csv` stores a 7-row
+  sensitivity strategy-readiness worksheet with 5 blocking requests and 2
+  human-review requests. It is implemented blocker support only and cannot
+  close `data/manifests/sensitivity_acceptance.json`.
+- `data/manifests/experiment_strategy_readiness_packet.csv` stores a 9-row
+  experiment strategy-readiness worksheet with 4 blocking requests and 5
+  human-review requests. It is implemented blocker support only and cannot
+  close `data/manifests/experiment_acceptance.json`.
 - Full pilot seed-replication uncertainty tables add 819 metric confidence
   interval rows and 702 paired policy-delta confidence interval rows. These are
   scaffold uncertainty summaries, not calibrated real-world confidence evidence.
@@ -813,8 +822,8 @@ The generated validation review packet should likewise be used to document
 internal plausibility warnings, fallback benchmark limitations, optional OSRM
 snapshot/manifest provenance, accessibility-loss interpretation, and the
 final benchmark-strategy decision before any validation claim is upgraded.
-The validation strategy-readiness packet and graph-scale strategy-readiness
-packet are implemented, but both are blocker triage aids, not formal acceptance
+The validation, graph-scale, sensitivity, and experiment strategy-readiness
+packets are implemented, but all are blocker triage aids, not formal acceptance
 records.
 
 Recommended outputs:
@@ -1075,9 +1084,9 @@ Current limitations:
   evidence and not a substitute for `data/manifests/sensitivity_acceptance.json`.
 - The current validation review packet is a review worksheet, not acceptance
   evidence and not a substitute for `data/manifests/validation_acceptance.json`.
-- The current validation and graph-scale strategy readiness packets are
-  implemented preflight worksheets, not substitutes for formal acceptance
-  records or calibrated real-world validation.
+- The current validation, graph-scale, sensitivity, and experiment strategy
+  readiness packets are implemented preflight worksheets, not substitutes for
+  formal acceptance records or calibrated real-world validation.
 
 For a strong paper, limitations should be framed as model boundaries rather
 than hidden weaknesses.
@@ -1211,9 +1220,12 @@ competitive, or fragile.
 8. Review the current SALib Morris outputs with the sensitivity review packet
    for the accepted staged/full pilot profile, resolve missing/non-finite index
    handling and zero `mu_star` interpretation, and add Sobol only if compute
-   budget and interpretation justify it.
+   budget and interpretation justify it. Use the sensitivity
+   strategy-readiness packet to keep blockers separate from acceptance.
 9. Review the generated policy alternatives and seed/scenario coverage beyond
-   the current sample outputs.
+   the current sample outputs. Use the experiment strategy-readiness packet to
+   track full-output scope, graph/input dependencies, CRN, row counts, and
+   missing `experiment_acceptance.json` without treating it as approval.
 10. Review the validation review packet, OSRM snapshot manifest, and
    route-level road-evidence exposure rows, then decide whether the current
    optional OSRM snapshot is enough or whether to add another external

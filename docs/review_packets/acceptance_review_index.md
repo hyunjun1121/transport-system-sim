@@ -16,7 +16,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 4 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 6 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 6 |
-| `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 5 |
+| `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 7 |
 | `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 6 |
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 5 |
@@ -70,6 +70,8 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - full_experiment_output: Regenerate or accept full outputs after input, graph-scale, and validation gates close.
 - full_experiment_output: Create experiment_acceptance.json with matching run profile and row counts.
 - full_experiment_output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- full_experiment_output: resolve experiment strategy-readiness blockers before experiment acceptance
+- full_experiment_output: review experiment strategy-readiness human-decision items before experiment acceptance
 - full_experiment_output: accept or regenerate full pilot outputs after input validation and graph-scale decision
 - full_experiment_output: review experiment-package rows before formal experiment acceptance
 - manuscript_report_alignment: Revise or hold claims until all supporting evidence gates are accepted.
@@ -117,6 +119,8 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Sensitivity Analysis: review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - Sensitivity Analysis: accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - Full Experiment Output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
+- Full Experiment Output: resolve experiment strategy-readiness blockers before experiment acceptance
+- Full Experiment Output: review experiment strategy-readiness human-decision items before experiment acceptance
 - Full Experiment Output: accept or regenerate full pilot outputs after input validation and graph-scale decision
 - Full Experiment Output: review experiment-package rows before formal experiment acceptance
 - Manuscript Report Alignment: close evidence gates before final paper/report claims

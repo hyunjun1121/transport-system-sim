@@ -13,9 +13,12 @@ Current reproducible artifacts are scaffold-only:
   12 / 15 blocked gates;
 - formal acceptance remains 0 / 12 ready, with all required formal acceptance
   artifacts absent and no final approval recorded;
-- graph-scale and validation strategy-readiness packets are present as review
-  aids at `docs/graph_scale_strategy_readiness_packet.md` and
-  `docs/validation_strategy_readiness_packet.md`;
+- graph-scale, validation, sensitivity, and experiment strategy-readiness
+  packets are present as review aids at
+  `docs/graph_scale_strategy_readiness_packet.md`,
+  `docs/validation_strategy_readiness_packet.md`,
+  `docs/sensitivity_strategy_readiness_packet.md`, and
+  `docs/experiment_strategy_readiness_packet.md`;
 - cached public-coordinate Overpass/OSM pilot graph input
 - cached road-input evidence audit for OSM length, highway, maxspeed,
   capacity, and base-disruption proxy coverage
@@ -112,6 +115,12 @@ Current reproducible artifacts are scaffold-only:
   reviewer worksheet for index handling, zero-effect interpretation,
   reduced-graph scope, and Morris-vs-Sobol decision support without accepting
   sensitivity evidence
+- sensitivity strategy-readiness packet that records Morris, graph-scope,
+  scaffold-result, method-decision, and missing-acceptance blockers without
+  accepting sensitivity evidence
+- experiment strategy-readiness packet that records current full-pilot scope,
+  graph/input dependencies, row-count/checksum, scenario-policy-seed, CRN, and
+  missing-acceptance review items without accepting experiment outputs
 - scaffold-only figures, result tables, bottleneck attribution proxy, policy
   regime map, and claim-boundary table
 - scaffold-aligned English paper and Korean report source that state the
@@ -225,6 +234,8 @@ Run from the repository root on Windows PowerShell:
 .\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
@@ -451,6 +462,8 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
@@ -471,10 +484,13 @@ git diff --check
 | `docs/graph_scale_review_packet.md` | Graph-scale method review packet documentation | review support only; not graph-scale acceptance |
 | `docs/validation_acceptance_schema.md` | Optional final-study validation acceptance schema | future reviewed benchmark strategy only; no accepted record is committed |
 | `docs/validation_review_packet.md` | Validation-strategy review packet documentation | review support only; not validation acceptance |
+| `docs/validation_strategy_readiness_packet.md` | Validation strategy-readiness packet documentation | blocker/readiness review support only; not validation acceptance |
 | `docs/route_road_evidence_exposure.md` | Route-level road-evidence exposure documentation | review support only; not road calibration or validation acceptance |
 | `docs/sensitivity_acceptance_schema.md` | Optional final-study sensitivity acceptance schema | future reviewed sensitivity method and Sobol decision only; no accepted record is committed |
 | `docs/sensitivity_diagnostics.md` | Morris sensitivity diagnostic note | current scaffold review support, not sensitivity acceptance |
+| `docs/sensitivity_strategy_readiness_packet.md` | Sensitivity strategy-readiness packet documentation | blocker/readiness review support only; not sensitivity acceptance or Sobol waiver |
 | `docs/experiment_acceptance_schema.md` | Optional final-study experiment-output acceptance schema | future reviewed graph-scope, validation, design, CRN, count, and claim-boundary decision only; no accepted record is committed |
+| `docs/experiment_strategy_readiness_packet.md` | Experiment strategy-readiness packet documentation | blocker/readiness review support only; not experiment acceptance |
 | `docs/provenance_acceptance_schema.md` | Optional final-study provenance acceptance schema | future reviewed source/license/snapshot/privacy decision only; no accepted record is committed |
 | `data/manifests/source_provenance_manifest.json` | Source provenance review packet | source/license/snapshot manifest only; not acceptance |
 | `docs/source_provenance_manifest.md` | Source provenance manifest documentation | review support for provenance gate |
@@ -539,6 +555,7 @@ git diff --check
 | `data/validation/canonical_route_road_evidence_exposure.csv` | Route-level road-evidence exposure worksheet | 76 rows linking weak road evidence to canonical route candidates; review aid only |
 | `data/validation/canonical_route_road_evidence_exposure_manifest.json` | Route exposure manifest | non-acceptance summary; `publication_ready: false` and `acceptance_ready: false` |
 | `data/validation/validation_review_packet.csv` | Validation-strategy review worksheet | 7 rows summarizing internal plausibility, fallback/OSRM benchmarks, accessibility loss, route road-evidence exposure, summary scope, and benchmark-strategy decision requirement |
+| `data/validation/validation_strategy_readiness_packet.csv` | Validation strategy-readiness worksheet | 7 blocker/human-review rows; not validation acceptance |
 | `data/validation/reproducibility_review_packet.csv` | Clean-checkout reproducibility review worksheet | 8 rows summarizing scaffold scope, formal acceptance absence, Git worktree state, untracked artifact risk, validation command ladder, runtime import boundary, bounded clean-checkout smoke, and clean-environment execution scope |
 | `data/validation/reproducibility_smoke_manifest.json` | Current-worktree smoke manifest | bounded smoke summary with `can_mark_complete: false` |
 | `data/validation/reproducibility_smoke_log.jsonl` | Current-worktree smoke command log | JSONL command records for smoke review |
@@ -557,6 +574,8 @@ git diff --check
 | `data/validation/graph_scale_result_comparison_manifest.json` | Graph-scale result-comparison manifest | status counts and review items; non-acceptance |
 | `data/validation/sensitivity_review_packet.csv` | Sensitivity diagnostic review worksheet | 6 rows summarizing Morris structural readiness, blank/non-finite indices, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
 | `data/validation/sensitivity_review_manifest.json` | Sensitivity review manifest | non-acceptance summary with 168 index-issue rows and 4,272 zero `mu_star` rows |
+| `data/validation/sensitivity_strategy_readiness_packet.csv` | Sensitivity strategy-readiness worksheet | 7 blocker/human-review rows; not sensitivity acceptance |
+| `data/manifests/experiment_strategy_readiness_packet.csv` | Experiment strategy-readiness worksheet | 9 blocker/human-review rows; not experiment acceptance |
 | `data/scenarios/disruption_scenarios.csv` | Structured disruption scenarios | scenario-based definitions |
 | `data/scenarios/policy_alternatives.csv` | Policy alternatives | decision-support variants |
 | `data/scenarios/sensitivity_design.csv` | Sensitivity screening design | deterministic OAT and SALib Morris scaffold |

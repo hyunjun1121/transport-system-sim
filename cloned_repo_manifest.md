@@ -21,8 +21,9 @@ are ready and 12/15 are blocked. Formal acceptance is 0/12 ready, and the
 formal acceptance artifacts are intentionally absent until source-backed human
 review.
 
-The implemented `validation_strategy_readiness` and
-`graph_scale_strategy_readiness` packets are project-owned review aids; they do
+The implemented `validation_strategy_readiness`,
+`graph_scale_strategy_readiness`, `sensitivity_strategy_readiness`, and
+`experiment_strategy_readiness` packets are project-owned review aids; they do
 not change the status of the third-party snapshots or create acceptance.
 
 ## Clone Status

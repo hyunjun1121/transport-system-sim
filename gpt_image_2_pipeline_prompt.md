@@ -17,8 +17,9 @@ Any generated overview figure should preserve the current claim boundary. As of
 12/15 are blocked. Formal acceptance is 0/12 ready, and the formal acceptance
 artifacts are intentionally absent until source-backed review.
 
-The `validation_strategy_readiness` and `graph_scale_strategy_readiness`
-packets are implemented review aids only. The figure must not imply calibrated
+The `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are implemented review aids only. The figure must not imply calibrated
 real-world results, operational routing, field forecasting, or final-study
 acceptance.
 

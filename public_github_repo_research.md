@@ -18,8 +18,10 @@ gates are ready (`real_input_smoke`, `structured_disruptions`,
 
 Formal acceptance is 0/12 ready, with required formal acceptance artifacts
 intentionally absent until source-backed human review. The implemented
-`validation_strategy_readiness` and `graph_scale_strategy_readiness` packets
-are review/blocker aids only.
+`validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are review/blocker aids only and do not create calibration or formal
+acceptance.
 
 ## Executive Recommendation
 

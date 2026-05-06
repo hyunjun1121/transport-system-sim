@@ -58,6 +58,11 @@ from src.realworld.experiment_package_review_packet import (  # noqa: E402
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH,
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_PACKET_PATH,
 )
+from src.realworld.experiment_strategy_readiness_packet import (  # noqa: E402
+    DEFAULT_EXPERIMENT_STRATEGY_READINESS_DOC_PATH,
+    DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH,
+    DEFAULT_EXPERIMENT_STRATEGY_READINESS_PACKET_PATH,
+)
 from src.realworld.rail_evidence import (  # noqa: E402
     DEFAULT_RAIL_SERVICE_EVIDENCE_PATH,
     load_rail_service_evidence,
@@ -310,6 +315,11 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "experiment_package_review_packet",
         DEFAULT_EXPERIMENT_PACKAGE_REVIEW_PACKET_PATH,
+        9,
+    ),
+    CsvExpectation(
+        "experiment_strategy_readiness_packet",
+        DEFAULT_EXPERIMENT_STRATEGY_READINESS_PACKET_PATH,
         9,
     ),
     CsvExpectation(
@@ -610,6 +620,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "experiment_strategy_readiness_manifest",
+        DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "claim_alignment_review_manifest",
         DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH,
     ),
@@ -818,6 +832,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "accessibility_loss_analysis.md",
     ROOT / "docs" / "experiment_acceptance_schema.md",
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_DOC_PATH,
+    DEFAULT_EXPERIMENT_STRATEGY_READINESS_DOC_PATH,
     ROOT / "docs" / "provenance_acceptance_schema.md",
     ROOT / "docs" / "source_provenance_manifest.md",
     DEFAULT_SOURCE_LICENSE_REVIEW_DOC_PATH,

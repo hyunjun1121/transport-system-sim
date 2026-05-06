@@ -37,7 +37,8 @@ Current implementation status:
   `policy_alternatives`) and 12/15 are blocked.
 - Formal acceptance readiness is 0/12. Required formal acceptance artifacts are
   intentionally absent until source-backed review supplies them.
-- The `validation_strategy_readiness` and `graph_scale_strategy_readiness`
+- The `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+  `sensitivity_strategy_readiness`, and `experiment_strategy_readiness`
   packets are implemented blocker/readiness aids only, not acceptance records.
 
 External-data and calibration work remains open. This survey does not imply

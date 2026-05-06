@@ -32,9 +32,10 @@ gates are 12/15.
 
 Formal acceptance is 0/12 ready, and required formal acceptance artifacts are
 intentionally absent until reviewers provide source-backed decisions. The
-latest `validation_strategy_readiness` and `graph_scale_strategy_readiness`
-packets are implemented review aids only. No current result is calibrated
-real-world evidence or an operational route plan.
+latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are implemented review aids only. No current result is calibrated real-world
+evidence or an operational route plan.
 
 ## Executive Recommendation
 

@@ -60,6 +60,9 @@ DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH = (
 DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "experiment_package_review_manifest.json"
 )
+DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "experiment_strategy_readiness_manifest.json"
+)
 DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "source_url_review_manifest.json"
 )
@@ -130,6 +133,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     )
     experiment_package_review_manifest = _load_json(
         DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH
+    )
+    experiment_strategy_readiness_manifest = _load_json(
+        DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH
     )
     morris_manifest = _load_json(
         PROJECT_ROOT / "results" / "realworld_pilot" / "morris_manifest.json"
@@ -220,6 +226,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             pilot_manifest,
             experiment_acceptance,
             experiment_package_review_manifest,
+            experiment_strategy_readiness_manifest,
         ),
         _manuscript_report_gate(
             figure_manifest,
@@ -1321,11 +1328,31 @@ def _full_experiment_gate(
     pilot_manifest: dict[str, Any] | None,
     experiment_acceptance: dict[str, Any],
     experiment_package_review_manifest: dict[str, Any] | None = None,
+    experiment_strategy_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(pilot_manifest)
+    strategy_readiness_packet_path = (
+        PROJECT_ROOT / "data" / "manifests" / "experiment_strategy_readiness_packet.csv"
+    )
+    strategy_readiness_doc_path = (
+        PROJECT_ROOT / "docs" / "experiment_strategy_readiness_packet.md"
+    )
+    strategy_readiness_artifacts_present = (
+        strategy_readiness_packet_path.exists()
+        and DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH.exists()
+        and strategy_readiness_doc_path.exists()
+    )
     status = str((pilot_manifest or {}).get("design_status", ""))
     scope = str((pilot_manifest or {}).get("result_scope", ""))
     acceptance_ready = bool(experiment_acceptance["acceptance_ready"])
+    strategy_blocking_count = _dict_int(
+        experiment_strategy_readiness_manifest,
+        "blocking_request_count",
+    )
+    strategy_human_review_count = _dict_int(
+        experiment_strategy_readiness_manifest,
+        "human_review_request_count",
+    )
     scope_blocked = _experiment_scope_is_blocked(scope, status)
     count_blockers = _experiment_count_blockers(
         pilot_manifest,
@@ -1334,14 +1361,27 @@ def _full_experiment_gate(
     ready = (
         artifact_present
         and acceptance_ready
+        and strategy_readiness_artifacts_present
+        and strategy_blocking_count == 0
+        and strategy_human_review_count == 0
         and not scope_blocked
         and not count_blockers
     )
     blockers: list[str] = []
+    if not strategy_readiness_artifacts_present:
+        blockers.append("create experiment strategy-readiness packet, manifest, and doc")
     if not artifact_present:
         blockers.append("create full pilot outputs and manifest")
     if not acceptance_ready:
         blockers.extend(experiment_acceptance["remaining_blockers"])
+        if strategy_blocking_count:
+            blockers.append(
+                "resolve experiment strategy-readiness blockers before experiment acceptance"
+            )
+        if strategy_human_review_count:
+            blockers.append(
+                "review experiment strategy-readiness human-decision items before experiment acceptance"
+            )
     if scope_blocked:
         blockers.append(
             "accept or regenerate full pilot outputs after input validation and graph-scale decision"
@@ -1365,6 +1405,9 @@ def _full_experiment_gate(
             "data/manifests/experiment_package_review_packet.csv",
             "data/manifests/experiment_package_review_manifest.json",
             "docs/experiment_package_review_packet.md",
+            "data/manifests/experiment_strategy_readiness_packet.csv",
+            "data/manifests/experiment_strategy_readiness_manifest.json",
+            "docs/experiment_strategy_readiness_packet.md",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -1386,6 +1429,23 @@ def _full_experiment_gate(
                 "publication_ready",
                 False,
             ),
+            "strategy_readiness_artifacts_present": strategy_readiness_artifacts_present,
+            "strategy_readiness_manifest_present": bool(
+                experiment_strategy_readiness_manifest
+            ),
+            "strategy_readiness_blocking_request_count": strategy_blocking_count,
+            "strategy_readiness_human_review_request_count": (
+                strategy_human_review_count
+            ),
+            "strategy_readiness_status_counts": (
+                experiment_strategy_readiness_manifest or {}
+            ).get("readiness_status_counts", {}),
+            "strategy_readiness_publication_ready": (
+                experiment_strategy_readiness_manifest or {}
+            ).get("publication_ready", False),
+            "strategy_readiness_can_mark_complete": (
+                experiment_strategy_readiness_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

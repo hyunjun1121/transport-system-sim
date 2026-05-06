@@ -23,6 +23,10 @@ The latest strategy-detail packets exist and are review aids only:
   `data/validation/graph_scale_strategy_readiness_manifest.json`
 - `docs/validation_strategy_readiness_packet.md` with
   `data/validation/validation_strategy_readiness_manifest.json`
+- `docs/sensitivity_strategy_readiness_packet.md` with
+  `data/validation/sensitivity_strategy_readiness_manifest.json`
+- `docs/experiment_strategy_readiness_packet.md` with
+  `data/manifests/experiment_strategy_readiness_manifest.json`
 
 ## Implemented Scope
 
@@ -110,6 +114,8 @@ The repository now includes a first non-sensitive offline pilot scaffold:
 | `data/validation/graph_scale_multi_corridor_routes_summary.md` | Multi-corridor candidate summary and claim boundary |
 | `data/validation/graph_scale_strategy_readiness_packet.csv` | Graph-scale strategy-readiness worksheet; 5 rows with 3 blocking requests and 2 human-review requests; not graph-scale acceptance |
 | `data/validation/sensitivity_review_packet.csv` | Morris sensitivity review worksheet; 6 rows for structural readiness, index issues, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
+| `data/validation/sensitivity_strategy_readiness_packet.csv` | Sensitivity strategy-readiness worksheet; 7 rows with 5 blocking requests and 2 human-review requests; not sensitivity acceptance |
+| `data/manifests/experiment_strategy_readiness_packet.csv` | Experiment strategy-readiness worksheet; 9 rows with 4 blocking requests and 5 human-review requests; not experiment acceptance |
 | `data/scenarios/` | Structured disruption and policy-alternative scenario tables |
 | `data/manifests/reproducibility_manifest.json` | Current scaffold-only reproduction manifest |
 | `results/realworld_pilot/` | Separated pilot scaffold sample/staged/full and sensitivity outputs |
@@ -171,6 +177,8 @@ Pilot smoke commands:
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --multi-corridor-full
 .\.venv\Scripts\python scripts\run_sensitivity.py --sample
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py
 .\.venv\Scripts\python scripts\write_road_speed_evidence.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
@@ -299,6 +307,19 @@ Current limitations:
   `data/validation/sensitivity_review_manifest.json`. It summarizes Morris
   diagnostic issues and method-review decisions, but it is not sensitivity
   acceptance, not a Sobol waiver, and not calibrated sensitivity evidence.
+- The sensitivity strategy-readiness packet writes
+  `data/validation/sensitivity_strategy_readiness_packet.csv`,
+  `data/validation/sensitivity_strategy_readiness_manifest.json`, and
+  `docs/sensitivity_strategy_readiness_packet.md`. It records current Morris
+  output, graph-scope, method-decision, and missing-acceptance blockers, but it
+  cannot close `data/manifests/sensitivity_acceptance.json`.
+- The experiment strategy-readiness packet writes
+  `data/manifests/experiment_strategy_readiness_packet.csv`,
+  `data/manifests/experiment_strategy_readiness_manifest.json`, and
+  `docs/experiment_strategy_readiness_packet.md`. It records current full-pilot
+  scope, graph/input dependencies, row-count/checksum, scenario-policy-seed,
+  CRN, and missing-acceptance review items, but it cannot close
+  `data/manifests/experiment_acceptance.json`.
 - The validation review packet writes
   `data/validation/validation_review_packet.csv` and
   `data/validation/validation_review_manifest.json`. It summarizes internal

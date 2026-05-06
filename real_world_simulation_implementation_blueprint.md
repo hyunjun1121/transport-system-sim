@@ -24,9 +24,10 @@ quasi-real pilot scaffold, but the final study is not ready:
 
 Formal acceptance remains 0/12 ready. The formal acceptance artifacts are
 intentionally absent until reviewers provide source-backed decisions. The
-implemented `validation_strategy_readiness` and
-`graph_scale_strategy_readiness` packets are blocker/readiness aids only; they
-do not provide calibration, operational route planning, or acceptance.
+implemented `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
+`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
+are blocker/readiness aids only; they do not provide calibration, operational
+route planning, or acceptance.
 
 ## Core Principle
 
