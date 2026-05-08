@@ -132,6 +132,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         source_paths=(
             "data/manifests/source_provenance_manifest.json",
             "data/manifests/source_license_review_packet.csv",
+            "data/manifests/source_url_review_packet.csv",
             "data/manifests/source_url_remediation_packet.csv",
             "data/manifests/source_provenance_priority_packet.csv",
             "data/manifests/reproducibility_manifest.json",
@@ -150,6 +151,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         ),
         review_packet_paths=(
             "data/manifests/source_license_review_packet.csv",
+            "data/manifests/source_url_review_packet.csv",
             "data/manifests/source_url_remediation_packet.csv",
             "data/manifests/source_provenance_priority_packet.csv",
             "docs/review_packets/data_provenance.md",

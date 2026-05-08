@@ -48,6 +48,14 @@ def test_evidence_matrix_covers_current_formal_targets() -> None:
         in by_gate["pilot_region_accepted"]["source_paths"]
     )
     assert (
+        "data/manifests/source_url_review_packet.csv"
+        in by_gate["data_provenance"]["review_packets"]
+    )
+    assert (
+        "data/manifests/source_url_review_packet.csv"
+        in by_gate["data_provenance"]["source_paths"]
+    )
+    assert (
         "data/validation/graph_scale_strategy_readiness_packet.csv"
         in by_gate["graph_scale_strategy"]["source_paths"]
     )

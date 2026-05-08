@@ -62,6 +62,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     )
 
     provenance_agent = agents["osm_source_license_provenance_review_agent"]
+    assert "data/manifests/source_url_review_packet.csv" in (
+        provenance_agent.review_packet_paths
+    )
     assert "data/manifests/source_provenance_priority_packet.csv" in (
         provenance_agent.review_packet_paths
     )
