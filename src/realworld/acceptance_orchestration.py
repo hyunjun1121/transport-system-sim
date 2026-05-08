@@ -193,6 +193,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         "Agent Review Path Audit",
         PROJECT_ROOT / "data" / "manifests" / "agent_review_path_audit.json",
     ),
+    (
+        "tracked_artifact_audit",
+        "Tracked Artifact Audit",
+        PROJECT_ROOT / "data" / "validation" / "tracked_artifact_audit_manifest.json",
+    ),
 )
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "
@@ -1235,6 +1240,7 @@ def _load_review_status_snapshot(
             "blocked_gate_count",
             "invalid_gate_count",
             "blocking_issue_count",
+            "blocking_change_count",
             "missing_snapshot_or_context_only_count",
             "unreachable_or_error_count",
             "template_or_placeholder_count",
@@ -1487,6 +1493,8 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "comparison_status_counts",
         "recommendation_counts",
         "action_type_counts",
+        "category_counts",
+        "risk_counts",
         "status_counts",
     ):
         value = data.get(key)

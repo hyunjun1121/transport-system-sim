@@ -87,6 +87,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=617 |
+| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
 
 Priority blockers by packet:
 
