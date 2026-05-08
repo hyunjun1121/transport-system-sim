@@ -1,43 +1,19 @@
 {
-  "blocking_change_count": 14,
+  "blocking_change_count": 0,
   "can_mark_complete": false,
-  "category_counts": {
-    "data_or_manifest": 2,
-    "documentation": 1,
-    "realworld_code": 4,
-    "script": 3,
-    "test": 4
-  },
+  "category_counts": {},
   "claim_boundary": "This audit checks whether current changed artifacts would be present in a clean checkout of the current Git HEAD. It does not commit files, approve reproducibility, validate evidence quality, or close final-study gates.",
   "clean_checkout_reproducibility_ready": false,
-  "generated_at": "2026-05-08T18:03:06+00:00",
-  "modified_or_staged_count": 8,
+  "generated_at": "2026-05-08T18:07:04+00:00",
+  "modified_or_staged_count": 0,
   "outputs": {
     "csv": "data/validation/tracked_artifact_audit.csv",
     "doc": "docs/tracked_artifact_audit.md",
     "manifest": "data/validation/tracked_artifact_audit_manifest.json"
   },
-  "remaining_blockers": [
-    "scripts/audit_plan_artifacts.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "scripts/run_acceptance_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "src/realworld/acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "src/realworld/final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "src/realworld/reproducibility_smoke.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "tests/test_realworld_acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "tests/test_realworld_final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "tests/test_realworld_plan_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
-    "data/manifests/source_context_cache_decision_manifest.json: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-    "data/manifests/source_context_cache_decision_packet.csv: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-    "docs/source_context_cache_decision_packet.md: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-    "scripts/write_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-    "src/realworld/source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-    "tests/test_realworld_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope."
-  ],
-  "risk_counts": {
-    "changed_after_head": 8,
-    "missing_from_clean_checkout": 6
-  },
-  "row_count": 14,
+  "remaining_blockers": [],
+  "risk_counts": {},
+  "row_count": 0,
   "schema_version": 1,
-  "untracked_count": 6
+  "untracked_count": 0
 }

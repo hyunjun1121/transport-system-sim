@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T18:03:28+00:00",
+  "generated_at": "2026-05-08T18:07:26+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -1188,7 +1188,7 @@
       }
     },
     {
-      "blocking_count": 5,
+      "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1210,14 +1210,14 @@
       "row_count": 8,
       "snapshot_id": "reproducibility_review",
       "status_counts": {
-        "blocked_dirty_worktree": 1,
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
-        "blocked_untracked_reproducibility_artifacts": 1,
         "ready_for_review_bounded_clean_checkout_smoke": 1,
+        "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
-        "ready_for_review_no_cloned_repo_runtime_imports": 1
+        "ready_for_review_no_cloned_repo_runtime_imports": 1,
+        "ready_for_review_no_untracked_reproducibility_artifacts": 1
       }
     },
     {
@@ -1423,7 +1423,7 @@
       }
     },
     {
-      "blocking_count": 14,
+      "blocking_count": 0,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1432,33 +1432,12 @@
       "manifest_valid": true,
       "path": "data/validation/tracked_artifact_audit_manifest.json",
       "publication_ready": false,
-      "remaining_blockers": [
-        "scripts/audit_plan_artifacts.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "scripts/run_acceptance_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "src/realworld/acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "src/realworld/final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "src/realworld/reproducibility_smoke.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "tests/test_realworld_acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "tests/test_realworld_final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "tests/test_realworld_plan_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
-        "data/manifests/source_context_cache_decision_manifest.json: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-        "data/manifests/source_context_cache_decision_packet.csv: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-        "docs/source_context_cache_decision_packet.md: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-        "scripts/write_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-        "src/realworld/source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
-        "tests/test_realworld_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope."
-      ],
+      "remaining_blockers": [],
       "result_scope": "",
       "review_items": [],
-      "row_count": 14,
+      "row_count": 0,
       "snapshot_id": "tracked_artifact_audit",
-      "status_counts": {
-        "data_or_manifest": 2,
-        "documentation": 1,
-        "realworld_code": 4,
-        "script": 3,
-        "test": 4
-      }
+      "status_counts": {}
     },
     {
       "blocking_count": 12,
