@@ -1,7 +1,7 @@
 {
   "acceptance_gate_closure_candidate_count": 0,
   "claim_boundary": "This packet identifies required cross-cutting parameter source inputs and review commands. It does not contain reviewed source observations, accepted parameter values, weak-parameter acceptance, calibration proof, or final-study publication readiness.",
-  "covered_parameter_count": 22,
+  "covered_parameter_count": 25,
   "covered_parameters": [
     "background_traffic_multiplier",
     "base_disruption_probability",
@@ -20,6 +20,9 @@
     "late_arrival_penalty",
     "passenger_arrival_distribution",
     "passenger_volume",
+    "rail_capacity",
+    "rail_headway",
+    "rail_travel_time",
     "simulation_time_horizon",
     "traffic_volume_window",
     "transfer_fixed_delay",
@@ -42,6 +45,9 @@
     "late_arrival_penalty": 1,
     "load_factor": 1,
     "passenger_volume": 1,
+    "rail_capacity": 1,
+    "rail_headway": 1,
+    "rail_travel_time": 1,
     "simulation_time_horizon": 1,
     "traffic_volume_window": 1,
     "transfer_fixed_delay": 1,
@@ -62,6 +68,7 @@
     "demand_time_censoring": 1,
     "disruption": 1,
     "fleet": 2,
+    "rail": 1,
     "road": 1,
     "transfer": 1
   },
@@ -69,23 +76,24 @@
   "region_ids": [
     "songpa_public_demo"
   ],
-  "requires_reviewed_external_input_count": 6,
+  "requires_reviewed_external_input_count": 7,
   "result_scope": "Parameter evidence source-request packet; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, and not publication-readiness approval.",
   "review_items": [
-    "collect reviewed source packages for demand, fleet, dispatch, transfer, disruption, and traffic/BPR assumptions",
+    "collect reviewed source packages for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR assumptions",
     "update parameter_sources.csv or fleet_assumptions.csv only after source review",
     "use parameter_acceptance.csv separately for retained weak assumptions inside conservative claim boundaries",
     "rerun parameter review, publication-readiness, and final-study-readiness audits after source changes"
   ],
-  "row_count": 6,
+  "row_count": 7,
   "schema_version": 1,
   "source_type_counts": {
     "agency_fleet_roster_or_planning_source_required": 1,
     "hazard_incident_or_scenario_rule_source_required": 1,
     "operating_schedule_or_planning_rule_required": 1,
     "planning_scenario_or_literature_source_required": 1,
+    "rail_timing_capacity_or_sensitivity_source_required": 1,
     "station_layout_or_pedestrian_flow_source_required": 1,
     "traffic_benchmark_or_literature_calibration_required": 1
   },
-  "weak_parameter_count": 20
+  "weak_parameter_count": 23
 }

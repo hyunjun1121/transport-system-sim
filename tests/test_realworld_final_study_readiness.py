@@ -274,13 +274,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "source_readiness_source_url_or_citation_present_count"
         ]
-        == 6
+        == 7
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "source_readiness_required_external_input_present_count"
         ]
-        == 6
+        == 7
     )
     assert gate_map["parameter_evidence"]["details"][
         "source_readiness_region_ids"
@@ -295,19 +295,19 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_row_count"
         ]
-        == 6
+        == 7
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_blocking_priority_count"
         ]
-        == 1
+        == 2
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_high_priority_parameter_count"
         ]
-        == 6
+        == 9
     )
     assert (
         gate_map["parameter_evidence"]["details"][
@@ -325,13 +325,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_row_count"
         ]
-        == 6
+        == 7
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_blocking_decision_count"
         ]
-        == 1
+        == 2
     )
     assert (
         gate_map["parameter_evidence"]["details"][
@@ -345,6 +345,11 @@ def test_current_final_study_readiness_is_blocked() -> None:
     )
     assert any(
         "parameter evidence priority: transfer-delay source evidence is absent"
+        in item
+        for item in gate_map["parameter_evidence"]["blockers"]
+    )
+    assert any(
+        "parameter evidence priority: rail timing/source-decision evidence is incomplete"
         in item
         for item in gate_map["parameter_evidence"]["blockers"]
     )

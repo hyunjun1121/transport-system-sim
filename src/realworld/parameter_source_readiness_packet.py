@@ -1,7 +1,7 @@
 """Parameter source-readiness packet generation.
 
 The cross-cutting parameter source-request worksheet names the source packages
-needed for demand, fleet, dispatch, transfer, disruption, and traffic/BPR
+needed for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR
 assumptions. This module classifies those requests into concrete pre-review
 states without accepting weak assumptions or changing parameter values.
 """
@@ -182,7 +182,7 @@ def build_parameter_source_readiness_manifest(
             "doc": _display_path(Path(doc_path)),
         },
         "review_items": [
-            "replace weak demand, fleet, transfer, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
+            "replace weak demand, fleet, transfer, rail, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
             "update parameter_sources.csv or fleet_assumptions.csv only after source review",
             "use parameter_acceptance.csv separately for retained weak assumptions",
             "rerun parameter, publication-readiness, and final-study-readiness audits after source changes",
@@ -261,7 +261,10 @@ def _readiness_row(row: Mapping[str, str]) -> dict[str, str]:
     raw_path = str(row.get("raw_payload_path", ""))
     target_path = str(row.get("target_output_path", ""))
     cache_present = _path_exists(cache_path)
-    raw_present = _path_exists(raw_path)
+    if source_type == "rail_timing_capacity_or_sensitivity_source_required":
+        raw_present = _any_path_exists(raw_path)
+    else:
+        raw_present = _path_exists(raw_path)
     target_present = _path_exists(target_path)
     readiness_status, blocking_reason, action = _classify(
         source_type=source_type,
@@ -352,6 +355,18 @@ def _classify(
             "no station-layout, observed transfer, or pedestrian-flow source artifact is present",
             "supply transfer path, walking/crowding, field-observation, or literature evidence",
         )
+    if source_type == "rail_timing_capacity_or_sensitivity_source_required":
+        if cache_present and raw_present and target_present:
+            return (
+                "needs_human_review_rail_service_parameter_source",
+                "",
+                "review rail timing evidence and capacity treatment before final rail parameter claims",
+            )
+        return (
+            "blocked_missing_rail_timing_or_capacity_source",
+            "rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
+            "review rail timing/source-decision packets and supply timing cache, GTFS, or explicit sensitivity treatment",
+        )
     if source_type == "hazard_incident_or_scenario_rule_source_required":
         if cache_present and target_present:
             return (
@@ -404,6 +419,15 @@ def _path_exists(value: str) -> bool:
     if candidate.is_absolute():
         return candidate.exists()
     return (PROJECT_ROOT / candidate).exists()
+
+
+def _any_path_exists(value: str) -> bool:
+    text = str(value or "").strip()
+    if not text:
+        return False
+    if ";" in text:
+        return any(_path_exists(part.strip()) for part in text.split(";") if part.strip())
+    return _path_exists(text)
 
 
 def _counts(values: Sequence[str] | Any) -> dict[str, int]:

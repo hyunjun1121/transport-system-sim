@@ -1,9 +1,10 @@
 {
   "acceptance_gate_closure_candidate_count": 0,
-  "blocking_decision_count": 1,
+  "blocking_decision_count": 2,
   "can_mark_complete": false,
   "claim_boundary": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval. It cannot create data/parameters/parameter_acceptance.csv.",
   "decision_ids": [
+    "rail_service_parameter_source_request",
     "transfer_delay_source_request",
     "background_traffic_bpr_calibration_source_request",
     "demand_arrival_horizon_censoring_source_request",
@@ -12,7 +13,7 @@
     "fleet_vehicle_capacity_source_request"
   ],
   "decision_status_counts": {
-    "blocked_missing_parameter_source_decision": 1,
+    "blocked_missing_parameter_source_decision": 2,
     "needs_human_review_parameter_source_decision": 5
   },
   "human_review_decision_count": 5,
@@ -34,12 +35,14 @@
     "demand_time_censoring": 1,
     "disruption": 1,
     "fleet": 2,
+    "rail": 1,
     "road": 1,
     "transfer": 1
   },
   "parameter_source_decision_recorded": false,
   "publication_ready": false,
   "readiness_status_counts": {
+    "blocked_missing_rail_timing_or_capacity_source": 1,
     "blocked_missing_transfer_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
@@ -54,6 +57,7 @@
     "formal parameter acceptance table is absent",
     "parameter source decisions are pending for weak parameter groups",
     "retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
     "transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
   ],
   "result_scope": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
@@ -64,7 +68,7 @@
     "create data/parameters/parameter_acceptance.csv only if retained weak assumptions are explicitly accepted",
     "rerun parameter, publication-readiness, and final-study audits after decisions are recorded"
   ],
-  "row_count": 6,
+  "row_count": 7,
   "schema_version": 1,
-  "weak_parameter_count": 20
+  "weak_parameter_count": 23
 }

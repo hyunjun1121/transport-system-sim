@@ -1,7 +1,7 @@
 """Parameter evidence priority packet.
 
 This module joins the parameter review, source-request, and source-readiness
-worksheets. The output ranks cross-cutting demand, fleet, transfer,
+worksheets. The output ranks cross-cutting demand, fleet, transfer, rail,
 disruption, and traffic/BPR evidence work without changing parameter values or
 creating weak-parameter acceptance.
 """
@@ -224,12 +224,14 @@ def build_parameter_evidence_priority_manifest(
         },
         "review_items": [
             "resolve blocked transfer evidence before transfer-delay final claims",
+            "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
             "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
             "review demand, fleet, and dispatch scenario assumptions as bounded planning inputs",
             "rerun parameter and final-study audits after source-backed parameter changes",
         ],
         "remaining_blockers": [
             "transfer-delay source evidence is absent",
+            "rail timing/source-decision evidence is incomplete",
             "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
             "medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
             "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",

@@ -334,8 +334,11 @@ def _candidate_options(row: Mapping[str, str]) -> str:
         "retain_as_sensitivity_only",
         "exclude_from_final_claims",
     ]
-    if str(row.get("parameter_groups", "")) == "transfer":
+    group = str(row.get("parameter_groups", ""))
+    if group == "transfer":
         options.insert(1, "supply_transfer_layout_or_pedestrian_flow_source")
+    if group == "rail":
+        options.insert(1, "use_rail_timing_or_gtfs_source_decision_packet")
     return "; ".join(options)
 
 
@@ -347,6 +350,15 @@ def _followup_artifacts(row: Mapping[str, str]) -> str:
     ]
     if str(row.get("parameter_groups", "")) == "fleet":
         values.append("data/parameters/fleet_assumptions.csv")
+    if str(row.get("parameter_groups", "")) == "rail":
+        values.extend(
+            [
+                "data/rail/rail_source_decision_packet.csv",
+                "data/parameters/rail_evidence_review_packet.csv",
+                "data/rail/metro9_capacity_source_extract.csv",
+                "data/rail/metro9_capacity_source_raw.html",
+            ]
+        )
     return "; ".join(value for value in values if value)
 
 
@@ -393,7 +405,7 @@ def _decision_sort_key(row: Mapping[str, str]) -> int:
 
 def _review_priority(row: Mapping[str, str]) -> str:
     groups = str(row.get("parameter_groups", ""))
-    if groups in {"transfer", "disruption", "road"}:
+    if groups in {"transfer", "rail", "disruption", "road"}:
         return "high"
     return "medium"
 

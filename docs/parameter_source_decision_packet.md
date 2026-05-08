@@ -7,15 +7,16 @@ Parameter source-decision packet only; not source evidence, not accepted paramet
 - Publication ready: `false`
 - Can mark complete: `false`
 - Parameter acceptance present: `false`
-- Decision rows: 6
-- Weak parameters covered: 20
-- Blocking decisions: 1
+- Decision rows: 7
+- Weak parameters covered: 23
+- Blocking decisions: 2
 - Human-review decisions: 5
 
 ## Decision Rows
 
 | Request | Group | Status | Options | Required Action |
 | --- | --- | --- | --- | --- |
+| rail_service_parameter_source_request | rail | blocked_missing_parameter_source_decision | replace_with_source_backed_parameter_values; use_rail_timing_or_gtfs_source_decision_packet; retain_as_bounded_scenario_assumption; retain_as_sensitivity_only; exclude_from_final_claims | Choose whether to replace with source-backed values, retain as a bounded scenario assumption, retain as sensitivity-only, or exclude the affected claim from final-study interpretation. |
 | transfer_delay_source_request | transfer | blocked_missing_parameter_source_decision | replace_with_source_backed_parameter_values; supply_transfer_layout_or_pedestrian_flow_source; retain_as_bounded_scenario_assumption; retain_as_sensitivity_only; exclude_from_final_claims | Choose whether to replace with source-backed values, retain as a bounded scenario assumption, retain as sensitivity-only, or exclude the affected claim from final-study interpretation. |
 | background_traffic_bpr_calibration_source_request | road | needs_human_review_parameter_source_decision | replace_with_source_backed_parameter_values; retain_as_bounded_scenario_assumption; retain_as_sensitivity_only; exclude_from_final_claims | Choose whether to replace with source-backed values, retain as a bounded scenario assumption, retain as sensitivity-only, or exclude the affected claim from final-study interpretation. |
 | demand_arrival_horizon_censoring_source_request | demand_time_censoring | needs_human_review_parameter_source_decision | replace_with_source_backed_parameter_values; retain_as_bounded_scenario_assumption; retain_as_sensitivity_only; exclude_from_final_claims | Choose whether to replace with source-backed values, retain as a bounded scenario assumption, retain as sensitivity-only, or exclude the affected claim from final-study interpretation. |

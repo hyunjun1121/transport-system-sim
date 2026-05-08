@@ -207,15 +207,15 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     assert any(
         row["label"] == "parameter_evidence_source_request_packet"
-        and row["rows"] == 6
+        and row["rows"] == 7
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "parameter_source_readiness_packet" and row["rows"] == 6
+        row["label"] == "parameter_source_readiness_packet" and row["rows"] == 7
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "parameter_evidence_priority_packet" and row["rows"] == 6
+        row["label"] == "parameter_evidence_priority_packet" and row["rows"] == 7
         for row in summary["csv_checks"]
     )
     assert any(
@@ -247,7 +247,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "parameter_source_decision_packet" and row["rows"] == 6
+        row["label"] == "parameter_source_decision_packet" and row["rows"] == 7
         for row in summary["csv_checks"]
     )
     assert any(

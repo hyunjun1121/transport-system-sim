@@ -2,9 +2,10 @@
 
 The parameter review packet identifies weak assumptions. This module turns the
 cross-cutting gaps into a source-request worksheet: demand, fleet, dispatch,
-transfer, disruption scenario, and traffic/BPR calibration inputs. It names
-required source packages and review commands, but it does not create accepted
-parameter calibration, weak-parameter acceptance, or publication readiness.
+transfer, rail, disruption scenario, and traffic/BPR calibration inputs. It
+names required source packages and review commands, but it does not create
+accepted parameter calibration, weak-parameter acceptance, or publication
+readiness.
 """
 
 from __future__ import annotations
@@ -16,6 +17,8 @@ from typing import Any, Iterable, Mapping, Sequence
 
 from src.realworld.parameter_review_packet import (
     DEFAULT_PARAMETER_REVIEW_PACKET_PATH,
+    METRO9_CAPACITY_EXTRACT_PATH,
+    METRO9_CAPACITY_RAW_PATH,
     build_parameter_review_rows,
 )
 from src.realworld.parameters import DEFAULT_PARAMETER_DIR
@@ -89,6 +92,11 @@ DISPATCH_TURNAROUND_PARAMETERS: tuple[str, ...] = (
 TRANSFER_PARAMETERS: tuple[str, ...] = (
     "transfer_fixed_delay",
     "transfer_per_passenger_delay",
+)
+RAIL_SERVICE_PARAMETERS: tuple[str, ...] = (
+    "rail_headway",
+    "rail_travel_time",
+    "rail_capacity",
 )
 DISRUPTION_SCENARIO_PARAMETERS: tuple[str, ...] = (
     "disruption_probability",
@@ -311,6 +319,73 @@ def build_parameter_evidence_source_request_rows(
             region_id=resolved_region_id,
         ),
         _request_row(
+            request_id="rail_service_parameter_source_request",
+            parameter_groups="rail",
+            parameters=RAIL_SERVICE_PARAMETERS,
+            evidence_fields="rail_headway;rail_travel_time;rail_capacity",
+            source_type="rail_timing_capacity_or_sensitivity_source_required",
+            source_name=(
+                "Rail timing source packets, station bindings, and Metro9 "
+                "capacity context"
+            ),
+            source_url_or_citation=(
+                "data/rail/rail_timing_source_request_packet.csv; "
+                "data/rail/rail_source_decision_packet.csv; "
+                "data/parameters/rail_evidence_review_packet.csv; "
+                f"{METRO9_CAPACITY_EXTRACT_PATH}; {METRO9_CAPACITY_RAW_PATH}"
+            ),
+            required_external_input=(
+                "reviewed timetable, shortest-path, GTFS, or equivalent rail "
+                "timing evidence plus source-backed or explicitly "
+                "sensitivity-only capacity treatment"
+            ),
+            source_cache_path=(
+                "data/rail/rail_timing_source_request_packet.csv; "
+                "data/rail/rail_fetch_readiness_packet.csv; "
+                "data/rail/rail_evidence_priority_packet.csv; "
+                "data/rail/rail_source_decision_packet.csv; "
+                "data/parameters/rail_evidence_review_packet.csv; "
+                "data/parameters/rail_assumptions.csv; "
+                f"{METRO9_CAPACITY_EXTRACT_PATH}; {METRO9_CAPACITY_RAW_PATH}"
+            ),
+            raw_payload_path=(
+                "data/rail/pilot_rail_timetable_cache.csv; "
+                "data/rail/pilot_rail_shortest_path_cache.csv; "
+                "data/rail/pilot_gtfs.zip"
+            ),
+            acquisition_command=(
+                "use data/rail/rail_timing_source_request_packet.csv for "
+                "reviewed API, GTFS, capacity, or availability acquisition; "
+                "do not synthesize rail service evidence"
+            ),
+            review_or_derivation_command=(
+                "review data\\rail\\rail_source_decision_packet.csv, then run "
+                "the applicable rail derivation command before updating "
+                "data\\parameters\\rail_service_evidence.csv"
+            ),
+            target_output_path=(
+                "data/parameters/rail_service_evidence.csv; "
+                "data/parameters/rail_assumptions.csv; "
+                "data/parameters/parameter_sources.csv"
+            ),
+            expected_source_status=(
+                "reviewed_rail_timing_source_or_explicit_sensitivity_treatment"
+            ),
+            expected_derived_fields="rail_headway;rail_travel_time;rail_capacity",
+            publication_use_status=(
+                "rail parameter source-request support only; not rail-service "
+                "calibration or availability evidence"
+            ),
+            notes=(
+                "Rail-specific packets own timing, GTFS, capacity, and "
+                "availability decisions. This cross-cutting row only keeps the "
+                "weak rail parameters visible in the parameter source workflow."
+            ),
+            review_rows=review_rows,
+            by_parameter=by_parameter,
+            region_id=resolved_region_id,
+        ),
+        _request_row(
             request_id="disruption_scenario_assumption_source_request",
             parameter_groups="disruption",
             parameters=DISRUPTION_SCENARIO_PARAMETERS,
@@ -500,7 +575,7 @@ def write_parameter_evidence_source_request_packet(
             "calibration proof, or final-study publication readiness."
         ),
         "review_items": [
-            "collect reviewed source packages for demand, fleet, dispatch, transfer, disruption, and traffic/BPR assumptions",
+            "collect reviewed source packages for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR assumptions",
             "update parameter_sources.csv or fleet_assumptions.csv only after source review",
             "use parameter_acceptance.csv separately for retained weak assumptions inside conservative claim boundaries",
             "rerun parameter review, publication-readiness, and final-study-readiness audits after source changes",

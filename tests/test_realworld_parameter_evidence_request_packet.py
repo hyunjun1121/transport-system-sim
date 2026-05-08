@@ -27,7 +27,7 @@ def test_parameter_evidence_source_request_rows_are_actionable() -> None:
     rows = build_parameter_evidence_source_request_rows()
     by_id = {row["request_id"]: row for row in rows}
 
-    assert len(rows) == 6
+    assert len(rows) == 7
     assert by_id["demand_arrival_horizon_censoring_source_request"][
         "weak_parameter_count"
     ] == "5"
@@ -52,6 +52,18 @@ def test_parameter_evidence_source_request_rows_are_actionable() -> None:
     assert "transfer_per_passenger_delay" in by_id[
         "transfer_delay_source_request"
     ]["covered_parameters"]
+    assert by_id["rail_service_parameter_source_request"][
+        "weak_parameter_count"
+    ] == "3"
+    assert "rail_capacity" in by_id[
+        "rail_service_parameter_source_request"
+    ]["covered_parameters"]
+    assert "metro9_capacity_source_extract.csv" in by_id[
+        "rail_service_parameter_source_request"
+    ]["source_url_or_citation"]
+    assert "rail_source_decision_packet.csv" in by_id[
+        "rail_service_parameter_source_request"
+    ]["source_cache_path"]
     assert by_id["disruption_scenario_assumption_source_request"][
         "expected_derived_fields"
     ] == (
@@ -112,13 +124,13 @@ def test_write_parameter_evidence_source_request_packet_outputs_manifest() -> No
         with manifest.open("r", encoding="utf-8") as handle:
             written_manifest = json.load(handle)
 
-        assert len(written_rows) == 6
+        assert len(written_rows) == 7
         assert value["publication_ready"] is False
         assert value["region_ids"] == ["songpa_public_demo"]
         assert value["parameter_evidence_gate_closure_candidate_count"] == 0
         assert value["acceptance_gate_closure_candidate_count"] == 0
-        assert value["covered_parameter_count"] == 22
-        assert written_manifest["row_count"] == 6
+        assert value["covered_parameter_count"] == 25
+        assert written_manifest["row_count"] == 7
         assert "does not contain reviewed source observations" in written_manifest[
             "claim_boundary"
         ]

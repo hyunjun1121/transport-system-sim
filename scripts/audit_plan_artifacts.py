@@ -403,22 +403,22 @@ CSV_EXPECTATIONS = (
         / "data"
         / "parameters"
         / "parameter_evidence_source_request_packet.csv",
-        6,
+        7,
     ),
     CsvExpectation(
         "parameter_source_readiness_packet",
         DEFAULT_PARAMETER_SOURCE_READINESS_PACKET_PATH,
-        6,
+        7,
     ),
     CsvExpectation(
         "parameter_source_decision_packet",
         DEFAULT_PARAMETER_SOURCE_DECISION_PACKET_PATH,
-        6,
+        7,
     ),
     CsvExpectation(
         "parameter_evidence_priority_packet",
         DEFAULT_PARAMETER_EVIDENCE_PRIORITY_PACKET_PATH,
-        6,
+        7,
     ),
     CsvExpectation(
         "parameter_acceptance_template",

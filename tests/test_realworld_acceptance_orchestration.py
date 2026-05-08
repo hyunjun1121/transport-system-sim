@@ -612,11 +612,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         parameter_source_decision_snapshot_path.write_text(
             json.dumps(
                 {
-                    "row_count": 6,
-                    "blocking_decision_count": 1,
+                    "row_count": 7,
+                    "blocking_decision_count": 2,
                     "human_review_decision_count": 5,
                     "decision_status_counts": {
-                        "blocked_missing_parameter_source_decision": 1,
+                        "blocked_missing_parameter_source_decision": 2,
                         "needs_human_review_parameter_source_decision": 5,
                     },
                     "publication_ready": False,
@@ -1050,14 +1050,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 1
         )
-        assert snapshots["parameter_source_decision"]["row_count"] == 6
-        assert snapshots["parameter_source_decision"]["blocking_count"] == 1
+        assert snapshots["parameter_source_decision"]["row_count"] == 7
+        assert snapshots["parameter_source_decision"]["blocking_count"] == 2
         assert snapshots["parameter_source_decision"]["human_review_count"] == 5
         assert (
             snapshots["parameter_source_decision"]["status_counts"][
                 "blocked_missing_parameter_source_decision"
             ]
-            == 1
+            == 2
         )
         assert snapshots["road_source_decision"]["row_count"] == 5
         assert snapshots["road_source_decision"]["blocking_count"] == 2

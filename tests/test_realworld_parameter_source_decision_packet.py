@@ -28,22 +28,29 @@ def test_parameter_source_decision_rows_classify_current_requests() -> None:
     rows = build_parameter_source_decision_rows()
     by_id = {row["request_id"]: row for row in rows}
 
-    assert len(rows) == 6
+    assert len(rows) == 7
     assert set(by_id) == {
         "background_traffic_bpr_calibration_source_request",
         "demand_arrival_horizon_censoring_source_request",
         "dispatch_turnaround_source_request",
         "disruption_scenario_assumption_source_request",
         "fleet_vehicle_capacity_source_request",
+        "rail_service_parameter_source_request",
         "transfer_delay_source_request",
     }
     assert by_id["transfer_delay_source_request"]["decision_status"] == (
         "blocked_missing_parameter_source_decision"
     )
+    assert by_id["rail_service_parameter_source_request"]["decision_status"] == (
+        "blocked_missing_parameter_source_decision"
+    )
     assert {
         row["decision_status"]
         for row in rows
-        if row["request_id"] != "transfer_delay_source_request"
+        if row["request_id"] not in {
+            "rail_service_parameter_source_request",
+            "transfer_delay_source_request",
+        }
     } == {"needs_human_review_parameter_source_decision"}
     assert {row["provisional_decision"] for row in rows} == {
         "pending_reviewer_decision"
@@ -54,6 +61,12 @@ def test_parameter_source_decision_rows_classify_current_requests() -> None:
     assert "supply_transfer_layout_or_pedestrian_flow_source" in by_id[
         "transfer_delay_source_request"
     ]["candidate_decision_options"]
+    assert "use_rail_timing_or_gtfs_source_decision_packet" in by_id[
+        "rail_service_parameter_source_request"
+    ]["candidate_decision_options"]
+    assert "metro9_capacity_source_extract.csv" in by_id[
+        "rail_service_parameter_source_request"
+    ]["followup_artifacts"]
     assert "not_operational_claim_boundary" in by_id[
         "background_traffic_bpr_calibration_source_request"
     ]["required_evidence_fields"]
@@ -93,10 +106,10 @@ def test_parameter_source_decision_writer_outputs_artifacts() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert written_manifest["row_count"] == 6
-    assert written_manifest["blocking_decision_count"] == 1
+    assert written_manifest["row_count"] == 7
+    assert written_manifest["blocking_decision_count"] == 2
     assert written_manifest["human_review_decision_count"] == 5
-    assert written_manifest["weak_parameter_count"] == 20
+    assert written_manifest["weak_parameter_count"] == 23
     assert written_manifest["parameter_acceptance_present"] is False
     assert "Parameter Source Decision Packet" in doc_text
 
@@ -122,7 +135,7 @@ def test_shipped_parameter_source_decision_packet_matches_current_outputs() -> N
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 1
+    assert manifest["blocking_decision_count"] == 2
     assert manifest["human_review_decision_count"] == 5
     assert manifest["parameter_source_decision_recorded"] is False
     assert manifest["publication_ready"] is False

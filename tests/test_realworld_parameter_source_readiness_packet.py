@@ -52,6 +52,13 @@ def test_parameter_source_readiness_rows_classify_blockers() -> None:
                     root / "osrm.csv",
                     target,
                 ),
+                _request(
+                    "rail",
+                    "rail_timing_capacity_or_sensitivity_source_required",
+                    target,
+                    f"{root / 'missing_timetable.csv'}; {root / 'missing_gtfs.zip'}",
+                    target,
+                ),
             ]
         )
     by_id = {row["request_id"]: row for row in rows}
@@ -65,6 +72,9 @@ def test_parameter_source_readiness_rows_classify_blockers() -> None:
     assert by_id["demand"]["required_external_input"] == "fixture input for demand"
     assert by_id["transfer"]["readiness_status"] == "blocked_missing_transfer_source"
     assert by_id["traffic"]["readiness_status"] == "blocked_missing_traffic_bpr_source"
+    assert by_id["rail"]["readiness_status"] == (
+        "blocked_missing_rail_timing_or_capacity_source"
+    )
     assert {row["claim_boundary"] for row in rows} == {
         PARAMETER_SOURCE_READINESS_SCOPE
     }

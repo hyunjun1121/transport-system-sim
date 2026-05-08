@@ -1,8 +1,8 @@
 {
-  "blocking_priority_count": 1,
+  "blocking_priority_count": 2,
   "can_mark_complete": false,
   "claim_boundary": "This packet prioritizes existing parameter evidence gaps. It does not create accepted parameter values, does not certify source sufficiency, and does not close parameter, validation, provenance, or final-study gates.",
-  "high_priority_parameter_count": 6,
+  "high_priority_parameter_count": 9,
   "human_review_priority_count": 5,
   "inputs": {
     "parameter_evidence_review_packet": "data/parameters/parameter_evidence_review_packet.csv",
@@ -19,16 +19,18 @@
     "demand_time_censoring": 1,
     "disruption": 1,
     "fleet": 2,
+    "rail": 1,
     "road": 1,
     "transfer": 1
   },
   "priority_status_counts": {
-    "blocked_missing_parameter_source": 1,
+    "blocked_missing_parameter_source": 2,
     "needs_human_review_high_priority_parameter_source": 2,
     "needs_human_review_medium_priority_parameter_source": 3
   },
   "publication_ready": false,
   "readiness_status_counts": {
+    "blocked_missing_rail_timing_or_capacity_source": 1,
     "blocked_missing_transfer_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
@@ -41,6 +43,7 @@
   ],
   "remaining_blockers": [
     "transfer-delay source evidence is absent",
+    "rail timing/source-decision evidence is incomplete",
     "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
@@ -48,11 +51,12 @@
   "result_scope": "Parameter evidence priority packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
   "review_items": [
     "resolve blocked transfer evidence before transfer-delay final claims",
+    "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
     "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
     "review demand, fleet, and dispatch scenario assumptions as bounded planning inputs",
     "rerun parameter and final-study audits after source-backed parameter changes"
   ],
-  "row_count": 6,
+  "row_count": 7,
   "schema_version": 1,
-  "weak_parameter_count": 20
+  "weak_parameter_count": 23
 }
