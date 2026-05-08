@@ -792,6 +792,16 @@ First pilot-smoke artifacts also exist:
   row blocked until a reviewed cache artifact, exclusion, or sensitivity-only
   treatment is recorded outside the packet, and cannot create
   `data/manifests/provenance_acceptance.json`.
+- `src/realworld/source_provenance_decision_packet.py` and
+  `scripts/write_source_provenance_decision_packet.py` now consolidate the
+  source inventory, license/attribution, context-source cache/exclusion, URL
+  remediation, cached snapshot, repository-input, reproducibility-scope, and
+  formal provenance-acceptance boundary decisions into a 7-row reviewer
+  worksheet. The generated
+  `data/manifests/source_provenance_decision_packet.csv`,
+  `data/manifests/source_provenance_decision_manifest.json`, and
+  `docs/source_provenance_decision_packet.md` are reviewer aids only and do
+  not create `data/manifests/provenance_acceptance.json`.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed

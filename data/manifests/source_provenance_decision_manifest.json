@@ -1,0 +1,60 @@
+{
+  "blocking_decision_count": 3,
+  "can_mark_complete": false,
+  "claim_boundary": "Source-provenance decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, not calibrated real-world validation, and not operational routing approval. It cannot create data/manifests/provenance_acceptance.json.",
+  "context_cache_or_exclusion_decision_recorded": false,
+  "decision_ids": [
+    "source_inventory_review_decision",
+    "license_attribution_decision",
+    "context_source_cache_or_exclusion_decision",
+    "url_remediation_decision",
+    "cached_snapshot_repository_scope_decision",
+    "reproducibility_source_scope_decision",
+    "formal_provenance_acceptance_boundary"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_context_cache_or_exclusion_decisions": 1,
+    "blocked_missing_provenance_acceptance_record": 1,
+    "blocked_scaffold_reproducibility_manifest_scope": 1,
+    "needs_human_review_cached_snapshot_and_repository_scope": 1,
+    "needs_human_review_license_attribution": 1,
+    "needs_human_review_source_inventory": 1,
+    "needs_human_review_url_remediation": 1
+  },
+  "human_review_decision_count": 4,
+  "inputs": {
+    "reproducibility_manifest": "data/manifests/reproducibility_manifest.json",
+    "source_context_cache_decision_manifest": "data/manifests/source_context_cache_decision_manifest.json",
+    "source_context_cache_request_manifest": "data/manifests/source_context_cache_request_manifest.json",
+    "source_license_review_manifest": "data/manifests/source_license_review_manifest.json",
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json",
+    "source_provenance_priority_manifest": "data/manifests/source_provenance_priority_manifest.json",
+    "source_url_remediation_manifest": "data/manifests/source_url_remediation_manifest.json",
+    "source_url_review_manifest": "data/manifests/source_url_review_manifest.json"
+  },
+  "license_attribution_decision_recorded": false,
+  "outputs": {
+    "csv": "data/manifests/source_provenance_decision_packet.csv",
+    "doc": "docs/source_provenance_decision_packet.md",
+    "manifest": "data/manifests/source_provenance_decision_manifest.json"
+  },
+  "provenance_decision_recorded": false,
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "remaining_blockers": [
+    "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "reproducibility manifest remains scaffold-only",
+    "data/manifests/provenance_acceptance.json is absent"
+  ],
+  "result_scope": "Source-provenance decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, not calibrated real-world validation, and not operational routing approval.",
+  "review_items": [
+    "confirm retained source inventory and excluded-source scope",
+    "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
+    "resolve context-only source cache, exclusion, or sensitivity-only decisions",
+    "confirm reachable URLs, local citations, and alternate URL candidates",
+    "record final provenance only in data/manifests/provenance_acceptance.json"
+  ],
+  "row_count": 7,
+  "schema_version": 1,
+  "source_inventory_decision_recorded": false
+}

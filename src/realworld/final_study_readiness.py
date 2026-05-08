@@ -124,6 +124,11 @@ from src.realworld.source_context_cache_decision_packet import (
     DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
     DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH,
 )
+from src.realworld.source_provenance_decision_packet import (
+    DEFAULT_SOURCE_PROVENANCE_DECISION_DOC_PATH,
+    DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
+    DEFAULT_SOURCE_PROVENANCE_DECISION_PACKET_PATH,
+)
 from src.realworld.validation_acceptance import summarize_validation_acceptance
 from src.realworld.validation_benchmark_decision_packet import (
     DEFAULT_VALIDATION_BENCHMARK_DECISION_DOC_PATH,
@@ -253,6 +258,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     source_context_cache_decision_manifest = _load_json(
         DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH
     )
+    source_provenance_decision_manifest = _load_json(
+        DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH
+    )
     rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
     rail_evidence_priority_manifest = _load_json(
         DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH
@@ -336,6 +344,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             source_provenance_priority_manifest,
             source_context_cache_request_manifest,
             source_context_cache_decision_manifest,
+            source_provenance_decision_manifest,
         ),
         _parameter_gate(
             parameter_audit,
@@ -1093,6 +1102,7 @@ def _data_provenance_gate(
     source_provenance_priority_manifest: dict[str, Any] | None = None,
     source_context_cache_request_manifest: dict[str, Any] | None = None,
     source_context_cache_decision_manifest: dict[str, Any] | None = None,
+    source_provenance_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest) and bool(
         source_provenance.get("manifest_present", False)
@@ -1106,6 +1116,7 @@ def _data_provenance_gate(
     source_priority = source_provenance_priority_manifest or {}
     source_context_cache = source_context_cache_request_manifest or {}
     source_context_decision = source_context_cache_decision_manifest or {}
+    provenance_decision = source_provenance_decision_manifest or {}
     source_priority_artifacts_present = (
         DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH.exists()
@@ -1121,6 +1132,23 @@ def _data_provenance_gate(
         and DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH.exists()
         and DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_DOC_PATH.exists()
     )
+    source_provenance_decision_artifacts_present = (
+        DEFAULT_SOURCE_PROVENANCE_DECISION_PACKET_PATH.exists()
+        and DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_SOURCE_PROVENANCE_DECISION_DOC_PATH.exists()
+    )
+    provenance_decision_remaining_blockers = _list_value(
+        source_provenance_decision_manifest,
+        "remaining_blockers",
+    )
+    provenance_decision_blocking_count = _dict_int(
+        source_provenance_decision_manifest,
+        "blocking_decision_count",
+    )
+    provenance_decision_human_review_count = _dict_int(
+        source_provenance_decision_manifest,
+        "human_review_decision_count",
+    )
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
@@ -1128,6 +1156,7 @@ def _data_provenance_gate(
         and acceptance_ready
         and not scope_blocked
         and not remaining
+        and source_provenance_decision_artifacts_present
     )
     blockers: list[str] = []
     if not source_provenance_ready:
@@ -1150,6 +1179,20 @@ def _data_provenance_gate(
         f"source context cache decision: {item}"
         for item in source_context_decision.get("remaining_blockers", [])
     )
+    if not source_provenance_decision_artifacts_present:
+        blockers.append("create source-provenance decision artifacts")
+    if not acceptance_ready and provenance_decision_blocking_count:
+        blockers.append(
+            "resolve source-provenance decision blockers before provenance acceptance"
+        )
+        blockers.extend(
+            f"source provenance decision: {item}"
+            for item in provenance_decision_remaining_blockers
+        )
+    if not acceptance_ready and provenance_decision_human_review_count:
+        blockers.append(
+            "review source-provenance decision human-decision items before provenance acceptance"
+        )
     return _gate(
         "data_provenance",
         "Data Provenance",
@@ -1170,6 +1213,8 @@ def _data_provenance_gate(
             "data/manifests/source_context_cache_request_manifest.json",
             "data/manifests/source_context_cache_decision_packet.csv",
             "data/manifests/source_context_cache_decision_manifest.json",
+            "data/manifests/source_provenance_decision_packet.csv",
+            "data/manifests/source_provenance_decision_manifest.json",
             "data/manifests/reproducibility_manifest.json",
             "docs/source_license_review_packet.md",
             "docs/source_url_review_packet.md",
@@ -1177,6 +1222,7 @@ def _data_provenance_gate(
             "docs/source_provenance_priority_packet.md",
             "docs/source_context_cache_request_packet.md",
             "docs/source_context_cache_decision_packet.md",
+            "docs/source_provenance_decision_packet.md",
             "docs/reproducibility_package.md",
             "docs/pilot_region_data_card.md",
             "scripts/audit_source_provenance.py",
@@ -1186,6 +1232,7 @@ def _data_provenance_gate(
             "scripts/write_source_provenance_priority_packet.py",
             "scripts/write_source_context_cache_request_packet.py",
             "scripts/write_source_context_cache_decision_packet.py",
+            "scripts/write_source_provenance_decision_packet.py",
         ],
         blockers=blockers,
         details={
@@ -1347,6 +1394,47 @@ def _data_provenance_gate(
             ),
             "source_context_cache_decision_can_mark_complete": (
                 source_context_decision.get("can_mark_complete", False)
+            ),
+            "source_provenance_decision_artifacts_present": (
+                source_provenance_decision_artifacts_present
+            ),
+            "source_provenance_decision_manifest_present": bool(
+                source_provenance_decision_manifest
+            ),
+            "source_provenance_decision_row_count": provenance_decision.get(
+                "row_count",
+                0,
+            ),
+            "source_provenance_decision_blocking_decision_count": (
+                provenance_decision.get("blocking_decision_count", 0)
+            ),
+            "source_provenance_decision_human_review_decision_count": (
+                provenance_decision.get("human_review_decision_count", 0)
+            ),
+            "source_provenance_decision_status_counts": provenance_decision.get(
+                "decision_status_counts",
+                {},
+            ),
+            "source_provenance_decision_recorded": provenance_decision.get(
+                "provenance_decision_recorded",
+                False,
+            ),
+            "source_provenance_decision_context_cache_or_exclusion_recorded": (
+                provenance_decision.get(
+                    "context_cache_or_exclusion_decision_recorded",
+                    False,
+                )
+            ),
+            "source_provenance_decision_remaining_blockers": (
+                provenance_decision_remaining_blockers
+            ),
+            "source_provenance_decision_publication_ready": provenance_decision.get(
+                "publication_ready",
+                False,
+            ),
+            "source_provenance_decision_can_mark_complete": provenance_decision.get(
+                "can_mark_complete",
+                False,
             ),
             "scope": scope,
             "remaining_upgrade_count": len(remaining),

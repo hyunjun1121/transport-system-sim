@@ -125,6 +125,15 @@ Implemented extension modules now also cover:
   request worksheet that identifies the reviewed extracts, raw responses, or
   explicit exclusion decisions needed before those sources can support final
   provenance claims.
+- `source_context_cache_decision_packet.py`: pending reviewer-decision
+  worksheet that records cache, exclusion, or sensitivity-only treatment for
+  each context-only source before provenance acceptance. It does not fetch or
+  cache source data.
+- `source_provenance_decision_packet.py`: focused provenance-gate decision
+  worksheet that consolidates source inventory, license/attribution,
+  context-source cache/exclusion, URL remediation, cached snapshot,
+  repository-input, reproducibility-scope, and missing formal provenance
+  acceptance decisions without creating `provenance_acceptance.json`.
 - `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching

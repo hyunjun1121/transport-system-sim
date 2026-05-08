@@ -263,6 +263,8 @@
         "data/manifests/source_context_cache_request_manifest.json",
         "data/manifests/source_context_cache_decision_packet.csv",
         "data/manifests/source_context_cache_decision_manifest.json",
+        "data/manifests/source_provenance_decision_packet.csv",
+        "data/manifests/source_provenance_decision_manifest.json",
         "data/manifests/reproducibility_manifest.json",
         "docs/source_license_review_packet.md",
         "docs/source_url_review_packet.md",
@@ -270,6 +272,7 @@
         "docs/source_provenance_priority_packet.md",
         "docs/source_context_cache_request_packet.md",
         "docs/source_context_cache_decision_packet.md",
+        "docs/source_provenance_decision_packet.md",
         "docs/reproducibility_package.md",
         "docs/pilot_region_data_card.md",
         "scripts/audit_source_provenance.py",
@@ -278,7 +281,8 @@
         "scripts/write_source_url_remediation_packet.py",
         "scripts/write_source_provenance_priority_packet.py",
         "scripts/write_source_context_cache_request_packet.py",
-        "scripts/write_source_context_cache_decision_packet.py"
+        "scripts/write_source_context_cache_decision_packet.py",
+        "scripts/write_source_provenance_decision_packet.py"
       ],
       "gate_id": "data_provenance",
       "label": "Data Provenance",
@@ -299,7 +303,12 @@
         "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
         "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
         "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-        "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present"
+        "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+        "resolve source-provenance decision blockers before provenance acceptance",
+        "source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+        "source provenance decision: reproducibility manifest remains scaffold-only",
+        "source provenance decision: data/manifests/provenance_acceptance.json is absent",
+        "review source-provenance decision human-decision items before provenance acceptance"
       ],
       "ready": false
     },

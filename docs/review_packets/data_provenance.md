@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T19:56:20+00:00`
+- Generated at: `2026-05-08T20:14:28+00:00`
 
 ## Decision
 
@@ -21,6 +21,8 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_provenance_priority_manifest.json
 - data/manifests/source_context_cache_request_manifest.json
 - data/manifests/source_context_cache_decision_manifest.json
+- data/manifests/source_provenance_decision_manifest.json
+- docs/source_provenance_decision_packet.md
 - data/manifests/reproducibility_manifest.json
 - data/manifests/current_goal_completion_audit.json
 - docs/reproducibility_package.md
@@ -32,6 +34,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_provenance_priority_packet.csv
 - data/manifests/source_context_cache_request_packet.csv
 - data/manifests/source_context_cache_decision_packet.csv
+- data/manifests/source_provenance_decision_packet.csv
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
 - docs/source_url_remediation_packet.md
@@ -46,6 +49,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - scripts/write_source_provenance_priority_packet.py
 - scripts/write_source_context_cache_request_packet.py
 - scripts/write_source_context_cache_decision_packet.py
+- scripts/write_source_provenance_decision_packet.py
 
 ## Evidence And Source Paths
 
@@ -63,6 +67,8 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_context_cache_request_manifest.json
 - data/manifests/source_context_cache_decision_packet.csv
 - data/manifests/source_context_cache_decision_manifest.json
+- data/manifests/source_provenance_decision_packet.csv
+- data/manifests/source_provenance_decision_manifest.json
 - data/manifests/reproducibility_manifest.json
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
@@ -70,6 +76,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - docs/source_provenance_priority_packet.md
 - docs/source_context_cache_request_packet.md
 - docs/source_context_cache_decision_packet.md
+- docs/source_provenance_decision_packet.md
 - docs/reproducibility_package.md
 - docs/pilot_region_data_card.md
 - scripts/audit_source_provenance.py
@@ -79,6 +86,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - scripts/write_source_provenance_priority_packet.py
 - scripts/write_source_context_cache_request_packet.py
 - scripts/write_source_context_cache_decision_packet.py
+- scripts/write_source_provenance_decision_packet.py
 - docs/review_packets/data_provenance.md
 - data/cache/pilot_region_road_manifest.json
 - cloned_repo_manifest.md
@@ -104,6 +112,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- resolve source-provenance decision blockers before provenance acceptance
+- source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- source provenance decision: reproducibility manifest remains scaffold-only
+- source provenance decision: data/manifests/provenance_acceptance.json is absent
+- review source-provenance decision human-decision items before provenance acceptance
 
 ## Required Actions
 
@@ -126,6 +139,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- resolve source-provenance decision blockers before provenance acceptance
+- source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- source provenance decision: reproducibility manifest remains scaffold-only
+- source provenance decision: data/manifests/provenance_acceptance.json is absent
+- review source-provenance decision human-decision items before provenance acceptance
 
 ## Formal Acceptance Boundary
 
@@ -157,7 +175,12 @@ Formal acceptance artifacts:
     "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present"
+    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "resolve source-provenance decision blockers before provenance acceptance",
+    "source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "source provenance decision: reproducibility manifest remains scaffold-only",
+    "source provenance decision: data/manifests/provenance_acceptance.json is absent",
+    "review source-provenance decision human-decision items before provenance acceptance"
   ],
   "details": {
     "acceptance_path": "data/manifests/provenance_acceptance.json",
@@ -185,6 +208,29 @@ Formal acceptance artifacts:
     },
     "source_license_review_manifest_present": true,
     "source_license_review_packet_present": true,
+    "source_provenance_decision_artifacts_present": true,
+    "source_provenance_decision_blocking_decision_count": 3,
+    "source_provenance_decision_can_mark_complete": false,
+    "source_provenance_decision_context_cache_or_exclusion_recorded": false,
+    "source_provenance_decision_human_review_decision_count": 4,
+    "source_provenance_decision_manifest_present": true,
+    "source_provenance_decision_publication_ready": false,
+    "source_provenance_decision_recorded": false,
+    "source_provenance_decision_remaining_blockers": [
+      "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+      "reproducibility manifest remains scaffold-only",
+      "data/manifests/provenance_acceptance.json is absent"
+    ],
+    "source_provenance_decision_row_count": 7,
+    "source_provenance_decision_status_counts": {
+      "blocked_missing_context_cache_or_exclusion_decisions": 1,
+      "blocked_missing_provenance_acceptance_record": 1,
+      "blocked_scaffold_reproducibility_manifest_scope": 1,
+      "needs_human_review_cached_snapshot_and_repository_scope": 1,
+      "needs_human_review_license_attribution": 1,
+      "needs_human_review_source_inventory": 1,
+      "needs_human_review_url_remediation": 1
+    },
     "source_provenance_manifest_present": true,
     "source_provenance_path": "data/manifests/source_provenance_manifest.json",
     "source_provenance_priority_artifacts_present": true,
@@ -245,6 +291,8 @@ Formal acceptance artifacts:
     "data/manifests/source_context_cache_request_manifest.json",
     "data/manifests/source_context_cache_decision_packet.csv",
     "data/manifests/source_context_cache_decision_manifest.json",
+    "data/manifests/source_provenance_decision_packet.csv",
+    "data/manifests/source_provenance_decision_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
@@ -252,6 +300,7 @@ Formal acceptance artifacts:
     "docs/source_provenance_priority_packet.md",
     "docs/source_context_cache_request_packet.md",
     "docs/source_context_cache_decision_packet.md",
+    "docs/source_provenance_decision_packet.md",
     "docs/reproducibility_package.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
@@ -260,7 +309,8 @@ Formal acceptance artifacts:
     "scripts/write_source_url_remediation_packet.py",
     "scripts/write_source_provenance_priority_packet.py",
     "scripts/write_source_context_cache_request_packet.py",
-    "scripts/write_source_context_cache_decision_packet.py"
+    "scripts/write_source_context_cache_decision_packet.py",
+    "scripts/write_source_provenance_decision_packet.py"
   ],
   "gate_id": "data_provenance",
   "label": "Data Provenance",

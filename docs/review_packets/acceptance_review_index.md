@@ -9,7 +9,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | Gate | Agent | Status | Can Mark Complete | Required Action Count |
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 7 |
-| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 19 |
+| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 24 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 15 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
@@ -61,6 +61,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
 | `Source Context Cache Requests` | 4 | 4 | 0 | 0 | `false` | blocked_missing_context_source_cache=4 |
 | `Source Context Cache Decisions` | 4 | 4 | 0 | 0 | `false` | blocked_missing_context_source_cache_or_exclusion_decision=4 |
+| `Source Provenance Decision` | 7 | 3 | 4 | 0 | `false` | blocked_missing_context_cache_or_exclusion_decisions=1; blocked_missing_provenance_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; +4 more |
 | `Source/License Review` | 11 | 4 | 11 | 0 | `false` | cached_snapshot_pending_review=3; context_only_not_cached=4; repository_input_pending_review=4 |
 | `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
 | `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
@@ -88,7 +89,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -96,8 +97,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=740 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=750 |
+| `Tracked Artifact Audit` | 74 | 74 | 0 | 0 | `false` | agent_definition=1; data_or_manifest=39; documentation=18; +4 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -106,6 +107,7 @@ Priority blockers by packet:
 - `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
 - `Source Context Cache Requests`: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions (+2 more)
 - `Source Context Cache Decisions`: formal provenance acceptance record is absent (+6 more)
+- `Source Provenance Decision`: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions (+2 more)
 - `Source/License Review`: formal provenance acceptance record is absent (+2 more)
 - `Source URL Review`: formal provenance acceptance record is absent (+3 more)
 - `Source URL Remediation`: formal provenance acceptance record is absent (+3 more)
@@ -131,6 +133,7 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction. (+50 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -161,6 +164,11 @@ Priority blockers by packet:
 - data_provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- data_provenance: resolve source-provenance decision blockers before provenance acceptance
+- data_provenance: source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- data_provenance: source provenance decision: reproducibility manifest remains scaffold-only
+- data_provenance: source provenance decision: data/manifests/provenance_acceptance.json is absent
+- data_provenance: review source-provenance decision human-decision items before provenance acceptance
 - graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
@@ -342,6 +350,11 @@ Priority blockers by packet:
 - Data Provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- Data Provenance: resolve source-provenance decision blockers before provenance acceptance
+- Data Provenance: source provenance decision: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- Data Provenance: source provenance decision: reproducibility manifest remains scaffold-only
+- Data Provenance: source provenance decision: data/manifests/provenance_acceptance.json is absent
+- Data Provenance: review source-provenance decision human-decision items before provenance acceptance
 - Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
 - Parameter Evidence: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence
 - Parameter Evidence: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence

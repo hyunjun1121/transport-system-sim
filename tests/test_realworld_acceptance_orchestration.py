@@ -88,6 +88,12 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/source_context_cache_decision_packet.csv" in (
         provenance_agent.review_packet_paths
     )
+    assert "data/manifests/source_provenance_decision_packet.csv" in (
+        provenance_agent.review_packet_paths
+    )
+    assert "data/manifests/source_provenance_decision_manifest.json" in (
+        provenance_agent.reviewed_inputs
+    )
     assert "data/manifests/current_goal_completion_audit.json" in (
         provenance_agent.reviewed_inputs
     )
@@ -197,6 +203,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "publication_readiness_audit" in snapshot_ids
     assert "source_context_cache_request" in snapshot_ids
     assert "source_context_cache_decision" in snapshot_ids
+    assert "source_provenance_decision" in snapshot_ids
     assert "parameter_source_decision" in snapshot_ids
     assert "road_source_decision" in snapshot_ids
     assert "rail_source_decision" in snapshot_ids
@@ -479,6 +486,27 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        source_provenance_decision_snapshot_path = (
+            root / "source_provenance_decision_manifest.json"
+        )
+        source_provenance_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "blocking_decision_count": 3,
+                    "human_review_decision_count": 4,
+                    "decision_status_counts": {
+                        "blocked_missing_provenance_acceptance_record": 1,
+                        "needs_human_review_license_attribution": 1,
+                    },
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "provenance_gate_closure_candidate_count": 0,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         parameter_source_decision_snapshot_path = (
             root / "parameter_source_decision_manifest.json"
         )
@@ -725,6 +753,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     source_context_cache_decision_snapshot_path,
                 ),
                 (
+                    "source_provenance_decision",
+                    "Source Provenance Decision",
+                    source_provenance_decision_snapshot_path,
+                ),
+                (
                     "parameter_source_decision",
                     "Parameter Source Decisions",
                     parameter_source_decision_snapshot_path,
@@ -868,6 +901,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 4
         )
+        assert snapshots["source_provenance_decision"]["blocking_count"] == 3
+        assert snapshots["source_provenance_decision"]["human_review_count"] == 4
+        assert (
+            snapshots["source_provenance_decision"]["status_counts"][
+                "blocked_missing_provenance_acceptance_record"
+            ]
+            == 1
+        )
         assert snapshots["parameter_source_decision"]["row_count"] == 6
         assert snapshots["parameter_source_decision"]["blocking_count"] == 1
         assert snapshots["parameter_source_decision"]["human_review_count"] == 5
@@ -953,6 +994,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Graph-Scale Method Decision`" in index_text
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
+        assert "`Source Provenance Decision`" in index_text
         assert "`Road Source Decisions`" in index_text
         assert "`Rail Source Decisions`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
@@ -966,6 +1008,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "needs_human_review_reduced_corridor_warning_policy=1" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text
+        assert "blocked_missing_provenance_acceptance_record=1" in index_text
         assert "blocked_missing_road_source_decision=2" in index_text
         assert "blocked_missing_rail_source_decision=3" in index_text
         assert "needs_human_review_cached_osrm_scope_policy=1" in index_text
