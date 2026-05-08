@@ -21,7 +21,7 @@ forecasts.
 
 ## Current Audit Snapshot
 
-As of 2026-05-06, the final-study audit reports
+As of 2026-05-08, the final-study audit reports
 `final_study_ready=false`. Three of 15 final gates are ready:
 `real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
 The remaining 12 gates are blocked.
@@ -215,6 +215,7 @@ scripts/
   build_pilot_cache.py     # Preserve current cache or explicitly refresh it
   run_pilot_smoke.py       # Run bus-only and multimodal on pilot cache
   run_full_graph_smoke.py  # Tiny smoke on the full bus-practical graph
+  write_full_graph_runtime_readiness_packet.py # Full-graph runtime review aid
   audit_rail_evidence.py   # Check rail evidence cache status
   write_rail_evidence_review_packet.py # Write rail evidence review packet
   write_rail_timing_source_request_packet.py # Write rail timing source requests
@@ -543,7 +544,13 @@ Implemented pieces:
   boundary.
 - `scripts/run_full_graph_smoke.py` runs a tiny two-policy smoke on the full
   4,608-node / 9,148-edge bus-practical graph without corridor reduction. This
-  is feasibility evidence only, not final full-graph experiment evidence.
+  writes `data/validation/full_graph_smoke_manifest.json` and is feasibility
+  evidence only, not final full-graph experiment evidence.
+- `src.realworld.full_graph_runtime_readiness_packet` and
+  `scripts/write_full_graph_runtime_readiness_packet.py` write a 4-row
+  full-graph runtime/readiness worksheet. It records the full-graph smoke,
+  missing full-profile full-graph outputs, runtime-scope review, and
+  downstream regeneration decisions without closing graph-scale acceptance.
 - `src.realworld.graph_scale_diagnostics` and
   `scripts/run_graph_scale_diagnostics.py` compare the three canonical
   baseline road legs on the full bus-practical graph and the reduced analysis
@@ -711,6 +718,7 @@ Default validation is offline:
 .\.venv\Scripts\python tests\test_realworld_parameters.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_diagnostics.py
+.\.venv\Scripts\python tests\test_realworld_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_review.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_result_comparison.py
 .\.venv\Scripts\python tests\test_realworld_validation_acceptance.py
@@ -779,6 +787,7 @@ OSRM benchmark command:
 .\.venv\Scripts\python scripts\run_pilot_smoke.py
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
+.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py

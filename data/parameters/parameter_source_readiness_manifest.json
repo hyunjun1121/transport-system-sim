@@ -19,6 +19,8 @@
     "road": 1,
     "transfer": 1
   },
+  "source_url_or_citation_present_count": 6,
+  "required_external_input_present_count": 6,
   "blocking_request_count": 1,
   "human_review_request_count": 5,
   "parameter_evidence_gate_closure_candidate_count": 0,

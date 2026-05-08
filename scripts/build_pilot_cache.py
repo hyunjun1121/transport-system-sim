@@ -14,7 +14,7 @@ import json
 from math import cos, radians, sqrt
 from pathlib import Path
 import sys
-from typing import Any
+from typing import Any, Mapping
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -88,12 +88,43 @@ def main() -> None:
         )
 
     save_graphml(graph, cache_path)
-    manifest = {
+    manifest = build_cache_manifest(
+        region=region,
+        region_path=region_path,
+        cache_path=cache_path,
+        graph=graph,
+        source_note=source_note,
+        attribution=attribution,
+        claim_limit=claim_limit,
+    )
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    print(f"wrote {cache_path}")
+    print(f"wrote {manifest_path}")
+
+
+def build_cache_manifest(
+    *,
+    region: dict[str, Any],
+    region_path: Path,
+    cache_path: Path,
+    graph: nx.Graph,
+    source_note: str,
+    attribution: str,
+    claim_limit: str,
+    created_utc: str | None = None,
+) -> dict[str, Any]:
+    """Return cache metadata for review and reproducibility manifests."""
+
+    return {
         "region_id": region["region_id"],
         "cache_path": _relative(cache_path),
         "region_path": _relative(region_path),
         "source": source_note,
-        "created_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "created_utc": created_utc
+        or datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "boundary": _boundary_metadata(region),
+        "tooling": _tooling_metadata(source_note),
         "node_count": graph.number_of_nodes(),
         "edge_count": graph.number_of_edges(),
         "graph_type": graph.__class__.__name__,
@@ -101,10 +132,6 @@ def main() -> None:
         "attribution": attribution,
         "claim_limit": claim_limit,
     }
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(f"wrote {cache_path}")
-    print(f"wrote {manifest_path}")
 
 
 def build_fixture_graph(region: dict[str, Any]) -> nx.MultiDiGraph:
@@ -241,6 +268,43 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"{path} must contain a mapping")
     return value
+
+
+def _boundary_metadata(region: Mapping[str, Any]) -> dict[str, Any]:
+    boundary = region.get("boundary", {})
+    if not isinstance(boundary, Mapping):
+        return {}
+    return {
+        "type": str(boundary.get("type", "")),
+        "north": float(boundary["north"]),
+        "south": float(boundary["south"]),
+        "east": float(boundary["east"]),
+        "west": float(boundary["west"]),
+    }
+
+
+def _tooling_metadata(source_note: str) -> dict[str, str]:
+    metadata = {
+        "builder": "scripts/build_pilot_cache.py",
+        "graph_writer": "src.realworld.osm_network.save_graphml",
+        "python_package": "networkx",
+    }
+    if source_note == "live_overpass_osm_snapshot":
+        metadata.update(
+            {
+                "extractor": "Overpass API",
+                "overpass_url": OVERPASS_URL,
+                "query_filter": "way[\"highway\"](south,west,north,east)",
+            }
+        )
+    else:
+        metadata.update(
+            {
+                "extractor": "repository fixture builder",
+                "query_filter": "curated public/synthetic pilot road edges",
+            }
+        )
+    return metadata
 
 
 def _relative(path: Path) -> str:

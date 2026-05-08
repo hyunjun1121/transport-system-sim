@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -77,6 +77,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - Weak core parameters can determine the policy winner.
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
+- rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
+- rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
+- rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
 
 ## Required Actions
 
@@ -84,6 +87,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
+- rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
+- rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
+- rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
 
 ## Formal Acceptance Boundary
 
@@ -101,13 +107,23 @@ Formal acceptance artifacts:
   "artifact_present": true,
   "blockers": [
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
-    "rail service evidence: derive headway and travel time from the cached records"
+    "rail service evidence: derive headway and travel time from the cached records",
+    "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
+    "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+    "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv"
   ],
   "details": {
     "fetch_readiness_blocking_request_count": 3,
     "fetch_readiness_can_mark_complete": false,
     "fetch_readiness_manifest_present": true,
     "fetch_readiness_publication_ready": false,
+    "fetch_readiness_remaining_blockers": [
+      "rail timing cache files are absent unless source_cache_present is true",
+      "API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+      "this packet is readiness evidence only and cannot create rail_service_evidence.csv"
+    ],
+    "fetch_readiness_required_external_input_present_count": 5,
+    "fetch_readiness_source_url_or_citation_present_count": 5,
     "fetch_readiness_status_counts": {
       "blocked_missing_data_go_kr_key": 2,
       "blocked_missing_reviewed_gtfs_file": 1,

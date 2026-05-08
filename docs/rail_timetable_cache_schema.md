@@ -1,6 +1,6 @@
 # Rail Timetable Cache Schema
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
 This schema defines the local CSV extract expected by
@@ -66,8 +66,8 @@ but does not provide a matched access-to-egress travel time, derive headway only
   --travel-time-min-proxy 20 `
   --capacity-pax-per-train 500 `
   --service-window "weekday selected service window" `
-  --direction "?�행" `
-  --service-day "?�일" `
+  --direction "?�행" `
+  --service-day "?�일" `
   --station-bindings data\parameters\rail_station_bindings.csv
 ```
 
@@ -84,12 +84,12 @@ cache from a reviewed data.go.kr train-schedule API request:
 
 ```powershell
 .\.venv\Scripts\python scripts\fetch_rail_timetable_cache.py `
-  --line-name "9?�선" `
-  --upbdnb-se "?�행" `
-  --wknd-se "?�일" `
-  --station-name "?�림?�공?? `
+  --line-name "9?�선" `
+  --upbdnb-se "?�행" `
+  --wknd-se "?�일" `
+  --station-name "?�림?�공?? `
   --station-code 936 `
-  --access-station-name "?�림?�공?? `
+  --access-station-name "?�림?�공?? `
   --access-station-code 936 `
   --output data\rail\pilot_rail_timetable_cache.csv `
   --raw-output data\rail\pilot_rail_timetable_raw.json

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -48,6 +48,10 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - Upstream input changes invalidate current experiment summaries.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
 - resolve experiment strategy-readiness blockers before experiment acceptance
+- experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated
+- experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted
+- experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
@@ -58,6 +62,10 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - Create experiment_acceptance.json with matching run profile and row counts.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
 - resolve experiment strategy-readiness blockers before experiment acceptance
+- experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated
+- experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted
+- experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
@@ -78,6 +86,10 @@ Formal acceptance artifacts:
   "blockers": [
     "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
     "resolve experiment strategy-readiness blockers before experiment acceptance",
+    "experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated",
+    "experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted",
+    "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance"
@@ -100,6 +112,12 @@ Formal acceptance artifacts:
     "strategy_readiness_human_review_request_count": 5,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
+    "strategy_readiness_remaining_blockers": [
+      "current full-pilot result scope is scaffold or not calibrated",
+      "full-pilot outputs depend on a graph method that is not accepted",
+      "upstream input, road override, parameter, validation, or provenance gates are not accepted",
+      "data/manifests/experiment_acceptance.json is absent"
+    ],
     "strategy_readiness_status_counts": {
       "blocked_graph_scale_dependency": 1,
       "blocked_input_evidence_dependency": 1,

@@ -2,18 +2,19 @@
   "schema_version": 1,
   "claim_boundary": "Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. URL reachability is only a reviewer aid and cannot close data/manifests/provenance_acceptance.json.",
   "result_scope": "Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
-  "row_count": 16,
-  "source_count": 10,
+  "row_count": 17,
+  "source_count": 11,
   "check_mode_counts": {
-    "not_checked": 16
+    "live_http": 13,
+    "not_checked": 4
   },
   "url_status_counts": {
     "no_url_detected": 4,
-    "not_checked": 12
+    "reachable": 13
   },
-  "live_check_performed": false,
+  "live_check_performed": true,
   "unreachable_or_error_count": 0,
-  "requires_reviewer_confirmation_count": 16,
+  "requires_reviewer_confirmation_count": 17,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "can_mark_complete": false,

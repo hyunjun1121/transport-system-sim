@@ -44,6 +44,9 @@ DEFAULT_MULTI_CORRIDOR_FULL_MANIFEST_PATH = (
     / "realworld_pilot"
     / "pilot_multi_corridor_full_manifest.json"
 )
+DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "validation" / "full_graph_smoke_manifest.json"
+)
 
 GRAPH_SCALE_REVIEW_SCOPE = (
     "graph_scale_method_review_packet_not_graph_scale_acceptance"
@@ -86,12 +89,15 @@ def build_graph_scale_review_rows(
     multi_corridor_manifest_path: str | Path = DEFAULT_MULTI_CORRIDOR_MANIFEST_PATH,
     multi_corridor_full_manifest_path: str
     | Path = DEFAULT_MULTI_CORRIDOR_FULL_MANIFEST_PATH,
+    full_graph_smoke_manifest_path: str
+    | Path = DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
 ) -> list[dict[str, str]]:
     """Return graph-scale option review rows from current scaffold artifacts."""
 
     pilot_full = _load_json_object(pilot_full_manifest_path)
     multi_corridor = _load_json_object(multi_corridor_manifest_path)
     multi_corridor_full = _load_json_object(multi_corridor_full_manifest_path)
+    full_graph_smoke = _load_json_object(full_graph_smoke_manifest_path)
     route_summary = _status_summary(_read_csv_rows(route_comparison_path))
     alternate_summary = _status_summary(_read_csv_rows(alternate_route_path))
     multi_summary = _status_summary(_read_csv_rows(multi_corridor_route_path))
@@ -100,7 +106,7 @@ def build_graph_scale_review_rows(
         _current_reduced_row(pilot_full, route_summary, alternate_summary),
         _multi_corridor_row(multi_corridor, multi_summary),
         _multi_corridor_full_row(multi_corridor_full, multi_summary),
-        _full_graph_row(pilot_full),
+        _full_graph_row(pilot_full, full_graph_smoke),
     ]
 
 
@@ -295,9 +301,20 @@ def _multi_corridor_full_row(
     }
 
 
-def _full_graph_row(manifest: Mapping[str, Any]) -> dict[str, str]:
+def _full_graph_row(
+    manifest: Mapping[str, Any],
+    smoke_manifest: Mapping[str, Any],
+) -> dict[str, str]:
     graph_scale = _graph_scale(manifest)
     source = graph_scale["source"]
+    smoke_evidence = "full graph smoke manifest is absent"
+    if smoke_manifest:
+        smoke_evidence = (
+            "full graph smoke manifest reports "
+            f"{smoke_manifest.get('row_count', 0)} rows on "
+            f"{smoke_manifest.get('graph_nodes', '')} nodes / "
+            f"{smoke_manifest.get('graph_edges', '')} edges"
+        )
     return {
         "option_id": "full_bus_practical_graph",
         "option_label": "Full bus-practical cached graph",
@@ -321,8 +338,8 @@ def _full_graph_row(manifest: Mapping[str, Any]) -> dict[str, str]:
         "experiment_row_count": "0",
         "experiment_summary_row_count": "0",
         "available_evidence": (
-            "full graph loads and smoke runs, but full scenario-policy-seed "
-            "outputs have not been generated on the full graph"
+            f"{smoke_evidence}; full scenario-policy-seed outputs have not "
+            "been generated on the full graph"
         ),
         "required_before_final_use": (
             "establish runtime budget, generate full outputs or accepted sample "
@@ -412,6 +429,7 @@ def _display_path(path: Path) -> str:
 
 
 __all__ = [
+    "DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH",
     "DEFAULT_GRAPH_SCALE_REVIEW_MANIFEST_PATH",
     "DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH",
     "DEFAULT_MULTI_CORRIDOR_FULL_MANIFEST_PATH",

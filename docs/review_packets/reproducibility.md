@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -81,17 +81,17 @@ Formal acceptance artifacts:
     "clean_checkout_smoke_passed": true,
     "clean_checkout_smoke_present": true,
     "clean_checkout_smoke_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
-    "current_worktree_smoke_command_count": 24,
+    "current_worktree_smoke_command_count": 25,
     "current_worktree_smoke_failed_count": 0,
     "current_worktree_smoke_passed": true,
     "current_worktree_smoke_present": true,
     "current_worktree_smoke_scope": "current_worktree_smoke_not_clean_checkout",
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 92,
+    "review_packet_git_status_line_count": 164,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,
-    "review_packet_untracked_count": 6,
+    "review_packet_untracked_count": 9,
     "scope": "scaffold-only real-world pilot package",
     "validation_command_count": 43
   },

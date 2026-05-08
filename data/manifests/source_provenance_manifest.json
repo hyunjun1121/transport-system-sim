@@ -117,6 +117,25 @@
                         "notes":  "Derivation, headway-only derivation, and optional key-required fetch code exist, but data/rail/pilot_rail_timetable_cache.csv is intentionally absent until reviewed extraction and raw-response retention."
                     },
                     {
+                        "source_id":  "ktdb_public_transport_gtfs_context",
+                        "source_name":  "KTDB public transport GTFS dataset candidate",
+                        "source_type":  "public_data",
+                        "source_url_or_citation":  "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106; https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3772",
+                        "license_or_terms":  "KTDB data-list and notice context; access route, license, attribution, and redistribution terms require reviewer confirmation before any GTFS artifact is cached or used.",
+                        "snapshot_or_access_date":  "2026-05-08",
+                        "local_artifact_paths":  [
+                                                     "data/rail/rail_timing_source_request_packet.csv",
+                                                     "data/rail/rail_timing_source_request_manifest.json",
+                                                     "docs/rail_timing_source_request_packet.md",
+                                                     "docs/rail_gtfs_cache_schema.md",
+                                                     "scripts/derive_rail_gtfs_evidence.py"
+                                                 ],
+                        "used_for":  "reviewer-facing candidate source for a static GTFS feed that could derive pilot rail headway and station-to-station travel time after reviewed acquisition",
+                        "review_status":  "context_only_not_cached",
+                        "claim_boundary":  "Context-only GTFS source reference; no KTDB GTFS zip or derived timing evidence is cached for final-study rail claims.",
+                        "notes":  "KTDB pages indicate a public-transport GTFS data listing and a 2025 notice for 2023 baseline GTFS information, but the repository still requires reviewed acquisition, cache retention, SHA256 recording, stop/route/service-window review, and derivation before rail evidence can improve."
+                    },
+                    {
                         "source_id":  "metro9_capacity_context",
                         "source_name":  "Seoul Metro Line 9 rolling stock context",
                         "source_type":  "operator_page",
@@ -136,7 +155,7 @@
                         "source_id":  "osrm_public_route_benchmark",
                         "source_name":  "OSRM public demo route benchmark snapshot",
                         "source_type":  "public_router",
-                        "source_url_or_citation":  "https://router.project-osrm.org; https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false",
+                        "source_url_or_citation":  "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false",
                         "license_or_terms":  "OSRM public demo service is a plausibility reference only; not ground truth and not an operational dependency.",
                         "snapshot_or_access_date":  "2026-05-04",
                         "local_artifact_paths":  [

@@ -16,7 +16,7 @@
     "docs/review_packets/manuscript_report_alignment.md"
   ],
   "gate_id": "manuscript_report_alignment",
-  "generated_at": "2026-05-06T06:39:24+00:00",
+  "generated_at": "2026-05-08T09:20:28+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Revise or hold claims until all supporting evidence gates are accepted.",
@@ -24,7 +24,10 @@
     "close evidence gates before final paper/report claims",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "revise figure/table claim boundary from scaffold to accepted study scope",
-    "review or revise claim-alignment overclaim candidates before manuscript acceptance"
+    "review or revise claim-alignment overclaim candidates before manuscript acceptance",
+    "claim alignment: formal manuscript/report acceptance record is absent",
+    "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
+    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
   ],
   "reviewed_inputs": [
     "scripts/audit_publication_readiness.py",
@@ -44,7 +47,10 @@
     "close evidence gates before final paper/report claims",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "revise figure/table claim boundary from scaffold to accepted study scope",
-    "review or revise claim-alignment overclaim candidates before manuscript acceptance"
+    "review or revise claim-alignment overclaim candidates before manuscript acceptance",
+    "claim alignment: formal manuscript/report acceptance record is absent",
+    "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
+    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
   ],
   "schema_version": 1,
   "source_paths": [

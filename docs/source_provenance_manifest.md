@@ -1,6 +1,6 @@
 # Source Provenance Manifest
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
 `data/manifests/source_provenance_manifest.json` is a review packet for the
@@ -30,6 +30,8 @@ The manifest lists source-level provenance for:
 - cached station-code binding source;
 - rail shortest-path and timetable source contexts that still lack cached
   extracts;
+- KTDB/static-GTFS source-candidate context that still lacks a reviewed cached
+  GTFS feed or derived rail timing evidence;
 - optional key-required train-schedule and shortest-path cache fetch helpers
   for reviewed live data.go.kr requests;
 - optional OSRM route benchmark snapshot;

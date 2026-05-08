@@ -188,6 +188,9 @@ def write_validation_review_packet(
         "optional_osrm_benchmark_unpinned_row_count": int(
             (osrm_manifest or {}).get("unpinned_row_count", 0) or 0
         ),
+        "optional_osrm_benchmark_raw_response_file_count": int(
+            (osrm_manifest or {}).get("raw_response_file_count", 0) or 0
+        ),
         "osrm_benchmark_status_counts": _status_counts(osrm_rows)
         if osrm_present
         else {},
@@ -337,13 +340,17 @@ def _osrm_benchmark_row(
             "snapshot_manifest_unpinned_rows": int(
                 (manifest or {}).get("unpinned_row_count", 0) or 0
             ),
+            "snapshot_manifest_raw_response_files": int(
+                (manifest or {}).get("raw_response_file_count", 0) or 0
+            ),
         },
         review_status=review_status,
         review_action=(
             "Review OSRM rows as an optional external plausibility snapshot; "
-            "review the non-acceptance manifest, pin/cache source evidence, "
-            "and document provenance before using them in an "
-            "accepted benchmark strategy."
+            "review the non-acceptance manifest, retain raw response payloads "
+            "when refreshing live rows, pin/cache source evidence, and "
+            "document provenance before using them in an accepted benchmark "
+            "strategy."
         ),
         publication_use_status="optional_external_snapshot_review_support_only",
     )

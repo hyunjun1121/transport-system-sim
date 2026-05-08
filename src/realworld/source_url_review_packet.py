@@ -60,6 +60,13 @@ SOURCE_URL_REVIEW_COLUMNS: tuple[str, ...] = (
     "notes",
 )
 URL_PATTERN = re.compile(r"https?://[^\s\]\)>\"]+", re.IGNORECASE)
+URL_REVIEW_HTTP_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (compatible; transport-system-sim-source-review/1.0)"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.7,en;q=0.6",
+}
 
 
 @dataclass(frozen=True)
@@ -159,6 +166,15 @@ def build_source_url_review_manifest(
         for row in rows
         if row.get("url_status") not in {"not_checked", "reachable", "no_url_detected"}
     )
+    review_items = _review_items(
+        live_check_performed=live_check_performed,
+        unreachable_or_error_count=not_reachable_count,
+        status_counts=status_counts,
+    )
+    remaining_blockers = _remaining_blockers(
+        unreachable_or_error_count=not_reachable_count,
+        status_counts=status_counts,
+    )
     return {
         "schema_version": 1,
         "claim_boundary": (
@@ -187,18 +203,8 @@ def build_source_url_review_manifest(
             "manifest": _display_path(Path(manifest_path)),
             "doc": _display_path(Path(doc_path)),
         },
-        "review_items": [
-            "open each URL and verify it is the intended official or retained source",
-            "record license, attribution, derivative-use, and snapshot decisions outside this packet",
-            "cache context-only public sources or exclude them from final claims",
-            "treat live reachability as volatile and not as source acceptance",
-            "create data/manifests/provenance_acceptance.json only after reviewer decisions",
-        ],
-        "remaining_blockers": [
-            "formal provenance acceptance record is absent",
-            "URL reachability does not certify license compatibility or evidence quality",
-            "context-only URLs still need cached extracts or explicit exclusion from final claims",
-        ],
+        "review_items": review_items,
+        "remaining_blockers": remaining_blockers,
     }
 
 
@@ -270,7 +276,7 @@ def check_url_reachability(url: str, timeout_sec: float = 8.0) -> UrlCheckResult
 
     checked_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     try:
-        request = Request(url, method="HEAD", headers={"User-Agent": "transport-system-sim-source-review/1.0"})
+        request = Request(url, method="HEAD", headers=URL_REVIEW_HTTP_HEADERS)
         with urlopen(request, timeout=timeout_sec) as response:
             return UrlCheckResult(
                 url_status="reachable",
@@ -288,10 +294,11 @@ def check_url_reachability(url: str, timeout_sec: float = 8.0) -> UrlCheckResult
             fallback_reason=f"HEAD returned HTTP {exc.code}: {exc.reason}",
         )
     except (OSError, URLError) as exc:
-        return UrlCheckResult(
-            url_status="network_error",
+        return _fallback_get(
+            url,
+            timeout_sec=timeout_sec,
             checked_at=checked_at,
-            notes=str(exc),
+            fallback_reason=f"HEAD network error: {exc}",
         )
 
 
@@ -303,7 +310,7 @@ def _fallback_get(
     fallback_reason: str,
 ) -> UrlCheckResult:
     try:
-        request = Request(url, method="GET", headers={"User-Agent": "transport-system-sim-source-review/1.0"})
+        request = Request(url, method="GET", headers=URL_REVIEW_HTTP_HEADERS)
         with urlopen(request, timeout=timeout_sec) as response:
             return UrlCheckResult(
                 url_status="reachable",
@@ -383,6 +390,47 @@ def _counts(values: Sequence[str] | Any) -> dict[str, int]:
         key = str(value)
         counts[key] = counts.get(key, 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _review_items(
+    *,
+    live_check_performed: bool,
+    unreachable_or_error_count: int,
+    status_counts: Mapping[str, int],
+) -> list[str]:
+    items = [
+        "open each URL and verify it is the intended official or retained source",
+        "record license, attribution, derivative-use, and snapshot decisions outside this packet",
+    ]
+    if not live_check_performed or status_counts.get("not_checked", 0):
+        items.append("run or document bounded live checks for URL rows before provenance review")
+    if unreachable_or_error_count:
+        items.append("resolve failed URL rows by replacement, caching, exclusion, or reviewer decision")
+    items.extend(
+        [
+            "cache context-only public sources or exclude them from final claims",
+            "treat live reachability as volatile and not as source acceptance",
+            "create data/manifests/provenance_acceptance.json only after reviewer decisions",
+        ]
+    )
+    return items
+
+
+def _remaining_blockers(
+    *,
+    unreachable_or_error_count: int,
+    status_counts: Mapping[str, int],
+) -> list[str]:
+    blockers = [
+        "formal provenance acceptance record is absent",
+        "URL reachability does not certify license compatibility or evidence quality",
+    ]
+    if status_counts.get("not_checked", 0):
+        blockers.append("not-checked URL rows still need live checks or explicit offline-review decisions")
+    if unreachable_or_error_count:
+        blockers.append("unreachable, HTTP-error, or network-error URL rows require remediation review")
+    blockers.append("context-only URLs still need cached extracts or explicit exclusion from final claims")
+    return blockers
 
 
 def _is_true(value: str) -> bool:

@@ -32,13 +32,16 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "rail_evidence",
-  "generated_at": "2026-05-06T06:39:24+00:00",
+  "generated_at": "2026-05-08T09:20:28+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
     "Create road_class_overrides.csv and parameter_acceptance.csv only after review.",
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
-    "rail service evidence: derive headway and travel time from the cached records"
+    "rail service evidence: derive headway and travel time from the cached records",
+    "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
+    "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+    "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv"
   ],
   "reviewed_inputs": [
     "data/parameters/parameter_evidence_review_packet.csv",
@@ -70,7 +73,10 @@
     "Rail timing and capacity evidence remains assumption or sensitivity-only in the scaffold.",
     "Weak core parameters can determine the policy winner.",
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
-    "rail service evidence: derive headway and travel time from the cached records"
+    "rail service evidence: derive headway and travel time from the cached records",
+    "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
+    "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+    "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv"
   ],
   "schema_version": 1,
   "source_paths": [

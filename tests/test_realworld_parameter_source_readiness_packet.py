@@ -59,6 +59,10 @@ def test_parameter_source_readiness_rows_classify_blockers() -> None:
     assert by_id["demand"]["readiness_status"] == (
         "needs_human_review_demand_scenario"
     )
+    assert by_id["demand"]["source_url_or_citation"] == (
+        "fixture citation for demand"
+    )
+    assert by_id["demand"]["required_external_input"] == "fixture input for demand"
     assert by_id["transfer"]["readiness_status"] == "blocked_missing_transfer_source"
     assert by_id["traffic"]["readiness_status"] == "blocked_missing_traffic_bpr_source"
     assert {row["claim_boundary"] for row in rows} == {
@@ -142,8 +146,12 @@ def test_write_parameter_source_readiness_packet_outputs_artifacts() -> None:
         assert len(written_rows) == len(rows)
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
+        assert value["source_url_or_citation_present_count"] == len(rows)
+        assert value["required_external_input_present_count"] == len(rows)
         assert written_manifest["parameter_evidence_gate_closure_candidate_count"] == 0
         assert "Parameter Source Readiness Packet" in text
+        assert "fixture citation for fleet" in text
+        assert "fixture input for fleet" in text
 
     print("PASS: parameter source-readiness writer emits artifacts")
 
@@ -175,6 +183,10 @@ def test_shipped_parameter_source_readiness_packet_matches_current_requests() ->
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == PARAMETER_SOURCE_READINESS_SCOPE
     assert manifest["parameter_evidence_gate_closure_candidate_count"] == 0
+    assert manifest["source_url_or_citation_present_count"] == len(rows)
+    assert manifest["required_external_input_present_count"] == len(rows)
+    assert all(row["source_url_or_citation"] for row in written_rows)
+    assert all(row["required_external_input"] for row in written_rows)
 
     print("PASS: shipped parameter source-readiness packet matches current requests")
 
@@ -194,6 +206,8 @@ def _request(
         "weak_parameter_count": "2",
         "source_type": source_type,
         "source_name": request_id,
+        "source_url_or_citation": f"fixture citation for {request_id}",
+        "required_external_input": f"fixture input for {request_id}",
         "source_cache_path": str(cache_path),
         "raw_payload_path": str(raw_path),
         "target_output_path": str(target_path),

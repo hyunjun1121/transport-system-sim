@@ -98,7 +98,8 @@ Current reproducible artifacts are scaffold-only:
 - route plausibility sanity checks
 - optional OSRM route benchmark snapshot
 - optional OSRM route benchmark manifest that records CSV and summary
-  checksums, query URLs, source-status counts, and non-acceptance claim limits
+  checksums, query URLs, source-status counts, raw-payload inventory, and
+  non-acceptance claim limits
 - route-level accessibility-loss diagnostics for current baseline road legs
 - route-level road-evidence exposure diagnostics linking weak speed, capacity,
   disruption, and connector assumptions to canonical route candidates
@@ -197,6 +198,7 @@ Run from the repository root on Windows PowerShell:
 .\.venv\Scripts\python scripts\run_pilot_smoke.py
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
+.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
@@ -219,7 +221,7 @@ Run from the repository root on Windows PowerShell:
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py
 .\.venv\Scripts\python scripts\run_accessibility_loss_analysis.py
-.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
+.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py --raw-response-dir data\validation\osrm_route_raw
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_review_packet.py
@@ -251,10 +253,16 @@ Optional live external-router snapshot:
 .\.venv\Scripts\python scripts\run_osrm_route_benchmark.py
 ```
 
+Optional live external-router snapshot with retained raw payloads:
+
+```powershell
+.\.venv\Scripts\python scripts\run_osrm_route_benchmark.py --raw-output-dir data\validation\osrm_route_raw
+```
+
 Offline OSRM snapshot manifest:
 
 ```powershell
-.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
+.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py --raw-response-dir data\validation\osrm_route_raw
 ```
 
 Optional live rail shortest-path cache fetch:
@@ -440,6 +448,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python tests\test_realworld_graph_scale_diagnostics.py
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
+.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
@@ -464,7 +473,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
-.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
+.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py --raw-response-dir data\validation\osrm_route_raw
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\audit_plan_artifacts.py
@@ -549,7 +558,8 @@ git diff --check
 | `data/validation/external_route_benchmarks.csv` | Offline fallback route benchmark checks | deterministic fallback plausibility evidence |
 | `data/validation/external_route_benchmarks_osrm.csv` | Optional OSRM route benchmark snapshot | external-router plausibility evidence, not ground truth |
 | `data/validation/osrm_route_benchmark_summary.md` | Optional OSRM benchmark summary | records status rows and claim limits |
-| `data/validation/osrm_route_benchmark_manifest.json` | Optional OSRM benchmark manifest | CSV/summary SHA256, query URLs, source-status counts, and non-acceptance boundary |
+| `data/validation/osrm_route_benchmark_manifest.json` | Optional OSRM benchmark manifest | CSV/summary SHA256, query URLs, source-status counts, raw-payload inventory, and non-acceptance boundary |
+| `data/validation/osrm_route_raw/` | Optional retained OSRM raw responses | traceability support only when live capture is run with `--raw-output-dir`; absent or empty raw payloads block cached-evidence treatment |
 | `data/validation/accessibility_loss.csv` | Directed edge-removal accessibility-loss diagnostics | scaffold route-fragility evidence, not calibrated |
 | `data/validation/accessibility_loss_summary.md` | Accessibility-loss diagnostic summary | claim-boundary and review notes |
 | `data/validation/canonical_route_road_evidence_exposure.csv` | Route-level road-evidence exposure worksheet | 76 rows linking weak road evidence to canonical route candidates; review aid only |
@@ -572,8 +582,8 @@ git diff --check
 | `data/validation/graph_scale_review_manifest.json` | Graph-scale review-packet manifest | non-acceptance option summary and review items |
 | `data/validation/graph_scale_result_comparison.csv` | Current full-pilot versus full-profile multi-corridor candidate metric deltas | 819 review rows, not graph-scale acceptance |
 | `data/validation/graph_scale_result_comparison_manifest.json` | Graph-scale result-comparison manifest | status counts and review items; non-acceptance |
-| `data/validation/sensitivity_review_packet.csv` | Sensitivity diagnostic review worksheet | 6 rows summarizing Morris structural readiness, blank/non-finite indices, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
-| `data/validation/sensitivity_review_manifest.json` | Sensitivity review manifest | non-acceptance summary with 168 index-issue rows and 4,272 zero `mu_star` rows |
+| `data/validation/sensitivity_review_packet.csv` | Sensitivity diagnostic review worksheet | 6 rows summarizing Morris structural readiness, explicitly unavailable index rows, unexplained missing/non-finite index checks, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
+| `data/validation/sensitivity_review_manifest.json` | Sensitivity review manifest | non-acceptance summary with 0 unexplained index-issue rows, 168 explicitly unavailable index rows, and 4,272 zero `mu_star` rows |
 | `data/validation/sensitivity_strategy_readiness_packet.csv` | Sensitivity strategy-readiness worksheet | 7 blocker/human-review rows; not sensitivity acceptance |
 | `data/manifests/experiment_strategy_readiness_packet.csv` | Experiment strategy-readiness worksheet | 9 blocker/human-review rows; not experiment acceptance |
 | `data/scenarios/disruption_scenarios.csv` | Structured disruption scenarios | scenario-based definitions |
@@ -625,7 +635,7 @@ git diff --check
 | `scripts/write_reproducibility_review_packet.py` | Reproducibility review packet generator | review support only, not clean-checkout acceptance |
 | `scripts/run_reproducibility_smoke.py` | Current-worktree reproducibility smoke runner | bounded execution evidence only, not clean-checkout acceptance |
 | `scripts/run_clean_checkout_smoke.py` | Bounded clean source-checkout smoke runner | clones the committed source tree and runs a minimal smoke profile; not full clean-environment acceptance |
-| `scripts/write_osrm_snapshot_manifest.py` | OSRM snapshot manifest generator | review support only, not validation acceptance |
+| `scripts/write_osrm_snapshot_manifest.py` | OSRM snapshot manifest generator | records CSV, summary, query URL, source-status, and optional raw-payload inventory; review support only, not validation acceptance |
 | `scripts/write_route_road_evidence_exposure.py` | Route road-evidence exposure generator | review support only, not road calibration or validation acceptance |
 | `scripts/audit_road_evidence_diagnostics.py` | Road-class evidence diagnostic audit | ranks current cached OSM road classes for speed/capacity/disruption review |
 | `scripts/write_road_speed_evidence.py` | Cached OSM maxspeed candidate table generator | review support only, not accepted road-speed calibration |
@@ -675,8 +685,9 @@ Allowed:
   seed matrices before those outputs are accepted.
 - The optional OSRM snapshot provides route-plausibility evidence. The current
   snapshot has 3 pass rows after bus-practical road filtering, and the OSRM
-  manifest records 3 live/unpinned rows plus query URLs and checksums. It is
-  not calibration or ground truth.
+  manifest records 3 cached external-router rows, 0 unpinned rows, 3 retained
+  raw response files, query URLs, and checksums. It is not calibration or
+  ground truth.
 - The graph-scale route parity diagnostic has 3 pass rows for the canonical
   baseline road legs, but it is not final graph-scale acceptance.
 - The graph-scale alternate-route diagnostic has 9 rows: 3 rank-1 pass rows
@@ -775,8 +786,9 @@ Not allowed:
 - Decide whether the current optional OSRM snapshot is enough for the
   publication schedule or whether another cached benchmark from Valhalla,
   routingpy, R5/OpenTripPlanner, UXsim, or an equivalent tool is needed.
-- Review `data/validation/osrm_route_benchmark_manifest.json` before using
-  optional OSRM rows in any validation-acceptance decision.
+- Review `data/validation/osrm_route_benchmark_manifest.json`, including raw
+  response retention status, before using optional OSRM rows in any
+  validation-acceptance decision.
 - Use `data/validation/validation_review_packet.csv` as the worksheet for
   internal plausibility warnings, fallback benchmark warnings, optional OSRM
   snapshot review, accessibility-loss coverage, route-level road-evidence

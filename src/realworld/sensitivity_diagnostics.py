@@ -11,6 +11,7 @@ import csv
 import json
 import math
 from pathlib import Path
+from collections.abc import Iterable
 from typing import Any, Mapping
 
 from src.realworld.sensitivity import (
@@ -22,6 +23,9 @@ from src.realworld.sensitivity import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MORRIS_INDEX_COLUMNS: tuple[str, ...] = ("mu", "mu_star", "sigma", "mu_star_conf")
+UNAVAILABLE_INDEX_STATUSES: frozenset[str] = frozenset(
+    {"unavailable_nonfinite_metric_outputs"}
+)
 
 
 def audit_morris_sensitivity_diagnostics(
@@ -66,13 +70,22 @@ def audit_morris_sensitivity_diagnostics(
             f"{len(rows)} != {expected_from_manifest}"
         )
 
-    index_issue_counts = _index_issue_counts(rows)
-    rows_with_index_issues = _rows_with_index_issues(rows)
+    index_issue_counts = _index_issue_counts(rows, include_unavailable=False)
+    all_index_issue_counts = _index_issue_counts(rows, include_unavailable=True)
+    rows_with_index_issues = _rows_with_index_issues(rows, include_unavailable=False)
+    all_rows_with_index_issues = _rows_with_index_issues(rows, include_unavailable=True)
+    unavailable_index_row_count = _unavailable_index_row_count(rows)
+    unavailable_index_status_counts = _counts(
+        row.get("index_status", "")
+        for row in rows
+        if _is_unavailable_index_row(row)
+    )
     zero_mu_star_count = _zero_mu_star_count(rows)
     review_items = _review_items(
         manifest=manifest,
         index_issue_counts=index_issue_counts,
         rows_with_index_issues=rows_with_index_issues,
+        unavailable_index_row_count=unavailable_index_row_count,
         zero_mu_star_count=zero_mu_star_count,
     )
 
@@ -90,7 +103,11 @@ def audit_morris_sensitivity_diagnostics(
         "scenario_count": _unique_count(rows, "scenario_id"),
         "parameter_count": _unique_count(rows, "parameter_id"),
         "index_issue_counts": index_issue_counts,
+        "all_index_issue_counts": all_index_issue_counts,
         "rows_with_index_issues": rows_with_index_issues,
+        "all_rows_with_index_issues": all_rows_with_index_issues,
+        "unavailable_index_row_count": unavailable_index_row_count,
+        "unavailable_index_status_counts": unavailable_index_status_counts,
         "zero_mu_star_count": zero_mu_star_count,
         "analysis_graph_reduced": bool(manifest.get("analysis_graph_reduced", False)),
         "result_scope": str(manifest.get("result_scope", "")),
@@ -117,7 +134,11 @@ def _missing_result(
         "manifest_present": manifest_file.exists(),
         "row_count": 0,
         "index_issue_counts": {column: 0 for column in MORRIS_INDEX_COLUMNS},
+        "all_index_issue_counts": {column: 0 for column in MORRIS_INDEX_COLUMNS},
         "rows_with_index_issues": 0,
+        "all_rows_with_index_issues": 0,
+        "unavailable_index_row_count": 0,
+        "unavailable_index_status_counts": {},
         "zero_mu_star_count": 0,
         "claim_boundary": (
             "Morris diagnostics cannot run until both summary and manifest "
@@ -143,23 +164,62 @@ def _read_manifest(path: Path) -> dict[str, Any]:
     return value
 
 
-def _index_issue_counts(rows: list[Mapping[str, str]]) -> dict[str, int]:
+def _index_issue_counts(
+    rows: list[Mapping[str, str]],
+    *,
+    include_unavailable: bool,
+) -> dict[str, int]:
     return {
-        column: sum(_is_missing_or_nonfinite(row.get(column, "")) for row in rows)
+        column: sum(
+            _row_has_index_issue(row, column, include_unavailable=include_unavailable)
+            for row in rows
+        )
         for column in MORRIS_INDEX_COLUMNS
     }
 
 
-def _rows_with_index_issues(rows: list[Mapping[str, str]]) -> int:
+def _rows_with_index_issues(
+    rows: list[Mapping[str, str]],
+    *,
+    include_unavailable: bool,
+) -> int:
     return sum(
-        any(_is_missing_or_nonfinite(row.get(column, "")) for column in MORRIS_INDEX_COLUMNS)
+        any(
+            _row_has_index_issue(
+                row,
+                column,
+                include_unavailable=include_unavailable,
+            )
+            for column in MORRIS_INDEX_COLUMNS
+        )
         for row in rows
     )
+
+
+def _row_has_index_issue(
+    row: Mapping[str, str],
+    column: str,
+    *,
+    include_unavailable: bool,
+) -> bool:
+    if _is_unavailable_index_row(row) and not include_unavailable:
+        return False
+    return _is_missing_or_nonfinite(row.get(column, ""))
+
+
+def _unavailable_index_row_count(rows: list[Mapping[str, str]]) -> int:
+    return sum(_is_unavailable_index_row(row) for row in rows)
+
+
+def _is_unavailable_index_row(row: Mapping[str, str]) -> bool:
+    return str(row.get("index_status", "")).strip() in UNAVAILABLE_INDEX_STATUSES
 
 
 def _zero_mu_star_count(rows: list[Mapping[str, str]]) -> int:
     count = 0
     for row in rows:
+        if _is_unavailable_index_row(row):
+            continue
         value = _optional_float(row.get("mu_star", ""))
         if value is not None and value == 0.0:
             count += 1
@@ -205,11 +265,22 @@ def _unique_count(rows: list[Mapping[str, str]], column: str) -> int:
     return len({str(row.get(column, "")).strip() for row in rows if str(row.get(column, "")).strip()})
 
 
+def _counts(values: Iterable[object]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for value in values:
+        key = str(value).strip()
+        if not key:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+    return dict(sorted(counts.items()))
+
+
 def _review_items(
     *,
     manifest: Mapping[str, Any],
     index_issue_counts: Mapping[str, int],
     rows_with_index_issues: int,
+    unavailable_index_row_count: int,
     zero_mu_star_count: int,
 ) -> list[str]:
     items: list[str] = []
@@ -223,9 +294,14 @@ def _review_items(
             "review zero mu_star rows as potential no-variation or inactive-parameter cases "
             f"({zero_mu_star_count} rows)"
         )
-    if any(index_issue_counts.values()):
+    if rows_with_index_issues:
         items.append(
             "document how blank Morris indices are handled in tables, figures, and manuscript text"
+        )
+    if unavailable_index_row_count:
+        items.append(
+            "review explicitly unavailable Morris index rows caused by non-finite metric outputs "
+            f"({unavailable_index_row_count} rows)"
         )
     if bool(manifest.get("analysis_graph_reduced", False)):
         items.append(

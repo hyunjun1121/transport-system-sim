@@ -1,9 +1,9 @@
 # Graph-Scale Route Diagnostics
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
-Date: 2026-05-06
+Date: 2026-05-08
 
 ## Purpose
 
@@ -35,7 +35,11 @@ Current comparison output:
 | `data/validation/graph_scale_alternate_routes_summary.md` | Generated alternate-route summary with pass/warn/fail counts and claim boundary. |
 | `data/validation/graph_scale_multi_corridor_routes.csv` | Stable CSV table comparing the same top full-graph route candidates against a candidate multi-corridor graph. |
 | `data/validation/graph_scale_multi_corridor_routes_summary.md` | Generated multi-corridor candidate summary with pass/warn/fail counts and claim boundary. |
+| `data/validation/full_graph_smoke_manifest.json` | Two-row full bus-practical graph smoke manifest. |
+| `data/validation/full_graph_runtime_readiness_packet.csv` | Full-graph runtime/readiness worksheet for graph-scale review. |
 | `scripts/run_graph_scale_diagnostics.py` | Regenerates the CSV and summary from the cached pilot inputs. |
+| `scripts/run_full_graph_smoke.py` | Regenerates the full-graph smoke manifest. |
+| `scripts/write_full_graph_runtime_readiness_packet.py` | Regenerates the full-graph runtime/readiness worksheet. |
 | `src/realworld/graph_scale_diagnostics.py` | Implements route comparison, status classification, and CSV row generation. |
 
 The current generated table has 3 rows:
@@ -81,6 +85,19 @@ shortest-time path, but it omits the next-best full-graph route candidates.
 That is useful review evidence because it makes corridor-abstraction
 uncertainty visible. It is not evidence that the omitted alternates are
 operationally irrelevant.
+
+## Full-Graph Runtime Smoke
+
+The current full bus-practical graph smoke runs the no-disruption case for
+`bus_only` and `baseline_multimodal` on the unreduced 4,608-node / 9,148-edge
+graph. The generated `data/validation/full_graph_smoke_manifest.json` records
+2 rows and `analysis_graph_reduced=false`.
+
+The companion `data/validation/full_graph_runtime_readiness_packet.csv` has 4
+review rows. It records the smoke as feasibility evidence, keeps full-profile
+full-graph outputs blocked because `results/realworld_pilot/pilot_full_graph_manifest.json`
+is absent, and flags downstream regeneration as unresolved if reviewers select
+full-graph execution.
 
 ## Multi-Corridor Candidate Diagnostic
 

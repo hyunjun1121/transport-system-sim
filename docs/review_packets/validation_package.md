@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Validation Benchmark Strategy Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -69,6 +69,8 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - Plausibility checks cannot prove operational accuracy.
 - create an explicit validation acceptance record after benchmark-strategy review
 - resolve validation strategy-readiness blockers before validation acceptance
+- validation strategy readiness: validation_acceptance.json is absent
+- validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 
@@ -78,6 +80,8 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - Create validation_acceptance.json after benchmark-strategy review.
 - create an explicit validation acceptance record after benchmark-strategy review
 - resolve validation strategy-readiness blockers before validation acceptance
+- validation strategy readiness: validation_acceptance.json is absent
+- validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 
@@ -97,6 +101,8 @@ Formal acceptance artifacts:
   "blockers": [
     "create an explicit validation acceptance record after benchmark-strategy review",
     "resolve validation strategy-readiness blockers before validation acceptance",
+    "validation strategy readiness: validation_acceptance.json is absent",
+    "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
   ],
@@ -104,23 +110,29 @@ Formal acceptance artifacts:
     "acceptance_path": "data/manifests/validation_acceptance.json",
     "acceptance_record_present": false,
     "benchmark_strategy": "",
+    "osrm_raw_response_file_count": 3,
+    "osrm_unpinned_row_count": 0,
     "review_packet_acceptance_gate_closure_candidate_count": 0,
     "review_packet_osrm_manifest_present": true,
     "review_packet_osrm_present": true,
-    "review_packet_osrm_unpinned_row_count": 3,
+    "review_packet_osrm_unpinned_row_count": 0,
     "review_packet_publication_ready": false,
     "review_packet_row_count": 7,
     "route_road_evidence_exposure_row_count": 76,
-    "strategy_readiness_blocking_request_count": 3,
+    "strategy_readiness_blocking_request_count": 2,
     "strategy_readiness_can_mark_complete": false,
-    "strategy_readiness_human_review_request_count": 4,
+    "strategy_readiness_human_review_request_count": 5,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
+    "strategy_readiness_remaining_blockers": [
+      "validation_acceptance.json is absent",
+      "route-level road evidence exposure remains weak until road evidence gates close"
+    ],
     "strategy_readiness_status_counts": {
       "blocked_missing_validation_acceptance_record": 1,
-      "blocked_unpinned_external_route_snapshot": 1,
       "blocked_weak_route_road_evidence_exposure": 1,
       "needs_human_review_accessibility_disconnections": 1,
+      "needs_human_review_external_route_snapshot": 1,
       "needs_human_review_fallback_benchmark_warnings": 1,
       "needs_human_review_internal_plausibility_warnings": 1,
       "needs_human_review_validation_summary_scope": 1

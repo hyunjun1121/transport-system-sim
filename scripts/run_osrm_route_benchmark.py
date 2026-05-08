@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import argparse
 import csv
+from datetime import datetime, timezone
+import json
 from pathlib import Path
 import sys
+from typing import Any, Mapping
 
 import yaml
 
@@ -24,6 +27,7 @@ from src.realworld.plausibility import (
 )
 from src.realworld.osrm_snapshot_manifest import (
     DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
+    DEFAULT_OSRM_RAW_RESPONSE_DIR,
     write_osrm_snapshot_manifest,
 )
 
@@ -45,6 +49,7 @@ def main(argv: list[str] | None = None) -> int:
         manifest_path=args.manifest_path,
         base_url=args.base_url,
         timeout_s=args.timeout,
+        raw_output_dir=args.raw_output_dir,
     )
     print(
         "Pilot OSRM benchmark outputs written: "
@@ -65,16 +70,37 @@ def run_osrm_route_benchmark(
     manifest_path: str | Path = DEFAULT_MANIFEST_PATH,
     base_url: str = DEFAULT_OSRM_BASE_URL,
     timeout_s: float = 20.0,
+    raw_output_dir: str | Path | None = None,
 ) -> dict[str, object]:
     """Call OSRM once per canonical route and store comparison rows."""
 
     region = _load_yaml_mapping(Path(region_path))
     road_graph = load_graphml(cache_path, normalize=True)
     simulator_graph = build_simulator_graph(road_graph, region)
+    captured_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    raw_dir = Path(raw_output_dir) if raw_output_dir else None
+    snapshot_reference_version = (
+        _snapshot_reference_version(captured_at)
+        if raw_dir is not None
+        else "live_snapshot_unpinned"
+    )
+    source_class = (
+        "cached_external_router_snapshot"
+        if raw_dir is not None
+        else "live_external_router_snapshot"
+    )
+    payload_callback = (
+        _raw_payload_writer(raw_dir, captured_at, snapshot_reference_version)
+        if raw_dir is not None
+        else None
+    )
     benchmarks = build_osrm_route_benchmarks(
         simulator_graph,
         base_url=base_url,
         timeout_s=timeout_s,
+        source_class=source_class,
+        reference_version=snapshot_reference_version,
+        payload_callback=payload_callback,
     )
     records = evaluate_external_route_benchmarks(
         simulator_graph,
@@ -110,6 +136,7 @@ def run_osrm_route_benchmark(
         benchmark_path=output,
         summary_path=summary,
         manifest_path=manifest_path,
+        raw_response_dir=raw_dir if raw_dir is not None else DEFAULT_OSRM_RAW_RESPONSE_DIR,
     )
     return {
         "row_count": len(records),
@@ -118,6 +145,7 @@ def run_osrm_route_benchmark(
         "summary_path": str(summary),
         "manifest_path": str(manifest_path),
         "manifest_sha256": manifest["csv_sha256"],
+        "raw_output_dir": "" if raw_dir is None else str(raw_dir),
     }
 
 
@@ -202,6 +230,16 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     )
     parser.add_argument("--base-url", default=DEFAULT_OSRM_BASE_URL)
     parser.add_argument("--timeout", type=float, default=20.0)
+    parser.add_argument(
+        "--raw-output-dir",
+        type=Path,
+        default=None,
+        help=(
+            "Optional directory for retained raw OSRM JSON responses. "
+            "Supplying this improves reviewer traceability but does not "
+            "create validation acceptance."
+        ),
+    )
     return parser.parse_args(argv)
 
 
@@ -219,6 +257,47 @@ def _display_path(path: str | Path) -> str:
         return filepath.resolve().relative_to(ROOT).as_posix()
     except ValueError:
         return filepath.as_posix()
+
+
+def _snapshot_reference_version(captured_at_utc: str) -> str:
+    compact = (
+        captured_at_utc.replace("+00:00", "Z")
+        .replace("-", "")
+        .replace(":", "")
+    )
+    return f"cached_osrm_snapshot_{compact}"
+
+
+def _raw_payload_writer(
+    raw_dir: Path,
+    captured_at_utc: str,
+    snapshot_reference_version: str,
+):
+    raw_dir.mkdir(parents=True, exist_ok=True)
+
+    def write_payload(route, url: str, payload: Mapping[str, Any]) -> None:
+        target = raw_dir / f"{route.check_id}.json"
+        value = {
+            "schema_version": 1,
+            "captured_at_utc": captured_at_utc,
+            "route_check_id": route.check_id,
+            "subject": f"{route.source}->{route.target}",
+            "route_label": route.label,
+            "query_url": url,
+            "snapshot_reference_version": snapshot_reference_version,
+            "claim_boundary": (
+                "Raw OSRM payload retained for route-plausibility review only; "
+                "not validation acceptance, not calibrated traffic evidence, "
+                "and not operational routing guidance."
+            ),
+            "payload": payload,
+        }
+        target.write_text(
+            json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+    return write_payload
 
 
 if __name__ == "__main__":

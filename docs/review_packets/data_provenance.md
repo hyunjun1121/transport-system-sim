@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -98,30 +98,30 @@ Formal acceptance artifacts:
     "source_license_review_packet_present": true,
     "source_provenance_manifest_present": true,
     "source_provenance_path": "data/manifests/source_provenance_manifest.json",
-    "source_provenance_record_count": 10,
+    "source_provenance_record_count": 11,
     "source_provenance_review_status_counts": {
       "cached_snapshot_pending_review": 3,
-      "context_only_not_cached": 3,
+      "context_only_not_cached": 4,
       "repository_input_pending_review": 4
     },
     "source_url_can_mark_complete": false,
-    "source_url_live_check_performed": false,
+    "source_url_live_check_performed": true,
     "source_url_publication_ready": false,
     "source_url_remediation_blocking_issue_count": 0,
     "source_url_remediation_can_mark_complete": false,
-    "source_url_remediation_live_check_required_count": 12,
+    "source_url_remediation_live_check_required_count": 0,
     "source_url_remediation_manifest_present": true,
     "source_url_remediation_publication_ready": false,
-    "source_url_remediation_row_count": 16,
+    "source_url_remediation_row_count": 17,
     "source_url_remediation_status_counts": {
-      "live_check_required": 12,
-      "local_citation_needs_review": 4
+      "local_citation_needs_review": 4,
+      "reachable_needs_license_review": 13
     },
     "source_url_review_manifest_present": true,
     "source_url_review_packet_present": true,
     "source_url_status_counts": {
       "no_url_detected": 4,
-      "not_checked": 12
+      "reachable": 13
     },
     "source_url_unreachable_or_error_count": 0
   },

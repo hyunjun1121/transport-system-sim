@@ -70,6 +70,8 @@ def test_road_source_readiness_rows_classify_current_blockers() -> None:
     assert by_id["speed"]["readiness_status"] == (
         "needs_human_review_sparse_speed_candidates"
     )
+    assert by_id["speed"]["source_url_or_citation"] == "fixture citation for speed"
+    assert by_id["speed"]["required_external_input"] == "fixture input for speed"
     assert by_id["capacity"]["readiness_status"] == "blocked_missing_capacity_source"
     assert by_id["override"]["readiness_status"] == (
         "blocked_missing_reviewed_road_class_overrides"
@@ -156,8 +158,12 @@ def test_write_road_source_readiness_packet_outputs_artifacts() -> None:
         assert len(written_rows) == len(rows)
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
+        assert value["source_url_or_citation_present_count"] == len(rows)
+        assert value["required_external_input_present_count"] == len(rows)
         assert written_manifest["road_evidence_gate_closure_candidate_count"] == 0
         assert "Road Source Readiness Packet" in text
+        assert "fixture citation for benchmark" in text
+        assert "fixture input for benchmark" in text
 
     print("PASS: road source-readiness writer emits artifacts")
 
@@ -189,6 +195,10 @@ def test_shipped_road_source_readiness_packet_matches_current_requests() -> None
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == ROAD_SOURCE_READINESS_SCOPE
     assert manifest["road_evidence_gate_closure_candidate_count"] == 0
+    assert manifest["source_url_or_citation_present_count"] == len(rows)
+    assert manifest["required_external_input_present_count"] == len(rows)
+    assert all(row["source_url_or_citation"] for row in written_rows)
+    assert all(row["required_external_input"] for row in written_rows)
 
     print("PASS: shipped road source-readiness packet matches current requests")
 
@@ -206,6 +216,8 @@ def _request(
         "evidence_fields": "speed",
         "source_type": source_type,
         "source_name": request_id,
+        "source_url_or_citation": f"fixture citation for {request_id}",
+        "required_external_input": f"fixture input for {request_id}",
         "source_cache_path": str(cache_path),
         "raw_payload_path": str(raw_path),
         "target_output_path": str(target_path),

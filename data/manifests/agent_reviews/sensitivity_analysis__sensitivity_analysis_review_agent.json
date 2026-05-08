@@ -21,13 +21,17 @@
     "docs/review_packets/sensitivity_analysis.md"
   ],
   "gate_id": "sensitivity_analysis",
-  "generated_at": "2026-05-06T06:39:24+00:00",
+  "generated_at": "2026-05-08T09:20:28+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
     "Create sensitivity_acceptance.json after final input and graph scope are accepted.",
     "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
     "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
+    "sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph",
+    "sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated",
+    "sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance",
+    "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
     "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
     "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
   ],
@@ -51,6 +55,10 @@
     "Wrong parameter ranges can reverse strategy-regime conclusions.",
     "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
     "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
+    "sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph",
+    "sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated",
+    "sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance",
+    "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
     "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
     "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
   ],

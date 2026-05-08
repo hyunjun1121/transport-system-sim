@@ -116,8 +116,20 @@ def write_sensitivity_review_packet(
         "rows_with_index_issues": int(
             diagnostics.get("rows_with_index_issues", 0)
         ),
+        "all_rows_with_index_issues": int(
+            diagnostics.get("all_rows_with_index_issues", 0)
+        ),
+        "unavailable_index_row_count": int(
+            diagnostics.get("unavailable_index_row_count", 0)
+        ),
+        "unavailable_index_status_counts": dict(
+            diagnostics.get("unavailable_index_status_counts", {})
+        ),
         "zero_mu_star_count": int(diagnostics.get("zero_mu_star_count", 0)),
         "index_issue_counts": dict(diagnostics.get("index_issue_counts", {})),
+        "all_index_issue_counts": dict(
+            diagnostics.get("all_index_issue_counts", {})
+        ),
         "analysis_graph_reduced": bool(
             diagnostics.get("analysis_graph_reduced", False)
         ),
@@ -134,7 +146,7 @@ def write_sensitivity_review_packet(
             "real-world sensitivity results."
         ),
         "review_items": [
-            "review missing or non-finite Morris indices before manuscript use",
+            "review unavailable or unexplained missing Morris indices before manuscript use",
             "interpret zero mu_star rows as diagnostic evidence, not calibrated no-effect proof",
             "resolve graph-scale scope before using reduced-graph sensitivity outputs in final claims",
             "decide whether Morris screening is sufficient or a Sobol extension is required",
@@ -189,30 +201,55 @@ def _index_issue_row(
     evidence_paths: str,
 ) -> dict[str, str]:
     affected = int(diagnostics.get("rows_with_index_issues", 0))
+    unavailable = int(diagnostics.get("unavailable_index_row_count", 0))
     issue_counts = diagnostics.get("index_issue_counts", {})
     if not isinstance(issue_counts, Mapping):
         issue_counts = {}
+    unavailable_counts = diagnostics.get("unavailable_index_status_counts", {})
+    if not isinstance(unavailable_counts, Mapping):
+        unavailable_counts = {}
     detail = "; ".join(
         f"{column}={int(issue_counts.get(column, 0))}"
         for column in MORRIS_INDEX_COLUMNS
     )
-    status = (
-        "review_required_missing_or_nonfinite_indices"
-        if affected
-        else "no_missing_or_nonfinite_indices_detected"
-    )
-    return _review_row(
-        category_id="missing_or_nonfinite_morris_indices",
-        issue_category="Missing or non-finite Morris index values",
-        diagnostic_status=status,
-        affected_row_count=str(affected),
-        diagnostic_detail=detail,
-        review_action=(
+    if unavailable_counts:
+        status_detail = ", ".join(
+            f"{key}={int(value)}" for key, value in sorted(unavailable_counts.items())
+        )
+        detail = f"{detail}; unavailable_index_rows={unavailable}; {status_detail}"
+    if affected:
+        status = "review_required_missing_or_nonfinite_indices"
+        action = (
             "Inspect affected metric-policy-scenario-parameter rows and document "
             "whether they are excluded, recalculated, or retained as unavailable "
             "index evidence."
-        ),
-        publication_use_status="blocked_from_final_claims_until_index_handling_review",
+        )
+        publication_use_status = "blocked_from_final_claims_until_index_handling_review"
+        row_count = affected
+    elif unavailable:
+        status = "review_required_unavailable_indices"
+        action = (
+            "Review the metric-policy-scenario groups with explicitly unavailable "
+            "Morris indices and document how non-finite metric outputs are handled "
+            "before manuscript use."
+        )
+        publication_use_status = "review_required_for_unavailable_indices_before_final_claims"
+        row_count = unavailable
+    else:
+        status = "no_missing_or_nonfinite_indices_detected"
+        action = (
+            "Confirm index handling is complete before using sensitivity rankings."
+        )
+        publication_use_status = "review_required_before_final_sensitivity_claims"
+        row_count = 0
+    return _review_row(
+        category_id="missing_or_nonfinite_morris_indices",
+        issue_category="Morris index availability and non-finite values",
+        diagnostic_status=status,
+        affected_row_count=str(row_count),
+        diagnostic_detail=detail,
+        review_action=action,
+        publication_use_status=publication_use_status,
         evidence_paths=evidence_paths,
     )
 

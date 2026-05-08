@@ -5,14 +5,6 @@ Region ID: `songpa_public_demo`
 Evidence class: optional external-router plausibility evidence. This is not
 ground truth and does not calibrate emergency operations.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation strategy readiness is implemented in `data/validation/validation_strategy_readiness_packet.csv`, but it is review support only.
-- This benchmark snapshot is scaffold evidence only; it is not a calibrated real-world result.
-
 ## Inputs
 
 - Cached road graph: `data/cache/pilot_region_road.graphml`

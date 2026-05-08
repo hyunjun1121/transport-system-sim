@@ -1,6 +1,6 @@
 # Real-World / Quasi-Real Pipeline
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
 This document records the implemented MVP for feeding open-map-style regional
@@ -58,7 +58,7 @@ Implemented modules:
 | `src/realworld/parameters.py` | Parameter-source, rail-assumption, and fleet-assumption table validation |
 | `src/realworld/parameter_evidence_request_packet.py` | Cross-cutting parameter evidence source-request worksheet for demand, fleet, dispatch, transfer, disruption, and traffic/BPR review |
 | `src/realworld/plausibility.py` | Offline route, connector, speed, capacity, fallback benchmark checks, and optional OSRM benchmark helpers |
-| `src/realworld/osrm_snapshot_manifest.py` | Optional OSRM benchmark checksum/query manifest generation without validation acceptance |
+| `src/realworld/osrm_snapshot_manifest.py` | Optional OSRM benchmark checksum/query/raw-payload manifest generation without validation acceptance |
 | `src/realworld/validation_review_packet.py` | Validation-package review worksheet for plausibility, fallback/OSRM benchmark, accessibility-loss, route road-evidence exposure, scope, and benchmark-strategy decision support |
 | `src/realworld/route_road_evidence_exposure.py` | Route-level road-evidence exposure worksheet linking weak road assumptions to canonical route candidates |
 | `src/realworld/graph_scale_diagnostics.py` | Full-vs-reduced route parity and alternate-route checks for current baseline road legs |
@@ -102,7 +102,7 @@ The repository now includes a first non-sensitive offline pilot scaffold:
 | `data/parameters/road_speed_evidence_candidates.csv` | Cached OSM maxspeed candidate evidence; 10 road-class rows, 5 with observed tags, not accepted calibration |
 | `data/parameters/road_class_overrides_draft.csv` | Current road-class override review worksheet; 10 expert-assumption rows, not accepted evidence |
 | `data/road/road_evidence_source_request_packet.csv` | Road evidence source-request worksheet; 5 request rows for speed, capacity, benchmark, disruption, and reviewed override application |
-| `data/validation/` | Current route plausibility checks, fallback benchmark checks, optional OSRM snapshot, OSRM manifest, and summaries |
+| `data/validation/` | Current route plausibility checks, fallback benchmark checks, optional OSRM snapshot, optional raw OSRM payload directory, OSRM manifest, and summaries |
 | `data/validation/canonical_route_road_evidence_exposure.csv` | Route-level road-evidence exposure worksheet; 76 rows across 18 route candidates, review support only |
 | `data/validation/validation_review_packet.csv` | Validation review worksheet; 7 rows for internal plausibility, fallback benchmark, OSRM snapshot, accessibility-loss, route evidence exposure, summary scope, and benchmark-strategy decision review |
 | `data/validation/validation_strategy_readiness_packet.csv` | Validation strategy-readiness worksheet; 7 rows with 3 blocking requests and 4 human-review requests; not validation acceptance |
@@ -112,9 +112,11 @@ The repository now includes a first non-sensitive offline pilot scaffold:
 | `data/validation/graph_scale_alternate_routes_summary.md` | Alternate-route diagnostic summary and claim boundary |
 | `data/validation/graph_scale_multi_corridor_routes.csv` | Multi-corridor candidate diagnostic; 9 current rows, all pass |
 | `data/validation/graph_scale_multi_corridor_routes_summary.md` | Multi-corridor candidate summary and claim boundary |
+| `data/validation/full_graph_smoke_manifest.json` | Two-row full bus-practical graph smoke manifest; feasibility evidence only |
+| `data/validation/full_graph_runtime_readiness_packet.csv` | Full-graph runtime-readiness worksheet; 4 rows, not graph-scale acceptance |
 | `data/validation/graph_scale_strategy_readiness_packet.csv` | Graph-scale strategy-readiness worksheet; 5 rows with 3 blocking requests and 2 human-review requests; not graph-scale acceptance |
 | `data/validation/sensitivity_review_packet.csv` | Morris sensitivity review worksheet; 6 rows for structural readiness, index issues, zero `mu_star`, reduced graph scope, result scope, and Sobol-decision review |
-| `data/validation/sensitivity_strategy_readiness_packet.csv` | Sensitivity strategy-readiness worksheet; 7 rows with 5 blocking requests and 2 human-review requests; not sensitivity acceptance |
+| `data/validation/sensitivity_strategy_readiness_packet.csv` | Sensitivity strategy-readiness worksheet; 7 rows with 4 blocking requests and 3 human-review requests; not sensitivity acceptance |
 | `data/manifests/experiment_strategy_readiness_packet.csv` | Experiment strategy-readiness worksheet; 9 rows with 4 blocking requests and 5 human-review requests; not experiment acceptance |
 | `data/scenarios/` | Structured disruption and policy-alternative scenario tables |
 | `data/manifests/reproducibility_manifest.json` | Current scaffold-only reproduction manifest |
@@ -167,7 +169,7 @@ Pilot smoke commands:
 .\.venv\Scripts\python scripts\run_pilot_smoke.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py
 .\.venv\Scripts\python scripts\run_accessibility_loss_analysis.py
-.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
+.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py --raw-response-dir data\validation\osrm_route_raw
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
@@ -264,8 +266,9 @@ Current limitations:
   until the OSM-derived input, reduced analysis corridor, route warnings, and
   assumptions are reviewed for publication use. The current optional OSRM
   snapshot has no warn/fail rows after bus-practical road filtering, and the
-  OSRM manifest records 3 live/unpinned rows plus query URLs and checksums.
-  The deterministic fallback benchmark still warns on `A -> S`.
+  OSRM manifest records 3 cached external-router rows, 0 unpinned rows, 3
+  retained raw response files, query URLs, and checksums. The deterministic
+  fallback benchmark still warns on `A -> S`.
 - The parameter evidence source-request packet names the demand, fleet,
   dispatch, transfer, disruption, and traffic/BPR source packages still needed
   before weak cross-cutting parameters can be strengthened. It is not evidence
@@ -324,9 +327,10 @@ Current limitations:
   `data/validation/validation_review_packet.csv` and
   `data/validation/validation_review_manifest.json`. It summarizes internal
   route-plausibility warnings, fallback benchmark warnings, optional OSRM
-  snapshot/manifest status, accessibility-loss coverage, validation-summary
-  scope, and the benchmark-strategy decision requirement. It is not validation
-  acceptance and does not create `data/manifests/validation_acceptance.json`.
+  snapshot/manifest status, raw-response retention counts,
+  accessibility-loss coverage, validation-summary scope, and the
+  benchmark-strategy decision requirement. It is not validation acceptance and
+  does not create `data/manifests/validation_acceptance.json`.
 - The validation strategy-readiness packet writes
   `data/validation/validation_strategy_readiness_packet.csv`,
   `data/validation/validation_strategy_readiness_manifest.json`, and
@@ -355,6 +359,14 @@ Current limitations:
   `docs/graph_scale_strategy_readiness_packet.md`. It records current
   source-vs-analysis graph blockers and human-review items, but it cannot close
   `data/manifests/graph_scale_acceptance.json`.
+- The full-graph smoke writes `data/validation/full_graph_smoke_manifest.json`
+  for a two-row unreduced full bus-practical graph feasibility run. The
+  full-graph runtime-readiness packet writes
+  `data/validation/full_graph_runtime_readiness_packet.csv`,
+  `data/validation/full_graph_runtime_readiness_manifest.json`, and
+  `docs/full_graph_runtime_readiness_packet.md`; it records smoke scope,
+  missing full-profile full-graph outputs, runtime-scope review, and
+  downstream regeneration decisions without accepting full-graph execution.
 - Pilot, sensitivity, Morris, and figure/table manifests record both the
   bus-practical source graph scale and the reduced analysis graph scale. This
   keeps the current corridor abstraction visible but does not accept it as the

@@ -136,6 +136,61 @@ def build_validation_strategy_readiness_manifest(
         for row in rows
         if str(row.get("readiness_status", "")).startswith("needs_human_review_")
     )
+    raw_payload_missing = any(
+        row.get("category_id") == "optional_osrm_route_benchmarks"
+        and _parse_counts(str(row.get("coverage_counts", ""))).get(
+            "snapshot_manifest_raw_response_files", 0
+        )
+        == 0
+        for row in rows
+    )
+    osrm_unpinned_blocked = any(
+        row.get("readiness_status") == "blocked_unpinned_external_route_snapshot"
+        for row in rows
+    )
+    validation_acceptance_missing = any(
+        row.get("readiness_status") == "blocked_missing_validation_acceptance_record"
+        for row in rows
+    )
+    weak_route_exposure = any(
+        row.get("readiness_status") == "blocked_weak_route_road_evidence_exposure"
+        for row in rows
+    )
+    review_items = [
+        "review internal warning rows and fallback benchmark warning rows",
+        "review accessibility-loss and route road-evidence exposure as diagnostics only",
+        "choose the final benchmark strategy only in data/manifests/validation_acceptance.json",
+    ]
+    if osrm_unpinned_blocked:
+        review_items.insert(
+            1,
+            "pin or replace unpinned external route-engine snapshots before final benchmark use",
+        )
+    else:
+        review_items.insert(
+            1,
+            "review cached external route-engine snapshots before final benchmark use",
+        )
+    remaining_blockers = []
+    if validation_acceptance_missing:
+        remaining_blockers.append("validation_acceptance.json is absent")
+    if osrm_unpinned_blocked:
+        remaining_blockers.append(
+            "optional OSRM rows remain live/unpinned unless reviewer accepts or replaces the snapshot"
+        )
+    if raw_payload_missing:
+        review_items.insert(
+            2,
+            "retain raw external-route payloads before treating live OSRM rows as cached evidence",
+        )
+        remaining_blockers.insert(
+            2,
+            "retained raw OSRM response payloads are absent from the current snapshot manifest",
+        )
+    if weak_route_exposure:
+        remaining_blockers.append(
+            "route-level road evidence exposure remains weak until road evidence gates close"
+        )
     return {
         "schema_version": 1,
         "claim_boundary": (
@@ -158,17 +213,8 @@ def build_validation_strategy_readiness_manifest(
             "manifest": _display_path(Path(manifest_path)),
             "doc": _display_path(Path(doc_path)),
         },
-        "review_items": [
-            "review internal warning rows and fallback benchmark warning rows",
-            "pin or replace unpinned external route-engine snapshots before final benchmark use",
-            "review accessibility-loss and route road-evidence exposure as diagnostics only",
-            "choose the final benchmark strategy only in data/manifests/validation_acceptance.json",
-        ],
-        "remaining_blockers": [
-            "validation_acceptance.json is absent",
-            "optional OSRM rows remain live/unpinned unless reviewer accepts or replaces the snapshot",
-            "route-level road evidence exposure remains weak until road evidence gates close",
-        ],
+        "review_items": review_items,
+        "remaining_blockers": remaining_blockers,
     }
 
 
@@ -299,11 +345,27 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             "review fallback benchmark scope before final validation claims",
         )
     if category_id == "optional_osrm_route_benchmarks":
+        raw_response_file_count = coverage.get("snapshot_manifest_raw_response_files", 0)
         if coverage.get("snapshot_manifest_unpinned_rows", 0) > 0:
+            if raw_response_file_count > 0:
+                action = (
+                    "pin/cache or replace OSRM snapshot, and review source/provenance before use"
+                )
+            else:
+                action = (
+                    "retain raw payloads, pin/cache or replace OSRM snapshot, "
+                    "and review source/provenance before use"
+                )
             return (
                 "blocked_unpinned_external_route_snapshot",
                 "optional OSRM snapshot has unpinned live rows",
-                "pin/cache or replace OSRM snapshot and review source/provenance before use",
+                action,
+            )
+        if raw_response_file_count == 0:
+            return (
+                "blocked_missing_external_route_raw_payloads",
+                "optional OSRM snapshot has no retained raw response payloads",
+                "retain raw payloads or document why the external snapshot is excluded from acceptance",
             )
         return (
             "needs_human_review_external_route_snapshot",

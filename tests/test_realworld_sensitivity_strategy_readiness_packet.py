@@ -35,7 +35,7 @@ def test_sensitivity_strategy_readiness_rows_classify_current_diagnostics() -> N
         "needs_human_review_morris_artifact_selection"
     )
     assert by_category["missing_or_nonfinite_morris_indices"]["readiness_status"] == (
-        "blocked_missing_or_nonfinite_morris_indices"
+        "needs_human_review_unavailable_morris_indices"
     )
     assert by_category["zero_mu_star_rows"]["readiness_status"] == (
         "needs_human_review_zero_mu_star_interpretation"
@@ -92,6 +92,19 @@ def test_sensitivity_strategy_readiness_rows_handle_fixture_review_rows() -> Non
 
     assert by_category["missing_or_nonfinite_morris_indices"]["readiness_status"] == (
         "needs_human_review_index_handling"
+    )
+    unavailable_rows = build_sensitivity_strategy_readiness_rows(
+        review_rows=[
+            _row(
+                category_id="missing_or_nonfinite_morris_indices",
+                diagnostic_status="review_required_unavailable_indices",
+                affected_row_count="2",
+            ),
+        ],
+        acceptance_path=Path("missing_sensitivity_acceptance.json"),
+    )
+    assert unavailable_rows[0]["readiness_status"] == (
+        "needs_human_review_unavailable_morris_indices"
     )
     assert by_category["reduced_graph_scope"]["readiness_status"] == (
         "needs_human_review_sensitivity_graph_scope"

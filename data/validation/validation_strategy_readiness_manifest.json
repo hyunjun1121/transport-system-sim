@@ -5,15 +5,15 @@
   "row_count": 7,
   "readiness_status_counts": {
     "blocked_missing_validation_acceptance_record": 1,
-    "blocked_unpinned_external_route_snapshot": 1,
     "blocked_weak_route_road_evidence_exposure": 1,
     "needs_human_review_accessibility_disconnections": 1,
+    "needs_human_review_external_route_snapshot": 1,
     "needs_human_review_fallback_benchmark_warnings": 1,
     "needs_human_review_internal_plausibility_warnings": 1,
     "needs_human_review_validation_summary_scope": 1
   },
-  "blocking_request_count": 3,
-  "human_review_request_count": 4,
+  "blocking_request_count": 2,
+  "human_review_request_count": 5,
   "validation_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "can_mark_complete": false,
@@ -27,13 +27,12 @@
   },
   "review_items": [
     "review internal warning rows and fallback benchmark warning rows",
-    "pin or replace unpinned external route-engine snapshots before final benchmark use",
+    "review cached external route-engine snapshots before final benchmark use",
     "review accessibility-loss and route road-evidence exposure as diagnostics only",
     "choose the final benchmark strategy only in data/manifests/validation_acceptance.json"
   ],
   "remaining_blockers": [
     "validation_acceptance.json is absent",
-    "optional OSRM rows remain live/unpinned unless reviewer accepts or replaces the snapshot",
     "route-level road evidence exposure remains weak until road evidence gates close"
   ]
 }

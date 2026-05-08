@@ -88,6 +88,7 @@ def test_write_source_url_remediation_packet_outputs_artifacts() -> None:
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert value["blocking_issue_count"] == 1
+        assert any("blocked URL rows" in item for item in value["remaining_blockers"])
         assert written_manifest["provenance_gate_closure_candidate_count"] == 0
         assert "Source URL Remediation Packet" in text
 
@@ -121,6 +122,11 @@ def test_shipped_source_url_remediation_packet_matches_current_review_packet() -
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == SOURCE_URL_REMEDIATION_SCOPE
     assert manifest["provenance_gate_closure_candidate_count"] == 0
+    if manifest["blocking_issue_count"] == 0 and manifest["live_check_required_count"] == 0:
+        assert not any(
+            "unreachable" in item or "network-error" in item or "not-checked" in item
+            for item in manifest["remaining_blockers"]
+        )
 
     print("PASS: shipped source-URL remediation packet matches current review packet")
 

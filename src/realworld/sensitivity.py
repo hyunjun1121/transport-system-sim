@@ -145,6 +145,8 @@ RESULT_COLUMNS = (
     "completion_rate",
     "censored_count",
     "penalized_makespan",
+    "p80_arrival_time",
+    "p95_arrival_time",
     "total_service_minutes",
     "passengers_per_total_service_minute",
     "delta_completion_rate",
@@ -153,6 +155,10 @@ RESULT_COLUMNS = (
     "abs_delta_censored_count",
     "delta_penalized_makespan",
     "abs_delta_penalized_makespan",
+    "delta_p80_arrival_time",
+    "abs_delta_p80_arrival_time",
+    "delta_p95_arrival_time",
+    "abs_delta_p95_arrival_time",
     "delta_total_service_minutes",
     "abs_delta_total_service_minutes",
     "delta_passengers_per_total_service_minute",
@@ -196,6 +202,8 @@ MORRIS_RESULT_COLUMNS = (
     "completion_rate",
     "censored_count",
     "penalized_makespan",
+    "p80_arrival_time",
+    "p95_arrival_time",
     "total_service_minutes",
     "passengers_per_total_service_minute",
     "selected_edge_count",
@@ -215,6 +223,8 @@ MORRIS_SUMMARY_COLUMNS = (
     "mu_star",
     "sigma",
     "mu_star_conf",
+    "index_status",
+    "index_issue_reason",
     "sample_count",
     "num_trajectories",
     "num_levels",
@@ -564,20 +574,33 @@ def summarize_morris_rows(
             )
         for metric in RANK_METRICS:
             outputs = np.array([float(row[metric]) for row in ordered_rows], dtype=float)
-            analysis = morris_analyze.analyze(
-                problem,
-                sample_matrix,
-                outputs,
-                num_levels=num_levels,
-                print_to_console=False,
-                seed=seed,
-            )
+            nonfinite_output_count = int(np.count_nonzero(~np.isfinite(outputs)))
+            if nonfinite_output_count:
+                analysis = None
+                index_status = "unavailable_nonfinite_metric_outputs"
+                index_issue_reason = (
+                    f"{nonfinite_output_count}/{sample_count} metric outputs "
+                    "were non-finite before Morris analysis"
+                )
+            else:
+                analysis = morris_analyze.analyze(
+                    problem,
+                    sample_matrix,
+                    outputs,
+                    num_levels=num_levels,
+                    print_to_console=False,
+                    seed=seed,
+                )
+                index_status = "available"
+                index_issue_reason = ""
             metric_rows = _morris_metric_rows(
                 metric=metric,
                 policy_id=policy_id,
                 scenario_id=scenario_id,
                 parameters=parameters,
                 analysis=analysis,
+                index_status=index_status,
+                index_issue_reason=index_issue_reason,
                 sample_count=sample_count,
                 num_trajectories=num_trajectories,
                 num_levels=num_levels,
@@ -644,8 +667,10 @@ def build_morris_manifest(
             else "full_graph_sensitivity_scaffold_execution"
         ),
     )
+    index_status_counts = _counts(row.get("index_status", "") for row in summary_rows)
     return {
         "schema_version": 1,
+        "morris_summary_schema_version": 2,
         "result_scope": MORRIS_CLAIM_SCOPE,
         "command": "scripts/run_sensitivity.py --method morris --sample"
         if sample
@@ -678,6 +703,12 @@ def build_morris_manifest(
         "seed": int(seed),
         "row_count": len(rows),
         "summary_row_count": len(summary_rows),
+        "index_status_counts": index_status_counts,
+        "unavailable_index_row_count": sum(
+            count
+            for status, count in index_status_counts.items()
+            if str(status).startswith("unavailable_")
+        ),
         "rank_metrics": list(RANK_METRICS),
         "claim_boundary": (
             "Morris indices are computed for the current pilot scaffold design "
@@ -1211,7 +1242,9 @@ def _morris_metric_rows(
     policy_id: str,
     scenario_id: str,
     parameters: Sequence[SensitivityParameter],
-    analysis: Mapping[str, Any],
+    analysis: Mapping[str, Any] | None,
+    index_status: str,
+    index_issue_reason: str,
     sample_count: int,
     num_trajectories: int,
     num_levels: int,
@@ -1231,6 +1264,8 @@ def _morris_metric_rows(
                 "mu_star": _analysis_number(analysis, "mu_star", index),
                 "sigma": _analysis_number(analysis, "sigma", index),
                 "mu_star_conf": _analysis_number(analysis, "mu_star_conf", index),
+                "index_status": index_status,
+                "index_issue_reason": index_issue_reason,
                 "sample_count": int(sample_count),
                 "num_trajectories": int(num_trajectories),
                 "num_levels": int(num_levels),
@@ -1256,7 +1291,13 @@ def _typed_sample_value(parameter: SensitivityParameter, value: Any) -> float | 
     return float(number)
 
 
-def _analysis_number(analysis: Mapping[str, Any], key: str, index: int) -> float | str:
+def _analysis_number(
+    analysis: Mapping[str, Any] | None,
+    key: str,
+    index: int,
+) -> float | str:
+    if analysis is None:
+        return ""
     values = analysis.get(key)
     if values is None:
         return ""
@@ -1508,6 +1549,16 @@ def _mean(values: Iterable[float]) -> float:
     if not values_tuple:
         return 0.0
     return sum(values_tuple) / len(values_tuple)
+
+
+def _counts(values: Iterable[object]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for value in values:
+        key = str(value).strip()
+        if not key:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+    return dict(sorted(counts.items()))
 
 
 def _format_value(value: float | int) -> str:

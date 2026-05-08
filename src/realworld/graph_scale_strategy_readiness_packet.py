@@ -16,6 +16,9 @@ from typing import Any, Mapping, Sequence
 from src.realworld.graph_scale_review import (
     DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH,
 )
+from src.realworld.full_graph_runtime_readiness_packet import (
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -101,6 +104,8 @@ def write_graph_scale_strategy_readiness_packet(
     review_packet_path: str | Path = DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH,
     result_comparison_manifest_path: str
     | Path = DEFAULT_GRAPH_SCALE_RESULT_COMPARISON_MANIFEST_PATH,
+    full_graph_runtime_readiness_manifest_path: str
+    | Path = DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
 ) -> dict[str, Any]:
     """Write graph-scale strategy readiness CSV, manifest, and Markdown."""
 
@@ -132,6 +137,9 @@ def write_graph_scale_strategy_readiness_packet(
         doc_path=doc,
         review_packet_path=review_packet_path,
         result_comparison_manifest_path=result_comparison_manifest_path,
+        full_graph_runtime_readiness_manifest_path=(
+            full_graph_runtime_readiness_manifest_path
+        ),
     )
     manifest.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
@@ -153,10 +161,13 @@ def build_graph_scale_strategy_readiness_manifest(
     review_packet_path: str | Path = DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH,
     result_comparison_manifest_path: str
     | Path = DEFAULT_GRAPH_SCALE_RESULT_COMPARISON_MANIFEST_PATH,
+    full_graph_runtime_readiness_manifest_path: str
+    | Path = DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
 ) -> dict[str, Any]:
     """Return a conservative manifest for graph-scale strategy readiness."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
+    runtime_manifest = _load_json_object(full_graph_runtime_readiness_manifest_path)
     blocking_count = sum(
         1 for row in rows if str(row.get("readiness_status", "")).startswith("blocked_")
     )
@@ -184,6 +195,9 @@ def build_graph_scale_strategy_readiness_manifest(
             "graph_scale_result_comparison_manifest": _display_path(
                 Path(result_comparison_manifest_path)
             ),
+            "full_graph_runtime_readiness_manifest": _display_path(
+                Path(full_graph_runtime_readiness_manifest_path)
+            ),
         },
         "outputs": {
             "csv": _display_path(Path(output_path)),
@@ -194,13 +208,15 @@ def build_graph_scale_strategy_readiness_manifest(
             "decide whether the 118-node reduced corridor is acceptable or only a smoke shortcut",
             "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
             "review graph-sensitive result differences before interpreting policy outcomes",
+            "review the full-graph runtime-readiness packet before accepting or excluding full-graph execution",
             "generate full-graph outputs or record why full-graph execution is outside the accepted scope",
             "record the final graph-scale method only in data/manifests/graph_scale_acceptance.json",
         ],
+        "full_graph_runtime_readiness": _runtime_manifest_summary(runtime_manifest),
         "remaining_blockers": [
             "graph_scale_acceptance.json is absent",
             "current reduced-corridor output has alternate-route warnings",
-            "full bus-practical graph has smoke evidence only, not full scenario-policy-seed output",
+            "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
             "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
         ],
     }
@@ -226,6 +242,13 @@ def build_graph_scale_strategy_readiness_markdown(
         f"- Blocking requests: {manifest.get('blocking_request_count', 0)}",
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
+        "",
+        "## Full-Graph Runtime Readiness",
+        "",
+        f"- Manifest present: `{str((manifest.get('full_graph_runtime_readiness') or {}).get('manifest_present', False)).lower()}`",
+        f"- Blocking requests: {(manifest.get('full_graph_runtime_readiness') or {}).get('blocking_request_count', 0)}",
+        f"- Human-review requests: {(manifest.get('full_graph_runtime_readiness') or {}).get('human_review_request_count', 0)}",
+        f"- Can mark complete: `{str((manifest.get('full_graph_runtime_readiness') or {}).get('can_mark_complete', False)).lower()}`",
         "",
         "## Readiness Rows",
         "",
@@ -427,6 +450,26 @@ def _load_json_object(path: str | Path) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
+def _runtime_manifest_summary(manifest: Mapping[str, Any]) -> dict[str, Any]:
+    if not manifest:
+        return {
+            "manifest_present": False,
+            "blocking_request_count": 0,
+            "human_review_request_count": 0,
+            "can_mark_complete": False,
+        }
+    return {
+        "manifest_present": True,
+        "row_count": _int(manifest.get("row_count")),
+        "blocking_request_count": _int(manifest.get("blocking_request_count")),
+        "human_review_request_count": _int(
+            manifest.get("human_review_request_count")
+        ),
+        "readiness_status_counts": manifest.get("readiness_status_counts", {}),
+        "can_mark_complete": bool(manifest.get("can_mark_complete", False)),
+    }
+
+
 def _counts(values: Sequence[str] | Any) -> dict[str, int]:
     counts: dict[str, int] = {}
     for value in values:
@@ -458,6 +501,7 @@ def _cell(value: object) -> str:
 
 
 __all__ = [
+    "DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH",
     "DEFAULT_GRAPH_SCALE_ACCEPTANCE_PATH",
     "DEFAULT_GRAPH_SCALE_RESULT_COMPARISON_MANIFEST_PATH",
     "DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_DOC_PATH",

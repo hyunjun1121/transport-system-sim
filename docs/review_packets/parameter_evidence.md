@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -66,6 +66,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
 - strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
 - support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
+- parameter source readiness: all rows require human review or external source decisions before final claims
+- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
+- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 
 ## Required Actions
 
@@ -77,6 +80,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
 - strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
 - support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
+- parameter source readiness: all rows require human review or external source decisions before final claims
+- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
+- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 
 ## Formal Acceptance Boundary
 
@@ -98,7 +104,10 @@ Formal acceptance artifacts:
     "replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence",
     "derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only",
     "strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing",
-    "support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays"
+    "support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays",
+    "parameter source readiness: all rows require human review or external source decisions before final claims",
+    "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
+    "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
   ],
   "details": {
     "parameter_publication_ready": false,
@@ -107,6 +116,13 @@ Formal acceptance artifacts:
     "source_readiness_human_review_request_count": 5,
     "source_readiness_manifest_present": true,
     "source_readiness_publication_ready": false,
+    "source_readiness_remaining_blockers": [
+      "all rows require human review or external source decisions before final claims",
+      "this packet is readiness evidence only and cannot create accepted parameter values",
+      "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
+    ],
+    "source_readiness_required_external_input_present_count": 6,
+    "source_readiness_source_url_or_citation_present_count": 6,
     "source_readiness_status_counts": {
       "blocked_missing_transfer_source": 1,
       "needs_human_review_demand_scenario": 1,

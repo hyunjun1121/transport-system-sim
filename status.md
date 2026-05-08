@@ -2,7 +2,7 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-05-06
+- Date: 2026-05-08
 - Workspace: `C:\project\transport-system-sim`
 - Platform in use: Windows PowerShell
 - Git branch: `main`
@@ -190,7 +190,7 @@ The codebase currently includes:
     clean-checkout execution scope without accepting reproducibility
   - bounded current-worktree reproducibility smoke in
     `src/realworld/reproducibility_smoke.py` and
-    `scripts/run_reproducibility_smoke.py`; the current manifest records 22
+    `scripts/run_reproducibility_smoke.py`; the current manifest records 24
     passing commands and `smoke_passed: true`, while keeping
     `clean_checkout_test_performed: false` and `can_mark_complete: false`
   - agent-review path hygiene auditing in
@@ -341,18 +341,20 @@ The codebase currently includes:
   - Morris sensitivity diagnostics in
     `src/realworld/sensitivity_diagnostics.py` and
     `scripts/audit_sensitivity_diagnostics.py`, which expose count consistency,
-    blank/non-finite index values, zero-effect rows, reduced graph scope, and
-    scaffold claim boundaries without accepting final-study sensitivity claims
+    explicitly unavailable index rows, unexplained blank/non-finite index
+    values, zero-effect rows, reduced graph scope, and scaffold claim
+    boundaries without accepting final-study sensitivity claims
   - sensitivity review packet generation in
     `src/realworld/sensitivity_review_packet.py` and
     `scripts/write_sensitivity_review_packet.py`; the generated 6-row packet
-    summarizes Morris structural readiness, 168 missing/non-finite index rows,
-    4,272 zero `mu_star` rows, reduced-graph scope, scaffold result scope, and
-    the Morris-vs-Sobol decision while keeping `publication_ready: false`
+    summarizes Morris structural readiness, 168 explicitly unavailable index
+    rows, 0 unexplained missing/non-finite index rows, 4,272 zero `mu_star`
+    rows, reduced-graph scope, scaffold result scope, and the Morris-vs-Sobol
+    decision while keeping `publication_ready: false`
   - sensitivity strategy-readiness packet generation in
     `src/realworld/sensitivity_strategy_readiness_packet.py` and
     `scripts/write_sensitivity_strategy_readiness_packet.py`; the generated
-    7-row packet classifies 5 blocking requests and 2 human-review requests
+    7-row packet classifies 4 blocking requests and 3 human-review requests
     before any sensitivity acceptance record can be created
   - graph-scale strategy-readiness packet generation in
     `src/realworld/graph_scale_strategy_readiness_packet.py` and
@@ -375,8 +377,9 @@ The codebase currently includes:
   - OSRM snapshot manifest generation in
     `src/realworld/osrm_snapshot_manifest.py` and
     `scripts/write_osrm_snapshot_manifest.py`; the current manifest records 3
-    pass rows, 3 live/unpinned rows, query URLs, CSV/summary checksums, and a
-    non-acceptance claim boundary
+    pass rows, 3 cached external-router rows, 0 unpinned rows, 3 retained raw
+    response files, query URLs, CSV/summary checksums, and a non-acceptance
+    claim boundary
   - route-level road-evidence exposure generation in
     `src/realworld/route_road_evidence_exposure.py` and
     `scripts/write_route_road_evidence_exposure.py`; current output has 76 rows
@@ -591,7 +594,13 @@ Current pilot graph scale after adapter filtering:
   future acceptance record is defined by
   `docs/graph_scale_acceptance_schema.md`.
 - Full-graph smoke: bus-only and baseline multimodal run on the 4,608-node /
-  9,148-edge bus-practical graph without corridor reduction
+  9,148-edge bus-practical graph without corridor reduction; the current
+  `data/validation/full_graph_smoke_manifest.json` records 2 smoke rows and
+  remains feasibility evidence only
+- Full-graph runtime-readiness packet: 4 rows under
+  `data/validation/full_graph_runtime_readiness_packet.csv`; it records the
+  smoke scope, missing full-profile full-graph outputs, runtime-scope review,
+  and downstream regeneration decisions without closing graph-scale acceptance
 - Graph-scale route parity diagnostic: 3 full-vs-reduced comparison rows, all
   pass for baseline shortest-time path preservation on `A -> D`, `A -> S`, and
   `R -> D`; this does not review alternate corridors or close graph-scale
@@ -622,8 +631,9 @@ Current pilot graph scale after adapter filtering:
   under `pilot_multi_corridor_full_*`; this is stronger graph-scale review
   evidence, not graph-scale acceptance or calibrated real-world output
 - Optional live OSRM snapshot: 3 pass rows after bus-practical road filtering;
-  `data/validation/osrm_route_benchmark_manifest.json` records 3
-  live/unpinned rows, query URLs, and checksums for review
+  `data/validation/osrm_route_benchmark_manifest.json` records 3 cached
+  external-router rows, 0 unpinned rows, 3 retained raw response files, query
+  URLs, and checksums for review
 
 ## Report State
 
@@ -1201,8 +1211,10 @@ Suggested next work:
    rows are acceptable under a documented corridor-selection rule, whether to
    regenerate on the 164-node / 246-edge candidate graph, or whether full-graph
    runtime or a multi-corridor ensemble is needed before acceptance. Use
-   `data/validation/graph_scale_review_packet.csv` as the consolidated
-   worksheet for this decision.
+   `data/validation/graph_scale_review_packet.csv`,
+   `data/validation/full_graph_runtime_readiness_packet.csv`, and
+   `data/validation/graph_scale_strategy_readiness_packet.csv` as the
+   consolidated worksheets for this decision.
 5. Define how exact sensitive points will be replaced by administrative zones,
    H3/admin-grid cells, or synthetic centroids.
 6. Use the cached static-GTFS derivation path where a reviewed feed is

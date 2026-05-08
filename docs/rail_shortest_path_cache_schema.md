@@ -1,6 +1,6 @@
 # Rail Shortest-Path Cache Schema
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
 This schema defines the local CSV extract expected by
@@ -70,12 +70,12 @@ reviewed data.go.kr shortest-path API request:
 
 ```powershell
 .\.venv\Scripts\python scripts\fetch_rail_shortest_path_cache.py `
-  --departure-station-name ?�림?�공??`
-  --arrival-station-name ?�실 `
+  --departure-station-name ?�림?�공??`
+  --arrival-station-name ?�실 `
   --search-dt "2026-05-04 09:00:00" `
-  --access-station-name ?�림?�공??`
+  --access-station-name ?�림?�공??`
   --access-station-code 936 `
-  --egress-station-name ?�실 `
+  --egress-station-name ?�실 `
   --egress-station-code 814 `
   --output data\rail\pilot_rail_shortest_path_cache.csv `
   --raw-output data\rail\pilot_rail_shortest_path_raw.json

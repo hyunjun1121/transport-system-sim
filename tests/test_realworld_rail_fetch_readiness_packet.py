@@ -19,6 +19,10 @@ from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
     build_rail_fetch_readiness_rows,
     write_rail_fetch_readiness_packet,
 )
+from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    KTDB_GTFS_SOURCE_CITATION,
+    KTDB_GTFS_SOURCE_NAME,
+)
 
 
 def test_rail_fetch_readiness_rows_classify_blockers() -> None:
@@ -39,6 +43,8 @@ def test_rail_fetch_readiness_rows_classify_blockers() -> None:
     by_id = {row["request_id"]: row for row in rows}
 
     assert by_id["api"]["readiness_status"] == "blocked_missing_data_go_kr_key"
+    assert by_id["api"]["source_url_or_citation"] == "fixture citation for api"
+    assert by_id["api"]["required_external_input"] == "fixture input for api"
     assert by_id["gtfs"]["readiness_status"] == "blocked_missing_reviewed_gtfs_file"
     assert by_id["capacity"]["readiness_status"] == (
         "needs_human_review_capacity_treatment"
@@ -102,8 +108,12 @@ def test_write_rail_fetch_readiness_packet_outputs_artifacts() -> None:
         assert len(written_rows) == len(rows)
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
+        assert value["source_url_or_citation_present_count"] == len(rows)
+        assert value["required_external_input_present_count"] == len(rows)
         assert written_manifest["rail_evidence_gate_closure_candidate_count"] == 0
         assert "Rail Fetch Readiness Packet" in text
+        assert "fixture citation for api" in text
+        assert "fixture input for api" in text
 
     print("PASS: rail fetch-readiness writer emits artifacts")
 
@@ -135,6 +145,13 @@ def test_shipped_rail_fetch_readiness_packet_matches_current_requests() -> None:
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == RAIL_FETCH_READINESS_SCOPE
     assert manifest["rail_evidence_gate_closure_candidate_count"] == 0
+    assert manifest["source_url_or_citation_present_count"] == len(rows)
+    assert manifest["required_external_input_present_count"] == len(rows)
+    by_id = {row["request_id"]: row for row in written_rows}
+    gtfs = by_id["rail_static_gtfs_timing_request"]
+    assert gtfs["source_name"] == KTDB_GTFS_SOURCE_NAME
+    assert gtfs["source_url_or_citation"] == KTDB_GTFS_SOURCE_CITATION
+    assert "reviewed KTDB" in gtfs["required_external_input"]
 
     print("PASS: shipped rail fetch-readiness packet matches current requests")
 
@@ -146,6 +163,8 @@ def _request(request_id: str, source_type: str, cache_path: str) -> dict[str, st
         "evidence_fields": "headway",
         "source_type": source_type,
         "source_name": request_id,
+        "source_url_or_citation": f"fixture citation for {request_id}",
+        "required_external_input": f"fixture input for {request_id}",
         "source_cache_path": cache_path,
         "raw_payload_path": "data/rail/missing_raw.json",
         "fetch_command": "fixture fetch",

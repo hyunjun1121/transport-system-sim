@@ -1,6 +1,13 @@
 {
   "acceptance_gate_closure_candidate_count": 0,
   "acceptance_ready": false,
+  "all_index_issue_counts": {
+    "mu": 168,
+    "mu_star": 168,
+    "mu_star_conf": 168,
+    "sigma": 168
+  },
+  "all_rows_with_index_issues": 168,
   "analysis_graph_reduced": true,
   "category_ids": [
     "structural_readiness",
@@ -17,10 +24,10 @@
     "morris_summary": "results/realworld_pilot/morris_summary.csv"
   },
   "index_issue_counts": {
-    "mu": 168,
-    "mu_star": 168,
-    "mu_star_conf": 168,
-    "sigma": 168
+    "mu": 0,
+    "mu_star": 0,
+    "mu_star_conf": 0,
+    "sigma": 0
   },
   "morris_summary_row_count": 7056,
   "outputs": {
@@ -31,7 +38,7 @@
   "remaining_blockers": [],
   "result_scope": "sensitivity_review_packet_not_sensitivity_acceptance",
   "review_items": [
-    "review missing or non-finite Morris indices before manuscript use",
+    "review unavailable or unexplained missing Morris indices before manuscript use",
     "interpret zero mu_star rows as diagnostic evidence, not calibrated no-effect proof",
     "resolve graph-scale scope before using reduced-graph sensitivity outputs in final claims",
     "decide whether Morris screening is sufficient or a Sobol extension is required",
@@ -39,8 +46,12 @@
   ],
   "review_required": true,
   "row_count": 6,
-  "rows_with_index_issues": 168,
+  "rows_with_index_issues": 0,
   "schema_version": 1,
   "structural_blocker_count": 0,
+  "unavailable_index_row_count": 168,
+  "unavailable_index_status_counts": {
+    "unavailable_nonfinite_metric_outputs": 168
+  },
   "zero_mu_star_count": 4272
 }

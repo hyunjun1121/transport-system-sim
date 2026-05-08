@@ -325,6 +325,7 @@ def _cached_osm_gate(
         "top_review_candidates": [],
         "remaining_blockers": [],
     }
+    source_readiness = road_source_readiness_manifest or {}
     ready = bool(
         road_audit["publication_ready"]
         and road_override_audit["publication_ready"]
@@ -343,6 +344,10 @@ def _cached_osm_gate(
         *[
             f"road override application: {item}"
             for item in road_override_application_audit["remaining_blockers"]
+        ],
+        *[
+            f"road source readiness: {item}"
+            for item in source_readiness.get("remaining_blockers", [])
         ],
     ]
     return _gate(
@@ -395,21 +400,30 @@ def _cached_osm_gate(
                 "publication_ready"
             ],
             "source_readiness_manifest_present": bool(road_source_readiness_manifest),
-            "source_readiness_blocking_request_count": (
-                road_source_readiness_manifest or {}
-            ).get("blocking_request_count", 0),
-            "source_readiness_human_review_request_count": (
-                road_source_readiness_manifest or {}
-            ).get("human_review_request_count", 0),
-            "source_readiness_status_counts": (
-                road_source_readiness_manifest or {}
-            ).get("readiness_status_counts", {}),
-            "source_readiness_publication_ready": (
-                road_source_readiness_manifest or {}
-            ).get("publication_ready", False),
-            "source_readiness_can_mark_complete": (
-                road_source_readiness_manifest or {}
-            ).get("can_mark_complete", False),
+            "source_readiness_blocking_request_count": source_readiness.get(
+                "blocking_request_count", 0
+            ),
+            "source_readiness_human_review_request_count": source_readiness.get(
+                "human_review_request_count", 0
+            ),
+            "source_readiness_status_counts": source_readiness.get(
+                "readiness_status_counts", {}
+            ),
+            "source_readiness_source_url_or_citation_present_count": source_readiness.get(
+                "source_url_or_citation_present_count", 0
+            ),
+            "source_readiness_required_external_input_present_count": source_readiness.get(
+                "required_external_input_present_count", 0
+            ),
+            "source_readiness_remaining_blockers": source_readiness.get(
+                "remaining_blockers", []
+            ),
+            "source_readiness_publication_ready": source_readiness.get(
+                "publication_ready", False
+            ),
+            "source_readiness_can_mark_complete": source_readiness.get(
+                "can_mark_complete", False
+            ),
         },
     )
 
@@ -426,6 +440,7 @@ def _real_input_smoke_gate(pilot_manifest: dict[str, Any] | None) -> dict[str, A
         evidence=[
             "scripts/run_pilot_smoke.py",
             "scripts/run_full_graph_smoke.py",
+            "data/validation/full_graph_smoke_manifest.json",
             "results/realworld_pilot/pilot_full_manifest.json",
         ],
         blockers=[] if ready else ["run cached-graph bus-only and multimodal smoke"],
@@ -438,6 +453,11 @@ def _graph_scale_gate(
     graph_scale_strategy_readiness_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     accepted = bool(graph_scale_acceptance["acceptance_ready"])
+    readiness = graph_scale_strategy_readiness_manifest or {}
+    readiness_remaining_blockers = _list_value(
+        graph_scale_strategy_readiness_manifest,
+        "remaining_blockers",
+    )
     readiness_blocking_count = _dict_int(
         graph_scale_strategy_readiness_manifest,
         "blocking_request_count",
@@ -483,6 +503,14 @@ def _graph_scale_gate(
                 ),
                 *(
                     [
+                        f"graph-scale strategy readiness: {item}"
+                        for item in readiness_remaining_blockers
+                    ]
+                    if readiness_blocking_count
+                    else []
+                ),
+                *(
+                    [
                         "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
                     ]
                     if readiness_human_review_count
@@ -499,6 +527,7 @@ def _graph_scale_gate(
                 "strategy_readiness_human_review_request_count": (
                     readiness_human_review_count
                 ),
+                "strategy_readiness_remaining_blockers": readiness_remaining_blockers,
             },
         )
     count_blockers = _graph_scale_count_blockers(
@@ -514,6 +543,10 @@ def _graph_scale_gate(
     if not accepted and readiness_blocking_count:
         blockers.append(
             "resolve graph-scale strategy-readiness blockers before graph-scale acceptance"
+        )
+        blockers.extend(
+            f"graph-scale strategy readiness: {item}"
+            for item in readiness_remaining_blockers
         )
     if not accepted and readiness_human_review_count:
         blockers.append(
@@ -539,6 +572,9 @@ def _graph_scale_gate(
             "data/validation/graph_scale_strategy_readiness_packet.csv",
             "data/validation/graph_scale_strategy_readiness_manifest.json",
             "docs/graph_scale_strategy_readiness_packet.md",
+            "data/validation/full_graph_runtime_readiness_packet.csv",
+            "data/validation/full_graph_runtime_readiness_manifest.json",
+            "docs/full_graph_runtime_readiness_packet.md",
             "data/validation/graph_scale_result_comparison.csv",
             "data/validation/graph_scale_result_comparison_manifest.json",
             "scripts/write_graph_scale_review_packet.py",
@@ -584,14 +620,15 @@ def _graph_scale_gate(
             "strategy_readiness_blocking_request_count": readiness_blocking_count,
             "strategy_readiness_human_review_request_count": readiness_human_review_count,
             "strategy_readiness_status_counts": (
-                graph_scale_strategy_readiness_manifest or {}
+                readiness
             ).get("readiness_status_counts", {}),
-            "strategy_readiness_publication_ready": (
-                graph_scale_strategy_readiness_manifest or {}
-            ).get("publication_ready", False),
-            "strategy_readiness_can_mark_complete": (
-                graph_scale_strategy_readiness_manifest or {}
-            ).get("can_mark_complete", False),
+            "strategy_readiness_remaining_blockers": readiness_remaining_blockers,
+            "strategy_readiness_publication_ready": readiness.get(
+                "publication_ready", False
+            ),
+            "strategy_readiness_can_mark_complete": readiness.get(
+                "can_mark_complete", False
+            ),
         },
     )
 
@@ -782,6 +819,13 @@ def _parameter_gate(
 
     ready = bool(parameter_audit["publication_ready"])
     readiness = parameter_source_readiness_manifest or {}
+    blockers = []
+    if not ready:
+        blockers.extend(parameter_audit.get("remaining_blockers", []))
+        blockers.extend(
+            f"parameter source readiness: {item}"
+            for item in readiness.get("remaining_blockers", [])
+        )
     return _gate(
         "parameter_evidence",
         "Parameter Evidence",
@@ -801,9 +845,7 @@ def _parameter_gate(
             "scripts/write_parameter_evidence_source_request_packet.py",
             "scripts/write_parameter_source_readiness_packet.py",
         ],
-        blockers=[]
-        if ready
-        else list(parameter_audit.get("remaining_blockers", [])),
+        blockers=blockers,
         details={
             "parameter_publication_ready": parameter_audit["publication_ready"],
             "source_readiness_manifest_present": bool(
@@ -820,6 +862,18 @@ def _parameter_gate(
             "source_readiness_status_counts": readiness.get(
                 "readiness_status_counts",
                 {},
+            ),
+            "source_readiness_source_url_or_citation_present_count": readiness.get(
+                "source_url_or_citation_present_count",
+                0,
+            ),
+            "source_readiness_required_external_input_present_count": readiness.get(
+                "required_external_input_present_count",
+                0,
+            ),
+            "source_readiness_remaining_blockers": readiness.get(
+                "remaining_blockers",
+                [],
             ),
             "source_readiness_publication_ready": readiness.get(
                 "publication_ready",
@@ -870,6 +924,11 @@ def _rail_gate(
             for item in rail_station_audit["remaining_blockers"]
         ],
     ]
+    fetch_readiness = rail_fetch_readiness_manifest or {}
+    blockers.extend(
+        f"rail fetch readiness: {item}"
+        for item in fetch_readiness.get("remaining_blockers", [])
+    )
     return _gate(
         "rail_evidence",
         "Rail Evidence",
@@ -902,18 +961,27 @@ def _rail_gate(
             "service_publication_ready": rail_service_audit["publication_ready"],
             "station_binding_ready": rail_station_audit["binding_ready"],
             "fetch_readiness_manifest_present": bool(rail_fetch_readiness_manifest),
-            "fetch_readiness_blocking_request_count": (
-                rail_fetch_readiness_manifest or {}
-            ).get("blocking_request_count", 0),
-            "fetch_readiness_status_counts": (
-                rail_fetch_readiness_manifest or {}
-            ).get("readiness_status_counts", {}),
-            "fetch_readiness_publication_ready": (
-                rail_fetch_readiness_manifest or {}
-            ).get("publication_ready", False),
-            "fetch_readiness_can_mark_complete": (
-                rail_fetch_readiness_manifest or {}
-            ).get("can_mark_complete", False),
+            "fetch_readiness_blocking_request_count": fetch_readiness.get(
+                "blocking_request_count", 0
+            ),
+            "fetch_readiness_status_counts": fetch_readiness.get(
+                "readiness_status_counts", {}
+            ),
+            "fetch_readiness_source_url_or_citation_present_count": fetch_readiness.get(
+                "source_url_or_citation_present_count", 0
+            ),
+            "fetch_readiness_required_external_input_present_count": fetch_readiness.get(
+                "required_external_input_present_count", 0
+            ),
+            "fetch_readiness_remaining_blockers": fetch_readiness.get(
+                "remaining_blockers", []
+            ),
+            "fetch_readiness_publication_ready": fetch_readiness.get(
+                "publication_ready", False
+            ),
+            "fetch_readiness_can_mark_complete": fetch_readiness.get(
+                "can_mark_complete", False
+            ),
         },
     )
 
@@ -964,6 +1032,7 @@ def _validation_gate(
     )
     text = _read_text(summary_path)
     review_manifest = _load_json(review_manifest_path)
+    osrm_manifest = _load_json(osrm_manifest_path)
     artifact_present = (
         summary_path.exists()
         and osrm_summary_path.exists()
@@ -997,6 +1066,13 @@ def _validation_gate(
         if strategy_blocking_count:
             blockers.append(
                 "resolve validation strategy-readiness blockers before validation acceptance"
+            )
+            blockers.extend(
+                f"validation strategy readiness: {item}"
+                for item in _list_value(
+                    validation_strategy_readiness_manifest,
+                    "remaining_blockers",
+                )
             )
         if strategy_human_review_count:
             blockers.append(
@@ -1071,6 +1147,14 @@ def _validation_gate(
                 review_manifest,
                 "optional_osrm_benchmark_unpinned_row_count",
             ),
+            "osrm_raw_response_file_count": _dict_int(
+                osrm_manifest,
+                "raw_response_file_count",
+            ),
+            "osrm_unpinned_row_count": _dict_int(
+                osrm_manifest,
+                "unpinned_row_count",
+            ),
             "strategy_readiness_manifest_present": bool(
                 validation_strategy_readiness_manifest
             ),
@@ -1089,6 +1173,9 @@ def _validation_gate(
             "strategy_readiness_can_mark_complete": (
                 validation_strategy_readiness_manifest or {}
             ).get("can_mark_complete", False),
+            "strategy_readiness_remaining_blockers": (
+                validation_strategy_readiness_manifest or {}
+            ).get("remaining_blockers", []),
         },
     )
 
@@ -1176,6 +1263,11 @@ def _sensitivity_gate(
     artifact_present = bool(morris_manifest)
     scope = str((morris_manifest or {}).get("result_scope", ""))
     acceptance_ready = bool(sensitivity_acceptance["acceptance_ready"])
+    strategy_readiness = sensitivity_strategy_readiness_manifest or {}
+    strategy_remaining_blockers = _list_value(
+        sensitivity_strategy_readiness_manifest,
+        "remaining_blockers",
+    )
     strategy_blocking_count = _dict_int(
         sensitivity_strategy_readiness_manifest,
         "blocking_request_count",
@@ -1205,14 +1297,18 @@ def _sensitivity_gate(
         blockers.append("create accepted sensitivity outputs and manifest")
     if not acceptance_ready:
         blockers.extend(sensitivity_acceptance["remaining_blockers"])
-        if strategy_blocking_count:
-            blockers.append(
-                "resolve sensitivity strategy-readiness blockers before sensitivity acceptance"
-            )
-        if strategy_human_review_count:
-            blockers.append(
-                "review sensitivity strategy-readiness human-decision items before sensitivity acceptance"
-            )
+    if strategy_blocking_count:
+        blockers.append(
+            "resolve sensitivity strategy-readiness blockers before sensitivity acceptance"
+        )
+        blockers.extend(
+            f"sensitivity strategy readiness: {item}"
+            for item in strategy_remaining_blockers
+        )
+    if strategy_human_review_count:
+        blockers.append(
+            "review sensitivity strategy-readiness human-decision items before sensitivity acceptance"
+        )
     if scope_blocked:
         blockers.append(
             "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
@@ -1274,14 +1370,15 @@ def _sensitivity_gate(
                 strategy_human_review_count
             ),
             "strategy_readiness_status_counts": (
-                sensitivity_strategy_readiness_manifest or {}
+                strategy_readiness
             ).get("readiness_status_counts", {}),
-            "strategy_readiness_publication_ready": (
-                sensitivity_strategy_readiness_manifest or {}
-            ).get("publication_ready", False),
-            "strategy_readiness_can_mark_complete": (
-                sensitivity_strategy_readiness_manifest or {}
-            ).get("can_mark_complete", False),
+            "strategy_readiness_remaining_blockers": strategy_remaining_blockers,
+            "strategy_readiness_publication_ready": strategy_readiness.get(
+                "publication_ready", False
+            ),
+            "strategy_readiness_can_mark_complete": strategy_readiness.get(
+                "can_mark_complete", False
+            ),
             "result_scope": scope,
             "scope_blocked": scope_blocked,
         },
@@ -1345,6 +1442,11 @@ def _full_experiment_gate(
     status = str((pilot_manifest or {}).get("design_status", ""))
     scope = str((pilot_manifest or {}).get("result_scope", ""))
     acceptance_ready = bool(experiment_acceptance["acceptance_ready"])
+    strategy_readiness = experiment_strategy_readiness_manifest or {}
+    strategy_remaining_blockers = _list_value(
+        experiment_strategy_readiness_manifest,
+        "remaining_blockers",
+    )
     strategy_blocking_count = _dict_int(
         experiment_strategy_readiness_manifest,
         "blocking_request_count",
@@ -1374,14 +1476,18 @@ def _full_experiment_gate(
         blockers.append("create full pilot outputs and manifest")
     if not acceptance_ready:
         blockers.extend(experiment_acceptance["remaining_blockers"])
-        if strategy_blocking_count:
-            blockers.append(
-                "resolve experiment strategy-readiness blockers before experiment acceptance"
-            )
-        if strategy_human_review_count:
-            blockers.append(
-                "review experiment strategy-readiness human-decision items before experiment acceptance"
-            )
+    if strategy_blocking_count:
+        blockers.append(
+            "resolve experiment strategy-readiness blockers before experiment acceptance"
+        )
+        blockers.extend(
+            f"experiment strategy readiness: {item}"
+            for item in strategy_remaining_blockers
+        )
+    if strategy_human_review_count:
+        blockers.append(
+            "review experiment strategy-readiness human-decision items before experiment acceptance"
+        )
     if scope_blocked:
         blockers.append(
             "accept or regenerate full pilot outputs after input validation and graph-scale decision"
@@ -1438,14 +1544,15 @@ def _full_experiment_gate(
                 strategy_human_review_count
             ),
             "strategy_readiness_status_counts": (
-                experiment_strategy_readiness_manifest or {}
+                strategy_readiness
             ).get("readiness_status_counts", {}),
-            "strategy_readiness_publication_ready": (
-                experiment_strategy_readiness_manifest or {}
-            ).get("publication_ready", False),
-            "strategy_readiness_can_mark_complete": (
-                experiment_strategy_readiness_manifest or {}
-            ).get("can_mark_complete", False),
+            "strategy_readiness_remaining_blockers": strategy_remaining_blockers,
+            "strategy_readiness_publication_ready": strategy_readiness.get(
+                "publication_ready", False
+            ),
+            "strategy_readiness_can_mark_complete": strategy_readiness.get(
+                "can_mark_complete", False
+            ),
         },
     )
 
@@ -1550,6 +1657,10 @@ def _manuscript_report_gate(
         blockers.append(
             "review or revise claim-alignment overclaim candidates before manuscript acceptance"
         )
+        blockers.extend(
+            f"claim alignment: {item}"
+            for item in claim_manifest.get("remaining_blockers", [])
+        )
     return _gate(
         "manuscript_report_alignment",
         "Manuscript Report Alignment",
@@ -1573,6 +1684,26 @@ def _manuscript_report_gate(
             "claim_alignment_review_manifest_present": bool(claim_manifest),
             "claim_alignment_review_row_count": claim_manifest.get("row_count", 0),
             "claim_alignment_overclaim_candidate_count": overclaim_count,
+            "claim_alignment_guardrail_language_count": claim_manifest.get(
+                "guardrail_language_count",
+                0,
+            ),
+            "claim_alignment_review_status_counts": claim_manifest.get(
+                "review_status_counts",
+                {},
+            ),
+            "claim_alignment_claim_category_counts": claim_manifest.get(
+                "claim_category_counts",
+                {},
+            ),
+            "claim_alignment_gate_dependency_counts": claim_manifest.get(
+                "gate_dependency_counts",
+                {},
+            ),
+            "claim_alignment_remaining_blockers": claim_manifest.get(
+                "remaining_blockers",
+                [],
+            ),
             "claim_alignment_publication_ready": claim_manifest.get(
                 "publication_ready",
                 False,

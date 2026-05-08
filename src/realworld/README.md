@@ -79,7 +79,8 @@ Implemented extension modules now also cover:
   validation-summary scope, and benchmark-strategy blockers into review
   support without accepting validation evidence.
 - `osrm_snapshot_manifest.py`: optional OSRM benchmark manifest generation for
-  CSV/Summary checksums, query URLs, live/unpinned status, and claim limits.
+  CSV/Summary checksums, query URLs, cached/unpinned status, raw response
+  files, and claim limits.
 - `route_road_evidence_exposure.py`: route-level review aid that links weak
   road speed, capacity, disruption, and connector assumptions to canonical
   route candidates without accepting road calibration.
@@ -132,11 +133,11 @@ Implemented extension modules now also cover:
   validation-ladder, artifact-regeneration, manifest-path, cloned-repo
   import-boundary, command-count, and not-operational claim-boundary acceptance
   records.
-- `reproducibility_review_packet.py`: generated 7-row worksheet that records
+- `reproducibility_review_packet.py`: generated 8-row worksheet that records
   scaffold manifest scope, formal acceptance absence, Git worktree state,
   untracked artifact risk, validation command ladder, runtime `cloned_repo`
-  import boundary, and clean-checkout execution scope without accepting
-  reproducibility evidence.
+  import boundary, bounded clean-checkout smoke, and clean-checkout execution
+  scope without accepting reproducibility evidence.
 - `reproducibility_smoke.py`: bounded current-worktree smoke runner for the
   acceptance/reproducibility command ladder. It writes a manifest, JSONL log,
   and markdown summary while keeping clean-checkout acceptance blocked.

@@ -50,9 +50,15 @@ def test_validation_review_rows_summarize_current_artifacts() -> None:
     assert "snapshot_manifest_present=true" in by_category[
         "optional_osrm_route_benchmarks"
     ]["coverage_counts"]
-    assert "snapshot_manifest_unpinned_rows=3" in by_category[
+    assert "snapshot_manifest_unpinned_rows=0" in by_category[
         "optional_osrm_route_benchmarks"
     ]["coverage_counts"]
+    assert "snapshot_manifest_raw_response_files=3" in by_category[
+        "optional_osrm_route_benchmarks"
+    ]["coverage_counts"]
+    assert by_category["optional_osrm_route_benchmarks"]["review_status"] == (
+        "ready_for_review_cached_external_snapshot"
+    )
     assert by_category["accessibility_loss_coverage"]["row_count"] == "127"
     assert "disconnected=22" in by_category["accessibility_loss_coverage"][
         "status_counts"
@@ -113,7 +119,11 @@ def test_write_validation_review_packet_outputs_csv_and_manifest() -> None:
         assert written_manifest["route_road_evidence_exposure_row_count"] == 76
         assert written_manifest["optional_osrm_benchmark_present"] is True
         assert written_manifest["optional_osrm_benchmark_manifest_present"] is True
-        assert written_manifest["optional_osrm_benchmark_unpinned_row_count"] == 3
+        assert written_manifest["optional_osrm_benchmark_unpinned_row_count"] == 0
+        assert (
+            written_manifest["optional_osrm_benchmark_raw_response_file_count"]
+            == 3
+        )
         assert "does not close the validation gate" in written_manifest[
             "claim_boundary"
         ]

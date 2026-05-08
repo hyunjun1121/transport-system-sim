@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -29,6 +29,9 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_strategy_readiness_packet.csv
 - data/validation/graph_scale_strategy_readiness_manifest.json
 - docs/graph_scale_strategy_readiness_packet.md
+- data/validation/full_graph_runtime_readiness_packet.csv
+- data/validation/full_graph_runtime_readiness_manifest.json
+- docs/full_graph_runtime_readiness_packet.md
 - data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
 - scripts/write_graph_scale_strategy_readiness_packet.py
@@ -58,6 +61,9 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_strategy_readiness_packet.csv
 - data/validation/graph_scale_strategy_readiness_manifest.json
 - docs/graph_scale_strategy_readiness_packet.md
+- data/validation/full_graph_runtime_readiness_packet.csv
+- data/validation/full_graph_runtime_readiness_manifest.json
+- docs/full_graph_runtime_readiness_packet.md
 - data/validation/graph_scale_result_comparison.csv
 - data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
@@ -79,6 +85,10 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - Full graph may be computationally expensive without accepted sampling strategy.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 - resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- graph-scale strategy readiness: graph_scale_acceptance.json is absent
+- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
+- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 
 ## Required Actions
@@ -87,6 +97,10 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 - resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- graph-scale strategy readiness: graph_scale_acceptance.json is absent
+- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
+- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 
 ## Formal Acceptance Boundary
@@ -105,6 +119,10 @@ Formal acceptance artifacts:
   "blockers": [
     "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
     "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
+    "graph-scale strategy readiness: graph_scale_acceptance.json is absent",
+    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
+    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
   ],
   "details": {
@@ -126,6 +144,12 @@ Formal acceptance artifacts:
     "strategy_readiness_human_review_request_count": 2,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
+    "strategy_readiness_remaining_blockers": [
+      "graph_scale_acceptance.json is absent",
+      "current reduced-corridor output has alternate-route warnings",
+      "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+      "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+    ],
     "strategy_readiness_status_counts": {
       "blocked_incomplete_multi_corridor_run_profile": 1,
       "blocked_missing_full_graph_experiment_outputs": 1,
@@ -149,6 +173,9 @@ Formal acceptance artifacts:
     "data/validation/graph_scale_strategy_readiness_packet.csv",
     "data/validation/graph_scale_strategy_readiness_manifest.json",
     "docs/graph_scale_strategy_readiness_packet.md",
+    "data/validation/full_graph_runtime_readiness_packet.csv",
+    "data/validation/full_graph_runtime_readiness_manifest.json",
+    "docs/full_graph_runtime_readiness_packet.md",
     "data/validation/graph_scale_result_comparison.csv",
     "data/validation/graph_scale_result_comparison_manifest.json",
     "scripts/write_graph_scale_review_packet.py",

@@ -33,7 +33,7 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "cached_osm_input",
-  "generated_at": "2026-05-06T06:39:24+00:00",
+  "generated_at": "2026-05-08T09:20:28+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -44,7 +44,10 @@
     "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
     "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent"
+    "road override application: reviewed road-class override table is absent",
+    "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides"
   ],
   "reviewed_inputs": [
     "data/parameters/parameter_evidence_review_packet.csv",
@@ -83,7 +86,10 @@
     "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
     "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent"
+    "road override application: reviewed road-class override table is absent",
+    "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides"
   ],
   "schema_version": 1,
   "source_paths": [

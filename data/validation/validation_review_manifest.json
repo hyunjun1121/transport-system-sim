@@ -45,7 +45,8 @@
   "optional_osrm_benchmark_manifest_present": true,
   "optional_osrm_benchmark_manifest_scope": "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance",
   "optional_osrm_benchmark_present": true,
-  "optional_osrm_benchmark_unpinned_row_count": 3,
+  "optional_osrm_benchmark_raw_response_file_count": 3,
+  "optional_osrm_benchmark_unpinned_row_count": 0,
   "osrm_benchmark_status_counts": {
     "fail": 0,
     "pass": 3,
@@ -67,10 +68,10 @@
   ],
   "review_required": true,
   "review_status_counts": {
+    "ready_for_review_cached_external_snapshot": 1,
     "review_required_disconnected_accessibility_cases": 1,
     "review_required_fallback_warn_or_fail_rows": 1,
     "review_required_no_validation_acceptance_record": 1,
-    "review_required_unpinned_external_snapshot": 1,
     "review_required_warn_rows": 1,
     "review_required_weak_route_road_evidence_exposure": 1,
     "scope_boundary_present_review_required": 1
@@ -86,10 +87,10 @@
   "row_count": 7,
   "schema_version": 1,
   "status_counts": {
+    "ready_for_review_cached_external_snapshot": 1,
     "review_required_disconnected_accessibility_cases": 1,
     "review_required_fallback_warn_or_fail_rows": 1,
     "review_required_no_validation_acceptance_record": 1,
-    "review_required_unpinned_external_snapshot": 1,
     "review_required_warn_rows": 1,
     "review_required_weak_route_road_evidence_exposure": 1,
     "scope_boundary_present_review_required": 1

@@ -201,6 +201,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
+        row["label"] == "pilot_road_cache_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
         row["label"] == "figure_table_manifest" and row["ok"]
         for row in summary["json_checks"]
     )
@@ -548,7 +552,22 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["parameter_evidence_audit"]["missing_core_parameter_count"] == 0
     assert summary["road_evidence_audit"]["publication_ready"] is False
     assert summary["road_evidence_audit"]["edge_count"] == 28947
+    assert summary["road_evidence_audit"]["cache_manifest_metadata_ready"] is True
     assert summary["road_evidence_audit"]["capacity_explicit_rate"] == 0.0
+    assert summary["pilot_road_cache_manifest_audit"]["manifest_present"] is True
+    assert summary["pilot_road_cache_manifest_audit"]["metadata_ready"] is True
+    assert summary["pilot_road_cache_manifest_audit"]["boundary_ready"] is True
+    assert summary["pilot_road_cache_manifest_audit"]["tooling_ready"] is True
+    assert (
+        summary["pilot_road_cache_manifest_audit"]["edge_count"]
+        == summary["road_evidence_audit"]["edge_count"]
+    )
+    assert any(
+        "does not replace road-source review" in blocker
+        for blocker in summary["pilot_road_cache_manifest_audit"][
+            "remaining_blockers"
+        ]
+    )
     assert summary["road_evidence_diagnostics_audit"]["diagnostics_ready"] is True
     assert summary["road_evidence_diagnostics_audit"]["edge_count"] == 28947
     assert summary["road_evidence_diagnostics_audit"]["highway_class_count"] >= 5

@@ -6,29 +6,30 @@ Source URL remediation packet only; not source acceptance, not license certifica
 
 - Publication ready: `false`
 - Can mark complete: `false`
-- Remediation rows: 16
+- Remediation rows: 17
 - Blocking issues: 0
-- Live checks still required: 12
-- Status counts: `{'live_check_required': 12, 'local_citation_needs_review': 4}`
+- Live checks still required: 0
+- Status counts: `{'local_citation_needs_review': 4, 'reachable_needs_license_review': 13}`
 
 ## Remediation Rows
 
 | Source | URL Status | Remediation | Priority | Required Action |
 | --- | --- | --- | --- | --- |
-| osm_overpass_road_snapshot | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| osm_overpass_road_snapshot | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | pilot_region_spec | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 | parameter_source_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| seoul_station_binding_cache | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| seoul_shortest_path_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| seoul_shortest_path_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| seoul_timetable_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| seoul_timetable_api_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| metro9_capacity_context | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
-| osrm_public_route_benchmark | not_checked | live_check_required | high | run the live source-URL check and then manually verify or replace the source |
+| seoul_station_binding_cache | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| metro9_capacity_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | structured_scenario_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 | reproducibility_package | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 

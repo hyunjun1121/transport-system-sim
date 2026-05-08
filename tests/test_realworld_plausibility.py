@@ -205,11 +205,21 @@ def test_osrm_route_benchmark_builder_uses_injected_fetcher() -> None:
     graph = synthetic_route_graph(length_m=1_200.0)
     route = RouteCheck("synthetic_route", "A", "D", "synthetic direct route")
     seen_urls: list[str] = []
+    captured_payloads: list[tuple[str, str, float]] = []
 
     def fake_fetch(url: str, timeout_s: float):
         seen_urls.append(url)
         assert timeout_s == 7.0
         return {"routes": [{"distance": 1234.5, "duration": 210.0}]}
+
+    def payload_callback(route: RouteCheck, url: str, payload: dict) -> None:
+        captured_payloads.append(
+            (
+                route.check_id,
+                url,
+                float(payload["routes"][0]["distance"]),
+            )
+        )
 
     benchmarks = build_osrm_route_benchmarks(
         graph,
@@ -217,6 +227,7 @@ def test_osrm_route_benchmark_builder_uses_injected_fetcher() -> None:
         base_url=DEFAULT_OSRM_BASE_URL,
         timeout_s=7.0,
         fetch_json=fake_fetch,
+        payload_callback=payload_callback,
     )
 
     assert len(benchmarks) == 1
@@ -226,6 +237,7 @@ def test_osrm_route_benchmark_builder_uses_injected_fetcher() -> None:
     assert benchmarks[0].source_class == OSRM_BENCHMARK_SOURCE_CLASS
     assert benchmarks[0].benchmark_distance_m == 1234.5
     assert benchmarks[0].benchmark_duration_min == 3.5
+    assert captured_payloads == [("synthetic_route", seen_urls[0], 1234.5)]
 
     print("PASS: OSRM benchmark builder supports injected offline fetcher")
 

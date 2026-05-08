@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -19,6 +19,7 @@ from src.realworld.source_url_review_packet import (  # noqa: E402
     SOURCE_URL_REVIEW_COLUMNS,
     SOURCE_URL_REVIEW_SCOPE,
     UrlCheckResult,
+    build_source_url_review_manifest,
     build_source_url_review_rows,
     check_url_reachability,
     extract_urls,
@@ -141,6 +142,48 @@ def test_check_url_reachability_falls_back_from_head_http_error() -> None:
     print("PASS: source URL reachability falls back from HEAD HTTP errors")
 
 
+def test_check_url_reachability_falls_back_from_head_network_error() -> None:
+    """Sites that reject HEAD at the socket layer should still try GET."""
+
+    class FakeResponse:
+        status = 200
+        headers = {"content-type": "text/html"}
+
+        def __init__(self, url: str) -> None:
+            self._url = url
+
+        def __enter__(self) -> "FakeResponse":
+            return self
+
+        def __exit__(self, *args: object) -> None:
+            return None
+
+        def geturl(self) -> str:
+            return self._url
+
+    def fake_urlopen(request: object, timeout: float) -> FakeResponse:
+        assert timeout == 2.0
+        method = request.get_method()  # type: ignore[attr-defined]
+        url = request.full_url  # type: ignore[attr-defined]
+        if method == "HEAD":
+            raise URLError("fixture connection reset")
+        assert method == "GET"
+        return FakeResponse(url)
+
+    original_urlopen = source_url_module.urlopen
+    source_url_module.urlopen = fake_urlopen  # type: ignore[assignment]
+    try:
+        result = check_url_reachability("https://example.com/source", timeout_sec=2.0)
+    finally:
+        source_url_module.urlopen = original_urlopen  # type: ignore[assignment]
+
+    assert result.url_status == "reachable"
+    assert result.http_status == "200"
+    assert "HEAD network error" in result.notes
+
+    print("PASS: source URL reachability falls back from HEAD network errors")
+
+
 def test_write_source_url_review_packet_outputs_artifacts() -> None:
     """Writer should emit stable CSV, manifest, and Markdown artifacts."""
 
@@ -173,6 +216,36 @@ def test_write_source_url_review_packet_outputs_artifacts() -> None:
         assert "Source URL Review Packet" in text
 
     print("PASS: source URL review writer emits artifacts")
+
+
+def test_source_url_review_manifest_surfaces_failed_live_rows() -> None:
+    """A live-check failure should remain visible in review blockers."""
+
+    rows = [
+        {
+            "source_id": "fixture_source",
+            "check_mode": "live_http",
+            "url_status": "network_error",
+            "requires_reviewer_confirmation": "true",
+        }
+    ]
+
+    manifest = build_source_url_review_manifest(
+        rows=rows,
+        output_path="source_url_review.csv",
+        manifest_path="source_url_review_manifest.json",
+        doc_path="source_url_review.md",
+        provenance_manifest_path="source_provenance_manifest.json",
+    )
+
+    assert manifest["unreachable_or_error_count"] == 1
+    assert any(
+        "network-error URL rows" in blocker
+        for blocker in manifest["remaining_blockers"]
+    )
+    assert any("failed URL rows" in item for item in manifest["review_items"])
+
+    print("PASS: source URL review manifest surfaces failed live rows")
 
 
 def test_shipped_source_url_review_packet_matches_current_manifest() -> None:
@@ -220,6 +293,8 @@ if __name__ == "__main__":
     test_source_url_review_rows_are_non_acceptance_rows()
     test_source_url_review_rows_support_injected_live_checker()
     test_check_url_reachability_falls_back_from_head_http_error()
+    test_check_url_reachability_falls_back_from_head_network_error()
     test_write_source_url_review_packet_outputs_artifacts()
+    test_source_url_review_manifest_surfaces_failed_live_rows()
     test_shipped_source_url_review_packet_matches_current_manifest()
     print("\n=== REALWORLD SOURCE URL REVIEW PACKET TESTS PASSED ===")

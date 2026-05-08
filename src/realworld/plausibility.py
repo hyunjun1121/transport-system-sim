@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from math import isfinite
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
@@ -355,6 +355,9 @@ def build_osrm_route_benchmarks(
     base_url: str = DEFAULT_OSRM_BASE_URL,
     timeout_s: float = 20.0,
     fetch_json: Any | None = None,
+    source_class: str = OSRM_BENCHMARK_SOURCE_CLASS,
+    reference_version: str = "live_snapshot_unpinned",
+    payload_callback: Callable[[RouteCheck, str, Mapping[str, Any]], None] | None = None,
 ) -> tuple[ExternalRouteBenchmark, ...]:
     """Build route benchmarks from the OSRM public route API.
 
@@ -381,6 +384,10 @@ def build_osrm_route_benchmarks(
         )
         url = f"{clean_base}/route/v1/driving/{coordinates}?{query}"
         payload = fetcher(url, timeout_s)
+        if not isinstance(payload, Mapping):
+            raise ValueError(f"OSRM response is not a JSON object for {route.check_id}")
+        if payload_callback is not None:
+            payload_callback(route, url, payload)
         try:
             route_payload = payload["routes"][0]
             distance_m = float(route_payload["distance"])
@@ -394,16 +401,23 @@ def build_osrm_route_benchmarks(
                 benchmark_distance_m=distance_m,
                 benchmark_duration_min=duration_min,
                 method=OSRM_BENCHMARK_METHOD,
-                source_class=OSRM_BENCHMARK_SOURCE_CLASS,
+                source_class=source_class,
                 reference_source=clean_base,
-                reference_version="live_snapshot_unpinned",
+                reference_version=reference_version,
                 notes=(
-                    "optional live OSRM route API snapshot; not ground truth; "
-                    f"url={url}"
+                    f"{_osrm_snapshot_note_prefix(source_class)}; "
+                    "not ground truth; "
+                    f"reference_version={reference_version}; url={url}"
                 ),
             )
         )
     return tuple(benchmarks)
+
+
+def _osrm_snapshot_note_prefix(source_class: str) -> str:
+    if "cached" in source_class.lower():
+        return "optional cached OSRM route API snapshot"
+    return "optional live OSRM route API snapshot"
 
 
 def evaluate_external_route_benchmarks(

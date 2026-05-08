@@ -18,6 +18,10 @@
     }
   },
   "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
+  "index_status_counts": {
+    "available": 6888,
+    "unavailable_nonfinite_metric_outputs": 168
+  },
   "inputs": {
     "cache_path": "data/cache/pilot_region_road.graphml",
     "disruption_scenarios_path": "data/scenarios/disruption_scenarios.csv",
@@ -27,6 +31,7 @@
   },
   "method": "salib_morris",
   "morris_sample_count": 60,
+  "morris_summary_schema_version": 2,
   "num_levels": 4,
   "num_trajectories": 4,
   "parameter_ids": [
@@ -160,5 +165,6 @@
   "seed": 2201,
   "source_graph_edges": 9148,
   "source_graph_nodes": 4608,
-  "summary_row_count": 7056
+  "summary_row_count": 7056,
+  "unavailable_index_row_count": 168
 }

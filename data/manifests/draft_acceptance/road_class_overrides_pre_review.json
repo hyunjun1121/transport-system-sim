@@ -208,7 +208,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-06T06:39:45+00:00",
+  "generated_at": "2026-05-08T09:12:56+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -230,6 +230,9 @@
     "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
     "road override application: reviewed road-class override table is absent",
+    "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
     "data/parameters/road_class_overrides.csv is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -251,6 +254,9 @@
     "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
     "road override application: reviewed road-class override table is absent",
+    "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
     "data/parameters/road_class_overrides.csv is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."

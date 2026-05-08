@@ -1,8 +1,5 @@
 # Reproducibility Smoke Run
 
-> Current project status (2026-05-06): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 `data/validation/reproducibility_smoke_manifest.json` records a bounded
 current-worktree smoke run. It is not a clean-checkout reproduction and
 does not close `data/manifests/reproducibility_acceptance.json`.
@@ -11,7 +8,7 @@ does not close `data/manifests/reproducibility_acceptance.json`.
 
 - Result scope: `current_worktree_smoke_not_clean_checkout`
 - Smoke passed: `true`
-- Commands passed: 24 / 24
+- Commands passed: 25 / 25
 - Clean checkout tested: `false`
 - Can mark complete: `false`
 
@@ -32,6 +29,7 @@ does not close `data/manifests/reproducibility_acceptance.json`.
 | test_formal_acceptance_evidence_matrix | passed | 0 |
 | test_formal_acceptance_pre_review | passed | 0 |
 | test_goal_completion_audit | passed | 0 |
+| test_clean_checkout_smoke | passed | 0 |
 | test_final_study_readiness | passed | 0 |
 | test_plan_audit | passed | 0 |
 | test_reproducibility_review_packet | passed | 0 |

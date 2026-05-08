@@ -1,4 +1,4 @@
-"""Deterministic scenario regression tests.
+r"""Deterministic scenario regression tests.
 
 These tests document Wave 1 target behavior for the scenario orchestrator.
 They intentionally exercise the public run_scenario API and avoid pytest so the

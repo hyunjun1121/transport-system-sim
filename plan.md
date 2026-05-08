@@ -25,7 +25,7 @@ superior in the real world.
 
 ## Current Audit Snapshot
 
-As of 2026-05-06, the final-study readiness audit remains blocked:
+As of 2026-05-08, the final-study readiness audit remains blocked:
 `final_study_ready=false`. The ready final gates are 3/15:
 `real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
 The other 12/15 gates are blocked.
@@ -319,7 +319,17 @@ First pilot-smoke artifacts also exist:
   cached pilot graph.
 - `scripts/run_full_graph_smoke.py` runs a tiny bus-only and baseline
   multimodal smoke on the full 4,608-node / 9,148-edge bus-practical graph
-  without corridor reduction. This is full-graph feasibility evidence only.
+  without corridor reduction and now writes
+  `data/validation/full_graph_smoke_manifest.json` plus
+  `docs/full_graph_smoke.md`. This is full-graph feasibility evidence only.
+- `src/realworld/full_graph_runtime_readiness_packet.py` and
+  `scripts/write_full_graph_runtime_readiness_packet.py` convert the
+  full-graph smoke manifest, current full-profile design counts, and absent
+  full-graph output manifest into a 4-row runtime-readiness worksheet under
+  `data/validation/full_graph_runtime_readiness_packet.csv`. It records
+  smoke evidence, missing full-profile full-graph outputs, runtime-scope
+  review, and downstream regeneration decisions without accepting full-graph
+  execution.
 - `src/realworld/graph_scale_diagnostics.py` and
   `scripts/run_graph_scale_diagnostics.py` compare the current canonical road
   legs `A -> D`, `A -> S`, and `R -> D` on the full bus-practical graph and
@@ -344,13 +354,16 @@ First pilot-smoke artifacts also exist:
   deciding the final graph-scale method, not acceptance evidence.
 - `src/realworld/graph_scale_strategy_readiness_packet.py` and
   `scripts/write_graph_scale_strategy_readiness_packet.py` convert that
-  4-option worksheet and the current-vs-candidate result-delta manifest into
-  a 5-row pre-review readiness packet under
+  4-option worksheet, the full-graph runtime-readiness manifest, and the
+  current-vs-candidate result-delta manifest into a 5-row pre-review readiness
+  packet under
   `data/validation/graph_scale_strategy_readiness_packet.csv`. It separates
   current reduced-corridor alternate-route warnings, incomplete small
   multi-corridor output, full-profile candidate result deltas, missing
   full-graph experiment output, and the missing graph-scale acceptance record
-  without choosing or approving a graph-scale method.
+  without choosing or approving a graph-scale method. The full-graph row now
+  points to smoke/runtime evidence but remains blocked because full
+  scenario-policy-seed outputs are absent.
 - `src/realworld/graph_scale_result_comparison.py` and
   `scripts/write_graph_scale_result_comparison.py` now compare the current
   full-pilot summary with the full-profile multi-corridor candidate summary.
@@ -471,8 +484,9 @@ First pilot-smoke artifacts also exist:
 - `src/realworld/osrm_snapshot_manifest.py` and
   `scripts/write_osrm_snapshot_manifest.py` now write
   `data/validation/osrm_route_benchmark_manifest.json`, recording OSRM CSV and
-  summary checksums, query URLs, source/status counts, 3 live/unpinned rows,
-  and a non-acceptance claim boundary.
+  summary checksums, query URLs, source/status counts, 3 cached
+  external-router rows, 0 unpinned rows, retained raw response files, and a
+  non-acceptance claim boundary.
 - `data/scenarios/` contains deterministic structured disruption and policy
   alternative tables with helpers in `src/realworld/disruption_scenarios.py`
   and `src/realworld/policy_alternatives.py`.
@@ -584,14 +598,15 @@ First pilot-smoke artifacts also exist:
   scaffold-only reproduction package.
 - `src/realworld/reproducibility_review_packet.py` and
   `scripts/write_reproducibility_review_packet.py` turn clean-checkout
-  reproducibility into a 7-row review packet covering scaffold manifest scope,
+  reproducibility into an 8-row review packet covering scaffold manifest scope,
   formal acceptance-record absence, Git worktree state, untracked artifact
   risk, validation command ladder, runtime `cloned_repo` import boundary, and
-  clean-checkout execution scope. It is review support only and does not
-  create `data/manifests/reproducibility_acceptance.json`.
+  bounded clean-checkout smoke plus clean-checkout execution scope. It is
+  review support only and does not create
+  `data/manifests/reproducibility_acceptance.json`.
 - `src/realworld/reproducibility_smoke.py` and
   `scripts/run_reproducibility_smoke.py` run a bounded current-worktree smoke
-  ladder. The current manifest records 22 passing commands and
+  ladder. The current manifest records 24 passing commands and
   `smoke_passed: true`, but it explicitly keeps
   `clean_checkout_test_performed: false`, `can_mark_complete: false`, and
   final-study readiness blocked.
@@ -679,9 +694,11 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\run_pilot_smoke.py
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
 .\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
+.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_diagnostics.py
+.\.venv\Scripts\python tests\test_realworld_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_review.py
 .\.venv\Scripts\python tests\test_realworld_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_rail_gtfs.py
@@ -1118,8 +1135,9 @@ Current status:
   warn/fail rows. Keep it optional because it depends on a live public service
   and remains plausibility evidence, not ground truth.
 - The OSRM snapshot manifest now records the cached OSRM CSV checksum, summary
-  checksum, query URLs, source/status counts, and 3 live/unpinned rows. It is a
-  provenance aid only and does not make OSRM accepted validation evidence.
+  checksum, query URLs, source/status counts, 3 cached external-router rows,
+  0 unpinned rows, and retained raw response files. It is a provenance aid
+  only and does not make OSRM accepted validation evidence.
 - The deterministic fallback benchmark still warns on `A -> S`, which should
   be interpreted as a conservative claim-boundary signal about connector and
   access-corridor assumptions.
@@ -2002,9 +2020,10 @@ Concrete next tasks:
    corridor-selection rule, whether to regenerate experiments on the
    164-node / 246-edge candidate graph, or whether to replace the current
    graph method with full-graph runtime evidence or a multi-corridor ensemble
-   before graph-scale acceptance. Use the graph-scale review packet and
-   graph-scale strategy-readiness packet as the consolidated method-selection
-   and blocker-classification worksheets.
+   before graph-scale acceptance. Use the graph-scale review packet,
+   full-graph runtime-readiness packet, and graph-scale strategy-readiness
+   packet as the consolidated method-selection and blocker-classification
+   worksheets.
 6. Review the source-graph and analysis-graph scale fields now recorded in
    every pilot, sensitivity, Morris, and figure/table manifest, and keep this
    distinction visible in all manuscript/report result text.

@@ -37,7 +37,7 @@ def test_validation_strategy_readiness_rows_classify_blockers() -> None:
                 "optional_osrm_route_benchmarks",
                 "true",
                 "fail=0; pass=3; warn=0",
-                "snapshot_manifest_unpinned_rows=3",
+                "snapshot_manifest_raw_response_files=0; snapshot_manifest_unpinned_rows=3",
                 "review_required_unpinned_external_snapshot",
             ),
             _row(
@@ -57,6 +57,9 @@ def test_validation_strategy_readiness_rows_classify_blockers() -> None:
     assert by_id["optional_osrm_route_benchmarks"]["readiness_status"] == (
         "blocked_unpinned_external_route_snapshot"
     )
+    assert "snapshot_manifest_raw_response_files=0" in by_id[
+        "optional_osrm_route_benchmarks"
+    ]["coverage_counts"]
     assert by_id["benchmark_strategy_decision_requirement"]["readiness_status"] == (
         "blocked_missing_validation_acceptance_record"
     )
@@ -66,6 +69,30 @@ def test_validation_strategy_readiness_rows_classify_blockers() -> None:
     assert all(row["can_support_validation_gate"] == "false" for row in rows)
 
     print("PASS: validation strategy-readiness rows classify blockers")
+
+
+def test_validation_strategy_readiness_rows_block_missing_osrm_raw_payloads() -> None:
+    """Cached external-route snapshots still need retained raw payloads."""
+
+    rows = build_validation_strategy_readiness_rows(
+        review_rows=[
+            _row(
+                "optional_osrm_route_benchmarks",
+                "true",
+                "fail=0; pass=3; warn=0",
+                "snapshot_manifest_raw_response_files=0; snapshot_manifest_unpinned_rows=0",
+                "ready_for_review_cached_external_snapshot",
+            ),
+        ]
+    )
+
+    assert rows[0]["readiness_status"] == (
+        "blocked_missing_external_route_raw_payloads"
+    )
+    assert "raw response payloads" in rows[0]["blocking_reason"]
+    assert "retain raw payloads" in rows[0]["required_reviewer_action"]
+
+    print("PASS: validation strategy-readiness rows block missing OSRM raw payloads")
 
 
 def test_validation_strategy_readiness_rows_classify_weak_route_exposure() -> None:
@@ -192,6 +219,7 @@ def _row(
 
 if __name__ == "__main__":
     test_validation_strategy_readiness_rows_classify_blockers()
+    test_validation_strategy_readiness_rows_block_missing_osrm_raw_payloads()
     test_validation_strategy_readiness_rows_classify_weak_route_exposure()
     test_write_validation_strategy_readiness_packet_outputs_artifacts()
     test_shipped_validation_strategy_readiness_packet_matches_current_review()

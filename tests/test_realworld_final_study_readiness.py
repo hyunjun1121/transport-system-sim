@@ -49,9 +49,76 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["policy_alternatives"]["ready"] is True
     assert gate_map["real_input_smoke"]["ready"] is True
     assert gate_map["pilot_region_accepted"]["ready"] is False
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "source_readiness_source_url_or_citation_present_count"
+        ]
+        == 5
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "source_readiness_required_external_input_present_count"
+        ]
+        == 5
+    )
+    assert any(
+        "road source readiness: reviewed road_class_overrides.csv is absent"
+        in item
+        for item in gate_map["cached_osm_input"]["blockers"]
+    )
     assert gate_map["graph_scale_strategy"]["ready"] is False
+    assert any(
+        "graph_scale_acceptance.json is absent" in item
+        for item in gate_map["graph_scale_strategy"]["details"][
+            "strategy_readiness_remaining_blockers"
+        ]
+    )
+    assert any(
+        "graph-scale strategy readiness: graph_scale_acceptance.json is absent"
+        in item
+        for item in gate_map["graph_scale_strategy"]["blockers"]
+    )
     assert gate_map["parameter_evidence"]["ready"] is False
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "source_readiness_source_url_or_citation_present_count"
+        ]
+        == 6
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "source_readiness_required_external_input_present_count"
+        ]
+        == 6
+    )
+    assert any(
+        "parameter source readiness: all rows require human review" in item
+        for item in gate_map["parameter_evidence"]["blockers"]
+    )
     assert gate_map["rail_evidence"]["ready"] is False
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "fetch_readiness_source_url_or_citation_present_count"
+        ]
+        == 5
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "fetch_readiness_required_external_input_present_count"
+        ]
+        == 5
+    )
+    assert any(
+        "reviewed-GTFS rows require external reviewer-provided inputs" in item
+        for item in gate_map["rail_evidence"]["details"][
+            "fetch_readiness_remaining_blockers"
+        ]
+    )
+    assert any(
+        "rail fetch readiness: API-key and reviewed-GTFS rows require external"
+        in item
+        for item in gate_map["rail_evidence"]["blockers"]
+    )
     assert gate_map["validation_package"]["ready"] is False
     assert gate_map["validation_package"]["details"]["review_packet_row_count"] == 7
     assert (
@@ -76,10 +143,81 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["validation_package"]["details"][
             "review_packet_osrm_unpinned_row_count"
         ]
+        == 0
+    )
+    assert gate_map["validation_package"]["details"]["osrm_unpinned_row_count"] == 0
+    assert (
+        gate_map["validation_package"]["details"]["osrm_raw_response_file_count"]
         == 3
     )
+    assert not any(
+        "raw OSRM response payloads" in item
+        for item in gate_map["validation_package"]["details"][
+            "strategy_readiness_remaining_blockers"
+        ]
+    )
+    assert not any(
+        "live/unpinned" in item
+        for item in gate_map["validation_package"]["details"][
+            "strategy_readiness_remaining_blockers"
+        ]
+    )
+    assert not any(
+        "raw OSRM response payloads" in item
+        for item in gate_map["validation_package"]["blockers"]
+    )
+    assert not any(
+        "Validation Package: validation strategy readiness: retained raw OSRM response payloads"
+        in item
+        for item in summary["remaining_blockers"]
+    )
     assert gate_map["sensitivity_analysis"]["ready"] is False
+    assert any(
+        "Morris-vs-Sobol method decision" in item
+        for item in gate_map["sensitivity_analysis"]["details"][
+            "strategy_readiness_remaining_blockers"
+        ]
+    )
+    assert any(
+        "sensitivity strategy readiness: Morris-vs-Sobol method decision"
+        in item
+        for item in gate_map["sensitivity_analysis"]["blockers"]
+    )
     assert gate_map["full_experiment_output"]["ready"] is False
+    assert any(
+        "graph method that is not accepted" in item
+        for item in gate_map["full_experiment_output"]["details"][
+            "strategy_readiness_remaining_blockers"
+        ]
+    )
+    assert any(
+        "experiment strategy readiness: full-pilot outputs depend on a graph method"
+        in item
+        for item in gate_map["full_experiment_output"]["blockers"]
+    )
+    assert gate_map["manuscript_report_alignment"]["ready"] is False
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "claim_alignment_overclaim_candidate_count"
+        ]
+        == 108
+    )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "claim_alignment_review_status_counts"
+        ]["requires_revision_or_acceptance"]
+        == 108
+    )
+    assert any(
+        "claim-alignment rows are review aids" in item
+        for item in gate_map["manuscript_report_alignment"]["details"][
+            "claim_alignment_remaining_blockers"
+        ]
+    )
+    assert any(
+        "claim alignment: claim-alignment rows are review aids" in item
+        for item in gate_map["manuscript_report_alignment"]["blockers"]
+    )
     assert gate_map["final_audit"]["ready"] is False
     assert summary["remaining_blockers"]
 
@@ -585,6 +723,15 @@ def _claim_alignment_manifest(
     return {
         "row_count": 1,
         "overclaim_candidate_count": overclaim_candidate_count,
+        "guardrail_language_count": 0,
+        "review_status_counts": {
+            "requires_revision_or_acceptance": overclaim_candidate_count,
+        },
+        "claim_category_counts": {"validation_claim": overclaim_candidate_count},
+        "gate_dependency_counts": {"validation_package": overclaim_candidate_count},
+        "remaining_blockers": [
+            "claim-alignment rows are review aids and do not approve manuscript claims",
+        ],
         "publication_ready": False,
     }
 

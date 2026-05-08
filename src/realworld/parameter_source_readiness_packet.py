@@ -42,6 +42,8 @@ PARAMETER_SOURCE_READINESS_COLUMNS: tuple[str, ...] = (
     "weak_parameter_count",
     "source_type",
     "source_name",
+    "source_url_or_citation",
+    "required_external_input",
     "readiness_status",
     "blocking_reason",
     "source_cache_path",
@@ -133,6 +135,12 @@ def build_parameter_source_readiness_manifest(
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     group_counts = _counts(row.get("parameter_groups", "") for row in rows)
+    source_citation_count = sum(
+        1 for row in rows if str(row.get("source_url_or_citation", "")).strip()
+    )
+    external_input_count = sum(
+        1 for row in rows if str(row.get("required_external_input", "")).strip()
+    )
     blocking_count = sum(
         1 for row in rows if str(row.get("readiness_status", "")).startswith("blocked_")
     )
@@ -153,6 +161,8 @@ def build_parameter_source_readiness_manifest(
         "weak_parameter_count": weak_parameter_count,
         "readiness_status_counts": status_counts,
         "parameter_group_counts": group_counts,
+        "source_url_or_citation_present_count": source_citation_count,
+        "required_external_input_present_count": external_input_count,
         "blocking_request_count": blocking_count,
         "human_review_request_count": human_review_count,
         "parameter_evidence_gate_closure_candidate_count": 0,
@@ -207,8 +217,8 @@ def build_parameter_source_readiness_markdown(
         "",
         "## Readiness Rows",
         "",
-        "| Request | Group | Status | Source Cache | Target | Required Action |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Request | Source | Group | Status | Source Cache | Target | Required Input | Required Action |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         source_cache = (
@@ -216,12 +226,14 @@ def build_parameter_source_readiness_markdown(
         )
         target = "present" if _is_true(row.get("target_output_present", "")) else "absent"
         lines.append(
-            "| {request} | {group} | {status} | {source_cache} | {target} | {action} |".format(
+            "| {request} | {source} | {group} | {status} | {source_cache} | {target} | {input} | {action} |".format(
                 request=_cell(row.get("request_id", "")),
+                source=_cell(_source_summary(row)),
                 group=_cell(row.get("parameter_groups", "")),
                 status=_cell(row.get("readiness_status", "")),
                 source_cache=source_cache,
                 target=target,
+                input=_cell(row.get("required_external_input", "")),
                 action=_cell(row.get("required_reviewer_action", "")),
             )
         )
@@ -262,6 +274,8 @@ def _readiness_row(row: Mapping[str, str]) -> dict[str, str]:
         "weak_parameter_count": str(row.get("weak_parameter_count", "")),
         "source_type": source_type,
         "source_name": str(row.get("source_name", "")),
+        "source_url_or_citation": str(row.get("source_url_or_citation", "")),
+        "required_external_input": str(row.get("required_external_input", "")),
         "readiness_status": readiness_status,
         "blocking_reason": blocking_reason,
         "source_cache_path": cache_path,
@@ -417,6 +431,14 @@ def _display_path(path: Path) -> str:
 
 def _cell(value: object) -> str:
     return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
+def _source_summary(row: Mapping[str, str]) -> str:
+    name = str(row.get("source_name", "")).strip()
+    citation = str(row.get("source_url_or_citation", "")).strip()
+    if name and citation:
+        return f"{name}<br>{citation}"
+    return name or citation
 
 
 __all__ = [

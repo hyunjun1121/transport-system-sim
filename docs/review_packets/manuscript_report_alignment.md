@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Paper / Report Claim Alignment Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -45,6 +45,9 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - revise figure/table claim boundary from scaffold to accepted study scope
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
+- claim alignment: formal manuscript/report acceptance record is absent
+- claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
+- claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 
 ## Required Actions
 
@@ -54,6 +57,9 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - revise figure/table claim boundary from scaffold to accepted study scope
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
+- claim alignment: formal manuscript/report acceptance record is absent
+- claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
+- claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 
 ## Formal Acceptance Boundary
 
@@ -72,15 +78,46 @@ Formal acceptance artifacts:
     "close evidence gates before final paper/report claims",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "revise figure/table claim boundary from scaffold to accepted study scope",
-    "review or revise claim-alignment overclaim candidates before manuscript acceptance"
+    "review or revise claim-alignment overclaim candidates before manuscript acceptance",
+    "claim alignment: formal manuscript/report acceptance record is absent",
+    "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
+    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
   ],
   "details": {
     "acceptance_path": "data/manifests/manuscript_acceptance.json",
     "acceptance_record_present": false,
+    "claim_alignment_claim_category_counts": {
+      "acceptance_claim": 20,
+      "calibration_claim": 19,
+      "causal_or_superiority_claim": 4,
+      "figure_caption_boundary": 6,
+      "figure_table_boundary": 2,
+      "operational_claim": 23,
+      "publication_claim": 4,
+      "readiness_claim": 3,
+      "real_world_claim": 4,
+      "validation_claim": 46
+    },
+    "claim_alignment_gate_dependency_counts": {
+      "final_audit": 20,
+      "manuscript_report_alignment": 46,
+      "parameter_evidence": 19,
+      "validation_package": 46
+    },
+    "claim_alignment_guardrail_language_count": 23,
     "claim_alignment_overclaim_candidate_count": 108,
     "claim_alignment_publication_ready": false,
+    "claim_alignment_remaining_blockers": [
+      "formal manuscript/report acceptance record is absent",
+      "claim-alignment rows are review aids and do not approve manuscript claims",
+      "evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
+    ],
     "claim_alignment_review_manifest_present": true,
     "claim_alignment_review_row_count": 131,
+    "claim_alignment_review_status_counts": {
+      "guardrail_language": 23,
+      "requires_revision_or_acceptance": 108
+    },
     "figure_claim_boundary_scope_blocked": true,
     "publication_ready": false
   },

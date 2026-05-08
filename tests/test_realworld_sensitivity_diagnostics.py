@@ -26,9 +26,22 @@ def test_shipped_morris_diagnostics_are_structurally_ready() -> None:
     assert summary["row_count"] == 7056
     assert summary["manifest_summary_row_count"] == 7056
     assert summary["expected_summary_row_count_from_manifest_dimensions"] == 7056
+    assert summary["rows_with_index_issues"] == 0
+    assert summary["all_rows_with_index_issues"] == 168
+    assert summary["unavailable_index_row_count"] == 168
+    assert summary["unavailable_index_status_counts"] == {
+        "unavailable_nonfinite_metric_outputs": 168
+    }
+    assert summary["index_issue_counts"] == {
+        "mu": 0,
+        "mu_star": 0,
+        "sigma": 0,
+        "mu_star_conf": 0,
+    }
     assert summary["zero_mu_star_count"] == 4272
     assert summary["remaining_blockers"] == []
     assert summary["review_items"]
+    assert "unavailable Morris index rows" in " ".join(summary["review_items"])
     assert "not-calibrated" in " ".join(summary["review_items"])
 
     print("PASS: shipped Morris diagnostics are structurally ready")
@@ -71,11 +84,40 @@ def test_diagnostics_count_blank_and_nonfinite_indices() -> None:
     print("PASS: Morris diagnostics count blank and nonfinite indices")
 
 
+def test_diagnostics_separate_explained_unavailable_indices() -> None:
+    """Explained unavailable rows should not count as unexplained index issues."""
+
+    with TemporaryDirectory() as tmp:
+        summary_path, manifest_path = _write_fixture(
+            Path(tmp),
+            bad_indices=True,
+            unavailable_indices=True,
+        )
+
+        summary = audit_morris_sensitivity_diagnostics(
+            summary_path=summary_path,
+            manifest_path=manifest_path,
+        )
+
+        assert summary["diagnostics_ready"] is True
+        assert summary["rows_with_index_issues"] == 0
+        assert summary["all_rows_with_index_issues"] == 1
+        assert summary["unavailable_index_row_count"] == 1
+        assert summary["unavailable_index_status_counts"] == {
+            "unavailable_nonfinite_metric_outputs": 1
+        }
+        assert summary["index_issue_counts"]["mu"] == 0
+        assert summary["all_index_issue_counts"]["mu"] == 1
+
+    print("PASS: Morris diagnostics separate explained unavailable indices")
+
+
 def _write_fixture(
     directory: Path,
     *,
     manifest_summary_count: int = 1,
     bad_indices: bool = False,
+    unavailable_indices: bool = False,
 ) -> tuple[Path, Path]:
     summary_path = directory / "morris_summary.csv"
     manifest_path = directory / "morris_manifest.json"
@@ -93,6 +135,8 @@ def _write_fixture(
             "mu_star": "1.0",
             "sigma": "0.0",
             "mu_star_conf": "0.0",
+            "index_status": "available",
+            "index_issue_reason": "",
             "sample_count": "4",
             "num_trajectories": "2",
             "num_levels": "4",
@@ -102,6 +146,9 @@ def _write_fixture(
     if bad_indices:
         row["mu"] = ""
         row["sigma"] = "nan"
+    if unavailable_indices:
+        row["index_status"] = "unavailable_nonfinite_metric_outputs"
+        row["index_issue_reason"] = "1/4 metric outputs were non-finite before Morris analysis"
     with summary_path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(MORRIS_SUMMARY_COLUMNS))
         writer.writeheader()
@@ -124,4 +171,5 @@ if __name__ == "__main__":
     test_shipped_morris_diagnostics_are_structurally_ready()
     test_diagnostics_detect_count_mismatch()
     test_diagnostics_count_blank_and_nonfinite_indices()
+    test_diagnostics_separate_explained_unavailable_indices()
     print("\n=== REALWORLD SENSITIVITY DIAGNOSTICS TESTS PASSED ===")

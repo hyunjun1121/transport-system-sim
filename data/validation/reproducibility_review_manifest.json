@@ -19,9 +19,9 @@
   "clean_checkout_test_performed": true,
   "command_count": 46,
   "full_clean_environment_tested": false,
-  "git_modified_or_staged_count": 86,
-  "git_status_line_count": 92,
-  "git_untracked_count": 6,
+  "git_modified_or_staged_count": 155,
+  "git_status_line_count": 164,
+  "git_untracked_count": 9,
   "input_artifact_paths": {
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
     "reproducibility_manifest": "data/manifests/reproducibility_manifest.json"

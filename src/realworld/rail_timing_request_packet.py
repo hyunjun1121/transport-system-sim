@@ -30,6 +30,11 @@ DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH = (
 DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "rail" / "rail_timing_source_request_manifest.json"
 )
+KTDB_GTFS_SOURCE_NAME = "KTDB public transport GTFS dataset candidate"
+KTDB_GTFS_SOURCE_CITATION = (
+    "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106; "
+    "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3772"
+)
 RAIL_TIMING_SOURCE_REQUEST_SCOPE = (
     "Rail timing source-request packet; not cached rail timing evidence, "
     "not GTFS validation, not rail-service calibration, and not operational "
@@ -143,16 +148,22 @@ def build_rail_timing_source_request_rows(
             region_id=region_id,
             evidence_fields="headway;travel_time",
             source_type="reviewed_static_gtfs_file_required",
-            source_name="Reviewed static GTFS feed",
-            source_url_or_citation="GTFS source URL or citation to be filled during review",
-            required_external_input="reviewed GTFS zip or directory; access_stop_id; egress_stop_id; route_id; service window",
+            source_name=KTDB_GTFS_SOURCE_NAME,
+            source_url_or_citation=KTDB_GTFS_SOURCE_CITATION,
+            required_external_input=(
+                "reviewed KTDB or equivalent GTFS zip or directory; access_stop_id; "
+                "egress_stop_id; route_id; service window"
+            ),
             access_station_name=access_name,
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
             source_cache_path="data/rail/pilot_gtfs.zip",
             raw_payload_path="",
-            fetch_command="manual reviewed GTFS acquisition; do not synthesize feed rows",
+            fetch_command=(
+                "manual KTDB data request or reviewed GTFS acquisition; do not "
+                "synthesize feed rows"
+            ),
             derive_command=_gtfs_derive_command(capacity),
             expected_source_status="cached_gtfs_derived",
             expected_derived_fields="headway;travel_time",
@@ -437,8 +448,8 @@ def _gtfs_derive_command(capacity: str) -> str:
         "--region-id songpa_public_demo --access-point S --egress-point R "
         "--access-stop-id REVIEWED_ACCESS_STOP_ID "
         "--egress-stop-id REVIEWED_EGRESS_STOP_ID "
-        "--source-name \"Reviewed static GTFS feed\" "
-        "--source-url-or-citation \"GTFS source URL or citation\" "
+        f"--source-name \"{KTDB_GTFS_SOURCE_NAME}\" "
+        f"--source-url-or-citation \"{KTDB_GTFS_SOURCE_CITATION}\" "
         "--extraction-date REVIEW_DATE "
         f"--capacity-pax-per-train {capacity} "
         "--service-window \"reviewed weekday service window\" "
@@ -477,6 +488,8 @@ __all__ = [
     "DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH",
     "RAIL_TIMING_SOURCE_REQUEST_COLUMNS",
     "RAIL_TIMING_SOURCE_REQUEST_SCOPE",
+    "KTDB_GTFS_SOURCE_CITATION",
+    "KTDB_GTFS_SOURCE_NAME",
     "build_rail_timing_source_request_rows",
     "write_rail_timing_source_request_packet",
 ]

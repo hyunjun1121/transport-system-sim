@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -51,6 +51,10 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - Wrong parameter ranges can reverse strategy-regime conclusions.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
 - resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph
+- sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated
+- sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance
+- sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent
 - review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 
@@ -60,6 +64,10 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
 - resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph
+- sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated
+- sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance
+- sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent
 - review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 
@@ -79,6 +87,10 @@ Formal acceptance artifacts:
   "blockers": [
     "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
     "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
+    "sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph",
+    "sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated",
+    "sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance",
+    "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
     "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
     "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
   ],
@@ -91,24 +103,30 @@ Formal acceptance artifacts:
     "review_packet_acceptance_gate_closure_candidate_count": 0,
     "review_packet_publication_ready": false,
     "review_packet_row_count": 6,
-    "review_packet_rows_with_index_issues": 168,
+    "review_packet_rows_with_index_issues": 0,
     "review_packet_zero_mu_star_count": 4272,
     "row_count": 4320,
     "scope_blocked": true,
     "sobol_requirement_decision": "",
     "strategy_readiness_artifacts_present": true,
-    "strategy_readiness_blocking_request_count": 5,
+    "strategy_readiness_blocking_request_count": 4,
     "strategy_readiness_can_mark_complete": false,
-    "strategy_readiness_human_review_request_count": 2,
+    "strategy_readiness_human_review_request_count": 3,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
+    "strategy_readiness_remaining_blockers": [
+      "sensitivity outputs use a reduced analysis graph",
+      "current sensitivity result scope is scaffold or not calibrated",
+      "Morris-vs-Sobol method decision is not recorded in formal acceptance",
+      "data/manifests/sensitivity_acceptance.json is absent"
+    ],
     "strategy_readiness_status_counts": {
       "blocked_missing_morris_vs_sobol_decision": 1,
-      "blocked_missing_or_nonfinite_morris_indices": 1,
       "blocked_missing_sensitivity_acceptance_record": 1,
       "blocked_reduced_graph_scope_for_sensitivity_claims": 1,
       "blocked_scaffold_or_not_calibrated_result_scope": 1,
       "needs_human_review_morris_artifact_selection": 1,
+      "needs_human_review_unavailable_morris_indices": 1,
       "needs_human_review_zero_mu_star_interpretation": 1
     },
     "summary_row_count": 7056

@@ -133,6 +133,12 @@ from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_PACKET_PATH,
 )
+from src.realworld.full_graph_runtime_readiness_packet import (  # noqa: E402
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_PACKET_PATH,
+    DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
+)
 from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH,
     DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
@@ -295,7 +301,7 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "source_license_review_packet",
         DEFAULT_SOURCE_LICENSE_REVIEW_PACKET_PATH,
-        10,
+        11,
     ),
     CsvExpectation(
         "source_url_review_packet",
@@ -533,6 +539,11 @@ CSV_EXPECTATIONS = (
         5,
     ),
     CsvExpectation(
+        "full_graph_runtime_readiness_packet",
+        DEFAULT_FULL_GRAPH_RUNTIME_READINESS_PACKET_PATH,
+        4,
+    ),
+    CsvExpectation(
         "graph_scale_result_comparison",
         ROOT / "data" / "validation" / "graph_scale_result_comparison.csv",
         819,
@@ -540,6 +551,10 @@ CSV_EXPECTATIONS = (
 )
 
 JSON_EXPECTATIONS = (
+    JsonExpectation(
+        "pilot_road_cache_manifest",
+        ROOT / "data" / "cache" / "pilot_region_road_manifest.json",
+    ),
     JsonExpectation(
         "figure_table_manifest",
         ROOT
@@ -695,6 +710,14 @@ JSON_EXPECTATIONS = (
         DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "full_graph_smoke_manifest",
+        DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "full_graph_runtime_readiness_manifest",
+        DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "graph_scale_result_comparison_manifest",
         ROOT
         / "data"
@@ -815,6 +838,8 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "graph_scale_diagnostics.md",
     ROOT / "docs" / "graph_scale_review_packet.md",
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_DOC_PATH,
+    ROOT / "docs" / "full_graph_smoke.md",
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     ROOT / "docs" / "graph_scale_result_comparison.md",
     ROOT / "docs" / "graph_scale_acceptance_schema.md",
     ROOT / "docs" / "validation_acceptance_schema.md",
@@ -940,6 +965,7 @@ def audit_artifacts() -> dict[str, Any]:
     formal_acceptance_guard = audit_formal_acceptance_artifacts()
     formal_acceptance_package = build_formal_acceptance_package_summary()
     formal_evidence_paths = audit_formal_evidence_paths()
+    pilot_road_cache_manifest = audit_pilot_road_cache_manifest()
     evidence_gates = {
         "parameter_evidence_ready": parameter_audit["publication_ready"],
         "road_input_evidence_ready": road_audit["publication_ready"],
@@ -976,6 +1002,7 @@ def audit_artifacts() -> dict[str, Any]:
         "graph_scale_checks": graph_scale_checks,
         "acceptance_record_checks": acceptance_record_checks,
         "doc_checks": doc_checks,
+        "pilot_road_cache_manifest_audit": pilot_road_cache_manifest,
         "parameter_evidence_audit": {
             "publication_ready": parameter_audit["publication_ready"],
             "core_parameter_count": parameter_audit["core_parameter_count"],
@@ -995,6 +1022,9 @@ def audit_artifacts() -> dict[str, Any]:
             "node_count": road_audit["node_count"],
             "edge_count": road_audit["edge_count"],
             "routeable_edge_count": road_audit["routeable_edge_count"],
+            "cache_manifest_metadata_ready": pilot_road_cache_manifest[
+                "metadata_ready"
+            ],
             "length_parseable_count": road_audit["length_parseable_count"],
             "maxspeed_parseable_rate": road_audit["maxspeed_parseable_rate"],
             "capacity_explicit_rate": road_audit["capacity_explicit_rate"],
@@ -1335,6 +1365,71 @@ def _check_json(expectation: JsonExpectation) -> dict[str, Any]:
         "path": _display_path(expectation.path),
         "ok": isinstance(value, dict),
         "top_level_keys": sorted(value) if isinstance(value, dict) else [],
+    }
+
+
+def audit_pilot_road_cache_manifest(
+    path: Path = ROOT / "data" / "cache" / "pilot_region_road_manifest.json",
+) -> dict[str, Any]:
+    """Summarize whether the road cache manifest exposes review metadata."""
+
+    manifest = _read_json_object(path)
+    if manifest is None:
+        return {
+            "manifest_present": False,
+            "metadata_ready": False,
+            "path": _display_path(path),
+            "remaining_blockers": ["pilot road cache manifest is missing or invalid"],
+        }
+
+    boundary = manifest.get("boundary")
+    tooling = manifest.get("tooling")
+    boundary_ready = (
+        isinstance(boundary, dict)
+        and boundary.get("type") == "bbox"
+        and all(
+            isinstance(boundary.get(key), (int, float))
+            for key in ("north", "south", "east", "west")
+        )
+    )
+    tooling_ready = (
+        isinstance(tooling, dict)
+        and bool(tooling.get("builder"))
+        and bool(tooling.get("graph_writer"))
+        and bool(tooling.get("extractor"))
+    )
+    attribution_ready = "OpenStreetMap contributors" in str(
+        manifest.get("attribution", "")
+    ) or manifest.get("source") == "curated_public_coordinate_osm_style_fixture"
+    claim_limit_ready = "publication claims" in str(manifest.get("claim_limit", ""))
+    metadata_ready = bool(
+        boundary_ready and tooling_ready and attribution_ready and claim_limit_ready
+    )
+    blockers: list[str] = []
+    if not boundary_ready:
+        blockers.append("cache manifest boundary bbox metadata is missing or incomplete")
+    if not tooling_ready:
+        blockers.append("cache manifest tooling metadata is missing or incomplete")
+    if not attribution_ready:
+        blockers.append("cache manifest attribution metadata requires review")
+    if not claim_limit_ready:
+        blockers.append("cache manifest claim-limit boundary is missing")
+    blockers.append(
+        "cache manifest metadata does not replace road-source review or calibrated evidence"
+    )
+    return {
+        "manifest_present": True,
+        "metadata_ready": metadata_ready,
+        "path": _display_path(path),
+        "source": manifest.get("source", ""),
+        "created_utc": manifest.get("created_utc", ""),
+        "boundary_ready": boundary_ready,
+        "tooling_ready": tooling_ready,
+        "attribution_ready": attribution_ready,
+        "claim_limit_ready": claim_limit_ready,
+        "node_count": manifest.get("node_count"),
+        "edge_count": manifest.get("edge_count"),
+        "remaining_blockers": blockers,
     }
 
 

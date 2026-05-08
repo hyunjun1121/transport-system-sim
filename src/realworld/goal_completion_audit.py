@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -92,10 +93,11 @@ def build_goal_completion_audit_markdown(
     tracked_artifacts = summarize_tracked_artifact_audit()
     ready_gate_ids = list(audit.get("ready_gate_ids", []))
     blocked_gate_ids = list(audit.get("blocked_gate_ids", []))
+    audit_date = datetime.now(timezone.utc).date().isoformat()
     lines: list[str] = [
         "# Current Goal Completion Audit",
         "",
-        "Audit date: 2026-05-04",
+        f"Audit date: {audit_date}",
         "",
         "## Objective",
         "",
@@ -387,6 +389,9 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\write_rail_fetch_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_road_source_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_parameter_source_readiness_packet.py",
+            ".\\.venv\\Scripts\\python scripts\\run_full_graph_smoke.py",
+            ".\\.venv\\Scripts\\python scripts\\write_full_graph_runtime_readiness_packet.py",
+            ".\\.venv\\Scripts\\python scripts\\write_graph_scale_review_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_graph_scale_strategy_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_validation_strategy_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_acceptance_task_assignments.py",

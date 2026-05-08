@@ -15,6 +15,7 @@ from src.realworld.osrm_snapshot_manifest import (  # noqa: E402
     DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
     DEFAULT_OSRM_BENCHMARK_PATH,
     DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH,
+    DEFAULT_OSRM_RAW_RESPONSE_DIR,
     write_osrm_snapshot_manifest,
 )
 
@@ -27,6 +28,7 @@ def main(argv: list[str] | None = None) -> int:
         benchmark_path=args.benchmark,
         summary_path=args.summary,
         manifest_path=args.manifest,
+        raw_response_dir=args.raw_response_dir,
     )
     print(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
@@ -48,6 +50,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--manifest",
         type=Path,
         default=DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
+    )
+    parser.add_argument(
+        "--raw-response-dir",
+        type=Path,
+        default=DEFAULT_OSRM_RAW_RESPONSE_DIR,
     )
     return parser.parse_args(argv)
 

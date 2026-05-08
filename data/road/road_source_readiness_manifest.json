@@ -17,6 +17,8 @@
     "routing_or_observed_traffic_benchmark_required": 1,
     "traffic_count_or_capacity_reference_required": 1
   },
+  "source_url_or_citation_present_count": 5,
+  "required_external_input_present_count": 5,
   "blocking_request_count": 2,
   "human_review_request_count": 3,
   "road_evidence_gate_closure_candidate_count": 0,

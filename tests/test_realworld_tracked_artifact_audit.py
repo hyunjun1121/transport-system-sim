@@ -24,6 +24,7 @@ def test_tracked_artifact_rows_filter_reproducibility_candidates() -> None:
             " M plan.md",
             "?? src/realworld/new_module.py",
             "?? tests/test_realworld_new_module.py",
+            " M tests/test_scenario.py",
             "?? scratch.tmp",
         )
     )
@@ -31,6 +32,7 @@ def test_tracked_artifact_rows_filter_reproducibility_candidates() -> None:
     assert "plan.md" in by_path
     assert "src/realworld/new_module.py" in by_path
     assert "tests/test_realworld_new_module.py" in by_path
+    assert "tests/test_scenario.py" in by_path
     assert "scratch.tmp" not in by_path
     assert by_path["plan.md"]["clean_checkout_risk"] == "changed_after_head"
     assert (

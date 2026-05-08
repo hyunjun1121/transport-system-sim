@@ -162,7 +162,7 @@ def build_sensitivity_strategy_readiness_manifest(
             "doc": _display_path(Path(doc_path)),
         },
         "review_items": [
-            "review missing or non-finite Morris indices before manuscript use",
+            "review unavailable or unexplained missing Morris indices before manuscript use",
             "interpret zero mu_star rows before claiming parameter dominance or no-effect behavior",
             "resolve graph-scale scope before using reduced-graph sensitivity outputs for final claims",
             "decide whether Morris screening is sufficient or Sobol analysis is required",
@@ -213,7 +213,7 @@ def build_sensitivity_strategy_readiness_markdown(
             "## Required Reviewer Actions",
             "",
             "- Decide whether current Morris screening is enough for the accepted claim boundary or whether Sobol analysis must be run.",
-            "- Resolve missing or non-finite Morris index handling before using sensitivity rankings in the manuscript.",
+            "- Resolve unavailable, missing, or non-finite Morris index handling before using sensitivity rankings in the manuscript.",
             "- Review zero `mu_star` rows as diagnostics, not as calibrated no-effect findings.",
             "- Keep sensitivity outputs in scaffold scope until graph-scale, parameter, and sensitivity acceptance records exist.",
             "- Do not create formal acceptance artifacts from this readiness packet alone.",
@@ -287,6 +287,12 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             "repair or regenerate Morris artifacts before strategy review",
         )
     if category_id == "missing_or_nonfinite_morris_indices":
+        if diagnostic_status == "review_required_unavailable_indices":
+            return (
+                "needs_human_review_unavailable_morris_indices",
+                "",
+                "document why the affected Morris indices are unavailable and how those rows are handled in tables and claims",
+            )
         if affected > 0:
             return (
                 "blocked_missing_or_nonfinite_morris_indices",

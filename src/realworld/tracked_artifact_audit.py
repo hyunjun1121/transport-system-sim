@@ -47,7 +47,7 @@ REPRODUCIBILITY_PREFIXES: tuple[str, ...] = (
     "schemas/",
     "scripts/",
     "src/realworld/",
-    "tests/test_realworld_",
+    "tests/test_",
     "paper/",
 )
 REPRODUCIBILITY_FILES: frozenset[str] = frozenset(
@@ -308,7 +308,7 @@ def _artifact_category(path: str) -> str:
         return "realworld_code"
     if path.startswith("scripts/"):
         return "script"
-    if path.startswith("tests/test_realworld_"):
+    if path.startswith("tests/test_"):
         return "test"
     if path.startswith("data/"):
         return "data_or_manifest"

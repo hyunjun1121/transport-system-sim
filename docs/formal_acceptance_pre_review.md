@@ -17,14 +17,14 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | Gate | Current Status | Recommendation | Formal Target | Missing Evidence | Human Action |
 | --- | --- | --- | --- | --- | --- |
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+4 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+3 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+15 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+8 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | final_audit_document | `blocked` | `blocked_missing_evidence` | `docs/final_study_audit.md` | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
 | final_audit | `blocked` | `blocked_missing_evidence` | `data/manifests/final_audit_acceptance.json` | create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>create docs/final_study_audit.md after all other gates close<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
@@ -101,6 +101,9 @@ Evidence inspected:
 - `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/graph_scale_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/full_graph_runtime_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/full_graph_runtime_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/full_graph_runtime_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -116,6 +119,10 @@ Evidence inspected:
 Missing evidence:
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 - resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- graph-scale strategy readiness: graph_scale_acceptance.json is absent
+- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
+- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 
@@ -124,6 +131,10 @@ Residual risks:
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - create an explicit graph-scale acceptance record after source-vs-analysis graph review
 - resolve graph-scale strategy-readiness blockers before graph-scale acceptance
+- graph-scale strategy readiness: graph_scale_acceptance.json is absent
+- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
+- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
@@ -257,8 +268,14 @@ Missing evidence:
 - derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
 - strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
 - support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
+- parameter source readiness: all rows require human review or external source decisions before final claims
+- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
+- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
+- rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
+- rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
+- rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
 - data/parameters/parameter_acceptance.csv is absent
 
 Residual risks:
@@ -272,8 +289,14 @@ Residual risks:
 - derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
 - strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
 - support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
+- parameter source readiness: all rows require human review or external source decisions before final claims
+- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
+- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
+- rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
+- rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
+- rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
 - data/parameters/parameter_acceptance.csv is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.
@@ -344,6 +367,9 @@ Missing evidence:
 - road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
 - road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
 - road override application: reviewed road-class override table is absent
+- road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
+- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
+- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
 - data/parameters/road_class_overrides.csv is absent
 
 Residual risks:
@@ -359,6 +385,9 @@ Residual risks:
 - road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
 - road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
 - road override application: reviewed road-class override table is absent
+- road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
+- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
+- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
 - data/parameters/road_class_overrides.csv is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.
@@ -416,6 +445,8 @@ Evidence inspected:
 Missing evidence:
 - create an explicit validation acceptance record after benchmark-strategy review
 - resolve validation strategy-readiness blockers before validation acceptance
+- validation strategy readiness: validation_acceptance.json is absent
+- validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
@@ -425,6 +456,8 @@ Residual risks:
 - Create validation_acceptance.json after benchmark-strategy review.
 - create an explicit validation acceptance record after benchmark-strategy review
 - resolve validation strategy-readiness blockers before validation acceptance
+- validation strategy readiness: validation_acceptance.json is absent
+- validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
@@ -471,6 +504,10 @@ Evidence inspected:
 Missing evidence:
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
 - resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph
+- sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated
+- sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance
+- sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent
 - review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - data/manifests/sensitivity_acceptance.json is absent
@@ -480,6 +517,10 @@ Residual risks:
 - Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
 - resolve sensitivity strategy-readiness blockers before sensitivity acceptance
+- sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph
+- sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated
+- sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance
+- sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent
 - review sensitivity strategy-readiness human-decision items before sensitivity acceptance
 - accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level
 - data/manifests/sensitivity_acceptance.json is absent
@@ -526,6 +567,10 @@ Evidence inspected:
 Missing evidence:
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
 - resolve experiment strategy-readiness blockers before experiment acceptance
+- experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated
+- experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted
+- experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
@@ -536,6 +581,10 @@ Residual risks:
 - Create experiment_acceptance.json with matching run profile and row counts.
 - create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review
 - resolve experiment strategy-readiness blockers before experiment acceptance
+- experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated
+- experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted
+- experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
@@ -582,6 +631,9 @@ Missing evidence:
 - close evidence gates before final paper/report claims
 - revise figure/table claim boundary from scaffold to accepted study scope
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
+- claim alignment: formal manuscript/report acceptance record is absent
+- claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
+- claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - data/manifests/manuscript_acceptance.json is absent
 
 Residual risks:
@@ -591,6 +643,9 @@ Residual risks:
 - close evidence gates before final paper/report claims
 - revise figure/table claim boundary from scaffold to accepted study scope
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
+- claim alignment: formal manuscript/report acceptance record is absent
+- claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
+- claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - data/manifests/manuscript_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.

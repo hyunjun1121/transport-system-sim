@@ -25,6 +25,9 @@ DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH = (
 DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "validation" / "osrm_route_benchmark_manifest.json"
 )
+DEFAULT_OSRM_RAW_RESPONSE_DIR = (
+    PROJECT_ROOT / "data" / "validation" / "osrm_route_raw"
+)
 
 OSRM_SNAPSHOT_MANIFEST_SCOPE = (
     "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance"
@@ -35,12 +38,15 @@ def build_osrm_snapshot_manifest(
     *,
     benchmark_path: str | Path = DEFAULT_OSRM_BENCHMARK_PATH,
     summary_path: str | Path = DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH,
+    raw_response_dir: str | Path = DEFAULT_OSRM_RAW_RESPONSE_DIR,
 ) -> dict[str, Any]:
     """Return a conservative manifest for a cached OSRM benchmark CSV."""
 
     benchmark = Path(benchmark_path)
     summary = Path(summary_path)
+    raw_dir = Path(raw_response_dir)
     rows = _read_csv_rows(benchmark)
+    raw_files = _raw_response_files(raw_dir)
     status_counts = _counts(row.get("status", "") for row in rows)
     source_class_counts = _counts(row.get("source_class", "") for row in rows)
     reference_version_counts = _counts(
@@ -68,6 +74,7 @@ def build_osrm_snapshot_manifest(
         "inputs": {
             "benchmark_csv": _display_path(benchmark),
             "summary_markdown": _display_path(summary),
+            "raw_response_dir": _display_path(raw_dir),
         },
         "row_count": len(rows),
         "route_check_ids": sorted(
@@ -90,6 +97,14 @@ def build_osrm_snapshot_manifest(
         "query_urls": query_urls,
         "csv_sha256": _sha256(benchmark) if benchmark.exists() else "",
         "summary_sha256": _sha256(summary) if summary.exists() else "",
+        "raw_response_file_count": len(raw_files),
+        "raw_response_files": [
+            {
+                "path": _display_path(path),
+                "sha256": _sha256(path),
+            }
+            for path in raw_files
+        ],
         "unpinned_row_count": len(unpinned_rows),
         "unpinned_reference_versions": sorted(
             {
@@ -107,7 +122,7 @@ def build_osrm_snapshot_manifest(
             "not calibrated traffic evidence, not benchmark ground truth, and "
             "not operational routing guidance."
         ),
-        "review_items": _review_items(rows, unpinned_rows),
+        "review_items": _review_items(rows, unpinned_rows, raw_files),
     }
 
 
@@ -116,6 +131,7 @@ def write_osrm_snapshot_manifest(
     benchmark_path: str | Path = DEFAULT_OSRM_BENCHMARK_PATH,
     summary_path: str | Path = DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH,
     manifest_path: str | Path = DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
+    raw_response_dir: str | Path = DEFAULT_OSRM_RAW_RESPONSE_DIR,
 ) -> dict[str, Any]:
     """Write the OSRM snapshot manifest and return its value."""
 
@@ -123,6 +139,7 @@ def write_osrm_snapshot_manifest(
     value = build_osrm_snapshot_manifest(
         benchmark_path=benchmark_path,
         summary_path=summary_path,
+        raw_response_dir=raw_response_dir,
     )
     manifest.parent.mkdir(parents=True, exist_ok=True)
     with manifest.open("w", encoding="utf-8") as handle:
@@ -163,9 +180,16 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _raw_response_files(path: Path) -> list[Path]:
+    if not path.exists() or not path.is_dir():
+        return []
+    return sorted(item for item in path.glob("*.json") if item.is_file())
+
+
 def _review_items(
     rows: Sequence[Mapping[str, str]],
     unpinned_rows: Sequence[Mapping[str, str]],
+    raw_files: Sequence[Path],
 ) -> list[str]:
     items = [
         "review OSRM service terms, attribution, access date, and row-level query URLs before publication use",
@@ -174,6 +198,8 @@ def _review_items(
     ]
     if not rows:
         items.insert(0, "generate or remove the optional OSRM benchmark CSV before validation review")
+    if rows and not raw_files:
+        items.insert(0, "retain raw OSRM response payloads before treating the snapshot as cached evidence")
     if unpinned_rows:
         items.insert(0, "replace live/unpinned OSRM rows with a reviewed cached snapshot if final claims depend on them")
     return items
@@ -190,6 +216,7 @@ __all__ = [
     "DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH",
     "DEFAULT_OSRM_BENCHMARK_PATH",
     "DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH",
+    "DEFAULT_OSRM_RAW_RESPONSE_DIR",
     "OSRM_SNAPSHOT_MANIFEST_SCOPE",
     "build_osrm_snapshot_manifest",
     "write_osrm_snapshot_manifest",

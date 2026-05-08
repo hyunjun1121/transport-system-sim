@@ -141,6 +141,12 @@ def build_source_url_remediation_manifest(
         for row in rows
         if _is_true(row.get("can_support_final_provenance_gate", "false"))
     )
+    remaining_blockers = _remaining_blockers(
+        blocking_issue_count=blocking_issue_count,
+        live_check_required_count=live_check_required_count,
+        remediation_counts=remediation_counts,
+    )
+    review_items = _review_items(remediation_counts)
     return {
         "schema_version": 1,
         "claim_boundary": (
@@ -165,18 +171,8 @@ def build_source_url_remediation_manifest(
             "manifest": _display_path(Path(manifest_path)),
             "doc": _display_path(Path(doc_path)),
         },
-        "review_items": [
-            "manually open or replace unreachable public URLs",
-            "cache retained public data extracts or exclude context-only references from final claims",
-            "confirm project-owned local citations where no public URL is expected",
-            "verify license, attribution, derivative-use, and snapshot records before provenance acceptance",
-            "create data/manifests/provenance_acceptance.json only after source-backed review",
-        ],
-        "remaining_blockers": [
-            "formal provenance acceptance record is absent",
-            "remediation rows do not certify official source identity or license compatibility",
-            "unreachable, network-error, not-checked, or local-citation rows require reviewer decisions",
-        ],
+        "review_items": review_items,
+        "remaining_blockers": remaining_blockers,
     }
 
 
@@ -340,6 +336,54 @@ def _counts(values: Sequence[str] | Any) -> dict[str, int]:
         key = str(value)
         counts[key] = counts.get(key, 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
+    items: list[str] = []
+    if any(key.startswith("blocked_") for key in remediation_counts):
+        items.append("manually open or replace blocked public URLs")
+    if remediation_counts.get("live_check_required", 0):
+        items.append("run the live source-URL check before provenance review")
+    if remediation_counts.get("local_citation_needs_review", 0):
+        items.append("confirm project-owned local citations where no public URL is expected")
+    if remediation_counts.get("reachable_needs_license_review", 0) or remediation_counts.get(
+        "alternate_reachable_url_needs_review",
+        0,
+    ):
+        items.append(
+            "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance"
+        )
+    items.extend(
+        [
+            "cache retained public data extracts or exclude context-only references from final claims",
+            "create data/manifests/provenance_acceptance.json only after source-backed review",
+        ]
+    )
+    return items
+
+
+def _remaining_blockers(
+    *,
+    blocking_issue_count: int,
+    live_check_required_count: int,
+    remediation_counts: Mapping[str, int],
+) -> list[str]:
+    blockers = [
+        "formal provenance acceptance record is absent",
+        "remediation rows do not certify official source identity or license compatibility",
+    ]
+    if blocking_issue_count:
+        blockers.append("blocked URL rows require verified replacement, caching, or exclusion decisions")
+    if live_check_required_count:
+        blockers.append("unchecked URL rows require a live check or explicit offline-review decision")
+    if remediation_counts.get("local_citation_needs_review", 0):
+        blockers.append("local-citation rows require reviewer confirmation")
+    if remediation_counts.get("reachable_needs_license_review", 0) or remediation_counts.get(
+        "alternate_reachable_url_needs_review",
+        0,
+    ):
+        blockers.append("reachable URL rows still require source/license/snapshot review")
+    return blockers
 
 
 def _is_true(value: str) -> bool:

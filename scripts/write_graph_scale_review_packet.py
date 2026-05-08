@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.realworld.graph_scale_review import (  # noqa: E402
+    DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_REVIEW_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH,
     build_graph_scale_review_rows,
@@ -30,6 +31,7 @@ def main(argv: list[str] | None = None) -> int:
         pilot_full_manifest_path=args.pilot_full_manifest,
         multi_corridor_manifest_path=args.multi_corridor_manifest,
         multi_corridor_full_manifest_path=args.multi_corridor_full_manifest,
+        full_graph_smoke_manifest_path=args.full_graph_smoke_manifest,
     )
     manifest = write_graph_scale_review_packet(
         rows=rows,
@@ -85,6 +87,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         / "results"
         / "realworld_pilot"
         / "pilot_multi_corridor_full_manifest.json",
+    )
+    parser.add_argument(
+        "--full-graph-smoke-manifest",
+        type=Path,
+        default=DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
     )
     parser.add_argument(
         "--output",

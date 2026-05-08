@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-06T06:39:24+00:00`
+- Generated at: `2026-05-08T09:20:28+00:00`
 
 ## Decision
 
@@ -86,6 +86,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
 - road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
 - road override application: reviewed road-class override table is absent
+- road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
+- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
+- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
 
 ## Required Actions
 
@@ -98,6 +101,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
 - road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
 - road override application: reviewed road-class override table is absent
+- road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
+- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
+- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
 
 ## Formal Acceptance Boundary
 
@@ -120,7 +126,10 @@ Formal acceptance artifacts:
     "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
     "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent"
+    "road override application: reviewed road-class override table is absent",
+    "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides"
   ],
   "details": {
     "edge_count": 28947,
@@ -142,6 +151,13 @@ Formal acceptance artifacts:
     "source_readiness_human_review_request_count": 3,
     "source_readiness_manifest_present": true,
     "source_readiness_publication_ready": false,
+    "source_readiness_remaining_blockers": [
+      "reviewed road_class_overrides.csv is absent unless target_output_present is true",
+      "capacity and disruption evidence still require external source or formal assumption decisions",
+      "this packet is readiness evidence only and cannot create road-class overrides"
+    ],
+    "source_readiness_required_external_input_present_count": 5,
+    "source_readiness_source_url_or_citation_present_count": 5,
     "source_readiness_status_counts": {
       "blocked_missing_capacity_source": 1,
       "blocked_missing_reviewed_road_class_overrides": 1,

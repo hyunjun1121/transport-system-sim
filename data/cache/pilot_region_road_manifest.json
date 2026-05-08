@@ -4,6 +4,21 @@
   "region_path": "data\\regions\\pilot_region.yaml",
   "source": "live_overpass_osm_snapshot",
   "created_utc": "2026-05-03T12:57:13+00:00",
+  "boundary": {
+    "type": "bbox",
+    "north": 37.53,
+    "south": 37.5,
+    "east": 127.14,
+    "west": 127.09
+  },
+  "tooling": {
+    "builder": "scripts/build_pilot_cache.py",
+    "graph_writer": "src.realworld.osm_network.save_graphml",
+    "python_package": "networkx",
+    "extractor": "Overpass API",
+    "overpass_url": "https://overpass-api.de/api/interpreter",
+    "query_filter": "way[\"highway\"](south,west,north,east)"
+  },
   "node_count": 13268,
   "edge_count": 28947,
   "graph_type": "MultiDiGraph",

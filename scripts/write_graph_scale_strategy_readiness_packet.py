@@ -15,6 +15,7 @@ from src.realworld.graph_scale_review import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_REVIEW_PACKET_PATH,
 )
 from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
+    DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_ACCEPTANCE_PATH,
     DEFAULT_GRAPH_SCALE_RESULT_COMPARISON_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_DOC_PATH,
@@ -41,6 +42,7 @@ def main(argv: list[str] | None = None) -> int:
         doc_path=args.doc,
         review_packet_path=args.review_packet,
         result_comparison_manifest_path=args.result_comparison_manifest,
+        full_graph_runtime_readiness_manifest_path=args.full_graph_runtime_readiness_manifest,
     )
     print(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
@@ -71,6 +73,12 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         type=Path,
         default=DEFAULT_GRAPH_SCALE_ACCEPTANCE_PATH,
         help="Formal graph-scale acceptance JSON path.",
+    )
+    parser.add_argument(
+        "--full-graph-runtime-readiness-manifest",
+        type=Path,
+        default=DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
+        help="Full-graph runtime-readiness manifest JSON path.",
     )
     parser.add_argument(
         "--output",
