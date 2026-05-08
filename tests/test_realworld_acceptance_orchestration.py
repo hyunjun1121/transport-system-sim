@@ -35,6 +35,56 @@ def test_acceptance_orchestration_defines_required_review_agents() -> None:
     assert "Final Independent Audit Agent" in names
 
 
+def test_review_agents_point_at_current_readiness_packets() -> None:
+    """Reviewer intake should include current blocker-classification packets."""
+
+    agents = {agent.agent_id: agent for agent in REVIEW_AGENT_DEFINITIONS}
+
+    graph_agent = agents["graph_scale_method_review_agent"]
+    assert (
+        "data/validation/graph_scale_strategy_readiness_packet.csv"
+        in graph_agent.review_packet_paths
+    )
+    assert (
+        "data/validation/full_graph_runtime_readiness_packet.csv"
+        in graph_agent.review_packet_paths
+    )
+
+    evidence_agent = agents["road_rail_parameter_evidence_agent"]
+    assert (
+        "data/parameters/parameter_source_readiness_packet.csv"
+        in evidence_agent.review_packet_paths
+    )
+    assert "data/road/road_source_readiness_packet.csv" in (
+        evidence_agent.review_packet_paths
+    )
+    assert "data/rail/rail_fetch_readiness_packet.csv" in (
+        evidence_agent.review_packet_paths
+    )
+
+    validation_agent = agents["validation_benchmark_strategy_agent"]
+    assert (
+        "data/validation/validation_strategy_readiness_packet.csv"
+        in validation_agent.review_packet_paths
+    )
+
+    sensitivity_agent = agents["sensitivity_analysis_review_agent"]
+    assert (
+        "data/validation/sensitivity_strategy_readiness_packet.csv"
+        in sensitivity_agent.review_packet_paths
+    )
+
+    experiment_agent = agents["full_experiment_package_agent"]
+    assert "data/manifests/experiment_strategy_readiness_packet.csv" in (
+        experiment_agent.review_packet_paths
+    )
+
+    reproducibility_agent = agents["clean_checkout_reproducibility_agent"]
+    assert "data/validation/tracked_artifact_audit.csv" in (
+        reproducibility_agent.review_packet_paths
+    )
+
+
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
     audit = audit_final_study_readiness()
     gate_map = {gate["gate_id"]: gate for gate in audit["gates"]}
@@ -94,6 +144,7 @@ def test_acceptance_orchestration_summary_reports_absent_manifest() -> None:
 
 if __name__ == "__main__":
     test_acceptance_orchestration_defines_required_review_agents()
+    test_review_agents_point_at_current_readiness_packets()
     test_acceptance_orchestration_blocks_nonready_gate_without_completion()
     test_acceptance_orchestration_writes_records_and_manifest()
     test_acceptance_orchestration_summary_reports_absent_manifest()

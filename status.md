@@ -499,8 +499,11 @@ The codebase currently includes:
     `data/manifests/formal_acceptance_evidence_matrix_manifest.json`, and
     `docs/formal_acceptance_evidence_matrix.md` with one row per required
     formal target. It joins reviewer agent, template/worksheet, review
-    packets, blockers, source paths, and validation commands, but remains
-    reviewer intake only.
+    packets, blockers, source paths, and validation commands. The assigned
+    review-agent source paths now include current readiness packets for
+    graph-scale, parameter/road/rail evidence, validation, sensitivity,
+    experiment, and reproducibility review, but the matrix remains reviewer
+    intake only.
   - formal acceptance artifact guard in
     `src/realworld/formal_acceptance_guard.py` and
     `scripts/audit_formal_acceptance_artifacts.py`; it reports 12 required

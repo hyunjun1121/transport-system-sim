@@ -25,6 +25,7 @@ from src.realworld.formal_acceptance_package import (  # noqa: E402
 def test_evidence_matrix_covers_current_formal_targets() -> None:
     package = build_formal_acceptance_package_summary()
     rows = build_formal_acceptance_evidence_matrix_rows(package_summary=package)
+    by_gate = {row["gate_id"]: row for row in rows}
 
     assert len(rows) == 12
     assert {row["can_mark_complete"] for row in rows} == {"false"}
@@ -37,6 +38,38 @@ def test_evidence_matrix_covers_current_formal_targets() -> None:
         row["gate_id"] == "road_class_overrides"
         and row["assigned_agent_id"] == "road_rail_parameter_evidence_agent"
         for row in rows
+    )
+    assert (
+        "data/validation/graph_scale_strategy_readiness_packet.csv"
+        in by_gate["graph_scale_strategy"]["source_paths"]
+    )
+    assert (
+        "data/validation/full_graph_runtime_readiness_packet.csv"
+        in by_gate["graph_scale_strategy"]["review_packets"]
+    )
+    assert (
+        "data/parameters/parameter_source_readiness_packet.csv"
+        in by_gate["parameter_acceptance"]["source_paths"]
+    )
+    assert (
+        "data/road/road_source_readiness_packet.csv"
+        in by_gate["road_class_overrides"]["source_paths"]
+    )
+    assert (
+        "data/validation/validation_strategy_readiness_packet.csv"
+        in by_gate["validation_package"]["source_paths"]
+    )
+    assert (
+        "data/validation/sensitivity_strategy_readiness_packet.csv"
+        in by_gate["sensitivity_analysis"]["source_paths"]
+    )
+    assert (
+        "data/manifests/experiment_strategy_readiness_packet.csv"
+        in by_gate["full_experiment_output"]["source_paths"]
+    )
+    assert (
+        "data/validation/tracked_artifact_audit_manifest.json"
+        in by_gate["reproducibility"]["source_paths"]
     )
 
 

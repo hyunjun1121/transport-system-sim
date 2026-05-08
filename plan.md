@@ -102,8 +102,10 @@ formal target. It writes
 `data/manifests/formal_acceptance_evidence_matrix_manifest.json`, and
 `docs/formal_acceptance_evidence_matrix.md`, joining each target with the
 assigned agent, template or worksheet, review packets, current blockers,
-source paths, and validation command. It is reviewer intake only, not approval
-evidence.
+source paths, and validation command. Its review-agent source paths include
+the current blocker/readiness packets for graph-scale, parameter/road/rail
+evidence, validation, sensitivity, experiment, and reproducibility review. It
+is reviewer intake only, not approval evidence.
 
 A formal acceptance artifact guard now checks the required acceptance paths for
 copied templates, `REVIEW_REQUIRED` placeholders, and draft-only weak rows. The
