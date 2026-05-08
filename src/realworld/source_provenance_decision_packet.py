@@ -158,8 +158,8 @@ def build_source_provenance_decision_rows(
             decision_id="context_source_cache_or_exclusion_decision",
             decision_topic="Context source cache or exclusion",
             candidate_decision=(
-                "Cache retained context-only public source extracts or explicitly "
-                "exclude them from final claims"
+                "Cache retained context-source target artifacts or explicitly "
+                "exclude the source from final claims"
             ),
             current_evidence=_context_evidence(
                 context_request_manifest,
@@ -171,7 +171,7 @@ def build_source_provenance_decision_rows(
                 else "needs_human_review_context_cache_decisions"
             ),
             blocking_reason=(
-                "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions"
+                "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions"
                 if context_blocking_count
                 else ""
             ),
@@ -439,7 +439,7 @@ def build_source_provenance_decision_manifest(
         "review_items": [
             "confirm retained source inventory and excluded-source scope",
             "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
-            "resolve context-only source cache, exclusion, or sensitivity-only decisions",
+            "resolve context-source target cache, exclusion, or sensitivity-only decisions",
             "confirm reachable URLs, local citations, and alternate URL candidates",
             "record final provenance only in data/manifests/provenance_acceptance.json",
         ],

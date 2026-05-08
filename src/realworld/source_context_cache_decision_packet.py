@@ -376,7 +376,7 @@ def _evidence_paths(
 def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
     blockers = [
         "formal provenance acceptance record is absent",
-        "cache/exclusion decisions are pending for context-only public sources",
+        "target cache/exclusion decisions are pending for context-source rows",
         "retained context sources still require license, attribution, snapshot, and reproducibility review",
     ]
     for row in rows:

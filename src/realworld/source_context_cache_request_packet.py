@@ -258,7 +258,7 @@ def build_source_context_cache_request_manifest(
             "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed",
         ],
         "remaining_blockers": [
-            "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+            "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
             "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
             "formal provenance acceptance record is absent",
         ],

@@ -19,7 +19,7 @@
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "remaining_blockers": [
-    "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
     "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "formal provenance acceptance record is absent"
   ],

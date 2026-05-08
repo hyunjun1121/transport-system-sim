@@ -42,7 +42,7 @@
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "remaining_blockers": [
-    "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
     "reproducibility manifest remains scaffold-only",
     "data/manifests/provenance_acceptance.json is absent"
   ],
@@ -50,7 +50,7 @@
   "review_items": [
     "confirm retained source inventory and excluded-source scope",
     "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
-    "resolve context-only source cache, exclusion, or sensitivity-only decisions",
+    "resolve context-source target cache, exclusion, or sensitivity-only decisions",
     "confirm reachable URLs, local citations, and alternate URL candidates",
     "record final provenance only in data/manifests/provenance_acceptance.json"
   ],
