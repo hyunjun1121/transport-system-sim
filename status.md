@@ -362,6 +362,12 @@ The codebase currently includes:
     `scripts/write_road_source_readiness_packet.py`; the manifest records the
     `region_ids` from the request rows and remains non-acceptance review
     metadata
+  - road source-decision worksheet generation in
+    `src/realworld/road_source_decision_packet.py` and
+    `scripts/write_road_source_decision_packet.py`; the generated 5-row packet
+    records pending source-backed, reviewed-override, sensitivity-only,
+    benchmark-only, or exclusion decisions for road source requests without
+    creating `data/parameters/road_class_overrides.csv`
   - draft road-class override review templates in
     `src/realworld/road_override_template.py` and
     `scripts/write_road_class_override_template.py`; generated rows mirror

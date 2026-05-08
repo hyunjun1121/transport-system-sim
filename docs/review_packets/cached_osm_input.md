@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T18:20:44+00:00`
+- Generated at: `2026-05-08T18:39:39+00:00`
 
 ## Decision
 
@@ -22,6 +22,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_evidence_source_request_packet.csv
 - data/road/road_source_readiness_manifest.json
+- data/road/road_source_decision_manifest.json
 - data/road/road_evidence_priority_manifest.json
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_timing_source_request_packet.csv
@@ -37,6 +38,8 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/road/road_evidence_source_request_manifest.json
 - data/road/road_source_readiness_packet.csv
 - docs/road_source_readiness_packet.md
+- data/road/road_source_decision_packet.csv
+- docs/road_source_decision_packet.md
 - data/road/road_evidence_priority_packet.csv
 - docs/road_evidence_priority_packet.md
 - scripts/write_road_speed_evidence.py
@@ -44,6 +47,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/write_road_evidence_review_packet.py
 - scripts/write_road_evidence_source_request_packet.py
 - scripts/write_road_source_readiness_packet.py
+- scripts/write_road_source_decision_packet.py
 - scripts/write_road_evidence_priority_packet.py
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
@@ -64,6 +68,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/road/road_source_readiness_packet.csv
 - data/road/road_source_readiness_manifest.json
 - docs/road_source_readiness_packet.md
+- data/road/road_source_decision_packet.csv
+- data/road/road_source_decision_manifest.json
+- docs/road_source_decision_packet.md
 - data/road/road_evidence_priority_packet.csv
 - data/road/road_evidence_priority_manifest.json
 - docs/road_evidence_priority_packet.md
@@ -72,6 +79,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/write_road_evidence_review_packet.py
 - scripts/write_road_evidence_source_request_packet.py
 - scripts/write_road_source_readiness_packet.py
+- scripts/write_road_source_decision_packet.py
 - scripts/write_road_evidence_priority_packet.py
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
@@ -107,6 +115,11 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- road source decision: reviewed road_class_overrides.csv is absent
+- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 
 ## Required Actions
 
@@ -122,6 +135,11 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- road source decision: reviewed road_class_overrides.csv is absent
+- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 
 ## Formal Acceptance Boundary
 
@@ -147,7 +165,12 @@ Formal acceptance artifacts:
     "road override application: reviewed road-class override table is absent",
     "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
     "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
-    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides"
+    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
+    "road source decision: reviewed road_class_overrides.csv is absent",
+    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
+    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
+    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
   ],
   "details": {
     "edge_count": 28947,
@@ -175,6 +198,29 @@ Formal acceptance artifacts:
     "road_override_draft_row_count": 10,
     "road_override_draft_table_present": true,
     "road_publication_ready": false,
+    "road_source_decision_artifacts_present": true,
+    "road_source_decision_blocking_decision_count": 2,
+    "road_source_decision_can_mark_complete": false,
+    "road_source_decision_human_review_decision_count": 3,
+    "road_source_decision_manifest_present": true,
+    "road_source_decision_publication_ready": false,
+    "road_source_decision_recorded": false,
+    "road_source_decision_region_ids": [
+      "songpa_public_demo"
+    ],
+    "road_source_decision_remaining_blockers": [
+      "reviewed road_class_overrides.csv is absent",
+      "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
+      "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+      "reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
+      "road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
+    ],
+    "road_source_decision_road_class_overrides_present": false,
+    "road_source_decision_row_count": 5,
+    "road_source_decision_status_counts": {
+      "blocked_missing_road_source_decision": 2,
+      "needs_human_review_road_source_decision": 3
+    },
     "routeable_edge_count": 9140,
     "source_readiness_blocking_request_count": 2,
     "source_readiness_can_mark_complete": false,
@@ -213,6 +259,9 @@ Formal acceptance artifacts:
     "data/road/road_source_readiness_packet.csv",
     "data/road/road_source_readiness_manifest.json",
     "docs/road_source_readiness_packet.md",
+    "data/road/road_source_decision_packet.csv",
+    "data/road/road_source_decision_manifest.json",
+    "docs/road_source_decision_packet.md",
     "data/road/road_evidence_priority_packet.csv",
     "data/road/road_evidence_priority_manifest.json",
     "docs/road_evidence_priority_packet.md",
@@ -221,6 +270,7 @@ Formal acceptance artifacts:
     "scripts/write_road_evidence_review_packet.py",
     "scripts/write_road_evidence_source_request_packet.py",
     "scripts/write_road_source_readiness_packet.py",
+    "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",

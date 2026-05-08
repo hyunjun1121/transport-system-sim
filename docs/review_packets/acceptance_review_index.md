@@ -11,7 +11,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 2 |
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 19 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
-| `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
+| `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
@@ -71,6 +71,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
 | `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
+| `Road Source Decisions` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
 | `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Parameter Source Readiness` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Parameter Source Decisions` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
@@ -84,7 +85,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -92,8 +93,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=683 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=701 |
+| `Tracked Artifact Audit` | 70 | 70 | 0 | 0 | `false` | agent_definition=1; data_or_manifest=38; documentation=18; +4 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -109,6 +110,7 @@ Priority blockers by packet:
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
 - `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
+- `Road Source Decisions`: reviewed road_class_overrides.csv is absent (+4 more)
 - `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
 - `Parameter Source Readiness`: all rows require human review or external source decisions before final claims (+2 more)
 - `Parameter Source Decisions`: formal parameter acceptance table is absent (+3 more)
@@ -123,6 +125,7 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction. (+50 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -169,6 +172,11 @@ Priority blockers by packet:
 - cached_osm_input: road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - cached_osm_input: road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - cached_osm_input: road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- cached_osm_input: road source decision: reviewed road_class_overrides.csv is absent
+- cached_osm_input: road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- cached_osm_input: road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- cached_osm_input: road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- cached_osm_input: road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 - parameter_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - parameter_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - parameter_evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
@@ -272,6 +280,11 @@ Priority blockers by packet:
 - Cached OSM Input: road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - Cached OSM Input: road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - Cached OSM Input: road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- Cached OSM Input: road source decision: reviewed road_class_overrides.csv is absent
+- Cached OSM Input: road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- Cached OSM Input: road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- Cached OSM Input: road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- Cached OSM Input: road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 - Graph-Scale Strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
 - Graph-Scale Strategy: resolve graph-scale strategy-readiness blockers before graph-scale acceptance
 - Graph-Scale Strategy: graph-scale strategy readiness: graph_scale_acceptance.json is absent

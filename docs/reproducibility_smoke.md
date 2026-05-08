@@ -8,7 +8,7 @@ does not close `data/manifests/reproducibility_acceptance.json`.
 
 - Result scope: `current_worktree_smoke_not_clean_checkout`
 - Smoke passed: `true`
-- Commands passed: 25 / 25
+- Commands passed: 26 / 26
 - Clean checkout tested: `false`
 - Can mark complete: `false`
 
@@ -32,6 +32,7 @@ does not close `data/manifests/reproducibility_acceptance.json`.
 | test_clean_checkout_smoke | passed | 0 |
 | test_final_study_readiness | passed | 0 |
 | test_plan_audit | passed | 0 |
+| test_publication_readiness | passed | 0 |
 | test_reproducibility_review_packet | passed | 0 |
 | formal_acceptance_package_audit | passed | 0 |
 | formal_evidence_path_audit | passed | 0 |

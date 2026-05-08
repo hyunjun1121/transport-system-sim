@@ -55,6 +55,12 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/road/road_source_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/road/road_evidence_priority_packet.csv"
     },
     {
@@ -151,6 +157,12 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/road/road_source_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/road/road_evidence_priority_manifest.json"
     },
     {
@@ -229,6 +241,12 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/road_source_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/road_evidence_priority_packet.md"
     },
     {
@@ -265,6 +283,12 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_road_source_decision_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_road_evidence_priority_packet.py"
     },
     {
@@ -292,7 +316,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-08T18:20:15+00:00",
+  "generated_at": "2026-05-08T18:39:10+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -317,6 +341,11 @@
     "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
     "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
     "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
+    "road source decision: reviewed road_class_overrides.csv is absent",
+    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
+    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
+    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows",
     "data/parameters/road_class_overrides.csv is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -334,6 +363,9 @@
     "data/road/road_source_readiness_packet.csv",
     "data/road/road_source_readiness_manifest.json",
     "docs/road_source_readiness_packet.md",
+    "data/road/road_source_decision_packet.csv",
+    "data/road/road_source_decision_manifest.json",
+    "docs/road_source_decision_packet.md",
     "data/road/road_evidence_priority_packet.csv",
     "data/road/road_evidence_priority_manifest.json",
     "docs/road_evidence_priority_packet.md",
@@ -342,6 +374,7 @@
     "scripts/write_road_evidence_review_packet.py",
     "scripts/write_road_evidence_source_request_packet.py",
     "scripts/write_road_source_readiness_packet.py",
+    "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
@@ -368,6 +401,11 @@
     "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
     "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
     "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
+    "road source decision: reviewed road_class_overrides.csv is absent",
+    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
+    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
+    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows",
     "data/parameters/road_class_overrides.csv is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
@@ -380,6 +418,7 @@
     "data/parameters/parameter_source_decision_packet.csv",
     "data/parameters/road_evidence_review_packet.csv",
     "data/road/road_source_readiness_packet.csv",
+    "data/road/road_source_decision_packet.csv",
     "data/road/road_evidence_priority_packet.csv",
     "data/parameters/rail_evidence_review_packet.csv",
     "data/rail/rail_fetch_readiness_packet.csv",
@@ -396,6 +435,7 @@
     "data/parameters/road_evidence_review_packet.csv",
     "data/road/road_evidence_source_request_packet.csv",
     "data/road/road_source_readiness_manifest.json",
+    "data/road/road_source_decision_manifest.json",
     "data/road/road_evidence_priority_manifest.json",
     "data/parameters/rail_evidence_review_packet.csv",
     "data/rail/rail_timing_source_request_packet.csv",
@@ -412,6 +452,7 @@
     "data/parameters/parameter_evidence_priority_packet.csv",
     "data/parameters/parameter_source_decision_packet.csv",
     "data/road/road_source_readiness_packet.csv",
+    "data/road/road_source_decision_packet.csv",
     "data/road/road_evidence_priority_packet.csv",
     "data/rail/rail_fetch_readiness_packet.csv",
     "data/rail/rail_evidence_priority_packet.csv",

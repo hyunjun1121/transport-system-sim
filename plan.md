@@ -319,6 +319,12 @@ First pilot-smoke artifacts also exist:
   `road_class_overrides.csv`, and 3 human-review rows for sparse speed
   candidates, benchmark strategy, and scenario-only disruption treatment.
   It remains readiness evidence only and cannot approve road inputs.
+- `src/realworld/road_source_decision_packet.py` and
+  `scripts/write_road_source_decision_packet.py` now turn those 5 readiness
+  rows into pending reviewer decision rows. The generated packet has 2
+  blocking decisions and 3 human-review decisions, keeps
+  `road_source_decision_recorded=false`, and does not create reviewed
+  `road_class_overrides.csv` or close the cached OSM input gate.
 - `src/realworld/road_override_template.py` and
   `scripts/write_road_class_override_template.py` can create a draft
   non-acceptance road-class override template from those diagnostics. The draft
@@ -840,6 +846,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python tests\test_realworld_road_override_template.py
 .\.venv\Scripts\python scripts\audit_source_provenance.py
@@ -853,6 +860,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_request_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_decision_packet.py
 .\.venv\Scripts\python tests\test_realworld_parameter_source_decision_packet.py
+.\.venv\Scripts\python tests\test_realworld_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
@@ -2071,6 +2079,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live

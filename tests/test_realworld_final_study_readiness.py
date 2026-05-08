@@ -64,9 +64,46 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["cached_osm_input"]["details"][
         "source_readiness_region_ids"
     ] == ["songpa_public_demo"]
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_source_decision_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_source_decision_row_count"
+        ]
+        == 5
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_source_decision_blocking_decision_count"
+        ]
+        == 2
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_source_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert gate_map["cached_osm_input"]["details"][
+        "road_source_decision_region_ids"
+    ] == ["songpa_public_demo"]
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_source_decision_recorded"
+        ]
+        is False
+    )
     assert any(
         "road source readiness: reviewed road_class_overrides.csv is absent"
         in item
+        for item in gate_map["cached_osm_input"]["blockers"]
+    )
+    assert any(
+        "road source decision: road source decisions are pending" in item
         for item in gate_map["cached_osm_input"]["blockers"]
     )
     assert gate_map["graph_scale_strategy"]["ready"] is False

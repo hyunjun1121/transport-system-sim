@@ -1,0 +1,71 @@
+{
+  "acceptance_gate_closure_candidate_count": 0,
+  "blocking_decision_count": 2,
+  "cached_osm_input_gate_closure_candidate_count": 0,
+  "can_mark_complete": false,
+  "claim_boundary": "Road source-decision packet only; not road evidence, not accepted road calibration, not reviewed road-class override approval, not cached OSM input gate closure, and not publication-readiness approval. It cannot create data/parameters/road_class_overrides.csv.",
+  "decision_ids": [
+    "reviewed_road_class_override_application_request",
+    "road_capacity_lane_count_source_request",
+    "road_background_traffic_benchmark_request",
+    "road_disruption_probability_source_request",
+    "road_speed_limit_source_request"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_road_source_decision": 2,
+    "needs_human_review_road_source_decision": 3
+  },
+  "human_review_decision_count": 3,
+  "inputs": {
+    "road_evidence_priority_manifest": "data/road/road_evidence_priority_manifest.json",
+    "road_evidence_priority_packet": "data/road/road_evidence_priority_packet.csv",
+    "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv",
+    "road_evidence_source_request_packet": "data/road/road_evidence_source_request_packet.csv",
+    "road_source_readiness_manifest": "data/road/road_source_readiness_manifest.json",
+    "road_source_readiness_packet": "data/road/road_source_readiness_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/road/road_source_decision_packet.csv",
+    "doc": "docs/road_source_decision_packet.md",
+    "manifest": "data/road/road_source_decision_manifest.json"
+  },
+  "publication_ready": false,
+  "readiness_status_counts": {
+    "blocked_missing_capacity_source": 1,
+    "blocked_missing_reviewed_road_class_overrides": 1,
+    "needs_human_review_benchmark_strategy": 1,
+    "needs_human_review_disruption_scenario": 1,
+    "needs_human_review_sparse_speed_candidates": 1
+  },
+  "region_ids": [
+    "songpa_public_demo"
+  ],
+  "remaining_blockers": [
+    "reviewed road_class_overrides.csv is absent",
+    "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
+    "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+    "reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
+    "road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
+  ],
+  "result_scope": "Road source-decision packet only; not road evidence, not accepted road calibration, not reviewed road-class override approval, not cached OSM input gate closure, and not publication-readiness approval.",
+  "review_items": [
+    "choose source-backed update, reviewed road-class override, sensitivity-only treatment, benchmark-only treatment, or exclusion for every road-source request",
+    "record reviewer, decision date, evidence paths, source class, override scope, and not-operational claim limits outside this packet",
+    "create data/parameters/road_class_overrides.csv only after source-backed road evidence review",
+    "rerun pilot outputs with reviewed overrides before road-calibration or cached-OSM input claims",
+    "rerun road, validation, publication-readiness, and final-study audits after decisions are recorded"
+  ],
+  "road_application_gate_closure_candidate_count": 0,
+  "road_class_overrides_present": false,
+  "road_evidence_gate_closure_candidate_count": 0,
+  "road_source_decision_recorded": false,
+  "row_count": 5,
+  "schema_version": 1,
+  "source_type_counts": {
+    "hazard_incident_or_reviewed_scenario_source_required": 1,
+    "public_speed_limit_or_benchmark_source_required": 1,
+    "reviewed_override_table_and_manifest_application_required": 1,
+    "routing_or_observed_traffic_benchmark_required": 1,
+    "traffic_count_or_capacity_reference_required": 1
+  }
+}

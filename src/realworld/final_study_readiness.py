@@ -69,6 +69,11 @@ from src.realworld.road_evidence_priority_packet import (
     DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
     DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
 )
+from src.realworld.road_source_decision_packet import (
+    DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH,
+    DEFAULT_ROAD_SOURCE_DECISION_MANIFEST_PATH,
+    DEFAULT_ROAD_SOURCE_DECISION_PACKET_PATH,
+)
 from src.realworld.reproducibility_acceptance import (
     summarize_reproducibility_acceptance,
 )
@@ -240,6 +245,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     road_source_readiness_manifest = _load_json(
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
     )
+    road_source_decision_manifest = _load_json(
+        DEFAULT_ROAD_SOURCE_DECISION_MANIFEST_PATH
+    )
     road_evidence_priority_manifest = _load_json(
         DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
     )
@@ -285,6 +293,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             road_override_application_audit,
             road_diagnostics=road_diagnostics,
             road_source_readiness_manifest=road_source_readiness_manifest,
+            road_source_decision_manifest=road_source_decision_manifest,
             road_evidence_priority_manifest=road_evidence_priority_manifest,
         ),
         _real_input_smoke_gate(pilot_manifest),
@@ -426,6 +435,7 @@ def _cached_osm_gate(
     road_override_application_audit: dict[str, Any],
     road_diagnostics: dict[str, Any] | None = None,
     road_source_readiness_manifest: dict[str, Any] | None = None,
+    road_source_decision_manifest: dict[str, Any] | None = None,
     road_evidence_priority_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     road_diagnostics = road_diagnostics or {
@@ -434,7 +444,13 @@ def _cached_osm_gate(
         "remaining_blockers": [],
     }
     source_readiness = road_source_readiness_manifest or {}
+    source_decision = road_source_decision_manifest or {}
     road_priority = road_evidence_priority_manifest or {}
+    source_decision_artifacts_present = (
+        DEFAULT_ROAD_SOURCE_DECISION_PACKET_PATH.exists()
+        and DEFAULT_ROAD_SOURCE_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH.exists()
+    )
     road_priority_artifacts_present = (
         DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
@@ -463,6 +479,10 @@ def _cached_osm_gate(
             f"road source readiness: {item}"
             for item in source_readiness.get("remaining_blockers", [])
         ],
+        *[
+            f"road source decision: {item}"
+            for item in source_decision.get("remaining_blockers", [])
+        ],
     ]
     return _gate(
         "cached_osm_input",
@@ -483,6 +503,9 @@ def _cached_osm_gate(
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_source_readiness_manifest.json",
             "docs/road_source_readiness_packet.md",
+            "data/road/road_source_decision_packet.csv",
+            "data/road/road_source_decision_manifest.json",
+            "docs/road_source_decision_packet.md",
             "data/road/road_evidence_priority_packet.csv",
             "data/road/road_evidence_priority_manifest.json",
             "docs/road_evidence_priority_packet.md",
@@ -491,6 +514,7 @@ def _cached_osm_gate(
             "scripts/write_road_evidence_review_packet.py",
             "scripts/write_road_evidence_source_request_packet.py",
             "scripts/write_road_source_readiness_packet.py",
+            "scripts/write_road_source_decision_packet.py",
             "scripts/write_road_evidence_priority_packet.py",
             "data/parameters/road_class_overrides_draft.csv",
             "scripts/write_road_class_override_template.py",
@@ -543,6 +567,40 @@ def _cached_osm_gate(
                 "publication_ready", False
             ),
             "source_readiness_can_mark_complete": source_readiness.get(
+                "can_mark_complete", False
+            ),
+            "road_source_decision_artifacts_present": (
+                source_decision_artifacts_present
+            ),
+            "road_source_decision_manifest_present": bool(
+                road_source_decision_manifest
+            ),
+            "road_source_decision_row_count": source_decision.get("row_count", 0),
+            "road_source_decision_blocking_decision_count": source_decision.get(
+                "blocking_decision_count", 0
+            ),
+            "road_source_decision_human_review_decision_count": source_decision.get(
+                "human_review_decision_count", 0
+            ),
+            "road_source_decision_status_counts": source_decision.get(
+                "decision_status_counts", {}
+            ),
+            "road_source_decision_region_ids": list(
+                _list_value(road_source_decision_manifest, "region_ids")
+            ),
+            "road_source_decision_recorded": source_decision.get(
+                "road_source_decision_recorded", False
+            ),
+            "road_source_decision_road_class_overrides_present": source_decision.get(
+                "road_class_overrides_present", False
+            ),
+            "road_source_decision_remaining_blockers": source_decision.get(
+                "remaining_blockers", []
+            ),
+            "road_source_decision_publication_ready": source_decision.get(
+                "publication_ready", False
+            ),
+            "road_source_decision_can_mark_complete": source_decision.get(
                 "can_mark_complete", False
             ),
             "road_evidence_priority_artifacts_present": (

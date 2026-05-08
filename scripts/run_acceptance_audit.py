@@ -130,6 +130,10 @@ from src.realworld.road_source_readiness_packet import (  # noqa: E402
     build_road_source_readiness_rows,
     write_road_source_readiness_packet,
 )
+from src.realworld.road_source_decision_packet import (  # noqa: E402
+    build_road_source_decision_rows,
+    write_road_source_decision_packet,
+)
 from src.realworld.road_evidence_review_packet import (  # noqa: E402
     build_road_evidence_review_rows,
     write_road_evidence_review_packet,
@@ -446,6 +450,11 @@ def _refresh_existing_review_packets(
     )
     write_road_source_readiness_packet(rows=road_readiness_rows)
     refreshed.append("data/road/road_source_readiness_packet.csv")
+    road_decision_rows = build_road_source_decision_rows(
+        readiness_rows=road_readiness_rows,
+    )
+    write_road_source_decision_packet(rows=road_decision_rows)
+    refreshed.append("data/road/road_source_decision_packet.csv")
     source_license_rows = build_source_license_review_rows()
     write_source_license_review_packet(rows=source_license_rows)
     refreshed.append("data/manifests/source_license_review_packet.csv")

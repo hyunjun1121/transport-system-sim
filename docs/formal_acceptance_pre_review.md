@@ -20,7 +20,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+16 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+26 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+17 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+10 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+14 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -326,6 +326,7 @@ Review packets:
 - data/parameters/parameter_source_decision_packet.csv
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_source_readiness_packet.csv
+- data/road/road_source_decision_packet.csv
 - data/road/road_evidence_priority_packet.csv
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_fetch_readiness_packet.csv
@@ -342,6 +343,7 @@ Source paths:
 - data/parameters/parameter_evidence_priority_packet.csv
 - data/parameters/parameter_source_decision_packet.csv
 - data/road/road_source_readiness_packet.csv
+- data/road/road_source_decision_packet.csv
 - data/road/road_evidence_priority_packet.csv
 - data/rail/rail_fetch_readiness_packet.csv
 - data/rail/rail_evidence_priority_packet.csv
@@ -356,6 +358,7 @@ Evidence inspected:
 - `data/parameters/parameter_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -372,6 +375,7 @@ Evidence inspected:
 - `data/parameters/parameter_source_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -497,6 +501,7 @@ Review packets:
 - data/parameters/parameter_source_decision_packet.csv
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_source_readiness_packet.csv
+- data/road/road_source_decision_packet.csv
 - data/road/road_evidence_priority_packet.csv
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_fetch_readiness_packet.csv
@@ -513,6 +518,7 @@ Source paths:
 - data/parameters/parameter_evidence_priority_packet.csv
 - data/parameters/parameter_source_decision_packet.csv
 - data/road/road_source_readiness_packet.csv
+- data/road/road_source_decision_packet.csv
 - data/road/road_evidence_priority_packet.csv
 - data/rail/rail_fetch_readiness_packet.csv
 - data/rail/rail_evidence_priority_packet.csv
@@ -527,6 +533,7 @@ Evidence inspected:
 - `data/parameters/parameter_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -543,6 +550,7 @@ Evidence inspected:
 - `data/parameters/parameter_source_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -556,12 +564,14 @@ Evidence inspected:
 - `data/parameters/road_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/road_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/road_source_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/road_evidence_priority_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_speed_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_capacity_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_evidence_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_evidence_source_request_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_source_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_road_source_decision_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_evidence_priority_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_class_override_template.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_road_overrides.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -580,6 +590,11 @@ Missing evidence:
 - road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- road source decision: reviewed road_class_overrides.csv is absent
+- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 - data/parameters/road_class_overrides.csv is absent
 
 Residual risks:
@@ -598,6 +613,11 @@ Residual risks:
 - road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true
 - road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
 - road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- road source decision: reviewed road_class_overrides.csv is absent
+- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
+- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
+- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 - data/parameters/road_class_overrides.csv is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.
