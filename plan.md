@@ -907,8 +907,11 @@ Current fixture coverage:
   `songpa_public_demo` and remain non-acceptance review aids.
 - Rail timing source-request generation now uses the station-binding
   `region_id` in derivation commands and accepts `--cache-prefix` for
-  region-scoped cache path suggestions. The shipped default packet still uses
-  the current pilot cache prefix and remains a non-acceptance review aid.
+  region-scoped cache path suggestions. Headway and shortest-path derivation
+  commands also preserve the supplied `--station-bindings` path, so a
+  non-pilot station-binding table can be exercised without editing generated
+  commands. The shipped default packet still uses the current pilot cache
+  prefix and remains a non-acceptance review aid.
 - Parameter, road, and rail source-readiness manifests now record the
   `region_ids` present in their source-request rows, so review packet scope can
   be checked when a non-pilot region is exercised. These fields are audit

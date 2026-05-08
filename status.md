@@ -238,7 +238,9 @@ The codebase currently includes:
     `src/realworld/rail_timing_request_packet.py` and
     `scripts/write_rail_timing_source_request_packet.py`; the generated 5-row
     packet names the API-key, GTFS, capacity, and availability inputs needed
-    before cached rail timing evidence can be derived
+    before cached rail timing evidence can be derived, carries the binding
+    `region_id`, accepts a cache prefix, and preserves a custom station-binding
+    path in generated derivation commands
   - rail fetch-readiness packet generation in
     `src/realworld/rail_fetch_readiness_packet.py` and
     `scripts/write_rail_fetch_readiness_packet.py`; the manifest records the

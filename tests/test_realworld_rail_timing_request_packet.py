@@ -52,6 +52,7 @@ def test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix() -
             station_binding_path=binding_path,
             cache_prefix="synthetic_region_fixture",
         )
+        expected_binding_arg = str(binding_path).replace("/", "\\")
     by_id = {row["request_id"]: row for row in rows}
 
     assert {row["region_id"] for row in rows} == {"synthetic_region_fixture"}
@@ -64,9 +65,15 @@ def test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix() -
     assert "synthetic_region_fixture_rail_headway_v1" in by_id[
         "rail_timetable_headway_request"
     ]["derive_command"]
+    assert f"--station-bindings {expected_binding_arg}" in by_id[
+        "rail_timetable_headway_request"
+    ]["derive_command"]
     assert "synthetic_region_fixture_rail_shortest_path_cache.csv" in by_id[
         "rail_shortest_path_travel_time_request"
     ]["fetch_command"]
+    assert f"--station-bindings {expected_binding_arg}" in by_id[
+        "rail_shortest_path_travel_time_request"
+    ]["derive_command"]
     assert "synthetic_region_fixture_rail_gtfs_v1" in by_id[
         "rail_static_gtfs_timing_request"
     ]["derive_command"]

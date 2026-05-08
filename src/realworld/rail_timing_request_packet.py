@@ -87,6 +87,7 @@ def build_rail_timing_source_request_rows(
     egress_name = egress.station_name if egress else ""
     egress_code = egress.station_code if egress else ""
     capacity = assumptions.get("rail_capacity", {}).get("value", "500")
+    station_binding_command_path = _ps_path(_display_path(station_binding_path))
     timetable_cache_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_cache.csv"
     timetable_raw_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_raw.json"
     shortest_path_cache_path = (
@@ -123,6 +124,7 @@ def build_rail_timing_source_request_rows(
                 egress_name,
                 capacity,
                 cache_path=timetable_cache_path,
+                station_binding_path=station_binding_command_path,
             ),
             expected_source_status="cached_timetable_derived",
             expected_derived_fields="headway",
@@ -160,6 +162,7 @@ def build_rail_timing_source_request_rows(
                 region_id,
                 capacity,
                 cache_path=shortest_path_cache_path,
+                station_binding_path=station_binding_command_path,
             ),
             expected_source_status="cached_shortest_path_derived",
             expected_derived_fields="travel_time",
@@ -438,6 +441,7 @@ def _headway_derive_command(
     capacity: str,
     *,
     cache_path: str,
+    station_binding_path: str,
 ) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_headway_evidence.py "
@@ -452,7 +456,7 @@ def _headway_derive_command(
         f"--capacity-pax-per-train {capacity} "
         "--service-window \"reviewed weekday service window\" "
         "--direction \"%EC%83%81%ED%96%89\" --service-day \"%ED%8F%89%EC%9D%BC\" "
-        "--station-bindings data\\parameters\\rail_station_bindings.csv"
+        f"--station-bindings {station_binding_path}"
     )
 
 
@@ -482,6 +486,7 @@ def _shortest_path_derive_command(
     capacity: str,
     *,
     cache_path: str,
+    station_binding_path: str,
 ) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_shortest_path_evidence.py "
@@ -495,7 +500,7 @@ def _shortest_path_derive_command(
         f"--capacity-pax-per-train {capacity} "
         "--service-window \"reviewed weekday service window\" "
         "--route-type minimum_time "
-        "--station-bindings data\\parameters\\rail_station_bindings.csv"
+        f"--station-bindings {station_binding_path}"
     )
 
 

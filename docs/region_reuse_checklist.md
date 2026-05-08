@@ -93,6 +93,10 @@ The downstream parameter, road, and rail source-readiness manifests expose the
 `region_ids` found in those request rows. Check those manifest fields before
 mixing review packets from multiple regions.
 
+For rail timing, pass `--station-bindings <region_station_bindings.csv>` when
+using a non-pilot binding table; the generated headway and shortest-path
+derivation commands will reference that same binding file.
+
 For a publication-bound region, also rerun the full validation ladder listed
 in `plan.md` and keep formal acceptance artifacts absent until reviewed
 source-backed decisions are supplied.
