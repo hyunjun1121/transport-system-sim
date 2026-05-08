@@ -212,7 +212,7 @@ This smoke manifest records a fresh clone of the committed source tree and a min
 - Manifest present: `true`
 - Manifest path: `data/validation/clean_checkout_reproducibility_smoke_manifest.json`
 - Result scope: `clean_checkout_source_tree_smoke_not_formal_acceptance`
-- Commands passed: 8 / 8
+- Commands passed: 9 / 9
 - Smoke passed: `true`
 - Clean checkout tested: `true`
 - Full clean environment tested: `false`

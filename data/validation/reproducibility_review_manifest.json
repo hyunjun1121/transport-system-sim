@@ -12,7 +12,7 @@
     "clean_checkout_execution_scope"
   ],
   "claim_boundary": "This packet records clean-checkout reproducibility review status. It does not create data/manifests/reproducibility_acceptance.json, does not prove full clean-environment reproduction, and does not support operational routing or calibrated real-world claims.",
-  "clean_checkout_smoke_command_count": 8,
+  "clean_checkout_smoke_command_count": 9,
   "clean_checkout_smoke_passed": true,
   "clean_checkout_smoke_present": true,
   "clean_checkout_smoke_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
