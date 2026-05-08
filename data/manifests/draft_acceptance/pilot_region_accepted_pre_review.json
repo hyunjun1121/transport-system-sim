@@ -16,6 +16,18 @@
       "path": "docs/pilot_region_data_card.md"
     },
     {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_privacy_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_privacy_review_manifest.json"
+    },
+    {
       "claim_supported": "Formal target required for pilot_region_accepted",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -37,18 +49,6 @@
       "claim_supported": "Repository evidence cited for pilot_region_accepted",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/pilot_privacy_review_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for pilot_region_accepted",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/pilot_privacy_review_manifest.json"
-    },
-    {
-      "claim_supported": "Repository evidence cited for pilot_region_accepted",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/pilot_privacy_review_packet.md"
     }
   ],
@@ -61,7 +61,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/pilot_acceptance.json",
   "gate": "pilot_region_accepted",
-  "generated_at": "2026-05-08T13:18:07+00:00",
+  "generated_at": "2026-05-08T13:27:26+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

@@ -44,11 +44,11 @@ Draft pre-review recommendations only. These records classify remaining formal a
 Evidence inspected:
 - `data/regions/pilot_region.yaml`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_region_data_card.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/pilot_privacy_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/pilot_privacy_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/pilot_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/pilot_region_accepted.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/pilot_privacy_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/pilot_privacy_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_privacy_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:

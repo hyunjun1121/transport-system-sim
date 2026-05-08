@@ -19,12 +19,16 @@
         "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary."
       ],
       "review_packet_paths": [
+        "data/manifests/pilot_privacy_review_packet.csv",
         "docs/review_packets/pilot_region_accepted.md"
       ],
       "reviewed_inputs": [
         "data/regions/pilot_region.yaml",
         "docs/pilot_region_data_card.md",
-        "docs/current_goal_completion_audit.md"
+        "docs/current_goal_completion_audit.md",
+        "data/manifests/pilot_privacy_review_packet.csv",
+        "data/manifests/pilot_privacy_review_manifest.json",
+        "docs/pilot_privacy_review_packet.md"
       ],
       "risks": [
         "Sensitive geography or destination abstraction could be overinterpreted as operational routing.",
@@ -33,7 +37,9 @@
       "role_name": "Pilot Region & Privacy Review Agent",
       "source_paths": [
         "data/regions/pilot_region.yaml",
-        "docs/pilot_region_data_card.md"
+        "docs/pilot_region_data_card.md",
+        "data/manifests/pilot_privacy_review_packet.csv",
+        "data/manifests/pilot_privacy_review_manifest.json"
       ]
     },
     {
