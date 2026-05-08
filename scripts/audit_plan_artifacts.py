@@ -123,6 +123,11 @@ from src.realworld.road_source_readiness_packet import (  # noqa: E402
     DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
     DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 )
+from src.realworld.road_evidence_priority_packet import (  # noqa: E402
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.parameter_source_readiness_packet import (  # noqa: E402
     DEFAULT_PARAMETER_SOURCE_READINESS_DOC_PATH,
     DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH,
@@ -264,6 +269,11 @@ CSV_EXPECTATIONS = (
         "road_source_readiness_packet",
         DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
         5,
+    ),
+    CsvExpectation(
+        "road_evidence_priority_packet",
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+        11,
     ),
     CsvExpectation(
         "road_evidence_source_request_packet",
@@ -629,6 +639,10 @@ JSON_EXPECTATIONS = (
         / "canonical_route_road_evidence_exposure_manifest.json",
     ),
     JsonExpectation(
+        "road_evidence_priority_manifest",
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "osrm_route_benchmark_manifest",
         ROOT / "data" / "validation" / "osrm_route_benchmark_manifest.json",
     ),
@@ -899,6 +913,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "road_evidence_diagnostics.md",
     ROOT / "docs" / "road_evidence_review_packet.md",
     ROOT / "docs" / "road_evidence_source_request_packet.md",
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
     ROOT / "docs" / "accessibility_loss_analysis.md",
     ROOT / "docs" / "experiment_acceptance_schema.md",
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_DOC_PATH,

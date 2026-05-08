@@ -39,6 +39,11 @@ from src.realworld.road_override_audit import (
     audit_road_class_override_application,
     audit_road_class_override_evidence,
 )
+from src.realworld.road_evidence_priority_packet import (
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.reproducibility_acceptance import (
     summarize_reproducibility_acceptance,
 )
@@ -167,6 +172,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     road_source_readiness_manifest = _load_json(
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
     )
+    road_evidence_priority_manifest = _load_json(
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
+    )
     parameter_source_readiness_manifest = _load_json(
         DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
     )
@@ -200,6 +208,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             road_override_application_audit,
             road_diagnostics=road_diagnostics,
             road_source_readiness_manifest=road_source_readiness_manifest,
+            road_evidence_priority_manifest=road_evidence_priority_manifest,
         ),
         _real_input_smoke_gate(pilot_manifest),
         _graph_scale_gate(
@@ -324,6 +333,7 @@ def _cached_osm_gate(
     road_override_application_audit: dict[str, Any],
     road_diagnostics: dict[str, Any] | None = None,
     road_source_readiness_manifest: dict[str, Any] | None = None,
+    road_evidence_priority_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     road_diagnostics = road_diagnostics or {
         "diagnostics_ready": True,
@@ -331,6 +341,12 @@ def _cached_osm_gate(
         "remaining_blockers": [],
     }
     source_readiness = road_source_readiness_manifest or {}
+    road_priority = road_evidence_priority_manifest or {}
+    road_priority_artifacts_present = (
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH.exists()
+        and DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
+        and DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH.exists()
+    )
     ready = bool(
         road_audit["publication_ready"]
         and road_override_audit["publication_ready"]
@@ -374,11 +390,15 @@ def _cached_osm_gate(
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_source_readiness_manifest.json",
             "docs/road_source_readiness_packet.md",
+            "data/road/road_evidence_priority_packet.csv",
+            "data/road/road_evidence_priority_manifest.json",
+            "docs/road_evidence_priority_packet.md",
             "scripts/write_road_speed_evidence.py",
             "scripts/write_road_capacity_evidence.py",
             "scripts/write_road_evidence_review_packet.py",
             "scripts/write_road_evidence_source_request_packet.py",
             "scripts/write_road_source_readiness_packet.py",
+            "scripts/write_road_evidence_priority_packet.py",
             "data/parameters/road_class_overrides_draft.csv",
             "scripts/write_road_class_override_template.py",
             "scripts/audit_road_overrides.py",
@@ -430,6 +450,25 @@ def _cached_osm_gate(
                 "publication_ready", False
             ),
             "source_readiness_can_mark_complete": source_readiness.get(
+                "can_mark_complete", False
+            ),
+            "road_evidence_priority_artifacts_present": (
+                road_priority_artifacts_present
+            ),
+            "road_evidence_priority_row_count": road_priority.get("row_count", 0),
+            "road_evidence_priority_exposed_highway_count": road_priority.get(
+                "exposed_highway_count", 0
+            ),
+            "road_evidence_priority_blocking_priority_count": road_priority.get(
+                "blocking_priority_count", 0
+            ),
+            "road_evidence_priority_status_counts": road_priority.get(
+                "priority_status_counts", {}
+            ),
+            "road_evidence_priority_publication_ready": road_priority.get(
+                "publication_ready", False
+            ),
+            "road_evidence_priority_can_mark_complete": road_priority.get(
                 "can_mark_complete", False
             ),
         },

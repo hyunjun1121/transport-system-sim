@@ -385,6 +385,14 @@ First pilot-smoke artifacts also exist:
   candidates used in graph-scale review. The generated 76-row table is
   route-level road-evidence review support only, not calibration or validation
   acceptance.
+- `src/realworld/road_evidence_priority_packet.py` and
+  `scripts/write_road_evidence_priority_packet.py` now combine route exposure,
+  road-class evidence gaps, and road source-readiness requests into an 11-row
+  priority worksheet under `data/road/road_evidence_priority_packet.csv`.
+  Current rows identify 7 exposed highway/connector classes, 5 blocking
+  priority rows, and 4 lower-priority classes not currently exposed by the
+  canonical route candidates. This is road-evidence triage only and cannot
+  create `road_class_overrides.csv`.
 - `tests/test_realworld_pilot_smoke.py` verifies the offline pilot path.
 - `data/parameters/` contains first parameter-source, rail-assumption, and
   fleet-assumption tables with validators in `src/realworld/parameters.py`.
@@ -1972,6 +1980,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\run_accessibility_loss_analysis.py
 .\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
+.\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
@@ -2091,9 +2100,10 @@ Concrete next tasks:
    and result interpretation justify it.
 4. Review the current Overpass/OSM-derived GraphML snapshot, confirm its
    attribution and cache metadata, use the road-class diagnostics to prioritize
-   routeable speed/capacity/disruption evidence, and decide whether the reduced
-   analysis corridor is an acceptable study abstraction or only a smoke-test
-   shortcut.
+   routeable speed/capacity/disruption evidence, and use
+   `data/road/road_evidence_priority_packet.csv` to triage exposed road classes
+   before deciding whether the reduced analysis corridor is an acceptable study
+   abstraction or only a smoke-test shortcut.
 5. Review the full-vs-reduced route parity, alternate-route, and
    multi-corridor candidate diagnostics. Decide whether the 6 current
    alternate-route warning rows are acceptable under a documented

@@ -111,6 +111,10 @@ from src.realworld.road_evidence_review_packet import (  # noqa: E402
     build_road_evidence_review_rows,
     write_road_evidence_review_packet,
 )
+from src.realworld.road_evidence_priority_packet import (  # noqa: E402
+    build_road_evidence_priority_rows,
+    write_road_evidence_priority_packet,
+)
 from src.realworld.source_license_review_packet import (  # noqa: E402
     build_source_license_review_rows,
     write_source_license_review_packet,
@@ -401,6 +405,9 @@ def _refresh_existing_review_packets(
     route_exposure_rows = build_route_road_evidence_exposure_rows(pilot_inputs.graph)
     write_route_road_evidence_exposure(rows=route_exposure_rows)
     refreshed.append("data/validation/canonical_route_road_evidence_exposure.csv")
+    road_priority_rows = build_road_evidence_priority_rows()
+    write_road_evidence_priority_packet(rows=road_priority_rows)
+    refreshed.append("data/road/road_evidence_priority_packet.csv")
     sensitivity_rows = build_sensitivity_review_rows()
     write_sensitivity_review_packet(rows=sensitivity_rows)
     refreshed.append("data/validation/sensitivity_review_packet.csv")

@@ -61,6 +61,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/road/road_source_readiness_packet.csv" in (
         evidence_agent.review_packet_paths
     )
+    assert "data/road/road_evidence_priority_packet.csv" in (
+        evidence_agent.review_packet_paths
+    )
     assert "data/rail/rail_fetch_readiness_packet.csv" in (
         evidence_agent.review_packet_paths
     )

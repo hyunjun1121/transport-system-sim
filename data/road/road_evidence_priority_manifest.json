@@ -1,0 +1,46 @@
+{
+  "blocking_priority_count": 5,
+  "can_mark_complete": false,
+  "claim_boundary": "This packet prioritizes existing road evidence gaps by canonical route exposure. It does not create road_class_overrides.csv, does not certify source sufficiency, and does not close road, validation, graph-scale, or final-study gates.",
+  "exposed_highway_count": 7,
+  "inputs": {
+    "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv",
+    "road_source_readiness_packet": "data/road/road_source_readiness_packet.csv",
+    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv"
+  },
+  "needed_source_request_ids": [
+    "reviewed_road_class_override_application_request",
+    "road_background_traffic_benchmark_request",
+    "road_capacity_lane_count_source_request",
+    "road_disruption_probability_source_request",
+    "road_speed_limit_source_request",
+    "route_plausibility_connector_review"
+  ],
+  "outputs": {
+    "csv": "data/road/road_evidence_priority_packet.csv",
+    "doc": "docs/road_evidence_priority_packet.md",
+    "manifest": "data/road/road_evidence_priority_manifest.json"
+  },
+  "priority_status_counts": {
+    "blocked_exposed_connector_assumption": 1,
+    "blocked_exposed_high_priority_road_evidence_gap": 4,
+    "needs_review_exposed_medium_priority_road_evidence_gap": 2,
+    "queued_no_current_canonical_route_exposure": 4
+  },
+  "publication_ready": false,
+  "remaining_blockers": [
+    "reviewed road_class_overrides.csv is still absent",
+    "capacity and disruption evidence still require source-backed or accepted assumption treatment",
+    "connector assumptions still require route-plausibility review before route-level claims"
+  ],
+  "result_scope": "Road evidence priority packet only; not reviewed road-class overrides, not calibrated traffic evidence, not graph-scale acceptance, not validation acceptance, and not operational routing evidence.",
+  "review_items": [
+    "collect or accept speed, capacity, and disruption evidence for exposed high-priority road classes first",
+    "review connector assumptions separately from OSM road-class evidence",
+    "use unexposed classes as lower-priority coverage unless graph-scale or route candidates change",
+    "regenerate this packet after road-class overrides, route exposure, or graph-scale method changes"
+  ],
+  "row_count": 11,
+  "schema_version": 1,
+  "unexposed_highway_count": 4
+}
