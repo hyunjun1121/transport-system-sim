@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import csv
+from io import StringIO
 import os
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from contextlib import redirect_stderr
+from urllib.error import URLError
 
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -18,6 +21,7 @@ from src.realworld.ktdb_gtfs_source import (  # noqa: E402
     load_ktdb_gtfs_extract,
     write_ktdb_gtfs_cache,
 )
+from scripts import cache_ktdb_gtfs_source as cache_script  # noqa: E402
 
 
 NOTICE_HTML = """
@@ -95,7 +99,33 @@ def test_ktdb_gtfs_source_cache_writes_raw_pages_and_extract() -> None:
     print("PASS: KTDB GTFS source metadata cache writes raw pages and extract")
 
 
+def test_ktdb_gtfs_cache_script_reports_fetch_failures() -> None:
+    """CLI should report remote fetch failures without a traceback."""
+
+    original_fetch = cache_script.fetch_ktdb_gtfs_html
+
+    def failing_fetch(**_: object) -> tuple[str, str]:
+        raise URLError("connection reset during test")
+
+    try:
+        cache_script.fetch_ktdb_gtfs_html = failing_fetch
+        stderr = StringIO()
+        with redirect_stderr(stderr):
+            exit_code = cache_script.main([])
+    finally:
+        cache_script.fetch_ktdb_gtfs_html = original_fetch
+
+    message = stderr.getvalue()
+    assert exit_code == 1
+    assert "failed to fetch KTDB GTFS source metadata" in message
+    assert "target GTFS cache remains absent" in message
+    assert "Traceback" not in message
+
+    print("PASS: KTDB GTFS cache script reports fetch failures")
+
+
 if __name__ == "__main__":
     test_ktdb_gtfs_source_fields_are_parsed()
     test_ktdb_gtfs_source_cache_writes_raw_pages_and_extract()
+    test_ktdb_gtfs_cache_script_reports_fetch_failures()
     print("\n=== REALWORLD KTDB GTFS SOURCE TESTS PASSED ===")

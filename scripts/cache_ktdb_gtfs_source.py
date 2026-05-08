@@ -25,11 +25,23 @@ def main(argv: list[str] | None = None) -> int:
     """Fetch KTDB public pages and write raw HTML plus extract CSV."""
 
     args = _parse_args(argv)
-    notice_html, list_html = fetch_ktdb_gtfs_html(
-        notice_url=args.notice_url,
-        list_url=args.list_url,
-        timeout_s=args.timeout_s,
-    )
+    try:
+        notice_html, list_html = fetch_ktdb_gtfs_html(
+            notice_url=args.notice_url,
+            list_url=args.list_url,
+            timeout_s=args.timeout_s,
+        )
+    except OSError as exc:
+        print(
+            f"failed to fetch KTDB GTFS source metadata: {exc}",
+            file=sys.stderr,
+        )
+        print(
+            "claim_scope: no source metadata cache was written; target GTFS "
+            "cache remains absent",
+            file=sys.stderr,
+        )
+        return 1
     row = write_ktdb_gtfs_cache(
         notice_html=notice_html,
         list_html=list_html,
