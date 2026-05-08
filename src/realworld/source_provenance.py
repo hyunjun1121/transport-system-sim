@@ -332,7 +332,9 @@ def _review_items(status_counts: Mapping[str, int]) -> list[str]:
     if status_counts.get("cached_snapshot_pending_review", 0):
         items.append("review cached source snapshots, dates, licenses, and attribution")
     if status_counts.get("context_only_not_cached", 0):
-        items.append("replace context-only public sources with cached extracts before final claims")
+        items.append(
+            "provide reviewed target payloads or exclusion decisions for context-source rows before final claims"
+        )
     if status_counts.get("repository_input_pending_review", 0):
         items.append("review repository-defined assumptions and synthetic/privacy handling")
     return items

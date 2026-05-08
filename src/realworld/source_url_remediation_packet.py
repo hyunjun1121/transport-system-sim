@@ -410,7 +410,7 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
         )
     items.extend(
         [
-            "cache retained public data extracts or exclude context-only references from final claims",
+            "provide reviewed target payloads for retained context-source rows or exclude them from final claims",
             "create data/manifests/provenance_acceptance.json only after source-backed review",
         ]
     )

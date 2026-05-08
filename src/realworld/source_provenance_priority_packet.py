@@ -1,9 +1,9 @@
 """Source provenance priority packet.
 
 This module joins source/license review rows with URL remediation rows. The
-output ranks provenance work by source so reviewers can separate context-only
-public sources, cached snapshots, repository inputs, and URL remediation
-without creating source acceptance or license certification.
+output ranks provenance work by source so reviewers can separate context-source
+target gaps, cached snapshots, repository inputs, and URL remediation without
+creating source acceptance or license certification.
 """
 
 from __future__ import annotations
@@ -234,7 +234,7 @@ def build_source_provenance_priority_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "cache or explicitly exclude context-only public sources before final claims",
+            "provide reviewed target payloads or explicitly exclude context-source rows before final claims",
             "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
             "confirm project-owned local citations and privacy abstraction for repository inputs",
             "resolve alternate URL issues before provenance acceptance",
@@ -242,7 +242,7 @@ def build_source_provenance_priority_manifest(
         ],
         "remaining_blockers": [
             "formal provenance acceptance record is absent",
-            "context-only public sources still need cached extracts or exclusion decisions",
+            "context-source target artifacts still need reviewed payloads or exclusion decisions",
             "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
             "repository inputs still require human scope/privacy/reproducibility review",
             "URL remediation rows still require reviewer confirmation",

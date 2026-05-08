@@ -27,5 +27,5 @@ Source-provenance decision packet only; not source acceptance, not license certi
 ## Boundary
 
 - This packet is a reviewer worksheet, not a provenance acceptance record.
-- It does not certify licenses, accept source snapshots, cache context sources, or close the provenance gate.
+- It does not certify licenses, accept source snapshots, cache context-source target artifacts, or close the provenance gate.
 - Keep provenance claims blocked until `data/manifests/provenance_acceptance.json` is reviewed.

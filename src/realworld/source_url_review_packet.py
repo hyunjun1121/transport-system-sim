@@ -262,7 +262,7 @@ def build_source_url_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Verify the official source page, license, attribution, and derivative-use constraints.",
-            "- Cache retained public data extracts or explicitly exclude context-only URLs from final claims.",
+            "- Provide reviewed target payloads or explicitly exclude context-source URLs from final claims.",
             "- Treat `reachable` as a transient connectivity observation, not acceptance evidence.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
             "",
@@ -450,7 +450,7 @@ def _review_items(
         items.append("resolve failed URL rows by replacement, caching, exclusion, or reviewer decision")
     items.extend(
         [
-            "cache context-only public sources or exclude them from final claims",
+            "provide reviewed target payloads for context-source rows or exclude them from final claims",
             "treat live reachability as volatile and not as source acceptance",
             "create data/manifests/provenance_acceptance.json only after reviewer decisions",
         ]
@@ -471,7 +471,9 @@ def _remaining_blockers(
         blockers.append("not-checked URL rows still need live checks or explicit offline-review decisions")
     if unreachable_or_error_count:
         blockers.append("unreachable, HTTP-error, or network-error URL rows require remediation review")
-    blockers.append("context-only URLs still need cached extracts or explicit exclusion from final claims")
+    blockers.append(
+        "context-source target URLs still need reviewed payloads or explicit exclusion from final claims"
+    )
     return blockers
 
 

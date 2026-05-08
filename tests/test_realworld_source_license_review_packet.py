@@ -45,7 +45,7 @@ def test_source_license_review_rows_are_source_specific() -> None:
     assert by_id["ktdb_public_transport_gtfs_context"][
         "publication_use_status"
     ] == "cached source pending license, attribution, and snapshot review"
-    assert "cache a reproducible source extract" in by_id[
+    assert "provide a reviewed target payload" in by_id[
         "seoul_shortest_path_api_context"
     ]["required_reviewer_decision"]
     assert by_id["pilot_region_spec"]["privacy_review_required"] == "true"

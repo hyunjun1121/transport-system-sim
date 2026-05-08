@@ -15,8 +15,8 @@ This packet prioritizes existing source provenance review work. It does not crea
 
 | Source | Type | Status | Priority | URLs | Alternate Candidates | Required Decision |
 | --- | --- | --- | --- | --- | --- | --- |
-| seoul_shortest_path_api_context | public_api | blocked_context_only_source_not_cached | high | reachable_needs_license_review=2 |  | cache a reproducible source extract with terms/attribution review, or exclude this context-only source from final-study claims |
-| seoul_timetable_api_context | public_api | blocked_context_only_source_not_cached | high | reachable_needs_license_review=2 |  | cache a reproducible source extract with terms/attribution review, or exclude this context-only source from final-study claims |
+| seoul_shortest_path_api_context | public_api | blocked_context_only_source_not_cached | high | reachable_needs_license_review=2 |  | provide a reviewed target payload with terms/attribution review, or exclude this context-source row from final-study claims |
+| seoul_timetable_api_context | public_api | blocked_context_only_source_not_cached | high | reachable_needs_license_review=2 |  | provide a reviewed target payload with terms/attribution review, or exclude this context-source row from final-study claims |
 | metro9_capacity_context | operator_page | needs_human_review_cached_snapshot_source | high | reachable_needs_license_review=1 |  | review source terms, attribution, snapshot date, and retained local artifacts |
 | seoul_station_binding_cache | public_api | needs_human_review_cached_snapshot_source | high | reachable_needs_license_review=1 |  | review source terms, attribution, snapshot date, and retained local artifacts |
 | ktdb_public_transport_gtfs_context | public_data | needs_human_review_cached_snapshot_source | high | alternate_reachable_url_needs_review=1; reachable_needs_license_review=1 | https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106 | review source terms, attribution, snapshot date, and retained local artifacts |

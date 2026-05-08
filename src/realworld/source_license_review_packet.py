@@ -169,7 +169,7 @@ def build_source_license_review_manifest(
         },
         "review_items": [
             "verify each source URL, license, attribution requirement, and derivative-use constraint",
-            "cache context-only public sources or explicitly exclude them from final claims",
+            "provide reviewed target payloads for context-source rows or explicitly exclude them from final claims",
             "confirm local artifact paths and snapshot dates for every cached source",
             "review project-owned synthetic/privacy abstraction before provenance acceptance",
             "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed",
@@ -177,7 +177,7 @@ def build_source_license_review_manifest(
         "remaining_blockers": [
             "formal provenance acceptance record is absent",
             "source/license packet rows are review aids and do not certify license compatibility",
-            "context-only sources still need cached extracts or explicit exclusion from final claims",
+            "context-source target artifacts still need reviewed payloads or explicit exclusion from final claims",
         ],
     }
 
@@ -223,7 +223,7 @@ def build_source_license_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Review official source terms and attribution requirements for every retained public source.",
-            "- Cache or exclude context-only sources before using them in final claims.",
+            "- Provide reviewed target payloads or exclude context-source rows before using them in final claims.",
             "- Confirm project-owned synthetic/privacy abstractions before accepting the pilot package.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
             "",
@@ -279,8 +279,8 @@ def _row_for_record(record: SourceProvenanceRecord) -> dict[str, str]:
 def _required_decision(record: SourceProvenanceRecord, snapshot_status: str) -> str:
     if record.review_status == "context_only_not_cached":
         return (
-            "cache a reproducible source extract with terms/attribution review, "
-            "or exclude this context-only source from final-study claims"
+            "provide a reviewed target payload with terms/attribution review, "
+            "or exclude this context-source row from final-study claims"
         )
     if snapshot_status != "local_artifacts_present":
         return "repair or document missing local artifacts before provenance acceptance"

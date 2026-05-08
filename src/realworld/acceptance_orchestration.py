@@ -438,7 +438,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         ),
         decision_rules=(
             "Do not assume license compatibility without cited or source-backed evidence.",
-            "Block final claims while source records are pending review or context-only.",
+            "Block final claims while source records are pending review or target payloads are absent.",
         ),
         required_actions=(
             "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -1546,7 +1546,7 @@ def _source_provenance_priority_index_lines(
             f"`{str(source_priority.get('manifest_present', False)).lower()}`"
         ),
         f"- Source rows: {source_priority.get('row_count', 0)}",
-        f"- Blocking context-only sources: {source_priority.get('blocking_source_count', 0)}",
+        f"- Blocking context-source target gaps: {source_priority.get('blocking_source_count', 0)}",
         f"- Human-review sources: {source_priority.get('human_review_source_count', 0)}",
         f"- Cached public snapshots: {source_priority.get('cached_snapshot_source_count', 0)}",
         f"- Repository input sources: {source_priority.get('repository_input_source_count', 0)}",

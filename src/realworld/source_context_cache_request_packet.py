@@ -1,8 +1,8 @@
 """Context-source cache request packet.
 
-This module turns context-only public source blockers into concrete cache or
-exclusion work items. It is a reviewer aid only: it does not fetch public data,
-cache source extracts, certify licenses, or create provenance acceptance.
+This module turns context-source target artifact blockers into concrete cache
+or exclusion work items. It is a reviewer aid only: it does not fetch public
+data, cache source payloads, certify licenses, or create provenance acceptance.
 """
 
 from __future__ import annotations
@@ -131,7 +131,7 @@ def build_source_context_cache_request_rows(
     source_priority_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH,
     provenance_manifest_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return one cache-request row per context-only public source."""
+    """Return one cache-request row per context-source target artifact."""
 
     priority_rows = (
         list(source_priority_rows)
@@ -226,10 +226,12 @@ def build_source_context_cache_request_manifest(
         "schema_version": 1,
         "result_scope": SOURCE_CONTEXT_CACHE_REQUEST_SCOPE,
         "claim_boundary": (
-            "This packet converts context-only public sources into cache or "
-            "exclusion requests. It does not fetch data, certify terms, create "
-            "source snapshots, or close data-provenance, rail-evidence, "
-            "validation, reproducibility, or final-study gates."
+            "This packet converts context-source target artifacts into cache "
+            "or exclusion requests. Cached source metadata is review support "
+            "only; it does not replace a reviewed source payload. This packet "
+            "does not fetch data, certify terms, create source snapshots, or "
+            "close data-provenance, rail-evidence, validation, reproducibility, "
+            "or final-study gates."
         ),
         "row_count": len(rows),
         "context_source_count": len(rows),
@@ -305,7 +307,7 @@ def build_source_context_cache_request_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Cache reviewed source extracts or explicitly exclude each context-only source from final claims.",
+            "- Cache reviewed target source artifacts or explicitly exclude each context-source row from final claims.",
             "- Review terms, attribution, extraction date, retained raw response, and reproducibility before using a cached source.",
             "- Treat helper scripts as derivation paths only; they do not prove source suitability or close acceptance gates.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",

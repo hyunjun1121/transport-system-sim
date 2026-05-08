@@ -35,7 +35,7 @@
   },
   "review_items": [
     "verify each source URL, license, attribution requirement, and derivative-use constraint",
-    "cache context-only public sources or explicitly exclude them from final claims",
+    "provide reviewed target payloads for context-source rows or explicitly exclude them from final claims",
     "confirm local artifact paths and snapshot dates for every cached source",
     "review project-owned synthetic/privacy abstraction before provenance acceptance",
     "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed"
@@ -43,6 +43,6 @@
   "remaining_blockers": [
     "formal provenance acceptance record is absent",
     "source/license packet rows are review aids and do not certify license compatibility",
-    "context-only sources still need cached extracts or explicit exclusion from final claims"
+    "context-source target artifacts still need reviewed payloads or explicit exclusion from final claims"
   ]
 }

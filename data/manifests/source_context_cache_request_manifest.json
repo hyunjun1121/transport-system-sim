@@ -4,7 +4,7 @@
     "blocked_missing_context_source_cache": 3
   },
   "can_mark_complete": false,
-  "claim_boundary": "This packet converts context-only public sources into cache or exclusion requests. It does not fetch data, certify terms, create source snapshots, or close data-provenance, rail-evidence, validation, reproducibility, or final-study gates.",
+  "claim_boundary": "This packet converts context-source target artifacts into cache or exclusion requests. Cached source metadata is review support only; it does not replace a reviewed source payload. This packet does not fetch data, certify terms, create source snapshots, or close data-provenance, rail-evidence, validation, reproducibility, or final-study gates.",
   "context_source_count": 3,
   "inputs": {
     "source_provenance_manifest": "data/manifests/source_provenance_manifest.json",

@@ -798,14 +798,14 @@ First pilot-smoke artifacts also exist:
   source/license review rows and URL remediation rows into an 11-row per-source
   priority worksheet under
   `data/manifests/source_provenance_priority_packet.csv`. It highlights
-  context-only sources that need cached extracts or exclusion decisions, cached
-  snapshots that need source/license review, and repository inputs that need
-  human scope/privacy/reproducibility review. It now carries same-source
-  alternate URL candidates up from the URL-remediation packet without creating
-  provenance acceptance.
+  context-source target rows that still need reviewed payloads or exclusion
+  decisions, cached snapshots that need source/license review, and repository
+  inputs that need human scope/privacy/reproducibility review. It now carries
+  same-source alternate URL candidates up from the URL-remediation packet
+  without creating provenance acceptance.
 - `src/realworld/source_context_cache_request_packet.py` and
   `scripts/write_source_context_cache_request_packet.py` now split the three
-  context-only public sources into explicit cache-or-exclude requests under
+  context-source target artifacts into explicit cache-or-exclude requests under
   `data/manifests/source_context_cache_request_packet.csv`. It names target
   cache artifacts, available fetch or derivation helpers, and required reviewer
   actions without fetching public data, certifying licenses, or creating
@@ -2268,14 +2268,14 @@ Concrete next tasks:
    remaining human/source-backed decisions. Do not create formal acceptance
    files until their packet risks and required actions are resolved.
    Use `data/manifests/source_provenance_priority_packet.csv` to triage
-   context-only public sources, cached public snapshots, and repository-input
-   source-scope decisions before provenance acceptance.
+   context-source target-artifact gaps, cached public snapshots, and
+   repository-input source-scope decisions before provenance acceptance.
    Use `data/manifests/source_context_cache_request_packet.csv` to turn each
-   context-only public source into a reviewed cache action or explicit
+   context-source target artifact into a reviewed cache action or explicit
    exclusion decision before final claims rely on it.
    Use `data/manifests/source_context_cache_decision_packet.csv` to record the
    pending cache, exclusion, or sensitivity-only reviewer decision for each
-   context-only source before provenance acceptance is drafted.
+   context-source target before provenance acceptance is drafted.
    Use `docs/acceptance_decision_templates.md` and
    `data/manifests/acceptance_templates/` only as non-approval starting points
    after those reviews; copy a template to a formal acceptance path only when

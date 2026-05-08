@@ -1,6 +1,6 @@
 # Source Context Cache Request Packet
 
-This packet converts context-only public sources into cache or exclusion requests. It does not fetch data, certify terms, create source snapshots, or close data-provenance, rail-evidence, validation, reproducibility, or final-study gates.
+This packet converts context-source target artifacts into cache or exclusion requests. Cached source metadata is review support only; it does not replace a reviewed source payload. This packet does not fetch data, certify terms, create source snapshots, or close data-provenance, rail-evidence, validation, reproducibility, or final-study gates.
 
 ## Verdict
 
@@ -20,7 +20,7 @@ This packet converts context-only public sources into cache or exclusion request
 
 ## Required Reviewer Actions
 
-- Cache reviewed source extracts or explicitly exclude each context-only source from final claims.
+- Cache reviewed target source artifacts or explicitly exclude each context-source row from final claims.
 - Review terms, attribution, extraction date, retained raw response, and reproducibility before using a cached source.
 - Treat helper scripts as derivation paths only; they do not prove source suitability or close acceptance gates.
 - Create `data/manifests/provenance_acceptance.json` only after source-backed review.

@@ -279,9 +279,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "provenance_gate_closure_candidate_count": 0,
                     "can_mark_complete": False,
                     "publication_ready": False,
-                    "review_items": ["cache or exclude context-only sources"],
+                    "review_items": [
+                        "provide reviewed payloads or exclude context-source rows"
+                    ],
                     "remaining_blockers": [
-                        "context-only public sources still need cached extracts"
+                        "context-source target artifacts still need reviewed payloads"
                     ],
                 }
             )
@@ -558,7 +560,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                         "blocked_missing_context_source_cache": 3,
                     },
                     "remaining_blockers": [
-                        "context-only public sources still lack reviewed cached extracts"
+                        "context-source target cache artifacts still lack reviewed payloads"
                     ],
                 }
             )
@@ -1124,8 +1126,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert index_path.exists()
         index_text = index_path.read_text(encoding="utf-8")
         assert "Source Provenance Priority Snapshot" in index_text
-        assert "Blocking context-only sources: 3" in index_text
-        assert "cache or exclude context-only sources" in index_text
+        assert "Blocking context-source target gaps: 3" in index_text
+        assert "provide reviewed payloads or exclude context-source rows" in index_text
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Validation Benchmark Decision`" in index_text

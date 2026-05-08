@@ -121,14 +121,15 @@ Implemented extension modules now also cover:
 - `source_provenance_priority_packet.py`: per-source provenance priority
   worksheet that joins source/license review with URL remediation, including
   same-source alternate URL candidates, without approving provenance.
-- `source_context_cache_request_packet.py`: context-only public-source cache
-  request worksheet that identifies the reviewed extracts, raw responses, or
-  explicit exclusion decisions needed before those sources can support final
-  provenance claims.
+- `source_context_cache_request_packet.py`: context-source target-artifact
+  cache request worksheet that identifies the reviewed payloads, raw
+  responses, or explicit exclusion decisions needed before those sources can
+  support final provenance claims.
 - `source_context_cache_decision_packet.py`: pending reviewer-decision
   worksheet that records cache, exclusion, or sensitivity-only treatment for
-  each context-only source before provenance acceptance. It does not fetch or
-  cache source data.
+  each context-source target before provenance acceptance. It does not fetch or
+  cache source data, and cached metadata does not replace a reviewed source
+  payload.
 - `source_provenance_decision_packet.py`: focused provenance-gate decision
   worksheet that consolidates source inventory, license/attribution,
   context-source cache/exclusion, URL remediation, cached snapshot,
