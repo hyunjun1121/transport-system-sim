@@ -1154,7 +1154,7 @@ Missing evidence:
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
@@ -1167,7 +1167,7 @@ Residual risks:
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance

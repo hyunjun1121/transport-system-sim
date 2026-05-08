@@ -90,10 +90,13 @@ def build_reproducibility_decision_rows(
     )
     manifest_scope = str(reproducibility_manifest.get("scope", "")).strip()
     scaffold_scope = "scaffold" in manifest_scope.lower()
-    clean_checkout_blocked = _clean_checkout_scope_blocked(
-        review_manifest,
-        clean_checkout_smoke,
+    clean_checkout_status, clean_checkout_blocking_reason = (
+        _clean_checkout_scope_status_and_reason(
+            review_manifest,
+            clean_checkout_smoke,
+        )
     )
+    clean_checkout_blocked = clean_checkout_status.startswith("blocked")
     artifact_regeneration_blocked = not bool(
         clean_checkout_smoke.get("artifact_regeneration_tested")
     )
@@ -163,19 +166,11 @@ def build_reproducibility_decision_rows(
                 review_manifest,
                 clean_checkout_smoke,
             ),
-            decision_status=(
-                "blocked_bounded_or_stale_clean_checkout_evidence"
-                if clean_checkout_blocked
-                else "needs_human_review_clean_checkout_evidence_scope"
-            ),
-            blocking_reason=(
-                "clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction"
-                if clean_checkout_blocked
-                else ""
-            ),
+            decision_status=clean_checkout_status,
+            blocking_reason=clean_checkout_blocking_reason,
             required_reviewer_action=(
-                "Decide whether to rerun clean-checkout smoke at the current "
-                "commit and whether a full dependency reinstall is required."
+                "Decide whether the clean-checkout smoke commit relation is "
+                "acceptable and whether a full dependency reinstall is required."
             ),
             followup_artifacts=(
                 "data/validation/clean_checkout_reproducibility_smoke_manifest.json; "
@@ -572,17 +567,40 @@ def _artifact_regeneration_evidence(
     )
 
 
-def _clean_checkout_scope_blocked(
+def _clean_checkout_scope_status_and_reason(
     review_manifest: Mapping[str, Any],
     clean_checkout_smoke: Mapping[str, Any],
-) -> bool:
-    return (
-        not bool(review_manifest.get("clean_checkout_test_performed"))
-        or not bool(review_manifest.get("clean_checkout_smoke_passed"))
-        or not bool(review_manifest.get("clean_checkout_smoke_matches_review_head"))
-        or not bool(review_manifest.get("full_clean_environment_tested"))
-        or not bool(clean_checkout_smoke.get("dependency_install_tested"))
+) -> tuple[str, str]:
+    if not bool(review_manifest.get("clean_checkout_test_performed")):
+        return (
+            "blocked_missing_clean_checkout_evidence",
+            "clean-checkout smoke has not been performed",
+        )
+    if not bool(review_manifest.get("clean_checkout_smoke_passed")):
+        return (
+            "blocked_failed_clean_checkout_evidence",
+            "clean-checkout smoke did not pass",
+        )
+
+    matches_head = bool(review_manifest.get("clean_checkout_smoke_matches_review_head"))
+    source_relation = str(
+        review_manifest.get("clean_checkout_smoke_source_commit_relation_to_review_head", "")
     )
+    if not matches_head and source_relation != "ancestor_of_review_head":
+        return (
+            "blocked_stale_clean_checkout_evidence",
+            "clean-checkout smoke is stale relative to the review head",
+        )
+
+    full_environment_tested = bool(review_manifest.get("full_clean_environment_tested"))
+    dependency_install_tested = bool(clean_checkout_smoke.get("dependency_install_tested"))
+    if not full_environment_tested or not dependency_install_tested:
+        return (
+            "blocked_bounded_clean_checkout_evidence_scope",
+            "clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
+        )
+
+    return "needs_human_review_clean_checkout_evidence_scope", ""
 
 
 def _evidence_paths(

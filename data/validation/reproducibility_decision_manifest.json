@@ -5,7 +5,7 @@
   "row_count": 7,
   "decision_status_counts": {
     "blocked_artifact_regeneration_not_tested": 1,
-    "blocked_bounded_or_stale_clean_checkout_evidence": 1,
+    "blocked_bounded_clean_checkout_evidence_scope": 1,
     "blocked_missing_reproducibility_acceptance_record": 1,
     "blocked_scaffold_reproducibility_manifest_scope": 1,
     "needs_human_review_command_ladder_scope": 1,
@@ -43,7 +43,7 @@
   ],
   "remaining_blockers": [
     "reproducibility manifest remains scaffold-only",
-    "clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+    "clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "clean-checkout artifact regeneration protocol has not been tested",
     "data/manifests/reproducibility_acceptance.json is absent"
   ]

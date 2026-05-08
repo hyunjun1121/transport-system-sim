@@ -90,8 +90,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
-| `Reproducibility Decision` | 7 | 4 | 3 | 0 | `false` | blocked_artifact_regeneration_not_tested=1; blocked_bounded_or_stale_clean_checkout_evidence=1; blocked_missing_reproducibility_acceptance_record=1; +4 more |
+| `Reproducibility Review` | 8 | 4 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
+| `Reproducibility Decision` | 7 | 4 | 3 | 0 | `false` | blocked_artifact_regeneration_not_tested=1; blocked_bounded_clean_checkout_evidence_scope=1; blocked_missing_reproducibility_acceptance_record=1; +4 more |
 | `Final Audit Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_final_audit_acceptance_record=1; blocked_missing_final_study_audit_document=1; blocked_missing_formal_acceptance_artifacts=1; +4 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
@@ -101,7 +101,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=777 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Tracked Artifact Audit` | 50 | 50 | 0 | 0 | `false` | data_or_manifest=35; documentation=13; realworld_code=1; +1 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -139,6 +139,7 @@ Priority blockers by packet:
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+3 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: data/manifests/acceptance_decision_template_manifest.json: Commit, stash, or document this change before clean-checkout reproduction. (+49 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -307,7 +308,7 @@ Priority blockers by packet:
 - reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package
 - reproducibility: resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility: reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility: reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - reproducibility: review reproducibility human-decision rows before reproducibility acceptance
@@ -465,7 +466,7 @@ Priority blockers by packet:
 - Reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package
 - Reproducibility: resolve reproducibility decision blockers before reproducibility acceptance
 - Reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only
-- Reproducibility: reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- Reproducibility: reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - Reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - Reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - Reproducibility: review reproducibility human-decision rows before reproducibility acceptance

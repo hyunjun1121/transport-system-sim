@@ -46,7 +46,7 @@
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "gate_id": "graph_scale_strategy",
-  "generated_at": "2026-05-08T21:33:23+00:00",
+  "generated_at": "2026-05-08T21:45:20+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",

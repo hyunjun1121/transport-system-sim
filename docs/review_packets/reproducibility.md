@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T21:33:23+00:00`
+- Generated at: `2026-05-08T21:45:20+00:00`
 
 ## Decision
 
@@ -58,7 +58,7 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
@@ -71,7 +71,7 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction
 - reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
@@ -94,7 +94,7 @@ Formal acceptance artifacts:
     "replace scaffold-only manifest with clean-checkout final reproduction package",
     "resolve reproducibility decision blockers before reproducibility acceptance",
     "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+    "reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
@@ -122,14 +122,14 @@ Formal acceptance artifacts:
     "reproducibility_decision_publication_ready": false,
     "reproducibility_decision_remaining_blockers": [
       "reproducibility manifest remains scaffold-only",
-      "clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+      "clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
       "clean-checkout artifact regeneration protocol has not been tested",
       "data/manifests/reproducibility_acceptance.json is absent"
     ],
     "reproducibility_decision_row_count": 7,
     "reproducibility_decision_status_counts": {
       "blocked_artifact_regeneration_not_tested": 1,
-      "blocked_bounded_or_stale_clean_checkout_evidence": 1,
+      "blocked_bounded_clean_checkout_evidence_scope": 1,
       "blocked_missing_reproducibility_acceptance_record": 1,
       "blocked_scaffold_reproducibility_manifest_scope": 1,
       "needs_human_review_command_ladder_scope": 1,
@@ -137,7 +137,7 @@ Formal acceptance artifacts:
       "needs_human_review_runtime_import_boundary": 1
     },
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 0,
+    "review_packet_git_status_line_count": 51,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,

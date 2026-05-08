@@ -36,7 +36,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
         "needs_human_review_command_ladder_scope"
     )
     assert by_id["clean_checkout_evidence_scope_decision"]["decision_status"] == (
-        "blocked_bounded_or_stale_clean_checkout_evidence"
+        "blocked_bounded_clean_checkout_evidence_scope"
     )
     assert by_id["worktree_package_state_decision"]["decision_status"] == (
         "needs_human_review_committed_package_state"
@@ -53,6 +53,13 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
     assert "matches_review_head=false" in by_id[
         "clean_checkout_evidence_scope_decision"
     ]["current_evidence"]
+    assert "source_commit_relation=ancestor_of_review_head" in by_id[
+        "clean_checkout_evidence_scope_decision"
+    ]["current_evidence"]
+    assert by_id["clean_checkout_evidence_scope_decision"]["blocking_reason"] == (
+        "clean-checkout smoke is bounded to the current Python environment and "
+        "not a full clean-environment reproduction"
+    )
     assert {row["claim_boundary"] for row in rows} == {
         REPRODUCIBILITY_DECISION_SCOPE
     }

@@ -13,7 +13,7 @@
     "docs/review_packets/final_audit.md"
   ],
   "gate_id": "final_audit",
-  "generated_at": "2026-05-08T21:33:23+00:00",
+  "generated_at": "2026-05-08T21:45:20+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
