@@ -203,7 +203,8 @@ The codebase currently includes:
     `scripts/audit_tracked_artifacts.py`; it lists changed artifacts that a
     clean checkout of the current Git HEAD would miss unless they are
     committed, packaged, or explicitly excluded from the accepted reproduction
-    scope
+    scope, while excluding its own generated CSV, manifest, and Markdown
+    outputs so repeated audit runs do not create self-blockers
   - formal evidence-path hygiene auditing in
     `src/realworld/formal_evidence_path_audit.py` and
     `scripts/audit_formal_evidence_paths.py`; the current manifest records no

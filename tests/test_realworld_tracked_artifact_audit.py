@@ -83,9 +83,9 @@ def test_write_tracked_artifact_audit_outputs_files() -> None:
         assert loaded["row_count"] == 1
         assert summary["can_mark_complete"] is False
         assert (root / "tracked.csv").exists()
-        assert "Tracked Artifact Audit" in (root / "tracked.md").read_text(
-            encoding="utf-8"
-        )
+        text = (root / "tracked.md").read_text(encoding="utf-8")
+        assert "Tracked Artifact Audit" in text
+        assert "excludes its own generated CSV, manifest, and Markdown outputs" in text
 
 
 if __name__ == "__main__":

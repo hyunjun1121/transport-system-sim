@@ -619,7 +619,9 @@ First pilot-smoke artifacts also exist:
   `scripts/audit_tracked_artifacts.py` list changed reproducibility artifacts
   that a clean checkout of the current Git HEAD would not reproduce unless
   they are committed, packaged, or explicitly excluded from the accepted
-  reproduction scope. The current audit is packaging hygiene only and keeps
+  reproduction scope. The audit excludes its own generated CSV, manifest, and
+  Markdown outputs from candidate rows so repeated audit runs do not create
+  self-blockers. The current audit is packaging hygiene only and keeps
   `clean_checkout_reproducibility_ready: false`.
 - `src/realworld/provenance_acceptance.py` keeps the data-provenance gate
   blocked until source snapshots, license/attribution, privacy abstraction,

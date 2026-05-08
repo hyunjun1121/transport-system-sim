@@ -74,7 +74,9 @@ that a clean checkout of current Git HEAD would not reproduce:
 It writes `data/validation/tracked_artifact_audit.csv`,
 `data/validation/tracked_artifact_audit_manifest.json`, and
 `docs/tracked_artifact_audit.md`. This is packaging hygiene only; it does not
-commit files, accept reproducibility, or close the final-study gate.
+commit files, accept reproducibility, or close the final-study gate. The audit
+excludes those three generated outputs from candidate rows so reruns do not
+create self-blockers.
 
 ## Claim Boundary
 
