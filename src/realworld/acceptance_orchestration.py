@@ -92,13 +92,21 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         source_paths=(
             "data/regions/pilot_region.yaml",
             "docs/pilot_region_data_card.md",
+            "data/manifests/pilot_privacy_review_packet.csv",
+            "data/manifests/pilot_privacy_review_manifest.json",
         ),
         reviewed_inputs=(
             "data/regions/pilot_region.yaml",
             "docs/pilot_region_data_card.md",
             "docs/current_goal_completion_audit.md",
+            "data/manifests/pilot_privacy_review_packet.csv",
+            "data/manifests/pilot_privacy_review_manifest.json",
+            "docs/pilot_privacy_review_packet.md",
         ),
-        review_packet_paths=("docs/review_packets/pilot_region_accepted.md",),
+        review_packet_paths=(
+            "data/manifests/pilot_privacy_review_packet.csv",
+            "docs/review_packets/pilot_region_accepted.md",
+        ),
         decision_rules=(
             "Accept only after privacy, sensitivity, and not-operational claim boundaries are reviewed.",
             "Treat missing privacy decision as needs_human_review, not accepted.",

@@ -40,6 +40,14 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
 
     agents = {agent.agent_id: agent for agent in REVIEW_AGENT_DEFINITIONS}
 
+    pilot_agent = agents["pilot_region_privacy_review_agent"]
+    assert "data/manifests/pilot_privacy_review_packet.csv" in (
+        pilot_agent.review_packet_paths
+    )
+    assert "data/manifests/pilot_privacy_review_manifest.json" in (
+        pilot_agent.source_paths
+    )
+
     graph_agent = agents["graph_scale_method_review_agent"]
     assert (
         "data/validation/graph_scale_strategy_readiness_packet.csv"

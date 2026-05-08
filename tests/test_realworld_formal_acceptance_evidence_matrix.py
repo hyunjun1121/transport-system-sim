@@ -40,6 +40,14 @@ def test_evidence_matrix_covers_current_formal_targets() -> None:
         for row in rows
     )
     assert (
+        "data/manifests/pilot_privacy_review_packet.csv"
+        in by_gate["pilot_region_accepted"]["review_packets"]
+    )
+    assert (
+        "data/manifests/pilot_privacy_review_manifest.json"
+        in by_gate["pilot_region_accepted"]["source_paths"]
+    )
+    assert (
         "data/validation/graph_scale_strategy_readiness_packet.csv"
         in by_gate["graph_scale_strategy"]["source_paths"]
     )
