@@ -12,7 +12,7 @@ from scripts.build_pilot_cache import (
     DEFAULT_REGION_PATH,
     main as build_cache_main,
 )
-from scripts.run_pilot_smoke import run_pilot_smoke
+from scripts import run_pilot_smoke as smoke_script
 
 
 def test_pilot_cache_manifest_records_boundary_and_tooling() -> None:
@@ -44,7 +44,7 @@ def test_cached_pilot_region_runs_both_modes() -> None:
     if not DEFAULT_CACHE_PATH.exists():
         build_cache_main()
 
-    result = run_pilot_smoke(DEFAULT_REGION_PATH, DEFAULT_CACHE_PATH)
+    result = smoke_script.run_pilot_smoke(DEFAULT_REGION_PATH, DEFAULT_CACHE_PATH)
 
     assert result["region_id"] == "songpa_public_demo"
     assert result["graph_nodes"] >= 8
@@ -58,7 +58,40 @@ def test_cached_pilot_region_runs_both_modes() -> None:
     print("PASS: cached pilot region runs bus-only and multimodal smoke")
 
 
+def test_pilot_smoke_cli_accepts_region_and_cache_paths() -> None:
+    """CLI plumbing should pass explicit region/cache paths to the runner."""
+
+    calls = []
+    original = smoke_script.run_pilot_smoke
+
+    def fake_run(region_path, cache_path):
+        calls.append((region_path, cache_path))
+        return {"region_id": "fixture", "graph_nodes": 1, "graph_edges": 1}
+
+    smoke_script.run_pilot_smoke = fake_run
+    try:
+        status = smoke_script.main(
+            [
+                "--region",
+                "tests/fixtures/synthetic_region_fixture.yaml",
+                "--cache",
+                "data/cache/pilot_region_road.graphml",
+            ]
+        )
+    finally:
+        smoke_script.run_pilot_smoke = original
+
+    assert status == 0
+    assert len(calls) == 1
+    region_path, cache_path = calls[0]
+    assert str(region_path).endswith("synthetic_region_fixture.yaml")
+    assert str(cache_path).endswith("pilot_region_road.graphml")
+
+    print("PASS: pilot smoke CLI accepts explicit region and cache paths")
+
+
 if __name__ == "__main__":
     test_pilot_cache_manifest_records_boundary_and_tooling()
     test_cached_pilot_region_runs_both_modes()
+    test_pilot_smoke_cli_accepts_region_and_cache_paths()
     print("\n=== REALWORLD PILOT SMOKE TESTS PASSED ===")

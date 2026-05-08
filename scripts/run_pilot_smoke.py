@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import argparse
 from contextlib import contextmanager
+import json
 from pathlib import Path
 import sys
 from typing import Any
@@ -30,9 +32,13 @@ DEFAULT_CACHE_PATH = ROOT / "data" / "cache" / "pilot_region_road.graphml"
 PARAMS = {"s": 1.0, "p_fail_scale": 0.0, "sigma": 0.0}
 
 
-def main() -> None:
-    result = run_pilot_smoke(DEFAULT_REGION_PATH, DEFAULT_CACHE_PATH)
-    print(result)
+def main(argv: list[str] | None = None) -> int:
+    """CLI entry point for the cached real-world smoke check."""
+
+    args = _parse_args(argv)
+    result = run_pilot_smoke(args.region, args.cache)
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0
 
 
 def run_pilot_smoke(region_path: str | Path, cache_path: str | Path) -> dict[str, Any]:
@@ -172,5 +178,27 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     return value
 
 
+def _parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Run an offline cached-region smoke. Defaults point at the pilot "
+            "region, but explicit paths support region-reuse checks."
+        )
+    )
+    parser.add_argument(
+        "--region",
+        type=Path,
+        default=DEFAULT_REGION_PATH,
+        help="Region YAML path.",
+    )
+    parser.add_argument(
+        "--cache",
+        type=Path,
+        default=DEFAULT_CACHE_PATH,
+        help="Cached GraphML road graph path.",
+    )
+    return parser.parse_args(argv)
+
+
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

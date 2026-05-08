@@ -73,6 +73,13 @@ Run at minimum:
 .\.venv\Scripts\python tests\test_realworld_adapter.py
 ```
 
+The cached smoke CLIs accept explicit region and cache paths:
+
+```powershell
+.\.venv\Scripts\python scripts\run_pilot_smoke.py --region data\regions\<region_id>.yaml --cache data\cache\<region_id>_road.graphml
+.\.venv\Scripts\python scripts\run_full_graph_smoke.py --region-path data\regions\<region_id>.yaml --cache-path data\cache\<region_id>_road.graphml --no-write
+```
+
 For a publication-bound region, also rerun the full validation ladder listed
 in `plan.md` and keep formal acceptance artifacts absent until reviewed
 source-backed decisions are supplied.

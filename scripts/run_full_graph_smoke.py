@@ -45,7 +45,13 @@ def main(argv: list[str] | None = None) -> int:
 
     args = _parse_args(argv)
     started = time.perf_counter()
-    result = run_full_graph_smoke()
+    result = run_full_graph_smoke(
+        region_path=args.region_path,
+        cache_path=args.cache_path,
+        scenarios_path=args.scenarios_path,
+        policies_path=args.policies_path,
+        seed=args.seed,
+    )
     duration_sec = time.perf_counter() - started
     manifest = build_full_graph_smoke_manifest(
         result=result,
@@ -243,6 +249,36 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
             "Run a bounded full bus-practical graph smoke. The output is "
             "runtime/smoke evidence only, not graph-scale acceptance."
         )
+    )
+    parser.add_argument(
+        "--region-path",
+        type=Path,
+        default=DEFAULT_REGION_PATH,
+        help="Region YAML path.",
+    )
+    parser.add_argument(
+        "--cache-path",
+        type=Path,
+        default=DEFAULT_CACHE_PATH,
+        help="Cached GraphML road graph path.",
+    )
+    parser.add_argument(
+        "--scenarios-path",
+        type=Path,
+        default=DEFAULT_SCENARIO_PATH,
+        help="Disruption scenario CSV path.",
+    )
+    parser.add_argument(
+        "--policies-path",
+        type=Path,
+        default=DEFAULT_POLICY_ALTERNATIVES_PATH,
+        help="Policy alternatives CSV path.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=9999,
+        help="Single deterministic seed for the smoke rows.",
     )
     parser.add_argument(
         "--manifest",

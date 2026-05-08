@@ -897,6 +897,10 @@ Current fixture coverage:
   region through schema loading, graph adaptation, road-mode readiness checks,
   and rail metadata mapping. This is region-reuse test coverage only, not a
   second accepted case study.
+- `scripts/run_pilot_smoke.py` now accepts `--region` and `--cache`;
+  `scripts/run_full_graph_smoke.py` accepts `--region-path` and `--cache-path`
+  plus explicit scenario, policy, and seed inputs. These CLIs remain smoke
+  evidence only and do not create acceptance records.
 
 ## Data Governance And Security
 
