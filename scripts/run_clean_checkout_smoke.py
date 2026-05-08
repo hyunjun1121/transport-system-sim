@@ -27,6 +27,7 @@ def main() -> int:
         keep_checkout=args.keep_checkout,
         checkout_parent=args.checkout_parent,
         install_dependencies=args.install_dependencies,
+        artifact_regeneration=args.artifact_regeneration,
         timeout_sec=args.timeout_sec,
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
@@ -58,6 +59,14 @@ def _parse_args() -> argparse.Namespace:
         help=(
             "Create a fresh venv in the checkout, install requirements.txt, "
             "and run the bounded smoke there."
+        ),
+    )
+    parser.add_argument(
+        "--artifact-regeneration",
+        action="store_true",
+        help=(
+            "After the bounded smoke passes, regenerate bounded review and "
+            "audit artifacts inside the clean checkout."
         ),
     )
     parser.add_argument(

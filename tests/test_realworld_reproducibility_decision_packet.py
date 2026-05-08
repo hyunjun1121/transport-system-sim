@@ -20,6 +20,9 @@ from src.realworld.reproducibility_decision_packet import (  # noqa: E402
     build_reproducibility_decision_rows,
     write_reproducibility_decision_packet,
 )
+from src.realworld.clean_checkout_smoke import (  # noqa: E402
+    DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
+)
 
 
 def test_reproducibility_decision_rows_classify_current_state() -> None:
@@ -36,7 +39,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
         "needs_human_review_command_ladder_scope"
     )
     assert by_id["clean_checkout_evidence_scope_decision"]["decision_status"] == (
-        "blocked_bounded_clean_checkout_evidence_scope"
+        "needs_human_review_clean_checkout_evidence_scope"
     )
     assert by_id["worktree_package_state_decision"]["decision_status"] == (
         "needs_human_review_committed_package_state"
@@ -44,8 +47,13 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
     assert by_id["runtime_import_boundary_decision"]["decision_status"] == (
         "needs_human_review_runtime_import_boundary"
     )
+    expected_artifact_status = (
+        "needs_human_review_artifact_regeneration"
+        if _clean_checkout_artifact_regeneration_tested()
+        else "blocked_artifact_regeneration_not_tested"
+    )
     assert by_id["artifact_regeneration_decision"]["decision_status"] == (
-        "blocked_artifact_regeneration_not_tested"
+        expected_artifact_status
     )
     assert by_id["formal_reproducibility_acceptance_boundary"]["decision_status"] == (
         "blocked_missing_reproducibility_acceptance_record"
@@ -56,10 +64,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
     assert "source_commit_relation=ancestor_of_review_head" in by_id[
         "clean_checkout_evidence_scope_decision"
     ]["current_evidence"]
-    assert by_id["clean_checkout_evidence_scope_decision"]["blocking_reason"] == (
-        "clean-checkout smoke is bounded to the current Python environment and "
-        "not a full clean-environment reproduction"
-    )
+    assert by_id["clean_checkout_evidence_scope_decision"]["blocking_reason"] == ""
     assert {row["claim_boundary"] for row in rows} == {
         REPRODUCIBILITY_DECISION_SCOPE
     }
@@ -122,8 +127,14 @@ def test_shipped_reproducibility_decision_packet_matches_current_outputs() -> No
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 4
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == sum(
+        1 for row in rows if row["decision_status"].startswith("blocked")
+    )
+    assert manifest["human_review_decision_count"] == sum(
+        1
+        for row in rows
+        if row["decision_status"].startswith("needs_human_review")
+    )
     assert manifest["reproducibility_manifest_decision_recorded"] is False
     assert manifest["reproducibility_decision_recorded"] is False
     assert manifest["command_ladder_decision_recorded"] is False
@@ -133,6 +144,15 @@ def test_shipped_reproducibility_decision_packet_matches_current_outputs() -> No
     assert manifest["can_mark_complete"] is False
 
     print("PASS: shipped reproducibility decision packet matches outputs")
+
+
+def _clean_checkout_artifact_regeneration_tested() -> bool:
+    if not DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH.exists():
+        return False
+    value = json.loads(
+        DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH.read_text(encoding="utf-8")
+    )
+    return bool(value.get("artifact_regeneration_tested", False))
 
 
 if __name__ == "__main__":

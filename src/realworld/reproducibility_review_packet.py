@@ -235,6 +235,13 @@ def write_reproducibility_review_packet(
         "full_clean_environment_tested": clean_checkout_smoke[
             "full_clean_environment_tested"
         ],
+        "clean_checkout_artifact_regeneration_tested": clean_checkout_smoke[
+            "artifact_regeneration_tested"
+        ],
+        "clean_checkout_artifact_regeneration_scope": clean_checkout_smoke.get(
+            "artifact_regeneration_scope",
+            "",
+        ),
         "claim_boundary": (
             "This packet records clean-checkout reproducibility review status. "
             "It does not create data/manifests/reproducibility_acceptance.json, "
@@ -421,6 +428,7 @@ def _clean_checkout_smoke_row(
     present = bool(summary.get("manifest_present", False))
     passed = bool(summary.get("smoke_passed", False))
     full_environment = bool(summary.get("full_clean_environment_tested", False))
+    artifact_regeneration = bool(summary.get("artifact_regeneration_tested", False))
     if not present:
         status = "blocked_clean_checkout_smoke_not_run"
     elif not passed:
@@ -450,6 +458,7 @@ def _clean_checkout_smoke_row(
             f"passed={_bool_text(passed)}; "
             f"commands={summary.get('command_count', 0)}; "
             f"full_clean_environment_tested={_bool_text(full_environment)}; "
+            f"artifact_regeneration_tested={_bool_text(artifact_regeneration)}; "
             f"source_commit={source_commit}; "
             f"review_git_head_commit={review_git_head_commit}; "
             f"matches_review_head={_bool_text(matches_review_head)}; "

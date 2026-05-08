@@ -52,6 +52,7 @@ def test_reproducibility_review_rows_are_conservative() -> None:
     assert by_category["bounded_clean_checkout_smoke"]["status"] in {
         "blocked_clean_checkout_smoke_not_run",
         "ready_for_review_bounded_clean_checkout_smoke",
+        "ready_for_review_full_clean_checkout_smoke",
     }
     assert {row["acceptance_ready"] for row in rows} == {"false"}
     assert {row["publication_ready"] for row in rows} == {"false"}

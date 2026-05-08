@@ -34,6 +34,38 @@ DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH = (
 )
 CLEAN_CHECKOUT_SMOKE_SCOPE = "clean_checkout_source_tree_smoke_not_formal_acceptance"
 MAX_CAPTURE_CHARS = 4000
+ARTIFACT_REGENERATION_SCOPE = (
+    "bounded_review_and_audit_artifact_regeneration_not_full_reproduction"
+)
+
+
+ARTIFACT_REGENERATION_COMMANDS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
+    (
+        "regenerate_reproducibility_review_packet",
+        "Regenerate reproducibility review packet",
+        ("{python}", "scripts/write_reproducibility_review_packet.py"),
+    ),
+    (
+        "regenerate_reproducibility_decision_packet",
+        "Regenerate reproducibility decision packet",
+        ("{python}", "scripts/write_reproducibility_decision_packet.py"),
+    ),
+    (
+        "regenerate_final_audit_decision_packet",
+        "Regenerate final-audit decision packet",
+        ("{python}", "scripts/write_final_audit_decision_packet.py"),
+    ),
+    (
+        "regenerate_acceptance_audit",
+        "Regenerate acceptance audit artifacts",
+        ("{python}", "scripts/run_acceptance_audit.py"),
+    ),
+    (
+        "regenerate_plan_artifact_audit",
+        "Regenerate plan artifact audit",
+        ("{python}", "scripts/audit_plan_artifacts.py"),
+    ),
+)
 
 
 @dataclass(frozen=True)
@@ -77,6 +109,7 @@ def run_clean_checkout_smoke(
     doc_path: str | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH,
     python_executable: str | Path = sys.executable,
     install_dependencies: bool = False,
+    artifact_regeneration: bool = False,
     keep_checkout: bool = False,
     checkout_parent: str | Path | None = None,
     timeout_sec: int = 1800,
@@ -185,6 +218,22 @@ def run_clean_checkout_smoke(
                     timeout_sec=timeout_sec,
                 )
             )
+        if outer_steps and outer_steps[-1].passed and artifact_regeneration:
+            for step_id, label, command_args in ARTIFACT_REGENERATION_COMMANDS:
+                outer_steps.append(
+                    _run_step(
+                        step_id,
+                        label,
+                        _resolve_artifact_regeneration_args(
+                            command_args,
+                            python_executable=smoke_python,
+                        ),
+                        cwd=checkout_dir,
+                        timeout_sec=timeout_sec,
+                    )
+                )
+                if not outer_steps[-1].passed:
+                    break
         inner_manifest = _read_json_object(
             checkout_dir / "data" / "validation" / "reproducibility_smoke_manifest.json"
         )
@@ -203,6 +252,7 @@ def run_clean_checkout_smoke(
         checkout_retained=keep_checkout,
         python_executable=python_executable,
         install_dependencies=install_dependencies,
+        artifact_regeneration=artifact_regeneration,
         outer_steps=outer_steps,
         inner_manifest=inner_manifest,
         manifest_path=manifest_path,
@@ -229,6 +279,7 @@ def build_clean_checkout_smoke_manifest(
     checkout_retained: bool,
     python_executable: str | Path,
     install_dependencies: bool = False,
+    artifact_regeneration: bool = False,
     outer_steps: Sequence[CleanCheckoutStepResult],
     inner_manifest: Mapping[str, Any],
     manifest_path: str | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
@@ -251,6 +302,17 @@ def build_clean_checkout_smoke_manifest(
         for step in outer_steps
     )
     full_clean_environment_tested = dependency_install_tested and smoke_passed
+    artifact_regeneration_step_ids = {
+        step_id for step_id, _, _ in ARTIFACT_REGENERATION_COMMANDS
+    }
+    artifact_regeneration_steps = [
+        step for step in outer_steps if step.step_id in artifact_regeneration_step_ids
+    ]
+    artifact_regeneration_tested = (
+        artifact_regeneration
+        and len(artifact_regeneration_steps) == len(ARTIFACT_REGENERATION_COMMANDS)
+        and all(step.passed for step in artifact_regeneration_steps)
+    )
     return {
         "schema_version": 1,
         "result_scope": CLEAN_CHECKOUT_SMOKE_SCOPE,
@@ -281,6 +343,13 @@ def build_clean_checkout_smoke_manifest(
         ),
         "python_executable": str(python_executable),
         "install_dependencies_requested": install_dependencies,
+        "artifact_regeneration_requested": artifact_regeneration,
+        "artifact_regeneration_scope": (
+            ARTIFACT_REGENERATION_SCOPE if artifact_regeneration else ""
+        ),
+        "artifact_regeneration_step_ids": [
+            step.step_id for step in artifact_regeneration_steps
+        ],
         "outer_step_count": len(outer_steps),
         "outer_steps_passed": outer_passed,
         "outer_failed_step_ids": [step.step_id for step in outer_steps if not step.passed],
@@ -303,7 +372,7 @@ def build_clean_checkout_smoke_manifest(
         "clean_checkout_test_performed": clean_checkout_test_performed,
         "full_clean_environment_tested": full_clean_environment_tested,
         "dependency_install_tested": dependency_install_tested,
-        "artifact_regeneration_tested": False,
+        "artifact_regeneration_tested": artifact_regeneration_tested,
         "formal_acceptance_created": False,
         "claim_boundary": (
             "This is bounded clean source-checkout smoke evidence. It tests the "
@@ -314,14 +383,22 @@ def build_clean_checkout_smoke_manifest(
                 else " using the current Python environment"
             )
             + ", but it does not "
-            "execute the full validation ladder or artifact-regeneration "
-            "acceptance protocol, does not create "
+            "execute the full validation ladder"
+            + (
+                ", and its artifact regeneration is limited to bounded review "
+                "and audit artifacts"
+                if artifact_regeneration
+                else " or artifact-regeneration acceptance protocol"
+            )
+            + ". It does not create "
             "data/manifests/reproducibility_acceptance.json, and does not "
             "support calibrated real-world or operational routing claims."
         ),
         "required_actions": _required_actions(
             install_dependencies=install_dependencies,
             full_clean_environment_tested=full_clean_environment_tested,
+            artifact_regeneration=artifact_regeneration,
+            artifact_regeneration_tested=artifact_regeneration_tested,
         ),
         "outer_steps": [step.to_json() for step in outer_steps],
     }
@@ -385,6 +462,7 @@ def summarize_clean_checkout_smoke(
             "can_mark_complete": False,
             "clean_checkout_test_performed": False,
             "full_clean_environment_tested": False,
+            "artifact_regeneration_tested": False,
             "remaining_blockers": [
                 "run scripts/run_clean_checkout_smoke.py to create bounded clean-checkout source-tree smoke evidence"
             ],
@@ -411,6 +489,9 @@ def summarize_clean_checkout_smoke(
         "dependency_install_tested": bool(value.get("dependency_install_tested", False)),
         "artifact_regeneration_tested": bool(
             value.get("artifact_regeneration_tested", False)
+        ),
+        "artifact_regeneration_scope": str(
+            value.get("artifact_regeneration_scope", "")
         ),
         "source_commit": str((value.get("source") or {}).get("source_commit", "")),
         "environment_scope": str(value.get("environment_scope", "")),
@@ -446,6 +527,8 @@ def build_clean_checkout_smoke_markdown(manifest: Mapping[str, Any]) -> str:
         f"- Commands passed: {manifest.get('passed_count', 0)} / {manifest.get('command_count', 0)}",
         f"- Clean checkout tested: `{str(manifest.get('clean_checkout_test_performed', False)).lower()}`",
         f"- Full clean environment tested: `{str(manifest.get('full_clean_environment_tested', False)).lower()}`",
+        f"- Artifact regeneration tested: `{str(manifest.get('artifact_regeneration_tested', False)).lower()}`",
+        f"- Artifact regeneration scope: `{manifest.get('artifact_regeneration_scope', '')}`",
         f"- Source commit: `{source.get('source_commit', '')}`",
         f"- Environment scope: `{manifest.get('environment_scope', '')}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
@@ -583,10 +666,22 @@ def _venv_python_path(venv_dir: Path) -> Path:
     return venv_dir / "bin" / "python"
 
 
+def _resolve_artifact_regeneration_args(
+    args: Sequence[str],
+    *,
+    python_executable: str | Path,
+) -> tuple[str, ...]:
+    return tuple(
+        str(python_executable) if item == "{python}" else str(item) for item in args
+    )
+
+
 def _required_actions(
     *,
     install_dependencies: bool,
     full_clean_environment_tested: bool,
+    artifact_regeneration: bool,
+    artifact_regeneration_tested: bool,
 ) -> list[str]:
     actions = [
         "review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope",
@@ -595,9 +690,13 @@ def _required_actions(
         actions.append(
             "run a full clean-environment reproduction with dependency installation if publication acceptance requires it"
         )
+    if not artifact_regeneration or not artifact_regeneration_tested:
+        actions.append(
+            "run bounded clean-checkout artifact-regeneration commands before formal reproducibility review"
+        )
     actions.extend(
         [
-            "preserve full validation-ladder and artifact-regeneration logs before formal acceptance",
+            "preserve full validation-ladder logs before formal acceptance",
             "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope",
         ]
     )
@@ -678,6 +777,8 @@ def _display_path(path: str | Path) -> str:
 
 
 __all__ = [
+    "ARTIFACT_REGENERATION_COMMANDS",
+    "ARTIFACT_REGENERATION_SCOPE",
     "CLEAN_CHECKOUT_SMOKE_SCOPE",
     "DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH",
     "DEFAULT_CLEAN_CHECKOUT_SMOKE_LOG_PATH",

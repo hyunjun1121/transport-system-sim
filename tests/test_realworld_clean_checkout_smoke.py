@@ -13,6 +13,8 @@ from tempfile import TemporaryDirectory
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.realworld.clean_checkout_smoke import (  # noqa: E402
+    ARTIFACT_REGENERATION_COMMANDS,
+    ARTIFACT_REGENERATION_SCOPE,
     CLEAN_CHECKOUT_SMOKE_SCOPE,
     CleanCheckoutStepResult,
     _prepare_checkout_dir,
@@ -104,6 +106,57 @@ def test_clean_checkout_smoke_manifest_records_dependency_install_scope() -> Non
     print("PASS: dependency-install clean-checkout smoke remains non-acceptance")
 
 
+def test_clean_checkout_smoke_manifest_records_artifact_regeneration_scope() -> None:
+    """Bounded artifact regeneration should be explicit non-acceptance evidence."""
+
+    manifest = build_clean_checkout_smoke_manifest(
+        source_repo="repo",
+        source_commit="abc123",
+        source_status_lines=(),
+        checkout_dir="checkout",
+        checkout_retained=False,
+        python_executable="python",
+        install_dependencies=True,
+        artifact_regeneration=True,
+        outer_steps=(
+            _step("git_clone_source_tree", passed=True),
+            _step("git_checkout_source_commit", passed=True),
+            _step("create_clean_checkout_venv", passed=True),
+            _step("upgrade_clean_checkout_pip", passed=True),
+            _step("install_clean_checkout_requirements", passed=True),
+            _step("run_reproducibility_smoke_in_clean_checkout", passed=True),
+            *(
+                _step(step_id, passed=True)
+                for step_id, _, _ in ARTIFACT_REGENERATION_COMMANDS
+            ),
+        ),
+        inner_manifest={
+            "result_scope": "current_worktree_smoke_not_clean_checkout",
+            "command_count": 2,
+            "passed_count": 2,
+            "failed_count": 0,
+            "smoke_passed": True,
+            "failed_command_ids": [],
+        },
+    )
+
+    assert manifest["smoke_passed"] is True
+    assert manifest["artifact_regeneration_requested"] is True
+    assert manifest["artifact_regeneration_tested"] is True
+    assert manifest["artifact_regeneration_scope"] == ARTIFACT_REGENERATION_SCOPE
+    assert manifest["artifact_regeneration_step_ids"] == [
+        step_id for step_id, _, _ in ARTIFACT_REGENERATION_COMMANDS
+    ]
+    assert manifest["acceptance_ready"] is False
+    assert manifest["can_mark_complete"] is False
+    assert not any(
+        action.startswith("run bounded clean-checkout artifact-regeneration")
+        for action in manifest["required_actions"]
+    )
+
+    print("PASS: artifact-regeneration clean-checkout smoke remains non-acceptance")
+
+
 def test_clean_checkout_smoke_outputs_and_summary() -> None:
     """Writer should emit manifest, combined JSONL log, and markdown doc."""
 
@@ -152,6 +205,7 @@ def test_clean_checkout_smoke_outputs_and_summary() -> None:
         assert summary["smoke_passed"] is True
         assert summary["clean_checkout_test_performed"] is True
         assert summary["full_clean_environment_tested"] is False
+        assert summary["artifact_regeneration_tested"] is False
         assert "Clean-Checkout Reproducibility Smoke" in doc_path.read_text(
             encoding="utf-8"
         )
@@ -233,6 +287,7 @@ def _step(step_id: str, *, passed: bool) -> CleanCheckoutStepResult:
 if __name__ == "__main__":
     test_clean_checkout_smoke_manifest_never_accepts_gate()
     test_clean_checkout_smoke_manifest_records_dependency_install_scope()
+    test_clean_checkout_smoke_manifest_records_artifact_regeneration_scope()
     test_clean_checkout_smoke_outputs_and_summary()
     test_missing_clean_checkout_smoke_summary_is_blocked()
     test_clean_checkout_cleanup_handles_readonly_git_files()
