@@ -23,7 +23,7 @@
   "claim_boundary": "Sub-agent task assignments only. These rows assign review work; they do not approve evidence, certify licenses, validate calibration, or close final-study gates.",
   "final_study_ready": false,
   "formal_acceptance_ready": false,
-  "generated_at": "2026-05-08T12:55:19+00:00",
+  "generated_at": "2026-05-08T13:05:07+00:00",
   "orchestration_claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "requires_human_review_count": 15,
   "review_items": [

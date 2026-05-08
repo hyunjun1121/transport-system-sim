@@ -12,7 +12,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 4 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
-| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 11 |
+| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 15 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 8 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
@@ -61,6 +61,10 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - parameter_evidence: parameter source readiness: all rows require human review or external source decisions before final claims
 - parameter_evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter_evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
+- parameter_evidence: parameter evidence priority: transfer-delay source evidence is absent
+- parameter_evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
+- parameter_evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
+- parameter_evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - rail_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - rail_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - rail_evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
@@ -147,6 +151,10 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Parameter Evidence: parameter source readiness: all rows require human review or external source decisions before final claims
 - Parameter Evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - Parameter Evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
+- Parameter Evidence: parameter evidence priority: transfer-delay source evidence is absent
+- Parameter Evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
+- Parameter Evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
+- Parameter Evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - Rail Evidence: rail service evidence: derive headway and travel time from the cached records
 - Rail Evidence: rail fetch readiness: rail timing cache files are absent unless source_cache_present is true

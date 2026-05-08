@@ -31,6 +31,7 @@
     "scripts/derive_rail_shortest_path_evidence.py",
     "data/parameters/parameter_evidence_review_packet.csv",
     "data/parameters/parameter_source_readiness_packet.csv",
+    "data/parameters/parameter_evidence_priority_packet.csv",
     "data/parameters/road_evidence_review_packet.csv",
     "data/road/road_source_readiness_packet.csv",
     "data/road/road_evidence_priority_packet.csv",
@@ -39,7 +40,7 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "rail_evidence",
-  "generated_at": "2026-05-08T12:54:57+00:00",
+  "generated_at": "2026-05-08T13:04:55+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -57,6 +58,7 @@
     "data/parameters/parameter_evidence_review_packet.csv",
     "data/parameters/parameter_evidence_source_request_packet.csv",
     "data/parameters/parameter_source_readiness_manifest.json",
+    "data/parameters/parameter_evidence_priority_manifest.json",
     "data/parameters/road_evidence_review_packet.csv",
     "data/road/road_evidence_source_request_packet.csv",
     "data/road/road_source_readiness_manifest.json",
@@ -106,6 +108,7 @@
     "data/parameters/rail_service_evidence.csv",
     "data/parameters/rail_station_bindings.csv",
     "data/parameters/parameter_source_readiness_packet.csv",
+    "data/parameters/parameter_evidence_priority_packet.csv",
     "data/road/road_source_readiness_packet.csv",
     "data/road/road_evidence_priority_packet.csv",
     "data/rail/rail_fetch_readiness_packet.csv",

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T12:54:57+00:00`
+- Generated at: `2026-05-08T13:04:55+00:00`
 
 ## Decision
 
@@ -17,6 +17,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/parameters/parameter_evidence_review_packet.csv
 - data/parameters/parameter_evidence_source_request_packet.csv
 - data/parameters/parameter_source_readiness_manifest.json
+- data/parameters/parameter_evidence_priority_manifest.json
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_evidence_source_request_packet.csv
 - data/road/road_source_readiness_manifest.json
@@ -76,6 +77,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/audit_road_overrides.py
 - data/parameters/parameter_evidence_review_packet.csv
 - data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_evidence_priority_packet.csv
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_fetch_readiness_packet.csv
 - data/rail/rail_evidence_priority_packet.csv

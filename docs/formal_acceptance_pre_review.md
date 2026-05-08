@@ -19,7 +19,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+18 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+22 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -229,6 +229,7 @@ Evidence inspected:
 - `data/parameters/rail_service_evidence.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_station_bindings.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -242,6 +243,7 @@ Evidence inspected:
 - `docs/review_packets/rail_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -251,10 +253,12 @@ Evidence inspected:
 - `data/parameters/parameter_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/parameter_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/parameter_evidence_priority_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_parameter_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_evidence_source_request_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_source_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_parameter_evidence_priority_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/rail_fetch_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -284,6 +288,10 @@ Missing evidence:
 - parameter source readiness: all rows require human review or external source decisions before final claims
 - parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
+- parameter evidence priority: transfer-delay source evidence is absent
+- parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
+- parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
+- parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
 - rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
@@ -308,6 +316,10 @@ Residual risks:
 - parameter source readiness: all rows require human review or external source decisions before final claims
 - parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
+- parameter evidence priority: transfer-delay source evidence is absent
+- parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
+- parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
+- parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - rail service evidence: derive headway and travel time from the cached records
 - rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
@@ -347,6 +359,7 @@ Evidence inspected:
 - `data/parameters/rail_service_evidence.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_station_bindings.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -360,6 +373,7 @@ Evidence inspected:
 - `docs/review_packets/rail_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review

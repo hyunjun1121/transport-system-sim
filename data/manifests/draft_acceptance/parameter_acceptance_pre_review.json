@@ -37,6 +37,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_evidence_priority_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/road/road_source_readiness_packet.csv"
     },
     {
@@ -115,6 +121,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_evidence_priority_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/road/road_evidence_source_request_packet.csv"
     },
     {
@@ -169,6 +181,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/parameter_evidence_priority_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/audit_parameter_evidence.py"
     },
     {
@@ -188,6 +206,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_parameter_source_readiness_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_parameter_evidence_priority_packet.py"
     },
     {
       "claim_supported": "Repository evidence cited for parameter_acceptance",
@@ -295,7 +319,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/parameter_acceptance.csv",
   "gate": "parameter_acceptance",
-  "generated_at": "2026-05-08T12:55:29+00:00",
+  "generated_at": "2026-05-08T13:05:13+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -318,6 +342,10 @@
     "parameter source readiness: all rows require human review or external source decisions before final claims",
     "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
     "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
+    "parameter evidence priority: transfer-delay source evidence is absent",
+    "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
+    "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
+    "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
     "rail service evidence: derive headway and travel time from the cached records",
     "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
@@ -349,6 +377,10 @@
     "parameter source readiness: all rows require human review or external source decisions before final claims",
     "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
     "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
+    "parameter evidence priority: transfer-delay source evidence is absent",
+    "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
+    "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
+    "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
     "rail service evidence: derive headway and travel time from the cached records",
     "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
