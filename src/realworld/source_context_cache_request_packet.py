@@ -141,8 +141,7 @@ def build_source_context_cache_request_rows(
     rows = [
         _request_row(row, records_by_id.get(str(row.get("source_id", ""))))
         for row in priority_rows
-        if row.get("review_status") == "context_only_not_cached"
-        or row.get("priority_status") == "blocked_context_only_source_not_cached"
+        if _requires_context_cache_request(row)
     ]
     rows.sort(key=lambda row: (row["review_priority"], row["source_id"]))
     return rows
@@ -327,7 +326,7 @@ def _request_row(
             "cache a reviewed source extract or exclude this source from final claims",
         ),
     )
-    target_present = all(_path_exists(path) for path in targets)
+    target_present = _target_artifacts_present(source_id, targets)
     context_artifacts = (
         tuple(getattr(record, "local_artifact_paths", ())) if record is not None else ()
     )
@@ -347,17 +346,70 @@ def _request_row(
         "target_cache_artifacts": "; ".join(targets),
         "target_cache_artifacts_present": _bool_text(target_present),
         "available_fetch_or_derivation_helpers": "; ".join(helpers),
-        "required_reviewer_decision": str(row.get("required_reviewer_decision", "")),
+        "required_reviewer_decision": _required_reviewer_decision(
+            row,
+            target_present=target_present,
+        ),
         "required_cache_action": cache_action,
         "url_required_reviewer_actions": str(row.get("url_required_reviewer_actions", "")),
         "target_acceptance_artifact": str(
             row.get("target_acceptance_artifact", "data/manifests/provenance_acceptance.json")
         ),
-        "publication_use_status": str(row.get("publication_use_status", "")),
+        "publication_use_status": _publication_use_status(
+            row,
+            target_present=target_present,
+        ),
         "can_support_final_provenance_gate": "false",
         "claim_boundary": SOURCE_CONTEXT_CACHE_REQUEST_SCOPE,
         "notes": str(row.get("notes", "")),
     }
+
+
+def _requires_context_cache_request(row: Mapping[str, str]) -> bool:
+    source_id = str(row.get("source_id", ""))
+    if (
+        row.get("review_status") == "context_only_not_cached"
+        or row.get("priority_status") == "blocked_context_only_source_not_cached"
+    ):
+        return True
+    if source_id not in _TARGETS_BY_SOURCE_ID:
+        return False
+    targets = _TARGETS_BY_SOURCE_ID[source_id][0]
+    return not _target_artifacts_present(source_id, targets)
+
+
+def _target_artifacts_present(source_id: str, targets: Sequence[str]) -> bool:
+    if source_id == "ktdb_public_transport_gtfs_context":
+        return any(_path_exists(path) for path in targets)
+    return all(_path_exists(path) for path in targets)
+
+
+def _required_reviewer_decision(
+    row: Mapping[str, str],
+    *,
+    target_present: bool,
+) -> str:
+    source_id = str(row.get("source_id", ""))
+    if not target_present and source_id in _TARGETS_BY_SOURCE_ID:
+        return (
+            "cache the target source artifact with terms/attribution review, "
+            "or exclude this source from final-study claims"
+        )
+    return str(row.get("required_reviewer_decision", ""))
+
+
+def _publication_use_status(
+    row: Mapping[str, str],
+    *,
+    target_present: bool,
+) -> str:
+    source_id = str(row.get("source_id", ""))
+    if not target_present and source_id in _TARGETS_BY_SOURCE_ID:
+        return (
+            "target cache missing; cannot support final claims until cached or "
+            "explicitly excluded"
+        )
+    return str(row.get("publication_use_status", ""))
 
 
 def _read_csv_rows(path: str | Path) -> list[dict[str, str]]:

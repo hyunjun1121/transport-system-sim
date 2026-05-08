@@ -55,6 +55,46 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     print("PASS: source context-cache request rows classify current sources")
 
 
+def test_context_cache_request_rows_keep_cached_metadata_with_missing_target() -> None:
+    """Cached source metadata should not hide a missing target data artifact."""
+
+    rows = build_source_context_cache_request_rows(
+        source_priority_rows=[
+            {
+                "source_id": "ktdb_public_transport_gtfs_context",
+                "source_name": "KTDB public transport GTFS dataset candidate",
+                "source_type": "public_data",
+                "review_status": "cached_snapshot_pending_review",
+                "priority_status": "needs_human_review_cached_snapshot_source",
+                "review_priority": "high",
+                "required_reviewer_decision": (
+                    "review source terms, attribution, snapshot date, and retained local artifacts"
+                ),
+                "url_required_reviewer_actions": "verify retained-snapshot policy",
+                "source_url_or_citation": "https://www.ktdb.go.kr/",
+                "target_acceptance_artifact": "data/manifests/provenance_acceptance.json",
+                "publication_use_status": (
+                    "cached source pending license, attribution, and snapshot review"
+                ),
+                "notes": "metadata snapshot is not a GTFS payload",
+            }
+        ]
+    )
+
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["source_id"] == "ktdb_public_transport_gtfs_context"
+    assert row["cache_request_status"] == "blocked_missing_context_source_cache"
+    assert row["target_cache_artifacts_present"] == "false"
+    assert "data/rail/pilot_gtfs.zip" in row["target_cache_artifacts"]
+    assert row["required_reviewer_decision"].startswith(
+        "cache the target source artifact"
+    )
+    assert row["publication_use_status"].startswith("target cache missing")
+
+    print("PASS: source context-cache request keeps cached metadata target blockers")
+
+
 def test_context_cache_request_writer_outputs_artifacts() -> None:
     """Writer should emit stable CSV, manifest, and Markdown artifacts."""
 
@@ -122,6 +162,7 @@ def test_shipped_context_cache_request_packet_matches_current_outputs() -> None:
 
 if __name__ == "__main__":
     test_context_cache_request_rows_classify_current_context_sources()
+    test_context_cache_request_rows_keep_cached_metadata_with_missing_target()
     test_context_cache_request_writer_outputs_artifacts()
     test_shipped_context_cache_request_packet_matches_current_outputs()
     print("\n=== REALWORLD SOURCE CONTEXT CACHE REQUEST TESTS PASSED ===")
