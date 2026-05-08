@@ -10,7 +10,7 @@
     "docs/review_packets/final_audit.md"
   ],
   "gate_id": "final_audit",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
@@ -18,6 +18,9 @@
     "create docs/final_study_audit.md after all other gates close",
     "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
     "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
+  ],
+  "review_packet_paths": [
+    "docs/review_packets/final_audit.md"
   ],
   "reviewed_inputs": [
     "docs/current_goal_completion_audit.md",

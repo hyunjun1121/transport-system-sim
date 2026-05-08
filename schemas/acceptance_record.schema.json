@@ -42,6 +42,12 @@
       },
       "type": "array"
     },
+    "review_packet_paths": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
     "reviewed_inputs": {
       "items": {
         "type": "string"

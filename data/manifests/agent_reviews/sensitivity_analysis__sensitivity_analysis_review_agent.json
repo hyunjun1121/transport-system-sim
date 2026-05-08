@@ -25,7 +25,7 @@
     "docs/review_packets/sensitivity_analysis.md"
   ],
   "gate_id": "sensitivity_analysis",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
@@ -38,6 +38,12 @@
     "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
     "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
     "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
+  ],
+  "review_packet_paths": [
+    "data/validation/sensitivity_review_packet.csv",
+    "data/validation/sensitivity_index_review_packet.csv",
+    "data/validation/sensitivity_strategy_readiness_packet.csv",
+    "docs/review_packets/sensitivity_analysis.md"
   ],
   "reviewed_inputs": [
     "data/validation/sensitivity_review_packet.csv",

@@ -33,7 +33,7 @@
     "docs/review_packets/validation_package.md"
   ],
   "gate_id": "validation_package",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
@@ -44,6 +44,12 @@
     "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "review validation strategy-readiness human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
+  ],
+  "review_packet_paths": [
+    "data/validation/validation_review_packet.csv",
+    "data/validation/validation_strategy_readiness_packet.csv",
+    "data/validation/validation_benchmark_readiness_packet.csv",
+    "docs/review_packets/validation_package.md"
   ],
   "reviewed_inputs": [
     "docs/validation_review_packet.md",

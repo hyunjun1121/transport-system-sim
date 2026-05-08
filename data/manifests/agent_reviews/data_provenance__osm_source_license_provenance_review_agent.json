@@ -30,7 +30,7 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -42,6 +42,13 @@
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation"
+  ],
+  "review_packet_paths": [
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_remediation_packet.csv",
+    "data/manifests/source_provenance_priority_packet.csv",
+    "docs/review_packets/data_provenance.md"
   ],
   "reviewed_inputs": [
     "data/manifests/source_provenance_manifest.json",

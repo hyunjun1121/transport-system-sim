@@ -42,7 +42,7 @@
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "gate_id": "graph_scale_strategy",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
@@ -54,6 +54,13 @@
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+  ],
+  "review_packet_paths": [
+    "data/validation/graph_scale_review_packet.csv",
+    "data/validation/full_graph_runtime_readiness_packet.csv",
+    "data/validation/graph_scale_manifest_audit.csv",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "docs/review_packets/graph_scale_strategy.md"
   ],
   "reviewed_inputs": [
     "docs/analysis_corridor_method_note.md",

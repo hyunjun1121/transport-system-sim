@@ -18,13 +18,18 @@
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-08T13:32:46+00:00",
+  "generated_at": "2026-05-08T13:42:54+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
     "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
     "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
     "replace scaffold-only manifest with clean-checkout final reproduction package"
+  ],
+  "review_packet_paths": [
+    "data/validation/reproducibility_review_packet.csv",
+    "data/validation/tracked_artifact_audit.csv",
+    "docs/review_packets/reproducibility.md"
   ],
   "reviewed_inputs": [
     "docs/reproducibility_package.md",
