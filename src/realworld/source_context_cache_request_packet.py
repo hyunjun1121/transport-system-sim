@@ -97,13 +97,15 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
             "data/rail/pilot_gtfs/",
         ),
         (
+            "scripts/cache_ktdb_gtfs_source.py",
             "scripts/derive_rail_gtfs_evidence.py",
             "docs/rail_gtfs_cache_schema.md",
         ),
         (
-            "provide reviewed KTDB or equivalent GTFS zip/directory with "
-            "license and attribution review, derive rail timing evidence, or "
-            "exclude this source"
+            "optionally cache KTDB source metadata for review, then provide "
+            "reviewed KTDB or equivalent GTFS zip/directory with license and "
+            "attribution review, derive rail timing evidence, or exclude this "
+            "source"
         ),
     ),
     "metro9_capacity_context": (

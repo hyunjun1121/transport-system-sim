@@ -46,6 +46,12 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     assert "scripts/derive_rail_gtfs_evidence.py" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["available_fetch_or_derivation_helpers"]
+    assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["available_fetch_or_derivation_helpers"]
+    assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["context_local_artifacts"]
     assert {row["target_cache_artifacts_present"] for row in rows} == {"false"}
     assert {row["can_support_final_provenance_gate"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {
@@ -87,6 +93,9 @@ def test_context_cache_request_rows_keep_cached_metadata_with_missing_target() -
     assert row["cache_request_status"] == "blocked_missing_context_source_cache"
     assert row["target_cache_artifacts_present"] == "false"
     assert "data/rail/pilot_gtfs.zip" in row["target_cache_artifacts"]
+    assert "scripts/cache_ktdb_gtfs_source.py" in row[
+        "available_fetch_or_derivation_helpers"
+    ]
     assert row["required_reviewer_decision"].startswith(
         "cache the target source artifact"
     )

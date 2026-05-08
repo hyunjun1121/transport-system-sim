@@ -128,6 +128,9 @@
                                                      "data/rail/rail_timing_source_request_manifest.json",
                                                      "docs/rail_timing_source_request_packet.md",
                                                      "docs/rail_gtfs_cache_schema.md",
+                                                     "src/realworld/ktdb_gtfs_source.py",
+                                                     "scripts/cache_ktdb_gtfs_source.py",
+                                                     "tests/test_realworld_ktdb_gtfs_source.py",
                                                      "scripts/derive_rail_gtfs_evidence.py"
                                                  ],
                         "used_for":  "reviewer-facing candidate source for a static GTFS feed that could derive pilot rail headway and station-to-station travel time after reviewed acquisition",

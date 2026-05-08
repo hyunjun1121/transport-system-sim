@@ -38,6 +38,7 @@ def test_source_provenance_priority_rows_classify_current_sources() -> None:
     assert by_id["ktdb_public_transport_gtfs_context"]["priority_status"] == (
         "blocked_context_only_source_not_cached"
     )
+    assert by_id["ktdb_public_transport_gtfs_context"]["local_artifact_count"] == "8"
     assert by_id["metro9_capacity_context"]["priority_status"] == (
         "needs_human_review_cached_snapshot_source"
     )

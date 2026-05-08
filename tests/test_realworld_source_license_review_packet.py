@@ -35,6 +35,7 @@ def test_source_license_review_rows_are_source_specific() -> None:
     assert by_id["seoul_shortest_path_api_context"]["snapshot_status"] == (
         "context_only_not_cached"
     )
+    assert by_id["ktdb_public_transport_gtfs_context"]["local_artifact_count"] == "8"
     assert "cache a reproducible source extract" in by_id[
         "seoul_shortest_path_api_context"
     ]["required_reviewer_decision"]
