@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Figure/table review packet only; not manuscript acceptance, not calibrated real-world results, and not operational routing evidence. It cannot create or replace data/manifests/manuscript_acceptance.json.",
+  "result_scope": "Figure/table review packet only; not manuscript acceptance, not calibrated real-world results, and not operational routing evidence.",
+  "row_count": 8,
+  "review_status_counts": {
+    "blocked_missing_manuscript_acceptance_record": 1,
+    "blocked_reduced_graph_scope_dependency": 1,
+    "blocked_upstream_evidence_dependency": 1,
+    "needs_human_review_artifact_inventory": 1,
+    "needs_human_review_caption_boundary": 1,
+    "needs_human_review_morris_index_handling": 1,
+    "needs_human_review_proxy_interpretation": 1,
+    "needs_human_review_table_lineage": 1
+  },
+  "blocking_review_count": 3,
+  "human_review_count": 5,
+  "manuscript_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "figure_table_manifest": "results/realworld_pilot/tables/figure_table_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/manifests/figure_table_review_packet.csv",
+    "manifest": "data/manifests/figure_table_review_manifest.json",
+    "doc": "docs/figure_table_review_packet.md"
+  },
+  "review_items": [
+    "verify figure/table artifacts exist and were regenerated from current outputs",
+    "review caption and claim-boundary language before manuscript acceptance",
+    "resolve graph-scale, experiment, validation, and sensitivity acceptance dependencies before final figure claims",
+    "record accepted figure/table review only in data/manifests/manuscript_acceptance.json"
+  ],
+  "remaining_blockers": [
+    "figure/table outputs depend on reduced analysis graph scope",
+    "figure/table source outputs remain scaffold or not calibrated",
+    "data/manifests/manuscript_acceptance.json is absent"
+  ]
+}

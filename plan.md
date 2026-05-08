@@ -36,6 +36,8 @@ source-backed decisions. The implemented `validation_strategy_readiness`,
 `graph_scale_strategy_readiness`, `sensitivity_strategy_readiness`, and
 `experiment_strategy_readiness` packets turn blockers into reviewable rows, but
 they do not create acceptance, calibration, or operational routing authority.
+The focused `figure_table_review` packet now does the same for scaffold
+figures, tables, caption boundaries, graph scope, and manuscript dependencies.
 Current outputs remain quasi-real scaffold evidence only.
 
 ## Handoff Boundary
@@ -254,6 +256,15 @@ First pilot-smoke artifacts also exist:
   `data/manifests/claim_alignment_review_manifest.json`, and
   `docs/claim_alignment_review_packet.md` are reviewer aids only and do not
   accept manuscript/report claims.
+- `src/realworld/figure_table_review_packet.py` and
+  `scripts/write_figure_table_review_packet.py` now turn the current
+  scaffold-only figure/table manifest into 8 reviewer rows. The generated
+  `data/manifests/figure_table_review_packet.csv`,
+  `data/manifests/figure_table_review_manifest.json`, and
+  `docs/figure_table_review_packet.md` audit artifact inventory, row counts,
+  captions, graph scope, Morris index handling, proxy interpretation, upstream
+  evidence dependencies, and missing manuscript acceptance without approving
+  any figure/table claim.
 - `src/realworld/reproducibility_acceptance.py` and
   `docs/reproducibility_acceptance_schema.md` define the explicit review record
   required before the reproducibility gate can close. The actual
@@ -1612,6 +1623,8 @@ Current status:
 
 - Scaffold-only figures, result tables, Morris sensitivity tables, and
   claim-boundary table exist for the current full pilot outputs.
+- A focused figure/table review packet now records current scaffold blockers
+  and human-review rows before any manuscript/report acceptance decision.
 - Publication/report figures must be regenerated after accepted pilot inputs,
   validation, full experiments, and final sensitivity outputs exist.
 
@@ -2074,6 +2087,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
 .\.venv\Scripts\python scripts\make_pilot_figures.py
+.\.venv\Scripts\python scripts\write_figure_table_review_packet.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
@@ -2224,9 +2238,13 @@ Concrete next tasks:
    row-count/checksum/design/dependency and run-profile decision worksheets
    before creating any experiment acceptance record.
 10. Regenerate pilot-region figures, paper tables, Korean report updates, and
-   final reproducibility manifests after validation passes; keep the current
-   regenerated report in scaffold scope until manuscript acceptance is reviewed.
-   Use `data/validation/reproducibility_review_packet.csv` to inspect
+    final reproducibility manifests after validation passes; keep the current
+    regenerated report in scaffold scope until manuscript acceptance is reviewed.
+    Use `data/manifests/figure_table_review_packet.csv` with the
+    claim-alignment packet to review figure/table inventory, row counts,
+    captions, graph scope, sensitivity-index handling, proxy interpretation,
+    and upstream evidence dependencies.
+    Use `data/validation/reproducibility_review_packet.csv` to inspect
    clean-checkout blockers before creating any reproducibility acceptance
    record.
 11. Run a final GPT-5.5 xhigh audit worker to compare implemented artifacts

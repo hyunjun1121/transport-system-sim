@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Paper / Report Claim Alignment Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T17:23:51+00:00`
+- Generated at: `2026-05-08T17:38:43+00:00`
 
 ## Decision
 
@@ -20,9 +20,12 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - paper/paper_draft.md
 - report_draft.md
 - data/manifests/claim_alignment_review_manifest.json
+- data/manifests/figure_table_review_manifest.json
+- docs/figure_table_review_packet.md
 - data/manifests/manuscript_acceptance.json
 - report.docx
 - results/realworld_pilot/tables/figure_table_manifest.json
+- data/manifests/figure_table_review_packet.csv
 - data/manifests/claim_alignment_review_packet.csv
 - docs/claim_alignment_review_packet.md
 
@@ -33,6 +36,9 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - report_draft.md
 - report.docx
 - results/realworld_pilot/tables/figure_table_manifest.json
+- data/manifests/figure_table_review_packet.csv
+- data/manifests/figure_table_review_manifest.json
+- docs/figure_table_review_packet.md
 - data/manifests/claim_alignment_review_packet.csv
 - data/manifests/claim_alignment_review_manifest.json
 - docs/claim_alignment_review_packet.md
@@ -45,6 +51,11 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - close evidence gates before final paper/report claims
 - create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - revise figure/table claim boundary from scaffold to accepted study scope
+- resolve figure/table review blockers before manuscript acceptance
+- figure/table review: figure/table outputs depend on reduced analysis graph scope
+- figure/table review: figure/table source outputs remain scaffold or not calibrated
+- figure/table review: data/manifests/manuscript_acceptance.json is absent
+- review figure/table human-review rows before manuscript acceptance
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
@@ -57,6 +68,11 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - close evidence gates before final paper/report claims
 - create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - revise figure/table claim boundary from scaffold to accepted study scope
+- resolve figure/table review blockers before manuscript acceptance
+- figure/table review: figure/table outputs depend on reduced analysis graph scope
+- figure/table review: figure/table source outputs remain scaffold or not calibrated
+- figure/table review: data/manifests/manuscript_acceptance.json is absent
+- review figure/table human-review rows before manuscript acceptance
 - review or revise claim-alignment overclaim candidates before manuscript acceptance
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
@@ -79,6 +95,11 @@ Formal acceptance artifacts:
     "close evidence gates before final paper/report claims",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "revise figure/table claim boundary from scaffold to accepted study scope",
+    "resolve figure/table review blockers before manuscript acceptance",
+    "figure/table review: figure/table outputs depend on reduced analysis graph scope",
+    "figure/table review: figure/table source outputs remain scaffold or not calibrated",
+    "figure/table review: data/manifests/manuscript_acceptance.json is absent",
+    "review figure/table human-review rows before manuscript acceptance",
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "claim alignment: formal manuscript/report acceptance record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
@@ -120,6 +141,26 @@ Formal acceptance artifacts:
       "requires_revision_or_acceptance": 108
     },
     "figure_claim_boundary_scope_blocked": true,
+    "figure_table_review_blocking_review_count": 3,
+    "figure_table_review_can_mark_complete": false,
+    "figure_table_review_human_review_count": 5,
+    "figure_table_review_manifest_present": true,
+    "figure_table_review_publication_ready": false,
+    "figure_table_review_remaining_blockers": [
+      "figure/table outputs depend on reduced analysis graph scope",
+      "figure/table source outputs remain scaffold or not calibrated",
+      "data/manifests/manuscript_acceptance.json is absent"
+    ],
+    "figure_table_review_status_counts": {
+      "blocked_missing_manuscript_acceptance_record": 1,
+      "blocked_reduced_graph_scope_dependency": 1,
+      "blocked_upstream_evidence_dependency": 1,
+      "needs_human_review_artifact_inventory": 1,
+      "needs_human_review_caption_boundary": 1,
+      "needs_human_review_morris_index_handling": 1,
+      "needs_human_review_proxy_interpretation": 1,
+      "needs_human_review_table_lineage": 1
+    },
     "publication_ready": false
   },
   "evidence": [
@@ -128,6 +169,9 @@ Formal acceptance artifacts:
     "report_draft.md",
     "report.docx",
     "results/realworld_pilot/tables/figure_table_manifest.json",
+    "data/manifests/figure_table_review_packet.csv",
+    "data/manifests/figure_table_review_manifest.json",
+    "docs/figure_table_review_packet.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/claim_alignment_review_manifest.json",
     "docs/claim_alignment_review_packet.md"

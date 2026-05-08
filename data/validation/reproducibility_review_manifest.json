@@ -38,7 +38,7 @@
   "reproducibility_acceptance_record_present": false,
   "reproducibility_manifest_scope": "scaffold-only real-world pilot package",
   "result_scope": "reproducibility_review_packet_not_reproducibility_acceptance",
-  "review_git_head_commit": "627ec189dfc36442d6606f2103615b8fb019d958",
+  "review_git_head_commit": "7e4f6f0cce53713badfb4c5e394586d4d7bb36c9",
   "review_items": [
     "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
     "run clean-checkout validation from a fresh clone or exported package and preserve command logs",

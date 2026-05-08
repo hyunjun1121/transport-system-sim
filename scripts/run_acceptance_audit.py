@@ -35,6 +35,10 @@ from src.realworld.claim_alignment_review_packet import (  # noqa: E402
     build_claim_alignment_review_rows,
     write_claim_alignment_review_packet,
 )
+from src.realworld.figure_table_review_packet import (  # noqa: E402
+    build_figure_table_review_rows,
+    write_figure_table_review_packet,
+)
 from src.realworld.experiment_package_review_packet import (  # noqa: E402
     build_experiment_package_review_rows,
     write_experiment_package_review_packet,
@@ -455,6 +459,9 @@ def _refresh_existing_review_packets(
     claim_alignment_rows = build_claim_alignment_review_rows()
     write_claim_alignment_review_packet(rows=claim_alignment_rows)
     refreshed.append("data/manifests/claim_alignment_review_packet.csv")
+    figure_table_review_rows = build_figure_table_review_rows()
+    write_figure_table_review_packet(rows=figure_table_review_rows)
+    refreshed.append("data/manifests/figure_table_review_packet.csv")
     pilot_inputs = load_pilot_inputs(
         region_path=DEFAULT_REGION_PATH,
         cache_path=DEFAULT_CACHE_PATH,

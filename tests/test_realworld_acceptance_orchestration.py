@@ -137,6 +137,14 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         experiment_agent.review_packet_paths
     )
 
+    manuscript_agent = agents["paper_report_claim_alignment_agent"]
+    assert "data/manifests/figure_table_review_packet.csv" in (
+        manuscript_agent.review_packet_paths
+    )
+    assert "data/manifests/figure_table_review_manifest.json" in (
+        manuscript_agent.reviewed_inputs
+    )
+
     reproducibility_agent = agents["clean_checkout_reproducibility_agent"]
     assert "data/validation/tracked_artifact_audit.csv" in (
         reproducibility_agent.review_packet_paths
@@ -167,6 +175,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "source_context_cache_request" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
+    assert "figure_table_review" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -279,6 +288,29 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "data/manifests/experiment_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        figure_table_snapshot_path = root / "figure_table_review_manifest.json"
+        figure_table_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 8,
+                    "blocking_review_count": 3,
+                    "human_review_count": 5,
+                    "manuscript_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "review_status_counts": {
+                        "blocked_missing_manuscript_acceptance_record": 1,
+                        "blocked_reduced_graph_scope_dependency": 1,
+                        "needs_human_review_caption_boundary": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/manuscript_acceptance.json is absent"
                     ],
                 }
             )
@@ -492,6 +524,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     experiment_design_snapshot_path,
                 ),
                 (
+                    "figure_table_review",
+                    "Figure/Table Review",
+                    figure_table_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -580,6 +617,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert (
             snapshots["experiment_design_decision"]["status_counts"][
                 "blocked_missing_experiment_acceptance_record"
+            ]
+            == 1
+        )
+        assert snapshots["figure_table_review"]["blocking_count"] == 3
+        assert snapshots["figure_table_review"]["human_review_count"] == 5
+        assert (
+            snapshots["figure_table_review"]["status_counts"][
+                "blocked_missing_manuscript_acceptance_record"
             ]
             == 1
         )

@@ -17,7 +17,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 17 |
-| `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 9 |
+| `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 14 |
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 5 |
 
@@ -81,6 +81,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
+| `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
@@ -89,7 +90,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=647 |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=655 |
 | `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
@@ -116,6 +117,7 @@ Priority blockers by packet:
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
+- `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
@@ -226,6 +228,11 @@ Priority blockers by packet:
 - manuscript_report_alignment: close evidence gates before final paper/report claims
 - manuscript_report_alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - manuscript_report_alignment: revise figure/table claim boundary from scaffold to accepted study scope
+- manuscript_report_alignment: resolve figure/table review blockers before manuscript acceptance
+- manuscript_report_alignment: figure/table review: figure/table outputs depend on reduced analysis graph scope
+- manuscript_report_alignment: figure/table review: figure/table source outputs remain scaffold or not calibrated
+- manuscript_report_alignment: figure/table review: data/manifests/manuscript_acceptance.json is absent
+- manuscript_report_alignment: review figure/table human-review rows before manuscript acceptance
 - manuscript_report_alignment: review or revise claim-alignment overclaim candidates before manuscript acceptance
 - manuscript_report_alignment: claim alignment: formal manuscript/report acceptance record is absent
 - manuscript_report_alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
@@ -325,6 +332,11 @@ Priority blockers by packet:
 - Manuscript Report Alignment: close evidence gates before final paper/report claims
 - Manuscript Report Alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - Manuscript Report Alignment: revise figure/table claim boundary from scaffold to accepted study scope
+- Manuscript Report Alignment: resolve figure/table review blockers before manuscript acceptance
+- Manuscript Report Alignment: figure/table review: figure/table outputs depend on reduced analysis graph scope
+- Manuscript Report Alignment: figure/table review: figure/table source outputs remain scaffold or not calibrated
+- Manuscript Report Alignment: figure/table review: data/manifests/manuscript_acceptance.json is absent
+- Manuscript Report Alignment: review figure/table human-review rows before manuscript acceptance
 - Manuscript Report Alignment: review or revise claim-alignment overclaim candidates before manuscript acceptance
 - Manuscript Report Alignment: claim alignment: formal manuscript/report acceptance record is absent
 - Manuscript Report Alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims

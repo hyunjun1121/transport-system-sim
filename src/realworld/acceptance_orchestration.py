@@ -163,6 +163,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "experiment_design_decision_manifest.json",
     ),
     (
+        "figure_table_review",
+        "Figure/Table Review",
+        PROJECT_ROOT / "data" / "manifests" / "figure_table_review_manifest.json",
+    ),
+    (
         "reproducibility_review",
         "Reproducibility Review",
         PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
@@ -648,6 +653,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "report.docx",
             "results/realworld_pilot/tables/figure_table_manifest.json",
             "data/manifests/claim_alignment_review_packet.csv",
+            "data/manifests/figure_table_review_packet.csv",
         ),
         reviewed_inputs=(
             "scripts/audit_publication_readiness.py",
@@ -656,9 +662,12 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "paper/paper_draft.md",
             "report_draft.md",
             "data/manifests/claim_alignment_review_manifest.json",
+            "data/manifests/figure_table_review_manifest.json",
+            "docs/figure_table_review_packet.md",
         ),
         review_packet_paths=(
             "data/manifests/claim_alignment_review_packet.csv",
+            "data/manifests/figure_table_review_packet.csv",
             "docs/review_packets/manuscript_report_alignment.md",
         ),
         decision_rules=(
@@ -1275,6 +1284,7 @@ def _load_review_status_snapshot(
             "blocking_request_count",
             "blocking_decision_count",
             "blocking_priority_count",
+            "blocking_review_count",
             "blocking_source_count",
             "blocked_gate_count",
             "invalid_gate_count",
@@ -1297,6 +1307,7 @@ def _load_review_status_snapshot(
             "human_review_request_count",
             "human_review_decision_count",
             "human_review_priority_count",
+            "human_review_count",
             "human_review_source_count",
             "human_decision_required_count",
             "review_required_count",

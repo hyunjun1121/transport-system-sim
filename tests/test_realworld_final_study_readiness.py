@@ -360,6 +360,23 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["manuscript_report_alignment"]["ready"] is False
     assert (
         gate_map["manuscript_report_alignment"]["details"][
+            "figure_table_review_blocking_review_count"
+        ]
+        == 3
+    )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "figure_table_review_human_review_count"
+        ]
+        == 5
+    )
+    assert any(
+        "figure/table review: data/manifests/manuscript_acceptance.json is absent"
+        in item
+        for item in gate_map["manuscript_report_alignment"]["blockers"]
+    )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
             "claim_alignment_overclaim_candidate_count"
         ]
         == 108
@@ -612,6 +629,7 @@ def test_manuscript_gate_requires_acceptance_and_final_scope() -> None:
     gate = _manuscript_report_gate(
         _figure_manifest(),
         _claim_alignment_manifest(),
+        _figure_table_review_manifest(),
         _publication_audit(ready=True),
         _accepted_manuscript_summary(),
     )
@@ -628,6 +646,7 @@ def test_manuscript_gate_requires_publication_ready_evidence() -> None:
     gate = _manuscript_report_gate(
         _figure_manifest(claim_boundary="Accepted study scope."),
         _claim_alignment_manifest(),
+        _figure_table_review_manifest(),
         _publication_audit(ready=False),
         _accepted_manuscript_summary(),
     )
@@ -895,6 +914,22 @@ def _claim_alignment_manifest(
             "claim-alignment rows are review aids and do not approve manuscript claims",
         ],
         "publication_ready": False,
+    }
+
+
+def _figure_table_review_manifest(
+    *,
+    blocking_review_count: int = 0,
+    human_review_count: int = 0,
+) -> dict[str, object]:
+    return {
+        "row_count": 8,
+        "blocking_review_count": blocking_review_count,
+        "human_review_count": human_review_count,
+        "review_status_counts": {},
+        "remaining_blockers": [],
+        "publication_ready": False,
+        "can_mark_complete": False,
     }
 
 

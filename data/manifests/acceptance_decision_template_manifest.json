@@ -3,7 +3,7 @@
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "final_study_ready": false,
   "formal_acceptance_created": false,
-  "generated_at": "2026-05-08T17:23:10+00:00",
+  "generated_at": "2026-05-08T17:38:03+00:00",
   "json_template_count": 9,
   "non_ready_summary_keys": [
     "data_provenance",
@@ -71,7 +71,7 @@
       "template_path": "data/manifests/acceptance_templates/experiment_acceptance_template.json"
     },
     {
-      "blocker_count": 7,
+      "blocker_count": 12,
       "current_status": "blocked",
       "gate_id": "manuscript_report_alignment",
       "target_artifact": "data/manifests/manuscript_acceptance.json",

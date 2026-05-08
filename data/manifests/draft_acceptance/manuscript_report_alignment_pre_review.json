@@ -34,6 +34,12 @@
       "path": "data/manifests/claim_alignment_review_packet.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for manuscript_report_alignment",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/figure_table_review_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for manuscript_report_alignment",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -73,6 +79,18 @@
       "claim_supported": "Repository evidence cited for manuscript_report_alignment",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/figure_table_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for manuscript_report_alignment",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/figure_table_review_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for manuscript_report_alignment",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/claim_alignment_review_packet.md"
     }
   ],
@@ -85,7 +103,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T17:23:23+00:00",
+  "generated_at": "2026-05-08T17:38:15+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -100,6 +118,11 @@
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "close evidence gates before final paper/report claims",
     "revise figure/table claim boundary from scaffold to accepted study scope",
+    "resolve figure/table review blockers before manuscript acceptance",
+    "figure/table review: figure/table outputs depend on reduced analysis graph scope",
+    "figure/table review: figure/table source outputs remain scaffold or not calibrated",
+    "figure/table review: data/manifests/manuscript_acceptance.json is absent",
+    "review figure/table human-review rows before manuscript acceptance",
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "claim alignment: formal manuscript/report acceptance record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
@@ -113,6 +136,9 @@
     "report_draft.md",
     "report.docx",
     "results/realworld_pilot/tables/figure_table_manifest.json",
+    "data/manifests/figure_table_review_packet.csv",
+    "data/manifests/figure_table_review_manifest.json",
+    "docs/figure_table_review_packet.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/claim_alignment_review_manifest.json",
     "docs/claim_alignment_review_packet.md"
@@ -128,6 +154,11 @@
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "close evidence gates before final paper/report claims",
     "revise figure/table claim boundary from scaffold to accepted study scope",
+    "resolve figure/table review blockers before manuscript acceptance",
+    "figure/table review: figure/table outputs depend on reduced analysis graph scope",
+    "figure/table review: figure/table source outputs remain scaffold or not calibrated",
+    "figure/table review: data/manifests/manuscript_acceptance.json is absent",
+    "review figure/table human-review rows before manuscript acceptance",
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "claim alignment: formal manuscript/report acceptance record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
@@ -138,7 +169,8 @@
   ],
   "review_packets": [
     "docs/review_packets/manuscript_report_alignment.md",
-    "data/manifests/claim_alignment_review_packet.csv"
+    "data/manifests/claim_alignment_review_packet.csv",
+    "data/manifests/figure_table_review_packet.csv"
   ],
   "reviewed_inputs": [
     "scripts/audit_publication_readiness.py",
@@ -146,7 +178,9 @@
     "data/manifests/current_goal_completion_audit.json",
     "paper/paper_draft.md",
     "report_draft.md",
-    "data/manifests/claim_alignment_review_manifest.json"
+    "data/manifests/claim_alignment_review_manifest.json",
+    "data/manifests/figure_table_review_manifest.json",
+    "docs/figure_table_review_packet.md"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -155,6 +189,7 @@
     "report.docx",
     "results/realworld_pilot/tables/figure_table_manifest.json",
     "data/manifests/claim_alignment_review_packet.csv",
+    "data/manifests/figure_table_review_packet.csv",
     "data/manifests/manuscript_acceptance.json"
   ],
   "status": "draft_pre_review"

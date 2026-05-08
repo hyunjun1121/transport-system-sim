@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T17:23:51+00:00",
+  "generated_at": "2026-05-08T17:38:43+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -105,8 +105,8 @@
       "can_mark_complete": false,
       "gate_id": "manuscript_report_alignment",
       "record_path": "data/manifests/agent_reviews/manuscript_report_alignment__paper_report_claim_alignment_agent.json",
-      "required_action_count": 9,
-      "risk_count": 9,
+      "required_action_count": 14,
+      "risk_count": 14,
       "status": "blocked"
     },
     {
@@ -236,6 +236,11 @@
     "manuscript_report_alignment: close evidence gates before final paper/report claims",
     "manuscript_report_alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "manuscript_report_alignment: revise figure/table claim boundary from scaffold to accepted study scope",
+    "manuscript_report_alignment: resolve figure/table review blockers before manuscript acceptance",
+    "manuscript_report_alignment: figure/table review: figure/table outputs depend on reduced analysis graph scope",
+    "manuscript_report_alignment: figure/table review: figure/table source outputs remain scaffold or not calibrated",
+    "manuscript_report_alignment: figure/table review: data/manifests/manuscript_acceptance.json is absent",
+    "manuscript_report_alignment: review figure/table human-review rows before manuscript acceptance",
     "manuscript_report_alignment: review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "manuscript_report_alignment: claim alignment: formal manuscript/report acceptance record is absent",
     "manuscript_report_alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
@@ -335,6 +340,11 @@
     "Manuscript Report Alignment: close evidence gates before final paper/report claims",
     "Manuscript Report Alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "Manuscript Report Alignment: revise figure/table claim boundary from scaffold to accepted study scope",
+    "Manuscript Report Alignment: resolve figure/table review blockers before manuscript acceptance",
+    "Manuscript Report Alignment: figure/table review: figure/table outputs depend on reduced analysis graph scope",
+    "Manuscript Report Alignment: figure/table review: figure/table source outputs remain scaffold or not calibrated",
+    "Manuscript Report Alignment: figure/table review: data/manifests/manuscript_acceptance.json is absent",
+    "Manuscript Report Alignment: review figure/table human-review rows before manuscript acceptance",
     "Manuscript Report Alignment: review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "Manuscript Report Alignment: claim alignment: formal manuscript/report acceptance record is absent",
     "Manuscript Report Alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
@@ -1099,6 +1109,41 @@
       "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Figure/Table Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/figure_table_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "figure/table outputs depend on reduced analysis graph scope",
+        "figure/table source outputs remain scaffold or not calibrated",
+        "data/manifests/manuscript_acceptance.json is absent"
+      ],
+      "result_scope": "Figure/table review packet only; not manuscript acceptance, not calibrated real-world results, and not operational routing evidence.",
+      "review_items": [
+        "verify figure/table artifacts exist and were regenerated from current outputs",
+        "review caption and claim-boundary language before manuscript acceptance",
+        "resolve graph-scale, experiment, validation, and sensitivity acceptance dependencies before final figure claims",
+        "record accepted figure/table review only in data/manifests/manuscript_acceptance.json"
+      ],
+      "row_count": 8,
+      "snapshot_id": "figure_table_review",
+      "status_counts": {
+        "blocked_missing_manuscript_acceptance_record": 1,
+        "blocked_reduced_graph_scope_dependency": 1,
+        "blocked_upstream_evidence_dependency": 1,
+        "needs_human_review_artifact_inventory": 1,
+        "needs_human_review_caption_boundary": 1,
+        "needs_human_review_morris_index_handling": 1,
+        "needs_human_review_proxy_interpretation": 1,
+        "needs_human_review_table_lineage": 1
+      }
+    },
+    {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
       "human_review_count": 0,
       "label": "Reproducibility Review",
       "manifest_present": true,
@@ -1327,7 +1372,7 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 647
+        "present": 655
       }
     },
     {

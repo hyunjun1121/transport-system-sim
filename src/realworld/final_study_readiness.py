@@ -27,6 +27,11 @@ from src.realworld.experiment_design_decision_packet import (
     DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
     DEFAULT_EXPERIMENT_DESIGN_DECISION_PACKET_PATH,
 )
+from src.realworld.figure_table_review_packet import (
+    DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH,
+    DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH,
+    DEFAULT_FIGURE_TABLE_REVIEW_PACKET_PATH,
+)
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
 from src.realworld.pilot_acceptance import summarize_pilot_acceptance
 from src.realworld.provenance_acceptance import summarize_provenance_acceptance
@@ -196,6 +201,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
         / "figure_table_manifest.json"
     )
     claim_alignment_manifest = _load_json(DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH)
+    figure_table_review_manifest = _load_json(
+        DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH
+    )
     reproducibility_manifest = _load_json(
         PROJECT_ROOT / "data" / "manifests" / "reproducibility_manifest.json"
     )
@@ -311,6 +319,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
         _manuscript_report_gate(
             figure_manifest,
             claim_alignment_manifest,
+            figure_table_review_manifest,
             publication_audit,
             manuscript_acceptance,
         ),
@@ -2142,6 +2151,7 @@ def _experiment_count_blockers(
 def _manuscript_report_gate(
     figure_manifest: dict[str, Any] | None,
     claim_alignment_manifest: dict[str, Any] | None,
+    figure_table_review_manifest: dict[str, Any] | None,
     publication_audit: dict[str, Any],
     manuscript_acceptance: dict[str, Any],
 ) -> dict[str, Any]:
@@ -2151,11 +2161,23 @@ def _manuscript_report_gate(
     artifact_present = paper.exists() and report.exists() and docx.exists()
     scope = str((figure_manifest or {}).get("claim_boundary", ""))
     acceptance_ready = bool(manuscript_acceptance["acceptance_ready"])
+    figure_review_manifest = figure_table_review_manifest or {}
+    figure_review_blocking_count = _dict_int(
+        figure_review_manifest,
+        "blocking_review_count",
+    )
+    figure_review_human_count = _dict_int(
+        figure_review_manifest,
+        "human_review_count",
+    )
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
         and publication_audit["publication_ready"]
         and acceptance_ready
+        and bool(figure_review_manifest)
+        and figure_review_blocking_count == 0
+        and figure_review_human_count == 0
         and not scope_blocked
     )
     blockers: list[str] = []
@@ -2166,6 +2188,18 @@ def _manuscript_report_gate(
     if scope_blocked:
         blockers.append(
             "revise figure/table claim boundary from scaffold to accepted study scope"
+        )
+    if not figure_review_manifest:
+        blockers.append("generate figure/table review packet before manuscript acceptance")
+    elif figure_review_blocking_count:
+        blockers.append("resolve figure/table review blockers before manuscript acceptance")
+        blockers.extend(
+            f"figure/table review: {item}"
+            for item in figure_review_manifest.get("remaining_blockers", [])
+        )
+    if figure_review_human_count:
+        blockers.append(
+            "review figure/table human-review rows before manuscript acceptance"
         )
     claim_manifest = claim_alignment_manifest or {}
     overclaim_count = _dict_int(claim_manifest, "overclaim_candidate_count")
@@ -2190,6 +2224,9 @@ def _manuscript_report_gate(
             "report_draft.md",
             "report.docx",
             "results/realworld_pilot/tables/figure_table_manifest.json",
+            "data/manifests/figure_table_review_packet.csv",
+            "data/manifests/figure_table_review_manifest.json",
+            "docs/figure_table_review_packet.md",
             "data/manifests/claim_alignment_review_packet.csv",
             "data/manifests/claim_alignment_review_manifest.json",
             "docs/claim_alignment_review_packet.md",
@@ -2199,6 +2236,25 @@ def _manuscript_report_gate(
             "acceptance_record_present": manuscript_acceptance["record_present"],
             "acceptance_path": manuscript_acceptance["path"],
             "figure_claim_boundary_scope_blocked": scope_blocked,
+            "figure_table_review_manifest_present": bool(figure_review_manifest),
+            "figure_table_review_blocking_review_count": figure_review_blocking_count,
+            "figure_table_review_human_review_count": figure_review_human_count,
+            "figure_table_review_status_counts": figure_review_manifest.get(
+                "review_status_counts",
+                {},
+            ),
+            "figure_table_review_remaining_blockers": figure_review_manifest.get(
+                "remaining_blockers",
+                [],
+            ),
+            "figure_table_review_publication_ready": figure_review_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "figure_table_review_can_mark_complete": figure_review_manifest.get(
+                "can_mark_complete",
+                False,
+            ),
             "claim_alignment_review_manifest_present": bool(claim_manifest),
             "claim_alignment_review_row_count": claim_manifest.get("row_count", 0),
             "claim_alignment_overclaim_candidate_count": overclaim_count,

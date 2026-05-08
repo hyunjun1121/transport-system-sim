@@ -25,9 +25,10 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
   `data/validation/graph_scale_strategy_readiness_packet.csv`, and
   `data/validation/sensitivity_strategy_readiness_packet.csv`, and
   `data/manifests/experiment_strategy_readiness_packet.csv`, plus
-  `data/validation/validation_benchmark_decision_packet.csv` and
-  `data/manifests/experiment_design_decision_packet.csv`, are implemented
-  preflight or decision-review aids only.
+  `data/validation/validation_benchmark_decision_packet.csv`,
+  `data/manifests/experiment_design_decision_packet.csv`, and
+  `data/manifests/figure_table_review_packet.csv`, are implemented preflight
+  or decision-review aids only.
 - Current abstract-network and pilot outputs are not calibrated real-world
   results, formal approvals, or operational route plans.
 
@@ -143,6 +144,10 @@ Implemented extension modules now also cover:
 - `claim_alignment_review_packet.py`: paper/report/figure-table claim
   worksheet that separates guardrail language from overclaim candidates
   without approving manuscript claims.
+- `figure_table_review_packet.py`: figure/table worksheet that audits artifact
+  inventory, row counts, captions, graph scope, sensitivity-index handling,
+  proxy interpretation, and manuscript-acceptance dependencies without
+  approving figure/table claims.
 - `reproducibility_acceptance.py`: explicit clean-checkout validation,
   validation-ladder, artifact-regeneration, manifest-path, cloned-repo
   import-boundary, command-count, and not-operational claim-boundary acceptance

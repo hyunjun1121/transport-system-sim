@@ -11,6 +11,9 @@
     "report_draft.md",
     "report.docx",
     "results/realworld_pilot/tables/figure_table_manifest.json",
+    "data/manifests/figure_table_review_packet.csv",
+    "data/manifests/figure_table_review_manifest.json",
+    "docs/figure_table_review_packet.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/claim_alignment_review_manifest.json",
     "docs/claim_alignment_review_packet.md"
