@@ -6,7 +6,7 @@
   "formal_acceptance_ready": false,
   "formal_gate_count": 12,
   "formal_package_claim_boundary": "This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.",
-  "generated_at": "2026-05-08T22:48:32+00:00",
+  "generated_at": "2026-05-08T22:53:15+00:00",
   "human_decision_required_count": 12,
   "invalid_gate_count": 0,
   "matrix_path": "data/manifests/formal_acceptance_evidence_matrix.csv",
