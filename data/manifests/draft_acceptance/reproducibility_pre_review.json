@@ -97,7 +97,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-05-08T13:05:13+00:00",
+  "generated_at": "2026-05-08T13:18:07+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

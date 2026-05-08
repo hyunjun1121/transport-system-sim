@@ -13,6 +13,24 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_license_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_remediation_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_priority_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/reproducibility_manifest.json"
     },
     {
@@ -43,25 +61,7 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "docs/reproducibility_package.md"
-    },
-    {
-      "claim_supported": "Repository evidence cited for data_provenance",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/source_license_review_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for data_provenance",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/source_license_review_manifest.json"
-    },
-    {
-      "claim_supported": "Repository evidence cited for data_provenance",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/source_url_review_packet.csv"
     },
     {
       "claim_supported": "Repository evidence cited for data_provenance",
@@ -73,13 +73,25 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/source_url_remediation_packet.csv"
+      "path": "data/manifests/source_url_remediation_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/source_url_remediation_manifest.json"
+      "path": "data/manifests/source_provenance_priority_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/reproducibility_package.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_review_packet.csv"
     },
     {
       "claim_supported": "Repository evidence cited for data_provenance",
@@ -98,6 +110,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/source_url_remediation_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_provenance_priority_packet.md"
     },
     {
       "claim_supported": "Repository evidence cited for data_provenance",
@@ -128,6 +146,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_source_url_remediation_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_provenance_priority_packet.py"
     }
   ],
   "files_to_create_or_update_after_human_decision": [
@@ -139,7 +163,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/provenance_acceptance.json",
   "gate": "data_provenance",
-  "generated_at": "2026-05-08T13:05:13+00:00",
+  "generated_at": "2026-05-08T13:18:07+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -153,6 +177,11 @@
   "missing_evidence": [
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+    "source provenance priority: formal provenance acceptance record is absent",
+    "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
     "data/manifests/provenance_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -166,6 +195,11 @@
     "Create data/manifests/provenance_acceptance.json only after source-backed review.",
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+    "source provenance priority: formal provenance acceptance record is absent",
+    "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
     "data/manifests/provenance_acceptance.json is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."

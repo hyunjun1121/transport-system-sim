@@ -56,10 +56,17 @@
         "Create data/manifests/provenance_acceptance.json only after source-backed review."
       ],
       "review_packet_paths": [
+        "data/manifests/source_license_review_packet.csv",
+        "data/manifests/source_url_remediation_packet.csv",
+        "data/manifests/source_provenance_priority_packet.csv",
         "docs/review_packets/data_provenance.md"
       ],
       "reviewed_inputs": [
         "data/manifests/source_provenance_manifest.json",
+        "data/manifests/source_license_review_manifest.json",
+        "data/manifests/source_url_review_manifest.json",
+        "data/manifests/source_url_remediation_manifest.json",
+        "data/manifests/source_provenance_priority_manifest.json",
         "data/manifests/reproducibility_manifest.json",
         "docs/reproducibility_package.md",
         "cloned_repo_manifest.md"
@@ -71,6 +78,9 @@
       "role_name": "OSM / Source / License / Provenance Review Agent",
       "source_paths": [
         "data/manifests/source_provenance_manifest.json",
+        "data/manifests/source_license_review_packet.csv",
+        "data/manifests/source_url_remediation_packet.csv",
+        "data/manifests/source_provenance_priority_packet.csv",
         "data/manifests/reproducibility_manifest.json",
         "data/cache/pilot_region_road_manifest.json",
         "cloned_repo_manifest.md"

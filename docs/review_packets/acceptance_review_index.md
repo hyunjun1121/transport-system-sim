@@ -9,7 +9,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | Gate | Agent | Status | Can Mark Complete | Required Action Count |
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 2 |
-| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 4 |
+| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 9 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 15 |
@@ -29,6 +29,11 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - data_provenance: Create data/manifests/provenance_acceptance.json only after source-backed review.
 - data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - data_provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- data_provenance: source provenance priority: formal provenance acceptance record is absent
+- data_provenance: source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation
 - graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
@@ -142,6 +147,11 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Graph-Scale Strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - Data Provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - Data Provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- Data Provenance: source provenance priority: formal provenance acceptance record is absent
+- Data Provenance: source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation
 - Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
 - Parameter Evidence: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence
 - Parameter Evidence: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence

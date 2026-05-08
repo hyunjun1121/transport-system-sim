@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T13:04:55+00:00`
+- Generated at: `2026-05-08T13:17:47+00:00`
 
 ## Decision
 
@@ -15,24 +15,28 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 ## Reviewed Inputs
 
 - data/manifests/source_provenance_manifest.json
+- data/manifests/source_license_review_manifest.json
+- data/manifests/source_url_review_manifest.json
+- data/manifests/source_url_remediation_manifest.json
+- data/manifests/source_provenance_priority_manifest.json
 - data/manifests/reproducibility_manifest.json
 - docs/reproducibility_package.md
 - cloned_repo_manifest.md
 - data/manifests/provenance_acceptance.json
 - data/manifests/source_license_review_packet.csv
-- data/manifests/source_license_review_manifest.json
 - data/manifests/source_url_review_packet.csv
-- data/manifests/source_url_review_manifest.json
 - data/manifests/source_url_remediation_packet.csv
-- data/manifests/source_url_remediation_manifest.json
+- data/manifests/source_provenance_priority_packet.csv
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
 - docs/source_url_remediation_packet.md
+- docs/source_provenance_priority_packet.md
 - docs/pilot_region_data_card.md
 - scripts/audit_source_provenance.py
 - scripts/write_source_license_review_packet.py
 - scripts/write_source_url_review_packet.py
 - scripts/write_source_url_remediation_packet.py
+- scripts/write_source_provenance_priority_packet.py
 
 ## Evidence And Source Paths
 
@@ -44,16 +48,20 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_url_review_manifest.json
 - data/manifests/source_url_remediation_packet.csv
 - data/manifests/source_url_remediation_manifest.json
+- data/manifests/source_provenance_priority_packet.csv
+- data/manifests/source_provenance_priority_manifest.json
 - data/manifests/reproducibility_manifest.json
 - docs/source_license_review_packet.md
 - docs/source_url_review_packet.md
 - docs/source_url_remediation_packet.md
+- docs/source_provenance_priority_packet.md
 - docs/reproducibility_package.md
 - docs/pilot_region_data_card.md
 - scripts/audit_source_provenance.py
 - scripts/write_source_license_review_packet.py
 - scripts/write_source_url_review_packet.py
 - scripts/write_source_url_remediation_packet.py
+- scripts/write_source_provenance_priority_packet.py
 - docs/review_packets/data_provenance.md
 - data/cache/pilot_region_road_manifest.json
 - cloned_repo_manifest.md
@@ -64,6 +72,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - Scaffold reproducibility scope cannot support final calibrated claims.
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- source provenance priority: formal provenance acceptance record is absent
+- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- source provenance priority: URL remediation rows still require reviewer confirmation
 
 ## Required Actions
 
@@ -71,6 +84,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - Create data/manifests/provenance_acceptance.json only after source-backed review.
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- source provenance priority: formal provenance acceptance record is absent
+- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- source provenance priority: URL remediation rows still require reviewer confirmation
 
 ## Formal Acceptance Boundary
 
@@ -87,7 +105,12 @@ Formal acceptance artifacts:
   "artifact_present": true,
   "blockers": [
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
-    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance"
+    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+    "source provenance priority: formal provenance acceptance record is absent",
+    "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+    "source provenance priority: URL remediation rows still require reviewer confirmation"
   ],
   "details": {
     "acceptance_path": "data/manifests/provenance_acceptance.json",
@@ -98,6 +121,20 @@ Formal acceptance artifacts:
     "source_license_review_packet_present": true,
     "source_provenance_manifest_present": true,
     "source_provenance_path": "data/manifests/source_provenance_manifest.json",
+    "source_provenance_priority_artifacts_present": true,
+    "source_provenance_priority_blocking_source_count": 4,
+    "source_provenance_priority_cached_snapshot_source_count": 3,
+    "source_provenance_priority_can_mark_complete": false,
+    "source_provenance_priority_context_only_source_count": 4,
+    "source_provenance_priority_human_review_source_count": 7,
+    "source_provenance_priority_publication_ready": false,
+    "source_provenance_priority_repository_input_source_count": 4,
+    "source_provenance_priority_row_count": 11,
+    "source_provenance_priority_status_counts": {
+      "blocked_context_only_source_not_cached": 4,
+      "needs_human_review_cached_snapshot_source": 3,
+      "needs_human_review_repository_input_source": 4
+    },
     "source_provenance_record_count": 11,
     "source_provenance_review_status_counts": {
       "cached_snapshot_pending_review": 3,
@@ -136,16 +173,20 @@ Formal acceptance artifacts:
     "data/manifests/source_url_review_manifest.json",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_url_remediation_manifest.json",
+    "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_provenance_priority_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
     "docs/source_url_remediation_packet.md",
+    "docs/source_provenance_priority_packet.md",
     "docs/reproducibility_package.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
     "scripts/write_source_license_review_packet.py",
     "scripts/write_source_url_review_packet.py",
-    "scripts/write_source_url_remediation_packet.py"
+    "scripts/write_source_url_remediation_packet.py",
+    "scripts/write_source_provenance_priority_packet.py"
   ],
   "gate_id": "data_provenance",
   "label": "Data Provenance",

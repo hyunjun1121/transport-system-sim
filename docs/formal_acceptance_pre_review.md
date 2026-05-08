@@ -18,7 +18,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | --- | --- | --- | --- | --- | --- |
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+22 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -167,30 +167,39 @@ Files to create or update after human decision:
 
 Evidence inspected:
 - `data/manifests/source_provenance_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_license_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_url_remediation_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_provenance_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/reproducibility_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/cache/pilot_region_road_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `cloned_repo_manifest.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/provenance_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/data_provenance.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/source_license_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_license_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/source_url_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/source_url_remediation_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_remediation_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_provenance_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_url_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_license_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_remediation_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/source_provenance_priority_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_region_data_card.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_source_provenance.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_source_license_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_source_url_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_source_url_remediation_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_source_provenance_priority_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- source provenance priority: formal provenance acceptance record is absent
+- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- source provenance priority: URL remediation rows still require reviewer confirmation
 - data/manifests/provenance_acceptance.json is absent
 
 Residual risks:
@@ -198,6 +207,11 @@ Residual risks:
 - Create data/manifests/provenance_acceptance.json only after source-backed review.
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
+- source provenance priority: formal provenance acceptance record is absent
+- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- source provenance priority: repository inputs still require human scope/privacy/reproducibility review
+- source provenance priority: URL remediation rows still require reviewer confirmation
 - data/manifests/provenance_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.
