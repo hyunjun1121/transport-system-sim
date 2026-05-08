@@ -41,9 +41,35 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "source_provenance_priority_manifest.json",
     ),
     (
+        "graph_scale_review",
+        "Graph-Scale Method Review",
+        PROJECT_ROOT / "data" / "validation" / "graph_scale_review_manifest.json",
+    ),
+    (
+        "full_graph_runtime_readiness",
+        "Full-Graph Runtime Readiness",
+        PROJECT_ROOT
+        / "data"
+        / "validation"
+        / "full_graph_runtime_readiness_manifest.json",
+    ),
+    (
         "graph_scale_strategy_readiness",
         "Graph-Scale Strategy Readiness",
         PROJECT_ROOT / "data" / "validation" / "graph_scale_strategy_readiness_manifest.json",
+    ),
+    (
+        "graph_scale_manifest_audit",
+        "Graph-Scale Manifest Audit",
+        PROJECT_ROOT / "data" / "validation" / "graph_scale_manifest_audit_manifest.json",
+    ),
+    (
+        "graph_scale_result_comparison",
+        "Graph-Scale Result Comparison",
+        PROJECT_ROOT
+        / "data"
+        / "validation"
+        / "graph_scale_result_comparison_manifest.json",
     ),
     (
         "road_evidence_priority",
@@ -1353,6 +1379,8 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "readiness_status_counts",
         "decision_status_counts",
         "priority_status_counts",
+        "coverage_status_counts",
+        "comparison_status_counts",
         "status_counts",
     ):
         value = data.get(key)

@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T15:14:36+00:00",
+  "generated_at": "2026-05-08T15:21:04+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -367,6 +367,61 @@
       }
     },
     {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Graph-Scale Method Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/graph_scale_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "graph_scale_method_review_packet_not_graph_scale_acceptance",
+      "review_items": [
+        "decide whether the 118-node reduced corridor is an acceptable final method or only a smoke shortcut",
+        "if the 164-node multi-corridor candidate is selected, review the full-profile candidate output and regenerate sensitivity/figure/table outputs on the accepted graph",
+        "review the full-scale multi-corridor candidate output before treating it as sufficient graph-scale evidence",
+        "review the current-vs-candidate result comparison before interpreting graph-choice-sensitive scenarios",
+        "if the full bus-practical graph is selected, generate full experiment runtime and result evidence",
+        "record the reviewed decision only in data/manifests/graph_scale_acceptance.json"
+      ],
+      "row_count": 4,
+      "snapshot_id": "graph_scale_review",
+      "status_counts": {}
+    },
+    {
+      "blocking_count": 2,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 2,
+      "label": "Full-Graph Runtime Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/full_graph_runtime_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "full-graph full-profile outputs are absent",
+        "full-graph runtime-scope decision requires graph_scale_acceptance.json",
+        "downstream regeneration decisions are unresolved if full-graph execution is selected"
+      ],
+      "result_scope": "Full-graph runtime-readiness packet only; not full-graph experiment output, not graph-scale acceptance, not calibrated validation, and not operational routing evidence.",
+      "review_items": [
+        "review the measured two-row full-graph smoke before extrapolating runtime",
+        "generate full-graph scenario-policy-seed outputs if full-graph execution is selected",
+        "or record in graph_scale_acceptance.json why final claims exclude full-graph execution",
+        "decide downstream sensitivity, figure, table, and manuscript regeneration scope"
+      ],
+      "row_count": 4,
+      "snapshot_id": "full_graph_runtime_readiness",
+      "status_counts": {
+        "blocked_missing_downstream_full_graph_regeneration_decision": 1,
+        "blocked_missing_full_graph_full_profile_outputs": 1,
+        "needs_human_review_full_graph_runtime_scope_decision": 1,
+        "needs_human_review_full_graph_smoke_scope": 1
+      }
+    },
+    {
       "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -399,6 +454,56 @@
         "blocked_missing_graph_scale_acceptance_record": 1,
         "needs_human_review_multi_corridor_result_deltas": 1,
         "needs_human_review_reduced_corridor_alternate_route_warnings": 1
+      }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Graph-Scale Manifest Audit",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/graph_scale_manifest_audit_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "graph_scale_manifest_audit_review_aid_only_not_graph_scale_acceptance",
+      "review_items": [
+        "confirm the source graph count is stable across pilot, sensitivity, statistics, and figure/table manifests",
+        "review whether each reduced analysis graph is a final method or only a scaffold shortcut",
+        "regenerate downstream manifests if a different graph-scale method is accepted",
+        "record any accepted graph-scale decision only in data/manifests/graph_scale_acceptance.json"
+      ],
+      "row_count": 13,
+      "snapshot_id": "graph_scale_manifest_audit",
+      "status_counts": {
+        "complete_reduced_analysis_graph_recorded": 13
+      }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Graph-Scale Result Comparison",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/graph_scale_result_comparison_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "graph_scale_result_comparison_review_packet_not_graph_scale_acceptance",
+      "review_items": [
+        "review candidate_worsens and nonfinite_difference rows before any graph-scale acceptance",
+        "decide whether changed blocked-scenario outcomes reflect a better graph abstraction or an unintended scenario-method interaction",
+        "regenerate sensitivity, figures, tables, and manuscript interpretation after the accepted graph-scale method is selected"
+      ],
+      "row_count": 819,
+      "snapshot_id": "graph_scale_result_comparison",
+      "status_counts": {
+        "candidate_improves": 24,
+        "candidate_worsens": 24,
+        "nonfinite_difference": 30,
+        "same_or_close": 741
       }
     },
     {

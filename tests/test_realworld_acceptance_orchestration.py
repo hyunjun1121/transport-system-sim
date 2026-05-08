@@ -212,6 +212,26 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        graph_result_snapshot_path = root / "graph_result_manifest.json"
+        graph_result_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 819,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "comparison_status_counts": {
+                        "candidate_worsens": 24,
+                        "nonfinite_difference": 30,
+                        "same_or_close": 741,
+                    },
+                    "review_items": [
+                        "review candidate_worsens and nonfinite_difference rows"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -230,6 +250,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "validation_benchmark_readiness",
                     "Validation Benchmark Readiness",
                     validation_snapshot_path,
+                ),
+                (
+                    "graph_scale_result_comparison",
+                    "Graph-Scale Result Comparison",
+                    graph_result_snapshot_path,
                 ),
             ),
         )
@@ -262,6 +287,12 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 0
         )
+        assert (
+            snapshots["graph_scale_result_comparison"]["status_counts"][
+                "candidate_worsens"
+            ]
+            == 24
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -271,6 +302,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "cache or exclude context-only sources" in index_text
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
+        assert "`Graph-Scale Result Comparison`" in index_text
+        assert "candidate_worsens=24" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])

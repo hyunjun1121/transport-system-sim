@@ -59,7 +59,11 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | Packet | Rows | Blocking | Human Review | Gate Candidates | Can Complete | Key Status Counts |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
+| `Graph-Scale Method Review` | 4 | 0 | 0 | 0 | `false` |  |
+| `Full-Graph Runtime Readiness` | 4 | 2 | 2 | 0 | `false` | blocked_missing_downstream_full_graph_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; needs_human_review_full_graph_runtime_scope_decision=1; +1 more |
 | `Graph-Scale Strategy Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +2 more |
+| `Graph-Scale Manifest Audit` | 13 | 0 | 0 | 0 | `false` | complete_reduced_analysis_graph_recorded=13 |
+| `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
 | `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
@@ -73,6 +77,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 Priority blockers by packet:
 
 - `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
+- `Full-Graph Runtime Readiness`: full-graph full-profile outputs are absent (+2 more)
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
 - `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
