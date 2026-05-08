@@ -371,6 +371,14 @@ First pilot-smoke artifacts also exist:
   full-pilot summary with the full-profile multi-corridor candidate summary.
   The generated 819-row delta table is graph-scale review evidence only, not
   graph-scale acceptance.
+- `src/realworld/graph_scale_manifest_audit.py` and
+  `scripts/audit_graph_scale_manifests.py` now audit graph-scale fields across
+  current pilot, sensitivity, Morris, statistics, and figure/table manifests.
+  The generated 13-row audit shows one stable source graph scale
+  (4,608 nodes / 9,148 edges) and the current 118-node / 174-edge and
+  164-node / 246-edge reduced analysis graph scales. This keeps
+  source-vs-analysis scale visible for reviewers, but it is not graph-scale
+  acceptance.
 - `src/realworld/route_road_evidence_exposure.py` and
   `scripts/write_route_road_evidence_exposure.py` now link weak road speed,
   capacity, disruption, and connector assumptions to the canonical route
@@ -1917,6 +1925,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
+.\.venv\Scripts\python scripts\audit_graph_scale_manifests.py
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
@@ -2073,8 +2082,9 @@ Concrete next tasks:
    packet as the consolidated method-selection and blocker-classification
    worksheets.
 6. Review the source-graph and analysis-graph scale fields now recorded in
-   every pilot, sensitivity, Morris, and figure/table manifest, and keep this
-   distinction visible in all manuscript/report result text.
+   every pilot, sensitivity, Morris, and figure/table manifest with
+   `data/validation/graph_scale_manifest_audit.csv`, and keep this distinction
+   visible in all manuscript/report result text.
 7. Strengthen parameter, road, and rail evidence with GTFS/timetable,
    shortest-path, literature, public speed/capacity references, hazard or
    scenario evidence, or benchmark-calibrated values where available. Use the
