@@ -4,7 +4,7 @@
   "final_study_ready": false,
   "formal_acceptance_ready": false,
   "gate_count": 12,
-  "generated_at": "2026-05-08T20:40:32+00:00",
+  "generated_at": "2026-05-08T20:42:36+00:00",
   "package_claim_boundary": "This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.",
   "queue_path": "data/manifests/formal_acceptance_blocker_queue.csv",
   "requires_human_review_count": 15,
