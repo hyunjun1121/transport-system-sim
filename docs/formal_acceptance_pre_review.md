@@ -430,6 +430,7 @@ Files to create or update after human decision:
 Evidence inspected:
 - `data/validation/validation_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_benchmark_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/osrm_route_benchmark_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/accessibility_loss.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/canonical_route_road_evidence_exposure.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -437,9 +438,11 @@ Evidence inspected:
 - `docs/review_packets/validation_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/validation_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/validation_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/validation_benchmark_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/osrm_route_benchmark_manifest.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_benchmark_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks_osrm.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -450,6 +453,7 @@ Evidence inspected:
 - `scripts/write_route_road_evidence_exposure.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_osrm_route_benchmark.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_osrm_snapshot_manifest.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_validation_benchmark_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 

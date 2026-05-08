@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Validation Benchmark Strategy Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T12:03:05+00:00`
+- Generated at: `2026-05-08T12:14:07+00:00`
 
 ## Decision
 
@@ -16,9 +16,11 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 
 - docs/validation_review_packet.md
 - docs/validation_strategy_readiness_packet.md
+- docs/validation_benchmark_readiness_packet.md
 - docs/osrm_route_benchmark_manifest.md
 - data/validation/validation_review_manifest.json
 - data/validation/validation_strategy_readiness_manifest.json
+- data/validation/validation_benchmark_readiness_manifest.json
 - data/manifests/validation_acceptance.json
 - data/validation/validation_summary.md
 - data/validation/external_route_benchmarks.csv
@@ -30,11 +32,13 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - data/validation/canonical_route_road_evidence_exposure_manifest.json
 - data/validation/validation_review_packet.csv
 - data/validation/validation_strategy_readiness_packet.csv
+- data/validation/validation_benchmark_readiness_packet.csv
 - scripts/run_plausibility_validation.py
 - scripts/run_accessibility_loss_analysis.py
 - scripts/write_route_road_evidence_exposure.py
 - scripts/run_osrm_route_benchmark.py
 - scripts/write_osrm_snapshot_manifest.py
+- scripts/write_validation_benchmark_readiness_packet.py
 - scripts/write_validation_review_packet.py
 - scripts/write_validation_strategy_readiness_packet.py
 
@@ -54,11 +58,15 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - data/validation/validation_strategy_readiness_packet.csv
 - data/validation/validation_strategy_readiness_manifest.json
 - docs/validation_strategy_readiness_packet.md
+- data/validation/validation_benchmark_readiness_packet.csv
+- data/validation/validation_benchmark_readiness_manifest.json
+- docs/validation_benchmark_readiness_packet.md
 - scripts/run_plausibility_validation.py
 - scripts/run_accessibility_loss_analysis.py
 - scripts/write_route_road_evidence_exposure.py
 - scripts/run_osrm_route_benchmark.py
 - scripts/write_osrm_snapshot_manifest.py
+- scripts/write_validation_benchmark_readiness_packet.py
 - scripts/write_validation_review_packet.py
 - scripts/write_validation_strategy_readiness_packet.py
 - docs/review_packets/validation_package.md
@@ -154,11 +162,15 @@ Formal acceptance artifacts:
     "data/validation/validation_strategy_readiness_packet.csv",
     "data/validation/validation_strategy_readiness_manifest.json",
     "docs/validation_strategy_readiness_packet.md",
+    "data/validation/validation_benchmark_readiness_packet.csv",
+    "data/validation/validation_benchmark_readiness_manifest.json",
+    "docs/validation_benchmark_readiness_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
     "scripts/run_osrm_route_benchmark.py",
     "scripts/write_osrm_snapshot_manifest.py",
+    "scripts/write_validation_benchmark_readiness_packet.py",
     "scripts/write_validation_review_packet.py",
     "scripts/write_validation_strategy_readiness_packet.py"
   ],
