@@ -28,8 +28,18 @@ def test_source_url_remediation_rows_classify_review_actions() -> None:
         url_rows=[
             _url_row("osm", "public_map", "reachable"),
             _url_row("api", "public_api", "http_error"),
-            _url_row("api_with_alt", "public_api", "reachable"),
-            _url_row("api_with_alt", "public_api", "network_error"),
+            _url_row(
+                "api_with_alt",
+                "public_api",
+                "reachable",
+                url="https://example.com/reachable",
+            ),
+            _url_row(
+                "api_with_alt",
+                "public_api",
+                "network_error",
+                url="https://example.com/stale",
+            ),
             _url_row("repo", "repository_input", "no_url_detected", url=""),
             _url_row("api_unchecked", "public_api", "not_checked"),
         ]
@@ -45,7 +55,14 @@ def test_source_url_remediation_rows_classify_review_actions() -> None:
     assert any(
         row["source_id"] == "api_with_alt"
         and row["remediation_status"] == "alternate_reachable_url_needs_review"
+        and row["alternate_url_candidates"] == "https://example.com/reachable"
         for row in rows
+    )
+    assert all(
+        row["alternate_url_candidates"] == ""
+        for row in rows
+        if row["source_id"] != "api_with_alt"
+        or row["remediation_status"] != "alternate_reachable_url_needs_review"
     )
     assert by_id["repo"]["remediation_status"] == "local_citation_needs_review"
     assert by_id["api_unchecked"]["remediation_status"] == "live_check_required"
@@ -88,6 +105,7 @@ def test_write_source_url_remediation_packet_outputs_artifacts() -> None:
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert value["blocking_issue_count"] == 1
+        assert value["alternate_candidate_row_count"] == 0
         assert any("blocked URL rows" in item for item in value["remaining_blockers"])
         assert written_manifest["provenance_gate_closure_candidate_count"] == 0
         assert "Source URL Remediation Packet" in text
@@ -122,6 +140,7 @@ def test_shipped_source_url_remediation_packet_matches_current_review_packet() -
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == SOURCE_URL_REMEDIATION_SCOPE
     assert manifest["provenance_gate_closure_candidate_count"] == 0
+    assert manifest["alternate_candidate_row_count"] >= 0
     if manifest["blocking_issue_count"] == 0 and manifest["live_check_required_count"] == 0:
         assert not any(
             "unreachable" in item or "network-error" in item or "not-checked" in item

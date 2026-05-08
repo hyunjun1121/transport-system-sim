@@ -38,6 +38,7 @@ SOURCE_URL_REMEDIATION_COLUMNS: tuple[str, ...] = (
     "source_name",
     "source_type",
     "url",
+    "alternate_url_candidates",
     "url_status",
     "http_status",
     "remediation_status",
@@ -59,13 +60,19 @@ def build_source_url_remediation_rows(
 ) -> list[dict[str, str]]:
     """Return remediation rows from URL review rows or a review-packet CSV."""
 
-    rows = list(url_rows) if url_rows is not None else _load_url_rows(url_review_packet_path)
-    reachable_source_ids = {
-        str(row.get("source_id", ""))
+    rows = (
+        list(url_rows)
+        if url_rows is not None
+        else _load_url_rows(url_review_packet_path)
+    )
+    reachable_urls_by_source_id = _reachable_urls_by_source_id(rows)
+    return [
+        _remediation_row(
+            row,
+            reachable_urls_by_source_id=reachable_urls_by_source_id,
+        )
         for row in rows
-        if row.get("url_status") == "reachable"
-    }
-    return [_remediation_row(row, reachable_source_ids=reachable_source_ids) for row in rows]
+    ]
 
 
 def write_source_url_remediation_packet(
@@ -136,6 +143,9 @@ def build_source_url_remediation_manifest(
         for row in rows
         if row.get("remediation_status") == "live_check_required"
     )
+    alternate_candidate_row_count = sum(
+        1 for row in rows if str(row.get("alternate_url_candidates", "")).strip()
+    )
     closure_candidate_count = sum(
         1
         for row in rows
@@ -160,6 +170,7 @@ def build_source_url_remediation_manifest(
         "priority_counts": priority_counts,
         "blocking_issue_count": blocking_issue_count,
         "live_check_required_count": live_check_required_count,
+        "alternate_candidate_row_count": alternate_candidate_row_count,
         "provenance_gate_closure_candidate_count": closure_candidate_count,
         "publication_ready": False,
         "can_mark_complete": False,
@@ -199,15 +210,16 @@ def build_source_url_remediation_markdown(
         "",
         "## Remediation Rows",
         "",
-        "| Source | URL Status | Remediation | Priority | Required Action |",
-        "| --- | --- | --- | --- | --- |",
+        "| Source | URL Status | Remediation | Alternate Candidates | Priority | Required Action |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         lines.append(
-            "| {source} | {url_status} | {remediation} | {priority} | {action} |".format(
+            "| {source} | {url_status} | {remediation} | {candidates} | {priority} | {action} |".format(
                 source=_cell(row.get("source_id", "")),
                 url_status=_cell(row.get("url_status", "")),
                 remediation=_cell(row.get("remediation_status", "")),
+                candidates=_cell(row.get("alternate_url_candidates", "")),
                 priority=_cell(row.get("priority", "")),
                 action=_cell(row.get("required_reviewer_action", "")),
             )
@@ -230,13 +242,17 @@ def build_source_url_remediation_markdown(
 def _remediation_row(
     row: Mapping[str, str],
     *,
-    reachable_source_ids: set[str],
+    reachable_urls_by_source_id: Mapping[str, tuple[str, ...]],
 ) -> dict[str, str]:
     source_id = str(row.get("source_id", ""))
     source_type = str(row.get("source_type", ""))
     url_status = str(row.get("url_status", ""))
+    alternate_url_candidates = _alternate_url_candidates(
+        row,
+        reachable_urls_by_source_id=reachable_urls_by_source_id,
+    )
     remediation_status, priority, evidence_gap, action = _classify(
-        source_has_reachable_url=source_id in reachable_source_ids,
+        source_has_reachable_url=bool(alternate_url_candidates),
         source_type=source_type,
         url_status=url_status,
     )
@@ -245,6 +261,7 @@ def _remediation_row(
         "source_name": str(row.get("source_name", "")),
         "source_type": source_type,
         "url": str(row.get("url", "")),
+        "alternate_url_candidates": "; ".join(alternate_url_candidates),
         "url_status": url_status,
         "http_status": str(row.get("http_status", "")),
         "remediation_status": remediation_status,
@@ -330,6 +347,40 @@ def _load_url_rows(path: str | Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def _reachable_urls_by_source_id(
+    rows: Sequence[Mapping[str, str]],
+) -> dict[str, tuple[str, ...]]:
+    values: dict[str, list[str]] = {}
+    for row in rows:
+        if row.get("url_status") != "reachable":
+            continue
+        source_id = str(row.get("source_id", "")).strip()
+        url = str(row.get("url", "")).strip()
+        if not source_id or not url:
+            continue
+        bucket = values.setdefault(source_id, [])
+        if url not in bucket:
+            bucket.append(url)
+    return {key: tuple(urls) for key, urls in values.items()}
+
+
+def _alternate_url_candidates(
+    row: Mapping[str, str],
+    *,
+    reachable_urls_by_source_id: Mapping[str, tuple[str, ...]],
+) -> tuple[str, ...]:
+    url_status = str(row.get("url_status", ""))
+    if url_status not in {"http_error", "network_error", "not_checked"}:
+        return ()
+    source_id = str(row.get("source_id", "")).strip()
+    current_url = str(row.get("url", "")).strip()
+    return tuple(
+        url
+        for url in reachable_urls_by_source_id.get(source_id, ())
+        if url and url != current_url
+    )
+
+
 def _counts(values: Sequence[str] | Any) -> dict[str, int]:
     counts: dict[str, int] = {}
     for value in values:
@@ -352,6 +403,10 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
     ):
         items.append(
             "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance"
+        )
+    if remediation_counts.get("alternate_reachable_url_needs_review", 0):
+        items.append(
+            "review alternate URL candidates before replacing or removing failed citations"
         )
     items.extend(
         [

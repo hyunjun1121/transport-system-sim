@@ -706,7 +706,8 @@ First pilot-smoke artifacts also exist:
   `data/manifests/source_url_remediation_packet.csv`,
   `data/manifests/source_url_remediation_manifest.json`, and
   `docs/source_url_remediation_packet.md`. This keeps unreachable, alternate,
-  local-citation, and reachable-but-still-unreviewed source actions visible
+  local-citation, and reachable-but-still-unreviewed source actions visible,
+  and now lists same-source reachable URL candidates for failed citations,
   without closing the provenance gate.
 - `src/realworld/source_provenance_priority_packet.py` and
   `scripts/write_source_provenance_priority_packet.py` now combine

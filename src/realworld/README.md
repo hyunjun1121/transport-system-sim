@@ -104,8 +104,8 @@ Implemented extension modules now also cover:
   not certify licenses or create `provenance_acceptance.json`.
 - `source_url_remediation_packet.py`: URL-status remediation queue generated
   from the source URL review packet. It separates reachable URLs, unreachable
-  public URLs, live-check gaps, and local-only citations without approving
-  provenance.
+  public URLs, same-source alternate candidates, live-check gaps, and
+  local-only citations without approving provenance.
 - `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching

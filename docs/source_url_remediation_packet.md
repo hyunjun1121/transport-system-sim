@@ -13,25 +13,25 @@ Source URL remediation packet only; not source acceptance, not license certifica
 
 ## Remediation Rows
 
-| Source | URL Status | Remediation | Priority | Required Action |
-| --- | --- | --- | --- | --- |
-| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osm_overpass_road_snapshot | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| pilot_region_spec | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| parameter_source_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| seoul_station_binding_cache | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| ktdb_public_transport_gtfs_context | network_error | alternate_reachable_url_needs_review | medium | verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance |
-| ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| metro9_capacity_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| structured_scenario_tables | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| reproducibility_package | no_url_detected | local_citation_needs_review | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
+| Source | URL Status | Remediation | Alternate Candidates | Priority | Required Action |
+| --- | --- | --- | --- | --- | --- |
+| osm_overpass_road_snapshot | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osm_overpass_road_snapshot | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| pilot_region_spec | no_url_detected | local_citation_needs_review |  | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
+| parameter_source_tables | no_url_detected | local_citation_needs_review |  | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
+| seoul_station_binding_cache | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_shortest_path_api_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_shortest_path_api_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_timetable_api_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| seoul_timetable_api_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| ktdb_public_transport_gtfs_context | network_error | alternate_reachable_url_needs_review | https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106 | medium | verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance |
+| ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| metro9_capacity_context | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| osrm_public_route_benchmark | reachable | reachable_needs_license_review |  | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| structured_scenario_tables | no_url_detected | local_citation_needs_review |  | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
+| reproducibility_package | no_url_detected | local_citation_needs_review |  | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 
 ## Required Reviewer Actions
 

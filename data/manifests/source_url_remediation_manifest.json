@@ -13,6 +13,7 @@
   },
   "blocking_issue_count": 0,
   "live_check_required_count": 0,
+  "alternate_candidate_row_count": 1,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "can_mark_complete": false,
@@ -27,6 +28,7 @@
   "review_items": [
     "confirm project-owned local citations where no public URL is expected",
     "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance",
+    "review alternate URL candidates before replacing or removing failed citations",
     "cache retained public data extracts or exclude context-only references from final claims",
     "create data/manifests/provenance_acceptance.json only after source-backed review"
   ],
