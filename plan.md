@@ -890,6 +890,14 @@ Acceptance checks:
 - Paper claims say "region-reusable framework" only if this parameterization is
   actually exercised or demonstrated.
 
+Current fixture coverage:
+
+- `tests/fixtures/synthetic_region_fixture.yaml` and
+  `tests/test_realworld_region_reusability.py` exercise a second synthetic
+  region through schema loading, graph adaptation, road-mode readiness checks,
+  and rail metadata mapping. This is region-reuse test coverage only, not a
+  second accepted case study.
+
 ## Data Governance And Security
 
 The final package must remain publishable and non-operational.
