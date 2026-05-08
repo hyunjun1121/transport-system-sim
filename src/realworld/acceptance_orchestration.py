@@ -41,6 +41,21 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "source_provenance_priority_manifest.json",
     ),
     (
+        "source_license_review",
+        "Source/License Review",
+        PROJECT_ROOT / "data" / "manifests" / "source_license_review_manifest.json",
+    ),
+    (
+        "source_url_review",
+        "Source URL Review",
+        PROJECT_ROOT / "data" / "manifests" / "source_url_review_manifest.json",
+    ),
+    (
+        "source_url_remediation",
+        "Source URL Remediation",
+        PROJECT_ROOT / "data" / "manifests" / "source_url_remediation_manifest.json",
+    ),
+    (
         "graph_scale_review",
         "Graph-Scale Method Review",
         PROJECT_ROOT / "data" / "validation" / "graph_scale_review_manifest.json",
@@ -77,14 +92,32 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "road" / "road_evidence_priority_manifest.json",
     ),
     (
+        "road_source_readiness",
+        "Road Source Readiness",
+        PROJECT_ROOT / "data" / "road" / "road_source_readiness_manifest.json",
+    ),
+    (
         "parameter_evidence_priority",
         "Parameter Evidence Priority",
         PROJECT_ROOT / "data" / "parameters" / "parameter_evidence_priority_manifest.json",
     ),
     (
+        "parameter_source_readiness",
+        "Parameter Source Readiness",
+        PROJECT_ROOT
+        / "data"
+        / "parameters"
+        / "parameter_source_readiness_manifest.json",
+    ),
+    (
         "rail_evidence_priority",
         "Rail Evidence Priority",
         PROJECT_ROOT / "data" / "rail" / "rail_evidence_priority_manifest.json",
+    ),
+    (
+        "rail_fetch_readiness",
+        "Rail Fetch Readiness",
+        PROJECT_ROOT / "data" / "rail" / "rail_fetch_readiness_manifest.json",
     ),
     (
         "validation_benchmark_readiness",
@@ -1145,6 +1178,9 @@ def _load_review_status_snapshot(
             "blocking_priority_count",
             "blocking_source_count",
             "blocked_gate_count",
+            "blocking_issue_count",
+            "missing_snapshot_or_context_only_count",
+            "unreachable_or_error_count",
         ),
     )
     if base["blocking_count"] == 0:
@@ -1157,6 +1193,8 @@ def _load_review_status_snapshot(
             "human_review_priority_count",
             "human_review_source_count",
             "human_decision_required_count",
+            "review_required_count",
+            "requires_reviewer_confirmation_count",
         ),
     )
     if base["human_review_count"] == 0:
@@ -1379,6 +1417,10 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "readiness_status_counts",
         "decision_status_counts",
         "priority_status_counts",
+        "review_status_counts",
+        "snapshot_status_counts",
+        "url_status_counts",
+        "remediation_status_counts",
         "coverage_status_counts",
         "comparison_status_counts",
         "status_counts",

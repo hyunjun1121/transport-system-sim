@@ -232,6 +232,29 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        source_url_snapshot_path = root / "source_url_manifest.json"
+        source_url_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 17,
+                    "unreachable_or_error_count": 1,
+                    "requires_reviewer_confirmation_count": 17,
+                    "provenance_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "url_status_counts": {
+                        "network_error": 1,
+                        "no_url_detected": 4,
+                        "reachable": 12,
+                    },
+                    "remaining_blockers": [
+                        "failed URL rows require remediation review"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -255,6 +278,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
+                ),
+                (
+                    "source_url_review",
+                    "Source URL Review",
+                    source_url_snapshot_path,
                 ),
             ),
         )
@@ -293,6 +321,12 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 24
         )
+        assert snapshots["source_url_review"]["blocking_count"] == 1
+        assert snapshots["source_url_review"]["human_review_count"] == 17
+        assert (
+            snapshots["source_url_review"]["status_counts"]["network_error"]
+            == 1
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -303,7 +337,9 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
+        assert "`Source URL Review`" in index_text
         assert "candidate_worsens=24" in index_text
+        assert "network_error=1" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])

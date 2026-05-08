@@ -59,14 +59,20 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | Packet | Rows | Blocking | Human Review | Gate Candidates | Can Complete | Key Status Counts |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
+| `Source/License Review` | 11 | 4 | 11 | 0 | `false` | cached_snapshot_pending_review=3; context_only_not_cached=4; repository_input_pending_review=4 |
+| `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
+| `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
 | `Graph-Scale Method Review` | 4 | 0 | 0 | 0 | `false` |  |
 | `Full-Graph Runtime Readiness` | 4 | 2 | 2 | 0 | `false` | blocked_missing_downstream_full_graph_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; needs_human_review_full_graph_runtime_scope_decision=1; +1 more |
 | `Graph-Scale Strategy Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +2 more |
 | `Graph-Scale Manifest Audit` | 13 | 0 | 0 | 0 | `false` | complete_reduced_analysis_graph_recorded=13 |
 | `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
+| `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
 | `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
+| `Parameter Source Readiness` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
+| `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
 | `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
 | `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
 | `Sensitivity Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; +4 more |
@@ -77,11 +83,17 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 Priority blockers by packet:
 
 - `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
+- `Source/License Review`: formal provenance acceptance record is absent (+2 more)
+- `Source URL Review`: formal provenance acceptance record is absent (+3 more)
+- `Source URL Remediation`: formal provenance acceptance record is absent (+3 more)
 - `Full-Graph Runtime Readiness`: full-graph full-profile outputs are absent (+2 more)
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
+- `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
 - `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
+- `Parameter Source Readiness`: all rows require human review or external source decisions before final claims (+2 more)
 - `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
+- `Rail Fetch Readiness`: rail timing cache files are absent unless source_cache_present is true (+2 more)
 - `Validation Benchmark Readiness`: validation_acceptance_record: data/manifests/validation_acceptance.json is absent
 - `Validation Strategy Readiness`: validation_acceptance.json is absent (+1 more)
 - `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T15:21:04+00:00`
+- Generated at: `2026-05-08T15:27:18+00:00`
 
 ## Decision
 

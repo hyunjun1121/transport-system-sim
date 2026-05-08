@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T15:21:04+00:00",
+  "generated_at": "2026-05-08T15:27:18+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -367,6 +367,102 @@
       }
     },
     {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 11,
+      "label": "Source/License Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_license_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal provenance acceptance record is absent",
+        "source/license packet rows are review aids and do not certify license compatibility",
+        "context-only sources still need cached extracts or explicit exclusion from final claims"
+      ],
+      "result_scope": "Source/license review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+      "review_items": [
+        "verify each source URL, license, attribution requirement, and derivative-use constraint",
+        "cache context-only public sources or explicitly exclude them from final claims",
+        "confirm local artifact paths and snapshot dates for every cached source",
+        "review project-owned synthetic/privacy abstraction before provenance acceptance",
+        "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed"
+      ],
+      "row_count": 11,
+      "snapshot_id": "source_license_review",
+      "status_counts": {
+        "cached_snapshot_pending_review": 3,
+        "context_only_not_cached": 4,
+        "repository_input_pending_review": 4
+      }
+    },
+    {
+      "blocking_count": 1,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 17,
+      "label": "Source URL Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_url_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal provenance acceptance record is absent",
+        "URL reachability does not certify license compatibility or evidence quality",
+        "unreachable, HTTP-error, or network-error URL rows require remediation review",
+        "context-only URLs still need cached extracts or explicit exclusion from final claims"
+      ],
+      "result_scope": "Source URL review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+      "review_items": [
+        "open each URL and verify it is the intended official or retained source",
+        "record license, attribution, derivative-use, and snapshot decisions outside this packet",
+        "resolve failed URL rows by replacement, caching, exclusion, or reviewer decision",
+        "cache context-only public sources or exclude them from final claims",
+        "treat live reachability as volatile and not as source acceptance",
+        "create data/manifests/provenance_acceptance.json only after reviewer decisions"
+      ],
+      "row_count": 17,
+      "snapshot_id": "source_url_review",
+      "status_counts": {
+        "network_error": 1,
+        "no_url_detected": 4,
+        "reachable": 12
+      }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Source URL Remediation",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_url_remediation_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal provenance acceptance record is absent",
+        "remediation rows do not certify official source identity or license compatibility",
+        "local-citation rows require reviewer confirmation",
+        "reachable URL rows still require source/license/snapshot review"
+      ],
+      "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+      "review_items": [
+        "confirm project-owned local citations where no public URL is expected",
+        "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance",
+        "review alternate URL candidates before replacing or removing failed citations",
+        "cache retained public data extracts or exclude context-only references from final claims",
+        "create data/manifests/provenance_acceptance.json only after source-backed review"
+      ],
+      "row_count": 17,
+      "snapshot_id": "source_url_remediation",
+      "status_counts": {
+        "alternate_reachable_url_needs_review": 1,
+        "local_citation_needs_review": 4,
+        "reachable_needs_license_review": 12
+      }
+    },
+    {
       "blocking_count": 0,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -538,6 +634,39 @@
       }
     },
     {
+      "blocking_count": 2,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Road Source Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/road/road_source_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "reviewed road_class_overrides.csv is absent unless target_output_present is true",
+        "capacity and disruption evidence still require external source or formal assumption decisions",
+        "this packet is readiness evidence only and cannot create road-class overrides"
+      ],
+      "result_scope": "Road source-readiness packet only; not reviewed road-class overrides, not calibrated speed or capacity evidence, not accepted disruption evidence, not proof that overrides were applied, and not operational routing evidence.",
+      "review_items": [
+        "replace sparse speed candidates with reviewed speed evidence or accepted assumptions",
+        "provide traffic counts, agency capacity references, or reviewed capacity assumptions",
+        "review benchmark and disruption scenario treatment before final claims",
+        "create data/parameters/road_class_overrides.csv only after source-backed review",
+        "rerun pilot outputs with reviewed overrides before road calibration claims"
+      ],
+      "row_count": 5,
+      "snapshot_id": "road_source_readiness",
+      "status_counts": {
+        "blocked_missing_capacity_source": 1,
+        "blocked_missing_reviewed_road_class_overrides": 1,
+        "needs_human_review_benchmark_strategy": 1,
+        "needs_human_review_disruption_scenario": 1,
+        "needs_human_review_sparse_speed_candidates": 1
+      }
+    },
+    {
       "blocking_count": 1,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -562,6 +691,39 @@
       ],
       "row_count": 6,
       "snapshot_id": "parameter_evidence_priority",
+      "status_counts": {
+        "blocked_missing_transfer_source": 1,
+        "needs_human_review_demand_scenario": 1,
+        "needs_human_review_dispatch_policy": 1,
+        "needs_human_review_disruption_parameter_scenario": 1,
+        "needs_human_review_fleet_package": 1,
+        "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+      }
+    },
+    {
+      "blocking_count": 1,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Parameter Source Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/parameters/parameter_source_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "all rows require human review or external source decisions before final claims",
+        "this packet is readiness evidence only and cannot create accepted parameter values",
+        "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
+      ],
+      "result_scope": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval.",
+      "review_items": [
+        "replace weak demand, fleet, transfer, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
+        "update parameter_sources.csv or fleet_assumptions.csv only after source review",
+        "use parameter_acceptance.csv separately for retained weak assumptions",
+        "rerun parameter, publication-readiness, and final-study-readiness audits after source changes"
+      ],
+      "row_count": 6,
+      "snapshot_id": "parameter_source_readiness",
       "status_counts": {
         "blocked_missing_transfer_source": 1,
         "needs_human_review_demand_scenario": 1,
@@ -601,6 +763,38 @@
         "needs_human_review_availability_scenario": 1,
         "needs_human_review_capacity_treatment": 1,
         "prerequisite_ready_not_timing_evidence": 1
+      }
+    },
+    {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 2,
+      "label": "Rail Fetch Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/rail/rail_fetch_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "rail timing cache files are absent unless source_cache_present is true",
+        "API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+        "this packet is readiness evidence only and cannot create rail_service_evidence.csv"
+      ],
+      "result_scope": "Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
+      "review_items": [
+        "supply DATA_GO_KR_KEY only for reviewed optional live fetches",
+        "obtain reviewed static GTFS input before GTFS derivation",
+        "retain raw payloads and cache files before deriving rail timing evidence",
+        "review capacity and availability rows as bounded assumptions or replace with source-backed evidence",
+        "create formal rail or parameter acceptance only after source-backed review"
+      ],
+      "row_count": 5,
+      "snapshot_id": "rail_fetch_readiness",
+      "status_counts": {
+        "blocked_missing_data_go_kr_key": 2,
+        "blocked_missing_reviewed_gtfs_file": 1,
+        "needs_human_review_availability_scenario": 1,
+        "needs_human_review_capacity_treatment": 1
       }
     },
     {
