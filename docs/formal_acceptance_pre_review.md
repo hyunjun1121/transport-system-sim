@@ -89,6 +89,7 @@ Evidence inspected:
 - `data/validation/graph_scale_alternate_routes.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_multi_corridor_routes.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/full_graph_runtime_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_manifest_audit.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/graph_scale_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
@@ -96,7 +97,9 @@ Evidence inspected:
 - `data/validation/graph_scale_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/analysis_corridor_method_note.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/graph_scale_diagnostics.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/graph_scale_manifest_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/full_graph_runtime_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_manifest_audit_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_route_comparison_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -105,6 +108,7 @@ Evidence inspected:
 - `data/validation/graph_scale_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/graph_scale_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/full_graph_runtime_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/audit_graph_scale_manifests.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_result_comparison.py`: present; local supporting artifact present; evidence quality still requires human/source review

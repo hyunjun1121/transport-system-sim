@@ -98,14 +98,17 @@
       "review_packet_paths": [
         "data/validation/graph_scale_review_packet.csv",
         "data/validation/full_graph_runtime_readiness_packet.csv",
+        "data/validation/graph_scale_manifest_audit.csv",
         "data/validation/graph_scale_strategy_readiness_packet.csv",
         "docs/review_packets/graph_scale_strategy.md"
       ],
       "reviewed_inputs": [
         "docs/analysis_corridor_method_note.md",
         "docs/graph_scale_diagnostics.md",
+        "docs/graph_scale_manifest_audit.md",
         "data/validation/graph_scale_review_packet.csv",
         "data/validation/full_graph_runtime_readiness_manifest.json",
+        "data/validation/graph_scale_manifest_audit_manifest.json",
         "data/validation/graph_scale_strategy_readiness_manifest.json",
         "data/validation/graph_scale_result_comparison.csv",
         "data/validation/graph_scale_result_comparison_manifest.json"
@@ -121,6 +124,7 @@
         "data/validation/graph_scale_alternate_routes.csv",
         "data/validation/graph_scale_multi_corridor_routes.csv",
         "data/validation/full_graph_runtime_readiness_packet.csv",
+        "data/validation/graph_scale_manifest_audit.csv",
         "data/validation/graph_scale_strategy_readiness_packet.csv",
         "data/validation/graph_scale_result_comparison.csv"
       ]
