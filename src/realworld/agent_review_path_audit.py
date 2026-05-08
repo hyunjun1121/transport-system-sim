@@ -187,6 +187,7 @@ def _record_path_checks(
         "evidence": record.evidence,
         "source_paths": record.source_paths,
         "reviewed_inputs": record.reviewed_inputs,
+        "review_packet_paths": record.review_packet_paths,
     }
     for field, values in fields.items():
         for value in values:

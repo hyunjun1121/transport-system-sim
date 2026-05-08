@@ -45,6 +45,7 @@ def test_agent_review_path_audit_flags_missing_required_path() -> None:
             "evidence": ["docs/missing_required.md"],
             "source_paths": ["data/manifests/pilot_acceptance.json"],
             "reviewed_inputs": ["docs/missing_required.md"],
+            "review_packet_paths": ["docs/missing_packet.md"],
             "risks": ["missing evidence"],
             "required_actions": ["add evidence"],
             "generated_at": "2026-05-04T00:00:00+00:00",
@@ -56,8 +57,12 @@ def test_agent_review_path_audit_flags_missing_required_path() -> None:
         )
         summary = audit_agent_review_paths(root=root, review_dir=review_dir)
     assert summary["agent_review_paths_ready"] is False
-    assert summary["missing_required_path_count"] == 2
+    assert summary["missing_required_path_count"] == 3
     assert summary["missing_formal_target_count"] == 1
+    assert any(
+        row["field"] == "review_packet_paths"
+        for row in summary["missing_required_paths"]
+    )
 
 
 def test_write_agent_review_path_audit_outputs_files() -> None:
