@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 import sys
 from pathlib import Path
@@ -620,23 +621,26 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["manuscript_report_alignment"]["blockers"]
     )
+    reproducibility_decision_manifest = _read_json(
+        ROOT / "data" / "validation" / "reproducibility_decision_manifest.json"
+    )
     assert (
         gate_map["reproducibility"]["details"][
             "reproducibility_decision_row_count"
         ]
-        == 7
+        == reproducibility_decision_manifest["row_count"]
     )
     assert (
         gate_map["reproducibility"]["details"][
             "reproducibility_decision_blocking_decision_count"
         ]
-        == 4
+        == reproducibility_decision_manifest["blocking_decision_count"]
     )
     assert (
         gate_map["reproducibility"]["details"][
             "reproducibility_decision_human_review_decision_count"
         ]
-        == 3
+        == reproducibility_decision_manifest["human_review_decision_count"]
     )
     assert any(
         "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent"
@@ -1008,6 +1012,13 @@ def _load_audit_script():
     sys.modules["audit_final_study_readiness"] = module
     spec.loader.exec_module(module)
     return module
+
+
+def _read_json(path: Path) -> dict[str, object]:
+    with path.open("r", encoding="utf-8") as handle:
+        value = json.load(handle)
+    assert isinstance(value, dict)
+    return value
 
 
 def _accepted_graph_scale_summary() -> dict[str, object]:
