@@ -32,6 +32,7 @@ DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_PACKET_PATH = (
 DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "road" / "road_evidence_source_request_manifest.json"
 )
+DEFAULT_REGION_ID = "songpa_public_demo"
 ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE = (
     "Road evidence source-request packet; not reviewed speed evidence, "
     "not calibrated capacity evidence, not accepted disruption evidence, "
@@ -66,9 +67,11 @@ def build_road_evidence_source_request_rows(
     *,
     review_packet_path: str | Path = DEFAULT_ROAD_EVIDENCE_REVIEW_PACKET_PATH,
     draft_override_path: str | Path = DEFAULT_ROAD_CLASS_OVERRIDE_DRAFT_PATH,
+    region_id: str = DEFAULT_REGION_ID,
 ) -> list[dict[str, str]]:
     """Return exact source-request rows for the current pilot road evidence gap."""
 
+    resolved_region_id = _clean_region_id(region_id)
     review_rows = _load_or_build_review_rows(review_packet_path)
     high_priority = _priority_classes(review_rows, priority="high")
     all_priority = _priority_classes(review_rows, priority=None)
@@ -108,6 +111,7 @@ def build_road_evidence_source_request_rows(
                 "Sparse cached maxspeed tags are review support. Do not treat mapper "
                 "fallback speeds as calibrated road speeds."
             ),
+            region_id=resolved_region_id,
         ),
         _row(
             request_id="road_capacity_lane_count_source_request",
@@ -140,6 +144,7 @@ def build_road_evidence_source_request_rows(
                 "Current cached lane evidence has zero parseable lane rows, so capacity "
                 "must come from another reviewed source or accepted sensitivity boundary."
             ),
+            region_id=resolved_region_id,
         ),
         _row(
             request_id="road_background_traffic_benchmark_request",
@@ -172,6 +177,7 @@ def build_road_evidence_source_request_rows(
                 "This supports plausibility and background-traffic treatment. It does "
                 "not by itself calibrate traffic assignment or spillback."
             ),
+            region_id=resolved_region_id,
         ),
         _row(
             request_id="road_disruption_probability_source_request",
@@ -204,6 +210,7 @@ def build_road_evidence_source_request_rows(
                 "Current base disruption probabilities are mapper defaults. Final claims "
                 "need reviewed source-backed or explicitly sensitivity-only treatment."
             ),
+            region_id=resolved_region_id,
         ),
         _row(
             request_id="reviewed_road_class_override_application_request",
@@ -237,6 +244,7 @@ def build_road_evidence_source_request_rows(
                 "This row names the closure path. The request packet itself is not the "
                 "reviewed override table and does not close any gate."
             ),
+            region_id=resolved_region_id,
         ),
     ]
 
@@ -273,6 +281,13 @@ def write_road_evidence_source_request_packet(
         for row in rows
         if str(row.get("can_close_road_application_gate", "")).lower() == "true"
     ]
+    region_ids = sorted(
+        {
+            str(row.get("region_id", "")).strip()
+            for row in rows
+            if str(row.get("region_id", "")).strip()
+        }
+    )
     value = {
         "schema_version": 1,
         "result_scope": ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE,
@@ -285,6 +300,7 @@ def write_road_evidence_source_request_packet(
             "manifest": _display_path(manifest),
         },
         "row_count": len(rows),
+        "region_ids": region_ids,
         "source_type_counts": _counts(row["source_type"] for row in rows),
         "evidence_field_counts": _field_counts(row["evidence_fields"] for row in rows),
         "road_evidence_closure_candidate_count": len(gate_candidates),
@@ -335,7 +351,7 @@ def _row(
     can_close_road_application_gate: bool,
     publication_use_status: str,
     notes: str,
-    region_id: str = "songpa_public_demo",
+    region_id: str = DEFAULT_REGION_ID,
 ) -> dict[str, str]:
     return {
         "request_id": request_id,
@@ -360,6 +376,13 @@ def _row(
         "claim_boundary": ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE,
         "notes": notes,
     }
+
+
+def _clean_region_id(region_id: str) -> str:
+    text = str(region_id).strip()
+    if not text:
+        raise ValueError("region_id must be non-empty")
+    return text
 
 
 def _load_or_build_review_rows(path: str | Path) -> list[dict[str, str]]:

@@ -58,6 +58,19 @@ def test_road_evidence_source_request_rows_are_actionable() -> None:
     print("PASS: road evidence source-request rows are actionable")
 
 
+def test_road_evidence_source_request_rows_accept_region_id() -> None:
+    """Builder should support non-pilot region IDs for reuse worksheets."""
+
+    rows = build_road_evidence_source_request_rows(
+        region_id="synthetic_region_fixture",
+    )
+
+    assert rows
+    assert {row["region_id"] for row in rows} == {"synthetic_region_fixture"}
+
+    print("PASS: road evidence source-request rows accept region_id")
+
+
 def test_write_road_evidence_source_request_packet_outputs_csv_and_manifest() -> None:
     """Writer should emit stable CSV fields and non-acceptance manifest."""
 
@@ -81,6 +94,7 @@ def test_write_road_evidence_source_request_packet_outputs_csv_and_manifest() ->
 
         assert len(written_rows) == 5
         assert value["publication_ready"] is False
+        assert value["region_ids"] == ["songpa_public_demo"]
         assert value["road_evidence_closure_candidate_count"] == 1
         assert value["road_application_closure_candidate_count"] == 1
         assert written_manifest["row_count"] == 5
@@ -115,6 +129,7 @@ def test_shipped_road_evidence_source_request_packet_matches_current_inputs() ->
         row["request_id"] for row in rows
     ]
     assert manifest["publication_ready"] is False
+    assert manifest["region_ids"] == ["songpa_public_demo"]
     assert manifest["result_scope"] == ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE
 
     print("PASS: shipped road evidence source-request packet matches current inputs")
@@ -122,6 +137,7 @@ def test_shipped_road_evidence_source_request_packet_matches_current_inputs() ->
 
 if __name__ == "__main__":
     test_road_evidence_source_request_rows_are_actionable()
+    test_road_evidence_source_request_rows_accept_region_id()
     test_write_road_evidence_source_request_packet_outputs_csv_and_manifest()
     test_shipped_road_evidence_source_request_packet_matches_current_inputs()
     print("\n=== REALWORLD ROAD EVIDENCE SOURCE-REQUEST TESTS PASSED ===")

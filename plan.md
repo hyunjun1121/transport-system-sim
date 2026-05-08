@@ -901,6 +901,10 @@ Current fixture coverage:
   `scripts/run_full_graph_smoke.py` accepts `--region-path` and `--cache-path`
   plus explicit scenario, policy, and seed inputs. These CLIs remain smoke
   evidence only and do not create acceptance records.
+- Parameter and road source-request worksheet generators accept `--region-id`
+  so review aids can be generated for a non-pilot region without editing
+  production code. The shipped default packets still target
+  `songpa_public_demo` and remain non-acceptance review aids.
 
 ## Data Governance And Security
 

@@ -66,6 +66,9 @@
     "transfer": 1
   },
   "publication_ready": false,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "requires_reviewed_external_input_count": 6,
   "result_scope": "Parameter evidence source-request packet; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, and not publication-readiness approval.",
   "review_items": [

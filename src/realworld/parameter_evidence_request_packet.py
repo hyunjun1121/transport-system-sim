@@ -34,6 +34,7 @@ DEFAULT_PARAMETER_EVIDENCE_SOURCE_REQUEST_MANIFEST_PATH = (
     / "parameters"
     / "parameter_evidence_source_request_manifest.json"
 )
+DEFAULT_REGION_ID = "songpa_public_demo"
 PARAMETER_EVIDENCE_SOURCE_REQUEST_SCOPE = (
     "Parameter evidence source-request packet; not source evidence, not "
     "accepted parameter calibration, not weak-parameter acceptance, and not "
@@ -107,9 +108,11 @@ def build_parameter_evidence_source_request_rows(
     *,
     review_packet_path: str | Path = DEFAULT_PARAMETER_REVIEW_PACKET_PATH,
     parameter_dir: str | Path = DEFAULT_PARAMETER_DIR,
+    region_id: str = DEFAULT_REGION_ID,
 ) -> list[dict[str, str]]:
     """Return deterministic source-request rows for cross-cutting parameter gaps."""
 
+    resolved_region_id = _clean_region_id(region_id)
     review_rows = _load_or_build_review_rows(review_packet_path, parameter_dir)
     by_parameter = {
         str(row.get("parameter", "")).strip(): row
@@ -166,6 +169,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
         _request_row(
             request_id="fleet_vehicle_capacity_source_request",
@@ -211,6 +215,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
         _request_row(
             request_id="dispatch_turnaround_source_request",
@@ -258,6 +263,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
         _request_row(
             request_id="transfer_delay_source_request",
@@ -302,6 +308,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
         _request_row(
             request_id="disruption_scenario_assumption_source_request",
@@ -356,6 +363,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
         _request_row(
             request_id="background_traffic_bpr_calibration_source_request",
@@ -409,6 +417,7 @@ def build_parameter_evidence_source_request_rows(
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,
+            region_id=resolved_region_id,
         ),
     ]
 
@@ -446,6 +455,13 @@ def write_parameter_evidence_source_request_packet(
         if str(row.get("can_close_acceptance_gate", "")).lower() == "true"
     ]
     covered_parameters = _unique_fields(row["covered_parameters"] for row in rows)
+    region_ids = sorted(
+        {
+            str(row.get("region_id", "")).strip()
+            for row in rows
+            if str(row.get("region_id", "")).strip()
+        }
+    )
     value = {
         "schema_version": 1,
         "result_scope": PARAMETER_EVIDENCE_SOURCE_REQUEST_SCOPE,
@@ -458,6 +474,7 @@ def write_parameter_evidence_source_request_packet(
             "manifest": _display_path(manifest),
         },
         "row_count": len(rows),
+        "region_ids": region_ids,
         "covered_parameter_count": len(covered_parameters),
         "covered_parameters": covered_parameters,
         "weak_parameter_count": sum(
@@ -516,7 +533,7 @@ def _request_row(
     notes: str,
     review_rows: Sequence[Mapping[str, str]],
     by_parameter: Mapping[str, Mapping[str, str]],
-    region_id: str = "songpa_public_demo",
+    region_id: str = DEFAULT_REGION_ID,
 ) -> dict[str, str]:
     covered = [parameter for parameter in parameters if parameter in by_parameter]
     current_rows = [by_parameter[parameter] for parameter in covered]
@@ -559,6 +576,13 @@ def _request_row(
         "claim_boundary": PARAMETER_EVIDENCE_SOURCE_REQUEST_SCOPE,
         "notes": notes,
     }
+
+
+def _clean_region_id(region_id: str) -> str:
+    text = str(region_id).strip()
+    if not text:
+        raise ValueError("region_id must be non-empty")
+    return text
 
 
 def _load_or_build_review_rows(

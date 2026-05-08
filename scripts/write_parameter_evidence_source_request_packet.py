@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT))
 from src.realworld.parameter_evidence_request_packet import (  # noqa: E402
     DEFAULT_PARAMETER_EVIDENCE_SOURCE_REQUEST_MANIFEST_PATH,
     DEFAULT_PARAMETER_EVIDENCE_SOURCE_REQUEST_PACKET_PATH,
+    DEFAULT_REGION_ID,
     build_parameter_evidence_source_request_rows,
     write_parameter_evidence_source_request_packet,
 )
@@ -30,6 +31,7 @@ def main(argv: list[str] | None = None) -> int:
     rows = build_parameter_evidence_source_request_rows(
         review_packet_path=args.review_packet,
         parameter_dir=args.parameter_dir,
+        region_id=args.region_id,
     )
     manifest = write_parameter_evidence_source_request_packet(
         rows=rows,
@@ -49,6 +51,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
             "The output names required source inputs and commands; it is not "
             "evidence or accepted calibration."
         )
+    )
+    parser.add_argument(
+        "--region-id",
+        default=DEFAULT_REGION_ID,
+        help="Region identifier to write into each source-request row.",
     )
     parser.add_argument(
         "--review-packet",

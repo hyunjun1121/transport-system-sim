@@ -25,6 +25,9 @@
     "road_evidence_source_request_packet": "data/road/road_evidence_source_request_packet.csv"
   },
   "publication_ready": false,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "requires_reviewed_external_input_count": 5,
   "result_scope": "Road evidence source-request packet; not reviewed speed evidence, not calibrated capacity evidence, not accepted disruption evidence, not applied road-class overrides, and not operational routing evidence.",
   "review_items": [

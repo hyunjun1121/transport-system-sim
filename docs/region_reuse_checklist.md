@@ -80,6 +80,14 @@ The cached smoke CLIs accept explicit region and cache paths:
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py --region-path data\regions\<region_id>.yaml --cache-path data\cache\<region_id>_road.graphml --no-write
 ```
 
+Source-request worksheet generators also accept explicit region IDs when
+creating region-scoped review aids:
+
+```powershell
+.\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py --region-id <region_id>
+.\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py --region-id <region_id>
+```
+
 For a publication-bound region, also rerun the full validation ladder listed
 in `plan.md` and keep formal acceptance artifacts absent until reviewed
 source-backed decisions are supplied.
