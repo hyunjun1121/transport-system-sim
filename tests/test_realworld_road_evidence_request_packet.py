@@ -51,6 +51,12 @@ def test_road_evidence_source_request_rows_are_actionable() -> None:
     assert by_id["reviewed_road_class_override_application_request"][
         "can_close_road_application_gate"
     ] == "true"
+    assert "--full" in by_id["reviewed_road_class_override_application_request"][
+        "derive_or_review_command"
+    ]
+    assert "pilot_full_manifest.json" in by_id[
+        "reviewed_road_class_override_application_request"
+    ]["target_output_path"]
     assert {row["claim_boundary"] for row in rows} == {
         ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE
     }

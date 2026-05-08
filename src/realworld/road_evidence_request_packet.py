@@ -231,7 +231,7 @@ def build_road_evidence_source_request_rows(
                 "--output data\\parameters\\road_class_overrides_draft.csv --overwrite"
             ),
             derive_or_review_command=(
-                ".\\.venv\\Scripts\\python scripts\\run_pilot_experiments.py --sample "
+                ".\\.venv\\Scripts\\python scripts\\run_pilot_experiments.py --full "
                 "--road-class-overrides-path data\\parameters\\road_class_overrides.csv"
             ),
             target_output_path="data/parameters/road_class_overrides.csv; results/realworld_pilot/pilot_full_manifest.json",

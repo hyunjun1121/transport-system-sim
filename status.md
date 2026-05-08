@@ -329,7 +329,8 @@ The codebase currently includes:
     `scripts/write_road_evidence_source_request_packet.py`; the generated
     5-row packet names the source-backed speed, capacity, benchmark,
     disruption, and override-application inputs needed before reviewed road
-    overrides can be built
+    overrides can be built, and the override-application row uses the full
+    pilot profile when pointing at `pilot_full_manifest.json`
   - road source-readiness packet generation in
     `src/realworld/road_source_readiness_packet.py` and
     `scripts/write_road_source_readiness_packet.py`; the manifest records the

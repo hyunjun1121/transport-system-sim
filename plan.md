@@ -916,6 +916,10 @@ Current fixture coverage:
   `region_ids` present in their source-request rows, so review packet scope can
   be checked when a non-pilot region is exercised. These fields are audit
   metadata only and do not change acceptance status.
+- The reviewed road-class override application request points reviewers at the
+  full pilot profile because its target manifest is
+  `results/realworld_pilot/pilot_full_manifest.json`; sample override runs
+  remain implementation checks only.
 
 ## Data Governance And Security
 
