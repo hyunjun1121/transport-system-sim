@@ -716,8 +716,9 @@ First pilot-smoke artifacts also exist:
   `data/manifests/source_provenance_priority_packet.csv`. It highlights
   context-only sources that need cached extracts or exclusion decisions, cached
   snapshots that need source/license review, and repository inputs that need
-  human scope/privacy/reproducibility review without creating provenance
-  acceptance.
+  human scope/privacy/reproducibility review. It now carries same-source
+  alternate URL candidates up from the URL-remediation packet without creating
+  provenance acceptance.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed

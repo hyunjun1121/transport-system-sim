@@ -56,6 +56,7 @@ SOURCE_PROVENANCE_PRIORITY_COLUMNS: tuple[str, ...] = (
     "reproducibility_review_required",
     "required_reviewer_decision",
     "url_required_reviewer_actions",
+    "alternate_url_candidates",
     "source_url_or_citation",
     "target_acceptance_artifact",
     "publication_use_status",
@@ -192,6 +193,11 @@ def build_source_provenance_priority_manifest(
         "url_remediation_row_count": sum(
             _int_value(row.get("url_row_count", "0")) for row in rows
         ),
+        "alternate_url_candidate_source_count": sum(
+            1
+            for row in rows
+            if str(row.get("alternate_url_candidates", "")).strip()
+        ),
         "alternate_url_issue_source_count": sum(
             1
             for row in rows
@@ -267,17 +273,18 @@ def build_source_provenance_priority_markdown(
         "",
         "## Priority Rows",
         "",
-        "| Source | Type | Status | Priority | URLs | Required Decision |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Source | Type | Status | Priority | URLs | Alternate Candidates | Required Decision |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         lines.append(
-            "| {source} | {stype} | {status} | {priority} | {urls} | {decision} |".format(
+            "| {source} | {stype} | {status} | {priority} | {urls} | {candidates} | {decision} |".format(
                 source=_cell(row.get("source_id", "")),
                 stype=_cell(row.get("source_type", "")),
                 status=_cell(row.get("priority_status", "")),
                 priority=_cell(row.get("review_priority", "")),
                 urls=_cell(row.get("url_remediation_status_counts", "")),
+                candidates=_cell(row.get("alternate_url_candidates", "")),
                 decision=_cell(row.get("required_reviewer_decision", "")),
             )
         )
@@ -306,6 +313,9 @@ def _priority_row(
     actions = _join_sorted(
         row.get("required_reviewer_action", "") for row in remediation_rows
     )
+    alternate_url_candidates = _join_sorted(
+        row.get("alternate_url_candidates", "") for row in remediation_rows
+    )
     return {
         "source_id": str(source.get("source_id", "")),
         "source_name": str(source.get("source_name", "")),
@@ -333,6 +343,7 @@ def _priority_row(
             source.get("required_reviewer_decision", "")
         ),
         "url_required_reviewer_actions": actions,
+        "alternate_url_candidates": alternate_url_candidates,
         "source_url_or_citation": str(source.get("source_url_or_citation", "")),
         "target_acceptance_artifact": str(
             source.get(

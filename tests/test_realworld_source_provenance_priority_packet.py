@@ -47,6 +47,9 @@ def test_source_provenance_priority_rows_classify_current_sources() -> None:
     assert "alternate_reachable_url_needs_review=1" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["url_remediation_status_counts"]
+    assert "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["alternate_url_candidates"]
     assert {row["claim_boundary"] for row in rows} == {
         SOURCE_PROVENANCE_PRIORITY_SCOPE
     }
@@ -84,6 +87,7 @@ def test_source_provenance_priority_writer_outputs_artifacts() -> None:
     assert written_manifest["row_count"] == 11
     assert written_manifest["blocking_source_count"] == 4
     assert written_manifest["human_review_source_count"] == 7
+    assert written_manifest["alternate_url_candidate_source_count"] == 1
     assert "Source Provenance Priority Packet" in doc_text
 
     print("PASS: source provenance priority writer emits artifacts")
@@ -112,6 +116,7 @@ def test_shipped_source_provenance_priority_packet_matches_current_outputs() -> 
     assert manifest["cached_snapshot_source_count"] == 3
     assert manifest["repository_input_source_count"] == 4
     assert manifest["url_remediation_row_count"] == 17
+    assert manifest["alternate_url_candidate_source_count"] == 1
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

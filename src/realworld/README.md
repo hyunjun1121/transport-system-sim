@@ -106,6 +106,9 @@ Implemented extension modules now also cover:
   from the source URL review packet. It separates reachable URLs, unreachable
   public URLs, same-source alternate candidates, live-check gaps, and
   local-only citations without approving provenance.
+- `source_provenance_priority_packet.py`: per-source provenance priority
+  worksheet that joins source/license review with URL remediation, including
+  same-source alternate URL candidates, without approving provenance.
 - `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching
