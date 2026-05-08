@@ -198,6 +198,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         "Tracked Artifact Audit",
         PROJECT_ROOT / "data" / "validation" / "tracked_artifact_audit_manifest.json",
     ),
+    (
+        "current_goal_completion_audit",
+        "Current Goal Completion Audit",
+        PROJECT_ROOT / "data" / "manifests" / "current_goal_completion_audit.json",
+    ),
 )
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "

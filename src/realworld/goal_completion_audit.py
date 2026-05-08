@@ -478,6 +478,11 @@ def build_goal_completion_audit_manifest(
         "gate_count": audit.get("gate_count", 0),
         "ready_gate_count": len(ready_gate_ids),
         "blocked_gate_count": len(blocked_gate_ids),
+        "status_counts": {
+            "blocked": len(blocked_gate_ids),
+            "missing_acceptance_artifact": len(missing_acceptance_artifacts),
+            "ready": len(ready_gate_ids),
+        },
         "ready_gate_ids": ready_gate_ids,
         "blocked_gate_ids": blocked_gate_ids,
         "prompt_to_artifact_checklist": checklist,

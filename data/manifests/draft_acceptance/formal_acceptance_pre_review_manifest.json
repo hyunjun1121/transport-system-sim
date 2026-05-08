@@ -5,7 +5,7 @@
   "formal_acceptance_path_warning": "Draft records live under data/manifests/draft_acceptance and must not be copied into formal acceptance paths without replacing them with real source-backed reviewer decisions.",
   "formal_acceptance_ready": false,
   "formal_approval": false,
-  "generated_at": "2026-05-08T15:52:34+00:00",
+  "generated_at": "2026-05-08T15:59:12+00:00",
   "human_decision_required_count": 12,
   "must_not_be_used_as_final_acceptance": true,
   "recommendation_counts": {

@@ -544,5 +544,10 @@
   ],
   "result_scope": "current_goal_completion_gap_audit_not_final_acceptance",
   "schema_version": 1,
+  "status_counts": {
+    "blocked": 12,
+    "missing_acceptance_artifact": 12,
+    "ready": 3
+  },
   "verdict": "final_real_world_study_blocked"
 }

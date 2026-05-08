@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T15:52:41+00:00",
+  "generated_at": "2026-05-08T15:59:39+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -1219,6 +1219,27 @@
       "row_count": 0,
       "snapshot_id": "tracked_artifact_audit",
       "status_counts": {}
+    },
+    {
+      "blocking_count": 12,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Current Goal Completion Audit",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/current_goal_completion_audit.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "current_goal_completion_gap_audit_not_final_acceptance",
+      "review_items": [],
+      "row_count": 15,
+      "snapshot_id": "current_goal_completion_audit",
+      "status_counts": {
+        "blocked": 12,
+        "missing_acceptance_artifact": 12,
+        "ready": 3
+      }
     }
   ],
   "schema_path": "schemas/acceptance_record.schema.json",

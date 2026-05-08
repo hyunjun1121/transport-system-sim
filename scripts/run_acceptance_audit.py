@@ -223,6 +223,7 @@ def main() -> int:
     manifest = write_acceptance_orchestration_outputs()
     goal_audit = write_goal_completion_audit()
     refreshed.append("data/manifests/current_goal_completion_audit.json")
+    manifest = write_acceptance_orchestration_outputs()
     summary = {
         "acceptance_orchestration": manifest,
         "refreshed_review_artifacts": refreshed,

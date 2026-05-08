@@ -152,6 +152,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "formal_evidence_path_audit" in snapshot_ids
     assert "agent_review_path_audit" in snapshot_ids
     assert "tracked_artifact_audit" in snapshot_ids
+    assert "current_goal_completion_audit" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -337,6 +338,29 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        goal_completion_snapshot_path = root / "current_goal_completion_audit.json"
+        goal_completion_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "gate_count": 15,
+                    "ready_gate_count": 3,
+                    "blocked_gate_count": 12,
+                    "missing_acceptance_artifact_count": 12,
+                    "final_study_ready": False,
+                    "can_mark_complete": False,
+                    "status_counts": {
+                        "blocked": 12,
+                        "missing_acceptance_artifact": 12,
+                        "ready": 3,
+                    },
+                    "remaining_blockers": [
+                        "final-study readiness audit is still false"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -385,6 +409,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "tracked_artifact_audit",
                     "Tracked Artifact Audit",
                     tracked_artifact_snapshot_path,
+                ),
+                (
+                    "current_goal_completion_audit",
+                    "Current Goal Completion Audit",
+                    goal_completion_snapshot_path,
                 ),
             ),
         )
@@ -460,6 +489,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 2
         )
+        assert snapshots["current_goal_completion_audit"]["row_count"] == 15
+        assert snapshots["current_goal_completion_audit"]["blocking_count"] == 12
+        assert (
+            snapshots["current_goal_completion_audit"]["status_counts"][
+                "missing_acceptance_artifact"
+            ]
+            == 12
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -475,11 +512,13 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Formal Acceptance Pre-Review`" in index_text
         assert "`Agent Review Path Audit`" in index_text
         assert "`Tracked Artifact Audit`" in index_text
+        assert "`Current Goal Completion Audit`" in index_text
         assert "candidate_worsens=24" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_evidence=8" in index_text
         assert "missing_formal_target=36" in index_text
         assert "generated_review_artifact=2" in index_text
+        assert "missing_acceptance_artifact=12" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
