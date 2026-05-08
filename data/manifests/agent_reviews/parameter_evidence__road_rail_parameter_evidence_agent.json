@@ -32,7 +32,7 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "parameter_evidence",
-  "generated_at": "2026-05-08T13:27:06+00:00",
+  "generated_at": "2026-05-08T13:32:46+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",

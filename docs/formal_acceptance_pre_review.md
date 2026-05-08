@@ -168,6 +168,7 @@ Files to create or update after human decision:
 Evidence inspected:
 - `data/manifests/source_provenance_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_license_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/source_url_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_remediation_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_provenance_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/reproducibility_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -180,7 +181,6 @@ Evidence inspected:
 - `data/manifests/source_url_remediation_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_provenance_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/source_url_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_license_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_remediation_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review

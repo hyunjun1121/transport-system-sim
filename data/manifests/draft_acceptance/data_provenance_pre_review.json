@@ -19,6 +19,12 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/source_url_remediation_packet.csv"
     },
     {
@@ -91,12 +97,6 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/source_url_review_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for data_provenance",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/source_license_review_packet.md"
     },
     {
@@ -163,7 +163,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/provenance_acceptance.json",
   "gate": "data_provenance",
-  "generated_at": "2026-05-08T13:27:26+00:00",
+  "generated_at": "2026-05-08T13:33:06+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

@@ -30,7 +30,7 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T13:27:06+00:00",
+  "generated_at": "2026-05-08T13:32:46+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -83,6 +83,7 @@
   "source_paths": [
     "data/manifests/source_provenance_manifest.json",
     "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_provenance_priority_packet.csv",
     "data/manifests/reproducibility_manifest.json",
