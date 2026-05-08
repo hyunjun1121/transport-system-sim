@@ -19,6 +19,9 @@ from src.realworld.road_source_readiness_packet import (  # noqa: E402
     build_road_source_readiness_rows,
     write_road_source_readiness_packet,
 )
+from src.realworld.road_evidence_request_packet import (  # noqa: E402
+    DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_PACKET_PATH,
+)
 
 
 def test_road_source_readiness_rows_classify_current_blockers() -> None:
@@ -201,6 +204,17 @@ def test_shipped_road_source_readiness_packet_matches_current_requests() -> None
     assert manifest["required_external_input_present_count"] == len(rows)
     assert all(row["source_url_or_citation"] for row in written_rows)
     assert all(row["required_external_input"] for row in written_rows)
+    request_rows = _load_rows(DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_PACKET_PATH)
+    request_by_id = {row["request_id"]: row for row in request_rows}
+    written_by_id = {row["request_id"]: row for row in written_rows}
+    request_command = request_by_id["reviewed_road_class_override_application_request"][
+        "derive_or_review_command"
+    ]
+    readiness_command = written_by_id["reviewed_road_class_override_application_request"][
+        "derive_or_review_command"
+    ]
+    assert readiness_command == request_command
+    assert "--full" in readiness_command
 
     print("PASS: shipped road source-readiness packet matches current requests")
 
@@ -227,6 +241,11 @@ def _request(
         "derive_or_review_command": "fixture derive",
         "notes": "fixture",
     }
+
+
+def _load_rows(path: Path) -> list[dict[str, str]]:
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
 
 
 def _touch(path: Path) -> Path:
