@@ -1,0 +1,548 @@
+{
+  "audit_date": "2026-05-08",
+  "blocked_gate_count": 12,
+  "blocked_gate_ids": [
+    "pilot_region_accepted",
+    "cached_osm_input",
+    "graph_scale_strategy",
+    "data_provenance",
+    "parameter_evidence",
+    "rail_evidence",
+    "validation_package",
+    "sensitivity_analysis",
+    "full_experiment_output",
+    "manuscript_report_alignment",
+    "reproducibility",
+    "final_audit"
+  ],
+  "can_mark_complete": false,
+  "claim_boundary": "This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.",
+  "final_study_ready": false,
+  "gate_count": 15,
+  "missing_acceptance_artifact_count": 12,
+  "missing_acceptance_artifacts": [
+    "data/manifests/pilot_acceptance.json",
+    "data/manifests/graph_scale_acceptance.json",
+    "data/manifests/provenance_acceptance.json",
+    "data/parameters/parameter_acceptance.csv",
+    "data/parameters/road_class_overrides.csv",
+    "data/manifests/validation_acceptance.json",
+    "data/manifests/sensitivity_acceptance.json",
+    "data/manifests/experiment_acceptance.json",
+    "data/manifests/manuscript_acceptance.json",
+    "data/manifests/reproducibility_acceptance.json",
+    "docs/final_study_audit.md",
+    "data/manifests/final_audit_acceptance.json"
+  ],
+  "named_acceptance_artifacts": [
+    {
+      "path": "data/manifests/pilot_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/graph_scale_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/provenance_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/parameters/parameter_acceptance.csv",
+      "present": false
+    },
+    {
+      "path": "data/parameters/road_class_overrides.csv",
+      "present": false
+    },
+    {
+      "path": "data/manifests/validation_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/sensitivity_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/experiment_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/manuscript_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "data/manifests/reproducibility_acceptance.json",
+      "present": false
+    },
+    {
+      "path": "docs/final_study_audit.md",
+      "present": false
+    },
+    {
+      "path": "data/manifests/final_audit_acceptance.json",
+      "present": false
+    }
+  ],
+  "next_required_input": "reviewed pilot, provenance, graph-scale, road, rail, parameter, validation, sensitivity, experiment, manuscript, reproducibility, and final-audit acceptance decisions",
+  "objective": "Implement every requirement planned in plan.md for the final real-world or quasi-real regional transport-resilience study.",
+  "outputs": {
+    "manifest": "data/manifests/current_goal_completion_audit.json",
+    "markdown": "docs/current_goal_completion_audit.md"
+  },
+  "present_acceptance_artifact_count": 0,
+  "prompt_to_artifact_checklist": [
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/regions/pilot_region.yaml",
+        "docs/pilot_region_data_card.md",
+        "data/manifests/pilot_privacy_review_packet.csv",
+        "data/manifests/pilot_privacy_review_manifest.json",
+        "docs/pilot_privacy_review_packet.md",
+        "data/manifests/pilot_acceptance.json"
+      ],
+      "gate_id": "pilot_region_accepted",
+      "label": "Pilot Region Accepted",
+      "missing_or_weak_requirements": [
+        "create an explicit pilot acceptance record after privacy and case-scope review"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/cache/pilot_region_road.graphml",
+        "data/cache/pilot_region_road_manifest.json",
+        "scripts/audit_road_evidence.py",
+        "scripts/audit_road_evidence_diagnostics.py",
+        "data/parameters/road_speed_evidence_candidates.csv",
+        "data/parameters/road_capacity_evidence_candidates.csv",
+        "data/parameters/road_evidence_review_packet.csv",
+        "data/parameters/road_evidence_review_manifest.json",
+        "data/road/road_evidence_source_request_packet.csv",
+        "data/road/road_evidence_source_request_manifest.json",
+        "data/road/road_source_readiness_packet.csv",
+        "data/road/road_source_readiness_manifest.json",
+        "docs/road_source_readiness_packet.md",
+        "data/road/road_evidence_priority_packet.csv",
+        "data/road/road_evidence_priority_manifest.json",
+        "docs/road_evidence_priority_packet.md",
+        "scripts/write_road_speed_evidence.py",
+        "scripts/write_road_capacity_evidence.py",
+        "scripts/write_road_evidence_review_packet.py",
+        "scripts/write_road_evidence_source_request_packet.py",
+        "scripts/write_road_source_readiness_packet.py",
+        "scripts/write_road_evidence_priority_packet.py",
+        "data/parameters/road_class_overrides_draft.csv",
+        "scripts/write_road_class_override_template.py",
+        "scripts/audit_road_overrides.py"
+      ],
+      "gate_id": "cached_osm_input",
+      "label": "Cached OSM Input",
+      "missing_or_weak_requirements": [
+        "road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration",
+        "road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
+        "road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
+        "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
+        "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+        "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
+        "road override application: reviewed road-class override table is absent",
+        "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+        "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
+        "road source readiness: this packet is readiness evidence only and cannot create road-class overrides"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "ready",
+      "evidence_inspected": [
+        "scripts/run_pilot_smoke.py",
+        "scripts/run_full_graph_smoke.py",
+        "data/validation/full_graph_smoke_manifest.json",
+        "results/realworld_pilot/pilot_full_manifest.json"
+      ],
+      "gate_id": "real_input_smoke",
+      "label": "Real Input Smoke",
+      "missing_or_weak_requirements": [],
+      "ready": true
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/graph_scale_acceptance.json",
+        "docs/analysis_corridor_method_note.md",
+        "docs/graph_scale_diagnostics.md",
+        "data/validation/graph_scale_route_comparison.csv",
+        "data/validation/graph_scale_route_comparison_summary.md",
+        "data/validation/graph_scale_alternate_routes.csv",
+        "data/validation/graph_scale_alternate_routes_summary.md",
+        "data/validation/graph_scale_multi_corridor_routes.csv",
+        "data/validation/graph_scale_multi_corridor_routes_summary.md",
+        "data/validation/graph_scale_review_packet.csv",
+        "data/validation/graph_scale_review_manifest.json",
+        "data/validation/graph_scale_strategy_readiness_packet.csv",
+        "data/validation/graph_scale_strategy_readiness_manifest.json",
+        "docs/graph_scale_strategy_readiness_packet.md",
+        "data/validation/graph_scale_manifest_audit.csv",
+        "data/validation/graph_scale_manifest_audit_manifest.json",
+        "docs/graph_scale_manifest_audit.md",
+        "data/validation/full_graph_runtime_readiness_packet.csv",
+        "data/validation/full_graph_runtime_readiness_manifest.json",
+        "docs/full_graph_runtime_readiness_packet.md",
+        "data/validation/graph_scale_result_comparison.csv",
+        "data/validation/graph_scale_result_comparison_manifest.json",
+        "scripts/audit_graph_scale_manifests.py",
+        "scripts/write_graph_scale_review_packet.py",
+        "scripts/write_graph_scale_strategy_readiness_packet.py",
+        "scripts/write_graph_scale_result_comparison.py",
+        "scripts/run_graph_scale_diagnostics.py",
+        "results/realworld_pilot/pilot_multi_corridor_results.csv",
+        "results/realworld_pilot/pilot_multi_corridor_summary.csv",
+        "results/realworld_pilot/pilot_multi_corridor_manifest.json",
+        "results/realworld_pilot/pilot_multi_corridor_full_results.csv",
+        "results/realworld_pilot/pilot_multi_corridor_full_summary.csv",
+        "results/realworld_pilot/pilot_multi_corridor_full_manifest.json",
+        "results/realworld_pilot/pilot_full_manifest.json"
+      ],
+      "gate_id": "graph_scale_strategy",
+      "label": "Graph-Scale Strategy",
+      "missing_or_weak_requirements": [
+        "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+        "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
+        "graph-scale strategy readiness: graph_scale_acceptance.json is absent",
+        "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
+        "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+        "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+        "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/provenance_acceptance.json",
+        "data/manifests/source_provenance_manifest.json",
+        "data/manifests/source_license_review_packet.csv",
+        "data/manifests/source_license_review_manifest.json",
+        "data/manifests/source_url_review_packet.csv",
+        "data/manifests/source_url_review_manifest.json",
+        "data/manifests/source_url_remediation_packet.csv",
+        "data/manifests/source_url_remediation_manifest.json",
+        "data/manifests/source_provenance_priority_packet.csv",
+        "data/manifests/source_provenance_priority_manifest.json",
+        "data/manifests/reproducibility_manifest.json",
+        "docs/source_license_review_packet.md",
+        "docs/source_url_review_packet.md",
+        "docs/source_url_remediation_packet.md",
+        "docs/source_provenance_priority_packet.md",
+        "docs/reproducibility_package.md",
+        "docs/pilot_region_data_card.md",
+        "scripts/audit_source_provenance.py",
+        "scripts/write_source_license_review_packet.py",
+        "scripts/write_source_url_review_packet.py",
+        "scripts/write_source_url_remediation_packet.py",
+        "scripts/write_source_provenance_priority_packet.py"
+      ],
+      "gate_id": "data_provenance",
+      "label": "Data Provenance",
+      "missing_or_weak_requirements": [
+        "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+        "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+        "source provenance priority: formal provenance acceptance record is absent",
+        "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+        "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+        "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+        "source provenance priority: URL remediation rows still require reviewer confirmation"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/parameters/parameter_sources.csv",
+        "data/parameters/parameter_evidence_review_packet.csv",
+        "data/parameters/parameter_evidence_review_manifest.json",
+        "data/parameters/parameter_evidence_source_request_packet.csv",
+        "data/parameters/parameter_evidence_source_request_manifest.json",
+        "data/parameters/parameter_source_readiness_packet.csv",
+        "data/parameters/parameter_source_readiness_manifest.json",
+        "docs/parameter_source_readiness_packet.md",
+        "data/parameters/parameter_evidence_priority_packet.csv",
+        "data/parameters/parameter_evidence_priority_manifest.json",
+        "docs/parameter_evidence_priority_packet.md",
+        "scripts/audit_parameter_evidence.py",
+        "scripts/write_parameter_review_packet.py",
+        "scripts/write_parameter_evidence_source_request_packet.py",
+        "scripts/write_parameter_source_readiness_packet.py",
+        "scripts/write_parameter_evidence_priority_packet.py"
+      ],
+      "gate_id": "parameter_evidence",
+      "label": "Parameter Evidence",
+      "missing_or_weak_requirements": [
+        "justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence",
+        "replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence",
+        "replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence",
+        "derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only",
+        "strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing",
+        "support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays",
+        "parameter source readiness: all rows require human review or external source decisions before final claims",
+        "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
+        "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
+        "parameter evidence priority: transfer-delay source evidence is absent",
+        "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
+        "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
+        "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/parameters/rail_service_evidence.csv",
+        "data/parameters/rail_station_bindings.csv",
+        "data/parameters/rail_evidence_review_packet.csv",
+        "data/parameters/rail_evidence_review_manifest.json",
+        "data/rail/rail_timing_source_request_packet.csv",
+        "data/rail/rail_timing_source_request_manifest.json",
+        "data/rail/rail_fetch_readiness_packet.csv",
+        "data/rail/rail_fetch_readiness_manifest.json",
+        "docs/rail_fetch_readiness_packet.md",
+        "data/rail/rail_evidence_priority_packet.csv",
+        "data/rail/rail_evidence_priority_manifest.json",
+        "docs/rail_evidence_priority_packet.md",
+        "scripts/audit_rail_evidence.py",
+        "scripts/write_rail_evidence_review_packet.py",
+        "scripts/write_rail_timing_source_request_packet.py",
+        "scripts/write_rail_fetch_readiness_packet.py",
+        "scripts/write_rail_evidence_priority_packet.py",
+        "scripts/fetch_rail_timetable_cache.py",
+        "scripts/derive_rail_headway_evidence.py",
+        "scripts/derive_rail_service_evidence.py",
+        "scripts/derive_rail_gtfs_evidence.py",
+        "docs/rail_gtfs_cache_schema.md",
+        "scripts/fetch_rail_shortest_path_cache.py",
+        "scripts/derive_rail_shortest_path_evidence.py"
+      ],
+      "gate_id": "rail_evidence",
+      "label": "Rail Evidence",
+      "missing_or_weak_requirements": [
+        "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
+        "rail service evidence: derive headway and travel time from the cached records",
+        "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
+        "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+        "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv",
+        "rail evidence priority: rail timing cache files are absent",
+        "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
+        "rail evidence priority: capacity and availability treatment still require human/source-backed decisions"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/validation_acceptance.json",
+        "data/validation/validation_summary.md",
+        "data/validation/external_route_benchmarks.csv",
+        "data/validation/external_route_benchmarks_osrm.csv",
+        "data/validation/osrm_route_benchmark_manifest.json",
+        "data/validation/accessibility_loss.csv",
+        "data/validation/accessibility_loss_summary.md",
+        "data/validation/canonical_route_road_evidence_exposure.csv",
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json",
+        "data/validation/validation_review_packet.csv",
+        "data/validation/validation_review_manifest.json",
+        "data/validation/validation_strategy_readiness_packet.csv",
+        "data/validation/validation_strategy_readiness_manifest.json",
+        "docs/validation_strategy_readiness_packet.md",
+        "data/validation/validation_benchmark_readiness_packet.csv",
+        "data/validation/validation_benchmark_readiness_manifest.json",
+        "docs/validation_benchmark_readiness_packet.md",
+        "scripts/run_plausibility_validation.py",
+        "scripts/run_accessibility_loss_analysis.py",
+        "scripts/write_route_road_evidence_exposure.py",
+        "scripts/run_osrm_route_benchmark.py",
+        "scripts/write_osrm_snapshot_manifest.py",
+        "scripts/write_validation_benchmark_readiness_packet.py",
+        "scripts/write_validation_review_packet.py",
+        "scripts/write_validation_strategy_readiness_packet.py"
+      ],
+      "gate_id": "validation_package",
+      "label": "Validation Package",
+      "missing_or_weak_requirements": [
+        "create an explicit validation acceptance record after benchmark-strategy review",
+        "resolve validation strategy-readiness blockers before validation acceptance",
+        "validation strategy readiness: validation_acceptance.json is absent",
+        "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
+        "review validation strategy-readiness human-decision items before validation acceptance",
+        "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "ready",
+      "evidence_inspected": [
+        "data/scenarios/disruption_scenarios.csv"
+      ],
+      "gate_id": "structured_disruptions",
+      "label": "Structured Disruptions",
+      "missing_or_weak_requirements": [],
+      "ready": true
+    },
+    {
+      "current_status": "ready",
+      "evidence_inspected": [
+        "data/scenarios/policy_alternatives.csv"
+      ],
+      "gate_id": "policy_alternatives",
+      "label": "Policy Alternatives",
+      "missing_or_weak_requirements": [],
+      "ready": true
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/sensitivity_acceptance.json",
+        "results/realworld_pilot/morris_results.csv",
+        "results/realworld_pilot/morris_summary.csv",
+        "results/realworld_pilot/morris_manifest.json",
+        "data/validation/sensitivity_review_packet.csv",
+        "data/validation/sensitivity_review_manifest.json",
+        "data/validation/sensitivity_index_review_packet.csv",
+        "data/validation/sensitivity_index_review_manifest.json",
+        "docs/sensitivity_index_review_packet.md",
+        "data/validation/sensitivity_strategy_readiness_packet.csv",
+        "data/validation/sensitivity_strategy_readiness_manifest.json",
+        "docs/sensitivity_strategy_readiness_packet.md",
+        "data/validation/sensitivity_method_decision_packet.csv",
+        "data/validation/sensitivity_method_decision_manifest.json",
+        "docs/sensitivity_method_decision_packet.md",
+        "scripts/run_sensitivity.py",
+        "scripts/audit_sensitivity_diagnostics.py",
+        "scripts/write_sensitivity_review_packet.py",
+        "scripts/write_sensitivity_index_review_packet.py",
+        "scripts/write_sensitivity_strategy_readiness_packet.py",
+        "scripts/write_sensitivity_method_decision_packet.py"
+      ],
+      "gate_id": "sensitivity_analysis",
+      "label": "Sensitivity Analysis",
+      "missing_or_weak_requirements": [
+        "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+        "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
+        "sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph",
+        "sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated",
+        "sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance",
+        "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
+        "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
+        "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/experiment_acceptance.json",
+        "results/realworld_pilot/pilot_full_results.csv",
+        "results/realworld_pilot/pilot_full_summary.csv",
+        "results/realworld_pilot/pilot_full_manifest.json",
+        "data/manifests/experiment_package_review_packet.csv",
+        "data/manifests/experiment_package_review_manifest.json",
+        "docs/experiment_package_review_packet.md",
+        "data/manifests/experiment_strategy_readiness_packet.csv",
+        "data/manifests/experiment_strategy_readiness_manifest.json",
+        "docs/experiment_strategy_readiness_packet.md"
+      ],
+      "gate_id": "full_experiment_output",
+      "label": "Full Experiment Output",
+      "missing_or_weak_requirements": [
+        "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+        "resolve experiment strategy-readiness blockers before experiment acceptance",
+        "experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated",
+        "experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted",
+        "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+        "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
+        "review experiment strategy-readiness human-decision items before experiment acceptance",
+        "accept or regenerate full pilot outputs after input validation and graph-scale decision",
+        "review experiment-package rows before formal experiment acceptance"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/manuscript_acceptance.json",
+        "paper/paper_draft.md",
+        "report_draft.md",
+        "report.docx",
+        "results/realworld_pilot/tables/figure_table_manifest.json",
+        "data/manifests/claim_alignment_review_packet.csv",
+        "data/manifests/claim_alignment_review_manifest.json",
+        "docs/claim_alignment_review_packet.md"
+      ],
+      "gate_id": "manuscript_report_alignment",
+      "label": "Manuscript Report Alignment",
+      "missing_or_weak_requirements": [
+        "close evidence gates before final paper/report claims",
+        "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
+        "revise figure/table claim boundary from scaffold to accepted study scope",
+        "review or revise claim-alignment overclaim candidates before manuscript acceptance",
+        "claim alignment: formal manuscript/report acceptance record is absent",
+        "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
+        "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "data/manifests/reproducibility_acceptance.json",
+        "docs/reproducibility_package.md",
+        "data/manifests/reproducibility_manifest.json",
+        "data/validation/reproducibility_review_packet.csv",
+        "data/validation/reproducibility_review_manifest.json",
+        "data/validation/reproducibility_smoke_manifest.json",
+        "docs/reproducibility_smoke.md",
+        "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+        "docs/clean_checkout_reproducibility_smoke.md"
+      ],
+      "gate_id": "reproducibility",
+      "label": "Reproducibility",
+      "missing_or_weak_requirements": [
+        "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+        "replace scaffold-only manifest with clean-checkout final reproduction package"
+      ],
+      "ready": false
+    },
+    {
+      "current_status": "blocked",
+      "evidence_inspected": [
+        "docs/final_study_audit.md",
+        "data/manifests/final_audit_acceptance.json"
+      ],
+      "gate_id": "final_audit",
+      "label": "Final Audit",
+      "missing_or_weak_requirements": [
+        "create docs/final_study_audit.md after all other gates close",
+        "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+        "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
+      ],
+      "ready": false
+    }
+  ],
+  "proxy_signals_rejected": [
+    "passing tests do not close evidence, review, acceptance, or calibration gates",
+    "generated CSV, JSON, figure, and report artifacts remain scaffold evidence unless accepted",
+    "OSRM and fallback router checks are plausibility snapshots, not ground truth",
+    "OSM-derived road data are not calibrated traffic, capacity, or disruption evidence by themselves",
+    "paper and report drafts remain scaffold scope until manuscript acceptance is reviewed"
+  ],
+  "ready_gate_count": 3,
+  "ready_gate_ids": [
+    "real_input_smoke",
+    "structured_disruptions",
+    "policy_alternatives"
+  ],
+  "result_scope": "current_goal_completion_gap_audit_not_final_acceptance",
+  "schema_version": 1,
+  "verdict": "final_real_world_study_blocked"
+}

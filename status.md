@@ -459,7 +459,8 @@ The codebase currently includes:
   - `scripts/audit_plan_artifacts.py` includes the parameter evidence audit
     summary while preserving the non-calibrated claim boundary
   - active-goal prompt-to-artifact completion gap audit in
-    `docs/current_goal_completion_audit.md`
+    `docs/current_goal_completion_audit.md` and structured non-acceptance
+    manifest `data/manifests/current_goal_completion_audit.json`
   - deterministic acceptance-orchestration review layer in
     `src/realworld/acceptance_records.py`,
     `src/realworld/acceptance_orchestration.py`, and
@@ -768,6 +769,7 @@ includes:
   `data/manifests/reproducibility_manifest.json`
 - `docs/plan_completion_audit.md`
 - `docs/current_goal_completion_audit.md`
+- `data/manifests/current_goal_completion_audit.json`
 
 If this file is being read after additional edits, run `git status --short`
 before committing.
@@ -1530,6 +1532,7 @@ Suggested next work:
 - `docs/reproducibility_package.md`
 - `docs/plan_completion_audit.md`
 - `docs/current_goal_completion_audit.md`
+- `data/manifests/current_goal_completion_audit.json`
 - `docs/analysis_corridor_method_note.md`
 - `docs/graph_scale_diagnostics.md`
 - `docs/graph_scale_review_packet.md`

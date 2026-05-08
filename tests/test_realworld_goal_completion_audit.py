@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 import sys
 import tempfile
 
@@ -11,6 +12,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.realworld.goal_completion_audit import (
     FINAL_ACCEPTANCE_ARTIFACTS,
+    build_goal_completion_audit_manifest,
     build_goal_completion_audit_markdown,
     write_goal_completion_audit,
 )
@@ -64,18 +66,44 @@ def test_goal_completion_audit_lists_final_acceptance_artifacts() -> None:
         assert relative_path in text
 
 
+def test_goal_completion_manifest_blocks_current_scaffold() -> None:
+    manifest = build_goal_completion_audit_manifest()
+    assert manifest["schema_version"] == 1
+    assert manifest["final_study_ready"] is False
+    assert manifest["can_mark_complete"] is False
+    assert manifest["blocked_gate_count"] == 12
+    assert manifest["missing_acceptance_artifact_count"] == len(
+        FINAL_ACCEPTANCE_ARTIFACTS
+    )
+    checklist = {
+        row["gate_id"]: row
+        for row in manifest["prompt_to_artifact_checklist"]
+    }
+    assert checklist["real_input_smoke"]["current_status"] == "ready"
+    assert checklist["final_audit"]["current_status"] == "blocked"
+    assert checklist["final_audit"]["missing_or_weak_requirements"]
+    assert "not_final_acceptance" in manifest["result_scope"]
+
+
 def test_goal_completion_audit_writer_emits_markdown() -> None:
     with tempfile.TemporaryDirectory() as tmpdir:
         output = Path(tmpdir) / "goal_audit.md"
-        audit = write_goal_completion_audit(output)
+        manifest_path = Path(tmpdir) / "goal_audit.json"
+        audit = write_goal_completion_audit(output, manifest_path)
         text = output.read_text(encoding="utf-8")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert audit["final_study_ready"] is False
     assert "Current Goal Completion Audit" in text
     assert "Proxy Signals Rejected" in text
+    assert manifest["objective"]
+    assert manifest["can_mark_complete"] is False
+    assert manifest["outputs"]["markdown"] == str(output)
+    assert manifest["outputs"]["manifest"] == str(manifest_path)
 
 
 if __name__ == "__main__":
     test_goal_completion_audit_blocks_current_scaffold()
     test_goal_completion_audit_lists_final_acceptance_artifacts()
+    test_goal_completion_manifest_blocks_current_scaffold()
     test_goal_completion_audit_writer_emits_markdown()
     print("PASS: goal completion audit remains a non-acceptance blocker")

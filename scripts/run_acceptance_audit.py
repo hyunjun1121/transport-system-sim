@@ -219,6 +219,7 @@ def main() -> int:
     refreshed.append("data/manifests/formal_acceptance_evidence_matrix.csv")
     refreshed.append("data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json")
     goal_audit = write_goal_completion_audit()
+    refreshed.append("data/manifests/current_goal_completion_audit.json")
     summary = {
         "acceptance_orchestration": manifest,
         "refreshed_review_artifacts": refreshed,

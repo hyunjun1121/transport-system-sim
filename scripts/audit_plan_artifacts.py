@@ -153,6 +153,9 @@ from src.realworld.graph_scale_manifest_audit import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_PATH,
 )
+from src.realworld.goal_completion_audit import (  # noqa: E402
+    DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
+)
 from src.realworld.full_graph_runtime_readiness_packet import (  # noqa: E402
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
@@ -887,6 +890,10 @@ JSON_EXPECTATIONS = (
     JsonExpectation(
         "tracked_artifact_audit_manifest",
         DEFAULT_TRACKED_ARTIFACT_AUDIT_MANIFEST,
+    ),
+    JsonExpectation(
+        "current_goal_completion_audit_manifest",
+        DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
     ),
 )
 

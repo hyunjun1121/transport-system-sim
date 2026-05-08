@@ -393,8 +393,10 @@ from .formal_acceptance_package import (
 from .goal_completion_audit import (
     ACTIVE_OBJECTIVE,
     DEFAULT_GOAL_COMPLETION_AUDIT_PATH,
+    DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
     FINAL_ACCEPTANCE_ARTIFACTS,
     NON_ACCEPTANCE_BOUNDARY,
+    build_goal_completion_audit_manifest,
     build_goal_completion_audit_markdown,
     write_goal_completion_audit,
 )
@@ -786,6 +788,7 @@ __all__ = [
     "DEFAULT_OSRM_BENCHMARK_SUMMARY_PATH",
     "DEFAULT_OSRM_RAW_RESPONSE_DIR",
     "DEFAULT_GOAL_COMPLETION_AUDIT_PATH",
+    "DEFAULT_GOAL_COMPLETION_MANIFEST_PATH",
     "DEFAULT_ACCEPTANCE_ORCHESTRATION_MANIFEST_PATH",
     "DEFAULT_ACCEPTANCE_SCHEMA_PATH",
     "DEFAULT_ACCEPTANCE_TEMPLATE_DIR",
@@ -996,6 +999,7 @@ __all__ = [
     "build_reproducibility_review_rows",
     "build_tracked_artifact_rows",
     "build_osrm_snapshot_manifest",
+    "build_goal_completion_audit_manifest",
     "build_goal_completion_audit_markdown",
     "build_scenario_disruption_map",
     "build_scenario_edge_map",

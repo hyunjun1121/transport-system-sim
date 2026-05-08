@@ -625,7 +625,9 @@ First pilot-smoke artifacts also exist:
 - `scripts/audit_plan_artifacts.py` checks expected scaffold artifact row
   counts, JSON manifests, docs, and the current non-calibrated claim boundary.
 - `scripts/write_goal_completion_audit.py` writes a non-acceptance
-  prompt-to-artifact checklist for the active `plan.md` objective.
+  prompt-to-artifact checklist for the active `plan.md` objective plus a
+  structured JSON manifest at
+  `data/manifests/current_goal_completion_audit.json`.
 - `scripts/audit_publication_readiness.py` aggregates parameter, road, rail
   service, and station-binding evidence gates. It reports
   `publication_ready: false` for the current scaffold and can be run with
@@ -738,9 +740,11 @@ First pilot-smoke artifacts also exist:
   confirms that the executable quasi-real scaffold is in place while calibrated
   final-study claims remain blocked by pilot acceptance, stronger evidence, and
   final manuscript/report review.
-- `docs/current_goal_completion_audit.md` restates the active goal as concrete
-  gates, lists named acceptance artifacts, rejects proxy-only completion
-  signals, and remains separate from the future `docs/final_study_audit.md`.
+- `docs/current_goal_completion_audit.md` and
+  `data/manifests/current_goal_completion_audit.json` restate the active goal
+  as concrete gates, list named acceptance artifacts, reject proxy-only
+  completion signals, and remain separate from the future
+  `docs/final_study_audit.md`.
 - `docs/analysis_corridor_method_note.md` records that the current 118-node /
   174-edge analysis corridor is a scaffold/performance abstraction. The final
   study must choose accepted corridor abstraction, full-graph runtime, or a

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import json
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +44,9 @@ from src.realworld.tracked_artifact_audit import summarize_tracked_artifact_audi
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_GOAL_COMPLETION_AUDIT_PATH = (
     PROJECT_ROOT / "docs" / "current_goal_completion_audit.md"
+)
+DEFAULT_GOAL_COMPLETION_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "current_goal_completion_audit.json"
 )
 
 ACTIVE_OBJECTIVE = (
@@ -435,15 +439,113 @@ def build_goal_completion_audit_markdown(
     return "\n".join(lines)
 
 
+def build_goal_completion_audit_manifest(
+    audit: dict[str, Any] | None = None,
+    *,
+    markdown_path: Path = DEFAULT_GOAL_COMPLETION_AUDIT_PATH,
+    manifest_path: Path = DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
+) -> dict[str, Any]:
+    """Return a machine-readable current-goal completion gap audit."""
+
+    audit = audit or audit_final_study_readiness()
+    ready_gate_ids = list(audit.get("ready_gate_ids", []))
+    blocked_gate_ids = list(audit.get("blocked_gate_ids", []))
+    acceptance_artifacts = [
+        {
+            "path": relative_path,
+            "present": (PROJECT_ROOT / relative_path).exists(),
+        }
+        for relative_path in FINAL_ACCEPTANCE_ARTIFACTS
+    ]
+    missing_acceptance_artifacts = [
+        row["path"] for row in acceptance_artifacts if not row["present"]
+    ]
+    checklist = [_gate_checklist_item(gate) for gate in audit.get("gates", [])]
+    return {
+        "schema_version": 1,
+        "audit_date": datetime.now(timezone.utc).date().isoformat(),
+        "objective": ACTIVE_OBJECTIVE,
+        "result_scope": (
+            "current_goal_completion_gap_audit_not_final_acceptance"
+        ),
+        "claim_boundary": NON_ACCEPTANCE_BOUNDARY,
+        "outputs": {
+            "markdown": _display_path(markdown_path),
+            "manifest": _display_path(manifest_path),
+        },
+        "final_study_ready": bool(audit.get("final_study_ready", False)),
+        "verdict": audit.get("verdict", ""),
+        "gate_count": audit.get("gate_count", 0),
+        "ready_gate_count": len(ready_gate_ids),
+        "blocked_gate_count": len(blocked_gate_ids),
+        "ready_gate_ids": ready_gate_ids,
+        "blocked_gate_ids": blocked_gate_ids,
+        "prompt_to_artifact_checklist": checklist,
+        "named_acceptance_artifacts": acceptance_artifacts,
+        "present_acceptance_artifact_count": (
+            len(acceptance_artifacts) - len(missing_acceptance_artifacts)
+        ),
+        "missing_acceptance_artifact_count": len(missing_acceptance_artifacts),
+        "missing_acceptance_artifacts": missing_acceptance_artifacts,
+        "proxy_signals_rejected": [
+            "passing tests do not close evidence, review, acceptance, or calibration gates",
+            "generated CSV, JSON, figure, and report artifacts remain scaffold evidence unless accepted",
+            "OSRM and fallback router checks are plausibility snapshots, not ground truth",
+            "OSM-derived road data are not calibrated traffic, capacity, or disruption evidence by themselves",
+            "paper and report drafts remain scaffold scope until manuscript acceptance is reviewed",
+        ],
+        "next_required_input": (
+            "reviewed pilot, provenance, graph-scale, road, rail, parameter, "
+            "validation, sensitivity, experiment, manuscript, reproducibility, "
+            "and final-audit acceptance decisions"
+        ),
+        "can_mark_complete": bool(audit.get("final_study_ready", False))
+        and not blocked_gate_ids
+        and not missing_acceptance_artifacts,
+    }
+
+
 def write_goal_completion_audit(
     path: Path = DEFAULT_GOAL_COMPLETION_AUDIT_PATH,
+    manifest_path: Path = DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
 ) -> dict[str, Any]:
     """Write the current goal-completion audit and return the source audit."""
 
     audit = audit_final_study_readiness()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(build_goal_completion_audit_markdown(audit), encoding="utf-8")
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(
+        json.dumps(
+            build_goal_completion_audit_manifest(
+                audit,
+                markdown_path=path,
+                manifest_path=manifest_path,
+            ),
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     return audit
+
+
+def _gate_checklist_item(gate: dict[str, Any]) -> dict[str, Any]:
+    gate_id = str(gate.get("gate_id", ""))
+    ready = bool(gate.get("ready", False))
+    evidence = gate.get("evidence", [])
+    blockers = gate.get("blockers", [])
+    return {
+        "gate_id": gate_id,
+        "label": str(gate.get("label", gate_id)),
+        "current_status": "ready" if ready else "blocked",
+        "ready": ready,
+        "evidence_inspected": evidence if isinstance(evidence, list) else [],
+        "missing_or_weak_requirements": (
+            blockers if isinstance(blockers, list) else []
+        ),
+    }
 
 
 def _gate_table_row(gate: dict[str, Any]) -> str:
@@ -498,11 +600,20 @@ def _cell_text(value: str) -> str:
     return value.replace("|", "\\|").replace("\n", " ").strip()
 
 
+def _display_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return str(path)
+
+
 __all__ = [
     "ACTIVE_OBJECTIVE",
     "DEFAULT_GOAL_COMPLETION_AUDIT_PATH",
+    "DEFAULT_GOAL_COMPLETION_MANIFEST_PATH",
     "FINAL_ACCEPTANCE_ARTIFACTS",
     "NON_ACCEPTANCE_BOUNDARY",
+    "build_goal_completion_audit_manifest",
     "build_goal_completion_audit_markdown",
     "write_goal_completion_audit",
 ]

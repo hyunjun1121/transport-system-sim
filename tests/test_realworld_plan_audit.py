@@ -399,6 +399,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["json_checks"]
     )
     assert any(
+        row["label"] == "current_goal_completion_audit_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
         row["label"] == "current_goal_completion_audit" and row["ok"]
         for row in summary["doc_checks"]
     )
