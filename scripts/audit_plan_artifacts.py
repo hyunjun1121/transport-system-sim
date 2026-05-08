@@ -133,6 +133,11 @@ from src.realworld.rail_evidence_priority_packet import (  # noqa: E402
     DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH,
     DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH,
 )
+from src.realworld.rail_source_decision_packet import (  # noqa: E402
+    DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH,
+)
 from src.realworld.road_source_readiness_packet import (  # noqa: E402
     DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
@@ -311,6 +316,11 @@ CSV_EXPECTATIONS = (
         "rail_evidence_priority_packet",
         DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH,
         6,
+    ),
+    CsvExpectation(
+        "rail_source_decision_packet",
+        DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH,
+        5,
     ),
     CsvExpectation(
         "road_class_overrides_draft",
@@ -812,6 +822,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "rail_source_decision_manifest",
+        DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "road_source_readiness_manifest",
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
     ),
@@ -1150,6 +1164,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "rail_timing_source_request_packet.md",
     DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
     DEFAULT_RAIL_EVIDENCE_PRIORITY_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH,
     DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH,
     ROOT / "paper" / "paper_draft.md",

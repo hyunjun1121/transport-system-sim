@@ -320,6 +320,40 @@ def test_current_final_study_readiness_is_blocked() -> None:
         ]
         == 1
     )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_source_decision_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["rail_evidence"]["details"]["rail_source_decision_row_count"] == 5
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_source_decision_blocking_decision_count"
+        ]
+        == 3
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_source_decision_human_review_decision_count"
+        ]
+        == 2
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_source_decision_timing_source_decision_count"
+        ]
+        == 3
+    )
+    assert gate_map["rail_evidence"]["details"][
+        "rail_source_decision_region_ids"
+    ] == ["songpa_public_demo"]
+    assert (
+        gate_map["rail_evidence"]["details"]["rail_source_decision_recorded"]
+        is False
+    )
     assert any(
         "reviewed-GTFS rows require external reviewer-provided inputs" in item
         for item in gate_map["rail_evidence"]["details"][
@@ -333,6 +367,10 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert any(
         "rail fetch readiness: API-key and reviewed-GTFS rows require external"
         in item
+        for item in gate_map["rail_evidence"]["blockers"]
+    )
+    assert any(
+        "rail source decision: rail source decisions are pending" in item
         for item in gate_map["rail_evidence"]["blockers"]
     )
     assert gate_map["validation_package"]["ready"] is False

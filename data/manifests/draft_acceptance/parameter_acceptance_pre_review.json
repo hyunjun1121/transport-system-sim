@@ -76,6 +76,12 @@
       "path": "data/rail/rail_evidence_priority_packet.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_source_decision_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for parameter_acceptance",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -187,6 +193,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_source_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/parameters/parameter_evidence_review_manifest.json"
     },
     {
@@ -277,6 +289,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/rail_source_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/audit_rail_evidence.py"
     },
     {
@@ -302,6 +320,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_rail_evidence_priority_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_rail_source_decision_packet.py"
     },
     {
       "claim_supported": "Repository evidence cited for parameter_acceptance",
@@ -355,7 +379,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/parameter_acceptance.csv",
   "gate": "parameter_acceptance",
-  "generated_at": "2026-05-08T18:41:36+00:00",
+  "generated_at": "2026-05-08T19:01:39+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -394,6 +418,12 @@
     "rail evidence priority: rail timing cache files are absent",
     "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
     "rail evidence priority: capacity and availability treatment still require human/source-backed decisions",
+    "rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+    "rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests",
+    "rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance",
+    "rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent",
+    "rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present",
     "data/parameters/parameter_acceptance.csv is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -430,11 +460,15 @@
     "data/rail/rail_evidence_priority_packet.csv",
     "data/rail/rail_evidence_priority_manifest.json",
     "docs/rail_evidence_priority_packet.md",
+    "data/rail/rail_source_decision_packet.csv",
+    "data/rail/rail_source_decision_manifest.json",
+    "docs/rail_source_decision_packet.md",
     "scripts/audit_rail_evidence.py",
     "scripts/write_rail_evidence_review_packet.py",
     "scripts/write_rail_timing_source_request_packet.py",
     "scripts/write_rail_fetch_readiness_packet.py",
     "scripts/write_rail_evidence_priority_packet.py",
+    "scripts/write_rail_source_decision_packet.py",
     "scripts/fetch_rail_timetable_cache.py",
     "scripts/derive_rail_headway_evidence.py",
     "scripts/derive_rail_service_evidence.py",
@@ -479,6 +513,12 @@
     "rail evidence priority: rail timing cache files are absent",
     "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
     "rail evidence priority: capacity and availability treatment still require human/source-backed decisions",
+    "rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+    "rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests",
+    "rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance",
+    "rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent",
+    "rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present",
     "data/parameters/parameter_acceptance.csv is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
@@ -496,6 +536,7 @@
     "data/parameters/rail_evidence_review_packet.csv",
     "data/rail/rail_fetch_readiness_packet.csv",
     "data/rail/rail_evidence_priority_packet.csv",
+    "data/rail/rail_source_decision_packet.csv",
     "docs/review_packets/cached_osm_input.md",
     "docs/review_packets/rail_evidence.md"
   ],
@@ -513,7 +554,8 @@
     "data/parameters/rail_evidence_review_packet.csv",
     "data/rail/rail_timing_source_request_packet.csv",
     "data/rail/rail_fetch_readiness_manifest.json",
-    "data/rail/rail_evidence_priority_manifest.json"
+    "data/rail/rail_evidence_priority_manifest.json",
+    "data/rail/rail_source_decision_manifest.json"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -529,6 +571,7 @@
     "data/road/road_evidence_priority_packet.csv",
     "data/rail/rail_fetch_readiness_packet.csv",
     "data/rail/rail_evidence_priority_packet.csv",
+    "data/rail/rail_source_decision_packet.csv",
     "data/parameters/parameter_acceptance.csv"
   ],
   "status": "draft_pre_review"

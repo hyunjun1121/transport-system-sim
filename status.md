@@ -266,6 +266,12 @@ The codebase currently includes:
     `scripts/write_rail_fetch_readiness_packet.py`; the manifest records the
     `region_ids` from the rail timing request rows and remains a
     non-acceptance preflight packet
+  - rail source-decision packet generation in
+    `src/realworld/rail_source_decision_packet.py` and
+    `scripts/write_rail_source_decision_packet.py`; the generated 5-row
+    packet records 3 blocking timing-source decisions and 2 human-review
+    capacity/availability decisions without deriving rail service evidence or
+    closing the rail evidence gate
   - rail-point station binding validation in
     `src/realworld/rail_station_binding.py` and
     `scripts/audit_rail_station_bindings.py`

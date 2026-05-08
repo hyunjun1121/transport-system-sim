@@ -485,6 +485,13 @@ First pilot-smoke artifacts also exist:
   timetable/shortest-path, capacity, availability, and station-binding closure
   paths visible, but it remains prioritization support only and cannot derive
   or approve rail service evidence.
+- `src/realworld/rail_source_decision_packet.py` and
+  `scripts/write_rail_source_decision_packet.py` now turn the 5 rail
+  fetch-readiness rows into pending reviewer decisions. The current packet has
+  3 blocking decisions for missing API/GTFS timing inputs and 2 human-review
+  decisions for capacity and availability treatment. It keeps
+  `rail_source_decision_recorded=false` and does not derive
+  `rail_service_evidence.csv` or close the rail evidence gate.
 - `data/rail/pilot_station_binding_cache.csv`,
   `data/parameters/rail_station_bindings.csv`, and
   `src/realworld/rail_station_binding.py` now bind `S` and `R` to official
@@ -832,6 +839,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
+.\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -861,6 +869,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_decision_packet.py
 .\.venv\Scripts\python tests\test_realworld_parameter_source_decision_packet.py
 .\.venv\Scripts\python tests\test_realworld_road_source_decision_packet.py
+.\.venv\Scripts\python tests\test_realworld_rail_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
@@ -2065,6 +2074,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
+.\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -2248,7 +2258,8 @@ Concrete next tasks:
    scenario evidence, or benchmark-calibrated values where available. Use the
    parameter, rail, and road source-request packets plus
    `data/parameters/parameter_evidence_priority_packet.csv` and
-   `data/rail/rail_evidence_priority_packet.csv` before collecting new source
+   `data/rail/rail_evidence_priority_packet.csv` and
+   `data/rail/rail_source_decision_packet.csv` before collecting new source
    inputs; official station binding is already cached and rail capacity is
    explicitly sensitivity-only, but cross-cutting parameter evidence, rail
    timing, and road override evidence remain weak.

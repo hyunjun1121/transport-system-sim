@@ -122,6 +122,10 @@ from src.realworld.rail_evidence_priority_packet import (  # noqa: E402
     build_rail_evidence_priority_rows,
     write_rail_evidence_priority_packet,
 )
+from src.realworld.rail_source_decision_packet import (  # noqa: E402
+    build_rail_source_decision_rows,
+    write_rail_source_decision_packet,
+)
 from src.realworld.road_evidence_request_packet import (  # noqa: E402
     build_road_evidence_source_request_rows,
     write_road_evidence_source_request_packet,
@@ -439,6 +443,11 @@ def _refresh_existing_review_packets(
     rail_priority_rows = build_rail_evidence_priority_rows()
     write_rail_evidence_priority_packet(rows=rail_priority_rows)
     refreshed.append("data/rail/rail_evidence_priority_packet.csv")
+    rail_decision_rows = build_rail_source_decision_rows(
+        readiness_rows=rail_fetch_rows,
+    )
+    write_rail_source_decision_packet(rows=rail_decision_rows)
+    refreshed.append("data/rail/rail_source_decision_packet.csv")
     road_rows = build_road_evidence_review_rows()
     write_road_evidence_review_packet(rows=road_rows)
     refreshed.append("data/parameters/road_evidence_review_packet.csv")

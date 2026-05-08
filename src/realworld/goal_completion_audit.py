@@ -406,6 +406,7 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12",
             ".\\.venv\\Scripts\\python scripts\\write_source_url_remediation_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_rail_fetch_readiness_packet.py",
+            ".\\.venv\\Scripts\\python scripts\\write_rail_source_decision_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_road_source_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_parameter_source_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\run_full_graph_smoke.py",

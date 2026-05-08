@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T18:42:05+00:00`
+- Generated at: `2026-05-08T19:02:08+00:00`
 
 ## Decision
 
@@ -28,6 +28,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - data/rail/rail_timing_source_request_packet.csv
 - data/rail/rail_fetch_readiness_manifest.json
 - data/rail/rail_evidence_priority_manifest.json
+- data/rail/rail_source_decision_manifest.json
 - data/parameters/rail_service_evidence.csv
 - data/parameters/rail_station_bindings.csv
 - data/parameters/rail_evidence_review_manifest.json
@@ -36,11 +37,14 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - docs/rail_fetch_readiness_packet.md
 - data/rail/rail_evidence_priority_packet.csv
 - docs/rail_evidence_priority_packet.md
+- data/rail/rail_source_decision_packet.csv
+- docs/rail_source_decision_packet.md
 - scripts/audit_rail_evidence.py
 - scripts/write_rail_evidence_review_packet.py
 - scripts/write_rail_timing_source_request_packet.py
 - scripts/write_rail_fetch_readiness_packet.py
 - scripts/write_rail_evidence_priority_packet.py
+- scripts/write_rail_source_decision_packet.py
 - scripts/fetch_rail_timetable_cache.py
 - scripts/derive_rail_headway_evidence.py
 - scripts/derive_rail_service_evidence.py
@@ -63,11 +67,15 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - data/rail/rail_evidence_priority_packet.csv
 - data/rail/rail_evidence_priority_manifest.json
 - docs/rail_evidence_priority_packet.md
+- data/rail/rail_source_decision_packet.csv
+- data/rail/rail_source_decision_manifest.json
+- docs/rail_source_decision_packet.md
 - scripts/audit_rail_evidence.py
 - scripts/write_rail_evidence_review_packet.py
 - scripts/write_rail_timing_source_request_packet.py
 - scripts/write_rail_fetch_readiness_packet.py
 - scripts/write_rail_evidence_priority_packet.py
+- scripts/write_rail_source_decision_packet.py
 - scripts/fetch_rail_timetable_cache.py
 - scripts/derive_rail_headway_evidence.py
 - scripts/derive_rail_service_evidence.py
@@ -104,6 +112,12 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - rail evidence priority: rail timing cache files are absent
 - rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
 - rail evidence priority: capacity and availability treatment still require human/source-backed decisions
+- rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
+- rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests
+- rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance
+- rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
+- rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent
+- rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
 
 ## Required Actions
 
@@ -117,6 +131,12 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - rail evidence priority: rail timing cache files are absent
 - rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
 - rail evidence priority: capacity and availability treatment still require human/source-backed decisions
+- rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
+- rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests
+- rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance
+- rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
+- rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent
+- rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
 
 ## Formal Acceptance Boundary
 
@@ -140,7 +160,13 @@ Formal acceptance artifacts:
     "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv",
     "rail evidence priority: rail timing cache files are absent",
     "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
-    "rail evidence priority: capacity and availability treatment still require human/source-backed decisions"
+    "rail evidence priority: capacity and availability treatment still require human/source-backed decisions",
+    "rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+    "rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests",
+    "rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance",
+    "rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent",
+    "rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present"
   ],
   "details": {
     "fetch_readiness_blocking_request_count": 3,
@@ -177,6 +203,30 @@ Formal acceptance artifacts:
       "prerequisite_ready_not_timing_evidence": 1
     },
     "rail_evidence_priority_timing_closure_candidate_count": 1,
+    "rail_source_decision_artifacts_present": true,
+    "rail_source_decision_blocking_decision_count": 3,
+    "rail_source_decision_can_mark_complete": false,
+    "rail_source_decision_human_review_decision_count": 2,
+    "rail_source_decision_manifest_present": true,
+    "rail_source_decision_publication_ready": false,
+    "rail_source_decision_recorded": false,
+    "rail_source_decision_region_ids": [
+      "songpa_public_demo"
+    ],
+    "rail_source_decision_remaining_blockers": [
+      "rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+      "rail timing cache or reviewed GTFS source files are absent for timing requests",
+      "retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance",
+      "rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+      "rail_static_gtfs_timing_request: reviewed GTFS file is absent",
+      "rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present"
+    ],
+    "rail_source_decision_row_count": 5,
+    "rail_source_decision_status_counts": {
+      "blocked_missing_rail_source_decision": 3,
+      "needs_human_review_rail_source_decision": 2
+    },
+    "rail_source_decision_timing_source_decision_count": 3,
     "service_publication_ready": false,
     "station_binding_ready": true
   },
@@ -193,11 +243,15 @@ Formal acceptance artifacts:
     "data/rail/rail_evidence_priority_packet.csv",
     "data/rail/rail_evidence_priority_manifest.json",
     "docs/rail_evidence_priority_packet.md",
+    "data/rail/rail_source_decision_packet.csv",
+    "data/rail/rail_source_decision_manifest.json",
+    "docs/rail_source_decision_packet.md",
     "scripts/audit_rail_evidence.py",
     "scripts/write_rail_evidence_review_packet.py",
     "scripts/write_rail_timing_source_request_packet.py",
     "scripts/write_rail_fetch_readiness_packet.py",
     "scripts/write_rail_evidence_priority_packet.py",
+    "scripts/write_rail_source_decision_packet.py",
     "scripts/fetch_rail_timetable_cache.py",
     "scripts/derive_rail_headway_evidence.py",
     "scripts/derive_rail_service_evidence.py",

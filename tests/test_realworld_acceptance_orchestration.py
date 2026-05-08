@@ -110,6 +110,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/rail/rail_evidence_priority_packet.csv" in (
         evidence_agent.review_packet_paths
     )
+    assert "data/rail/rail_source_decision_packet.csv" in (
+        evidence_agent.review_packet_paths
+    )
 
     validation_agent = agents["validation_benchmark_strategy_agent"]
     assert (
@@ -186,6 +189,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "source_context_cache_decision" in snapshot_ids
     assert "parameter_source_decision" in snapshot_ids
     assert "road_source_decision" in snapshot_ids
+    assert "rail_source_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
@@ -460,6 +464,30 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        rail_source_decision_snapshot_path = (
+            root / "rail_source_decision_manifest.json"
+        )
+        rail_source_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 5,
+                    "blocking_decision_count": 3,
+                    "human_review_decision_count": 2,
+                    "rail_service_evidence_gate_closure_candidate_count": 0,
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "decision_status_counts": {
+                        "blocked_missing_rail_source_decision": 3,
+                        "needs_human_review_rail_source_decision": 2,
+                    },
+                    "remaining_blockers": [
+                        "rail source decisions are pending"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         formal_queue_snapshot_path = root / "formal_queue_manifest.json"
         formal_queue_snapshot_path.write_text(
             json.dumps(
@@ -637,6 +665,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     road_source_decision_snapshot_path,
                 ),
                 (
+                    "rail_source_decision",
+                    "Rail Source Decisions",
+                    rail_source_decision_snapshot_path,
+                ),
+                (
                     "formal_acceptance_blocker_queue",
                     "Formal Acceptance Blocker Queue",
                     formal_queue_snapshot_path,
@@ -767,6 +800,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 2
         )
+        assert snapshots["rail_source_decision"]["row_count"] == 5
+        assert snapshots["rail_source_decision"]["blocking_count"] == 3
+        assert snapshots["rail_source_decision"]["human_review_count"] == 2
+        assert (
+            snapshots["rail_source_decision"]["status_counts"][
+                "blocked_missing_rail_source_decision"
+            ]
+            == 3
+        )
         assert (
             snapshots["formal_acceptance_blocker_queue"]["blocking_count"]
             == 15
@@ -824,6 +866,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
         assert "`Road Source Decisions`" in index_text
+        assert "`Rail Source Decisions`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
         assert "`Formal Acceptance Pre-Review`" in index_text
         assert "`Agent Review Path Audit`" in index_text
@@ -834,6 +877,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text
         assert "blocked_missing_road_source_decision=2" in index_text
+        assert "blocked_missing_rail_source_decision=3" in index_text
         assert "needs_human_review_cached_osrm_scope_policy=1" in index_text
         assert "needs_human_review_scenario_policy_seed_design=1" in index_text
         assert "blocked_missing_evidence=8" in index_text

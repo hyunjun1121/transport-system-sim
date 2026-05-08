@@ -13,7 +13,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
-| `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
+| `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 16 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 17 |
@@ -77,6 +77,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Parameter Source Decisions` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
 | `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
+| `Rail Source Decisions` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
 | `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
 | `Validation Benchmark Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_scaffold_validation_scope=1; blocked_weak_route_road_evidence_dependency=1; +3 more |
 | `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
@@ -85,7 +86,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -93,8 +94,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=701 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=719 |
+| `Tracked Artifact Audit` | 73 | 73 | 0 | 0 | `false` | agent_definition=1; data_or_manifest=38; documentation=18; +4 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -116,6 +117,7 @@ Priority blockers by packet:
 - `Parameter Source Decisions`: formal parameter acceptance table is absent (+3 more)
 - `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
 - `Rail Fetch Readiness`: rail timing cache files are absent unless source_cache_present is true (+2 more)
+- `Rail Source Decisions`: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests (+5 more)
 - `Validation Benchmark Readiness`: validation_acceptance_record: data/manifests/validation_acceptance.json is absent
 - `Validation Benchmark Decision`: validation summary still declares scaffold or sanity scope (+2 more)
 - `Validation Strategy Readiness`: validation_acceptance.json is absent (+1 more)
@@ -125,6 +127,7 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction. (+50 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -205,6 +208,12 @@ Priority blockers by packet:
 - rail_evidence: rail evidence priority: rail timing cache files are absent
 - rail_evidence: rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
 - rail_evidence: rail evidence priority: capacity and availability treatment still require human/source-backed decisions
+- rail_evidence: rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
+- rail_evidence: rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests
+- rail_evidence: rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance
+- rail_evidence: rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
+- rail_evidence: rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent
+- rail_evidence: rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
 - validation_package: Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - validation_package: Create validation_acceptance.json after benchmark-strategy review.
 - validation_package: create an explicit validation acceptance record after benchmark-strategy review
@@ -333,6 +342,12 @@ Priority blockers by packet:
 - Rail Evidence: rail evidence priority: rail timing cache files are absent
 - Rail Evidence: rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
 - Rail Evidence: rail evidence priority: capacity and availability treatment still require human/source-backed decisions
+- Rail Evidence: rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
+- Rail Evidence: rail source decision: rail timing cache or reviewed GTFS source files are absent for timing requests
+- Rail Evidence: rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance
+- Rail Evidence: rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
+- Rail Evidence: rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file is absent
+- Rail Evidence: rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
 - Validation Package: create an explicit validation acceptance record after benchmark-strategy review
 - Validation Package: resolve validation strategy-readiness blockers before validation acceptance
 - Validation Package: validation strategy readiness: validation_acceptance.json is absent

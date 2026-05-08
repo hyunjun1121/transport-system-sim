@@ -120,6 +120,10 @@ Implemented extension modules now also cover:
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching
   live data or approving rail evidence.
+- `rail_source_decision_packet.py`: pending reviewer-decision worksheet
+  generated from rail fetch-readiness rows. It records timing-source,
+  capacity, and availability choices without deriving rail service evidence or
+  closing the rail evidence gate.
 - `road_source_readiness_packet.py`: preflight worksheet generated from road
   evidence source requests. It separates sparse speed candidates, missing
   capacity sources, benchmark/disruption human-review decisions, and missing
