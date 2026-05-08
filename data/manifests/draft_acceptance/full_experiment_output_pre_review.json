@@ -97,7 +97,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/experiment_acceptance.json",
   "gate": "full_experiment_output",
-  "generated_at": "2026-05-08T13:47:49+00:00",
+  "generated_at": "2026-05-08T13:52:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -121,6 +121,18 @@
     "data/manifests/experiment_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/manifests/experiment_acceptance.json",
+    "results/realworld_pilot/pilot_full_results.csv",
+    "results/realworld_pilot/pilot_full_summary.csv",
+    "results/realworld_pilot/pilot_full_manifest.json",
+    "data/manifests/experiment_package_review_packet.csv",
+    "data/manifests/experiment_package_review_manifest.json",
+    "docs/experiment_package_review_packet.md",
+    "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_strategy_readiness_manifest.json",
+    "docs/experiment_strategy_readiness_packet.md"
+  ],
   "recommendation": "blocked_missing_evidence",
   "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
   "related_plan_gate_ids": [
@@ -142,6 +154,26 @@
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
   ],
+  "review_packets": [
+    "docs/review_packets/full_experiment_output.md",
+    "data/manifests/experiment_package_review_packet.csv",
+    "data/manifests/experiment_strategy_readiness_packet.csv"
+  ],
+  "reviewed_inputs": [
+    "scripts/run_pilot_experiments.py",
+    "data/scenarios/disruption_scenarios.csv",
+    "data/scenarios/policy_alternatives.csv",
+    "data/manifests/experiment_package_review_manifest.json",
+    "data/manifests/experiment_strategy_readiness_manifest.json"
+  ],
   "schema_version": 1,
+  "source_paths": [
+    "results/realworld_pilot/pilot_full_manifest.json",
+    "results/realworld_pilot/pilot_full_results.csv",
+    "results/realworld_pilot/pilot_full_summary.csv",
+    "data/manifests/experiment_package_review_packet.csv",
+    "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_acceptance.json"
+  ],
   "status": "draft_pre_review"
 }

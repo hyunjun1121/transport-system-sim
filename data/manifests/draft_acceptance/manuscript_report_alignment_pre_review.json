@@ -79,7 +79,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T13:47:49+00:00",
+  "generated_at": "2026-05-08T13:52:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -101,6 +101,16 @@
     "data/manifests/manuscript_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/manifests/manuscript_acceptance.json",
+    "paper/paper_draft.md",
+    "report_draft.md",
+    "report.docx",
+    "results/realworld_pilot/tables/figure_table_manifest.json",
+    "data/manifests/claim_alignment_review_packet.csv",
+    "data/manifests/claim_alignment_review_manifest.json",
+    "docs/claim_alignment_review_packet.md"
+  ],
   "recommendation": "blocked_missing_evidence",
   "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
   "related_plan_gate_ids": [
@@ -120,6 +130,25 @@
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
   ],
+  "review_packets": [
+    "docs/review_packets/manuscript_report_alignment.md",
+    "data/manifests/claim_alignment_review_packet.csv"
+  ],
+  "reviewed_inputs": [
+    "scripts/audit_publication_readiness.py",
+    "docs/current_goal_completion_audit.md",
+    "paper/paper_draft.md",
+    "report_draft.md",
+    "data/manifests/claim_alignment_review_manifest.json"
+  ],
   "schema_version": 1,
+  "source_paths": [
+    "paper/paper_draft.md",
+    "report_draft.md",
+    "report.docx",
+    "results/realworld_pilot/tables/figure_table_manifest.json",
+    "data/manifests/claim_alignment_review_packet.csv",
+    "data/manifests/manuscript_acceptance.json"
+  ],
   "status": "draft_pre_review"
 }

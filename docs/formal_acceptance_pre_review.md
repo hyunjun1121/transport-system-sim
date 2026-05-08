@@ -41,6 +41,17 @@ Draft pre-review recommendations only. These records classify remaining formal a
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/pilot_region_accepted.md
+- data/manifests/pilot_privacy_review_packet.csv
+
+Source paths:
+- data/regions/pilot_region.yaml
+- docs/pilot_region_data_card.md
+- data/manifests/pilot_privacy_review_packet.csv
+- data/manifests/pilot_privacy_review_manifest.json
+- data/manifests/pilot_acceptance.json
+
 Evidence inspected:
 - `data/regions/pilot_region.yaml`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_region_data_card.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -82,6 +93,24 @@ Files to create or update after human decision:
 - Formal target after human decision: `data/manifests/graph_scale_acceptance.json`
 - Formal approval: `false`
 - Human decision required: `true`
+
+Review packets:
+- docs/review_packets/graph_scale_strategy.md
+- data/validation/graph_scale_review_packet.csv
+- data/validation/full_graph_runtime_readiness_packet.csv
+- data/validation/graph_scale_manifest_audit.csv
+- data/validation/graph_scale_strategy_readiness_packet.csv
+
+Source paths:
+- results/realworld_pilot/pilot_full_manifest.json
+- data/validation/graph_scale_route_comparison.csv
+- data/validation/graph_scale_alternate_routes.csv
+- data/validation/graph_scale_multi_corridor_routes.csv
+- data/validation/full_graph_runtime_readiness_packet.csv
+- data/validation/graph_scale_manifest_audit.csv
+- data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_result_comparison.csv
+- data/manifests/graph_scale_acceptance.json
 
 Evidence inspected:
 - `results/realworld_pilot/pilot_full_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -165,6 +194,24 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/data_provenance.md
+- data/manifests/source_license_review_packet.csv
+- data/manifests/source_url_review_packet.csv
+- data/manifests/source_url_remediation_packet.csv
+- data/manifests/source_provenance_priority_packet.csv
+
+Source paths:
+- data/manifests/source_provenance_manifest.json
+- data/manifests/source_license_review_packet.csv
+- data/manifests/source_url_review_packet.csv
+- data/manifests/source_url_remediation_packet.csv
+- data/manifests/source_provenance_priority_packet.csv
+- data/manifests/reproducibility_manifest.json
+- data/cache/pilot_region_road_manifest.json
+- cloned_repo_manifest.md
+- data/manifests/provenance_acceptance.json
+
 Evidence inspected:
 - `data/manifests/source_provenance_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_license_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -236,6 +283,33 @@ Files to create or update after human decision:
 - Formal target after human decision: `data/parameters/parameter_acceptance.csv`
 - Formal approval: `false`
 - Human decision required: `true`
+
+Review packets:
+- docs/review_packets/parameter_evidence.md
+- data/parameters/parameter_evidence_review_packet.csv
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_evidence_priority_packet.csv
+- data/parameters/road_evidence_review_packet.csv
+- data/road/road_source_readiness_packet.csv
+- data/road/road_evidence_priority_packet.csv
+- data/parameters/rail_evidence_review_packet.csv
+- data/rail/rail_fetch_readiness_packet.csv
+- data/rail/rail_evidence_priority_packet.csv
+- docs/review_packets/cached_osm_input.md
+- docs/review_packets/rail_evidence.md
+
+Source paths:
+- data/parameters/parameter_sources.csv
+- data/parameters/road_class_overrides_draft.csv
+- data/parameters/rail_service_evidence.csv
+- data/parameters/rail_station_bindings.csv
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_evidence_priority_packet.csv
+- data/road/road_source_readiness_packet.csv
+- data/road/road_evidence_priority_packet.csv
+- data/rail/rail_fetch_readiness_packet.csv
+- data/rail/rail_evidence_priority_packet.csv
+- data/parameters/parameter_acceptance.csv
 
 Evidence inspected:
 - `data/parameters/parameter_sources.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -367,6 +441,33 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/cached_osm_input.md
+- data/parameters/parameter_evidence_review_packet.csv
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_evidence_priority_packet.csv
+- data/parameters/road_evidence_review_packet.csv
+- data/road/road_source_readiness_packet.csv
+- data/road/road_evidence_priority_packet.csv
+- data/parameters/rail_evidence_review_packet.csv
+- data/rail/rail_fetch_readiness_packet.csv
+- data/rail/rail_evidence_priority_packet.csv
+- docs/review_packets/parameter_evidence.md
+- docs/review_packets/rail_evidence.md
+
+Source paths:
+- data/parameters/parameter_sources.csv
+- data/parameters/road_class_overrides_draft.csv
+- data/parameters/rail_service_evidence.csv
+- data/parameters/rail_station_bindings.csv
+- data/parameters/parameter_source_readiness_packet.csv
+- data/parameters/parameter_evidence_priority_packet.csv
+- data/road/road_source_readiness_packet.csv
+- data/road/road_evidence_priority_packet.csv
+- data/rail/rail_fetch_readiness_packet.csv
+- data/rail/rail_evidence_priority_packet.csv
+- data/parameters/road_class_overrides.csv
+
 Evidence inspected:
 - `data/parameters/parameter_sources.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/road_class_overrides_draft.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -473,6 +574,21 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/validation_package.md
+- data/validation/validation_review_packet.csv
+- data/validation/validation_strategy_readiness_packet.csv
+- data/validation/validation_benchmark_readiness_packet.csv
+
+Source paths:
+- data/validation/validation_review_packet.csv
+- data/validation/validation_strategy_readiness_packet.csv
+- data/validation/validation_benchmark_readiness_packet.csv
+- data/validation/osrm_route_benchmark_manifest.json
+- data/validation/accessibility_loss.csv
+- data/validation/canonical_route_road_evidence_exposure.csv
+- data/manifests/validation_acceptance.json
+
 Evidence inspected:
 - `data/validation/validation_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -546,6 +662,20 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/sensitivity_analysis.md
+- data/validation/sensitivity_review_packet.csv
+- data/validation/sensitivity_index_review_packet.csv
+- data/validation/sensitivity_strategy_readiness_packet.csv
+
+Source paths:
+- results/realworld_pilot/morris_manifest.json
+- results/realworld_pilot/morris_results.csv
+- results/realworld_pilot/morris_summary.csv
+- data/validation/sensitivity_strategy_readiness_packet.csv
+- data/validation/sensitivity_index_review_packet.csv
+- data/manifests/sensitivity_acceptance.json
+
 Evidence inspected:
 - `results/realworld_pilot/morris_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/morris_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -613,6 +743,19 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/full_experiment_output.md
+- data/manifests/experiment_package_review_packet.csv
+- data/manifests/experiment_strategy_readiness_packet.csv
+
+Source paths:
+- results/realworld_pilot/pilot_full_manifest.json
+- results/realworld_pilot/pilot_full_results.csv
+- results/realworld_pilot/pilot_full_summary.csv
+- data/manifests/experiment_package_review_packet.csv
+- data/manifests/experiment_strategy_readiness_packet.csv
+- data/manifests/experiment_acceptance.json
+
 Evidence inspected:
 - `results/realworld_pilot/pilot_full_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/pilot_full_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -678,6 +821,18 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/manuscript_report_alignment.md
+- data/manifests/claim_alignment_review_packet.csv
+
+Source paths:
+- paper/paper_draft.md
+- report_draft.md
+- report.docx
+- results/realworld_pilot/tables/figure_table_manifest.json
+- data/manifests/claim_alignment_review_packet.csv
+- data/manifests/manuscript_acceptance.json
+
 Evidence inspected:
 - `paper/paper_draft.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `report_draft.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -736,6 +891,21 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/reproducibility.md
+- data/validation/reproducibility_review_packet.csv
+- data/validation/tracked_artifact_audit.csv
+
+Source paths:
+- data/manifests/reproducibility_manifest.json
+- data/validation/reproducibility_review_manifest.json
+- data/validation/reproducibility_smoke_manifest.json
+- data/validation/clean_checkout_reproducibility_smoke_manifest.json
+- data/validation/tracked_artifact_audit_manifest.json
+- docs/reproducibility_package.md
+- requirements.txt
+- data/manifests/reproducibility_acceptance.json
+
 Evidence inspected:
 - `data/manifests/reproducibility_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -787,6 +957,16 @@ Files to create or update after human decision:
 - Formal approval: `false`
 - Human decision required: `true`
 
+Review packets:
+- docs/review_packets/final_audit.md
+
+Source paths:
+- docs/current_goal_completion_audit.md
+- data/manifests/acceptance_orchestration_manifest.json
+- data/manifests/formal_acceptance_evidence_matrix.csv
+- data/manifests/formal_acceptance_package_audit.json
+- docs/final_study_audit.md
+
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/acceptance_orchestration_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -836,6 +1016,16 @@ Files to create or update after human decision:
 - Formal target after human decision: `data/manifests/final_audit_acceptance.json`
 - Formal approval: `false`
 - Human decision required: `true`
+
+Review packets:
+- docs/review_packets/final_audit.md
+
+Source paths:
+- docs/current_goal_completion_audit.md
+- data/manifests/acceptance_orchestration_manifest.json
+- data/manifests/formal_acceptance_evidence_matrix.csv
+- data/manifests/formal_acceptance_package_audit.json
+- data/manifests/final_audit_acceptance.json
 
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review

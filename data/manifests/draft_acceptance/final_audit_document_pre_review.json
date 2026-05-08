@@ -68,7 +68,7 @@
   "formal_record_present": false,
   "formal_target": "docs/final_study_audit.md",
   "gate": "final_audit_document",
-  "generated_at": "2026-05-08T13:47:49+00:00",
+  "generated_at": "2026-05-08T13:52:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -87,6 +87,10 @@
     "docs/final_study_audit.md is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "docs/final_study_audit.md",
+    "data/manifests/final_audit_acceptance.json"
+  ],
   "recommendation": "blocked_missing_evidence",
   "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
   "related_plan_gate_ids": [
@@ -102,6 +106,23 @@
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
   ],
+  "review_packets": [
+    "docs/review_packets/final_audit.md"
+  ],
+  "reviewed_inputs": [
+    "docs/current_goal_completion_audit.md",
+    "data/manifests/acceptance_orchestration_manifest.json",
+    "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+    "data/manifests/formal_acceptance_package_audit.json",
+    "scripts/audit_final_study_readiness.py"
+  ],
   "schema_version": 1,
+  "source_paths": [
+    "docs/current_goal_completion_audit.md",
+    "data/manifests/acceptance_orchestration_manifest.json",
+    "data/manifests/formal_acceptance_evidence_matrix.csv",
+    "data/manifests/formal_acceptance_package_audit.json",
+    "docs/final_study_audit.md"
+  ],
   "status": "draft_pre_review"
 }

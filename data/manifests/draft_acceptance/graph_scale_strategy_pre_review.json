@@ -223,7 +223,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/graph_scale_acceptance.json",
   "gate": "graph_scale_strategy",
-  "generated_at": "2026-05-08T13:47:49+00:00",
+  "generated_at": "2026-05-08T13:52:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -245,6 +245,42 @@
     "data/manifests/graph_scale_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/manifests/graph_scale_acceptance.json",
+    "docs/analysis_corridor_method_note.md",
+    "docs/graph_scale_diagnostics.md",
+    "data/validation/graph_scale_route_comparison.csv",
+    "data/validation/graph_scale_route_comparison_summary.md",
+    "data/validation/graph_scale_alternate_routes.csv",
+    "data/validation/graph_scale_alternate_routes_summary.md",
+    "data/validation/graph_scale_multi_corridor_routes.csv",
+    "data/validation/graph_scale_multi_corridor_routes_summary.md",
+    "data/validation/graph_scale_review_packet.csv",
+    "data/validation/graph_scale_review_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "docs/graph_scale_strategy_readiness_packet.md",
+    "data/validation/graph_scale_manifest_audit.csv",
+    "data/validation/graph_scale_manifest_audit_manifest.json",
+    "docs/graph_scale_manifest_audit.md",
+    "data/validation/full_graph_runtime_readiness_packet.csv",
+    "data/validation/full_graph_runtime_readiness_manifest.json",
+    "docs/full_graph_runtime_readiness_packet.md",
+    "data/validation/graph_scale_result_comparison.csv",
+    "data/validation/graph_scale_result_comparison_manifest.json",
+    "scripts/audit_graph_scale_manifests.py",
+    "scripts/write_graph_scale_review_packet.py",
+    "scripts/write_graph_scale_strategy_readiness_packet.py",
+    "scripts/write_graph_scale_result_comparison.py",
+    "scripts/run_graph_scale_diagnostics.py",
+    "results/realworld_pilot/pilot_multi_corridor_results.csv",
+    "results/realworld_pilot/pilot_multi_corridor_summary.csv",
+    "results/realworld_pilot/pilot_multi_corridor_manifest.json",
+    "results/realworld_pilot/pilot_multi_corridor_full_results.csv",
+    "results/realworld_pilot/pilot_multi_corridor_full_summary.csv",
+    "results/realworld_pilot/pilot_multi_corridor_full_manifest.json",
+    "results/realworld_pilot/pilot_full_manifest.json"
+  ],
   "recommendation": "blocked_requires_human_decision",
   "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
   "related_plan_gate_ids": [
@@ -264,6 +300,35 @@
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
   ],
+  "review_packets": [
+    "docs/review_packets/graph_scale_strategy.md",
+    "data/validation/graph_scale_review_packet.csv",
+    "data/validation/full_graph_runtime_readiness_packet.csv",
+    "data/validation/graph_scale_manifest_audit.csv",
+    "data/validation/graph_scale_strategy_readiness_packet.csv"
+  ],
+  "reviewed_inputs": [
+    "docs/analysis_corridor_method_note.md",
+    "docs/graph_scale_diagnostics.md",
+    "docs/graph_scale_manifest_audit.md",
+    "data/validation/graph_scale_review_packet.csv",
+    "data/validation/full_graph_runtime_readiness_manifest.json",
+    "data/validation/graph_scale_manifest_audit_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "data/validation/graph_scale_result_comparison.csv",
+    "data/validation/graph_scale_result_comparison_manifest.json"
+  ],
   "schema_version": 1,
+  "source_paths": [
+    "results/realworld_pilot/pilot_full_manifest.json",
+    "data/validation/graph_scale_route_comparison.csv",
+    "data/validation/graph_scale_alternate_routes.csv",
+    "data/validation/graph_scale_multi_corridor_routes.csv",
+    "data/validation/full_graph_runtime_readiness_packet.csv",
+    "data/validation/graph_scale_manifest_audit.csv",
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_result_comparison.csv",
+    "data/manifests/graph_scale_acceptance.json"
+  ],
   "status": "draft_pre_review"
 }

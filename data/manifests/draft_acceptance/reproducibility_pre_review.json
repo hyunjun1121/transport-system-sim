@@ -97,7 +97,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-05-08T13:47:49+00:00",
+  "generated_at": "2026-05-08T13:52:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -114,6 +114,17 @@
     "data/manifests/reproducibility_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/manifests/reproducibility_acceptance.json",
+    "docs/reproducibility_package.md",
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_packet.csv",
+    "data/validation/reproducibility_review_manifest.json",
+    "data/validation/reproducibility_smoke_manifest.json",
+    "docs/reproducibility_smoke.md",
+    "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+    "docs/clean_checkout_reproducibility_smoke.md"
+  ],
   "recommendation": "blocked_missing_evidence",
   "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
   "related_plan_gate_ids": [
@@ -128,6 +139,28 @@
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
   ],
+  "review_packets": [
+    "docs/review_packets/reproducibility.md",
+    "data/validation/reproducibility_review_packet.csv",
+    "data/validation/tracked_artifact_audit.csv"
+  ],
+  "reviewed_inputs": [
+    "docs/reproducibility_package.md",
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_packet.csv",
+    "data/validation/tracked_artifact_audit.csv",
+    "scripts/audit_plan_artifacts.py"
+  ],
   "schema_version": 1,
+  "source_paths": [
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_review_manifest.json",
+    "data/validation/reproducibility_smoke_manifest.json",
+    "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+    "data/validation/tracked_artifact_audit_manifest.json",
+    "docs/reproducibility_package.md",
+    "requirements.txt",
+    "data/manifests/reproducibility_acceptance.json"
+  ],
   "status": "draft_pre_review"
 }
