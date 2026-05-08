@@ -129,8 +129,9 @@ def test_clean_checkout_minimal_profile_is_bounded() -> None:
 
     ids = {command.command_id for command in CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS}
 
-    assert len(CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS) == 8
+    assert len(CLEAN_CHECKOUT_MINIMAL_SMOKE_COMMANDS) == 9
     assert "test_clean_checkout_smoke" in ids
+    assert "test_publication_readiness" in ids
     assert "formal_acceptance_package_audit" in ids
     assert "final_study_readiness_audit" in ids
     assert "runtime_cloned_repo_import_boundary" in ids
