@@ -110,6 +110,10 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         "data/validation/validation_benchmark_readiness_packet.csv"
         in validation_agent.review_packet_paths
     )
+    assert (
+        "data/validation/validation_benchmark_decision_packet.csv"
+        in validation_agent.review_packet_paths
+    )
 
     sensitivity_agent = agents["sensitivity_analysis_review_agent"]
     assert (
@@ -158,6 +162,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "current_goal_completion_audit" in snapshot_ids
     assert "publication_readiness_audit" in snapshot_ids
     assert "source_context_cache_request" in snapshot_ids
+    assert "validation_benchmark_decision" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -226,6 +231,28 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "validation_acceptance_record is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        validation_decision_snapshot_path = root / "validation_benchmark_decision_manifest.json"
+        validation_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 6,
+                    "blocking_decision_count": 3,
+                    "human_review_decision_count": 3,
+                    "validation_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_validation_acceptance_record": 1,
+                        "needs_human_review_cached_osrm_scope_policy": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/validation_acceptance.json is absent"
                     ],
                 }
             )
@@ -429,6 +456,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     validation_snapshot_path,
                 ),
                 (
+                    "validation_benchmark_decision",
+                    "Validation Benchmark Decision",
+                    validation_decision_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -504,6 +536,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 0
         )
+        assert snapshots["validation_benchmark_decision"]["blocking_count"] == 3
+        assert snapshots["validation_benchmark_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["validation_benchmark_decision"]["status_counts"][
+                "blocked_missing_validation_acceptance_record"
+            ]
+            == 1
+        )
         assert (
             snapshots["graph_scale_result_comparison"]["status_counts"][
                 "candidate_worsens"
@@ -575,6 +615,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "cache or exclude context-only sources" in index_text
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
+        assert "`Validation Benchmark Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
@@ -587,6 +628,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "candidate_worsens=24" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text
+        assert "needs_human_review_cached_osrm_scope_policy=1" in index_text
         assert "blocked_missing_evidence=8" in index_text
         assert "missing_formal_target=36" in index_text
         assert "generated_review_artifact=2" in index_text

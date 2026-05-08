@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T16:48:06+00:00",
+  "generated_at": "2026-05-08T17:04:22+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -75,8 +75,8 @@
       "can_mark_complete": false,
       "gate_id": "validation_package",
       "record_path": "data/manifests/agent_reviews/validation_package__validation_benchmark_strategy_agent.json",
-      "required_action_count": 8,
-      "risk_count": 8,
+      "required_action_count": 13,
+      "risk_count": 13,
       "status": "needs_human_review"
     },
     {
@@ -198,6 +198,11 @@
     "validation_package: validation strategy readiness: validation_acceptance.json is absent",
     "validation_package: validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "validation_package: review validation strategy-readiness human-decision items before validation acceptance",
+    "validation_package: resolve validation benchmark-decision blockers before validation acceptance",
+    "validation_package: validation benchmark decision: validation summary still declares scaffold or sanity scope",
+    "validation_package: validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+    "validation_package: validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+    "validation_package: review validation benchmark-decision human-decision items before validation acceptance",
     "validation_package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "sensitivity_analysis: Review parameter ranges and decide whether Morris is enough or Sobol is required.",
     "sensitivity_analysis: Create sensitivity_acceptance.json after final input and graph scope are accepted.",
@@ -292,6 +297,11 @@
     "Validation Package: validation strategy readiness: validation_acceptance.json is absent",
     "Validation Package: validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "Validation Package: review validation strategy-readiness human-decision items before validation acceptance",
+    "Validation Package: resolve validation benchmark-decision blockers before validation acceptance",
+    "Validation Package: validation benchmark decision: validation summary still declares scaffold or sanity scope",
+    "Validation Package: validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+    "Validation Package: validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+    "Validation Package: review validation benchmark-decision human-decision items before validation acceptance",
     "Validation Package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "Sensitivity Analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
     "Sensitivity Analysis: resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
@@ -861,6 +871,40 @@
       }
     },
     {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Validation Benchmark Decision",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/validation_benchmark_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "validation summary still declares scaffold or sanity scope",
+        "route-level road evidence exposure remains weak until road evidence gates close",
+        "data/manifests/validation_acceptance.json is absent"
+      ],
+      "result_scope": "Validation benchmark decision packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence.",
+      "review_items": [
+        "choose whether fallback rows are retained, replaced, or excluded",
+        "choose whether cached OSRM is sufficient as a plausibility snapshot",
+        "choose whether alternative route-engine or agency evidence is required",
+        "resolve route-level road evidence dependency before final validation claims",
+        "record final benchmark strategy only in data/manifests/validation_acceptance.json"
+      ],
+      "row_count": 6,
+      "snapshot_id": "validation_benchmark_decision",
+      "status_counts": {
+        "blocked_missing_validation_acceptance_record": 1,
+        "blocked_scaffold_validation_scope": 1,
+        "blocked_weak_route_road_evidence_dependency": 1,
+        "needs_human_review_alternative_benchmark_scope": 1,
+        "needs_human_review_cached_osrm_scope_policy": 1,
+        "needs_human_review_fallback_warn_or_fail_policy": 1
+      }
+    },
+    {
       "blocking_count": 2,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -1234,7 +1278,7 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 627
+        "present": 637
       }
     },
     {

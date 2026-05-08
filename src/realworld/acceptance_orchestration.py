@@ -133,6 +133,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "validation" / "validation_benchmark_readiness_manifest.json",
     ),
     (
+        "validation_benchmark_decision",
+        "Validation Benchmark Decision",
+        PROJECT_ROOT / "data" / "validation" / "validation_benchmark_decision_manifest.json",
+    ),
+    (
         "validation_strategy_readiness",
         "Validation Strategy Readiness",
         PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json",
@@ -492,6 +497,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/validation/validation_review_packet.csv",
             "data/validation/validation_strategy_readiness_packet.csv",
             "data/validation/validation_benchmark_readiness_packet.csv",
+            "data/validation/validation_benchmark_decision_packet.csv",
             "data/validation/osrm_route_benchmark_manifest.json",
             "data/validation/accessibility_loss.csv",
             "data/validation/canonical_route_road_evidence_exposure.csv",
@@ -500,15 +506,18 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "docs/validation_review_packet.md",
             "docs/validation_strategy_readiness_packet.md",
             "docs/validation_benchmark_readiness_packet.md",
+            "docs/validation_benchmark_decision_packet.md",
             "docs/osrm_route_benchmark_manifest.md",
             "data/validation/validation_review_manifest.json",
             "data/validation/validation_strategy_readiness_manifest.json",
             "data/validation/validation_benchmark_readiness_manifest.json",
+            "data/validation/validation_benchmark_decision_manifest.json",
         ),
         review_packet_paths=(
             "data/validation/validation_review_packet.csv",
             "data/validation/validation_strategy_readiness_packet.csv",
             "data/validation/validation_benchmark_readiness_packet.csv",
+            "data/validation/validation_benchmark_decision_packet.csv",
             "docs/review_packets/validation_package.md",
         ),
         decision_rules=(

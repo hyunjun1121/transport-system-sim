@@ -85,6 +85,11 @@ from src.realworld.source_context_cache_request_packet import (
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH,
 )
 from src.realworld.validation_acceptance import summarize_validation_acceptance
+from src.realworld.validation_benchmark_decision_packet import (
+    DEFAULT_VALIDATION_BENCHMARK_DECISION_DOC_PATH,
+    DEFAULT_VALIDATION_BENCHMARK_DECISION_MANIFEST_PATH,
+    DEFAULT_VALIDATION_BENCHMARK_DECISION_PACKET_PATH,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -221,6 +226,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     validation_strategy_readiness_manifest = _load_json(
         DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH
     )
+    validation_benchmark_decision_manifest = _load_json(
+        DEFAULT_VALIDATION_BENCHMARK_DECISION_MANIFEST_PATH
+    )
     sensitivity_strategy_readiness_manifest = _load_json(
         DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -273,7 +281,11 @@ def audit_final_study_readiness() -> dict[str, Any]:
             rail_fetch_readiness_manifest,
             rail_evidence_priority_manifest,
         ),
-        _validation_gate(validation_acceptance, validation_strategy_readiness_manifest),
+        _validation_gate(
+            validation_acceptance,
+            validation_strategy_readiness_manifest,
+            validation_benchmark_decision_manifest,
+        ),
         _structured_disruption_gate(),
         _policy_gate(),
         _sensitivity_gate(
@@ -1267,6 +1279,7 @@ def _rail_gate(
 def _validation_gate(
     validation_acceptance: dict[str, Any],
     validation_strategy_readiness_manifest: dict[str, Any] | None = None,
+    validation_benchmark_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     summary_path = PROJECT_ROOT / "data" / "validation" / "validation_summary.md"
     review_manifest_path = (
@@ -1320,6 +1333,9 @@ def _validation_gate(
     benchmark_readiness_doc_path = (
         PROJECT_ROOT / "docs" / "validation_benchmark_readiness_packet.md"
     )
+    benchmark_decision_packet_path = DEFAULT_VALIDATION_BENCHMARK_DECISION_PACKET_PATH
+    benchmark_decision_manifest_path = DEFAULT_VALIDATION_BENCHMARK_DECISION_MANIFEST_PATH
+    benchmark_decision_doc_path = DEFAULT_VALIDATION_BENCHMARK_DECISION_DOC_PATH
     text = _read_text(summary_path)
     review_manifest = _load_json(review_manifest_path)
     osrm_manifest = _load_json(osrm_manifest_path)
@@ -1337,6 +1353,9 @@ def _validation_gate(
         and benchmark_readiness_packet_path.exists()
         and benchmark_readiness_manifest_path.exists()
         and benchmark_readiness_doc_path.exists()
+        and benchmark_decision_packet_path.exists()
+        and benchmark_decision_manifest_path.exists()
+        and benchmark_decision_doc_path.exists()
     )
     acceptance_ready = bool(validation_acceptance["acceptance_ready"])
     summary_scope_blocked = _validation_summary_scope_is_blocked(text)
@@ -1371,6 +1390,29 @@ def _validation_gate(
             blockers.append(
                 "review validation strategy-readiness human-decision items before validation acceptance"
             )
+        decision_blocking_count = _dict_int(
+            validation_benchmark_decision_manifest,
+            "blocking_decision_count",
+        )
+        decision_human_review_count = _dict_int(
+            validation_benchmark_decision_manifest,
+            "human_review_decision_count",
+        )
+        if decision_blocking_count:
+            blockers.append(
+                "resolve validation benchmark-decision blockers before validation acceptance"
+            )
+            blockers.extend(
+                f"validation benchmark decision: {item}"
+                for item in _list_value(
+                    validation_benchmark_decision_manifest,
+                    "remaining_blockers",
+                )
+            )
+        if decision_human_review_count:
+            blockers.append(
+                "review validation benchmark-decision human-decision items before validation acceptance"
+            )
     if summary_scope_blocked:
         blockers.append(
             "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
@@ -1398,12 +1440,16 @@ def _validation_gate(
             "data/validation/validation_benchmark_readiness_packet.csv",
             "data/validation/validation_benchmark_readiness_manifest.json",
             "docs/validation_benchmark_readiness_packet.md",
+            "data/validation/validation_benchmark_decision_packet.csv",
+            "data/validation/validation_benchmark_decision_manifest.json",
+            "docs/validation_benchmark_decision_packet.md",
             "scripts/run_plausibility_validation.py",
             "scripts/run_accessibility_loss_analysis.py",
             "scripts/write_route_road_evidence_exposure.py",
             "scripts/run_osrm_route_benchmark.py",
             "scripts/write_osrm_snapshot_manifest.py",
             "scripts/write_validation_benchmark_readiness_packet.py",
+            "scripts/write_validation_benchmark_decision_packet.py",
             "scripts/write_validation_review_packet.py",
             "scripts/write_validation_strategy_readiness_packet.py",
         ],
@@ -1473,6 +1519,27 @@ def _validation_gate(
             "strategy_readiness_remaining_blockers": (
                 validation_strategy_readiness_manifest or {}
             ).get("remaining_blockers", []),
+            "benchmark_decision_manifest_present": bool(
+                validation_benchmark_decision_manifest
+            ),
+            "benchmark_decision_blocking_decision_count": (
+                validation_benchmark_decision_manifest or {}
+            ).get("blocking_decision_count", 0),
+            "benchmark_decision_human_review_decision_count": (
+                validation_benchmark_decision_manifest or {}
+            ).get("human_review_decision_count", 0),
+            "benchmark_decision_status_counts": (
+                validation_benchmark_decision_manifest or {}
+            ).get("decision_status_counts", {}),
+            "benchmark_decision_remaining_blockers": (
+                validation_benchmark_decision_manifest or {}
+            ).get("remaining_blockers", []),
+            "benchmark_decision_publication_ready": (
+                validation_benchmark_decision_manifest or {}
+            ).get("publication_ready", False),
+            "benchmark_decision_can_mark_complete": (
+                validation_benchmark_decision_manifest or {}
+            ).get("can_mark_complete", False),
         },
     )
 

@@ -24,8 +24,9 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
 - `data/validation/validation_strategy_readiness_packet.csv` and
   `data/validation/graph_scale_strategy_readiness_packet.csv`, and
   `data/validation/sensitivity_strategy_readiness_packet.csv`, and
-  `data/manifests/experiment_strategy_readiness_packet.csv` are implemented
-  preflight review aids only.
+  `data/manifests/experiment_strategy_readiness_packet.csv`, plus
+  `data/validation/validation_benchmark_decision_packet.csv`, are implemented
+  preflight or decision-review aids only.
 - Current abstract-network and pilot outputs are not calibrated real-world
   results, formal approvals, or operational route plans.
 
@@ -130,6 +131,11 @@ Implemented extension modules now also cover:
   benchmark warnings, unpinned OSRM snapshots, accessibility diagnostics,
   weak route-road exposure, summary scope, and missing validation acceptance
   without accepting a benchmark strategy.
+- `validation_benchmark_decision_packet.py`: focused benchmark-strategy
+  reviewer worksheet. It separates fallback-retention, cached-OSRM scope,
+  alternative benchmark evidence, validation-summary scope, route-road
+  evidence dependency, and formal validation-acceptance boundary decisions
+  without treating any benchmark as ground truth.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

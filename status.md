@@ -34,8 +34,10 @@
   decisions.
 - Latest blocker/readiness packets are implemented for
   `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-  `sensitivity_strategy_readiness`, and `experiment_strategy_readiness`. They
-  make the remaining review work explicit but do not close acceptance gates.
+  `sensitivity_strategy_readiness`, and `experiment_strategy_readiness`, with
+  a focused `validation_benchmark_decision` worksheet for route-benchmark
+  scope choices. They make the remaining review work explicit but do not close
+  acceptance gates.
 - There is still no calibrated real-world result and no operational route plan.
 
 ## Project Goal
@@ -763,6 +765,12 @@ includes:
   `data/manifests/experiment_strategy_readiness_packet.csv`,
   `data/manifests/experiment_strategy_readiness_manifest.json`, and
   `docs/experiment_strategy_readiness_packet.md`
+- `src/realworld/validation_benchmark_decision_packet.py`,
+  `scripts/write_validation_benchmark_decision_packet.py`,
+  `tests/test_realworld_validation_benchmark_decision_packet.py`,
+  `data/validation/validation_benchmark_decision_packet.csv`,
+  `data/validation/validation_benchmark_decision_manifest.json`, and
+  `docs/validation_benchmark_decision_packet.md`
 - `src/realworld/sensitivity.py`, `scripts/run_sensitivity.py`,
   `data/scenarios/sensitivity_design.csv`, and
   `results/realworld_pilot/` deterministic and Morris sensitivity outputs
@@ -1342,6 +1350,9 @@ Suggested next work:
 - `data/validation/graph_scale_result_comparison.csv`
 - `data/validation/graph_scale_result_comparison_manifest.json`
 - `data/validation/validation_summary.md`
+- `data/validation/validation_benchmark_decision_packet.csv`
+- `data/validation/validation_benchmark_decision_manifest.json`
+- `docs/validation_benchmark_decision_packet.md`
 - `data/scenarios/disruption_scenarios.csv`
 - `data/scenarios/policy_alternatives.csv`
 - `src/realworld/parameters.py`

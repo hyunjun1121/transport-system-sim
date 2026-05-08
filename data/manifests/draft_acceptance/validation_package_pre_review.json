@@ -25,6 +25,12 @@
       "claim_supported": "Repository evidence cited for validation_package",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_benchmark_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/validation/osrm_route_benchmark_manifest.json"
     },
     {
@@ -73,6 +79,12 @@
       "claim_supported": "Repository evidence cited for validation_package",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/validation_benchmark_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/osrm_route_benchmark_manifest.md"
     },
     {
@@ -92,6 +104,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/validation/validation_benchmark_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/validation_benchmark_decision_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for validation_package",
@@ -163,6 +181,12 @@
       "claim_supported": "Repository evidence cited for validation_package",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_validation_benchmark_decision_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for validation_package",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_validation_review_packet.py"
     },
     {
@@ -181,7 +205,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/validation_acceptance.json",
   "gate": "validation_package",
-  "generated_at": "2026-05-08T16:47:37+00:00",
+  "generated_at": "2026-05-08T17:03:53+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -198,6 +222,11 @@
     "validation strategy readiness: validation_acceptance.json is absent",
     "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "review validation strategy-readiness human-decision items before validation acceptance",
+    "resolve validation benchmark-decision blockers before validation acceptance",
+    "validation benchmark decision: validation summary still declares scaffold or sanity scope",
+    "validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+    "validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+    "review validation benchmark-decision human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "data/manifests/validation_acceptance.json is absent"
   ],
@@ -220,12 +249,16 @@
     "data/validation/validation_benchmark_readiness_packet.csv",
     "data/validation/validation_benchmark_readiness_manifest.json",
     "docs/validation_benchmark_readiness_packet.md",
+    "data/validation/validation_benchmark_decision_packet.csv",
+    "data/validation/validation_benchmark_decision_manifest.json",
+    "docs/validation_benchmark_decision_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
     "scripts/run_osrm_route_benchmark.py",
     "scripts/write_osrm_snapshot_manifest.py",
     "scripts/write_validation_benchmark_readiness_packet.py",
+    "scripts/write_validation_benchmark_decision_packet.py",
     "scripts/write_validation_review_packet.py",
     "scripts/write_validation_strategy_readiness_packet.py"
   ],
@@ -242,6 +275,11 @@
     "validation strategy readiness: validation_acceptance.json is absent",
     "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "review validation strategy-readiness human-decision items before validation acceptance",
+    "resolve validation benchmark-decision blockers before validation acceptance",
+    "validation benchmark decision: validation summary still declares scaffold or sanity scope",
+    "validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+    "validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+    "review validation benchmark-decision human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
     "data/manifests/validation_acceptance.json is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
@@ -251,22 +289,26 @@
     "docs/review_packets/validation_package.md",
     "data/validation/validation_review_packet.csv",
     "data/validation/validation_strategy_readiness_packet.csv",
-    "data/validation/validation_benchmark_readiness_packet.csv"
+    "data/validation/validation_benchmark_readiness_packet.csv",
+    "data/validation/validation_benchmark_decision_packet.csv"
   ],
   "reviewed_inputs": [
     "docs/validation_review_packet.md",
     "docs/validation_strategy_readiness_packet.md",
     "docs/validation_benchmark_readiness_packet.md",
+    "docs/validation_benchmark_decision_packet.md",
     "docs/osrm_route_benchmark_manifest.md",
     "data/validation/validation_review_manifest.json",
     "data/validation/validation_strategy_readiness_manifest.json",
-    "data/validation/validation_benchmark_readiness_manifest.json"
+    "data/validation/validation_benchmark_readiness_manifest.json",
+    "data/validation/validation_benchmark_decision_manifest.json"
   ],
   "schema_version": 1,
   "source_paths": [
     "data/validation/validation_review_packet.csv",
     "data/validation/validation_strategy_readiness_packet.csv",
     "data/validation/validation_benchmark_readiness_packet.csv",
+    "data/validation/validation_benchmark_decision_packet.csv",
     "data/validation/osrm_route_benchmark_manifest.json",
     "data/validation/accessibility_loss.csv",
     "data/validation/canonical_route_road_evidence_exposure.csv",

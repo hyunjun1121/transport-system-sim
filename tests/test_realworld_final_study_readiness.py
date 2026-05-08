@@ -294,6 +294,23 @@ def test_current_final_study_readiness_is_blocked() -> None:
         "raw OSRM response payloads" in item
         for item in gate_map["validation_package"]["blockers"]
     )
+    assert (
+        gate_map["validation_package"]["details"][
+            "benchmark_decision_blocking_decision_count"
+        ]
+        == 3
+    )
+    assert (
+        gate_map["validation_package"]["details"][
+            "benchmark_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert any(
+        "validation benchmark decision: data/manifests/validation_acceptance.json is absent"
+        in item
+        for item in gate_map["validation_package"]["blockers"]
+    )
     assert not any(
         "Validation Package: validation strategy readiness: retained raw OSRM response payloads"
         in item

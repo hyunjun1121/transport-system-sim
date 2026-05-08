@@ -183,6 +183,10 @@ from src.realworld.validation_benchmark_readiness_packet import (  # noqa: E402
     build_validation_benchmark_readiness_rows,
     write_validation_benchmark_readiness_packet,
 )
+from src.realworld.validation_benchmark_decision_packet import (  # noqa: E402
+    build_validation_benchmark_decision_rows,
+    write_validation_benchmark_decision_packet,
+)
 from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
     build_validation_strategy_readiness_rows,
     write_validation_strategy_readiness_packet,
@@ -491,6 +495,11 @@ def _refresh_existing_review_packets(
     )
     write_validation_strategy_readiness_packet(rows=validation_readiness_rows)
     refreshed.append("data/validation/validation_strategy_readiness_packet.csv")
+    validation_benchmark_decision_rows = build_validation_benchmark_decision_rows()
+    write_validation_benchmark_decision_packet(
+        rows=validation_benchmark_decision_rows
+    )
+    refreshed.append("data/validation/validation_benchmark_decision_packet.csv")
     reproducibility_rows = build_reproducibility_review_rows(
         git_status_lines=initial_git_status_lines,
     )

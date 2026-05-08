@@ -365,12 +365,16 @@
         "data/validation/validation_benchmark_readiness_packet.csv",
         "data/validation/validation_benchmark_readiness_manifest.json",
         "docs/validation_benchmark_readiness_packet.md",
+        "data/validation/validation_benchmark_decision_packet.csv",
+        "data/validation/validation_benchmark_decision_manifest.json",
+        "docs/validation_benchmark_decision_packet.md",
         "scripts/run_plausibility_validation.py",
         "scripts/run_accessibility_loss_analysis.py",
         "scripts/write_route_road_evidence_exposure.py",
         "scripts/run_osrm_route_benchmark.py",
         "scripts/write_osrm_snapshot_manifest.py",
         "scripts/write_validation_benchmark_readiness_packet.py",
+        "scripts/write_validation_benchmark_decision_packet.py",
         "scripts/write_validation_review_packet.py",
         "scripts/write_validation_strategy_readiness_packet.py"
       ],
@@ -382,6 +386,11 @@
         "validation strategy readiness: validation_acceptance.json is absent",
         "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
         "review validation strategy-readiness human-decision items before validation acceptance",
+        "resolve validation benchmark-decision blockers before validation acceptance",
+        "validation benchmark decision: validation summary still declares scaffold or sanity scope",
+        "validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+        "validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+        "review validation benchmark-decision human-decision items before validation acceptance",
         "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
       ],
       "ready": false

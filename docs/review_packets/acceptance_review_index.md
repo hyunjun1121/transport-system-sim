@@ -14,7 +14,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 15 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
-| `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 8 |
+| `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 11 |
 | `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 9 |
@@ -75,6 +75,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
 | `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
 | `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
+| `Validation Benchmark Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_scaffold_validation_scope=1; blocked_weak_route_road_evidence_dependency=1; +3 more |
 | `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
 | `Sensitivity Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; +4 more |
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
@@ -87,7 +88,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=627 |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=637 |
 | `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
@@ -108,6 +109,7 @@ Priority blockers by packet:
 - `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
 - `Rail Fetch Readiness`: rail timing cache files are absent unless source_cache_present is true (+2 more)
 - `Validation Benchmark Readiness`: validation_acceptance_record: data/manifests/validation_acceptance.json is absent
+- `Validation Benchmark Decision`: validation summary still declares scaffold or sanity scope (+2 more)
 - `Validation Strategy Readiness`: validation_acceptance.json is absent (+1 more)
 - `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
@@ -184,6 +186,11 @@ Priority blockers by packet:
 - validation_package: validation strategy readiness: validation_acceptance.json is absent
 - validation_package: validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - validation_package: review validation strategy-readiness human-decision items before validation acceptance
+- validation_package: resolve validation benchmark-decision blockers before validation acceptance
+- validation_package: validation benchmark decision: validation summary still declares scaffold or sanity scope
+- validation_package: validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- validation_package: validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- validation_package: review validation benchmark-decision human-decision items before validation acceptance
 - validation_package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - sensitivity_analysis: Review parameter ranges and decide whether Morris is enough or Sobol is required.
 - sensitivity_analysis: Create sensitivity_acceptance.json after final input and graph scope are accepted.
@@ -278,6 +285,11 @@ Priority blockers by packet:
 - Validation Package: validation strategy readiness: validation_acceptance.json is absent
 - Validation Package: validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - Validation Package: review validation strategy-readiness human-decision items before validation acceptance
+- Validation Package: resolve validation benchmark-decision blockers before validation acceptance
+- Validation Package: validation benchmark decision: validation summary still declares scaffold or sanity scope
+- Validation Package: validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- Validation Package: validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- Validation Package: review validation benchmark-decision human-decision items before validation acceptance
 - Validation Package: revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - Sensitivity Analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review
 - Sensitivity Analysis: resolve sensitivity strategy-readiness blockers before sensitivity acceptance

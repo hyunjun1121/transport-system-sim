@@ -1299,6 +1299,13 @@ Current status:
   OSRM rows have 3 retained raw response files and 0 unpinned rows, but the
   packet still keeps benchmark use in human-review scope and cannot close the
   validation gate.
+- `scripts/write_validation_benchmark_decision_packet.py` now expands the
+  benchmark-strategy decision into 6 reviewer rows: fallback retention, cached
+  OSRM scope, alternative benchmark evidence, validation-summary claim scope,
+  route-road evidence dependency, and the formal validation-acceptance boundary.
+  Current output remains blocked by scaffold validation scope, weak route-road
+  evidence exposure, and the missing `data/manifests/validation_acceptance.json`
+  record.
 
 Validation layers:
 
@@ -2038,6 +2045,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
@@ -2193,7 +2201,8 @@ Concrete next tasks:
    or equivalent evidence is needed within the publication schedule. Use
    `data/validation/validation_review_packet.csv` and
    `data/validation/validation_strategy_readiness_packet.csv` with the
-   focused `data/validation/validation_benchmark_readiness_packet.csv` as the
+   focused `data/validation/validation_benchmark_readiness_packet.csv` and
+   `data/validation/validation_benchmark_decision_packet.csv` as the
    benchmark-strategy and blocker-classification worksheets before creating
    any validation acceptance record.
 9. Review the current sample/staged/full pilot runner outputs as the candidate

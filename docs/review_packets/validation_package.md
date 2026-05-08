@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Validation Benchmark Strategy Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T16:48:06+00:00`
+- Generated at: `2026-05-08T17:04:22+00:00`
 
 ## Decision
 
@@ -17,10 +17,12 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - docs/validation_review_packet.md
 - docs/validation_strategy_readiness_packet.md
 - docs/validation_benchmark_readiness_packet.md
+- docs/validation_benchmark_decision_packet.md
 - docs/osrm_route_benchmark_manifest.md
 - data/validation/validation_review_manifest.json
 - data/validation/validation_strategy_readiness_manifest.json
 - data/validation/validation_benchmark_readiness_manifest.json
+- data/validation/validation_benchmark_decision_manifest.json
 - data/manifests/validation_acceptance.json
 - data/validation/validation_summary.md
 - data/validation/external_route_benchmarks.csv
@@ -33,12 +35,14 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - data/validation/validation_review_packet.csv
 - data/validation/validation_strategy_readiness_packet.csv
 - data/validation/validation_benchmark_readiness_packet.csv
+- data/validation/validation_benchmark_decision_packet.csv
 - scripts/run_plausibility_validation.py
 - scripts/run_accessibility_loss_analysis.py
 - scripts/write_route_road_evidence_exposure.py
 - scripts/run_osrm_route_benchmark.py
 - scripts/write_osrm_snapshot_manifest.py
 - scripts/write_validation_benchmark_readiness_packet.py
+- scripts/write_validation_benchmark_decision_packet.py
 - scripts/write_validation_review_packet.py
 - scripts/write_validation_strategy_readiness_packet.py
 
@@ -61,12 +65,16 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - data/validation/validation_benchmark_readiness_packet.csv
 - data/validation/validation_benchmark_readiness_manifest.json
 - docs/validation_benchmark_readiness_packet.md
+- data/validation/validation_benchmark_decision_packet.csv
+- data/validation/validation_benchmark_decision_manifest.json
+- docs/validation_benchmark_decision_packet.md
 - scripts/run_plausibility_validation.py
 - scripts/run_accessibility_loss_analysis.py
 - scripts/write_route_road_evidence_exposure.py
 - scripts/run_osrm_route_benchmark.py
 - scripts/write_osrm_snapshot_manifest.py
 - scripts/write_validation_benchmark_readiness_packet.py
+- scripts/write_validation_benchmark_decision_packet.py
 - scripts/write_validation_review_packet.py
 - scripts/write_validation_strategy_readiness_packet.py
 - docs/review_packets/validation_package.md
@@ -80,6 +88,11 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - validation strategy readiness: validation_acceptance.json is absent
 - validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
+- resolve validation benchmark-decision blockers before validation acceptance
+- validation benchmark decision: validation summary still declares scaffold or sanity scope
+- validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- review validation benchmark-decision human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 
 ## Required Actions
@@ -91,6 +104,11 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 - validation strategy readiness: validation_acceptance.json is absent
 - validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
+- resolve validation benchmark-decision blockers before validation acceptance
+- validation benchmark decision: validation summary still declares scaffold or sanity scope
+- validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- review validation benchmark-decision human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 
 ## Formal Acceptance Boundary
@@ -112,11 +130,34 @@ Formal acceptance artifacts:
     "validation strategy readiness: validation_acceptance.json is absent",
     "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
     "review validation strategy-readiness human-decision items before validation acceptance",
+    "resolve validation benchmark-decision blockers before validation acceptance",
+    "validation benchmark decision: validation summary still declares scaffold or sanity scope",
+    "validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
+    "validation benchmark decision: data/manifests/validation_acceptance.json is absent",
+    "review validation benchmark-decision human-decision items before validation acceptance",
     "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review"
   ],
   "details": {
     "acceptance_path": "data/manifests/validation_acceptance.json",
     "acceptance_record_present": false,
+    "benchmark_decision_blocking_decision_count": 3,
+    "benchmark_decision_can_mark_complete": false,
+    "benchmark_decision_human_review_decision_count": 3,
+    "benchmark_decision_manifest_present": true,
+    "benchmark_decision_publication_ready": false,
+    "benchmark_decision_remaining_blockers": [
+      "validation summary still declares scaffold or sanity scope",
+      "route-level road evidence exposure remains weak until road evidence gates close",
+      "data/manifests/validation_acceptance.json is absent"
+    ],
+    "benchmark_decision_status_counts": {
+      "blocked_missing_validation_acceptance_record": 1,
+      "blocked_scaffold_validation_scope": 1,
+      "blocked_weak_route_road_evidence_dependency": 1,
+      "needs_human_review_alternative_benchmark_scope": 1,
+      "needs_human_review_cached_osrm_scope_policy": 1,
+      "needs_human_review_fallback_warn_or_fail_policy": 1
+    },
     "benchmark_strategy": "",
     "osrm_raw_response_file_count": 3,
     "osrm_unpinned_row_count": 0,
@@ -165,12 +206,16 @@ Formal acceptance artifacts:
     "data/validation/validation_benchmark_readiness_packet.csv",
     "data/validation/validation_benchmark_readiness_manifest.json",
     "docs/validation_benchmark_readiness_packet.md",
+    "data/validation/validation_benchmark_decision_packet.csv",
+    "data/validation/validation_benchmark_decision_manifest.json",
+    "docs/validation_benchmark_decision_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
     "scripts/run_osrm_route_benchmark.py",
     "scripts/write_osrm_snapshot_manifest.py",
     "scripts/write_validation_benchmark_readiness_packet.py",
+    "scripts/write_validation_benchmark_decision_packet.py",
     "scripts/write_validation_review_packet.py",
     "scripts/write_validation_strategy_readiness_packet.py"
   ],

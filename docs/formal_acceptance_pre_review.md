@@ -21,7 +21,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+9 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+22 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+10 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+8 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -593,11 +593,13 @@ Review packets:
 - data/validation/validation_review_packet.csv
 - data/validation/validation_strategy_readiness_packet.csv
 - data/validation/validation_benchmark_readiness_packet.csv
+- data/validation/validation_benchmark_decision_packet.csv
 
 Source paths:
 - data/validation/validation_review_packet.csv
 - data/validation/validation_strategy_readiness_packet.csv
 - data/validation/validation_benchmark_readiness_packet.csv
+- data/validation/validation_benchmark_decision_packet.csv
 - data/validation/osrm_route_benchmark_manifest.json
 - data/validation/accessibility_loss.csv
 - data/validation/canonical_route_road_evidence_exposure.csv
@@ -607,6 +609,7 @@ Evidence inspected:
 - `data/validation/validation_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_benchmark_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_benchmark_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/osrm_route_benchmark_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/accessibility_loss.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/canonical_route_road_evidence_exposure.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -615,10 +618,12 @@ Evidence inspected:
 - `docs/validation_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/validation_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/validation_benchmark_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/validation_benchmark_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/osrm_route_benchmark_manifest.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_benchmark_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_benchmark_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks_osrm.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -630,6 +635,7 @@ Evidence inspected:
 - `scripts/run_osrm_route_benchmark.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_osrm_snapshot_manifest.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_benchmark_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_validation_benchmark_decision_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_validation_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
@@ -639,6 +645,11 @@ Missing evidence:
 - validation strategy readiness: validation_acceptance.json is absent
 - validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
+- resolve validation benchmark-decision blockers before validation acceptance
+- validation benchmark decision: validation summary still declares scaffold or sanity scope
+- validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- review validation benchmark-decision human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
 
@@ -650,6 +661,11 @@ Residual risks:
 - validation strategy readiness: validation_acceptance.json is absent
 - validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close
 - review validation strategy-readiness human-decision items before validation acceptance
+- resolve validation benchmark-decision blockers before validation acceptance
+- validation benchmark decision: validation summary still declares scaffold or sanity scope
+- validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close
+- validation benchmark decision: data/manifests/validation_acceptance.json is absent
+- review validation benchmark-decision human-decision items before validation acceptance
 - revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review
 - data/manifests/validation_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
