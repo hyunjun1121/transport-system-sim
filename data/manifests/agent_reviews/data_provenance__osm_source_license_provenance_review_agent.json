@@ -30,7 +30,7 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T13:42:54+00:00",
+  "generated_at": "2026-05-08T13:47:30+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
