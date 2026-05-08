@@ -21,7 +21,7 @@ the conservative claim boundary.
 | --- | --- | --- |
 | `data/parameters/parameter_evidence_review_packet.csv` | 29-row core-parameter review worksheet | review support only |
 | `data/parameters/parameter_evidence_review_manifest.json` | Summary of weak rows, priorities, groups, and claim boundary | review support only |
-| `data/parameters/parameter_evidence_source_request_packet.csv` | 6-row source-request worksheet for cross-cutting weak-parameter evidence collection | request support only |
+| `data/parameters/parameter_evidence_source_request_packet.csv` | 7-row source-request worksheet for cross-cutting weak-parameter evidence collection, including the rail parameter cross-reference row | request support only |
 | `data/parameters/parameter_evidence_source_request_manifest.json` | Summary of covered parameters and non-acceptance claim boundary | request support only |
 | `scripts/write_parameter_review_packet.py` | Regenerates the worksheet and manifest from shipped parameter tables | deterministic scaffold command |
 | `scripts/write_parameter_evidence_source_request_packet.py` | Regenerates the source-request worksheet and manifest | deterministic scaffold command |
