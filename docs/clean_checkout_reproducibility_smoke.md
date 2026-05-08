@@ -1,8 +1,5 @@
 # Clean-Checkout Reproducibility Smoke
 
-> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
-
-
 `data/validation/clean_checkout_reproducibility_smoke_manifest.json`
 records a bounded clean source-checkout smoke run. It is not formal
 reproducibility acceptance and does not close
@@ -15,7 +12,7 @@ reproducibility acceptance and does not close
 - Commands passed: 8 / 8
 - Clean checkout tested: `true`
 - Full clean environment tested: `false`
-- Source commit: `25d82da87c4e92fc6a7409feb316632067624ed7`
+- Source commit: `40469350b7449f1083efc22975242b6b5817f533`
 - Environment scope: `clean_source_checkout_current_python_environment`
 - Can mark complete: `false`
 
