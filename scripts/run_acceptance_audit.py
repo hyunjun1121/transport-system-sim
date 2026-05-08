@@ -358,6 +358,7 @@ def _refresh_existing_review_packets(
     source_url_rows = build_source_url_review_rows(
         live_check=live_source_url_checks,
         timeout_sec=source_url_timeout_sec,
+        preserve_existing_live=not live_source_url_checks,
     )
     write_source_url_review_packet(rows=source_url_rows)
     refreshed.append("data/manifests/source_url_review_packet.csv")

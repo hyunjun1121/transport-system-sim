@@ -90,19 +90,32 @@ def build_source_url_review_rows(
     live_check: bool = False,
     timeout_sec: float = 8.0,
     checker: UrlChecker | None = None,
+    preserve_existing_live: bool = False,
+    existing_packet_path: str | Path = DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
 ) -> list[dict[str, str]]:
     """Return one conservative review row for each URL-like source citation."""
 
     manifest = load_source_provenance_manifest(provenance_manifest_path)
     rows: list[dict[str, str]] = []
     check_fn = checker or check_url_reachability
+    existing_live_results = (
+        _load_existing_live_results(existing_packet_path)
+        if preserve_existing_live and not live_check
+        else {}
+    )
     for record in manifest.records:
         urls = extract_urls(record.source_url_or_citation)
         if not urls:
             rows.append(_row_for_record_without_url(record))
             continue
         for index, url in enumerate(urls, start=1):
-            result = check_fn(url, timeout_sec) if live_check else _not_checked()
+            if live_check:
+                result = check_fn(url, timeout_sec)
+            else:
+                result = existing_live_results.get(
+                    (record.source_id, str(index), url),
+                    _not_checked(),
+                )
             rows.append(_row_for_url(record, url=url, index=index, result=result))
     return rows
 
@@ -382,6 +395,35 @@ def _not_checked() -> UrlCheckResult:
         url_status="not_checked",
         notes="offline parse-only row; run script with --live to record reachability",
     )
+
+
+def _load_existing_live_results(path: str | Path) -> dict[tuple[str, str, str], UrlCheckResult]:
+    packet = Path(path)
+    if not packet.exists():
+        return {}
+    results: dict[tuple[str, str, str], UrlCheckResult] = {}
+    with packet.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            if row.get("check_mode") != "live_http":
+                continue
+            checked_at = str(row.get("checked_at", "")).strip()
+            url = str(row.get("url", "")).strip()
+            if not checked_at or not url:
+                continue
+            key = (
+                str(row.get("source_id", "")).strip(),
+                str(row.get("url_index", "")).strip(),
+                url,
+            )
+            results[key] = UrlCheckResult(
+                url_status=str(row.get("url_status", "")).strip() or "network_error",
+                http_status=str(row.get("http_status", "")).strip(),
+                final_url=str(row.get("final_url", "")).strip(),
+                content_type=str(row.get("content_type", "")).strip(),
+                checked_at=checked_at,
+                notes=str(row.get("notes", "")).strip(),
+            )
+    return results
 
 
 def _counts(values: Sequence[str] | Any) -> dict[str, int]:

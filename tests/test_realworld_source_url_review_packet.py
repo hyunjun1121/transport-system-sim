@@ -100,6 +100,67 @@ def test_source_url_review_rows_support_injected_live_checker() -> None:
     print("PASS: source URL review rows support injected live checker")
 
 
+def test_source_url_review_rows_can_preserve_existing_live_results() -> None:
+    """Acceptance refreshes should not downgrade prior live URL evidence."""
+
+    with TemporaryDirectory() as directory:
+        packet = Path(directory) / "source_url_review_packet.csv"
+        with packet.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=SOURCE_URL_REVIEW_COLUMNS)
+            writer.writeheader()
+            writer.writerow(
+                {
+                    "source_id": "osm_overpass_road_snapshot",
+                    "source_name": "OpenStreetMap road graph via Overpass",
+                    "source_type": "public_map",
+                    "review_status": "cached_snapshot_pending_review",
+                    "url_index": "1",
+                    "url": "https://www.openstreetmap.org/copyright",
+                    "check_mode": "live_http",
+                    "url_status": "reachable",
+                    "http_status": "200",
+                    "final_url": "https://www.openstreetmap.org/copyright",
+                    "content_type": "text/html",
+                    "checked_at": "2026-05-08T00:00:00+00:00",
+                    "target_acceptance_artifact": (
+                        "data/manifests/provenance_acceptance.json"
+                    ),
+                    "requires_reviewer_confirmation": "true",
+                    "can_support_final_provenance_gate": "false",
+                    "claim_boundary": SOURCE_URL_REVIEW_SCOPE,
+                    "notes": "fixture prior live check",
+                }
+            )
+
+        rows = build_source_url_review_rows(
+            preserve_existing_live=True,
+            existing_packet_path=packet,
+        )
+
+    preserved = next(
+        row
+        for row in rows
+        if row["source_id"] == "osm_overpass_road_snapshot"
+        and row["url_index"] == "1"
+    )
+    assert preserved["check_mode"] == "live_http"
+    assert preserved["url_status"] == "reachable"
+    assert preserved["http_status"] == "200"
+    assert preserved["checked_at"] == "2026-05-08T00:00:00+00:00"
+    assert preserved["notes"] == "fixture prior live check"
+
+    not_preserved = next(
+        row
+        for row in rows
+        if row["source_id"] == "osm_overpass_road_snapshot"
+        and row["url_index"] == "2"
+    )
+    assert not_preserved["check_mode"] == "not_checked"
+    assert not_preserved["url_status"] == "not_checked"
+
+    print("PASS: source URL review rows preserve existing live results")
+
+
 def test_check_url_reachability_falls_back_from_head_http_error() -> None:
     """HEAD-only HTTP errors should try GET before marking a URL unreachable."""
 
@@ -292,6 +353,7 @@ if __name__ == "__main__":
     test_extract_urls_preserves_url_internal_semicolon_and_commas()
     test_source_url_review_rows_are_non_acceptance_rows()
     test_source_url_review_rows_support_injected_live_checker()
+    test_source_url_review_rows_can_preserve_existing_live_results()
     test_check_url_reachability_falls_back_from_head_http_error()
     test_check_url_reachability_falls_back_from_head_network_error()
     test_write_source_url_review_packet_outputs_artifacts()

@@ -1,8 +1,10 @@
 """Write the current source URL review packet.
 
 By default this command only parses URLs from source provenance records. Use
-``--live`` to record best-effort HTTP reachability. Neither mode creates source
-or provenance acceptance.
+``--live`` to record best-effort HTTP reachability, or
+``--preserve-existing-live`` to carry forward prior live rows whose source IDs,
+URL indexes, and URLs still match. No mode creates source or provenance
+acceptance.
 """
 
 from __future__ import annotations
@@ -34,6 +36,8 @@ def main(argv: list[str] | None = None) -> int:
         provenance_manifest_path=args.source_provenance_manifest,
         live_check=args.live,
         timeout_sec=args.timeout_sec,
+        preserve_existing_live=args.preserve_existing_live,
+        existing_packet_path=args.output,
     )
     manifest = write_source_url_review_packet(
         rows=rows,
@@ -76,6 +80,14 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--live",
         action="store_true",
         help="Perform bounded live HTTP reachability checks.",
+    )
+    parser.add_argument(
+        "--preserve-existing-live",
+        action="store_true",
+        help=(
+            "When --live is not used, preserve prior live reachability rows "
+            "from the current output CSV if source IDs, URL indexes, and URLs still match."
+        ),
     )
     parser.add_argument(
         "--timeout-sec",
