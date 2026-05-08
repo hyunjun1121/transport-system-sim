@@ -546,6 +546,14 @@ First pilot-smoke artifacts also exist:
   `publication_ready: false`, does not create
   `data/manifests/sensitivity_acceptance.json`, and does not close the
   sensitivity gate.
+- `src/realworld/sensitivity_index_review_packet.py` and
+  `scripts/write_sensitivity_index_review_packet.py` now turn the Morris
+  index-handling problem into a 7-row metric-level worksheet under
+  `data/validation/sensitivity_index_review_packet.csv`. It summarizes the
+  168 unavailable index rows, 4,272 zero `mu_star` rows, 2,616 positive
+  `mu_star` rows, 12 unavailable metric-policy-scenario groups, and 150
+  all-zero metric-policy-scenario groups without accepting sensitivity
+  evidence or waiving Sobol review.
 - `src/realworld/sensitivity_strategy_readiness_packet.py` and
   `scripts/write_sensitivity_strategy_readiness_packet.py` convert the
   sensitivity worksheet into concrete pre-review readiness statuses under
@@ -1386,6 +1394,11 @@ Current status:
   readiness, missing/non-finite index rows, zero `mu_star` rows, reduced graph
   scope, scaffold result scope, and the Morris-vs-Sobol decision without
   accepting final-study sensitivity claims.
+- A 7-row sensitivity index-review packet now breaks the unavailable and zero
+  Morris index rows down by metric. It records 168 unavailable index rows, all
+  in the p80/p95 arrival-time metrics for the critical-link scenario, plus
+  4,272 zero `mu_star` rows and 150 all-zero metric-policy-scenario groups.
+  It is review support only and does not resolve index handling or Sobol scope.
 - Publication-grade sensitivity claims still require applying the formal
   design to the accepted staged/full pilot profile, or documenting why the
   current reduced-corridor scaffold is the intended analysis scope. Sobol
@@ -1972,6 +1985,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
@@ -2068,12 +2082,13 @@ Concrete next tasks:
    validation review packet, and E5 pilot-experiment outputs. Keep fallback
    and OSRM benchmarks labeled as plausibility checks, not ground truth.
 3. Review the current SALib Morris scaffold outputs against the full
-   policy/scenario design using `data/validation/sensitivity_review_packet.csv`
-   and `data/validation/sensitivity_strategy_readiness_packet.csv`. Resolve
-   how to handle missing/non-finite index rows, zero `mu_star` rows,
-   reduced-graph scope, scaffold result scope, and the Morris-vs-Sobol decision
-   before creating any sensitivity acceptance record. Add Sobol only if compute
-   budget and result interpretation justify it.
+   policy/scenario design using `data/validation/sensitivity_review_packet.csv`,
+   `data/validation/sensitivity_index_review_packet.csv`, and
+   `data/validation/sensitivity_strategy_readiness_packet.csv`. Resolve how to
+   handle missing/non-finite index rows, zero `mu_star` rows, reduced-graph
+   scope, scaffold result scope, and the Morris-vs-Sobol decision before
+   creating any sensitivity acceptance record. Add Sobol only if compute budget
+   and result interpretation justify it.
 4. Review the current Overpass/OSM-derived GraphML snapshot, confirm its
    attribution and cache metadata, use the road-class diagnostics to prioritize
    routeable speed/capacity/disruption evidence, and decide whether the reduced

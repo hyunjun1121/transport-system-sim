@@ -48,6 +48,11 @@ from src.realworld.reproducibility_review_packet import (
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke
 from src.realworld.clean_checkout_smoke import summarize_clean_checkout_smoke
 from src.realworld.sensitivity_acceptance import summarize_sensitivity_acceptance
+from src.realworld.sensitivity_index_review_packet import (
+    DEFAULT_SENSITIVITY_INDEX_REVIEW_DOC_PATH,
+    DEFAULT_SENSITIVITY_INDEX_REVIEW_MANIFEST_PATH,
+    DEFAULT_SENSITIVITY_INDEX_REVIEW_PACKET_PATH,
+)
 from src.realworld.source_provenance import summarize_source_provenance_manifest
 from src.realworld.validation_acceptance import summarize_validation_acceptance
 
@@ -1278,6 +1283,9 @@ def _sensitivity_gate(
     review_manifest = _load_json(
         PROJECT_ROOT / "data" / "validation" / "sensitivity_review_manifest.json"
     )
+    index_review_manifest = _load_json(
+        DEFAULT_SENSITIVITY_INDEX_REVIEW_MANIFEST_PATH
+    )
     strategy_readiness_packet_path = (
         PROJECT_ROOT / "data" / "validation" / "sensitivity_strategy_readiness_packet.csv"
     )
@@ -1291,6 +1299,11 @@ def _sensitivity_gate(
         strategy_readiness_packet_path.exists()
         and strategy_readiness_manifest_path.exists()
         and strategy_readiness_doc_path.exists()
+    )
+    index_review_artifacts_present = (
+        DEFAULT_SENSITIVITY_INDEX_REVIEW_PACKET_PATH.exists()
+        and DEFAULT_SENSITIVITY_INDEX_REVIEW_MANIFEST_PATH.exists()
+        and DEFAULT_SENSITIVITY_INDEX_REVIEW_DOC_PATH.exists()
     )
     artifact_present = bool(morris_manifest)
     scope = str((morris_manifest or {}).get("result_scope", ""))
@@ -1325,6 +1338,8 @@ def _sensitivity_gate(
     blockers: list[str] = []
     if not strategy_readiness_artifacts_present:
         blockers.append("create sensitivity strategy-readiness packet, manifest, and doc")
+    if not index_review_artifacts_present:
+        blockers.append("create sensitivity index-review packet, manifest, and doc")
     if not artifact_present:
         blockers.append("create accepted sensitivity outputs and manifest")
     if not acceptance_ready:
@@ -1358,12 +1373,16 @@ def _sensitivity_gate(
             "results/realworld_pilot/morris_manifest.json",
             "data/validation/sensitivity_review_packet.csv",
             "data/validation/sensitivity_review_manifest.json",
+            "data/validation/sensitivity_index_review_packet.csv",
+            "data/validation/sensitivity_index_review_manifest.json",
+            "docs/sensitivity_index_review_packet.md",
             "data/validation/sensitivity_strategy_readiness_packet.csv",
             "data/validation/sensitivity_strategy_readiness_manifest.json",
             "docs/sensitivity_strategy_readiness_packet.md",
             "scripts/run_sensitivity.py",
             "scripts/audit_sensitivity_diagnostics.py",
             "scripts/write_sensitivity_review_packet.py",
+            "scripts/write_sensitivity_index_review_packet.py",
             "scripts/write_sensitivity_strategy_readiness_packet.py",
         ],
         blockers=[] if ready else blockers,
@@ -1392,6 +1411,29 @@ def _sensitivity_gate(
             "review_packet_zero_mu_star_count": (review_manifest or {}).get(
                 "zero_mu_star_count",
                 0,
+            ),
+            "index_review_packet_row_count": (index_review_manifest or {}).get(
+                "row_count",
+                0,
+            ),
+            "index_review_unavailable_index_row_count": (
+                index_review_manifest or {}
+            ).get("unavailable_index_row_count", 0),
+            "index_review_zero_mu_star_row_count": (
+                index_review_manifest or {}
+            ).get("zero_mu_star_row_count", 0),
+            "index_review_all_zero_group_count": (
+                index_review_manifest or {}
+            ).get("all_zero_group_count", 0),
+            "index_review_human_review_metric_count": (
+                index_review_manifest or {}
+            ).get("human_review_metric_count", 0),
+            "index_review_artifacts_present": index_review_artifacts_present,
+            "index_review_publication_ready": (index_review_manifest or {}).get(
+                "publication_ready", False
+            ),
+            "index_review_can_mark_complete": (index_review_manifest or {}).get(
+                "can_mark_complete", False
             ),
             "strategy_readiness_manifest_present": bool(
                 sensitivity_strategy_readiness_manifest
