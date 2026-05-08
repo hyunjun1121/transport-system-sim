@@ -440,6 +440,13 @@ First pilot-smoke artifacts also exist:
   blocking rows, for missing `DATA_GO_KR_KEY` or reviewed GTFS input, and 2
   human-review rows for rail capacity and availability treatment. It remains
   readiness evidence only and cannot approve rail service evidence.
+- `src/realworld/rail_evidence_priority_packet.py` and
+  `scripts/write_rail_evidence_priority_packet.py` now combine the rail review,
+  source-request, and fetch-readiness rows into a 6-row priority worksheet under
+  `data/rail/rail_evidence_priority_packet.csv`. It keeps the GTFS,
+  timetable/shortest-path, capacity, availability, and station-binding closure
+  paths visible, but it remains prioritization support only and cannot derive
+  or approve rail service evidence.
 - `data/rail/pilot_station_binding_cache.csv`,
   `data/parameters/rail_station_bindings.csv`, and
   `src/realworld/rail_station_binding.py` now bind `S` and `R` to official
@@ -746,6 +753,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
+.\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -1958,6 +1966,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
+.\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
@@ -2121,9 +2130,10 @@ Concrete next tasks:
 7. Strengthen parameter, road, and rail evidence with GTFS/timetable,
    shortest-path, literature, public speed/capacity references, hazard or
    scenario evidence, or benchmark-calibrated values where available. Use the
-   parameter, rail, and road source-request packets before collecting new
-   source inputs; official station binding is already cached and rail capacity
-   is explicitly sensitivity-only, but cross-cutting parameter evidence, rail
+   parameter, rail, and road source-request packets plus
+   `data/rail/rail_evidence_priority_packet.csv` before collecting new source
+   inputs; official station binding is already cached and rail capacity is
+   explicitly sensitivity-only, but cross-cutting parameter evidence, rail
    timing, and road override evidence remain weak.
 8. Review `data/validation/osrm_route_benchmark_manifest.json` and decide
    whether the current optional OSRM snapshot is sufficient as a plausibility

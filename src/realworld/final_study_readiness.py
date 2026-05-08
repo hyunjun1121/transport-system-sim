@@ -31,6 +31,11 @@ from src.realworld.rail_station_binding import (
     load_rail_station_bindings,
     summarize_rail_station_bindings,
 )
+from src.realworld.rail_evidence_priority_packet import (
+    DEFAULT_RAIL_EVIDENCE_PRIORITY_DOC_PATH,
+    DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.road_evidence import audit_cached_road_evidence
 from src.realworld.road_evidence_diagnostics import (
     audit_cached_road_evidence_diagnostics,
@@ -169,6 +174,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
     )
     rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
+    rail_evidence_priority_manifest = _load_json(
+        DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH
+    )
     road_source_readiness_manifest = _load_json(
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
     )
@@ -227,7 +235,12 @@ def audit_final_study_readiness() -> dict[str, Any]:
             parameter_audit,
             parameter_source_readiness_manifest,
         ),
-        _rail_gate(rail_service_audit, rail_station_audit, rail_fetch_readiness_manifest),
+        _rail_gate(
+            rail_service_audit,
+            rail_station_audit,
+            rail_fetch_readiness_manifest,
+            rail_evidence_priority_manifest,
+        ),
         _validation_gate(validation_acceptance, validation_strategy_readiness_manifest),
         _structured_disruption_gate(),
         _policy_gate(),
@@ -964,6 +977,7 @@ def _rail_gate(
     rail_service_audit: dict[str, Any],
     rail_station_audit: dict[str, Any],
     rail_fetch_readiness_manifest: dict[str, Any] | None = None,
+    rail_evidence_priority_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     ready = bool(
         rail_service_audit["publication_ready"] and rail_station_audit["binding_ready"]
@@ -979,9 +993,19 @@ def _rail_gate(
         ],
     ]
     fetch_readiness = rail_fetch_readiness_manifest or {}
+    rail_priority = rail_evidence_priority_manifest or {}
+    rail_priority_artifacts_present = (
+        DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH.exists()
+        and DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
+        and DEFAULT_RAIL_EVIDENCE_PRIORITY_DOC_PATH.exists()
+    )
     blockers.extend(
         f"rail fetch readiness: {item}"
         for item in fetch_readiness.get("remaining_blockers", [])
+    )
+    blockers.extend(
+        f"rail evidence priority: {item}"
+        for item in rail_priority.get("remaining_blockers", [])
     )
     return _gate(
         "rail_evidence",
@@ -998,10 +1022,14 @@ def _rail_gate(
             "data/rail/rail_fetch_readiness_packet.csv",
             "data/rail/rail_fetch_readiness_manifest.json",
             "docs/rail_fetch_readiness_packet.md",
+            "data/rail/rail_evidence_priority_packet.csv",
+            "data/rail/rail_evidence_priority_manifest.json",
+            "docs/rail_evidence_priority_packet.md",
             "scripts/audit_rail_evidence.py",
             "scripts/write_rail_evidence_review_packet.py",
             "scripts/write_rail_timing_source_request_packet.py",
             "scripts/write_rail_fetch_readiness_packet.py",
+            "scripts/write_rail_evidence_priority_packet.py",
             "scripts/fetch_rail_timetable_cache.py",
             "scripts/derive_rail_headway_evidence.py",
             "scripts/derive_rail_service_evidence.py",
@@ -1037,6 +1065,28 @@ def _rail_gate(
                 "publication_ready", False
             ),
             "fetch_readiness_can_mark_complete": fetch_readiness.get(
+                "can_mark_complete", False
+            ),
+            "rail_evidence_priority_artifacts_present": (
+                rail_priority_artifacts_present
+            ),
+            "rail_evidence_priority_row_count": rail_priority.get("row_count", 0),
+            "rail_evidence_priority_blocking_priority_count": rail_priority.get(
+                "blocking_priority_count", 0
+            ),
+            "rail_evidence_priority_human_review_priority_count": rail_priority.get(
+                "human_review_priority_count", 0
+            ),
+            "rail_evidence_priority_timing_closure_candidate_count": (
+                rail_priority.get("timing_closure_candidate_count", 0)
+            ),
+            "rail_evidence_priority_status_counts": rail_priority.get(
+                "readiness_status_counts", {}
+            ),
+            "rail_evidence_priority_publication_ready": rail_priority.get(
+                "publication_ready", False
+            ),
+            "rail_evidence_priority_can_mark_complete": rail_priority.get(
                 "can_mark_complete", False
             ),
         },

@@ -220,6 +220,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_evidence_priority_packet.csv",
             "data/rail/rail_fetch_readiness_packet.csv",
+            "data/rail/rail_evidence_priority_packet.csv",
         ),
         reviewed_inputs=(
             "data/parameters/parameter_evidence_review_packet.csv",
@@ -232,6 +233,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/rail_evidence_review_packet.csv",
             "data/rail/rail_timing_source_request_packet.csv",
             "data/rail/rail_fetch_readiness_manifest.json",
+            "data/rail/rail_evidence_priority_manifest.json",
         ),
         review_packet_paths=(
             "data/parameters/parameter_evidence_review_packet.csv",
@@ -241,6 +243,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/road/road_evidence_priority_packet.csv",
             "data/parameters/rail_evidence_review_packet.csv",
             "data/rail/rail_fetch_readiness_packet.csv",
+            "data/rail/rail_evidence_priority_packet.csv",
             "docs/review_packets/cached_osm_input.md",
             "docs/review_packets/parameter_evidence.md",
             "docs/review_packets/rail_evidence.md",

@@ -117,11 +117,42 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["rail_evidence"]["details"]["fetch_readiness_region_ids"] == [
         "songpa_public_demo"
     ]
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_evidence_priority_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["rail_evidence"]["details"]["rail_evidence_priority_row_count"] == 6
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_evidence_priority_blocking_priority_count"
+        ]
+        == 3
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_evidence_priority_human_review_priority_count"
+        ]
+        == 2
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "rail_evidence_priority_timing_closure_candidate_count"
+        ]
+        == 1
+    )
     assert any(
         "reviewed-GTFS rows require external reviewer-provided inputs" in item
         for item in gate_map["rail_evidence"]["details"][
             "fetch_readiness_remaining_blockers"
         ]
+    )
+    assert any(
+        "rail timing cache files are absent" in item
+        for item in gate_map["rail_evidence"]["blockers"]
     )
     assert any(
         "rail fetch readiness: API-key and reviewed-GTFS rows require external"
