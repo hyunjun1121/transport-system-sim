@@ -9,6 +9,8 @@
     "uncalibrated_availability_rule": 1
   },
   "inputs": {
+    "metro9_capacity_extract": "data/rail/metro9_capacity_source_extract.csv",
+    "metro9_capacity_raw": "data/rail/metro9_capacity_source_raw.html",
     "rail_assumptions": "data\\parameters\\rail_assumptions.csv",
     "rail_service_evidence": "data\\parameters\\rail_service_evidence.csv",
     "rail_station_bindings": "data\\parameters\\rail_station_bindings.csv"

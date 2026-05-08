@@ -14,6 +14,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.rail_evidence_review_packet import (  # noqa: E402
     DEFAULT_RAIL_EVIDENCE_REVIEW_MANIFEST_PATH,
     DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH,
+    METRO9_CAPACITY_EXTRACT_PATH,
+    METRO9_CAPACITY_RAW_PATH,
+    RAIL_CAPACITY_REVIEW_ARTIFACTS,
     RAIL_EVIDENCE_REVIEW_COLUMNS,
     RAIL_EVIDENCE_REVIEW_PACKET_SCOPE,
     build_rail_evidence_review_rows,
@@ -35,6 +38,12 @@ def test_rail_evidence_review_rows_cover_current_gaps() -> None:
     assert by_item["rail_travel_time"]["review_priority"] == "high"
     assert by_item["rail_capacity"]["evidence_status"] == "source_backed_or_sensitivity_acknowledged"
     assert by_item["rail_capacity"]["weak_for_final_claim"] == "false"
+    assert by_item["rail_capacity"]["candidate_artifacts"] == (
+        RAIL_CAPACITY_REVIEW_ARTIFACTS
+    )
+    assert METRO9_CAPACITY_EXTRACT_PATH in by_item["rail_capacity"]["candidate_artifacts"]
+    assert METRO9_CAPACITY_RAW_PATH in by_item["rail_capacity"]["candidate_artifacts"]
+    assert "review input only" in by_item["rail_capacity"]["notes"]
     assert by_item["rail_timetable_derivation_path"]["evidence_status"] == "derivation_path_available_no_default_cache"
     assert {row["claim_boundary"] for row in rows} == {RAIL_EVIDENCE_REVIEW_PACKET_SCOPE}
 
@@ -66,6 +75,8 @@ def test_write_rail_evidence_review_packet_outputs_csv_and_manifest() -> None:
         assert value["publication_ready"] is False
         assert value["station_binding_ready"] is True
         assert value["service_publication_ready"] is False
+        assert value["inputs"]["metro9_capacity_extract"] == METRO9_CAPACITY_EXTRACT_PATH
+        assert value["inputs"]["metro9_capacity_raw"] == METRO9_CAPACITY_RAW_PATH
         assert written_manifest["row_count"] == 10
         assert written_manifest["weak_for_final_claim_count"] == 7
         assert "does not derive headway or travel time" in written_manifest["claim_boundary"]

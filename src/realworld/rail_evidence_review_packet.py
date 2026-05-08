@@ -38,6 +38,14 @@ DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH = (
 DEFAULT_RAIL_EVIDENCE_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "parameters" / "rail_evidence_review_manifest.json"
 )
+METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
+METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
+RAIL_CAPACITY_REVIEW_ARTIFACTS = (
+    "data/parameters/rail_assumptions.csv; "
+    f"{METRO9_CAPACITY_EXTRACT_PATH}; "
+    f"{METRO9_CAPACITY_RAW_PATH}; "
+    "data/parameters/parameter_sources.csv"
+)
 RAIL_EVIDENCE_REVIEW_PACKET_SCOPE = (
     "Rail evidence review packet; not accepted rail-service calibration, "
     "GTFS validation, emergency rail availability evidence, or operational "
@@ -155,6 +163,8 @@ def write_rail_evidence_review_packet(
             "rail_service_evidence": _display_path(service_evidence_path),
             "rail_station_bindings": _display_path(station_binding_path),
             "rail_assumptions": _display_path(assumptions_path),
+            "metro9_capacity_extract": METRO9_CAPACITY_EXTRACT_PATH,
+            "metro9_capacity_raw": METRO9_CAPACITY_RAW_PATH,
         },
         "outputs": {
             "rail_evidence_review_packet": _display_path(output),
@@ -356,15 +366,16 @@ def _service_value_rows(
                 "rail_capacity",
                 service_record,
             ),
-            candidate_artifacts=(
-                "data/parameters/rail_assumptions.csv; "
-                "data/parameters/parameter_sources.csv"
-            ),
+            candidate_artifacts=RAIL_CAPACITY_REVIEW_ARTIFACTS,
             recommended_upgrade=(
-                "Keep capacity explicitly sensitivity-only or replace it with source-backed route-leg capacity evidence."
+                "Review the cached Metro9 capacity context, keep capacity explicitly "
+                "sensitivity-only, or replace it with source-backed route-leg capacity evidence."
             ),
             publication_use_status="usable_as_sensitivity_only_not_point_calibration",
-            notes="Capacity treatment does not solve missing rail timing evidence.",
+            notes=(
+                "Cached Metro9 capacity context is review input only; capacity "
+                "treatment does not solve missing rail timing evidence."
+            ),
         ),
     ]
 
@@ -675,6 +686,9 @@ __all__ = [
     "DEFAULT_RAIL_ASSUMPTIONS_PATH",
     "DEFAULT_RAIL_EVIDENCE_REVIEW_MANIFEST_PATH",
     "DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH",
+    "METRO9_CAPACITY_EXTRACT_PATH",
+    "METRO9_CAPACITY_RAW_PATH",
+    "RAIL_CAPACITY_REVIEW_ARTIFACTS",
     "RAIL_EVIDENCE_REVIEW_COLUMNS",
     "RAIL_EVIDENCE_REVIEW_PACKET_SCOPE",
     "build_rail_evidence_review_rows",

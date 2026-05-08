@@ -23,8 +23,10 @@ The packet consolidates:
 The current generated packet has 10 rows. The two station-binding rows are
 ready as station identifiers only. The headway and travel-time rows remain weak
 because no reviewed cached timetable, GTFS, or shortest-path source artifact is
-committed. Capacity is retained as an explicit sensitivity-only value, not a
-source-backed emergency capacity claim.
+committed. The rail-capacity row now surfaces the cached Metro9 capacity
+extract and raw operator-page snapshot as review input, but capacity is still
+retained as an explicit sensitivity-only value, not a source-backed emergency
+capacity claim.
 
 ## Regeneration
 
