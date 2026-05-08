@@ -12,7 +12,7 @@ reproducibility acceptance and does not close
 - Commands passed: 8 / 8
 - Clean checkout tested: `true`
 - Full clean environment tested: `false`
-- Source commit: `8a69c33771e0a09c0345755080d2e7b9d5f545da`
+- Source commit: `4e3d704c1854decb46d5e03853a23463c676db24`
 - Environment scope: `clean_source_checkout_current_python_environment`
 - Can mark complete: `false`
 
