@@ -24,7 +24,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>+10 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+14 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+11 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+17 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | final_audit_document | `blocked` | `blocked_missing_evidence` | `docs/final_study_audit.md` | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
 | final_audit | `blocked` | `blocked_missing_evidence` | `data/manifests/final_audit_acceptance.json` | create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>create docs/final_study_audit.md after all other gates close<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
@@ -1010,6 +1010,7 @@ Review packets:
 - docs/review_packets/manuscript_report_alignment.md
 - data/manifests/claim_alignment_review_packet.csv
 - data/manifests/figure_table_review_packet.csv
+- data/manifests/manuscript_report_decision_packet.csv
 
 Source paths:
 - paper/paper_draft.md
@@ -1018,6 +1019,7 @@ Source paths:
 - results/realworld_pilot/tables/figure_table_manifest.json
 - data/manifests/claim_alignment_review_packet.csv
 - data/manifests/figure_table_review_packet.csv
+- data/manifests/manuscript_report_decision_packet.csv
 - data/manifests/manuscript_acceptance.json
 
 Evidence inspected:
@@ -1027,6 +1029,7 @@ Evidence inspected:
 - `results/realworld_pilot/tables/figure_table_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/claim_alignment_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/figure_table_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/manuscript_report_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/manuscript_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/manuscript_report_alignment.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_publication_readiness.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -1034,7 +1037,9 @@ Evidence inspected:
 - `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/claim_alignment_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/figure_table_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/manuscript_report_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/figure_table_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/manuscript_report_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/claim_alignment_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
@@ -1050,6 +1055,12 @@ Missing evidence:
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- resolve manuscript/report decision blockers before manuscript acceptance
+- manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- review manuscript/report human-decision rows before manuscript acceptance
 - data/manifests/manuscript_acceptance.json is absent
 
 Residual risks:
@@ -1067,6 +1078,12 @@ Residual risks:
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- resolve manuscript/report decision blockers before manuscript acceptance
+- manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- review manuscript/report human-decision rows before manuscript acceptance
 - data/manifests/manuscript_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.

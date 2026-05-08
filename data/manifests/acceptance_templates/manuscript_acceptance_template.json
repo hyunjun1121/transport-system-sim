@@ -16,7 +16,10 @@
     "docs/figure_table_review_packet.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/claim_alignment_review_manifest.json",
-    "docs/claim_alignment_review_packet.md"
+    "docs/claim_alignment_review_packet.md",
+    "data/manifests/manuscript_report_decision_packet.csv",
+    "data/manifests/manuscript_report_decision_manifest.json",
+    "docs/manuscript_report_decision_packet.md"
   ],
   "figure_table_manifest_reviewed": false,
   "korean_report_reviewed": false,

@@ -170,6 +170,10 @@ Implemented extension modules now also cover:
   inventory, row counts, captions, graph scope, sensitivity-index handling,
   proxy interpretation, and manuscript-acceptance dependencies without
   approving figure/table claims.
+- `manuscript_report_decision_packet.py`: focused manuscript/report decision
+  worksheet that consolidates paper/report claim review, figure/table blockers,
+  upstream evidence dependencies, docx review, and the missing formal
+  manuscript acceptance boundary without approving manuscript claims.
 - `reproducibility_acceptance.py`: explicit clean-checkout validation,
   validation-ladder, artifact-regeneration, manifest-path, cloned-repo
   import-boundary, command-count, and not-operational claim-boundary acceptance

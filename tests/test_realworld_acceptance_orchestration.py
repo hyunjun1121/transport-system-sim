@@ -170,7 +170,13 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/figure_table_review_packet.csv" in (
         manuscript_agent.review_packet_paths
     )
+    assert "data/manifests/manuscript_report_decision_packet.csv" in (
+        manuscript_agent.review_packet_paths
+    )
     assert "data/manifests/figure_table_review_manifest.json" in (
+        manuscript_agent.reviewed_inputs
+    )
+    assert "data/manifests/manuscript_report_decision_manifest.json" in (
         manuscript_agent.reviewed_inputs
     )
 
@@ -212,6 +218,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
+    assert "manuscript_report_decision" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -368,6 +375,31 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                         "blocked_missing_manuscript_acceptance_record": 1,
                         "blocked_reduced_graph_scope_dependency": 1,
                         "needs_human_review_caption_boundary": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/manuscript_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        manuscript_decision_snapshot_path = (
+            root / "manuscript_report_decision_manifest.json"
+        )
+        manuscript_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 3,
+                    "manuscript_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_manuscript_acceptance_record": 1,
+                        "blocked_claim_alignment_review_dependency": 1,
+                        "needs_human_review_paper_claims": 1,
                     },
                     "remaining_blockers": [
                         "data/manifests/manuscript_acceptance.json is absent"
@@ -728,6 +760,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     figure_table_snapshot_path,
                 ),
                 (
+                    "manuscript_report_decision",
+                    "Manuscript/Report Decision",
+                    manuscript_decision_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -865,6 +902,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 1
         )
+        assert snapshots["manuscript_report_decision"]["row_count"] == 7
+        assert snapshots["manuscript_report_decision"]["blocking_count"] == 4
+        assert snapshots["manuscript_report_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["manuscript_report_decision"]["status_counts"][
+                "blocked_missing_manuscript_acceptance_record"
+            ]
+            == 1
+        )
         assert (
             snapshots["graph_scale_result_comparison"]["status_counts"][
                 "candidate_worsens"
@@ -989,6 +1035,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Validation Benchmark Decision`" in index_text
         assert "`Experiment Design Decision`" in index_text
+        assert "`Manuscript/Report Decision`" in index_text
         assert "`Pilot Region Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Graph-Scale Method Decision`" in index_text
@@ -1013,6 +1060,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "blocked_missing_rail_source_decision=3" in index_text
         assert "needs_human_review_cached_osrm_scope_policy=1" in index_text
         assert "needs_human_review_scenario_policy_seed_design=1" in index_text
+        assert "needs_human_review_paper_claims=1" in index_text
         assert "blocked_missing_evidence=8" in index_text
         assert "missing_formal_target=36" in index_text
         assert "generated_review_artifact=2" in index_text

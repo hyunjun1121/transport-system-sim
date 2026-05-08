@@ -142,6 +142,15 @@ DEFAULT_FINAL_AUDIT_PATH = PROJECT_ROOT / "docs" / "final_study_audit.md"
 DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "claim_alignment_review_manifest.json"
 )
+DEFAULT_MANUSCRIPT_REPORT_DECISION_PACKET_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "manuscript_report_decision_packet.csv"
+)
+DEFAULT_MANUSCRIPT_REPORT_DECISION_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "manuscript_report_decision_manifest.json"
+)
+DEFAULT_MANUSCRIPT_REPORT_DECISION_DOC_PATH = (
+    PROJECT_ROOT / "docs" / "manuscript_report_decision_packet.md"
+)
 DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "experiment_package_review_manifest.json"
 )
@@ -238,6 +247,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     claim_alignment_manifest = _load_json(DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH)
     figure_table_review_manifest = _load_json(
         DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH
+    )
+    manuscript_report_decision_manifest = _load_json(
+        DEFAULT_MANUSCRIPT_REPORT_DECISION_MANIFEST_PATH
     )
     reproducibility_manifest = _load_json(
         PROJECT_ROOT / "data" / "manifests" / "reproducibility_manifest.json"
@@ -382,6 +394,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             figure_manifest,
             claim_alignment_manifest,
             figure_table_review_manifest,
+            manuscript_report_decision_manifest,
             publication_audit,
             manuscript_acceptance,
         ),
@@ -2657,6 +2670,7 @@ def _manuscript_report_gate(
     figure_manifest: dict[str, Any] | None,
     claim_alignment_manifest: dict[str, Any] | None,
     figure_table_review_manifest: dict[str, Any] | None,
+    manuscript_report_decision_manifest: dict[str, Any] | None,
     publication_audit: dict[str, Any],
     manuscript_acceptance: dict[str, Any],
 ) -> dict[str, Any]:
@@ -2675,6 +2689,9 @@ def _manuscript_report_gate(
         figure_review_manifest,
         "human_review_count",
     )
+    decision_manifest = manuscript_report_decision_manifest or {}
+    decision_blocking_count = _dict_int(decision_manifest, "blocking_decision_count")
+    decision_human_count = _dict_int(decision_manifest, "human_review_decision_count")
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
@@ -2683,6 +2700,9 @@ def _manuscript_report_gate(
         and bool(figure_review_manifest)
         and figure_review_blocking_count == 0
         and figure_review_human_count == 0
+        and bool(decision_manifest)
+        and decision_blocking_count == 0
+        and decision_human_count == 0
         and not scope_blocked
     )
     blockers: list[str] = []
@@ -2718,6 +2738,22 @@ def _manuscript_report_gate(
             f"claim alignment: {item}"
             for item in claim_manifest.get("remaining_blockers", [])
         )
+    if not decision_manifest:
+        blockers.append(
+            "generate manuscript/report decision packet before manuscript acceptance"
+        )
+    elif decision_blocking_count:
+        blockers.append(
+            "resolve manuscript/report decision blockers before manuscript acceptance"
+        )
+        blockers.extend(
+            f"manuscript/report decision: {item}"
+            for item in decision_manifest.get("remaining_blockers", [])
+        )
+    if decision_human_count:
+        blockers.append(
+            "review manuscript/report human-decision rows before manuscript acceptance"
+        )
     return _gate(
         "manuscript_report_alignment",
         "Manuscript Report Alignment",
@@ -2735,6 +2771,9 @@ def _manuscript_report_gate(
             "data/manifests/claim_alignment_review_packet.csv",
             "data/manifests/claim_alignment_review_manifest.json",
             "docs/claim_alignment_review_packet.md",
+            "data/manifests/manuscript_report_decision_packet.csv",
+            "data/manifests/manuscript_report_decision_manifest.json",
+            "docs/manuscript_report_decision_packet.md",
         ],
         blockers=blockers,
         details={
@@ -2785,6 +2824,29 @@ def _manuscript_report_gate(
             ),
             "claim_alignment_publication_ready": claim_manifest.get(
                 "publication_ready",
+                False,
+            ),
+            "manuscript_report_decision_manifest_present": bool(decision_manifest),
+            "manuscript_report_decision_row_count": decision_manifest.get(
+                "row_count",
+                0,
+            ),
+            "manuscript_report_decision_blocking_decision_count": decision_blocking_count,
+            "manuscript_report_decision_human_review_decision_count": decision_human_count,
+            "manuscript_report_decision_status_counts": decision_manifest.get(
+                "decision_status_counts",
+                {},
+            ),
+            "manuscript_report_decision_remaining_blockers": decision_manifest.get(
+                "remaining_blockers",
+                [],
+            ),
+            "manuscript_report_decision_publication_ready": decision_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "manuscript_report_decision_can_mark_complete": decision_manifest.get(
+                "can_mark_complete",
                 False,
             ),
             "publication_ready": publication_audit["publication_ready"],

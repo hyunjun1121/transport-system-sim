@@ -63,6 +63,11 @@ from src.realworld.figure_table_review_packet import (  # noqa: E402
     DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH,
     DEFAULT_FIGURE_TABLE_REVIEW_PACKET_PATH,
 )
+from src.realworld.manuscript_report_decision_packet import (  # noqa: E402
+    DEFAULT_MANUSCRIPT_REPORT_DECISION_DOC_PATH,
+    DEFAULT_MANUSCRIPT_REPORT_DECISION_MANIFEST_PATH,
+    DEFAULT_MANUSCRIPT_REPORT_DECISION_PACKET_PATH,
+)
 from src.realworld.experiment_package_review_packet import (  # noqa: E402
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_DOC_PATH,
     DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH,
@@ -501,6 +506,11 @@ CSV_EXPECTATIONS = (
         8,
     ),
     CsvExpectation(
+        "manuscript_report_decision_packet",
+        DEFAULT_MANUSCRIPT_REPORT_DECISION_PACKET_PATH,
+        7,
+    ),
+    CsvExpectation(
         "pilot_sample_results",
         ROOT / "results" / "realworld_pilot" / "pilot_sample_results.csv",
         32,
@@ -908,6 +918,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "manuscript_report_decision_manifest",
+        DEFAULT_MANUSCRIPT_REPORT_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "road_speed_evidence_manifest",
         ROOT / "data" / "parameters" / "road_speed_evidence_manifest.json",
     ),
@@ -1159,6 +1173,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "manuscript_acceptance_schema.md",
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_DOC_PATH,
     DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH,
+    DEFAULT_MANUSCRIPT_REPORT_DECISION_DOC_PATH,
     ROOT / "docs" / "reproducibility_acceptance_schema.md",
     ROOT / "docs" / "final_audit_acceptance_schema.md",
     ROOT / "docs" / "pilot_acceptance_schema.md",

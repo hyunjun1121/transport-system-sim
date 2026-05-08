@@ -39,6 +39,10 @@ from src.realworld.figure_table_review_packet import (  # noqa: E402
     build_figure_table_review_rows,
     write_figure_table_review_packet,
 )
+from src.realworld.manuscript_report_decision_packet import (  # noqa: E402
+    build_manuscript_report_decision_rows,
+    write_manuscript_report_decision_packet,
+)
 from src.realworld.experiment_package_review_packet import (  # noqa: E402
     build_experiment_package_review_rows,
     write_experiment_package_review_packet,
@@ -521,6 +525,9 @@ def _refresh_existing_review_packets(
     figure_table_review_rows = build_figure_table_review_rows()
     write_figure_table_review_packet(rows=figure_table_review_rows)
     refreshed.append("data/manifests/figure_table_review_packet.csv")
+    manuscript_report_decision_rows = build_manuscript_report_decision_rows()
+    write_manuscript_report_decision_packet(rows=manuscript_report_decision_rows)
+    refreshed.append("data/manifests/manuscript_report_decision_packet.csv")
     pilot_inputs = load_pilot_inputs(
         region_path=DEFAULT_REGION_PATH,
         cache_path=DEFAULT_CACHE_PATH,

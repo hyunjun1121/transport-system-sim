@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Paper / Report Claim Alignment Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T20:18:44+00:00`
+- Generated at: `2026-05-08T20:41:07+00:00`
 
 ## Decision
 
@@ -21,13 +21,16 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - report_draft.md
 - data/manifests/claim_alignment_review_manifest.json
 - data/manifests/figure_table_review_manifest.json
+- data/manifests/manuscript_report_decision_manifest.json
 - docs/figure_table_review_packet.md
+- docs/manuscript_report_decision_packet.md
 - data/manifests/manuscript_acceptance.json
 - report.docx
 - results/realworld_pilot/tables/figure_table_manifest.json
 - data/manifests/figure_table_review_packet.csv
 - data/manifests/claim_alignment_review_packet.csv
 - docs/claim_alignment_review_packet.md
+- data/manifests/manuscript_report_decision_packet.csv
 
 ## Evidence And Source Paths
 
@@ -42,6 +45,9 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - data/manifests/claim_alignment_review_packet.csv
 - data/manifests/claim_alignment_review_manifest.json
 - docs/claim_alignment_review_packet.md
+- data/manifests/manuscript_report_decision_packet.csv
+- data/manifests/manuscript_report_decision_manifest.json
+- docs/manuscript_report_decision_packet.md
 - docs/review_packets/manuscript_report_alignment.md
 
 ## Risks
@@ -60,6 +66,12 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- resolve manuscript/report decision blockers before manuscript acceptance
+- manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- review manuscript/report human-decision rows before manuscript acceptance
 
 ## Required Actions
 
@@ -77,6 +89,12 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - claim alignment: formal manuscript/report acceptance record is absent
 - claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- resolve manuscript/report decision blockers before manuscript acceptance
+- manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- review manuscript/report human-decision rows before manuscript acceptance
 
 ## Formal Acceptance Boundary
 
@@ -103,7 +121,13 @@ Formal acceptance artifacts:
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "claim alignment: formal manuscript/report acceptance record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
-    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims"
+    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims",
+    "resolve manuscript/report decision blockers before manuscript acceptance",
+    "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
+    "manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance",
+    "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
+    "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
+    "review manuscript/report human-decision rows before manuscript acceptance"
   ],
   "details": {
     "acceptance_path": "data/manifests/manuscript_acceptance.json",
@@ -161,6 +185,27 @@ Formal acceptance artifacts:
       "needs_human_review_proxy_interpretation": 1,
       "needs_human_review_table_lineage": 1
     },
+    "manuscript_report_decision_blocking_decision_count": 4,
+    "manuscript_report_decision_can_mark_complete": false,
+    "manuscript_report_decision_human_review_decision_count": 3,
+    "manuscript_report_decision_manifest_present": true,
+    "manuscript_report_decision_publication_ready": false,
+    "manuscript_report_decision_remaining_blockers": [
+      "figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
+      "claim-alignment packet has 108 rows requiring revision or acceptance",
+      "upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
+      "data/manifests/manuscript_acceptance.json is absent"
+    ],
+    "manuscript_report_decision_row_count": 7,
+    "manuscript_report_decision_status_counts": {
+      "blocked_claim_alignment_review_dependency": 1,
+      "blocked_figure_table_review_dependency": 1,
+      "blocked_missing_manuscript_acceptance_record": 1,
+      "blocked_upstream_evidence_gate_dependency": 1,
+      "needs_human_review_docx_regeneration": 1,
+      "needs_human_review_korean_report_scope": 1,
+      "needs_human_review_paper_claims": 1
+    },
     "publication_ready": false
   },
   "evidence": [
@@ -174,7 +219,10 @@ Formal acceptance artifacts:
     "docs/figure_table_review_packet.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/claim_alignment_review_manifest.json",
-    "docs/claim_alignment_review_packet.md"
+    "docs/claim_alignment_review_packet.md",
+    "data/manifests/manuscript_report_decision_packet.csv",
+    "data/manifests/manuscript_report_decision_manifest.json",
+    "docs/manuscript_report_decision_packet.md"
   ],
   "gate_id": "manuscript_report_alignment",
   "label": "Manuscript Report Alignment",

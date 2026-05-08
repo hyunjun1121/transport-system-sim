@@ -17,7 +17,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 17 |
-| `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 14 |
+| `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 20 |
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 5 |
 
@@ -89,7 +89,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -97,8 +98,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=750 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=758 |
+| `Tracked Artifact Audit` | 74 | 74 | 0 | 0 | `false` | agent_definition=1; data_or_manifest=39; documentation=18; +4 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -132,7 +133,9 @@ Priority blockers by packet:
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
+- `Manuscript/Report Decision`: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction. (+50 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -289,6 +292,12 @@ Priority blockers by packet:
 - manuscript_report_alignment: claim alignment: formal manuscript/report acceptance record is absent
 - manuscript_report_alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - manuscript_report_alignment: claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- manuscript_report_alignment: resolve manuscript/report decision blockers before manuscript acceptance
+- manuscript_report_alignment: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- manuscript_report_alignment: manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript_report_alignment: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- manuscript_report_alignment: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- manuscript_report_alignment: review manuscript/report human-decision rows before manuscript acceptance
 - reproducibility: Run or document clean-checkout validation with command log and artifact regeneration evidence.
 - reproducibility: Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
 - reproducibility: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
@@ -431,6 +440,12 @@ Priority blockers by packet:
 - Manuscript Report Alignment: claim alignment: formal manuscript/report acceptance record is absent
 - Manuscript Report Alignment: claim alignment: claim-alignment rows are review aids and do not approve manuscript claims
 - Manuscript Report Alignment: claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
+- Manuscript Report Alignment: resolve manuscript/report decision blockers before manuscript acceptance
+- Manuscript Report Alignment: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
+- Manuscript Report Alignment: manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- Manuscript Report Alignment: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
+- Manuscript Report Alignment: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
+- Manuscript Report Alignment: review manuscript/report human-decision rows before manuscript acceptance
 - Reproducibility: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
 - Reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package
 - Final Audit: create docs/final_study_audit.md after all other gates close

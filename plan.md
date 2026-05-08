@@ -274,6 +274,16 @@ First pilot-smoke artifacts also exist:
   captions, graph scope, Morris index handling, proxy interpretation, upstream
   evidence dependencies, and missing manuscript acceptance without approving
   any figure/table claim.
+- `src/realworld/manuscript_report_decision_packet.py` and
+  `scripts/write_manuscript_report_decision_packet.py` now consolidate the
+  manuscript/report gate into 7 non-approval decision rows covering paper
+  claims, Korean report scope, figure/table use, result-claim alignment,
+  upstream evidence gates, docx regeneration, and the formal
+  manuscript-acceptance boundary. The generated
+  `data/manifests/manuscript_report_decision_packet.csv`,
+  `data/manifests/manuscript_report_decision_manifest.json`, and
+  `docs/manuscript_report_decision_packet.md` do not create
+  `data/manifests/manuscript_acceptance.json`.
 - `src/realworld/reproducibility_acceptance.py` and
   `docs/reproducibility_acceptance_schema.md` define the explicit review record
   required before the reproducibility gate can close. The actual
@@ -809,6 +819,10 @@ First pilot-smoke artifacts also exist:
 - `src/realworld/claim_alignment_review_packet.py` keeps that manuscript
   blocker actionable by listing claim-bearing lines and figure/table boundary
   rows that require revision or formal review before acceptance.
+- `src/realworld/manuscript_report_decision_packet.py` keeps the final
+  manuscript/report decision boundary explicit by recording paper/report
+  review, figure/table blockers, upstream evidence dependencies, docx review,
+  and missing formal manuscript acceptance as pending or blocked.
 - `src/realworld/reproducibility_acceptance.py` keeps the reproducibility gate
   blocked until clean-checkout validation, validation ladder, artifact
   regeneration, manifest paths, runtime import boundaries, validation command
@@ -2313,6 +2327,9 @@ Concrete next tasks:
     claim-alignment packet to review figure/table inventory, row counts,
     captions, graph scope, sensitivity-index handling, proxy interpretation,
     and upstream evidence dependencies.
+    Use `data/manifests/manuscript_report_decision_packet.csv` as the
+    consolidated non-approval worksheet before drafting any
+    `data/manifests/manuscript_acceptance.json` record.
     Use `data/validation/reproducibility_review_packet.csv` to inspect
    clean-checkout blockers before creating any reproducibility acceptance
    record.

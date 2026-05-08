@@ -212,6 +212,14 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "figure_table_review_manifest.json",
     ),
     (
+        "manuscript_report_decision",
+        "Manuscript/Report Decision",
+        PROJECT_ROOT
+        / "data"
+        / "manifests"
+        / "manuscript_report_decision_manifest.json",
+    ),
+    (
         "reproducibility_review",
         "Reproducibility Review",
         PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
@@ -723,6 +731,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "results/realworld_pilot/tables/figure_table_manifest.json",
             "data/manifests/claim_alignment_review_packet.csv",
             "data/manifests/figure_table_review_packet.csv",
+            "data/manifests/manuscript_report_decision_packet.csv",
         ),
         reviewed_inputs=(
             "scripts/audit_publication_readiness.py",
@@ -732,11 +741,14 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "report_draft.md",
             "data/manifests/claim_alignment_review_manifest.json",
             "data/manifests/figure_table_review_manifest.json",
+            "data/manifests/manuscript_report_decision_manifest.json",
             "docs/figure_table_review_packet.md",
+            "docs/manuscript_report_decision_packet.md",
         ),
         review_packet_paths=(
             "data/manifests/claim_alignment_review_packet.csv",
             "data/manifests/figure_table_review_packet.csv",
+            "data/manifests/manuscript_report_decision_packet.csv",
             "docs/review_packets/manuscript_report_alignment.md",
         ),
         decision_rules=(

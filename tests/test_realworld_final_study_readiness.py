@@ -597,6 +597,29 @@ def test_current_final_study_readiness_is_blocked() -> None:
         "claim alignment: claim-alignment rows are review aids" in item
         for item in gate_map["manuscript_report_alignment"]["blockers"]
     )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "manuscript_report_decision_row_count"
+        ]
+        == 7
+    )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "manuscript_report_decision_blocking_decision_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["manuscript_report_alignment"]["details"][
+            "manuscript_report_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert any(
+        "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent"
+        in item
+        for item in gate_map["manuscript_report_alignment"]["blockers"]
+    )
     assert gate_map["final_audit"]["ready"] is False
     assert summary["remaining_blockers"]
 
@@ -830,6 +853,7 @@ def test_manuscript_gate_requires_acceptance_and_final_scope() -> None:
         _figure_manifest(),
         _claim_alignment_manifest(),
         _figure_table_review_manifest(),
+        _manuscript_report_decision_manifest(),
         _publication_audit(ready=True),
         _accepted_manuscript_summary(),
     )
@@ -847,6 +871,7 @@ def test_manuscript_gate_requires_publication_ready_evidence() -> None:
         _figure_manifest(claim_boundary="Accepted study scope."),
         _claim_alignment_manifest(),
         _figure_table_review_manifest(),
+        _manuscript_report_decision_manifest(),
         _publication_audit(ready=False),
         _accepted_manuscript_summary(),
     )
@@ -1127,6 +1152,22 @@ def _figure_table_review_manifest(
         "blocking_review_count": blocking_review_count,
         "human_review_count": human_review_count,
         "review_status_counts": {},
+        "remaining_blockers": [],
+        "publication_ready": False,
+        "can_mark_complete": False,
+    }
+
+
+def _manuscript_report_decision_manifest(
+    *,
+    blocking_decision_count: int = 0,
+    human_review_decision_count: int = 0,
+) -> dict[str, object]:
+    return {
+        "row_count": 7,
+        "blocking_decision_count": blocking_decision_count,
+        "human_review_decision_count": human_review_decision_count,
+        "decision_status_counts": {},
         "remaining_blockers": [],
         "publication_ready": False,
         "can_mark_complete": False,

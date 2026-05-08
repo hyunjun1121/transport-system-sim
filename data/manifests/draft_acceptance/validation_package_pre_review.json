@@ -205,7 +205,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/validation_acceptance.json",
   "gate": "validation_package",
-  "generated_at": "2026-05-08T20:18:16+00:00",
+  "generated_at": "2026-05-08T20:40:38+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
