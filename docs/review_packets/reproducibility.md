@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T14:15:42+00:00`
+- Generated at: `2026-05-08T14:26:56+00:00`
 
 ## Decision
 

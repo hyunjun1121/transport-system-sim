@@ -61,7 +61,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/pilot_acceptance.json",
   "gate": "pilot_region_accepted",
-  "generated_at": "2026-05-08T14:16:02+00:00",
+  "generated_at": "2026-05-08T14:27:16+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
