@@ -26,6 +26,7 @@ def _blocked_record() -> dict[str, object]:
         "evidence": ["docs/pilot_region_data_card.md"],
         "source_paths": ["data/regions/pilot_region.yaml"],
         "reviewed_inputs": ["data/regions/pilot_region.yaml"],
+        "review_packet_paths": ["docs/review_packets/pilot_region_accepted.md"],
         "risks": ["Privacy decision is missing."],
         "required_actions": ["Create pilot acceptance record after review."],
         "generated_at": "2026-05-04T00:00:00+00:00",
@@ -40,6 +41,9 @@ def test_acceptance_record_validates_blocked_or_review_status() -> None:
     assert isinstance(record, AcceptanceRecord)
     assert record.status == "needs_human_review"
     assert record.can_mark_complete is False
+    assert record.review_packet_paths == (
+        "docs/review_packets/pilot_region_accepted.md",
+    )
 
 
 def test_acceptance_record_rejects_success_shaped_nonaccepted_record() -> None:
@@ -70,6 +74,7 @@ def test_acceptance_record_schema_contains_required_fields() -> None:
     assert "gate_id" in required
     assert "status" in required
     assert "can_mark_complete" in required
+    assert "review_packet_paths" in schema["properties"]
 
 
 if __name__ == "__main__":

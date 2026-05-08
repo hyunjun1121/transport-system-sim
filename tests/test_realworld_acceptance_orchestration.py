@@ -139,6 +139,9 @@ def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> N
     assert record.can_mark_complete is False
     assert record.required_actions
     assert record.risks
+    assert "data/manifests/pilot_privacy_review_packet.csv" in (
+        record.review_packet_paths
+    )
 
 
 def test_acceptance_orchestration_writes_records_and_manifest() -> None:
@@ -168,6 +171,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert generated_records
         loaded = load_acceptance_record(generated_records[0])
         assert loaded.status in {"blocked", "needs_human_review"}
+        assert loaded.review_packet_paths
 
 
 def test_acceptance_orchestration_summary_reports_absent_manifest() -> None:

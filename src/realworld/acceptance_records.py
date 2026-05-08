@@ -48,6 +48,7 @@ class AcceptanceRecord:
     required_actions: tuple[str, ...]
     generated_at: str
     can_mark_complete: bool
+    review_packet_paths: tuple[str, ...] = ()
     schema_version: int = 1
     agent_id: str = ""
     record_type: str = "sub_agent_gate_review"
@@ -70,6 +71,7 @@ class AcceptanceRecord:
             "evidence": list(self.evidence),
             "source_paths": list(self.source_paths),
             "reviewed_inputs": list(self.reviewed_inputs),
+            "review_packet_paths": list(self.review_packet_paths),
             "risks": list(self.risks),
             "required_actions": list(self.required_actions),
             "generated_at": self.generated_at,
@@ -93,6 +95,9 @@ def acceptance_record_from_mapping(value: Mapping[str, Any]) -> AcceptanceRecord
         evidence=_clean_sequence(value["evidence"], "evidence"),
         source_paths=_clean_sequence(value["source_paths"], "source_paths"),
         reviewed_inputs=_clean_sequence(value["reviewed_inputs"], "reviewed_inputs"),
+        review_packet_paths=_clean_sequence(
+            value.get("review_packet_paths", []), "review_packet_paths"
+        ),
         risks=_clean_sequence(value["risks"], "risks"),
         required_actions=_clean_sequence(value["required_actions"], "required_actions"),
         generated_at=_clean(value["generated_at"]),
@@ -130,6 +135,8 @@ def validate_acceptance_record_mapping(value: Mapping[str, Any]) -> None:
     evidence = _clean_sequence(value["evidence"], "evidence")
     source_paths = _clean_sequence(value["source_paths"], "source_paths")
     reviewed_inputs = _clean_sequence(value["reviewed_inputs"], "reviewed_inputs")
+    if "review_packet_paths" in value:
+        _clean_sequence(value["review_packet_paths"], "review_packet_paths")
     risks = _clean_sequence(value["risks"], "risks")
     required_actions = _clean_sequence(value["required_actions"], "required_actions")
 
@@ -188,6 +195,7 @@ def acceptance_record_schema() -> dict[str, Any]:
                 "minItems": 1,
                 "items": {"type": "string"},
             },
+            "review_packet_paths": {"type": "array", "items": {"type": "string"}},
             "risks": {"type": "array", "items": {"type": "string"}},
             "required_actions": {"type": "array", "items": {"type": "string"}},
             "generated_at": {"type": "string", "minLength": 1},
