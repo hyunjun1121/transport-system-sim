@@ -14,6 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.parameter_review_packet import (  # noqa: E402
     DEFAULT_PARAMETER_REVIEW_PACKET_MANIFEST_PATH,
     DEFAULT_PARAMETER_REVIEW_PACKET_PATH,
+    METRO9_CAPACITY_EXTRACT_PATH,
+    METRO9_CAPACITY_RAW_PATH,
     PARAMETER_REVIEW_PACKET_COLUMNS,
     PARAMETER_REVIEW_PACKET_SCOPE,
     build_parameter_review_rows,
@@ -32,6 +34,16 @@ def test_parameter_review_rows_cover_current_core_parameters() -> None:
     assert by_parameter["road_capacity_proxy"]["review_priority"] == "high"
     assert by_parameter["rail_headway"]["review_priority"] == "high"
     assert by_parameter["bpr_alpha"]["weak_for_final_claim"] == "false"
+    assert by_parameter["rail_capacity"]["evidence_category"] == "assumption-only"
+    assert by_parameter["rail_capacity"]["weak_for_final_claim"] == "true"
+    assert (
+        METRO9_CAPACITY_EXTRACT_PATH
+        in by_parameter["rail_capacity"]["candidate_artifacts"]
+    )
+    assert (
+        METRO9_CAPACITY_RAW_PATH
+        in by_parameter["rail_capacity"]["candidate_artifacts"]
+    )
     assert by_parameter["road_capacity_proxy"]["claim_boundary"] == PARAMETER_REVIEW_PACKET_SCOPE
     assert "road_capacity_evidence_candidates.csv" in by_parameter["road_capacity_proxy"]["candidate_artifacts"]
     assert sum(1 for row in rows if row["weak_for_final_claim"] == "true") == 25

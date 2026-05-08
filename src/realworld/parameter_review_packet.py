@@ -59,6 +59,8 @@ PARAMETER_REVIEW_PACKET_SCOPE = (
     "Parameter evidence review packet; not accepted parameter calibration, "
     "operational evidence, or publication-readiness approval."
 )
+METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
+METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
 
 RECOMMENDED_UPGRADES: Mapping[str, str] = {
     "road": (
@@ -115,6 +117,13 @@ CANDIDATE_ARTIFACTS: Mapping[str, str] = {
     "demand_time_censoring": (
         "data/parameters/parameter_sources.csv; "
         "data/scenarios/sensitivity_design.csv"
+    ),
+}
+
+PARAMETER_CANDIDATE_ARTIFACTS: Mapping[str, str] = {
+    "rail_capacity": (
+        f"{CANDIDATE_ARTIFACTS['rail']}; "
+        f"{METRO9_CAPACITY_EXTRACT_PATH}; {METRO9_CAPACITY_RAW_PATH}"
     ),
 }
 
@@ -239,7 +248,10 @@ def _row_for_parameter(
             sorted({record.source_class for _, record in records})
         ),
         "recommended_upgrade": RECOMMENDED_UPGRADES.get(group, ""),
-        "candidate_artifacts": CANDIDATE_ARTIFACTS.get(group, ""),
+        "candidate_artifacts": PARAMETER_CANDIDATE_ARTIFACTS.get(
+            parameter,
+            CANDIDATE_ARTIFACTS.get(group, ""),
+        ),
         "claim_boundary": PARAMETER_REVIEW_PACKET_SCOPE,
         "notes": (
             GROUP_BLOCKER_MESSAGES.get(group, "")
