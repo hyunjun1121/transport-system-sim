@@ -9,10 +9,10 @@ reproducibility acceptance and does not close
 
 - Result scope: `clean_checkout_source_tree_smoke_not_formal_acceptance`
 - Smoke passed: `true`
-- Commands passed: 8 / 8
+- Commands passed: 9 / 9
 - Clean checkout tested: `true`
 - Full clean environment tested: `false`
-- Source commit: `4e3d704c1854decb46d5e03853a23463c676db24`
+- Source commit: `9b5ab02b879b1b12e3e2bf341841972382fc92cc`
 - Environment scope: `clean_source_checkout_current_python_environment`
 - Can mark complete: `false`
 
