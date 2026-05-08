@@ -20,7 +20,7 @@ Source/license review packet only; not source acceptance, not license certificat
 | seoul_station_binding_cache | cached_snapshot_pending_review | local_artifacts_present | review source terms, attribution, snapshot date, and retained local artifacts | `false` |
 | seoul_shortest_path_api_context | context_only_not_cached | context_only_not_cached | cache a reproducible source extract with terms/attribution review, or exclude this context-only source from final-study claims | `false` |
 | seoul_timetable_api_context | context_only_not_cached | context_only_not_cached | cache a reproducible source extract with terms/attribution review, or exclude this context-only source from final-study claims | `false` |
-| ktdb_public_transport_gtfs_context | context_only_not_cached | context_only_not_cached | cache a reproducible source extract with terms/attribution review, or exclude this context-only source from final-study claims | `false` |
+| ktdb_public_transport_gtfs_context | cached_snapshot_pending_review | local_artifacts_present | review source terms, attribution, snapshot date, and retained local artifacts | `false` |
 | metro9_capacity_context | cached_snapshot_pending_review | local_artifacts_present | review source terms, attribution, snapshot date, and retained local artifacts | `false` |
 | osrm_public_route_benchmark | cached_snapshot_pending_review | local_artifacts_present | review source terms, attribution, snapshot date, and retained local artifacts | `false` |
 | structured_scenario_tables | repository_input_pending_review | local_artifacts_present | review project-owned assumptions, privacy abstraction, and claim boundary | `false` |

@@ -102,7 +102,7 @@ def build_ktdb_gtfs_extract(
         "fetched_at_utc": fetched,
         "notice_raw_html_sha256": _sha256_text(notice_html),
         "list_raw_html_sha256": _sha256_text(list_html),
-        "notice_title": _match_text(notice_text, r"공지사항\s+(.*?)\s+구분"),
+        "notice_title": _extract_notice_title(notice_text),
         "notice_posted_date": _match_text(notice_text, r"작성일\s*:\s*([0-9.]+)"),
         "baseline_date": _match_text(notice_text, r"①\s*기준시점\s*:\s*(.*?)\s*②"),
         "provided_from_date": _match_text(
@@ -260,6 +260,20 @@ def _html_to_text(html_text: str) -> str:
 def _match_text(text: str, pattern: str) -> str:
     match = re.search(pattern, text, flags=re.IGNORECASE)
     return match.group(1).strip() if match else ""
+
+
+def _extract_notice_title(text: str) -> str:
+    gtfs_index = text.find("GTFS")
+    if gtfs_index < 0:
+        return _match_text(text, r"공지사항\s+(.*?)\s+구분")
+    title_start = text.rfind("(", 0, gtfs_index)
+    label_end = text.find(" : ", gtfs_index)
+    if title_start < 0 or label_end < 0:
+        return _match_text(text, r"공지사항\s+(.*?)\s+구분")
+    candidate = text[title_start:label_end].strip()
+    if "GTFS" not in candidate:
+        return _match_text(text, r"공지사항\s+(.*?)\s+구분")
+    return candidate.rsplit(" ", 1)[0].strip()
 
 
 def _sha256_text(value: str) -> str:

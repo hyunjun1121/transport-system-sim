@@ -35,10 +35,13 @@ def test_source_provenance_priority_rows_classify_current_sources() -> None:
     assert by_id["seoul_timetable_api_context"]["priority_status"] == (
         "blocked_context_only_source_not_cached"
     )
-    assert by_id["ktdb_public_transport_gtfs_context"]["priority_status"] == (
-        "blocked_context_only_source_not_cached"
+    assert by_id["ktdb_public_transport_gtfs_context"]["review_status"] == (
+        "cached_snapshot_pending_review"
     )
-    assert by_id["ktdb_public_transport_gtfs_context"]["local_artifact_count"] == "8"
+    assert by_id["ktdb_public_transport_gtfs_context"]["priority_status"] == (
+        "needs_human_review_cached_snapshot_source"
+    )
+    assert by_id["ktdb_public_transport_gtfs_context"]["local_artifact_count"] == "11"
     assert by_id["metro9_capacity_context"]["priority_status"] == (
         "needs_human_review_cached_snapshot_source"
     )
@@ -89,8 +92,8 @@ def test_source_provenance_priority_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 11
-    assert written_manifest["blocking_source_count"] == 3
-    assert written_manifest["human_review_source_count"] == 8
+    assert written_manifest["blocking_source_count"] == 2
+    assert written_manifest["human_review_source_count"] == 9
     assert written_manifest["alternate_url_candidate_source_count"] == 1
     assert "Source Provenance Priority Packet" in doc_text
 
@@ -116,8 +119,8 @@ def test_shipped_source_provenance_priority_packet_matches_current_outputs() -> 
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["context_only_source_count"] == 3
-    assert manifest["cached_snapshot_source_count"] == 4
+    assert manifest["context_only_source_count"] == 2
+    assert manifest["cached_snapshot_source_count"] == 5
     assert manifest["repository_input_source_count"] == 4
     assert manifest["url_remediation_row_count"] == 17
     assert manifest["alternate_url_candidate_source_count"] == 1

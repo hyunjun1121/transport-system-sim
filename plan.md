@@ -809,9 +809,10 @@ First pilot-smoke artifacts also exist:
   `data/manifests/source_context_cache_request_packet.csv`. It names target
   cache artifacts, available fetch or derivation helpers, and required reviewer
   actions without fetching public data, certifying licenses, or creating
-  provenance acceptance. The KTDB row lists the source-metadata cache helper as
-  review support only; it still requires a reviewed GTFS zip or directory, or an
-  exclusion decision, before final rail/provenance claims can use the source.
+  provenance acceptance. The KTDB row now includes a cached source-metadata
+  extract and raw HTML pages as review support only; it still requires a
+  reviewed GTFS zip or directory, or an exclusion decision, before final
+  rail/provenance claims can use the source.
 - `src/realworld/source_context_cache_decision_packet.py` and
   `scripts/write_source_context_cache_decision_packet.py` now turn those three
   context-cache requests into pending reviewer decision rows under

@@ -58,6 +58,7 @@ def test_ktdb_gtfs_source_fields_are_parsed() -> None:
     )
 
     assert row["source_id"] == "ktdb_public_transport_gtfs_context"
+    assert row["notice_title"] == "(안내) 2024년 3월 기준 GTFS 기반정보 제공 안내"
     assert row["notice_posted_date"] == "2025.11.28"
     assert row["baseline_date"] == "2024년 3월 평일"
     assert row["coverage_scope"] == "전국(도서지역 포함)"

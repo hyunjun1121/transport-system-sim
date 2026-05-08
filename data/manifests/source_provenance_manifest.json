@@ -121,9 +121,12 @@
                         "source_name":  "KTDB public transport GTFS dataset candidate",
                         "source_type":  "public_data",
                         "source_url_or_citation":  "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3785; https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106",
-                        "license_or_terms":  "KTDB data-list and notice context; access route, license, attribution, and redistribution terms require reviewer confirmation before any GTFS artifact is cached or used.",
-                        "snapshot_or_access_date":  "2026-05-08",
+                        "license_or_terms":  "Cached KTDB data-list and notice metadata; access route, license, attribution, and redistribution terms require reviewer confirmation before any GTFS artifact is cached or used.",
+                        "snapshot_or_access_date":  "2026-05-08T23:24:46+00:00",
                         "local_artifact_paths":  [
+                                                     "data/rail/ktdb_gtfs_source_extract.csv",
+                                                     "data/rail/ktdb_gtfs_notice_raw.html",
+                                                     "data/rail/ktdb_gtfs_dataset_list_raw.html",
                                                      "data/rail/rail_timing_source_request_packet.csv",
                                                      "data/rail/rail_timing_source_request_manifest.json",
                                                      "docs/rail_timing_source_request_packet.md",
@@ -134,9 +137,9 @@
                                                      "scripts/derive_rail_gtfs_evidence.py"
                                                  ],
                         "used_for":  "reviewer-facing candidate source for a static GTFS feed that could derive pilot rail headway and station-to-station travel time after reviewed acquisition",
-                        "review_status":  "context_only_not_cached",
-                        "claim_boundary":  "Context-only GTFS source reference; no KTDB GTFS zip or derived timing evidence is cached for final-study rail claims.",
-                        "notes":  "KTDB pages indicate a public-transport GTFS data listing and a 2025-11-28 notice for 2024-03 baseline GTFS information, but the repository still requires reviewed acquisition, cache retention, SHA256 recording, stop/route/service-window review, and derivation before rail evidence can improve."
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Cached KTDB source metadata only; no KTDB GTFS zip or derived timing evidence is cached for final-study rail claims, and this is not operational routing evidence.",
+                        "notes":  "The cached KTDB metadata extract records the public-transport GTFS listing and a 2025-11-28 notice for 2024-03 baseline GTFS information, but the repository still requires reviewed GTFS acquisition, cache retention, SHA256 recording, stop/route/service-window review, and derivation before rail evidence can improve."
                     },
                     {
                         "source_id":  "metro9_capacity_context",

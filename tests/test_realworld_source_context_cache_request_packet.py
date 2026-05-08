@@ -52,6 +52,12 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["context_local_artifacts"]
+    assert "data/rail/ktdb_gtfs_source_extract.csv" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["context_local_artifacts"]
+    assert by_id["ktdb_public_transport_gtfs_context"][
+        "target_cache_artifacts_present"
+    ] == "false"
     assert {row["target_cache_artifacts_present"] for row in rows} == {"false"}
     assert {row["can_support_final_provenance_gate"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {

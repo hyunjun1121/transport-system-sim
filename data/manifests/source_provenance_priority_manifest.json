@@ -1,12 +1,12 @@
 {
   "alternate_url_candidate_source_count": 1,
   "alternate_url_issue_source_count": 1,
-  "blocking_source_count": 3,
-  "cached_snapshot_source_count": 4,
+  "blocking_source_count": 2,
+  "cached_snapshot_source_count": 5,
   "can_mark_complete": false,
   "claim_boundary": "This packet prioritizes existing source provenance review work. It does not create provenance_acceptance.json, certify license compatibility, accept source snapshots, or close provenance, validation, reproducibility, or final-study gates.",
-  "context_only_source_count": 3,
-  "human_review_source_count": 8,
+  "context_only_source_count": 2,
+  "human_review_source_count": 9,
   "inputs": {
     "source_license_review_packet": "data/manifests/source_license_review_packet.csv",
     "source_url_remediation_packet": "data/manifests/source_url_remediation_packet.csv"
@@ -18,8 +18,8 @@
     "manifest": "data/manifests/source_provenance_priority_manifest.json"
   },
   "priority_status_counts": {
-    "blocked_context_only_source_not_cached": 3,
-    "needs_human_review_cached_snapshot_source": 4,
+    "blocked_context_only_source_not_cached": 2,
+    "needs_human_review_cached_snapshot_source": 5,
     "needs_human_review_repository_input_source": 4
   },
   "provenance_gate_closure_candidate_count": 0,
@@ -45,8 +45,8 @@
     "medium": 4
   },
   "review_status_counts": {
-    "cached_snapshot_pending_review": 4,
-    "context_only_not_cached": 3,
+    "cached_snapshot_pending_review": 5,
+    "context_only_not_cached": 2,
     "repository_input_pending_review": 4
   },
   "row_count": 11,
