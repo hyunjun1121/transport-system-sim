@@ -73,3 +73,7 @@ Avoid:
 
 To add another region, create a new region spec, cache, data card, and parameter
 rows with a different `region_id`. Shared code should not require changes.
+Use `docs/region_reuse_checklist.md` for the current file checklist and
+validation commands. The synthetic fixture in
+`tests/fixtures/synthetic_region_fixture.yaml` is test coverage only, not a
+second accepted case study.

@@ -72,6 +72,14 @@ and generated-result artifact is committed or deliberately excluded. A clean
 clone will not include local `.venv` contents, Word lock files such as
 `~$report.docx`, or uncommitted working-tree artifacts.
 
+## Region Reuse
+
+Use `docs/region_reuse_checklist.md` when adding another public or synthetic
+region. The current reusable-schema check is
+`tests/test_realworld_region_reusability.py`, backed by
+`tests/fixtures/synthetic_region_fixture.yaml`. That fixture proves schema and
+adapter reuse only; it is not a second accepted case study.
+
 ## Run
 
 ```powershell
