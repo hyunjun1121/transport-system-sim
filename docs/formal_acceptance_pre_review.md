@@ -667,6 +667,7 @@ Review packets:
 - data/validation/sensitivity_review_packet.csv
 - data/validation/sensitivity_index_review_packet.csv
 - data/validation/sensitivity_strategy_readiness_packet.csv
+- data/validation/sensitivity_method_decision_packet.csv
 
 Source paths:
 - results/realworld_pilot/morris_manifest.json
@@ -674,6 +675,7 @@ Source paths:
 - results/realworld_pilot/morris_summary.csv
 - data/validation/sensitivity_strategy_readiness_packet.csv
 - data/validation/sensitivity_index_review_packet.csv
+- data/validation/sensitivity_method_decision_packet.csv
 - data/manifests/sensitivity_acceptance.json
 
 Evidence inspected:
@@ -682,6 +684,7 @@ Evidence inspected:
 - `results/realworld_pilot/morris_summary.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_index_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/sensitivity_method_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/sensitivity_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/sensitivity_analysis.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -689,12 +692,15 @@ Evidence inspected:
 - `data/validation/sensitivity_index_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/sensitivity_index_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/sensitivity_method_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/sensitivity_method_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_sensitivity.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/sensitivity_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_sensitivity_diagnostics.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_sensitivity_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_sensitivity_index_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_sensitivity_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_sensitivity_method_decision_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit sensitivity acceptance record after SALib output and Sobol-decision review

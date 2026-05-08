@@ -16,11 +16,15 @@
     "data/validation/sensitivity_strategy_readiness_packet.csv",
     "data/validation/sensitivity_strategy_readiness_manifest.json",
     "docs/sensitivity_strategy_readiness_packet.md",
+    "data/validation/sensitivity_method_decision_packet.csv",
+    "data/validation/sensitivity_method_decision_manifest.json",
+    "docs/sensitivity_method_decision_packet.md",
     "scripts/run_sensitivity.py",
     "scripts/audit_sensitivity_diagnostics.py",
     "scripts/write_sensitivity_review_packet.py",
     "scripts/write_sensitivity_index_review_packet.py",
-    "scripts/write_sensitivity_strategy_readiness_packet.py"
+    "scripts/write_sensitivity_strategy_readiness_packet.py",
+    "scripts/write_sensitivity_method_decision_packet.py"
   ],
   "expected_row_count": 4320,
   "expected_summary_row_count": 7056,

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T14:02:57+00:00`
+- Generated at: `2026-05-08T14:15:42+00:00`
 
 ## Decision
 
@@ -19,6 +19,8 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - data/validation/sensitivity_index_review_manifest.json
 - docs/sensitivity_index_review_packet.md
 - data/validation/sensitivity_strategy_readiness_manifest.json
+- data/validation/sensitivity_method_decision_manifest.json
+- docs/sensitivity_method_decision_packet.md
 - scripts/run_sensitivity.py
 - data/manifests/sensitivity_acceptance.json
 - results/realworld_pilot/morris_results.csv
@@ -27,10 +29,12 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - data/validation/sensitivity_index_review_packet.csv
 - data/validation/sensitivity_strategy_readiness_packet.csv
 - docs/sensitivity_strategy_readiness_packet.md
+- data/validation/sensitivity_method_decision_packet.csv
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
 - scripts/write_sensitivity_index_review_packet.py
 - scripts/write_sensitivity_strategy_readiness_packet.py
+- scripts/write_sensitivity_method_decision_packet.py
 
 ## Evidence And Source Paths
 
@@ -46,11 +50,15 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - data/validation/sensitivity_strategy_readiness_packet.csv
 - data/validation/sensitivity_strategy_readiness_manifest.json
 - docs/sensitivity_strategy_readiness_packet.md
+- data/validation/sensitivity_method_decision_packet.csv
+- data/validation/sensitivity_method_decision_manifest.json
+- docs/sensitivity_method_decision_packet.md
 - scripts/run_sensitivity.py
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
 - scripts/write_sensitivity_index_review_packet.py
 - scripts/write_sensitivity_strategy_readiness_packet.py
+- scripts/write_sensitivity_method_decision_packet.py
 - docs/review_packets/sensitivity_analysis.md
 
 ## Risks
@@ -115,6 +123,23 @@ Formal acceptance artifacts:
     "index_review_unavailable_index_row_count": 168,
     "index_review_zero_mu_star_row_count": 4272,
     "method": "salib_morris",
+    "method_decision_artifacts_present": true,
+    "method_decision_blocking_decision_count": 4,
+    "method_decision_can_mark_complete": false,
+    "method_decision_human_review_decision_count": 3,
+    "method_decision_publication_ready": false,
+    "method_decision_row_count": 7,
+    "method_decision_sobol_decision_recorded": false,
+    "method_decision_sobol_waiver_created": false,
+    "method_decision_status_counts": {
+      "blocked_missing_morris_vs_sobol_decision": 1,
+      "blocked_missing_sensitivity_acceptance_record": 1,
+      "blocked_reduced_graph_scope_dependency": 1,
+      "blocked_scaffold_result_scope": 1,
+      "needs_human_review_defer_or_continue": 1,
+      "needs_human_review_index_handling_policy": 1,
+      "needs_human_review_morris_screening_scope": 1
+    },
     "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
     "review_packet_acceptance_gate_closure_candidate_count": 0,
     "review_packet_publication_ready": false,
@@ -160,11 +185,15 @@ Formal acceptance artifacts:
     "data/validation/sensitivity_strategy_readiness_packet.csv",
     "data/validation/sensitivity_strategy_readiness_manifest.json",
     "docs/sensitivity_strategy_readiness_packet.md",
+    "data/validation/sensitivity_method_decision_packet.csv",
+    "data/validation/sensitivity_method_decision_manifest.json",
+    "docs/sensitivity_method_decision_packet.md",
     "scripts/run_sensitivity.py",
     "scripts/audit_sensitivity_diagnostics.py",
     "scripts/write_sensitivity_review_packet.py",
     "scripts/write_sensitivity_index_review_packet.py",
-    "scripts/write_sensitivity_strategy_readiness_packet.py"
+    "scripts/write_sensitivity_strategy_readiness_packet.py",
+    "scripts/write_sensitivity_method_decision_packet.py"
   ],
   "gate_id": "sensitivity_analysis",
   "label": "Sensitivity Analysis",
