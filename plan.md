@@ -650,8 +650,10 @@ First pilot-smoke artifacts also exist:
   `data/manifests/source_url_review_manifest.json`, and
   `docs/source_url_review_packet.md` identify every HTTP(S) source reference
   that a reviewer must inspect. The default command is offline parse-only;
-  optional `--live` reachability checks remain volatile review aids and do not
-  certify licenses, source suitability, or provenance acceptance.
+  optional `--live` reachability checks remain volatile review aids, and
+  `--preserve-existing-live` carries forward prior live rows during offline
+  refreshes. None of these modes certify licenses, source suitability, or
+  provenance acceptance.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed
@@ -728,7 +730,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python tests\test_realworld_road_override_template.py
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python tests\test_realworld_source_url_review_packet.py
-.\.venv\Scripts\python scripts\write_source_url_review_packet.py
+.\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
@@ -1923,7 +1925,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python scripts\audit_source_provenance.py
-.\.venv\Scripts\python scripts\write_source_url_review_packet.py
+.\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py

@@ -664,7 +664,9 @@ Implemented pieces:
 - `scripts/write_source_url_review_packet.py` converts source provenance
   citations into URL-level reviewer rows. It is offline parse-only by default;
   optional `--live` reachability checks remain volatile and do not accept
-  provenance.
+  provenance. Use `--preserve-existing-live` during offline refreshes when the
+  existing packet already contains live reachability rows that should remain
+  visible for review.
 - `scripts/write_experiment_package_review_packet.py` checks the full pilot
   manifest, result CSV, summary CSV, design counts, CRN declaration, graph
   scope, input dependencies, and checksums without accepting the experiment.

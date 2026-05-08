@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import csv
+from contextlib import redirect_stdout
+import io
 import json
 import os
 import sys
@@ -24,6 +26,9 @@ from src.realworld.source_url_review_packet import (  # noqa: E402
     check_url_reachability,
     extract_urls,
     write_source_url_review_packet,
+)
+from scripts.write_source_url_review_packet import (  # noqa: E402
+    main as write_source_url_review_main,
 )
 
 
@@ -159,6 +164,74 @@ def test_source_url_review_rows_can_preserve_existing_live_results() -> None:
     assert not_preserved["url_status"] == "not_checked"
 
     print("PASS: source URL review rows preserve existing live results")
+
+
+def test_source_url_review_cli_can_preserve_existing_live_results() -> None:
+    """The documented CLI flag should preserve prior live URL evidence."""
+
+    with TemporaryDirectory() as directory:
+        packet = Path(directory) / "source_url_review_packet.csv"
+        manifest = Path(directory) / "source_url_review_manifest.json"
+        doc = Path(directory) / "source_url_review_packet.md"
+        with packet.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=SOURCE_URL_REVIEW_COLUMNS)
+            writer.writeheader()
+            writer.writerow(
+                {
+                    "source_id": "osm_overpass_road_snapshot",
+                    "source_name": "OpenStreetMap road graph via Overpass",
+                    "source_type": "public_map",
+                    "review_status": "cached_snapshot_pending_review",
+                    "url_index": "1",
+                    "url": "https://www.openstreetmap.org/copyright",
+                    "check_mode": "live_http",
+                    "url_status": "reachable",
+                    "http_status": "200",
+                    "final_url": "https://www.openstreetmap.org/copyright",
+                    "content_type": "text/html",
+                    "checked_at": "2026-05-08T00:00:00+00:00",
+                    "target_acceptance_artifact": (
+                        "data/manifests/provenance_acceptance.json"
+                    ),
+                    "requires_reviewer_confirmation": "true",
+                    "can_support_final_provenance_gate": "false",
+                    "claim_boundary": SOURCE_URL_REVIEW_SCOPE,
+                    "notes": "fixture prior live check",
+                }
+            )
+
+        with redirect_stdout(io.StringIO()):
+            exit_code = write_source_url_review_main(
+                [
+                    "--output",
+                    str(packet),
+                    "--manifest",
+                    str(manifest),
+                    "--doc",
+                    str(doc),
+                    "--preserve-existing-live",
+                ]
+            )
+
+        with packet.open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        with manifest.open("r", encoding="utf-8") as handle:
+            manifest_data = json.load(handle)
+
+    preserved = next(
+        row
+        for row in rows
+        if row["source_id"] == "osm_overpass_road_snapshot"
+        and row["url_index"] == "1"
+    )
+    assert exit_code == 0
+    assert preserved["check_mode"] == "live_http"
+    assert preserved["url_status"] == "reachable"
+    assert preserved["checked_at"] == "2026-05-08T00:00:00+00:00"
+    assert manifest_data["check_mode_counts"]["live_http"] == 1
+    assert manifest_data["publication_ready"] is False
+
+    print("PASS: source URL review CLI preserves existing live results")
 
 
 def test_check_url_reachability_falls_back_from_head_http_error() -> None:
@@ -354,6 +427,7 @@ if __name__ == "__main__":
     test_source_url_review_rows_are_non_acceptance_rows()
     test_source_url_review_rows_support_injected_live_checker()
     test_source_url_review_rows_can_preserve_existing_live_results()
+    test_source_url_review_cli_can_preserve_existing_live_results()
     test_check_url_reachability_falls_back_from_head_http_error()
     test_check_url_reachability_falls_back_from_head_network_error()
     test_write_source_url_review_packet_outputs_artifacts()
