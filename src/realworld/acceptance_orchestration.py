@@ -349,6 +349,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "results/realworld_pilot/morris_summary.csv",
             "data/validation/sensitivity_strategy_readiness_packet.csv",
             "data/validation/sensitivity_index_review_packet.csv",
+            "data/validation/sensitivity_method_decision_packet.csv",
         ),
         reviewed_inputs=(
             "data/validation/sensitivity_review_packet.csv",
@@ -356,12 +357,15 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/validation/sensitivity_index_review_manifest.json",
             "docs/sensitivity_index_review_packet.md",
             "data/validation/sensitivity_strategy_readiness_manifest.json",
+            "data/validation/sensitivity_method_decision_manifest.json",
+            "docs/sensitivity_method_decision_packet.md",
             "scripts/run_sensitivity.py",
         ),
         review_packet_paths=(
             "data/validation/sensitivity_review_packet.csv",
             "data/validation/sensitivity_index_review_packet.csv",
             "data/validation/sensitivity_strategy_readiness_packet.csv",
+            "data/validation/sensitivity_method_decision_packet.csv",
             "docs/review_packets/sensitivity_analysis.md",
         ),
         decision_rules=(

@@ -375,6 +375,12 @@ The codebase currently includes:
     `scripts/write_sensitivity_strategy_readiness_packet.py`; the generated
     7-row packet classifies 4 blocking requests and 3 human-review requests
     before any sensitivity acceptance record can be created
+  - sensitivity method-decision packet generation in
+    `src/realworld/sensitivity_method_decision_packet.py` and
+    `scripts/write_sensitivity_method_decision_packet.py`; the generated
+    7-row packet lists Morris screening, Sobol extension, deferral,
+    index-handling, graph-scope, result-scope, and formal-acceptance decision
+    rows without running Sobol, waiving Sobol, or accepting Morris output
   - graph-scale strategy-readiness packet generation in
     `src/realworld/graph_scale_strategy_readiness_packet.py` and
     `scripts/write_graph_scale_strategy_readiness_packet.py`; the generated

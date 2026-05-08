@@ -68,6 +68,11 @@ from src.realworld.sensitivity_index_review_packet import (
     DEFAULT_SENSITIVITY_INDEX_REVIEW_MANIFEST_PATH,
     DEFAULT_SENSITIVITY_INDEX_REVIEW_PACKET_PATH,
 )
+from src.realworld.sensitivity_method_decision_packet import (
+    DEFAULT_SENSITIVITY_METHOD_DECISION_DOC_PATH,
+    DEFAULT_SENSITIVITY_METHOD_DECISION_MANIFEST_PATH,
+    DEFAULT_SENSITIVITY_METHOD_DECISION_PACKET_PATH,
+)
 from src.realworld.source_provenance import summarize_source_provenance_manifest
 from src.realworld.source_provenance_priority_packet import (
     DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH,
@@ -1501,6 +1506,9 @@ def _sensitivity_gate(
     strategy_readiness_doc_path = (
         PROJECT_ROOT / "docs" / "sensitivity_strategy_readiness_packet.md"
     )
+    method_decision_manifest = _load_json(
+        DEFAULT_SENSITIVITY_METHOD_DECISION_MANIFEST_PATH
+    )
     strategy_readiness_artifacts_present = (
         strategy_readiness_packet_path.exists()
         and strategy_readiness_manifest_path.exists()
@@ -1510,6 +1518,11 @@ def _sensitivity_gate(
         DEFAULT_SENSITIVITY_INDEX_REVIEW_PACKET_PATH.exists()
         and DEFAULT_SENSITIVITY_INDEX_REVIEW_MANIFEST_PATH.exists()
         and DEFAULT_SENSITIVITY_INDEX_REVIEW_DOC_PATH.exists()
+    )
+    method_decision_artifacts_present = (
+        DEFAULT_SENSITIVITY_METHOD_DECISION_PACKET_PATH.exists()
+        and DEFAULT_SENSITIVITY_METHOD_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_SENSITIVITY_METHOD_DECISION_DOC_PATH.exists()
     )
     artifact_present = bool(morris_manifest)
     scope = str((morris_manifest or {}).get("result_scope", ""))
@@ -1538,6 +1551,7 @@ def _sensitivity_gate(
         and strategy_readiness_artifacts_present
         and strategy_blocking_count == 0
         and strategy_human_review_count == 0
+        and method_decision_artifacts_present
         and not scope_blocked
         and not count_blockers
     )
@@ -1546,6 +1560,8 @@ def _sensitivity_gate(
         blockers.append("create sensitivity strategy-readiness packet, manifest, and doc")
     if not index_review_artifacts_present:
         blockers.append("create sensitivity index-review packet, manifest, and doc")
+    if not method_decision_artifacts_present:
+        blockers.append("create sensitivity method-decision packet, manifest, and doc")
     if not artifact_present:
         blockers.append("create accepted sensitivity outputs and manifest")
     if not acceptance_ready:
@@ -1585,11 +1601,15 @@ def _sensitivity_gate(
             "data/validation/sensitivity_strategy_readiness_packet.csv",
             "data/validation/sensitivity_strategy_readiness_manifest.json",
             "docs/sensitivity_strategy_readiness_packet.md",
+            "data/validation/sensitivity_method_decision_packet.csv",
+            "data/validation/sensitivity_method_decision_manifest.json",
+            "docs/sensitivity_method_decision_packet.md",
             "scripts/run_sensitivity.py",
             "scripts/audit_sensitivity_diagnostics.py",
             "scripts/write_sensitivity_review_packet.py",
             "scripts/write_sensitivity_index_review_packet.py",
             "scripts/write_sensitivity_strategy_readiness_packet.py",
+            "scripts/write_sensitivity_method_decision_packet.py",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -1659,6 +1679,31 @@ def _sensitivity_gate(
             "strategy_readiness_can_mark_complete": strategy_readiness.get(
                 "can_mark_complete", False
             ),
+            "method_decision_artifacts_present": method_decision_artifacts_present,
+            "method_decision_row_count": (method_decision_manifest or {}).get(
+                "row_count", 0
+            ),
+            "method_decision_blocking_decision_count": (
+                method_decision_manifest or {}
+            ).get("blocking_decision_count", 0),
+            "method_decision_human_review_decision_count": (
+                method_decision_manifest or {}
+            ).get("human_review_decision_count", 0),
+            "method_decision_status_counts": (method_decision_manifest or {}).get(
+                "decision_status_counts", {}
+            ),
+            "method_decision_sobol_decision_recorded": (
+                method_decision_manifest or {}
+            ).get("sobol_decision_recorded", False),
+            "method_decision_sobol_waiver_created": (
+                method_decision_manifest or {}
+            ).get("sobol_waiver_created", False),
+            "method_decision_publication_ready": (
+                method_decision_manifest or {}
+            ).get("publication_ready", False),
+            "method_decision_can_mark_complete": (
+                method_decision_manifest or {}
+            ).get("can_mark_complete", False),
             "result_scope": scope,
             "scope_blocked": scope_blocked,
         },

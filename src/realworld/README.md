@@ -179,10 +179,18 @@ Implemented extension modules now also cover:
   diagnostics into review items for index handling, zero-effect interpretation,
   reduced graph scope, and Morris-vs-Sobol decision support without accepting
   sensitivity evidence.
+- `sensitivity_index_review_packet.py`: generated metric-level worksheet that
+  summarizes unavailable Morris index rows, zero `mu_star` rows, and all-zero
+  metric/policy/scenario groups without accepting rankings or waiving Sobol
+  review.
 - `sensitivity_strategy_readiness_packet.py`: generated 7-row worksheet that
   classifies sensitivity blockers and human-review items before any formal
   sensitivity acceptance record is created. It does not accept Morris/Sobol
   scope or final sensitivity evidence.
+- `sensitivity_method_decision_packet.py`: focused Morris-vs-Sobol reviewer
+  worksheet that lists method options, index-handling policy, graph-scope
+  dependency, result-scope boundary, and the formal acceptance boundary
+  without running Sobol, waiving Sobol, or accepting Morris output.
 - `pilot_figures.py`: scaffold-only figures, tables, and claim-boundary
   artifacts generated from current pilot sample CSVs.
 - `pilot_statistics.py`: seed-replication metric confidence intervals and

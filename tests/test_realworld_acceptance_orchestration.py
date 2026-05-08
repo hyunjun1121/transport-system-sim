@@ -110,6 +110,10 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         "data/validation/sensitivity_strategy_readiness_packet.csv"
         in sensitivity_agent.review_packet_paths
     )
+    assert (
+        "data/validation/sensitivity_method_decision_packet.csv"
+        in sensitivity_agent.review_packet_paths
+    )
 
     experiment_agent = agents["full_experiment_package_agent"]
     assert "data/manifests/experiment_strategy_readiness_packet.csv" in (

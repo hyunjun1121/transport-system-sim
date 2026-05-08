@@ -584,6 +584,13 @@ First pilot-smoke artifacts also exist:
   missing/non-finite Morris indices, zero `mu_star` interpretation, reduced
   graph scope, scaffold result scope, missing Morris-vs-Sobol decision, and
   missing sensitivity acceptance without accepting final sensitivity evidence.
+- `src/realworld/sensitivity_method_decision_packet.py` and
+  `scripts/write_sensitivity_method_decision_packet.py` now turn the
+  Morris-vs-Sobol blocker into a 7-row reviewer worksheet under
+  `data/validation/sensitivity_method_decision_packet.csv`. It lists Morris
+  screening, Sobol extension, deferral, index-handling, graph-scope, result
+  scope, and formal-acceptance decision rows without running Sobol, waiving
+  Sobol, or accepting Morris output.
 - `src/realworld/validation_review_packet.py` and
   `scripts/write_validation_review_packet.py` convert the current validation
   artifacts into a 7-row reviewer worksheet under
