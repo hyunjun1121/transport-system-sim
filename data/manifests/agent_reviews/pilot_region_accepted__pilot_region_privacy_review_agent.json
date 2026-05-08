@@ -14,7 +14,7 @@
     "docs/review_packets/pilot_region_accepted.md"
   ],
   "gate_id": "pilot_region_accepted",
-  "generated_at": "2026-05-08T16:20:20+00:00",
+  "generated_at": "2026-05-08T16:28:24+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.",
