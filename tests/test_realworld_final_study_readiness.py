@@ -61,6 +61,9 @@ def test_current_final_study_readiness_is_blocked() -> None:
         ]
         == 5
     )
+    assert gate_map["cached_osm_input"]["details"][
+        "source_readiness_region_ids"
+    ] == ["songpa_public_demo"]
     assert any(
         "road source readiness: reviewed road_class_overrides.csv is absent"
         in item
@@ -91,6 +94,9 @@ def test_current_final_study_readiness_is_blocked() -> None:
         ]
         == 6
     )
+    assert gate_map["parameter_evidence"]["details"][
+        "source_readiness_region_ids"
+    ] == ["songpa_public_demo"]
     assert any(
         "parameter source readiness: all rows require human review" in item
         for item in gate_map["parameter_evidence"]["blockers"]
@@ -108,6 +114,9 @@ def test_current_final_study_readiness_is_blocked() -> None:
         ]
         == 5
     )
+    assert gate_map["rail_evidence"]["details"]["fetch_readiness_region_ids"] == [
+        "songpa_public_demo"
+    ]
     assert any(
         "reviewed-GTFS rows require external reviewer-provided inputs" in item
         for item in gate_map["rail_evidence"]["details"][

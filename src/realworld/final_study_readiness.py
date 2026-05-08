@@ -409,6 +409,9 @@ def _cached_osm_gate(
             "source_readiness_status_counts": source_readiness.get(
                 "readiness_status_counts", {}
             ),
+            "source_readiness_region_ids": list(
+                _list_value(road_source_readiness_manifest, "region_ids")
+            ),
             "source_readiness_source_url_or_citation_present_count": source_readiness.get(
                 "source_url_or_citation_present_count", 0
             ),
@@ -863,6 +866,9 @@ def _parameter_gate(
                 "readiness_status_counts",
                 {},
             ),
+            "source_readiness_region_ids": list(
+                _list_value(parameter_source_readiness_manifest, "region_ids")
+            ),
             "source_readiness_source_url_or_citation_present_count": readiness.get(
                 "source_url_or_citation_present_count",
                 0,
@@ -966,6 +972,9 @@ def _rail_gate(
             ),
             "fetch_readiness_status_counts": fetch_readiness.get(
                 "readiness_status_counts", {}
+            ),
+            "fetch_readiness_region_ids": list(
+                _list_value(rail_fetch_readiness_manifest, "region_ids")
             ),
             "fetch_readiness_source_url_or_citation_present_count": fetch_readiness.get(
                 "source_url_or_citation_present_count", 0
