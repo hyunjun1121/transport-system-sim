@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T21:45:20+00:00`
+- Generated at: `2026-05-08T21:48:03+00:00`
 
 ## Decision
 
