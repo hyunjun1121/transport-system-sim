@@ -4,7 +4,7 @@
   "category_counts": {},
   "claim_boundary": "This audit checks whether current changed artifacts would be present in a clean checkout of the current Git HEAD. It does not commit files, approve reproducibility, validate evidence quality, or close final-study gates.",
   "clean_checkout_reproducibility_ready": false,
-  "generated_at": "2026-05-08T10:43:01+00:00",
+  "generated_at": "2026-05-08T10:53:56+00:00",
   "modified_or_staged_count": 0,
   "outputs": {
     "csv": "data/validation/tracked_artifact_audit.csv",
