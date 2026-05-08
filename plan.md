@@ -453,18 +453,19 @@ First pilot-smoke artifacts also exist:
   claims, and remains review support only.
 - `src/realworld/parameter_evidence_request_packet.py` and
   `scripts/write_parameter_evidence_source_request_packet.py` now write a
-  6-row source-request worksheet for cross-cutting demand, fleet, dispatch,
-  transfer, disruption, and traffic/BPR evidence collection. The generated
-  packet covers 22 parameters, keeps `publication_ready: false`, and does not
+  7-row source-request worksheet for cross-cutting demand, fleet, dispatch,
+  transfer, rail, disruption, and traffic/BPR evidence collection. The generated
+  packet covers 25 parameters, keeps `publication_ready: false`, and does not
   close the parameter-evidence or weak-parameter acceptance gates.
 - `src/realworld/parameter_source_readiness_packet.py` and
-  `scripts/write_parameter_source_readiness_packet.py` now classify those 6
+  `scripts/write_parameter_source_readiness_packet.py` now classify those 7
   parameter source requests into concrete readiness states. The current packet
-  covers 20 weak parameters, separates human-review rows from blocker rows,
-  keeps `publication_ready: false`, and cannot approve weak assumptions or
-  final parameter claims.
+  covers 23 weak parameters, separates human-review rows from blocker rows,
+  includes a blocked rail timing/capacity cross-reference row, keeps
+  `publication_ready: false`, and cannot approve weak assumptions or final
+  parameter claims.
 - `src/realworld/parameter_source_decision_packet.py` and
-  `scripts/write_parameter_source_decision_packet.py` now turn those 6
+  `scripts/write_parameter_source_decision_packet.py` now turn those 7
   parameter source-readiness rows into pending reviewer decisions under
   `data/parameters/parameter_source_decision_packet.csv`. The packet records
   source-backed update, bounded-scenario assumption, sensitivity-only, or
@@ -472,12 +473,13 @@ First pilot-smoke artifacts also exist:
   `data/parameters/parameter_acceptance.csv`.
 - `src/realworld/parameter_evidence_priority_packet.py` and
   `scripts/write_parameter_evidence_priority_packet.py` now combine the
-  parameter review, source-request, and source-readiness rows into a 6-row
+  parameter review, source-request, and source-readiness rows into a 7-row
   priority worksheet under
   `data/parameters/parameter_evidence_priority_packet.csv`. It highlights the
-  blocked transfer-source row, high-priority disruption and traffic/BPR rows,
-  and medium-priority demand, fleet, and dispatch rows, but it remains
-  prioritization support only and cannot approve parameter evidence.
+  blocked transfer-source row, blocked rail timing/capacity row, high-priority
+  disruption and traffic/BPR rows, and medium-priority demand, fleet, and
+  dispatch rows, but it remains prioritization support only and cannot approve
+  parameter evidence.
 - `src/realworld/parameter_acceptance.py` and
   `docs/parameter_acceptance_schema.md` define the optional reviewer record
   needed when weak expert/sensitivity-only parameters are retained inside the

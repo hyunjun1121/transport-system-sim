@@ -141,8 +141,8 @@ Current generated artifact checks:
 | `scripts/audit_parameter_evidence.py` | `publication_ready: false`; 25 weak core parameters; 0 missing |
 | `data/parameters/parameter_evidence_review_packet.csv` | 29 core-parameter review rows; 25 rows weak for final-study claims; review aid only |
 | `data/parameters/parameter_evidence_review_manifest.json` | review priorities: 11 high, 14 medium, 4 low; non-acceptance claim boundary |
-| `data/parameters/parameter_evidence_source_request_packet.csv` | 6 cross-cutting parameter evidence source-request rows; request aid only |
-| `data/parameters/parameter_evidence_source_request_manifest.json` | covers 22 parameters; `publication_ready: false` |
+| `data/parameters/parameter_evidence_source_request_packet.csv` | 7 cross-cutting parameter evidence source-request rows; request aid only |
+| `data/parameters/parameter_evidence_source_request_manifest.json` | covers 25 parameters; `publication_ready: false` |
 | `scripts/audit_road_evidence.py` | `publication_ready: false`; 28,947 cached edges; 1.292% maxspeed parseable; 0% explicit capacity |
 | `scripts/audit_road_evidence_diagnostics.py` | structurally ready; routeable review priorities currently emphasize residential, tertiary, secondary, primary, and trunk-class evidence gaps |
 | `data/parameters/road_speed_evidence_candidates.csv` | 10 routeable road-class speed-candidate rows; 5 rows have observed OSM `maxspeed`; review aid only |

@@ -341,8 +341,8 @@ The codebase currently includes:
   - parameter evidence source-request packet in
     `src/realworld/parameter_evidence_request_packet.py` and
     `scripts/write_parameter_evidence_source_request_packet.py`; the generated
-    6-row packet covers 22 cross-cutting demand, fleet, dispatch, transfer,
-    disruption, and traffic/BPR parameters and is request support only
+    7-row packet covers 25 cross-cutting demand, fleet, dispatch, transfer,
+    rail, disruption, and traffic/BPR parameters and is request support only
   - parameter source-readiness packet generation in
     `src/realworld/parameter_source_readiness_packet.py` and
     `scripts/write_parameter_source_readiness_packet.py`; the manifest records
@@ -350,7 +350,7 @@ The codebase currently includes:
     metadata
   - parameter source-decision worksheet in
     `src/realworld/parameter_source_decision_packet.py` and
-    `scripts/write_parameter_source_decision_packet.py`; the generated 6-row
+    `scripts/write_parameter_source_decision_packet.py`; the generated 7-row
     packet records pending source-backed, bounded-scenario, sensitivity-only,
     or exclusion decisions for weak parameter groups without changing
     parameter values or creating `data/parameters/parameter_acceptance.csv`
