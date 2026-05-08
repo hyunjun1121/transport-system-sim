@@ -192,17 +192,9 @@ def main() -> int:
         source_url_timeout_sec=args.source_url_timeout_sec,
         initial_git_status_lines=initial_git_status_lines,
     )
-    manifest = write_acceptance_orchestration_outputs()
     formal_guard = audit_formal_acceptance_artifacts()
     formal_package = write_formal_acceptance_package_audit()
     formal_evidence_paths = formal_package.get("formal_evidence_path_audit", {})
-    agent_review_paths = write_agent_review_path_audit()
-    refreshed.append("data/manifests/agent_review_path_audit.json")
-    tracked_artifact_rows = build_tracked_artifact_rows(
-        git_status_lines=initial_git_status_lines,
-    )
-    tracked_artifacts = write_tracked_artifact_audit(rows=tracked_artifact_rows)
-    refreshed.append("data/validation/tracked_artifact_audit.csv")
     blocker_queue = write_acceptance_blocker_queue(package_summary=formal_package)
     task_assignments = write_acceptance_task_assignments(
         package_summary=formal_package
@@ -217,7 +209,17 @@ def main() -> int:
     refreshed.append("data/manifests/formal_acceptance_blocker_queue.csv")
     refreshed.append("data/manifests/acceptance_task_assignments.csv")
     refreshed.append("data/manifests/formal_acceptance_evidence_matrix.csv")
-    refreshed.append("data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json")
+    refreshed.append(
+        "data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json"
+    )
+    manifest = write_acceptance_orchestration_outputs()
+    agent_review_paths = write_agent_review_path_audit()
+    refreshed.append("data/manifests/agent_review_path_audit.json")
+    tracked_artifact_rows = build_tracked_artifact_rows(
+        git_status_lines=initial_git_status_lines,
+    )
+    tracked_artifacts = write_tracked_artifact_audit(rows=tracked_artifact_rows)
+    refreshed.append("data/validation/tracked_artifact_audit.csv")
     goal_audit = write_goal_completion_audit()
     refreshed.append("data/manifests/current_goal_completion_audit.json")
     summary = {

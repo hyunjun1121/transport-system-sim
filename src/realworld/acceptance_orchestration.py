@@ -149,6 +149,45 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         "Reproducibility Review",
         PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
     ),
+    (
+        "acceptance_decision_templates",
+        "Acceptance Decision Templates",
+        PROJECT_ROOT / "data" / "manifests" / "acceptance_decision_template_manifest.json",
+    ),
+    (
+        "formal_acceptance_blocker_queue",
+        "Formal Acceptance Blocker Queue",
+        PROJECT_ROOT / "data" / "manifests" / "formal_acceptance_blocker_queue_manifest.json",
+    ),
+    (
+        "acceptance_task_assignments",
+        "Acceptance Task Assignments",
+        PROJECT_ROOT / "data" / "manifests" / "acceptance_task_assignments_manifest.json",
+    ),
+    (
+        "formal_acceptance_evidence_matrix",
+        "Formal Evidence Matrix",
+        PROJECT_ROOT / "data" / "manifests" / "formal_acceptance_evidence_matrix_manifest.json",
+    ),
+    (
+        "formal_acceptance_pre_review",
+        "Formal Acceptance Pre-Review",
+        PROJECT_ROOT
+        / "data"
+        / "manifests"
+        / "draft_acceptance"
+        / "formal_acceptance_pre_review_manifest.json",
+    ),
+    (
+        "formal_acceptance_package_audit",
+        "Formal Package Audit",
+        PROJECT_ROOT / "data" / "manifests" / "formal_acceptance_package_audit.json",
+    ),
+    (
+        "formal_evidence_path_audit",
+        "Formal Evidence Path Audit",
+        PROJECT_ROOT / "data" / "manifests" / "formal_evidence_path_audit.json",
+    ),
 )
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "
@@ -1168,7 +1207,18 @@ def _load_review_status_snapshot(
         return base
 
     base["manifest_valid"] = True
-    base["row_count"] = int(data.get("row_count", 0) or 0)
+    base["row_count"] = _first_int(
+        data,
+        (
+            "row_count",
+            "task_count",
+            "record_count",
+            "gate_count",
+            "formal_gate_count",
+            "artifact_count",
+            "json_template_count",
+        ),
+    )
     status_counts = _status_counts(data)
     base["blocking_count"] = _first_int(
         data,
@@ -1178,9 +1228,15 @@ def _load_review_status_snapshot(
             "blocking_priority_count",
             "blocking_source_count",
             "blocked_gate_count",
+            "invalid_gate_count",
             "blocking_issue_count",
             "missing_snapshot_or_context_only_count",
             "unreachable_or_error_count",
+            "template_or_placeholder_count",
+            "missing_required_path_count",
+            "missing_local_evidence_count",
+            "placeholder_evidence_count",
+            "empty_evidence_record_count",
         ),
     )
     if base["blocking_count"] == 0:
@@ -1195,6 +1251,7 @@ def _load_review_status_snapshot(
             "human_decision_required_count",
             "review_required_count",
             "requires_reviewer_confirmation_count",
+            "requires_human_review_count",
         ),
     )
     if base["human_review_count"] == 0:
@@ -1423,6 +1480,8 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "remediation_status_counts",
         "coverage_status_counts",
         "comparison_status_counts",
+        "recommendation_counts",
+        "action_type_counts",
         "status_counts",
     ):
         value = data.get(key)

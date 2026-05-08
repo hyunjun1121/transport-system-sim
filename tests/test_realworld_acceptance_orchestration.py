@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.realworld.acceptance_orchestration import (  # noqa: E402
+    DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS,
     REVIEW_AGENT_DEFINITIONS,
     build_acceptance_record,
     summarize_acceptance_orchestration_manifest,
@@ -140,6 +141,17 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     )
 
 
+def test_default_review_status_snapshots_cover_formal_workflow() -> None:
+    snapshot_ids = [item[0] for item in DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS]
+    assert len(snapshot_ids) == len(set(snapshot_ids))
+    assert "formal_acceptance_blocker_queue" in snapshot_ids
+    assert "acceptance_task_assignments" in snapshot_ids
+    assert "formal_acceptance_evidence_matrix" in snapshot_ids
+    assert "formal_acceptance_pre_review" in snapshot_ids
+    assert "formal_acceptance_package_audit" in snapshot_ids
+    assert "formal_evidence_path_audit" in snapshot_ids
+
+
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
     audit = audit_final_study_readiness()
     gate_map = {gate["gate_id"]: gate for gate in audit["gates"]}
@@ -255,6 +267,38 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        formal_queue_snapshot_path = root / "formal_queue_manifest.json"
+        formal_queue_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 15,
+                    "requires_human_review_count": 15,
+                    "can_mark_complete": False,
+                    "status_counts": {"blocked": 15},
+                    "remaining_blockers": [
+                        "resolve each formal blocker with source-backed evidence"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        pre_review_snapshot_path = root / "formal_pre_review_manifest.json"
+        pre_review_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "record_count": 12,
+                    "human_decision_required_count": 12,
+                    "can_mark_complete": False,
+                    "recommendation_counts": {
+                        "blocked_missing_evidence": 8,
+                        "blocked_requires_human_decision": 4,
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -283,6 +327,16 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "source_url_review",
                     "Source URL Review",
                     source_url_snapshot_path,
+                ),
+                (
+                    "formal_acceptance_blocker_queue",
+                    "Formal Acceptance Blocker Queue",
+                    formal_queue_snapshot_path,
+                ),
+                (
+                    "formal_acceptance_pre_review",
+                    "Formal Acceptance Pre-Review",
+                    pre_review_snapshot_path,
                 ),
             ),
         )
@@ -327,6 +381,22 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             snapshots["source_url_review"]["status_counts"]["network_error"]
             == 1
         )
+        assert (
+            snapshots["formal_acceptance_blocker_queue"]["blocking_count"]
+            == 15
+        )
+        assert (
+            snapshots["formal_acceptance_blocker_queue"]["human_review_count"]
+            == 15
+        )
+        assert (
+            snapshots["formal_acceptance_pre_review"]["blocking_count"]
+            == 12
+        )
+        assert (
+            snapshots["formal_acceptance_pre_review"]["human_review_count"]
+            == 12
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -338,8 +408,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Source URL Review`" in index_text
+        assert "`Formal Acceptance Blocker Queue`" in index_text
+        assert "`Formal Acceptance Pre-Review`" in index_text
         assert "candidate_worsens=24" in index_text
         assert "network_error=1" in index_text
+        assert "blocked_missing_evidence=8" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
@@ -366,6 +439,7 @@ def test_acceptance_orchestration_summary_reports_absent_manifest() -> None:
 if __name__ == "__main__":
     test_acceptance_orchestration_defines_required_review_agents()
     test_review_agents_point_at_current_readiness_packets()
+    test_default_review_status_snapshots_cover_formal_workflow()
     test_acceptance_orchestration_blocks_nonready_gate_without_completion()
     test_acceptance_orchestration_writes_records_and_manifest()
     test_acceptance_orchestration_summary_reports_absent_manifest()

@@ -79,6 +79,13 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
+| `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
+| `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
+| `Formal Evidence Matrix` | 12 | 12 | 12 | 0 | `false` | blocked=12 |
+| `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
+| `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
+| `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 
 Priority blockers by packet:
 
@@ -99,6 +106,7 @@ Priority blockers by packet:
 - `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
+- `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
 
 ## Remaining Blockers
 

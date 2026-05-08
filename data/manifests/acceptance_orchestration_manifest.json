@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T15:27:18+00:00",
+  "generated_at": "2026-05-08T15:37:16+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -1000,6 +1000,188 @@
         "ready_for_review_no_cloned_repo_runtime_imports": 1,
         "ready_for_review_no_untracked_reproducibility_artifacts": 1
       }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Acceptance Decision Templates",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/acceptance_decision_template_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "formal_acceptance_templates_not_approval",
+      "review_items": [
+        "do not treat templates as acceptance records",
+        "copy templates to formal target paths only after source-backed review",
+        "keep accepted false unless the corresponding gate evidence is genuinely accepted",
+        "rerun final-study readiness after any formal acceptance artifact is added"
+      ],
+      "row_count": 9,
+      "snapshot_id": "acceptance_decision_templates",
+      "status_counts": {}
+    },
+    {
+      "blocking_count": 15,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 15,
+      "label": "Formal Acceptance Blocker Queue",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/formal_acceptance_blocker_queue_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "",
+      "review_items": [
+        "resolve each row with source-backed evidence or keep the formal target absent",
+        "rerun validate_formal_acceptance_package.py after any formal artifact is added",
+        "do not treat this queue as acceptance or calibration evidence"
+      ],
+      "row_count": 15,
+      "snapshot_id": "formal_acceptance_blocker_queue",
+      "status_counts": {
+        "blocked": 15
+      }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 15,
+      "label": "Acceptance Task Assignments",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/acceptance_task_assignments_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "",
+      "review_items": [
+        "each task requires source-backed evidence or an explicit blocked decision",
+        "review packets and templates are aids only, not formal acceptance",
+        "rerun scripts/run_acceptance_audit.py after any formal artifact changes"
+      ],
+      "row_count": 15,
+      "snapshot_id": "acceptance_task_assignments",
+      "status_counts": {
+        "apply_reviewed_input_and_regenerate": 1,
+        "create_or_supply_formal_evidence": 13,
+        "replace_weak_or_scaffold_evidence": 1
+      }
+    },
+    {
+      "blocking_count": 12,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 12,
+      "label": "Formal Evidence Matrix",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "",
+      "review_items": [
+        "inspect one matrix row per formal target before creating any formal artifact",
+        "use the listed review packets and templates as intake aids only",
+        "leave formal targets absent or blocked when source-backed evidence is missing",
+        "rerun scripts/validate_formal_acceptance_package.py after any formal artifact is added"
+      ],
+      "row_count": 12,
+      "snapshot_id": "formal_acceptance_evidence_matrix",
+      "status_counts": {
+        "blocked": 12
+      }
+    },
+    {
+      "blocking_count": 12,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 12,
+      "label": "Formal Acceptance Pre-Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "",
+      "review_items": [],
+      "row_count": 12,
+      "snapshot_id": "formal_acceptance_pre_review",
+      "status_counts": {
+        "blocked_missing_evidence": 8,
+        "blocked_requires_human_decision": 4
+      }
+    },
+    {
+      "blocking_count": 12,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Formal Package Audit",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/formal_acceptance_package_audit.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review",
+        "graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+        "data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+        "parameter_acceptance: create reviewed parameter acceptance records only for weak assumptions retained in final claims",
+        "parameter_acceptance: parameter_acceptance.csv is missing",
+        "road_class_overrides: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
+        "road_class_overrides: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
+        "road_class_overrides: reviewed road-class override table is absent",
+        "validation_package: create an explicit validation acceptance record after benchmark-strategy review",
+        "sensitivity_analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+        "full_experiment_output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
+        "manuscript_report_alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
+        "reproducibility: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+        "final_audit_document: create docs/final_study_audit.md after all other gates close",
+        "final_audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+        "formal_acceptance_guard: data/manifests/pilot_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/graph_scale_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/provenance_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/parameters/parameter_acceptance.csv: create formal acceptance artifact",
+        "formal_acceptance_guard: data/parameters/road_class_overrides.csv: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/validation_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/sensitivity_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/experiment_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/manuscript_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/reproducibility_acceptance.json: create formal acceptance artifact",
+        "formal_acceptance_guard: docs/final_study_audit.md: create formal acceptance artifact",
+        "formal_acceptance_guard: data/manifests/final_audit_acceptance.json: create formal acceptance artifact",
+        "final_study_readiness: final-study readiness audit is still false"
+      ],
+      "result_scope": "",
+      "review_items": [],
+      "row_count": 12,
+      "snapshot_id": "formal_acceptance_package_audit",
+      "status_counts": {}
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Formal Evidence Path Audit",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/formal_evidence_path_audit.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "",
+      "review_items": [
+        "review all external references for source, license, and citation compatibility",
+        "replace REVIEW_REQUIRED placeholders before any formal acceptance package is considered",
+        "ensure every local evidence path exists in the repository or generated package",
+        "treat this as path hygiene only; scientific sufficiency still requires human review"
+      ],
+      "row_count": 11,
+      "snapshot_id": "formal_evidence_path_audit",
+      "status_counts": {}
     }
   ],
   "schema_path": "schemas/acceptance_record.schema.json",
