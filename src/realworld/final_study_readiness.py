@@ -1043,6 +1043,18 @@ def _validation_gate(
     strategy_readiness_doc_path = (
         PROJECT_ROOT / "docs" / "validation_strategy_readiness_packet.md"
     )
+    benchmark_readiness_packet_path = (
+        PROJECT_ROOT / "data" / "validation" / "validation_benchmark_readiness_packet.csv"
+    )
+    benchmark_readiness_manifest_path = (
+        PROJECT_ROOT
+        / "data"
+        / "validation"
+        / "validation_benchmark_readiness_manifest.json"
+    )
+    benchmark_readiness_doc_path = (
+        PROJECT_ROOT / "docs" / "validation_benchmark_readiness_packet.md"
+    )
     text = _read_text(summary_path)
     review_manifest = _load_json(review_manifest_path)
     osrm_manifest = _load_json(osrm_manifest_path)
@@ -1057,6 +1069,9 @@ def _validation_gate(
         and strategy_readiness_packet_path.exists()
         and strategy_readiness_manifest_path.exists()
         and strategy_readiness_doc_path.exists()
+        and benchmark_readiness_packet_path.exists()
+        and benchmark_readiness_manifest_path.exists()
+        and benchmark_readiness_doc_path.exists()
     )
     acceptance_ready = bool(validation_acceptance["acceptance_ready"])
     summary_scope_blocked = _validation_summary_scope_is_blocked(text)
@@ -1115,11 +1130,15 @@ def _validation_gate(
             "data/validation/validation_strategy_readiness_packet.csv",
             "data/validation/validation_strategy_readiness_manifest.json",
             "docs/validation_strategy_readiness_packet.md",
+            "data/validation/validation_benchmark_readiness_packet.csv",
+            "data/validation/validation_benchmark_readiness_manifest.json",
+            "docs/validation_benchmark_readiness_packet.md",
             "scripts/run_plausibility_validation.py",
             "scripts/run_accessibility_loss_analysis.py",
             "scripts/write_route_road_evidence_exposure.py",
             "scripts/run_osrm_route_benchmark.py",
             "scripts/write_osrm_snapshot_manifest.py",
+            "scripts/write_validation_benchmark_readiness_packet.py",
             "scripts/write_validation_review_packet.py",
             "scripts/write_validation_strategy_readiness_packet.py",
         ],

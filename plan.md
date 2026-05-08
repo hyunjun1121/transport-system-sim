@@ -1226,6 +1226,13 @@ Current status:
   `docs/validation_strategy_readiness_packet.md`. This is a pre-review blocker
   classifier only; it does not create `data/manifests/validation_acceptance.json`
   and cannot close the validation gate.
+- `scripts/write_validation_benchmark_readiness_packet.py` now isolates the
+  benchmark-strategy decision into 4 reviewer rows: fallback detour-speed
+  benchmarks, cached OSRM route snapshot, alternative route-engine or agency
+  benchmark decision, and the missing validation acceptance record. Current
+  OSRM rows have 3 retained raw response files and 0 unpinned rows, but the
+  packet still keeps benchmark use in human-review scope and cannot close the
+  validation gate.
 
 Validation layers:
 
@@ -1954,6 +1961,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
@@ -2097,7 +2105,8 @@ Concrete next tasks:
    benchmark or whether cached Valhalla, routingpy, R5/OpenTripPlanner, UXsim,
    or equivalent evidence is needed within the publication schedule. Use
    `data/validation/validation_review_packet.csv` and
-   `data/validation/validation_strategy_readiness_packet.csv` as the
+   `data/validation/validation_strategy_readiness_packet.csv` with the
+   focused `data/validation/validation_benchmark_readiness_packet.csv` as the
    benchmark-strategy and blocker-classification worksheets before creating
    any validation acceptance record.
 9. Review the current sample/staged/full pilot runner outputs as the candidate

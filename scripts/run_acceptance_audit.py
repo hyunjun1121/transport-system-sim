@@ -148,6 +148,10 @@ from src.realworld.validation_review_packet import (  # noqa: E402
     build_validation_review_rows,
     write_validation_review_packet,
 )
+from src.realworld.validation_benchmark_readiness_packet import (  # noqa: E402
+    build_validation_benchmark_readiness_rows,
+    write_validation_benchmark_readiness_packet,
+)
 from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
     build_validation_strategy_readiness_rows,
     write_validation_strategy_readiness_packet,
@@ -409,6 +413,9 @@ def _refresh_existing_review_packets(
     )
     write_experiment_strategy_readiness_packet(rows=experiment_readiness_rows)
     refreshed.append("data/manifests/experiment_strategy_readiness_packet.csv")
+    benchmark_readiness_rows = build_validation_benchmark_readiness_rows()
+    write_validation_benchmark_readiness_packet(rows=benchmark_readiness_rows)
+    refreshed.append("data/validation/validation_benchmark_readiness_packet.csv")
     validation_rows = build_validation_review_rows()
     write_validation_review_packet(rows=validation_rows)
     refreshed.append("data/validation/validation_review_packet.csv")

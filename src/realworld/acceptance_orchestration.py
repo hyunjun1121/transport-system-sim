@@ -269,6 +269,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         source_paths=(
             "data/validation/validation_review_packet.csv",
             "data/validation/validation_strategy_readiness_packet.csv",
+            "data/validation/validation_benchmark_readiness_packet.csv",
             "data/validation/osrm_route_benchmark_manifest.json",
             "data/validation/accessibility_loss.csv",
             "data/validation/canonical_route_road_evidence_exposure.csv",
@@ -276,13 +277,16 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         reviewed_inputs=(
             "docs/validation_review_packet.md",
             "docs/validation_strategy_readiness_packet.md",
+            "docs/validation_benchmark_readiness_packet.md",
             "docs/osrm_route_benchmark_manifest.md",
             "data/validation/validation_review_manifest.json",
             "data/validation/validation_strategy_readiness_manifest.json",
+            "data/validation/validation_benchmark_readiness_manifest.json",
         ),
         review_packet_paths=(
             "data/validation/validation_review_packet.csv",
             "data/validation/validation_strategy_readiness_packet.csv",
+            "data/validation/validation_benchmark_readiness_packet.csv",
             "docs/review_packets/validation_package.md",
         ),
         decision_rules=(

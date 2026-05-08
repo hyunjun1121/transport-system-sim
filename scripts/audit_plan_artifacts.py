@@ -149,6 +149,11 @@ from src.realworld.validation_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     DEFAULT_VALIDATION_STRATEGY_READINESS_PACKET_PATH,
 )
+from src.realworld.validation_benchmark_readiness_packet import (  # noqa: E402
+    DEFAULT_VALIDATION_BENCHMARK_READINESS_DOC_PATH,
+    DEFAULT_VALIDATION_BENCHMARK_READINESS_MANIFEST_PATH,
+    DEFAULT_VALIDATION_BENCHMARK_READINESS_PACKET_PATH,
+)
 from src.realworld.sensitivity_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH,
     DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH,
@@ -514,6 +519,11 @@ CSV_EXPECTATIONS = (
         7,
     ),
     CsvExpectation(
+        "validation_benchmark_readiness_packet",
+        DEFAULT_VALIDATION_BENCHMARK_READINESS_PACKET_PATH,
+        4,
+    ),
+    CsvExpectation(
         "reproducibility_review_packet",
         DEFAULT_REPRODUCIBILITY_REVIEW_PACKET_PATH,
         8,
@@ -592,6 +602,10 @@ JSON_EXPECTATIONS = (
     JsonExpectation(
         "validation_strategy_readiness_manifest",
         DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "validation_benchmark_readiness_manifest",
+        DEFAULT_VALIDATION_BENCHMARK_READINESS_MANIFEST_PATH,
     ),
     JsonExpectation(
         "canonical_route_road_evidence_exposure_manifest",
@@ -860,6 +874,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "validation_acceptance_schema.md",
     ROOT / "docs" / "validation_review_packet.md",
     DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH,
+    DEFAULT_VALIDATION_BENCHMARK_READINESS_DOC_PATH,
     ROOT / "docs" / "osrm_route_benchmark_manifest.md",
     ROOT / "docs" / "route_road_evidence_exposure.md",
     ROOT / "docs" / "sensitivity_acceptance_schema.md",
