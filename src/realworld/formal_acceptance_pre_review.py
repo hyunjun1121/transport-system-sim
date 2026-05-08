@@ -294,6 +294,20 @@ def build_formal_acceptance_pre_review_markdown(
                 f"- Formal approval: `{str(record.get('formal_approval', False)).lower()}`",
                 f"- Human decision required: `{str(record.get('human_decision_required', True)).lower()}`",
                 "",
+                "Review packets:",
+            ]
+        )
+        lines.extend(_bullet_lines(record.get("review_packets", [])))
+        lines.extend(
+            [
+                "",
+                "Source paths:",
+            ]
+        )
+        lines.extend(_bullet_lines(record.get("source_paths", [])))
+        lines.extend(
+            [
+                "",
                 "Evidence inspected:",
             ]
         )
@@ -415,6 +429,10 @@ def _build_pre_review_record(
         "formal_target": formal_target,
         "formal_record_present": bool(gate.get("record_present", False)),
         "formal_ready": bool(gate.get("ready", False)),
+        "review_packets": review_packets,
+        "source_paths": source_paths,
+        "reviewed_inputs": reviewed_inputs,
+        "plan_evidence_paths": plan_evidence,
         "evidence_checked": [item.to_dict() for item in evidence_checked],
         "missing_evidence": missing_evidence,
         "residual_risks": risks,

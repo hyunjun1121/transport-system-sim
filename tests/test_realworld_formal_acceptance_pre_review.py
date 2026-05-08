@@ -40,8 +40,18 @@ def test_pre_review_records_cover_current_formal_targets_without_approval() -> N
         record["must_not_be_used_as_final_acceptance"] is True
         for record in records
     )
+    assert all(record["review_packets"] for record in records)
+    assert all(record["source_paths"] for record in records)
+    assert all(record["reviewed_inputs"] for record in records)
     assert all(record["evidence_checked"] for record in records)
     assert all(record["missing_evidence"] for record in records)
+    by_gate = {record["gate"]: record for record in records}
+    assert "data/manifests/source_url_review_packet.csv" in (
+        by_gate["data_provenance"]["review_packets"]
+    )
+    assert "data/manifests/source_url_review_packet.csv" in (
+        by_gate["data_provenance"]["source_paths"]
+    )
 
 
 def test_write_pre_review_outputs_draft_only_artifacts() -> None:
