@@ -26,6 +26,13 @@ DEFAULT_TRACKED_ARTIFACT_AUDIT_MANIFEST = (
 DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC = (
     PROJECT_ROOT / "docs" / "tracked_artifact_audit.md"
 )
+TRACKED_ARTIFACT_SELF_OUTPUTS: frozenset[str] = frozenset(
+    {
+        "data/validation/tracked_artifact_audit.csv",
+        "data/validation/tracked_artifact_audit_manifest.json",
+        "docs/tracked_artifact_audit.md",
+    }
+)
 TRACKED_ARTIFACT_CLAIM_BOUNDARY = (
     "This audit checks whether current changed artifacts would be present in a "
     "clean checkout of the current Git HEAD. It does not commit files, approve "
@@ -100,6 +107,8 @@ def build_tracked_artifact_rows(
             continue
         status, path = parsed
         normalized = _normalize_path(path)
+        if normalized in TRACKED_ARTIFACT_SELF_OUTPUTS:
+            continue
         if not _is_reproducibility_artifact(normalized):
             continue
         rows.append(
@@ -361,6 +370,7 @@ __all__ = [
     "DEFAULT_TRACKED_ARTIFACT_AUDIT_MANIFEST",
     "TRACKED_ARTIFACT_CLAIM_BOUNDARY",
     "TRACKED_ARTIFACT_FIELDS",
+    "TRACKED_ARTIFACT_SELF_OUTPUTS",
     "build_tracked_artifact_rows",
     "build_tracked_artifact_audit_markdown",
     "summarize_tracked_artifact_audit",

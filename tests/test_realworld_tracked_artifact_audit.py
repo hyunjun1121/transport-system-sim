@@ -41,6 +41,22 @@ def test_tracked_artifact_rows_filter_reproducibility_candidates() -> None:
     )
 
 
+def test_tracked_artifact_rows_ignore_own_outputs() -> None:
+    rows = build_tracked_artifact_rows(
+        git_status_lines=(
+            " M data/validation/tracked_artifact_audit.csv",
+            " M data/validation/tracked_artifact_audit_manifest.json",
+            " M docs/tracked_artifact_audit.md",
+            " M docs/current_goal_completion_audit.md",
+        )
+    )
+    by_path = {row["path"]: row for row in rows}
+    assert "data/validation/tracked_artifact_audit.csv" not in by_path
+    assert "data/validation/tracked_artifact_audit_manifest.json" not in by_path
+    assert "docs/tracked_artifact_audit.md" not in by_path
+    assert "docs/current_goal_completion_audit.md" in by_path
+
+
 def test_tracked_artifact_summary_stays_non_acceptance() -> None:
     rows = build_tracked_artifact_rows(
         git_status_lines=("?? data/manifests/example.json", " M status.md")
@@ -74,6 +90,7 @@ def test_write_tracked_artifact_audit_outputs_files() -> None:
 
 if __name__ == "__main__":
     test_tracked_artifact_rows_filter_reproducibility_candidates()
+    test_tracked_artifact_rows_ignore_own_outputs()
     test_tracked_artifact_summary_stays_non_acceptance()
     test_write_tracked_artifact_audit_outputs_files()
     print("PASS: tracked artifact audit")
