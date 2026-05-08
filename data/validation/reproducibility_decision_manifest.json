@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Reproducibility decision packet only; not reproducibility acceptance, not clean-environment certification, not artifact-regeneration acceptance, not final-study approval, and not operational routing evidence. It cannot create or replace data/manifests/reproducibility_acceptance.json.",
+  "result_scope": "Reproducibility decision packet only; not reproducibility acceptance, not clean-environment certification, not artifact-regeneration acceptance, not final-study approval, and not operational routing evidence.",
+  "row_count": 7,
+  "decision_status_counts": {
+    "blocked_artifact_regeneration_not_tested": 1,
+    "blocked_bounded_or_stale_clean_checkout_evidence": 1,
+    "blocked_missing_reproducibility_acceptance_record": 1,
+    "blocked_scaffold_reproducibility_manifest_scope": 1,
+    "needs_human_review_command_ladder_scope": 1,
+    "needs_human_review_committed_package_state": 1,
+    "needs_human_review_runtime_import_boundary": 1
+  },
+  "blocking_decision_count": 4,
+  "human_review_decision_count": 3,
+  "reproducibility_manifest_decision_recorded": false,
+  "command_ladder_decision_recorded": false,
+  "clean_checkout_scope_decision_recorded": false,
+  "artifact_regeneration_decision_recorded": false,
+  "reproducibility_decision_recorded": false,
+  "reproducibility_acceptance_record_present": false,
+  "reproducibility_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "reproducibility_manifest": "data/manifests/reproducibility_manifest.json",
+    "reproducibility_review_manifest": "data/validation/reproducibility_review_manifest.json",
+    "reproducibility_smoke_manifest": "data/validation/reproducibility_smoke_manifest.json",
+    "clean_checkout_smoke_manifest": "data/validation/clean_checkout_reproducibility_smoke_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/validation/reproducibility_decision_packet.csv",
+    "manifest": "data/validation/reproducibility_decision_manifest.json",
+    "doc": "docs/reproducibility_decision_packet.md"
+  },
+  "review_items": [
+    "review scaffold-only reproducibility manifest scope",
+    "confirm validation command ladder coverage and command counts",
+    "decide whether bounded clean-checkout smoke is fresh and sufficient",
+    "run or review artifact-regeneration evidence before acceptance",
+    "create data/manifests/reproducibility_acceptance.json only after all reproducibility decisions are source-backed"
+  ],
+  "remaining_blockers": [
+    "reproducibility manifest remains scaffold-only",
+    "clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+    "clean-checkout artifact regeneration protocol has not been tested",
+    "data/manifests/reproducibility_acceptance.json is absent"
+  ]
+}

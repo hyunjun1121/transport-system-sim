@@ -609,6 +609,9 @@
         "data/manifests/reproducibility_manifest.json",
         "data/validation/reproducibility_review_packet.csv",
         "data/validation/reproducibility_review_manifest.json",
+        "data/validation/reproducibility_decision_packet.csv",
+        "data/validation/reproducibility_decision_manifest.json",
+        "docs/reproducibility_decision_packet.md",
         "data/validation/reproducibility_smoke_manifest.json",
         "docs/reproducibility_smoke.md",
         "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
@@ -618,7 +621,13 @@
       "label": "Reproducibility",
       "missing_or_weak_requirements": [
         "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-        "replace scaffold-only manifest with clean-checkout final reproduction package"
+        "replace scaffold-only manifest with clean-checkout final reproduction package",
+        "resolve reproducibility decision blockers before reproducibility acceptance",
+        "reproducibility decision: reproducibility manifest remains scaffold-only",
+        "reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+        "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
+        "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
+        "review reproducibility human-decision rows before reproducibility acceptance"
       ],
       "ready": false
     },

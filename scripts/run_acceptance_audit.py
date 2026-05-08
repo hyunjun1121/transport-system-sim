@@ -190,6 +190,10 @@ from src.realworld.reproducibility_review_packet import (  # noqa: E402
     build_reproducibility_review_rows,
     write_reproducibility_review_packet,
 )
+from src.realworld.reproducibility_decision_packet import (  # noqa: E402
+    build_reproducibility_decision_rows,
+    write_reproducibility_decision_packet,
+)
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke  # noqa: E402
 from src.realworld.tracked_artifact_audit import (  # noqa: E402
     build_tracked_artifact_rows,
@@ -588,6 +592,9 @@ def _refresh_existing_review_packets(
         git_status_lines=initial_git_status_lines,
     )
     refreshed.append("data/validation/reproducibility_review_packet.csv")
+    reproducibility_decision_rows = build_reproducibility_decision_rows()
+    write_reproducibility_decision_packet(rows=reproducibility_decision_rows)
+    refreshed.append("data/validation/reproducibility_decision_packet.csv")
     write_acceptance_decision_templates()
     refreshed.append("data/manifests/acceptance_decision_template_manifest.json")
     return refreshed

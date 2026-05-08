@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T20:43:11+00:00`
+- Generated at: `2026-05-08T21:07:26+00:00`
 
 ## Decision
 
@@ -18,10 +18,13 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - data/manifests/reproducibility_manifest.json
 - data/manifests/current_goal_completion_audit.json
 - data/validation/reproducibility_review_packet.csv
+- data/validation/reproducibility_decision_manifest.json
 - data/validation/tracked_artifact_audit.csv
+- docs/reproducibility_decision_packet.md
 - scripts/audit_plan_artifacts.py
 - data/manifests/reproducibility_acceptance.json
 - data/validation/reproducibility_review_manifest.json
+- data/validation/reproducibility_decision_packet.csv
 - data/validation/reproducibility_smoke_manifest.json
 - docs/reproducibility_smoke.md
 - data/validation/clean_checkout_reproducibility_smoke_manifest.json
@@ -34,6 +37,9 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - data/manifests/reproducibility_manifest.json
 - data/validation/reproducibility_review_packet.csv
 - data/validation/reproducibility_review_manifest.json
+- data/validation/reproducibility_decision_packet.csv
+- data/validation/reproducibility_decision_manifest.json
+- docs/reproducibility_decision_packet.md
 - data/validation/reproducibility_smoke_manifest.json
 - docs/reproducibility_smoke.md
 - data/validation/clean_checkout_reproducibility_smoke_manifest.json
@@ -50,6 +56,12 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - Scaffold reproducibility manifests do not prove final package reproducibility.
 - create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
 - replace scaffold-only manifest with clean-checkout final reproduction package
+- resolve reproducibility decision blockers before reproducibility acceptance
+- reproducibility decision: reproducibility manifest remains scaffold-only
+- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
+- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
+- review reproducibility human-decision rows before reproducibility acceptance
 
 ## Required Actions
 
@@ -57,6 +69,12 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
 - create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
 - replace scaffold-only manifest with clean-checkout final reproduction package
+- resolve reproducibility decision blockers before reproducibility acceptance
+- reproducibility decision: reproducibility manifest remains scaffold-only
+- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
+- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
+- review reproducibility human-decision rows before reproducibility acceptance
 
 ## Formal Acceptance Boundary
 
@@ -73,7 +91,13 @@ Formal acceptance artifacts:
   "artifact_present": true,
   "blockers": [
     "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package"
+    "replace scaffold-only manifest with clean-checkout final reproduction package",
+    "resolve reproducibility decision blockers before reproducibility acceptance",
+    "reproducibility decision: reproducibility manifest remains scaffold-only",
+    "reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+    "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
+    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
+    "review reproducibility human-decision rows before reproducibility acceptance"
   ],
   "details": {
     "acceptance_path": "data/manifests/reproducibility_acceptance.json",
@@ -91,12 +115,33 @@ Formal acceptance artifacts:
     "current_worktree_smoke_passed": true,
     "current_worktree_smoke_present": true,
     "current_worktree_smoke_scope": "current_worktree_smoke_not_clean_checkout",
+    "reproducibility_decision_blocking_decision_count": 4,
+    "reproducibility_decision_can_mark_complete": false,
+    "reproducibility_decision_human_review_decision_count": 3,
+    "reproducibility_decision_manifest_present": true,
+    "reproducibility_decision_publication_ready": false,
+    "reproducibility_decision_remaining_blockers": [
+      "reproducibility manifest remains scaffold-only",
+      "clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction",
+      "clean-checkout artifact regeneration protocol has not been tested",
+      "data/manifests/reproducibility_acceptance.json is absent"
+    ],
+    "reproducibility_decision_row_count": 7,
+    "reproducibility_decision_status_counts": {
+      "blocked_artifact_regeneration_not_tested": 1,
+      "blocked_bounded_or_stale_clean_checkout_evidence": 1,
+      "blocked_missing_reproducibility_acceptance_record": 1,
+      "blocked_scaffold_reproducibility_manifest_scope": 1,
+      "needs_human_review_command_ladder_scope": 1,
+      "needs_human_review_committed_package_state": 1,
+      "needs_human_review_runtime_import_boundary": 1
+    },
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 0,
+    "review_packet_git_status_line_count": 77,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,
-    "review_packet_untracked_count": 0,
+    "review_packet_untracked_count": 6,
     "scope": "scaffold-only real-world pilot package",
     "validation_command_count": 43
   },
@@ -106,6 +151,9 @@ Formal acceptance artifacts:
     "data/manifests/reproducibility_manifest.json",
     "data/validation/reproducibility_review_packet.csv",
     "data/validation/reproducibility_review_manifest.json",
+    "data/validation/reproducibility_decision_packet.csv",
+    "data/validation/reproducibility_decision_manifest.json",
+    "docs/reproducibility_decision_packet.md",
     "data/validation/reproducibility_smoke_manifest.json",
     "docs/reproducibility_smoke.md",
     "data/validation/clean_checkout_reproducibility_smoke_manifest.json",

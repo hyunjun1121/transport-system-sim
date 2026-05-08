@@ -620,6 +620,29 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["manuscript_report_alignment"]["blockers"]
     )
+    assert (
+        gate_map["reproducibility"]["details"][
+            "reproducibility_decision_row_count"
+        ]
+        == 7
+    )
+    assert (
+        gate_map["reproducibility"]["details"][
+            "reproducibility_decision_blocking_decision_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["reproducibility"]["details"][
+            "reproducibility_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert any(
+        "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent"
+        in item
+        for item in gate_map["reproducibility"]["blockers"]
+    )
     assert gate_map["final_audit"]["ready"] is False
     assert summary["remaining_blockers"]
 
@@ -889,6 +912,7 @@ def test_reproducibility_gate_requires_acceptance_and_final_manifest() -> None:
         _reproducibility_manifest_for_gate(),
         _accepted_reproducibility_summary(),
         _reproducibility_review_manifest_for_gate(),
+        _reproducibility_decision_manifest_for_gate(),
         _reproducibility_smoke_manifest_for_gate(),
     )
 
@@ -896,6 +920,8 @@ def test_reproducibility_gate_requires_acceptance_and_final_manifest() -> None:
     assert any("clean-checkout" in item for item in gate["blockers"])
     assert gate["details"]["review_packet_present"] is True
     assert gate["details"]["review_packet_row_count"] == 8
+    assert gate["details"]["reproducibility_decision_manifest_present"] is True
+    assert gate["details"]["reproducibility_decision_row_count"] == 7
     assert gate["details"]["current_worktree_smoke_present"] is True
     assert gate["details"]["current_worktree_smoke_passed"] is True
     assert gate["details"]["clean_checkout_smoke_present"] is None
@@ -1212,6 +1238,22 @@ def _reproducibility_review_manifest_for_gate() -> dict[str, object]:
         "git_status_line_count": 3,
         "git_untracked_count": 1,
         "no_runtime_cloned_repo_imports": True,
+    }
+
+
+def _reproducibility_decision_manifest_for_gate() -> dict[str, object]:
+    return {
+        "row_count": 7,
+        "blocking_decision_count": 4,
+        "human_review_decision_count": 3,
+        "decision_status_counts": {
+            "blocked_missing_reproducibility_acceptance_record": 1
+        },
+        "remaining_blockers": [
+            "data/manifests/reproducibility_acceptance.json is absent"
+        ],
+        "publication_ready": False,
+        "can_mark_complete": False,
     }
 
 

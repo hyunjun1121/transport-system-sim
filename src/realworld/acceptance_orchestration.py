@@ -225,6 +225,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
     ),
     (
+        "reproducibility_decision",
+        "Reproducibility Decision",
+        PROJECT_ROOT / "data" / "validation" / "reproducibility_decision_manifest.json",
+    ),
+    (
         "acceptance_decision_templates",
         "Acceptance Decision Templates",
         PROJECT_ROOT / "data" / "manifests" / "acceptance_decision_template_manifest.json",
@@ -777,6 +782,9 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         source_paths=(
             "data/manifests/reproducibility_manifest.json",
             "data/validation/reproducibility_review_manifest.json",
+            "data/validation/reproducibility_decision_packet.csv",
+            "data/validation/reproducibility_decision_manifest.json",
+            "docs/reproducibility_decision_packet.md",
             "data/validation/reproducibility_smoke_manifest.json",
             "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
             "data/validation/tracked_artifact_audit_manifest.json",
@@ -789,11 +797,14 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/reproducibility_manifest.json",
             "data/manifests/current_goal_completion_audit.json",
             "data/validation/reproducibility_review_packet.csv",
+            "data/validation/reproducibility_decision_manifest.json",
             "data/validation/tracked_artifact_audit.csv",
+            "docs/reproducibility_decision_packet.md",
             "scripts/audit_plan_artifacts.py",
         ),
         review_packet_paths=(
             "data/validation/reproducibility_review_packet.csv",
+            "data/validation/reproducibility_decision_packet.csv",
             "data/validation/tracked_artifact_audit.csv",
             "docs/review_packets/reproducibility.md",
         ),

@@ -215,10 +215,16 @@ The codebase currently includes:
     records scaffold scope, Git worktree state, untracked artifact risk,
     validation command ladder, runtime `cloned_repo` import boundary, and
     clean-checkout execution scope without accepting reproducibility
+  - reproducibility decision packet generation in
+    `src/realworld/reproducibility_decision_packet.py` and
+    `scripts/write_reproducibility_decision_packet.py`; the generated packet
+    records 7 non-approval decisions with 4 blocking decision rows, 3
+    human-review rows, and
+    `data/manifests/reproducibility_acceptance.json` still absent
   - bounded current-worktree reproducibility smoke in
     `src/realworld/reproducibility_smoke.py` and
-    `scripts/run_reproducibility_smoke.py`; the current manifest records 24
-    passing commands and `smoke_passed: true`, while keeping
+    `scripts/run_reproducibility_smoke.py`; the current manifest records a
+    passing bounded command ladder and `smoke_passed: true`, while keeping
     `clean_checkout_test_performed: false` and `can_mark_complete: false`
   - agent-review path hygiene auditing in
     `src/realworld/agent_review_path_audit.py` and
@@ -1216,6 +1222,7 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\write_figure_table_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py`
 - `.\.venv\Scripts\python scripts\run_reproducibility_smoke.py`
 - `.\.venv\Scripts\python scripts\run_acceptance_audit.py`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py`
@@ -1543,6 +1550,7 @@ Suggested next work:
 - `src/realworld/manuscript_report_decision_packet.py`
 - `src/realworld/reproducibility_acceptance.py`
 - `src/realworld/reproducibility_review_packet.py`
+- `src/realworld/reproducibility_decision_packet.py`
 - `src/realworld/reproducibility_smoke.py`
 - `src/realworld/formal_evidence_path_audit.py`
 - `src/realworld/final_audit_acceptance.py`
@@ -1553,6 +1561,7 @@ Suggested next work:
 - `scripts/write_experiment_design_decision_packet.py`
 - `scripts/write_figure_table_review_packet.py`
 - `scripts/write_manuscript_report_decision_packet.py`
+- `scripts/write_reproducibility_decision_packet.py`
 - `scripts/run_graph_scale_diagnostics.py`
 - `scripts/write_graph_scale_review_packet.py`
 - `scripts/write_graph_scale_result_comparison.py`
@@ -1566,6 +1575,7 @@ Suggested next work:
 - `tests/test_realworld_manuscript_acceptance.py`
 - `tests/test_realworld_reproducibility_acceptance.py`
 - `tests/test_realworld_reproducibility_review_packet.py`
+- `tests/test_realworld_reproducibility_decision_packet.py`
 - `tests/test_realworld_reproducibility_smoke.py`
 - `tests/test_realworld_formal_evidence_path_audit.py`
 - `tests/test_realworld_final_audit_acceptance.py`
@@ -1575,6 +1585,9 @@ Suggested next work:
 - `data/manifests/manuscript_report_decision_packet.csv`
 - `data/manifests/manuscript_report_decision_manifest.json`
 - `docs/manuscript_report_decision_packet.md`
+- `data/validation/reproducibility_decision_packet.csv`
+- `data/validation/reproducibility_decision_manifest.json`
+- `docs/reproducibility_decision_packet.md`
 - `results/realworld_pilot/pilot_sample_results.csv`
 - `results/realworld_pilot/pilot_sample_summary.csv`
 - `results/realworld_pilot/pilot_result_manifest.json`
@@ -1637,11 +1650,14 @@ Suggested next work:
 - `data/validation/validation_strategy_readiness_packet.csv`
 - `data/validation/validation_strategy_readiness_manifest.json`
 - `data/validation/reproducibility_review_packet.csv`
+- `data/validation/reproducibility_decision_packet.csv`
+- `data/validation/reproducibility_decision_manifest.json`
 - `data/validation/reproducibility_smoke_manifest.json`
 - `data/validation/reproducibility_smoke_log.jsonl`
 - `data/manifests/formal_evidence_path_audit.json`
 - `data/validation/validation_review_manifest.json`
 - `docs/reproducibility_smoke.md`
+- `docs/reproducibility_decision_packet.md`
 - `docs/formal_evidence_path_audit.md`
 - `data/validation/canonical_route_road_evidence_exposure.csv`
 - `data/validation/canonical_route_road_evidence_exposure_manifest.json`

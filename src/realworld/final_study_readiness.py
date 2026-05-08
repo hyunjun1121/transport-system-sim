@@ -95,6 +95,11 @@ from src.realworld.reproducibility_acceptance import (
 from src.realworld.reproducibility_review_packet import (
     DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH,
 )
+from src.realworld.reproducibility_decision_packet import (
+    DEFAULT_REPRODUCIBILITY_DECISION_DOC_PATH,
+    DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH,
+    DEFAULT_REPRODUCIBILITY_DECISION_PACKET_PATH,
+)
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke
 from src.realworld.clean_checkout_smoke import summarize_clean_checkout_smoke
 from src.realworld.sensitivity_acceptance import summarize_sensitivity_acceptance
@@ -257,6 +262,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     reproducibility_review_manifest = _load_json(
         DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH
     )
+    reproducibility_decision_manifest = _load_json(
+        DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH
+    )
     source_url_review_manifest = _load_json(DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH)
     source_url_remediation_manifest = _load_json(
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
@@ -402,6 +410,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             reproducibility_manifest,
             reproducibility_acceptance,
             reproducibility_review_manifest,
+            reproducibility_decision_manifest,
             reproducibility_smoke,
             clean_checkout_smoke,
         ),
@@ -2858,6 +2867,7 @@ def _reproducibility_gate(
     reproducibility_manifest: dict[str, Any] | None,
     reproducibility_acceptance: dict[str, Any],
     reproducibility_review_manifest: dict[str, Any] | None,
+    reproducibility_decision_manifest: dict[str, Any] | None,
     reproducibility_smoke: dict[str, Any],
     clean_checkout_smoke: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
@@ -2866,16 +2876,22 @@ def _reproducibility_gate(
     remaining = list((reproducibility_manifest or {}).get("remaining_upgrades", []))
     commands = list((reproducibility_manifest or {}).get("validation_commands", []))
     review_manifest = reproducibility_review_manifest or {}
+    decision_manifest = reproducibility_decision_manifest or {}
     acceptance_ready = bool(reproducibility_acceptance["acceptance_ready"])
     count_blockers = _reproducibility_count_blockers(
         commands,
         reproducibility_acceptance,
     )
+    decision_blocking_count = _dict_int(decision_manifest, "blocking_decision_count")
+    decision_human_count = _dict_int(decision_manifest, "human_review_decision_count")
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
         and acceptance_ready
         and not count_blockers
+        and bool(decision_manifest)
+        and decision_blocking_count == 0
+        and decision_human_count == 0
         and not scope_blocked
         and not remaining
     )
@@ -2889,6 +2905,22 @@ def _reproducibility_gate(
         )
     if not review_manifest:
         blockers.append("create reproducibility review packet before clean-checkout acceptance")
+    if not decision_manifest:
+        blockers.append(
+            "generate reproducibility decision packet before reproducibility acceptance"
+        )
+    elif decision_blocking_count:
+        blockers.append(
+            "resolve reproducibility decision blockers before reproducibility acceptance"
+        )
+        blockers.extend(
+            f"reproducibility decision: {item}"
+            for item in decision_manifest.get("remaining_blockers", [])
+        )
+    if decision_human_count:
+        blockers.append(
+            "review reproducibility human-decision rows before reproducibility acceptance"
+        )
     clean_smoke = clean_checkout_smoke or {}
     if clean_smoke and clean_smoke.get("manifest_present") and not clean_smoke.get(
         "smoke_passed"
@@ -2905,6 +2937,9 @@ def _reproducibility_gate(
             "data/manifests/reproducibility_manifest.json",
             "data/validation/reproducibility_review_packet.csv",
             "data/validation/reproducibility_review_manifest.json",
+            "data/validation/reproducibility_decision_packet.csv",
+            "data/validation/reproducibility_decision_manifest.json",
+            "docs/reproducibility_decision_packet.md",
             "data/validation/reproducibility_smoke_manifest.json",
             "docs/reproducibility_smoke.md",
             "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
@@ -2932,6 +2967,29 @@ def _reproducibility_gate(
             ),
             "review_packet_no_runtime_cloned_repo_imports": review_manifest.get(
                 "no_runtime_cloned_repo_imports"
+            ),
+            "reproducibility_decision_manifest_present": bool(decision_manifest),
+            "reproducibility_decision_row_count": decision_manifest.get(
+                "row_count",
+                0,
+            ),
+            "reproducibility_decision_blocking_decision_count": decision_blocking_count,
+            "reproducibility_decision_human_review_decision_count": decision_human_count,
+            "reproducibility_decision_status_counts": decision_manifest.get(
+                "decision_status_counts",
+                {},
+            ),
+            "reproducibility_decision_remaining_blockers": decision_manifest.get(
+                "remaining_blockers",
+                [],
+            ),
+            "reproducibility_decision_publication_ready": decision_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "reproducibility_decision_can_mark_complete": decision_manifest.get(
+                "can_mark_complete",
+                False,
             ),
             "current_worktree_smoke_present": reproducibility_smoke.get(
                 "manifest_present"

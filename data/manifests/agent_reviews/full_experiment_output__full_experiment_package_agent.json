@@ -22,7 +22,7 @@
     "docs/review_packets/full_experiment_output.md"
   ],
   "gate_id": "full_experiment_output",
-  "generated_at": "2026-05-08T20:43:11+00:00",
+  "generated_at": "2026-05-08T21:07:26+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Regenerate or accept full outputs after input, graph-scale, and validation gates close.",

@@ -183,6 +183,10 @@ Implemented extension modules now also cover:
   untracked artifact risk, validation command ladder, runtime `cloned_repo`
   import boundary, bounded clean-checkout smoke, and clean-checkout execution
   scope without accepting reproducibility evidence.
+- `reproducibility_decision_packet.py`: focused reproducibility decision
+  worksheet that consolidates manifest-scope, command-ladder, clean-checkout,
+  package-state, runtime import-boundary, artifact-regeneration, and formal
+  acceptance-boundary decisions without creating reproducibility acceptance.
 - `reproducibility_smoke.py`: bounded current-worktree smoke runner for the
   acceptance/reproducibility command ladder. It writes a manifest, JSONL log,
   and markdown summary while keeping clean-checkout acceptance blocked.

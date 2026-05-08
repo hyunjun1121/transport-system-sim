@@ -25,7 +25,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>+14 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | manuscript_report_alignment | `blocked` | `blocked_missing_evidence` | `data/manifests/manuscript_acceptance.json` | create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>close evidence gates before final paper/report claims<br>+17 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+1 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| reproducibility | `blocked` | `blocked_missing_evidence` | `data/manifests/reproducibility_acceptance.json` | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>+7 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | final_audit_document | `blocked` | `blocked_missing_evidence` | `docs/final_study_audit.md` | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
 | final_audit | `blocked` | `blocked_missing_evidence` | `data/manifests/final_audit_acceptance.json` | create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>create docs/final_study_audit.md after all other gates close<br>+2 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+5 more |
 
@@ -1112,11 +1112,15 @@ Files to create or update after human decision:
 Review packets:
 - docs/review_packets/reproducibility.md
 - data/validation/reproducibility_review_packet.csv
+- data/validation/reproducibility_decision_packet.csv
 - data/validation/tracked_artifact_audit.csv
 
 Source paths:
 - data/manifests/reproducibility_manifest.json
 - data/validation/reproducibility_review_manifest.json
+- data/validation/reproducibility_decision_packet.csv
+- data/validation/reproducibility_decision_manifest.json
+- docs/reproducibility_decision_packet.md
 - data/validation/reproducibility_smoke_manifest.json
 - data/validation/clean_checkout_reproducibility_smoke_manifest.json
 - data/validation/tracked_artifact_audit_manifest.json
@@ -1128,6 +1132,9 @@ Source paths:
 Evidence inspected:
 - `data/manifests/reproducibility_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/reproducibility_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/reproducibility_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/reproducibility_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/clean_checkout_reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/tracked_artifact_audit_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -1145,6 +1152,12 @@ Evidence inspected:
 Missing evidence:
 - create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
 - replace scaffold-only manifest with clean-checkout final reproduction package
+- resolve reproducibility decision blockers before reproducibility acceptance
+- reproducibility decision: reproducibility manifest remains scaffold-only
+- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
+- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
+- review reproducibility human-decision rows before reproducibility acceptance
 - data/manifests/reproducibility_acceptance.json is absent
 
 Residual risks:
@@ -1152,6 +1165,12 @@ Residual risks:
 - Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
 - create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
 - replace scaffold-only manifest with clean-checkout final reproduction package
+- resolve reproducibility decision blockers before reproducibility acceptance
+- reproducibility decision: reproducibility manifest remains scaffold-only
+- reproducibility decision: clean-checkout smoke is bounded, stale, or not a full clean-environment reproduction
+- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
+- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
+- review reproducibility human-decision rows before reproducibility acceptance
 - data/manifests/reproducibility_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.

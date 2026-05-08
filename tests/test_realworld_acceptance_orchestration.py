@@ -184,6 +184,12 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/validation/tracked_artifact_audit.csv" in (
         reproducibility_agent.review_packet_paths
     )
+    assert "data/validation/reproducibility_decision_packet.csv" in (
+        reproducibility_agent.review_packet_paths
+    )
+    assert "data/validation/reproducibility_decision_manifest.json" in (
+        reproducibility_agent.source_paths
+    )
     assert "data/manifests/current_goal_completion_audit.json" in (
         reproducibility_agent.source_paths
     )
@@ -219,6 +225,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
     assert "manuscript_report_decision" in snapshot_ids
+    assert "reproducibility_decision" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -403,6 +410,31 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "data/manifests/manuscript_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        reproducibility_decision_snapshot_path = (
+            root / "reproducibility_decision_manifest.json"
+        )
+        reproducibility_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 3,
+                    "reproducibility_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_reproducibility_acceptance_record": 1,
+                        "blocked_artifact_regeneration_not_tested": 1,
+                        "needs_human_review_runtime_import_boundary": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/reproducibility_acceptance.json is absent"
                     ],
                 }
             )
@@ -765,6 +797,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     manuscript_decision_snapshot_path,
                 ),
                 (
+                    "reproducibility_decision",
+                    "Reproducibility Decision",
+                    reproducibility_decision_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -908,6 +945,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert (
             snapshots["manuscript_report_decision"]["status_counts"][
                 "blocked_missing_manuscript_acceptance_record"
+            ]
+            == 1
+        )
+        assert snapshots["reproducibility_decision"]["row_count"] == 7
+        assert snapshots["reproducibility_decision"]["blocking_count"] == 4
+        assert snapshots["reproducibility_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["reproducibility_decision"]["status_counts"][
+                "blocked_missing_reproducibility_acceptance_record"
             ]
             == 1
         )

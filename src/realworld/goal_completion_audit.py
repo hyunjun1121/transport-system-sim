@@ -417,6 +417,7 @@ def build_goal_completion_audit_markdown(
             ".\\.venv\\Scripts\\python scripts\\write_pilot_region_decision_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_source_provenance_decision_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_manuscript_report_decision_packet.py",
+            ".\\.venv\\Scripts\\python scripts\\write_reproducibility_decision_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_validation_strategy_readiness_packet.py",
             ".\\.venv\\Scripts\\python scripts\\write_acceptance_task_assignments.py",
             ".\\.venv\\Scripts\\python scripts\\write_formal_acceptance_evidence_matrix.py",

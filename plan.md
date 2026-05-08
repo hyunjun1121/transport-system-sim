@@ -721,9 +721,15 @@ First pilot-smoke artifacts also exist:
   bounded clean-checkout smoke plus clean-checkout execution scope. It is
   review support only and does not create
   `data/manifests/reproducibility_acceptance.json`.
+- `src/realworld/reproducibility_decision_packet.py` and
+  `scripts/write_reproducibility_decision_packet.py` consolidate the
+  reproducibility review outputs into a 7-row non-approval decision packet for
+  manifest scope, command-ladder scope, clean-checkout freshness, committed
+  package state, runtime import boundaries, artifact regeneration, and the
+  missing formal reproducibility acceptance boundary.
 - `src/realworld/reproducibility_smoke.py` and
   `scripts/run_reproducibility_smoke.py` run a bounded current-worktree smoke
-  ladder. The current manifest records 24 passing commands and
+  ladder. The current manifest records a passing bounded command ladder and
   `smoke_passed: true`, but it explicitly keeps
   `clean_checkout_test_performed: false`, `can_mark_complete: false`, and
   final-study readiness blocked.
@@ -2148,6 +2154,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
@@ -2333,6 +2340,10 @@ Concrete next tasks:
     Use `data/validation/reproducibility_review_packet.csv` to inspect
    clean-checkout blockers before creating any reproducibility acceptance
    record.
+    Use `data/validation/reproducibility_decision_packet.csv` to resolve or
+   explicitly defer manifest, clean-checkout, package-state, import-boundary,
+   and artifact-regeneration decisions before any
+   `data/manifests/reproducibility_acceptance.json` record is drafted.
 11. Run a final GPT-5.5 xhigh audit worker to compare implemented artifacts
    against this plan before calling the project final, then run
    `scripts/audit_publication_readiness.py --fail-on-blockers` and
