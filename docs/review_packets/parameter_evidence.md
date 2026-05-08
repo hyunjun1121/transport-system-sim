@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T23:00:04+00:00`
+- Generated at: `2026-05-08T23:09:29+00:00`
 
 ## Decision
 
@@ -99,12 +99,14 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - parameter evidence priority: transfer-delay source evidence is absent
+- parameter evidence priority: rail timing/source-decision evidence is incomplete
 - parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - parameter source decision: formal parameter acceptance table is absent
 - parameter source decision: parameter source decisions are pending for weak parameter groups
 - parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete
 - parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 
 ## Required Actions
@@ -121,12 +123,14 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - parameter evidence priority: transfer-delay source evidence is absent
+- parameter evidence priority: rail timing/source-decision evidence is incomplete
 - parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - parameter source decision: formal parameter acceptance table is absent
 - parameter source decision: parameter source decisions are pending for weak parameter groups
 - parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete
 - parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 
 ## Formal Acceptance Boundary
@@ -154,41 +158,43 @@ Formal acceptance artifacts:
     "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
     "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
     "parameter evidence priority: transfer-delay source evidence is absent",
+    "parameter evidence priority: rail timing/source-decision evidence is incomplete",
     "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
     "parameter source decision: formal parameter acceptance table is absent",
     "parameter source decision: parameter source decisions are pending for weak parameter groups",
     "parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
     "parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
   ],
   "details": {
     "parameter_evidence_priority_artifacts_present": true,
-    "parameter_evidence_priority_blocking_priority_count": 1,
+    "parameter_evidence_priority_blocking_priority_count": 2,
     "parameter_evidence_priority_can_mark_complete": false,
-    "parameter_evidence_priority_high_priority_parameter_count": 6,
+    "parameter_evidence_priority_high_priority_parameter_count": 9,
     "parameter_evidence_priority_human_review_priority_count": 5,
     "parameter_evidence_priority_medium_priority_parameter_count": 14,
     "parameter_evidence_priority_publication_ready": false,
-    "parameter_evidence_priority_row_count": 6,
+    "parameter_evidence_priority_row_count": 7,
     "parameter_evidence_priority_status_counts": {
-      "blocked_missing_parameter_source": 1,
+      "blocked_missing_parameter_source": 2,
       "needs_human_review_high_priority_parameter_source": 2,
       "needs_human_review_medium_priority_parameter_source": 3
     },
     "parameter_publication_ready": false,
     "parameter_source_decision_artifacts_present": true,
-    "parameter_source_decision_blocking_decision_count": 1,
+    "parameter_source_decision_blocking_decision_count": 2,
     "parameter_source_decision_can_mark_complete": false,
     "parameter_source_decision_human_review_decision_count": 5,
     "parameter_source_decision_publication_ready": false,
     "parameter_source_decision_recorded": false,
-    "parameter_source_decision_row_count": 6,
+    "parameter_source_decision_row_count": 7,
     "parameter_source_decision_status_counts": {
-      "blocked_missing_parameter_source_decision": 1,
+      "blocked_missing_parameter_source_decision": 2,
       "needs_human_review_parameter_source_decision": 5
     },
-    "source_readiness_blocking_request_count": 1,
+    "source_readiness_blocking_request_count": 2,
     "source_readiness_can_mark_complete": false,
     "source_readiness_human_review_request_count": 5,
     "source_readiness_manifest_present": true,
@@ -201,9 +207,10 @@ Formal acceptance artifacts:
       "this packet is readiness evidence only and cannot create accepted parameter values",
       "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
     ],
-    "source_readiness_required_external_input_present_count": 6,
-    "source_readiness_source_url_or_citation_present_count": 6,
+    "source_readiness_required_external_input_present_count": 7,
+    "source_readiness_source_url_or_citation_present_count": 7,
     "source_readiness_status_counts": {
+      "blocked_missing_rail_timing_or_capacity_source": 1,
       "blocked_missing_transfer_source": 1,
       "needs_human_review_demand_scenario": 1,
       "needs_human_review_dispatch_policy": 1,

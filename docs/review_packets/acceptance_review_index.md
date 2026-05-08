@@ -12,7 +12,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 23 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 15 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
-| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
+| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 21 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 16 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
@@ -75,9 +75,9 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
 | `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
 | `Road Source Decisions` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
-| `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
-| `Parameter Source Readiness` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
-| `Parameter Source Decisions` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
+| `Parameter Evidence Priority` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
+| `Parameter Source Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
+| `Parameter Source Decisions` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
 | `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
 | `Rail Source Decisions` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
@@ -121,9 +121,9 @@ Priority blockers by packet:
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
 - `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
 - `Road Source Decisions`: reviewed road_class_overrides.csv is absent (+4 more)
-- `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
+- `Parameter Evidence Priority`: transfer-delay source evidence is absent (+4 more)
 - `Parameter Source Readiness`: all rows require human review or external source decisions before final claims (+2 more)
-- `Parameter Source Decisions`: formal parameter acceptance table is absent (+3 more)
+- `Parameter Source Decisions`: formal parameter acceptance table is absent (+4 more)
 - `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
 - `Rail Fetch Readiness`: rail timing cache files are absent unless source_cache_present is true (+2 more)
 - `Rail Source Decisions`: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests (+5 more)
@@ -217,12 +217,14 @@ Priority blockers by packet:
 - parameter_evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - parameter_evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - parameter_evidence: parameter evidence priority: transfer-delay source evidence is absent
+- parameter_evidence: parameter evidence priority: rail timing/source-decision evidence is incomplete
 - parameter_evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter_evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter_evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - parameter_evidence: parameter source decision: formal parameter acceptance table is absent
 - parameter_evidence: parameter source decision: parameter source decisions are pending for weak parameter groups
 - parameter_evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter_evidence: parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete
 - parameter_evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 - rail_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - rail_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
@@ -384,12 +386,14 @@ Priority blockers by packet:
 - Parameter Evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
 - Parameter Evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
 - Parameter Evidence: parameter evidence priority: transfer-delay source evidence is absent
+- Parameter Evidence: parameter evidence priority: rail timing/source-decision evidence is incomplete
 - Parameter Evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - Parameter Evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - Parameter Evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
 - Parameter Evidence: parameter source decision: formal parameter acceptance table is absent
 - Parameter Evidence: parameter source decision: parameter source decisions are pending for weak parameter groups
 - Parameter Evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- Parameter Evidence: parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete
 - Parameter Evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 - Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - Rail Evidence: rail service evidence: derive headway and travel time from the cached records

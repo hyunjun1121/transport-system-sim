@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T23:00:04+00:00",
+  "generated_at": "2026-05-08T23:09:29+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -55,8 +55,8 @@
       "can_mark_complete": false,
       "gate_id": "parameter_evidence",
       "record_path": "data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json",
-      "required_action_count": 19,
-      "risk_count": 20,
+      "required_action_count": 21,
+      "risk_count": 22,
       "status": "blocked"
     },
     {
@@ -205,12 +205,14 @@
     "parameter_evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
     "parameter_evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
     "parameter_evidence: parameter evidence priority: transfer-delay source evidence is absent",
+    "parameter_evidence: parameter evidence priority: rail timing/source-decision evidence is incomplete",
     "parameter_evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "parameter_evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "parameter_evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
     "parameter_evidence: parameter source decision: formal parameter acceptance table is absent",
     "parameter_evidence: parameter source decision: parameter source decisions are pending for weak parameter groups",
     "parameter_evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "parameter_evidence: parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
     "parameter_evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present",
     "rail_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
     "rail_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.",
@@ -372,12 +374,14 @@
     "Parameter Evidence: parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
     "Parameter Evidence: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
     "Parameter Evidence: parameter evidence priority: transfer-delay source evidence is absent",
+    "Parameter Evidence: parameter evidence priority: rail timing/source-decision evidence is incomplete",
     "Parameter Evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "Parameter Evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "Parameter Evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
     "Parameter Evidence: parameter source decision: formal parameter acceptance table is absent",
     "Parameter Evidence: parameter source decision: parameter source decisions are pending for weak parameter groups",
     "Parameter Evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "Parameter Evidence: parameter source decision: rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
     "Parameter Evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present",
     "Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
     "Rail Evidence: rail service evidence: derive headway and travel time from the cached records",
@@ -1012,7 +1016,7 @@
       }
     },
     {
-      "blocking_count": 1,
+      "blocking_count": 2,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 5,
@@ -1023,6 +1027,7 @@
       "publication_ready": false,
       "remaining_blockers": [
         "transfer-delay source evidence is absent",
+        "rail timing/source-decision evidence is incomplete",
         "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
         "medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
         "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
@@ -1030,13 +1035,15 @@
       "result_scope": "Parameter evidence priority packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
       "review_items": [
         "resolve blocked transfer evidence before transfer-delay final claims",
+        "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
         "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
         "review demand, fleet, and dispatch scenario assumptions as bounded planning inputs",
         "rerun parameter and final-study audits after source-backed parameter changes"
       ],
-      "row_count": 6,
+      "row_count": 7,
       "snapshot_id": "parameter_evidence_priority",
       "status_counts": {
+        "blocked_missing_rail_timing_or_capacity_source": 1,
         "blocked_missing_transfer_source": 1,
         "needs_human_review_demand_scenario": 1,
         "needs_human_review_dispatch_policy": 1,
@@ -1046,7 +1053,7 @@
       }
     },
     {
-      "blocking_count": 1,
+      "blocking_count": 2,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 5,
@@ -1062,14 +1069,15 @@
       ],
       "result_scope": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval.",
       "review_items": [
-        "replace weak demand, fleet, transfer, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
+        "replace weak demand, fleet, transfer, rail, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
         "update parameter_sources.csv or fleet_assumptions.csv only after source review",
         "use parameter_acceptance.csv separately for retained weak assumptions",
         "rerun parameter, publication-readiness, and final-study-readiness audits after source changes"
       ],
-      "row_count": 6,
+      "row_count": 7,
       "snapshot_id": "parameter_source_readiness",
       "status_counts": {
+        "blocked_missing_rail_timing_or_capacity_source": 1,
         "blocked_missing_transfer_source": 1,
         "needs_human_review_demand_scenario": 1,
         "needs_human_review_dispatch_policy": 1,
@@ -1079,7 +1087,7 @@
       }
     },
     {
-      "blocking_count": 1,
+      "blocking_count": 2,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 5,
@@ -1092,6 +1100,7 @@
         "formal parameter acceptance table is absent",
         "parameter source decisions are pending for weak parameter groups",
         "retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+        "rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
         "transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
       ],
       "result_scope": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
@@ -1102,9 +1111,10 @@
         "create data/parameters/parameter_acceptance.csv only if retained weak assumptions are explicitly accepted",
         "rerun parameter, publication-readiness, and final-study audits after decisions are recorded"
       ],
-      "row_count": 6,
+      "row_count": 7,
       "snapshot_id": "parameter_source_decision",
       "status_counts": {
+        "blocked_missing_rail_timing_or_capacity_source": 1,
         "blocked_missing_transfer_source": 1,
         "needs_human_review_demand_scenario": 1,
         "needs_human_review_dispatch_policy": 1,
