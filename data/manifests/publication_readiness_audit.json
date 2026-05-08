@@ -12,7 +12,7 @@
     "road_override_application_ready": false,
     "road_override_evidence_ready": false
   },
-  "generated_at": "2026-05-08T19:54:12+00:00",
+  "generated_at": "2026-05-08T19:56:20+00:00",
   "outputs": {
     "doc": "docs/publication_readiness_audit.md",
     "manifest": "data/manifests/publication_readiness_audit.json"
