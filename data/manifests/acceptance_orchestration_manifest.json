@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T15:02:53+00:00",
+  "generated_at": "2026-05-08T15:14:36+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -331,6 +331,377 @@
     "docs/review_packets/reproducibility.md",
     "docs/review_packets/sensitivity_analysis.md",
     "docs/review_packets/validation_package.md"
+  ],
+  "review_packet_snapshots": [
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 7,
+      "label": "Source Provenance Priority",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_provenance_priority_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal provenance acceptance record is absent",
+        "context-only public sources still need cached extracts or exclusion decisions",
+        "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+        "repository inputs still require human scope/privacy/reproducibility review",
+        "URL remediation rows still require reviewer confirmation"
+      ],
+      "result_scope": "Source provenance priority packet only; not source acceptance, not license certification, not calibrated real-world validation, not provenance gate closure, and not operational routing approval.",
+      "review_items": [
+        "cache or explicitly exclude context-only public sources before final claims",
+        "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
+        "confirm project-owned local citations and privacy abstraction for repository inputs",
+        "resolve alternate URL issues before provenance acceptance",
+        "create data/manifests/provenance_acceptance.json only after source-backed review"
+      ],
+      "row_count": 11,
+      "snapshot_id": "source_provenance_priority",
+      "status_counts": {
+        "blocked_context_only_source_not_cached": 4,
+        "needs_human_review_cached_snapshot_source": 3,
+        "needs_human_review_repository_input_source": 4
+      }
+    },
+    {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 2,
+      "label": "Graph-Scale Strategy Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/graph_scale_strategy_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "graph_scale_acceptance.json is absent",
+        "current reduced-corridor output has alternate-route warnings",
+        "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+        "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+      ],
+      "result_scope": "Graph-scale strategy-readiness packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication-readiness approval.",
+      "review_items": [
+        "decide whether the 118-node reduced corridor is acceptable or only a smoke shortcut",
+        "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
+        "review graph-sensitive result differences before interpreting policy outcomes",
+        "review the full-graph runtime-readiness packet before accepting or excluding full-graph execution",
+        "generate full-graph outputs or record why full-graph execution is outside the accepted scope",
+        "record the final graph-scale method only in data/manifests/graph_scale_acceptance.json"
+      ],
+      "row_count": 5,
+      "snapshot_id": "graph_scale_strategy_readiness",
+      "status_counts": {
+        "blocked_incomplete_multi_corridor_run_profile": 1,
+        "blocked_missing_full_graph_experiment_outputs": 1,
+        "blocked_missing_graph_scale_acceptance_record": 1,
+        "needs_human_review_multi_corridor_result_deltas": 1,
+        "needs_human_review_reduced_corridor_alternate_route_warnings": 1
+      }
+    },
+    {
+      "blocking_count": 5,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 2,
+      "label": "Road Evidence Priority",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/road/road_evidence_priority_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "reviewed road_class_overrides.csv is still absent",
+        "capacity and disruption evidence still require source-backed or accepted assumption treatment",
+        "connector assumptions still require route-plausibility review before route-level claims"
+      ],
+      "result_scope": "Road evidence priority packet only; not reviewed road-class overrides, not calibrated traffic evidence, not graph-scale acceptance, not validation acceptance, and not operational routing evidence.",
+      "review_items": [
+        "collect or accept speed, capacity, and disruption evidence for exposed high-priority road classes first",
+        "review connector assumptions separately from OSM road-class evidence",
+        "use unexposed classes as lower-priority coverage unless graph-scale or route candidates change",
+        "regenerate this packet after road-class overrides, route exposure, or graph-scale method changes"
+      ],
+      "row_count": 11,
+      "snapshot_id": "road_evidence_priority",
+      "status_counts": {
+        "blocked_exposed_connector_assumption": 1,
+        "blocked_exposed_high_priority_road_evidence_gap": 4,
+        "needs_review_exposed_medium_priority_road_evidence_gap": 2,
+        "queued_no_current_canonical_route_exposure": 4
+      }
+    },
+    {
+      "blocking_count": 1,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Parameter Evidence Priority",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/parameters/parameter_evidence_priority_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "transfer-delay source evidence is absent",
+        "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
+        "medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
+        "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
+      ],
+      "result_scope": "Parameter evidence priority packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
+      "review_items": [
+        "resolve blocked transfer evidence before transfer-delay final claims",
+        "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
+        "review demand, fleet, and dispatch scenario assumptions as bounded planning inputs",
+        "rerun parameter and final-study audits after source-backed parameter changes"
+      ],
+      "row_count": 6,
+      "snapshot_id": "parameter_evidence_priority",
+      "status_counts": {
+        "blocked_missing_transfer_source": 1,
+        "needs_human_review_demand_scenario": 1,
+        "needs_human_review_dispatch_policy": 1,
+        "needs_human_review_disruption_parameter_scenario": 1,
+        "needs_human_review_fleet_package": 1,
+        "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+      }
+    },
+    {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 2,
+      "label": "Rail Evidence Priority",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/rail/rail_evidence_priority_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "rail timing cache files are absent",
+        "DATA_GO_KR_KEY or reviewed GTFS input is absent",
+        "capacity and availability treatment still require human/source-backed decisions"
+      ],
+      "result_scope": "Rail evidence priority packet only; not cached rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, and not operational routing evidence.",
+      "review_items": [
+        "decide whether GTFS, timetable plus shortest-path, or another reviewed source path will close rail timing",
+        "supply DATA_GO_KR_KEY or reviewed cached payloads only after source review",
+        "keep capacity and availability as bounded assumptions unless source-backed evidence is added",
+        "rerun rail evidence, parameter evidence, publication-readiness, and final-study audits after rail evidence changes"
+      ],
+      "row_count": 6,
+      "snapshot_id": "rail_evidence_priority",
+      "status_counts": {
+        "blocked_missing_data_go_kr_key": 2,
+        "blocked_missing_reviewed_gtfs_file": 1,
+        "needs_human_review_availability_scenario": 1,
+        "needs_human_review_capacity_treatment": 1,
+        "prerequisite_ready_not_timing_evidence": 1
+      }
+    },
+    {
+      "blocking_count": 1,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Validation Benchmark Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/validation_benchmark_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "validation_acceptance_record: data/manifests/validation_acceptance.json is absent"
+      ],
+      "result_scope": "Validation benchmark readiness packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence.",
+      "review_items": [
+        "decide whether fallback detour-speed rows are retained, replaced, or excluded",
+        "review cached OSRM rows, query URLs, raw response files, and license/attribution before publication use",
+        "decide whether OSRM is sufficient as a plausibility snapshot or whether Valhalla, routingpy, R5/OpenTripPlanner, UXsim, or agency benchmark evidence is needed",
+        "record any final benchmark strategy only in data/manifests/validation_acceptance.json"
+      ],
+      "row_count": 4,
+      "snapshot_id": "validation_benchmark_readiness",
+      "status_counts": {
+        "blocked_missing_validation_acceptance_record": 1,
+        "needs_human_review_alternative_benchmark_decision": 1,
+        "needs_human_review_cached_osrm_snapshot": 1,
+        "needs_human_review_fallback_warn_rows": 1
+      }
+    },
+    {
+      "blocking_count": 2,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Validation Strategy Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/validation_strategy_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "validation_acceptance.json is absent",
+        "route-level road evidence exposure remains weak until road evidence gates close"
+      ],
+      "result_scope": "Validation strategy-readiness packet only; not validation acceptance, not benchmark ground truth, not calibrated traffic validation, not operational routing evidence, and not publication-readiness approval.",
+      "review_items": [
+        "review internal warning rows and fallback benchmark warning rows",
+        "review cached external route-engine snapshots before final benchmark use",
+        "review accessibility-loss and route road-evidence exposure as diagnostics only",
+        "choose the final benchmark strategy only in data/manifests/validation_acceptance.json"
+      ],
+      "row_count": 7,
+      "snapshot_id": "validation_strategy_readiness",
+      "status_counts": {
+        "blocked_missing_validation_acceptance_record": 1,
+        "blocked_weak_route_road_evidence_exposure": 1,
+        "needs_human_review_accessibility_disconnections": 1,
+        "needs_human_review_external_route_snapshot": 1,
+        "needs_human_review_fallback_benchmark_warnings": 1,
+        "needs_human_review_internal_plausibility_warnings": 1,
+        "needs_human_review_validation_summary_scope": 1
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Sensitivity Method Decision",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/sensitivity_method_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "Morris-vs-Sobol method decision is not recorded in formal acceptance",
+        "sensitivity outputs use a reduced analysis graph",
+        "current sensitivity result scope is scaffold or not calibrated",
+        "data/manifests/sensitivity_acceptance.json is absent"
+      ],
+      "result_scope": "Sensitivity method-decision packet only; not sensitivity acceptance, not a Sobol waiver, not calibrated real-world sensitivity evidence, and not operational routing evidence.",
+      "review_items": [
+        "choose whether current Morris screening is sufficient for the intended claim boundary",
+        "choose whether Sobol analysis must be run before final sensitivity acceptance",
+        "document unavailable Morris index and zero mu_star handling before ranking parameters",
+        "resolve graph-scale dependency before treating sensitivity outputs as final-study evidence",
+        "record any final method decision only in data/manifests/sensitivity_acceptance.json"
+      ],
+      "row_count": 7,
+      "snapshot_id": "sensitivity_method_decision",
+      "status_counts": {
+        "blocked_missing_morris_vs_sobol_decision": 1,
+        "blocked_missing_sensitivity_acceptance_record": 1,
+        "blocked_reduced_graph_scope_dependency": 1,
+        "blocked_scaffold_result_scope": 1,
+        "needs_human_review_defer_or_continue": 1,
+        "needs_human_review_index_handling_policy": 1,
+        "needs_human_review_morris_screening_scope": 1
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Sensitivity Strategy Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/sensitivity_strategy_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "sensitivity outputs use a reduced analysis graph",
+        "current sensitivity result scope is scaffold or not calibrated",
+        "Morris-vs-Sobol method decision is not recorded in formal acceptance",
+        "data/manifests/sensitivity_acceptance.json is absent"
+      ],
+      "result_scope": "Sensitivity strategy-readiness packet only; not sensitivity acceptance, not calibrated real-world sensitivity evidence, not a Sobol waiver, not operational routing evidence, and not publication-readiness approval.",
+      "review_items": [
+        "review unavailable or unexplained missing Morris indices before manuscript use",
+        "interpret zero mu_star rows before claiming parameter dominance or no-effect behavior",
+        "resolve graph-scale scope before using reduced-graph sensitivity outputs for final claims",
+        "decide whether Morris screening is sufficient or Sobol analysis is required",
+        "record the final sensitivity decision only in data/manifests/sensitivity_acceptance.json"
+      ],
+      "row_count": 7,
+      "snapshot_id": "sensitivity_strategy_readiness",
+      "status_counts": {
+        "blocked_missing_morris_vs_sobol_decision": 1,
+        "blocked_missing_sensitivity_acceptance_record": 1,
+        "blocked_reduced_graph_scope_for_sensitivity_claims": 1,
+        "blocked_scaffold_or_not_calibrated_result_scope": 1,
+        "needs_human_review_morris_artifact_selection": 1,
+        "needs_human_review_unavailable_morris_indices": 1,
+        "needs_human_review_zero_mu_star_interpretation": 1
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Experiment Strategy Readiness",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/experiment_strategy_readiness_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "current full-pilot result scope is scaffold or not calibrated",
+        "full-pilot outputs depend on a graph method that is not accepted",
+        "upstream input, road override, parameter, validation, or provenance gates are not accepted",
+        "data/manifests/experiment_acceptance.json is absent"
+      ],
+      "result_scope": "Experiment strategy-readiness packet only; not experiment acceptance, not calibrated real-world validation, not operational routing evidence, and not publication-readiness approval.",
+      "review_items": [
+        "review scaffold result scope before manuscript or report use",
+        "confirm full result and summary row counts against the manifest",
+        "close graph-scale and input-evidence dependencies before accepting full outputs",
+        "review scenario-policy-seed design, CRN pairing, and checksums",
+        "record the final experiment decision only in data/manifests/experiment_acceptance.json"
+      ],
+      "row_count": 9,
+      "snapshot_id": "experiment_strategy_readiness",
+      "status_counts": {
+        "blocked_graph_scale_dependency": 1,
+        "blocked_input_evidence_dependency": 1,
+        "blocked_missing_experiment_acceptance_record": 1,
+        "blocked_scaffold_or_not_calibrated_experiment_scope": 1,
+        "needs_human_review_common_random_numbers": 1,
+        "needs_human_review_experiment_checksums": 1,
+        "needs_human_review_experiment_row_counts": 2,
+        "needs_human_review_scenario_policy_seed_design": 1
+      }
+    },
+    {
+      "blocking_count": 3,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Reproducibility Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/reproducibility_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [],
+      "result_scope": "reproducibility_review_packet_not_reproducibility_acceptance",
+      "review_items": [
+        "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
+        "run clean-checkout validation from a fresh clone or exported package and preserve command logs",
+        "decide whether bounded current-Python clean-checkout smoke is sufficient or whether a clean-environment dependency reinstall is required",
+        "review manifest command counts and artifact regeneration scope",
+        "keep cloned_repo snapshots out of runtime imports",
+        "record any accepted decision only in data/manifests/reproducibility_acceptance.json"
+      ],
+      "row_count": 8,
+      "snapshot_id": "reproducibility_review",
+      "status_counts": {
+        "blocked_full_clean_checkout_not_run": 1,
+        "blocked_no_reproducibility_acceptance_record": 1,
+        "blocked_scaffold_only_manifest_scope": 1,
+        "ready_for_review_bounded_clean_checkout_smoke": 1,
+        "ready_for_review_clean_worktree": 1,
+        "ready_for_review_command_ladder_present": 1,
+        "ready_for_review_no_cloned_repo_runtime_imports": 1,
+        "ready_for_review_no_untracked_reproducibility_artifacts": 1
+      }
+    }
   ],
   "schema_path": "schemas/acceptance_record.schema.json",
   "schema_version": 1,

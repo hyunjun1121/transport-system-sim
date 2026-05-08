@@ -34,6 +34,63 @@ DEFAULT_ACCEPTANCE_SCHEMA_PATH = PROJECT_ROOT / "schemas" / "acceptance_record.s
 DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "source_provenance_priority_manifest.json"
 )
+DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
+    (
+        "source_provenance_priority",
+        "Source Provenance Priority",
+        PROJECT_ROOT / "data" / "manifests" / "source_provenance_priority_manifest.json",
+    ),
+    (
+        "graph_scale_strategy_readiness",
+        "Graph-Scale Strategy Readiness",
+        PROJECT_ROOT / "data" / "validation" / "graph_scale_strategy_readiness_manifest.json",
+    ),
+    (
+        "road_evidence_priority",
+        "Road Evidence Priority",
+        PROJECT_ROOT / "data" / "road" / "road_evidence_priority_manifest.json",
+    ),
+    (
+        "parameter_evidence_priority",
+        "Parameter Evidence Priority",
+        PROJECT_ROOT / "data" / "parameters" / "parameter_evidence_priority_manifest.json",
+    ),
+    (
+        "rail_evidence_priority",
+        "Rail Evidence Priority",
+        PROJECT_ROOT / "data" / "rail" / "rail_evidence_priority_manifest.json",
+    ),
+    (
+        "validation_benchmark_readiness",
+        "Validation Benchmark Readiness",
+        PROJECT_ROOT / "data" / "validation" / "validation_benchmark_readiness_manifest.json",
+    ),
+    (
+        "validation_strategy_readiness",
+        "Validation Strategy Readiness",
+        PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json",
+    ),
+    (
+        "sensitivity_method_decision",
+        "Sensitivity Method Decision",
+        PROJECT_ROOT / "data" / "validation" / "sensitivity_method_decision_manifest.json",
+    ),
+    (
+        "sensitivity_strategy_readiness",
+        "Sensitivity Strategy Readiness",
+        PROJECT_ROOT / "data" / "validation" / "sensitivity_strategy_readiness_manifest.json",
+    ),
+    (
+        "experiment_strategy_readiness",
+        "Experiment Strategy Readiness",
+        PROJECT_ROOT / "data" / "manifests" / "experiment_strategy_readiness_manifest.json",
+    ),
+    (
+        "reproducibility_review",
+        "Reproducibility Review",
+        PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
+    ),
+)
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "
     "artifacts, source-backed reviewer decisions, calibrated validation, or "
@@ -572,6 +629,9 @@ def write_acceptance_orchestration_outputs(
     source_provenance_priority_manifest_path: Path = (
         DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH
     ),
+    review_status_snapshot_manifests: tuple[tuple[str, str, Path], ...] = (
+        DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS
+    ),
 ) -> dict[str, Any]:
     """Write definitions, per-gate records, review packets, schema, and manifest."""
 
@@ -581,6 +641,9 @@ def write_acceptance_orchestration_outputs(
     final_audit = audit_final_study_readiness()
     source_priority = _load_source_provenance_priority_summary(
         source_provenance_priority_manifest_path
+    )
+    review_packet_snapshots = _load_review_status_snapshots(
+        review_status_snapshot_manifests
     )
     gate_map = {str(gate["gate_id"]): gate for gate in final_audit["gates"]}
 
@@ -642,6 +705,7 @@ def write_acceptance_orchestration_outputs(
         agent_definition_path=agent_definition_path,
         schema_path=schema_path,
         source_provenance_priority=source_priority,
+        review_packet_snapshots=review_packet_snapshots,
     )
     manifest_path.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
@@ -895,6 +959,9 @@ def build_acceptance_review_index(
     source_priority = manifest.get("source_provenance_priority")
     if isinstance(source_priority, Mapping):
         lines.extend(_source_provenance_priority_index_lines(source_priority))
+    review_packet_snapshots = manifest.get("review_packet_snapshots")
+    if isinstance(review_packet_snapshots, list):
+        lines.extend(_review_packet_snapshot_index_lines(review_packet_snapshots))
     lines.extend(
         [
             "",
@@ -942,6 +1009,7 @@ def _build_manifest(
     agent_definition_path: Path,
     schema_path: Path,
     source_provenance_priority: Mapping[str, Any],
+    review_packet_snapshots: list[Mapping[str, Any]],
 ) -> dict[str, Any]:
     status_counts: dict[str, int] = {}
     for record in records:
@@ -968,6 +1036,7 @@ def _build_manifest(
         "record_dir": _display_path(record_dir),
         "review_packet_paths": sorted(set(packet_paths)),
         "source_provenance_priority": dict(source_provenance_priority),
+        "review_packet_snapshots": [dict(snapshot) for snapshot in review_packet_snapshots],
         "records": [
             {
                 "gate_id": record.gate_id,
@@ -994,6 +1063,102 @@ def _build_manifest(
             ]
         ),
     }
+
+
+def _load_review_status_snapshots(
+    specs: tuple[tuple[str, str, Path], ...],
+) -> list[dict[str, Any]]:
+    """Load compact non-acceptance status snapshots for reviewer triage."""
+
+    snapshots: list[dict[str, Any]] = []
+    for snapshot_id, label, path in specs:
+        snapshots.append(_load_review_status_snapshot(snapshot_id, label, path))
+    return snapshots
+
+
+def _load_review_status_snapshot(
+    snapshot_id: str,
+    label: str,
+    path: Path,
+) -> dict[str, Any]:
+    """Load one review-packet manifest into a stable summary row."""
+
+    base: dict[str, Any] = {
+        "snapshot_id": snapshot_id,
+        "label": label,
+        "path": _display_path(path),
+        "manifest_present": path.exists(),
+        "manifest_valid": False,
+        "row_count": 0,
+        "blocking_count": 0,
+        "human_review_count": 0,
+        "gate_closure_candidate_count": 0,
+        "publication_ready": False,
+        "can_mark_complete": False,
+        "status_counts": {},
+        "remaining_blockers": [],
+        "review_items": [],
+    }
+    if not path.exists():
+        base["remaining_blockers"] = [f"{label} manifest is absent"]
+        return base
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        base["remaining_blockers"] = [f"{label} manifest is invalid JSON: {exc}"]
+        return base
+
+    base["manifest_valid"] = True
+    base["row_count"] = int(data.get("row_count", 0) or 0)
+    status_counts = _status_counts(data)
+    base["blocking_count"] = _first_int(
+        data,
+        (
+            "blocking_request_count",
+            "blocking_decision_count",
+            "blocking_priority_count",
+            "blocking_source_count",
+            "blocked_gate_count",
+        ),
+    )
+    if base["blocking_count"] == 0:
+        base["blocking_count"] = _status_prefix_count(status_counts, ("blocked",))
+    base["human_review_count"] = _first_int(
+        data,
+        (
+            "human_review_request_count",
+            "human_review_decision_count",
+            "human_review_priority_count",
+            "human_review_source_count",
+            "human_decision_required_count",
+        ),
+    )
+    if base["human_review_count"] == 0:
+        base["human_review_count"] = _status_prefix_count(
+            status_counts,
+            ("needs_human_review", "needs_review"),
+        )
+    base["gate_closure_candidate_count"] = _first_int(
+        data,
+        (
+            "provenance_gate_closure_candidate_count",
+            "graph_scale_gate_closure_candidate_count",
+            "benchmark_gate_closure_candidate_count",
+            "validation_gate_closure_candidate_count",
+            "sensitivity_gate_closure_candidate_count",
+            "experiment_gate_closure_candidate_count",
+            "acceptance_gate_closure_candidate_count",
+        ),
+    )
+    base["publication_ready"] = bool(data.get("publication_ready", False))
+    base["can_mark_complete"] = bool(
+        data.get("can_mark_complete", data.get("acceptance_ready", False))
+    )
+    base["status_counts"] = status_counts
+    base["remaining_blockers"] = list(_string_list(data.get("remaining_blockers", [])))
+    base["review_items"] = list(_string_list(data.get("review_items", [])))
+    base["result_scope"] = str(data.get("result_scope", ""))
+    return base
 
 
 def _load_source_provenance_priority_summary(path: Path) -> dict[str, Any]:
@@ -1118,6 +1283,113 @@ def _source_provenance_priority_index_lines(
     return lines
 
 
+def _review_packet_snapshot_index_lines(
+    snapshots: list[object],
+) -> list[str]:
+    """Render compact review-packet status counts in the human index."""
+
+    rows = [snapshot for snapshot in snapshots if isinstance(snapshot, Mapping)]
+    lines = [
+        "",
+        "## Review Packet Status Snapshots",
+        "",
+        (
+            "These manifest summaries help reviewers triage existing packets. "
+            "They do not accept any gate or choose a final method."
+        ),
+        "",
+        (
+            "| Packet | Rows | Blocking | Human Review | Gate Candidates | "
+            "Can Complete | Key Status Counts |"
+        ),
+        "| --- | ---: | ---: | ---: | ---: | --- | --- |",
+    ]
+    for row in rows:
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    f"`{row.get('label', '')}`",
+                    str(row.get("row_count", 0)),
+                    str(row.get("blocking_count", 0)),
+                    str(row.get("human_review_count", 0)),
+                    str(row.get("gate_closure_candidate_count", 0)),
+                    f"`{str(row.get('can_mark_complete', False)).lower()}`",
+                    _status_counts_summary(row.get("status_counts", {})),
+                ]
+            )
+            + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "Priority blockers by packet:",
+            "",
+        ]
+    )
+    for row in rows:
+        blockers = _string_list(row.get("remaining_blockers", []))
+        if not blockers:
+            continue
+        first = blockers[0]
+        extra = len(blockers) - 1
+        suffix = f" (+{extra} more)" if extra > 0 else ""
+        lines.append(f"- `{row.get('label', '')}`: {first}{suffix}")
+    return lines
+
+
+def _first_int(data: Mapping[str, Any], keys: tuple[str, ...]) -> int:
+    for key in keys:
+        if key in data:
+            try:
+                return int(data.get(key, 0) or 0)
+            except (TypeError, ValueError):
+                return 0
+    return 0
+
+
+def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
+    for key in (
+        "readiness_status_counts",
+        "decision_status_counts",
+        "priority_status_counts",
+        "status_counts",
+    ):
+        value = data.get(key)
+        if not isinstance(value, Mapping):
+            continue
+        output: dict[str, int] = {}
+        for status, count in value.items():
+            try:
+                output[str(status)] = int(count)
+            except (TypeError, ValueError):
+                continue
+        return output
+    return {}
+
+
+def _status_counts_summary(value: object) -> str:
+    if not isinstance(value, Mapping) or not value:
+        return ""
+    parts = [f"{key}={count}" for key, count in sorted(value.items())]
+    summary = "; ".join(parts[:3])
+    extra = len(parts) - 3
+    if extra > 0:
+        summary = f"{summary}; +{extra} more"
+    return summary
+
+
+def _status_prefix_count(
+    status_counts: Mapping[str, int],
+    prefixes: tuple[str, ...],
+) -> int:
+    total = 0
+    for status, count in status_counts.items():
+        if any(status.startswith(prefix) for prefix in prefixes):
+            total += int(count)
+    return total
+
+
 def _bullet_lines(values: Iterable[str]) -> list[str]:
     items = [value for value in values if str(value).strip()]
     if not items:
@@ -1157,6 +1429,7 @@ __all__ = [
     "DEFAULT_AGENT_DEFINITION_PATH",
     "DEFAULT_AGENT_DOC_PATH",
     "DEFAULT_AGENT_REVIEW_DIR",
+    "DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS",
     "DEFAULT_REVIEW_PACKET_DIR",
     "DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH",
     "REVIEW_AGENT_DEFINITIONS",

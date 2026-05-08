@@ -190,6 +190,28 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        validation_snapshot_path = root / "validation_benchmark_manifest.json"
+        validation_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 4,
+                    "blocking_request_count": 1,
+                    "human_review_request_count": 3,
+                    "benchmark_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "readiness_status_counts": {
+                        "blocked_missing_validation_acceptance_record": 1,
+                        "needs_human_review_cached_osrm_snapshot": 1,
+                    },
+                    "remaining_blockers": [
+                        "validation_acceptance_record is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -198,6 +220,18 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             agent_doc_path=root / "agents.md",
             schema_path=root / "schema.json",
             source_provenance_priority_manifest_path=source_priority_path,
+            review_status_snapshot_manifests=(
+                (
+                    "source_provenance_priority",
+                    "Source Provenance Priority",
+                    source_priority_path,
+                ),
+                (
+                    "validation_benchmark_readiness",
+                    "Validation Benchmark Readiness",
+                    validation_snapshot_path,
+                ),
+            ),
         )
         assert manifest["final_study_ready"] is False
         assert manifest["record_count"] >= 10
@@ -213,6 +247,21 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 0
         )
+        snapshots = {
+            item["snapshot_id"]: item
+            for item in manifest["review_packet_snapshots"]
+        }
+        assert snapshots["source_provenance_priority"]["blocking_count"] == 4
+        assert (
+            snapshots["validation_benchmark_readiness"]["human_review_count"]
+            == 3
+        )
+        assert (
+            snapshots["validation_benchmark_readiness"][
+                "gate_closure_candidate_count"
+            ]
+            == 0
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -220,6 +269,9 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "Source Provenance Priority Snapshot" in index_text
         assert "Blocking context-only sources: 4" in index_text
         assert "cache or exclude context-only sources" in index_text
+        assert "Review Packet Status Snapshots" in index_text
+        assert "`Validation Benchmark Readiness`" in index_text
+        assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
         if not first_record_path.is_absolute():

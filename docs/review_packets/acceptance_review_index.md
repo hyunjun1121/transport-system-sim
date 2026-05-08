@@ -52,6 +52,37 @@ Provenance blockers:
 - repository inputs still require human scope/privacy/reproducibility review
 - URL remediation rows still require reviewer confirmation
 
+## Review Packet Status Snapshots
+
+These manifest summaries help reviewers triage existing packets. They do not accept any gate or choose a final method.
+
+| Packet | Rows | Blocking | Human Review | Gate Candidates | Can Complete | Key Status Counts |
+| --- | ---: | ---: | ---: | ---: | --- | --- |
+| `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
+| `Graph-Scale Strategy Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +2 more |
+| `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
+| `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
+| `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
+| `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
+| `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
+| `Sensitivity Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; +4 more |
+| `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
+| `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
+| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+
+Priority blockers by packet:
+
+- `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
+- `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
+- `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
+- `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
+- `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
+- `Validation Benchmark Readiness`: validation_acceptance_record: data/manifests/validation_acceptance.json is absent
+- `Validation Strategy Readiness`: validation_acceptance.json is absent (+1 more)
+- `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)
+- `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
+- `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
+
 ## Remaining Blockers
 
 - pilot_region_accepted: Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.
