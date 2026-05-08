@@ -1,13 +1,22 @@
 {
   "acceptance_ready": false,
-  "artifact_regeneration_tested": false,
+  "artifact_regeneration_requested": true,
+  "artifact_regeneration_scope": "bounded_review_and_audit_artifact_regeneration_not_full_reproduction",
+  "artifact_regeneration_step_ids": [
+    "regenerate_reproducibility_review_packet",
+    "regenerate_reproducibility_decision_packet",
+    "regenerate_final_audit_decision_packet",
+    "regenerate_acceptance_audit",
+    "regenerate_plan_artifact_audit"
+  ],
+  "artifact_regeneration_tested": true,
   "can_mark_complete": false,
   "checkout": {
-    "checkout_dir": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
+    "checkout_dir": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
     "checkout_retained": false,
     "source_tree_cloned": true
   },
-  "claim_boundary": "This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full validation ladder or artifact-regeneration acceptance protocol, does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.",
+  "claim_boundary": "This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full validation ladder, and its artifact regeneration is limited to bounded review and audit artifacts. It does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.",
   "clean_checkout_test_performed": true,
   "command_count": 9,
   "dependency_install_tested": true,
@@ -16,7 +25,7 @@
   "final_study_ready": false,
   "formal_acceptance_created": false,
   "full_clean_environment_tested": true,
-  "generated_at": "2026-05-08T21:53:37.133129+00:00",
+  "generated_at": "2026-05-08T22:10:00.010190+00:00",
   "inner_smoke": {
     "command_count": 9,
     "failed_command_ids": [],
@@ -27,7 +36,7 @@
   },
   "install_dependencies_requested": true,
   "outer_failed_step_ids": [],
-  "outer_step_count": 6,
+  "outer_step_count": 11,
   "outer_steps": [
     {
       "args": [
@@ -37,16 +46,16 @@
         "clone",
         "--no-tags",
         "C:\\project\\transport-system-sim",
-        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout"
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout"
       ],
-      "args_display": "git -c core.longpaths=true clone --no-tags C:\\project\\transport-system-sim C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput",
-      "duration_sec": 10.206,
+      "args_display": "git -c core.longpaths=true clone --no-tags C:\\project\\transport-system-sim C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i",
+      "duration_sec": 10.252,
       "label": "Clone committed source tree",
       "passed": true,
       "returncode": 0,
       "status": "passed",
-      "stderr_tail": "Cloning into 'C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout'...\ndone.\nUpdating files:   5% (791/15132)\nUpdating files:   6% (908/15132)\nUpdating files:   7% (1060/15132)\nUpdating files:   8% (1211/15132)\nUpdating files:   9% (1362/15132)\nUpdating files:  10% (1514/15132)\nUpdating files:  11% (1665/15132)\nUpdating files:  11% (1771/15132)\nUpdating files:  12% (1816/15132)\nUpdating files:  13% (1968/15132)\nUpdating files:  14% (2119/15132)\nUpdating files:  15% (2270/15132)\nUpdating files:  16% (2422/15132)\nUpdating files:  17% (2573/15132)\nUpdating files:  18% (2724/15132)\nUpdating files:  19% (2876/15132)\nUpdating files:  20% (3027/15132)\nUpdating files:  21% (3178/15132)\nUpdating files:  22% (3330/15132)\nUpdating files:  23% (3481/15132)\nUpdating files:  23% (3500/15132)\nUpdating files:  24% (3632/15132)\nUpdating files:  25% (3783/15132)\nUpdating files:  26% (3935/15132)\nUpdating files:  27% (4086/15132)\nUpdating files:  28% (4237/15132)\nUpdating files:  29% (4389/15132)\nUpdating files:  30% (4540/15132)\nUpdating files:  31% (4691/15132)\nUpdating files:  32% (4843/15132)\nUpdating files:  33% (4994/15132)\nUpdating files:  33% (5142/15132)\nUpdating files:  34% (5145/15132)\nUpdating files:  35% (5297/15132)\nUpdating files:  36% (5448/15132)\nUpdating files:  37% (5599/15132)\nUpdating files:  38% (5751/15132)\nUpdating files:  39% (5902/15132)\nUpdating files:  40% (6053/15132)\nUpdating files:  41% (6205/15132)\nUpdating files:  42% (6356/15132)\nUpdating files:  43% (6507/15132)\nUpdating files:  44% (6659/15132)\nUpdating files:  44% (6742/15132)\nUpdating files:  45% (6810/15132)\nUpdating files:  46% (6961/15132)\nUpdating files:  47% (7113/15132)\nUpdating files:  48% (7264/15132)\nUpdating files:  49% (7415/15132)\nUpdating files:  50% (7566/15132)\nUpdating files:  51% (7718/15132)\nUpdating files:  52% (7869/15132)\nUpdating files:  53% (8020/15132)\nUpdating files:  54% (8172/15132)\nUpdating files:  55% (8323/15132)\nUpdating files:  56% (8474/15132)\nUpdating files:  57% (8626/15132)\nUpdating files:  57% (8756/15132)\nUpdating files:  58% (8777/15132)\nUpdating files:  59% (8928/15132)\nUpdating files:  60% (9080/15132)\nUpdating files:  61% (9231/15132)\nUpdating files:  62% (9382/15132)\nUpdating files:  63% (9534/15132)\nUpdating files:  64% (9685/15132)\nUpdating files:  65% (9836/15132)\nUpdating files:  66% (9988/15132)\nUpdating files:  67% (10139/15132)\nUpdating files:  68% (10290/15132)\nUpdating files:  69% (10442/15132)\nUpdating files:  70% (10593/15132)\nUpdating files:  71% (10744/15132)\nUpdating files:  71% (10810/15132)\nUpdating files:  72% (10896/15132)\nUpdating files:  73% (11047/15132)\nUpdating files:  74% (11198/15132)\nUpdating files:  75% (11349/15132)\nUpdating files:  76% (11501/15132)\nUpdating files:  77% (11652/15132)\nUpdating files:  78% (11803/15132)\nUpdating files:  79% (11955/15132)\nUpdating files:  80% (12106/15132)\nUpdating files:  81% (12257/15132)\nUpdating files:  82% (12409/15132)\nUpdating files:  83% (12560/15132)\nUpdating files:  84% (12711/15132)\nUpdating files:  84% (12757/15132)\nUpdating files:  85% (12863/15132)\nUpdating files:  86% (13014/15132)\nUpdating files:  87% (13165/15132)\nUpdating files:  88% (13317/15132)\nUpdating files:  89% (13468/15132)\nUpdating files:  90% (13619/15132)\nUpdating files:  91% (13771/15132)\nUpdating files:  92% (13922/15132)\nUpdating files:  92% (13983/15132)\nUpdating files:  93% (14073/15132)\nUpdating files:  94% (14225/15132)\nUpdating files:  95% (14376/15132)\nUpdating files:  96% (14527/15132)\nUpdating files:  97% (14679/15132)\nUpdating files:  98% (14830/15132)\nUpdating files:  99% (14981/15132)\nUpdating files: 100% (15132/15132)\nUpdating files: 100% (15132/15132), done.\n",
+      "stderr_tail": "Cloning into 'C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout'...\ndone.\nUpdating files:   5% (791/15132)\nUpdating files:   6% (908/15132)\nUpdating files:   7% (1060/15132)\nUpdating files:   8% (1211/15132)\nUpdating files:   9% (1362/15132)\nUpdating files:  10% (1514/15132)\nUpdating files:  11% (1665/15132)\nUpdating files:  11% (1771/15132)\nUpdating files:  12% (1816/15132)\nUpdating files:  13% (1968/15132)\nUpdating files:  14% (2119/15132)\nUpdating files:  15% (2270/15132)\nUpdating files:  16% (2422/15132)\nUpdating files:  17% (2573/15132)\nUpdating files:  18% (2724/15132)\nUpdating files:  19% (2876/15132)\nUpdating files:  20% (3027/15132)\nUpdating files:  21% (3178/15132)\nUpdating files:  22% (3330/15132)\nUpdating files:  23% (3481/15132)\nUpdating files:  23% (3500/15132)\nUpdating files:  24% (3632/15132)\nUpdating files:  25% (3783/15132)\nUpdating files:  26% (3935/15132)\nUpdating files:  27% (4086/15132)\nUpdating files:  28% (4237/15132)\nUpdating files:  29% (4389/15132)\nUpdating files:  30% (4540/15132)\nUpdating files:  31% (4691/15132)\nUpdating files:  32% (4843/15132)\nUpdating files:  33% (4994/15132)\nUpdating files:  34% (5145/15132)\nUpdating files:  34% (5230/15132)\nUpdating files:  35% (5297/15132)\nUpdating files:  36% (5448/15132)\nUpdating files:  37% (5599/15132)\nUpdating files:  38% (5751/15132)\nUpdating files:  39% (5902/15132)\nUpdating files:  40% (6053/15132)\nUpdating files:  41% (6205/15132)\nUpdating files:  42% (6356/15132)\nUpdating files:  43% (6507/15132)\nUpdating files:  43% (6628/15132)\nUpdating files:  44% (6659/15132)\nUpdating files:  45% (6810/15132)\nUpdating files:  46% (6961/15132)\nUpdating files:  47% (7113/15132)\nUpdating files:  48% (7264/15132)\nUpdating files:  49% (7415/15132)\nUpdating files:  50% (7566/15132)\nUpdating files:  51% (7718/15132)\nUpdating files:  52% (7869/15132)\nUpdating files:  53% (8020/15132)\nUpdating files:  54% (8172/15132)\nUpdating files:  55% (8323/15132)\nUpdating files:  56% (8474/15132)\nUpdating files:  56% (8588/15132)\nUpdating files:  57% (8626/15132)\nUpdating files:  58% (8777/15132)\nUpdating files:  59% (8928/15132)\nUpdating files:  60% (9080/15132)\nUpdating files:  61% (9231/15132)\nUpdating files:  62% (9382/15132)\nUpdating files:  63% (9534/15132)\nUpdating files:  64% (9685/15132)\nUpdating files:  65% (9836/15132)\nUpdating files:  66% (9988/15132)\nUpdating files:  67% (10139/15132)\nUpdating files:  68% (10290/15132)\nUpdating files:  69% (10442/15132)\nUpdating files:  70% (10593/15132)\nUpdating files:  70% (10735/15132)\nUpdating files:  71% (10744/15132)\nUpdating files:  72% (10896/15132)\nUpdating files:  73% (11047/15132)\nUpdating files:  74% (11198/15132)\nUpdating files:  75% (11349/15132)\nUpdating files:  76% (11501/15132)\nUpdating files:  77% (11652/15132)\nUpdating files:  78% (11803/15132)\nUpdating files:  79% (11955/15132)\nUpdating files:  80% (12106/15132)\nUpdating files:  81% (12257/15132)\nUpdating files:  82% (12409/15132)\nUpdating files:  83% (12560/15132)\nUpdating files:  84% (12711/15132)\nUpdating files:  84% (12769/15132)\nUpdating files:  85% (12863/15132)\nUpdating files:  86% (13014/15132)\nUpdating files:  87% (13165/15132)\nUpdating files:  88% (13317/15132)\nUpdating files:  89% (13468/15132)\nUpdating files:  90% (13619/15132)\nUpdating files:  91% (13771/15132)\nUpdating files:  91% (13879/15132)\nUpdating files:  92% (13922/15132)\nUpdating files:  93% (14073/15132)\nUpdating files:  94% (14225/15132)\nUpdating files:  95% (14376/15132)\nUpdating files:  96% (14527/15132)\nUpdating files:  97% (14679/15132)\nUpdating files:  98% (14830/15132)\nUpdating files:  99% (14981/15132)\nUpdating files: 100% (15132/15132)\nUpdating files: 100% (15132/15132), done.\n",
       "stdout_tail": "",
       "step_id": "git_clone_source_tree"
     },
@@ -56,16 +65,16 @@
         "-c",
         "core.longpaths=true",
         "checkout",
-        "851afd5949d04e2a61d5b615994ed2b7fd04e298"
+        "b7eece48de42ea46675bb15cc72e9a767fdb90df"
       ],
-      "args_display": "git -c core.longpaths=true checkout 851afd5949d04e2a61d5b615994ed2b7fd04e298",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "duration_sec": 0.272,
+      "args_display": "git -c core.longpaths=true checkout b7eece48de42ea46675bb15cc72e9a767fdb90df",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 0.88,
       "label": "Checkout exact source commit",
       "passed": true,
       "returncode": 0,
       "status": "passed",
-      "stderr_tail": "Note: switching to '851afd5949d04e2a61d5b615994ed2b7fd04e298'.\n\nYou are in 'detached HEAD' state. You can look around, make experimental\nchanges and commit them, and you can discard any commits you make in this\nstate without impacting any branches by switching back to a branch.\n\nIf you want to create a new branch to retain commits you create, you may\ndo so (now or later) by using -c with the switch command. Example:\n\n  git switch -c <new-branch-name>\n\nOr undo this operation with:\n\n  git switch -\n\nTurn off this advice by setting config variable advice.detachedHead to false\n\nHEAD is now at 851afd59 Add dependency-install clean-checkout smoke\n",
+      "stderr_tail": "Note: switching to 'b7eece48de42ea46675bb15cc72e9a767fdb90df'.\n\nYou are in 'detached HEAD' state. You can look around, make experimental\nchanges and commit them, and you can discard any commits you make in this\nstate without impacting any branches by switching back to a branch.\n\nIf you want to create a new branch to retain commits you create, you may\ndo so (now or later) by using -c with the switch command. Example:\n\n  git switch -c <new-branch-name>\n\nOr undo this operation with:\n\n  git switch -\n\nTurn off this advice by setting config variable advice.detachedHead to false\n\nHEAD is now at b7eece48 Align final-study reproducibility test with decision manifest\n",
       "stdout_tail": "",
       "step_id": "git_checkout_source_commit"
     },
@@ -74,11 +83,11 @@
         "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
         "-m",
         "venv",
-        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv"
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv"
       ],
-      "args_display": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe -m venv C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "duration_sec": 6.117,
+      "args_display": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe -m venv C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 5.83,
       "label": "Create clean-checkout virtual environment",
       "passed": true,
       "returncode": 0,
@@ -89,36 +98,36 @@
     },
     {
       "args": [
-        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
         "-m",
         "pip",
         "install",
         "--upgrade",
         "pip"
       ],
-      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe -m pip install --upgrade pip",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "duration_sec": 5.526,
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe -m pip install --upgrade pip",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 5.46,
       "label": "Upgrade pip in clean-checkout virtual environment",
       "passed": true,
       "returncode": 0,
       "status": "passed",
       "stderr_tail": "",
-      "stdout_tail": "Requirement already satisfied: pip in c:\\users\\mnb92\\appdata\\local\\temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\lib\\site-packages (25.0.1)\nCollecting pip\n  Using cached pip-26.1.1-py3-none-any.whl.metadata (4.6 kB)\nUsing cached pip-26.1.1-py3-none-any.whl (1.8 MB)\nInstalling collected packages: pip\n  Attempting uninstall: pip\n    Found existing installation: pip 25.0.1\n    Uninstalling pip-25.0.1:\n      Successfully uninstalled pip-25.0.1\nSuccessfully installed pip-26.1.1\n",
+      "stdout_tail": "Requirement already satisfied: pip in c:\\users\\mnb92\\appdata\\local\\temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\lib\\site-packages (25.0.1)\nCollecting pip\n  Using cached pip-26.1.1-py3-none-any.whl.metadata (4.6 kB)\nUsing cached pip-26.1.1-py3-none-any.whl (1.8 MB)\nInstalling collected packages: pip\n  Attempting uninstall: pip\n    Found existing installation: pip 25.0.1\n    Uninstalling pip-25.0.1:\n      Successfully uninstalled pip-25.0.1\nSuccessfully installed pip-26.1.1\n",
       "step_id": "upgrade_clean_checkout_pip"
     },
     {
       "args": [
-        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
         "-m",
         "pip",
         "install",
         "-r",
         "requirements.txt"
       ],
-      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe -m pip install -r requirements.txt",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "duration_sec": 53.11,
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe -m pip install -r requirements.txt",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 53.387,
       "label": "Install clean-checkout requirements",
       "passed": true,
       "returncode": 0,
@@ -129,21 +138,101 @@
     },
     {
       "args": [
-        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
         "scripts/run_reproducibility_smoke.py",
         "--profile",
         "clean-checkout-minimal"
       ],
-      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/run_reproducibility_smoke.py --profile clean-checkout-minimal",
-      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_l2rldput\\checkout",
-      "duration_sec": 41.491,
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/run_reproducibility_smoke.py --profile clean-checkout-minimal",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 40.936,
       "label": "Run bounded reproducibility smoke in clean checkout",
       "passed": true,
       "returncode": 0,
       "status": "passed",
       "stderr_tail": "",
-      "stdout_tail": "nment reproduction\\\",\\n    \\\"Reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested\\\",\\n    \\\"Reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent\\\",\\n    \\\"Reproducibility: review reproducibility human-decision rows before reproducibility acceptance\\\",\\n    \\\"Final Audit: create docs/final_study_audit.md after all other gates close\\\",\\n    \\\"Final Audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed\\\",\\n    \\\"Final Audit: resolve final-audit decision blockers before final-audit acceptance\\\",\\n    \\\"Final Audit: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility\\\",\\n    \\\"Final Audit: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json\\\",\\n    \\\"Final Audit: final-audit decision: docs/final_study_audit.md is absent\\\",\\n    \\\"Final Audit: final-audit decision: data/manifests/final_audit_acceptance.json is absent\\\",\\n    \\\"Final Audit: review final-audit human-decision rows before final-audit acceptance\\\",\\n    \\\"Final Audit: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility\\\"\\n  ],\\n  \\\"verdict\\\": \\\"final_real_world_study_blocked\\\"\\n}\\n\"\n    },\n    {\n      \"args\": [],\n      \"args_display\": \"\",\n      \"command_id\": \"runtime_cloned_repo_import_boundary\",\n      \"duration_sec\": 0.728,\n      \"kind\": \"internal_cloned_repo_import_boundary\",\n      \"label\": \"Check runtime cloned_repo import boundary\",\n      \"passed\": true,\n      \"returncode\": 0,\n      \"status\": \"passed\",\n      \"stderr_tail\": \"\",\n      \"stdout_tail\": \"hits=0\"\n    },\n    {\n      \"args\": [\n        \"git\",\n        \"diff\",\n        \"--check\"\n      ],\n      \"args_display\": \"git diff --check\",\n      \"command_id\": \"git_diff_check\",\n      \"duration_sec\": 0.085,\n      \"kind\": \"subprocess\",\n      \"label\": \"Run git diff whitespace check\",\n      \"passed\": true,\n      \"returncode\": 0,\n      \"status\": \"passed\",\n      \"stderr_tail\": \"\",\n      \"stdout_tail\": \"\"\n    }\n  ],\n  \"failed_command_ids\": [],\n  \"failed_count\": 0,\n  \"final_study_ready\": false,\n  \"formal_acceptance_created\": false,\n  \"generated_at\": \"2026-05-08T21:53:30.817999+00:00\",\n  \"outputs\": {\n    \"doc\": \"docs/reproducibility_smoke.md\",\n    \"log\": \"data/validation/reproducibility_smoke_log.jsonl\",\n    \"manifest\": \"data/validation/reproducibility_smoke_manifest.json\"\n  },\n  \"passed_count\": 9,\n  \"publication_ready\": false,\n  \"required_actions\": [\n    \"run clean-checkout reproduction from a fresh clone or exported package\",\n    \"preserve command logs for the full validation ladder and artifact regeneration\",\n    \"review the scaffold-only reproducibility manifest scope\",\n    \"resolve dirty or untracked worktree state before claiming package reproducibility\",\n    \"create data/manifests/reproducibility_acceptance.json only after human review accepts the clean-checkout package\"\n  ],\n  \"result_scope\": \"current_worktree_smoke_not_clean_checkout\",\n  \"schema_version\": 1,\n  \"smoke_passed\": true\n}\n",
+      "stdout_tail": "ains scaffold-only\\\",\\n    \\\"Reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested\\\",\\n    \\\"Reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent\\\",\\n    \\\"Reproducibility: review reproducibility human-decision rows before reproducibility acceptance\\\",\\n    \\\"Final Audit: create docs/final_study_audit.md after all other gates close\\\",\\n    \\\"Final Audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed\\\",\\n    \\\"Final Audit: resolve final-audit decision blockers before final-audit acceptance\\\",\\n    \\\"Final Audit: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility\\\",\\n    \\\"Final Audit: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json\\\",\\n    \\\"Final Audit: final-audit decision: docs/final_study_audit.md is absent\\\",\\n    \\\"Final Audit: final-audit decision: data/manifests/final_audit_acceptance.json is absent\\\",\\n    \\\"Final Audit: review final-audit human-decision rows before final-audit acceptance\\\",\\n    \\\"Final Audit: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility\\\"\\n  ],\\n  \\\"verdict\\\": \\\"final_real_world_study_blocked\\\"\\n}\\n\"\n    },\n    {\n      \"args\": [],\n      \"args_display\": \"\",\n      \"command_id\": \"runtime_cloned_repo_import_boundary\",\n      \"duration_sec\": 0.738,\n      \"kind\": \"internal_cloned_repo_import_boundary\",\n      \"label\": \"Check runtime cloned_repo import boundary\",\n      \"passed\": true,\n      \"returncode\": 0,\n      \"status\": \"passed\",\n      \"stderr_tail\": \"\",\n      \"stdout_tail\": \"hits=0\"\n    },\n    {\n      \"args\": [\n        \"git\",\n        \"diff\",\n        \"--check\"\n      ],\n      \"args_display\": \"git diff --check\",\n      \"command_id\": \"git_diff_check\",\n      \"duration_sec\": 0.088,\n      \"kind\": \"subprocess\",\n      \"label\": \"Run git diff whitespace check\",\n      \"passed\": true,\n      \"returncode\": 0,\n      \"status\": \"passed\",\n      \"stderr_tail\": \"\",\n      \"stdout_tail\": \"\"\n    }\n  ],\n  \"failed_command_ids\": [],\n  \"failed_count\": 0,\n  \"final_study_ready\": false,\n  \"formal_acceptance_created\": false,\n  \"generated_at\": \"2026-05-08T22:08:47.426510+00:00\",\n  \"outputs\": {\n    \"doc\": \"docs/reproducibility_smoke.md\",\n    \"log\": \"data/validation/reproducibility_smoke_log.jsonl\",\n    \"manifest\": \"data/validation/reproducibility_smoke_manifest.json\"\n  },\n  \"passed_count\": 9,\n  \"publication_ready\": false,\n  \"required_actions\": [\n    \"run clean-checkout reproduction from a fresh clone or exported package\",\n    \"preserve command logs for the full validation ladder and artifact regeneration\",\n    \"review the scaffold-only reproducibility manifest scope\",\n    \"resolve dirty or untracked worktree state before claiming package reproducibility\",\n    \"create data/manifests/reproducibility_acceptance.json only after human review accepts the clean-checkout package\"\n  ],\n  \"result_scope\": \"current_worktree_smoke_not_clean_checkout\",\n  \"schema_version\": 1,\n  \"smoke_passed\": true\n}\n",
       "step_id": "run_reproducibility_smoke_in_clean_checkout"
+    },
+    {
+      "args": [
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "scripts/write_reproducibility_review_packet.py"
+      ],
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/write_reproducibility_review_packet.py",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 3.588,
+      "label": "Regenerate reproducibility review packet",
+      "passed": true,
+      "returncode": 0,
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "{\n  \"acceptance_gate_closure_candidate_count\": 0,\n  \"acceptance_ready\": false,\n  \"category_ids\": [\n    \"reproducibility_manifest_scope\",\n    \"formal_reproducibility_acceptance_record\",\n    \"git_worktree_state\",\n    \"untracked_required_artifact_risk\",\n    \"validation_command_ladder\",\n    \"runtime_cloned_repo_import_boundary\",\n    \"bounded_clean_checkout_smoke\",\n    \"clean_checkout_execution_scope\"\n  ],\n  \"claim_boundary\": \"This packet records clean-checkout reproducibility review status. It does not create data/manifests/reproducibility_acceptance.json, does not prove full clean-environment reproduction, and does not support operational routing or calibrated real-world claims.\",\n  \"clean_checkout_artifact_regeneration_scope\": \"\",\n  \"clean_checkout_artifact_regeneration_tested\": false,\n  \"clean_checkout_smoke_command_count\": 9,\n  \"clean_checkout_smoke_matches_review_head\": false,\n  \"clean_checkout_smoke_passed\": true,\n  \"clean_checkout_smoke_present\": true,\n  \"clean_checkout_smoke_scope\": \"clean_checkout_source_tree_smoke_not_formal_acceptance\",\n  \"clean_checkout_smoke_source_commit\": \"851afd5949d04e2a61d5b615994ed2b7fd04e298\",\n  \"clean_checkout_smoke_source_commit_lag_count\": 4,\n  \"clean_checkout_smoke_source_commit_reachable_from_review_head\": true,\n  \"clean_checkout_smoke_source_commit_relation_to_review_head\": \"ancestor_of_review_head\",\n  \"clean_checkout_test_performed\": true,\n  \"command_count\": 46,\n  \"full_clean_environment_tested\": true,\n  \"git_modified_or_staged_count\": 3,\n  \"git_status_line_count\": 4,\n  \"git_untracked_count\": 1,\n  \"input_artifact_paths\": {\n    \"current_goal_completion_audit_manifest\": \"data/manifests/current_goal_completion_audit.json\",\n    \"reproducibility_acceptance\": \"data/manifests/reproducibility_acceptance.json\",\n    \"reproducibility_manifest\": \"data/manifests/reproducibility_manifest.json\"\n  },\n  \"no_runtime_cloned_repo_imports\": true,\n  \"outputs\": {\n    \"manifest\": \"data/validation/reproducibility_review_manifest.json\",\n    \"reproducibility_review_packet\": \"data/validation/reproducibility_review_packet.csv\"\n  },\n  \"publication_ready\": false,\n  \"reproducibility_acceptance_record_present\": false,\n  \"reproducibility_manifest_scope\": \"scaffold-only real-world pilot package\",\n  \"result_scope\": \"reproducibility_review_packet_not_reproducibility_acceptance\",\n  \"review_git_head_commit\": \"b7eece48de42ea46675bb15cc72e9a767fdb90df\",\n  \"review_items\": [\n    \"commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility\",\n    \"run clean-checkout validation from a fresh clone or exported package and preserve command logs\",\n    \"decide whether bounded current-Python clean-checkout smoke is sufficient or whether a clean-environment dependency reinstall is required\",\n    \"review manifest command counts and artifact regeneration scope\",\n    \"keep cloned_repo snapshots out of runtime imports\",\n    \"record any accepted decision only in data/manifests/reproducibility_acceptance.json\"\n  ],\n  \"review_required\": true,\n  \"row_count\": 8,\n  \"runtime_cloned_repo_import_hits\": [],\n  \"schema_version\": 1,\n  \"status_counts\": {\n    \"blocked_dirty_worktree\": 1,\n    \"blocked_full_clean_checkout_not_run\": 1,\n    \"blocked_no_reproducibility_acceptance_record\": 1,\n    \"blocked_scaffold_only_manifest_scope\": 1,\n    \"ready_for_review_command_ladder_present\": 1,\n    \"ready_for_review_full_clean_checkout_smoke\": 1,\n    \"ready_for_review_no_cloned_repo_runtime_imports\": 1,\n    \"ready_for_review_no_untracked_reproducibility_artifacts\": 1\n  },\n  \"validation_command_count\": 72\n}\n",
+      "step_id": "regenerate_reproducibility_review_packet"
+    },
+    {
+      "args": [
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "scripts/write_reproducibility_decision_packet.py"
+      ],
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/write_reproducibility_decision_packet.py",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 1.759,
+      "label": "Regenerate reproducibility decision packet",
+      "passed": true,
+      "returncode": 0,
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "{\n  \"artifact_regeneration_decision_recorded\": false,\n  \"blocking_decision_count\": 3,\n  \"can_mark_complete\": false,\n  \"claim_boundary\": \"Reproducibility decision packet only; not reproducibility acceptance, not clean-environment certification, not artifact-regeneration acceptance, not final-study approval, and not operational routing evidence. It cannot create or replace data/manifests/reproducibility_acceptance.json.\",\n  \"clean_checkout_scope_decision_recorded\": false,\n  \"command_ladder_decision_recorded\": false,\n  \"decision_status_counts\": {\n    \"blocked_artifact_regeneration_not_tested\": 1,\n    \"blocked_missing_reproducibility_acceptance_record\": 1,\n    \"blocked_scaffold_reproducibility_manifest_scope\": 1,\n    \"needs_human_review_clean_checkout_evidence_scope\": 1,\n    \"needs_human_review_command_ladder_scope\": 1,\n    \"needs_human_review_committed_package_state\": 1,\n    \"needs_human_review_runtime_import_boundary\": 1\n  },\n  \"human_review_decision_count\": 4,\n  \"inputs\": {\n    \"clean_checkout_smoke_manifest\": \"data/validation/clean_checkout_reproducibility_smoke_manifest.json\",\n    \"reproducibility_manifest\": \"data/manifests/reproducibility_manifest.json\",\n    \"reproducibility_review_manifest\": \"data/validation/reproducibility_review_manifest.json\",\n    \"reproducibility_smoke_manifest\": \"data/validation/reproducibility_smoke_manifest.json\"\n  },\n  \"outputs\": {\n    \"csv\": \"data/validation/reproducibility_decision_packet.csv\",\n    \"doc\": \"docs/reproducibility_decision_packet.md\",\n    \"manifest\": \"data/validation/reproducibility_decision_manifest.json\"\n  },\n  \"publication_ready\": false,\n  \"remaining_blockers\": [\n    \"reproducibility manifest remains scaffold-only\",\n    \"clean-checkout artifact regeneration protocol has not been tested\",\n    \"data/manifests/reproducibility_acceptance.json is absent\"\n  ],\n  \"reproducibility_acceptance_record_present\": false,\n  \"reproducibility_decision_recorded\": false,\n  \"reproducibility_gate_closure_candidate_count\": 0,\n  \"reproducibility_manifest_decision_recorded\": false,\n  \"result_scope\": \"Reproducibility decision packet only; not reproducibility acceptance, not clean-environment certification, not artifact-regeneration acceptance, not final-study approval, and not operational routing evidence.\",\n  \"review_items\": [\n    \"review scaffold-only reproducibility manifest scope\",\n    \"confirm validation command ladder coverage and command counts\",\n    \"decide whether bounded clean-checkout smoke is fresh and sufficient\",\n    \"run or review artifact-regeneration evidence before acceptance\",\n    \"create data/manifests/reproducibility_acceptance.json only after all reproducibility decisions are source-backed\"\n  ],\n  \"row_count\": 7,\n  \"schema_version\": 1\n}\n",
+      "step_id": "regenerate_reproducibility_decision_packet"
+    },
+    {
+      "args": [
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "scripts/write_final_audit_decision_packet.py"
+      ],
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/write_final_audit_decision_packet.py",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 1.758,
+      "label": "Regenerate final-audit decision packet",
+      "passed": true,
+      "returncode": 0,
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "{\n  \"blocking_decision_count\": 4,\n  \"can_mark_complete\": false,\n  \"claim_boundary\": \"Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence. It cannot create or replace docs/final_study_audit.md or data/manifests/final_audit_acceptance.json.\",\n  \"decision_status_counts\": {\n    \"blocked_missing_final_audit_acceptance_record\": 1,\n    \"blocked_missing_final_study_audit_document\": 1,\n    \"blocked_missing_formal_acceptance_artifacts\": 1,\n    \"blocked_pre_final_gates_not_ready\": 1,\n    \"needs_human_review_final_packet_handoff\": 1,\n    \"needs_human_review_not_operational_boundary\": 1,\n    \"needs_human_review_proxy_signal_boundary\": 1\n  },\n  \"final_audit_acceptance_record_present\": false,\n  \"final_audit_decision_recorded\": false,\n  \"final_audit_gate_closure_candidate_count\": 0,\n  \"final_study_audit_document_decision_recorded\": false,\n  \"final_study_audit_document_present\": false,\n  \"formal_acceptance_artifact_decision_recorded\": false,\n  \"human_review_decision_count\": 3,\n  \"inputs\": {\n    \"acceptance_orchestration_manifest\": \"data/manifests/acceptance_orchestration_manifest.json\",\n    \"final_audit_acceptance\": \"data/manifests/final_audit_acceptance.json\",\n    \"final_study_audit\": \"docs/final_study_audit.md\",\n    \"formal_acceptance_evidence_matrix_manifest\": \"data/manifests/formal_acceptance_evidence_matrix_manifest.json\",\n    \"formal_acceptance_package_audit\": \"data/manifests/formal_acceptance_package_audit.json\",\n    \"goal_completion_audit\": \"data/manifests/current_goal_completion_audit.json\"\n  },\n  \"outputs\": {\n    \"csv\": \"data/manifests/final_audit_decision_packet.csv\",\n    \"doc\": \"docs/final_audit_decision_packet.md\",\n    \"manifest\": \"data/manifests/final_audit_decision_manifest.json\"\n  },\n  \"pre_final_gate_closure_decision_recorded\": false,\n  \"publication_ready\": false,\n  \"remaining_blockers\": [\n    \"pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility\",\n    \"required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json\",\n    \"docs/final_study_audit.md is absent\",\n    \"data/manifests/final_audit_acceptance.json is absent\"\n  ],\n  \"result_scope\": \"Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence.\",\n  \"review_items\": [\n    \"confirm all pre-final gates are ready before final audit\",\n    \"confirm every required formal acceptance artifact is reviewed and non-template\",\n    \"author docs/final_study_audit.md only after upstream acceptance closes\",\n    \"record final_audit_acceptance.json only after prompt-to-artifact review\",\n    \"preserve the not-operational claim boundary in final-audit wording\"\n  ],\n  \"row_count\": 7,\n  \"schema_version\": 1\n}\n",
+      "step_id": "regenerate_final_audit_decision_packet"
+    },
+    {
+      "args": [
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "scripts/run_acceptance_audit.py"
+      ],
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/run_acceptance_audit.py",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 47.062,
+      "label": "Regenerate acceptance audit artifacts",
+      "passed": true,
+      "returncode": 0,
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "resent_artifact_count\": 0\n  },\n  \"goal_audit\": {\n    \"blocked_gate_count\": 12,\n    \"final_study_ready\": false,\n    \"ready_gate_count\": 3,\n    \"verdict\": \"final_real_world_study_blocked\"\n  },\n  \"publication_readiness\": {\n    \"blocked_gate_count\": 6,\n    \"publication_ready\": false,\n    \"ready_gate_count\": 1,\n    \"verdict\": \"final_study_claims_blocked\"\n  },\n  \"refreshed_review_artifacts\": [\n    \"data/manifests/pilot_privacy_review_packet.csv\",\n    \"data/manifests/pilot_region_decision_packet.csv\",\n    \"data/validation/graph_scale_manifest_audit.csv\",\n    \"data/validation/graph_scale_review_packet.csv\",\n    \"data/validation/graph_scale_strategy_readiness_packet.csv\",\n    \"data/validation/graph_scale_method_decision_packet.csv\",\n    \"data/parameters/parameter_evidence_review_packet.csv\",\n    \"data/parameters/parameter_evidence_source_request_packet.csv\",\n    \"data/parameters/parameter_source_readiness_packet.csv\",\n    \"data/parameters/parameter_evidence_priority_packet.csv\",\n    \"data/parameters/parameter_source_decision_packet.csv\",\n    \"data/parameters/rail_evidence_review_packet.csv\",\n    \"data/rail/rail_timing_source_request_packet.csv\",\n    \"data/rail/rail_fetch_readiness_packet.csv\",\n    \"data/rail/rail_evidence_priority_packet.csv\",\n    \"data/rail/rail_source_decision_packet.csv\",\n    \"data/parameters/road_evidence_review_packet.csv\",\n    \"data/road/road_evidence_source_request_packet.csv\",\n    \"data/road/road_source_readiness_packet.csv\",\n    \"data/road/road_source_decision_packet.csv\",\n    \"data/manifests/source_license_review_packet.csv\",\n    \"data/manifests/source_url_review_packet.csv\",\n    \"data/manifests/source_url_remediation_packet.csv\",\n    \"data/manifests/source_provenance_priority_packet.csv\",\n    \"data/manifests/source_context_cache_request_packet.csv\",\n    \"data/manifests/source_context_cache_decision_packet.csv\",\n    \"data/manifests/source_provenance_decision_packet.csv\",\n    \"data/manifests/claim_alignment_review_packet.csv\",\n    \"data/manifests/figure_table_review_packet.csv\",\n    \"data/manifests/manuscript_report_decision_packet.csv\",\n    \"data/validation/canonical_route_road_evidence_exposure.csv\",\n    \"data/road/road_evidence_priority_packet.csv\",\n    \"data/validation/sensitivity_review_packet.csv\",\n    \"data/validation/sensitivity_index_review_packet.csv\",\n    \"data/validation/sensitivity_strategy_readiness_packet.csv\",\n    \"data/validation/sensitivity_method_decision_packet.csv\",\n    \"data/manifests/experiment_package_review_packet.csv\",\n    \"data/manifests/experiment_strategy_readiness_packet.csv\",\n    \"data/manifests/experiment_design_decision_packet.csv\",\n    \"data/validation/validation_benchmark_readiness_packet.csv\",\n    \"data/validation/validation_review_packet.csv\",\n    \"data/validation/validation_strategy_readiness_packet.csv\",\n    \"data/validation/validation_benchmark_decision_packet.csv\",\n    \"data/validation/reproducibility_review_packet.csv\",\n    \"data/validation/reproducibility_decision_packet.csv\",\n    \"data/manifests/acceptance_decision_template_manifest.json\",\n    \"data/manifests/formal_acceptance_blocker_queue.csv\",\n    \"data/manifests/acceptance_task_assignments.csv\",\n    \"data/manifests/formal_acceptance_evidence_matrix.csv\",\n    \"data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json\",\n    \"data/manifests/agent_review_path_audit.json\",\n    \"data/validation/tracked_artifact_audit.csv\",\n    \"data/manifests/current_goal_completion_audit.json\",\n    \"data/manifests/publication_readiness_audit.json\",\n    \"data/manifests/final_audit_decision_packet.csv\"\n  ],\n  \"reproducibility_smoke\": {\n    \"can_mark_complete\": false,\n    \"clean_checkout_test_performed\": false,\n    \"command_count\": 9,\n    \"manifest_present\": true,\n    \"smoke_passed\": true\n  },\n  \"tracked_artifact_audit\": {\n    \"blocking_change_count\": 7,\n    \"can_mark_complete\": false,\n    \"clean_checkout_reproducibility_ready\": false,\n    \"modified_or_staged_count\": 7,\n    \"row_count\": 7,\n    \"untracked_count\": 0\n  }\n}\n",
+      "step_id": "regenerate_acceptance_audit"
+    },
+    {
+      "args": [
+        "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe",
+        "scripts/audit_plan_artifacts.py"
+      ],
+      "args_display": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout\\.clean-smoke-venv\\Scripts\\python.exe scripts/audit_plan_artifacts.py",
+      "cwd": "C:\\Users\\mnb92\\AppData\\Local\\Temp\\transport_system_clean_checkout_589t248i\\checkout",
+      "duration_sec": 12.099,
+      "label": "Regenerate plan artifact audit",
+      "passed": true,
+      "returncode": 0,
+      "status": "passed",
+      "stderr_tail": "",
+      "stdout_tail": "babilities with hazard, incident, or accepted scenario evidence\",\n      \"treat this as road-input evidence only; route plausibility and traffic validation remain separate gates\"\n    ],\n    \"routeable_edge_count\": 9140\n  },\n  \"road_evidence_diagnostics_audit\": {\n    \"base_disruption_explicit_rate\": 0.0,\n    \"capacity_explicit_rate\": 0.0,\n    \"diagnostics_ready\": true,\n    \"edge_count\": 28947,\n    \"highway_class_count\": 13,\n    \"maxspeed_parseable_rate\": 0.01292,\n    \"remaining_blockers\": [],\n    \"review_items\": [\n      \"review edges whose OSM highway tag defaulted to unclassified before relying on class-level proxies\",\n      \"strengthen free-flow speed evidence for major routeable road classes or document reviewed class-level speed overrides\",\n      \"replace built-in road-capacity proxies with reviewed class overrides, traffic-count references, or benchmark-calibrated values\",\n      \"replace built-in base-disruption probabilities with hazard, incident, scenario, or reviewed sensitivity evidence\",\n      \"prioritize road-input review for high-impact classes: residential, tertiary, secondary, primary, trunk\",\n      \"use this diagnostic to prepare road-class override evidence; it does not create acceptance or calibration by itself\"\n    ],\n    \"routeable_edge_count\": 9140,\n    \"top_review_candidates\": [\n      \"residential\",\n      \"tertiary\",\n      \"secondary\",\n      \"primary\",\n      \"trunk\"\n    ],\n    \"total_routeable_length_km\": 438.726016\n  },\n  \"road_override_application_audit\": {\n    \"manifest_present\": true,\n    \"overrides_applied\": false,\n    \"publication_ready\": false,\n    \"remaining_blockers\": [\n      \"reviewed road-class override table is absent\"\n    ],\n    \"sha256_matches\": false\n  },\n  \"road_override_evidence_audit\": {\n    \"draft_row_count\": 10,\n    \"draft_source_class_counts\": {\n      \"expert assumption\": 10\n    },\n    \"draft_table_present\": true,\n    \"override_table_present\": false,\n    \"publication_ready\": false,\n    \"remaining_blockers\": [\n      \"replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence\",\n      \"apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs\"\n    ],\n    \"row_count\": 0\n  },\n  \"sensitivity_diagnostics_audit\": {\n    \"analysis_graph_reduced\": true,\n    \"diagnostics_ready\": true,\n    \"expected_summary_row_count_from_manifest_dimensions\": 7056,\n    \"manifest_summary_row_count\": 7056,\n    \"remaining_blockers\": [],\n    \"review_items\": [\n      \"review zero mu_star rows as potential no-variation or inactive-parameter cases (4272 rows)\",\n      \"review explicitly unavailable Morris index rows caused by non-finite metric outputs (168 rows)\",\n      \"sensitivity outputs use the reduced analysis graph; graph-scale acceptance is still required\",\n      \"current result scope remains scaffold or not-calibrated; do not use as final-study evidence without acceptance\"\n    ],\n    \"row_count\": 7056,\n    \"rows_with_index_issues\": 0,\n    \"zero_mu_star_count\": 4272\n  },\n  \"source_provenance_audit\": {\n    \"diagnostics_ready\": true,\n    \"local_artifact_count\": 52,\n    \"record_count\": 11,\n    \"remaining_blockers\": [],\n    \"review_items\": [\n      \"review cached source snapshots, dates, licenses, and attribution\",\n      \"replace context-only public sources with cached extracts before final claims\",\n      \"review repository-defined assumptions and synthetic/privacy handling\"\n    ],\n    \"review_status_counts\": {\n      \"cached_snapshot_pending_review\": 3,\n      \"context_only_not_cached\": 4,\n      \"repository_input_pending_review\": 4\n    }\n  },\n  \"tracked_artifact_audit\": {\n    \"blocking_change_count\": 7,\n    \"can_mark_complete\": false,\n    \"clean_checkout_reproducibility_ready\": false,\n    \"manifest_present\": true,\n    \"modified_or_staged_count\": 7,\n    \"row_count\": 7,\n    \"untracked_count\": 0\n  },\n  \"verdict\": \"executable_quasi_real_scaffold_not_final_calibrated_study\"\n}\n",
+      "step_id": "regenerate_plan_artifact_audit"
     }
   ],
   "outer_steps_passed": true,
@@ -157,14 +246,14 @@
   "python_executable": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
   "required_actions": [
     "review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope",
-    "preserve full validation-ladder and artifact-regeneration logs before formal acceptance",
+    "preserve full validation-ladder logs before formal acceptance",
     "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope"
   ],
   "result_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
   "schema_version": 1,
   "smoke_passed": true,
   "source": {
-    "source_commit": "851afd5949d04e2a61d5b615994ed2b7fd04e298",
+    "source_commit": "b7eece48de42ea46675bb15cc72e9a767fdb90df",
     "source_dirty_worktree_ignored": false,
     "source_git_status_line_count": 0,
     "source_repo": "C:\\project\\transport-system-sim"

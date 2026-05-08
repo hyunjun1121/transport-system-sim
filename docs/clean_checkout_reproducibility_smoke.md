@@ -12,7 +12,9 @@ reproducibility acceptance and does not close
 - Commands passed: 9 / 9
 - Clean checkout tested: `true`
 - Full clean environment tested: `true`
-- Source commit: `851afd5949d04e2a61d5b615994ed2b7fd04e298`
+- Artifact regeneration tested: `true`
+- Artifact regeneration scope: `bounded_review_and_audit_artifact_regeneration_not_full_reproduction`
+- Source commit: `b7eece48de42ea46675bb15cc72e9a767fdb90df`
 - Environment scope: `clean_source_checkout_fresh_venv_with_dependency_install`
 - Can mark complete: `false`
 
@@ -26,6 +28,11 @@ reproducibility acceptance and does not close
 | upgrade_clean_checkout_pip | passed | 0 |
 | install_clean_checkout_requirements | passed | 0 |
 | run_reproducibility_smoke_in_clean_checkout | passed | 0 |
+| regenerate_reproducibility_review_packet | passed | 0 |
+| regenerate_reproducibility_decision_packet | passed | 0 |
+| regenerate_final_audit_decision_packet | passed | 0 |
+| regenerate_acceptance_audit | passed | 0 |
+| regenerate_plan_artifact_audit | passed | 0 |
 
 ## Inner Smoke
 
@@ -34,10 +41,10 @@ reproducibility acceptance and does not close
 
 ## Claim Boundary
 
-This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full validation ladder or artifact-regeneration acceptance protocol, does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.
+This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full validation ladder, and its artifact regeneration is limited to bounded review and audit artifacts. It does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.
 
 ## Required Actions
 
 - review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope
-- preserve full validation-ladder and artifact-regeneration logs before formal acceptance
+- preserve full validation-ladder logs before formal acceptance
 - keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope
