@@ -26,6 +26,7 @@ def main() -> int:
         source_repo=args.source_repo,
         keep_checkout=args.keep_checkout,
         checkout_parent=args.checkout_parent,
+        install_dependencies=args.install_dependencies,
         timeout_sec=args.timeout_sec,
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
@@ -50,6 +51,14 @@ def _parse_args() -> argparse.Namespace:
         "--keep-checkout",
         action="store_true",
         help="Retain the generated checkout directory for manual inspection.",
+    )
+    parser.add_argument(
+        "--install-dependencies",
+        action="store_true",
+        help=(
+            "Create a fresh venv in the checkout, install requirements.txt, "
+            "and run the bounded smoke there."
+        ),
     )
     parser.add_argument(
         "--timeout-sec",

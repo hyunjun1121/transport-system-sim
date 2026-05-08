@@ -76,6 +76,7 @@ def run_clean_checkout_smoke(
     log_path: str | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_LOG_PATH,
     doc_path: str | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH,
     python_executable: str | Path = sys.executable,
+    install_dependencies: bool = False,
     keep_checkout: bool = False,
     checkout_parent: str | Path | None = None,
     timeout_sec: int = 1800,
@@ -122,12 +123,60 @@ def run_clean_checkout_smoke(
                 )
             )
         if outer_steps and outer_steps[-1].passed:
+            smoke_python = Path(python_executable)
+            if install_dependencies:
+                venv_dir = checkout_dir / ".clean-smoke-venv"
+                outer_steps.append(
+                    _run_step(
+                        "create_clean_checkout_venv",
+                        "Create clean-checkout virtual environment",
+                        (str(python_executable), "-m", "venv", str(venv_dir)),
+                        cwd=checkout_dir,
+                        timeout_sec=timeout_sec,
+                    )
+                )
+                smoke_python = _venv_python_path(venv_dir)
+            if outer_steps[-1].passed and install_dependencies:
+                outer_steps.append(
+                    _run_step(
+                        "upgrade_clean_checkout_pip",
+                        "Upgrade pip in clean-checkout virtual environment",
+                        (
+                            str(smoke_python),
+                            "-m",
+                            "pip",
+                            "install",
+                            "--upgrade",
+                            "pip",
+                        ),
+                        cwd=checkout_dir,
+                        timeout_sec=timeout_sec,
+                    )
+                )
+            if outer_steps[-1].passed and install_dependencies:
+                outer_steps.append(
+                    _run_step(
+                        "install_clean_checkout_requirements",
+                        "Install clean-checkout requirements",
+                        (
+                            str(smoke_python),
+                            "-m",
+                            "pip",
+                            "install",
+                            "-r",
+                            "requirements.txt",
+                        ),
+                        cwd=checkout_dir,
+                        timeout_sec=timeout_sec,
+                    )
+                )
+        if outer_steps and outer_steps[-1].passed:
             outer_steps.append(
                 _run_step(
                     "run_reproducibility_smoke_in_clean_checkout",
                     "Run bounded reproducibility smoke in clean checkout",
                     (
-                        str(python_executable),
+                        str(smoke_python),
                         "scripts/run_reproducibility_smoke.py",
                         "--profile",
                         "clean-checkout-minimal",
@@ -153,6 +202,7 @@ def run_clean_checkout_smoke(
         checkout_dir=checkout_dir,
         checkout_retained=keep_checkout,
         python_executable=python_executable,
+        install_dependencies=install_dependencies,
         outer_steps=outer_steps,
         inner_manifest=inner_manifest,
         manifest_path=manifest_path,
@@ -178,6 +228,7 @@ def build_clean_checkout_smoke_manifest(
     checkout_dir: str | Path,
     checkout_retained: bool,
     python_executable: str | Path,
+    install_dependencies: bool = False,
     outer_steps: Sequence[CleanCheckoutStepResult],
     inner_manifest: Mapping[str, Any],
     manifest_path: str | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
@@ -195,6 +246,11 @@ def build_clean_checkout_smoke_manifest(
         step.step_id == "run_reproducibility_smoke_in_clean_checkout"
         for step in outer_steps
     )
+    dependency_install_tested = install_dependencies and any(
+        step.step_id == "install_clean_checkout_requirements" and step.passed
+        for step in outer_steps
+    )
+    full_clean_environment_tested = dependency_install_tested and smoke_passed
     return {
         "schema_version": 1,
         "result_scope": CLEAN_CHECKOUT_SMOKE_SCOPE,
@@ -218,8 +274,13 @@ def build_clean_checkout_smoke_manifest(
                 for step in outer_steps
             ),
         },
-        "environment_scope": "clean_source_checkout_current_python_environment",
+        "environment_scope": (
+            "clean_source_checkout_fresh_venv_with_dependency_install"
+            if install_dependencies
+            else "clean_source_checkout_current_python_environment"
+        ),
         "python_executable": str(python_executable),
+        "install_dependencies_requested": install_dependencies,
         "outer_step_count": len(outer_steps),
         "outer_steps_passed": outer_passed,
         "outer_failed_step_ids": [step.step_id for step in outer_steps if not step.passed],
@@ -240,25 +301,28 @@ def build_clean_checkout_smoke_manifest(
         "final_study_ready": False,
         "can_mark_complete": False,
         "clean_checkout_test_performed": clean_checkout_test_performed,
-        "full_clean_environment_tested": False,
-        "dependency_install_tested": False,
+        "full_clean_environment_tested": full_clean_environment_tested,
+        "dependency_install_tested": dependency_install_tested,
         "artifact_regeneration_tested": False,
         "formal_acceptance_created": False,
         "claim_boundary": (
             "This is bounded clean source-checkout smoke evidence. It tests the "
-            "committed source tree in a fresh clone using the current Python "
-            "environment, but it does not reinstall dependencies, does not "
+            "committed source tree in a fresh clone"
+            + (
+                " with a fresh virtual environment and dependency installation"
+                if install_dependencies
+                else " using the current Python environment"
+            )
+            + ", but it does not "
             "execute the full validation ladder or artifact-regeneration "
             "acceptance protocol, does not create "
             "data/manifests/reproducibility_acceptance.json, and does not "
             "support calibrated real-world or operational routing claims."
         ),
-        "required_actions": [
-            "review whether current-Python clean-checkout smoke is sufficient for the intended acceptance scope",
-            "run a full clean-environment reproduction with dependency installation if publication acceptance requires it",
-            "preserve full validation-ladder and artifact-regeneration logs before formal acceptance",
-            "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope",
-        ],
+        "required_actions": _required_actions(
+            install_dependencies=install_dependencies,
+            full_clean_environment_tested=full_clean_environment_tested,
+        ),
         "outer_steps": [step.to_json() for step in outer_steps],
     }
 
@@ -343,6 +407,10 @@ def summarize_clean_checkout_smoke(
         ),
         "full_clean_environment_tested": bool(
             value.get("full_clean_environment_tested", False)
+        ),
+        "dependency_install_tested": bool(value.get("dependency_install_tested", False)),
+        "artifact_regeneration_tested": bool(
+            value.get("artifact_regeneration_tested", False)
         ),
         "source_commit": str((value.get("source") or {}).get("source_commit", "")),
         "environment_scope": str(value.get("environment_scope", "")),
@@ -507,6 +575,33 @@ def _safe_to_remove_checkout_dir(path: Path) -> bool:
     root = resolved.anchor
     far_enough = str(resolved) not in {root, str(PROJECT_ROOT.resolve())}
     return name_ok and far_enough
+
+
+def _venv_python_path(venv_dir: Path) -> Path:
+    if sys.platform.startswith("win"):
+        return venv_dir / "Scripts" / "python.exe"
+    return venv_dir / "bin" / "python"
+
+
+def _required_actions(
+    *,
+    install_dependencies: bool,
+    full_clean_environment_tested: bool,
+) -> list[str]:
+    actions = [
+        "review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope",
+    ]
+    if not install_dependencies or not full_clean_environment_tested:
+        actions.append(
+            "run a full clean-environment reproduction with dependency installation if publication acceptance requires it"
+        )
+    actions.extend(
+        [
+            "preserve full validation-ladder and artifact-regeneration logs before formal acceptance",
+            "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope",
+        ]
+    )
+    return actions
 
 
 def _remove_if_safe(path: Path) -> None:

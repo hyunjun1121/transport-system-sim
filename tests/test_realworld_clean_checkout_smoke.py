@@ -61,6 +61,49 @@ def test_clean_checkout_smoke_manifest_never_accepts_gate() -> None:
     print("PASS: clean-checkout smoke manifest never accepts gate")
 
 
+def test_clean_checkout_smoke_manifest_records_dependency_install_scope() -> None:
+    """Dependency-install smoke should remain non-acceptance evidence."""
+
+    manifest = build_clean_checkout_smoke_manifest(
+        source_repo="repo",
+        source_commit="abc123",
+        source_status_lines=(),
+        checkout_dir="checkout",
+        checkout_retained=False,
+        python_executable="python",
+        install_dependencies=True,
+        outer_steps=(
+            _step("git_clone_source_tree", passed=True),
+            _step("git_checkout_source_commit", passed=True),
+            _step("create_clean_checkout_venv", passed=True),
+            _step("upgrade_clean_checkout_pip", passed=True),
+            _step("install_clean_checkout_requirements", passed=True),
+            _step("run_reproducibility_smoke_in_clean_checkout", passed=True),
+        ),
+        inner_manifest={
+            "result_scope": "current_worktree_smoke_not_clean_checkout",
+            "command_count": 2,
+            "passed_count": 2,
+            "failed_count": 0,
+            "smoke_passed": True,
+            "failed_command_ids": [],
+        },
+    )
+
+    assert manifest["smoke_passed"] is True
+    assert manifest["install_dependencies_requested"] is True
+    assert manifest["dependency_install_tested"] is True
+    assert manifest["full_clean_environment_tested"] is True
+    assert manifest["artifact_regeneration_tested"] is False
+    assert manifest["acceptance_ready"] is False
+    assert manifest["can_mark_complete"] is False
+    assert manifest["environment_scope"] == (
+        "clean_source_checkout_fresh_venv_with_dependency_install"
+    )
+
+    print("PASS: dependency-install clean-checkout smoke remains non-acceptance")
+
+
 def test_clean_checkout_smoke_outputs_and_summary() -> None:
     """Writer should emit manifest, combined JSONL log, and markdown doc."""
 
@@ -189,6 +232,7 @@ def _step(step_id: str, *, passed: bool) -> CleanCheckoutStepResult:
 
 if __name__ == "__main__":
     test_clean_checkout_smoke_manifest_never_accepts_gate()
+    test_clean_checkout_smoke_manifest_records_dependency_install_scope()
     test_clean_checkout_smoke_outputs_and_summary()
     test_missing_clean_checkout_smoke_summary_is_blocked()
     test_clean_checkout_cleanup_handles_readonly_git_files()
