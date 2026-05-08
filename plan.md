@@ -431,6 +431,13 @@ First pilot-smoke artifacts also exist:
   covers 20 weak parameters, separates human-review rows from blocker rows,
   keeps `publication_ready: false`, and cannot approve weak assumptions or
   final parameter claims.
+- `src/realworld/parameter_source_decision_packet.py` and
+  `scripts/write_parameter_source_decision_packet.py` now turn those 6
+  parameter source-readiness rows into pending reviewer decisions under
+  `data/parameters/parameter_source_decision_packet.csv`. The packet records
+  source-backed update, bounded-scenario assumption, sensitivity-only, or
+  exclusion options without changing parameter values or creating
+  `data/parameters/parameter_acceptance.csv`.
 - `src/realworld/parameter_evidence_priority_packet.py` and
   `scripts/write_parameter_evidence_priority_packet.py` now combine the
   parameter review, source-request, and source-readiness rows into a 6-row
@@ -825,6 +832,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py
@@ -844,6 +852,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python tests\test_realworld_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_request_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_decision_packet.py
+.\.venv\Scripts\python tests\test_realworld_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
@@ -2054,6 +2063,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py

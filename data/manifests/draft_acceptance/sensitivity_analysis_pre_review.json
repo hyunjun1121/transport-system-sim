@@ -145,7 +145,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/sensitivity_acceptance.json",
   "gate": "sensitivity_analysis",
-  "generated_at": "2026-05-08T18:06:57+00:00",
+  "generated_at": "2026-05-08T18:17:59+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

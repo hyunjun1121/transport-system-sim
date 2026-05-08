@@ -20,6 +20,11 @@ from src.realworld.parameter_evidence_priority_packet import (
     DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH,
     DEFAULT_PARAMETER_EVIDENCE_PRIORITY_PACKET_PATH,
 )
+from src.realworld.parameter_source_decision_packet import (
+    DEFAULT_PARAMETER_SOURCE_DECISION_DOC_PATH,
+    DEFAULT_PARAMETER_SOURCE_DECISION_MANIFEST_PATH,
+    DEFAULT_PARAMETER_SOURCE_DECISION_PACKET_PATH,
+)
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
 from src.realworld.experiment_acceptance import summarize_experiment_acceptance
 from src.realworld.experiment_design_decision_packet import (
@@ -244,6 +249,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     parameter_evidence_priority_manifest = _load_json(
         DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH
     )
+    parameter_source_decision_manifest = _load_json(
+        DEFAULT_PARAMETER_SOURCE_DECISION_MANIFEST_PATH
+    )
     graph_scale_strategy_readiness_manifest = _load_json(
         DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -299,6 +307,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             parameter_audit,
             parameter_source_readiness_manifest,
             parameter_evidence_priority_manifest,
+            parameter_source_decision_manifest,
         ),
         _rail_gate(
             rail_service_audit,
@@ -1083,16 +1092,23 @@ def _parameter_gate(
     parameter_audit: dict[str, Any],
     parameter_source_readiness_manifest: dict[str, Any] | None = None,
     parameter_evidence_priority_manifest: dict[str, Any] | None = None,
+    parameter_source_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return the parameter-evidence gate with source-readiness detail."""
 
     ready = bool(parameter_audit["publication_ready"])
     readiness = parameter_source_readiness_manifest or {}
     priority = parameter_evidence_priority_manifest or {}
+    decisions = parameter_source_decision_manifest or {}
     priority_artifacts_present = (
         DEFAULT_PARAMETER_EVIDENCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
         and DEFAULT_PARAMETER_EVIDENCE_PRIORITY_DOC_PATH.exists()
+    )
+    decision_artifacts_present = (
+        DEFAULT_PARAMETER_SOURCE_DECISION_PACKET_PATH.exists()
+        and DEFAULT_PARAMETER_SOURCE_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_PARAMETER_SOURCE_DECISION_DOC_PATH.exists()
     )
     blockers = []
     if not ready:
@@ -1104,6 +1120,10 @@ def _parameter_gate(
         blockers.extend(
             f"parameter evidence priority: {item}"
             for item in priority.get("remaining_blockers", [])
+        )
+        blockers.extend(
+            f"parameter source decision: {item}"
+            for item in decisions.get("remaining_blockers", [])
         )
     return _gate(
         "parameter_evidence",
@@ -1122,11 +1142,15 @@ def _parameter_gate(
             "data/parameters/parameter_evidence_priority_packet.csv",
             "data/parameters/parameter_evidence_priority_manifest.json",
             "docs/parameter_evidence_priority_packet.md",
+            "data/parameters/parameter_source_decision_packet.csv",
+            "data/parameters/parameter_source_decision_manifest.json",
+            "docs/parameter_source_decision_packet.md",
             "scripts/audit_parameter_evidence.py",
             "scripts/write_parameter_review_packet.py",
             "scripts/write_parameter_evidence_source_request_packet.py",
             "scripts/write_parameter_source_readiness_packet.py",
             "scripts/write_parameter_evidence_priority_packet.py",
+            "scripts/write_parameter_source_decision_packet.py",
         ],
         blockers=blockers,
         details={
@@ -1198,6 +1222,34 @@ def _parameter_gate(
                 False,
             ),
             "parameter_evidence_priority_can_mark_complete": priority.get(
+                "can_mark_complete",
+                False,
+            ),
+            "parameter_source_decision_artifacts_present": (
+                decision_artifacts_present
+            ),
+            "parameter_source_decision_row_count": decisions.get("row_count", 0),
+            "parameter_source_decision_blocking_decision_count": decisions.get(
+                "blocking_decision_count",
+                0,
+            ),
+            "parameter_source_decision_human_review_decision_count": decisions.get(
+                "human_review_decision_count",
+                0,
+            ),
+            "parameter_source_decision_status_counts": decisions.get(
+                "decision_status_counts",
+                {},
+            ),
+            "parameter_source_decision_recorded": decisions.get(
+                "parameter_source_decision_recorded",
+                False,
+            ),
+            "parameter_source_decision_publication_ready": decisions.get(
+                "publication_ready",
+                False,
+            ),
+            "parameter_source_decision_can_mark_complete": decisions.get(
                 "can_mark_complete",
                 False,
             ),

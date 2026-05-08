@@ -322,6 +322,12 @@ The codebase currently includes:
     `scripts/write_parameter_source_readiness_packet.py`; the manifest records
     the `region_ids` from the request rows and remains non-acceptance review
     metadata
+  - parameter source-decision worksheet in
+    `src/realworld/parameter_source_decision_packet.py` and
+    `scripts/write_parameter_source_decision_packet.py`; the generated 6-row
+    packet records pending source-backed, bounded-scenario, sensitivity-only,
+    or exclusion decisions for weak parameter groups without changing
+    parameter values or creating `data/parameters/parameter_acceptance.csv`
   - cached road-input evidence audit in
     `src/realworld/road_evidence.py` and `scripts/audit_road_evidence.py`
   - road-class evidence diagnostics in

@@ -289,11 +289,15 @@
         "data/parameters/parameter_evidence_priority_packet.csv",
         "data/parameters/parameter_evidence_priority_manifest.json",
         "docs/parameter_evidence_priority_packet.md",
+        "data/parameters/parameter_source_decision_packet.csv",
+        "data/parameters/parameter_source_decision_manifest.json",
+        "docs/parameter_source_decision_packet.md",
         "scripts/audit_parameter_evidence.py",
         "scripts/write_parameter_review_packet.py",
         "scripts/write_parameter_evidence_source_request_packet.py",
         "scripts/write_parameter_source_readiness_packet.py",
-        "scripts/write_parameter_evidence_priority_packet.py"
+        "scripts/write_parameter_evidence_priority_packet.py",
+        "scripts/write_parameter_source_decision_packet.py"
       ],
       "gate_id": "parameter_evidence",
       "label": "Parameter Evidence",
@@ -310,7 +314,11 @@
         "parameter evidence priority: transfer-delay source evidence is absent",
         "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
         "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
-        "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
+        "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
+        "parameter source decision: formal parameter acceptance table is absent",
+        "parameter source decision: parameter source decisions are pending for weak parameter groups",
+        "parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+        "parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
       ],
       "ready": false
     },

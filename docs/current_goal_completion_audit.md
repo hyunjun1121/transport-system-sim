@@ -28,7 +28,7 @@ The active objective is complete only when every final-study gate below is ready
 | Real Input Smoke | ready | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
 | Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+30 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>graph-scale strategy readiness: graph_scale_acceptance.json is absent<br>+4 more |
 | Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+26 more | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>source provenance priority: formal provenance acceptance record is absent<br>+14 more |
-| Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/parameter_evidence_source_request_packet.csv<br>+12 more | justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+10 more |
+| Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/parameter_evidence_source_request_packet.csv<br>+16 more | justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+14 more |
 | Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+20 more | rail service evidence: cache timetable, shortest-path, or GTFS-derived records<br>rail service evidence: derive headway and travel time from the cached records<br>rail fetch readiness: rail timing cache files are absent unless source_cache_present is true<br>+5 more |
 | Validation Package | blocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+25 more | create an explicit validation acceptance record after benchmark-strategy review<br>resolve validation strategy-readiness blockers before validation acceptance<br>validation strategy readiness: validation_acceptance.json is absent<br>+8 more |
 | Structured Disruptions | ready | data/scenarios/disruption_scenarios.csv | none recorded |
@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
-- Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Changed reproducibility artifacts: 16
+- Blocking changed artifacts: 16
+- Untracked artifacts: 6
+- Modified or staged artifacts: 10
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 

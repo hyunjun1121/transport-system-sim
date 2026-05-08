@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T18:07:26+00:00",
+  "generated_at": "2026-05-08T18:18:28+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -55,8 +55,8 @@
       "can_mark_complete": false,
       "gate_id": "parameter_evidence",
       "record_path": "data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json",
-      "required_action_count": 15,
-      "risk_count": 16,
+      "required_action_count": 19,
+      "risk_count": 20,
       "status": "blocked"
     },
     {
@@ -188,6 +188,10 @@
     "parameter_evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "parameter_evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "parameter_evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
+    "parameter_evidence: parameter source decision: formal parameter acceptance table is absent",
+    "parameter_evidence: parameter source decision: parameter source decisions are pending for weak parameter groups",
+    "parameter_evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "parameter_evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present",
     "rail_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
     "rail_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.",
     "rail_evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
@@ -309,6 +313,10 @@
     "Parameter Evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "Parameter Evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
     "Parameter Evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
+    "Parameter Evidence: parameter source decision: formal parameter acceptance table is absent",
+    "Parameter Evidence: parameter source decision: parameter source decisions are pending for weak parameter groups",
+    "Parameter Evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "Parameter Evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present",
     "Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
     "Rail Evidence: rail service evidence: derive headway and travel time from the cached records",
     "Rail Evidence: rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
@@ -847,6 +855,41 @@
       }
     },
     {
+      "blocking_count": 1,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 5,
+      "label": "Parameter Source Decisions",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/parameters/parameter_source_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal parameter acceptance table is absent",
+        "parameter source decisions are pending for weak parameter groups",
+        "retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+        "transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
+      ],
+      "result_scope": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
+      "review_items": [
+        "choose source-backed update, bounded scenario assumption, sensitivity-only treatment, or exclusion for every weak parameter group",
+        "record reviewer, decision date, evidence paths, sensitivity treatment, and not-operational claim limits outside this packet",
+        "update parameter source tables only after source review",
+        "create data/parameters/parameter_acceptance.csv only if retained weak assumptions are explicitly accepted",
+        "rerun parameter, publication-readiness, and final-study audits after decisions are recorded"
+      ],
+      "row_count": 6,
+      "snapshot_id": "parameter_source_decision",
+      "status_counts": {
+        "blocked_missing_transfer_source": 1,
+        "needs_human_review_demand_scenario": 1,
+        "needs_human_review_dispatch_policy": 1,
+        "needs_human_review_disruption_parameter_scenario": 1,
+        "needs_human_review_fleet_package": 1,
+        "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+      }
+    },
+    {
       "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -1188,7 +1231,7 @@
       }
     },
     {
-      "blocking_count": 3,
+      "blocking_count": 5,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1210,14 +1253,14 @@
       "row_count": 8,
       "snapshot_id": "reproducibility_review",
       "status_counts": {
+        "blocked_dirty_worktree": 1,
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
+        "blocked_untracked_reproducibility_artifacts": 1,
         "ready_for_review_bounded_clean_checkout_smoke": 1,
-        "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
-        "ready_for_review_no_cloned_repo_runtime_imports": 1,
-        "ready_for_review_no_untracked_reproducibility_artifacts": 1
+        "ready_for_review_no_cloned_repo_runtime_imports": 1
       }
     },
     {
@@ -1419,11 +1462,11 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 665
+        "present": 683
       }
     },
     {
-      "blocking_count": 0,
+      "blocking_count": 16,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1432,12 +1475,36 @@
       "manifest_valid": true,
       "path": "data/validation/tracked_artifact_audit_manifest.json",
       "publication_ready": false,
-      "remaining_blockers": [],
+      "remaining_blockers": [
+        "plan.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "scripts/audit_plan_artifacts.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "scripts/run_acceptance_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/reproducibility_smoke.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "status.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_plan_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/parameters/parameter_source_decision_manifest.json: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "data/parameters/parameter_source_decision_packet.csv: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "docs/parameter_source_decision_packet.md: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "scripts/write_parameter_source_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "src/realworld/parameter_source_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "tests/test_realworld_parameter_source_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope."
+      ],
       "result_scope": "",
       "review_items": [],
-      "row_count": 0,
+      "row_count": 16,
       "snapshot_id": "tracked_artifact_audit",
-      "status_counts": {}
+      "status_counts": {
+        "data_or_manifest": 2,
+        "documentation": 1,
+        "realworld_code": 4,
+        "root_document_or_config": 2,
+        "script": 3,
+        "test": 4
+      }
     },
     {
       "blocking_count": 12,

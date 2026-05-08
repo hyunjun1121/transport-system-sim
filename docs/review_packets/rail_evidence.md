@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T18:07:26+00:00`
+- Generated at: `2026-05-08T18:18:28+00:00`
 
 ## Decision
 
@@ -18,6 +18,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - data/parameters/parameter_evidence_source_request_packet.csv
 - data/parameters/parameter_source_readiness_manifest.json
 - data/parameters/parameter_evidence_priority_manifest.json
+- data/parameters/parameter_source_decision_manifest.json
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_evidence_source_request_packet.csv
 - data/road/road_source_readiness_manifest.json
@@ -76,6 +77,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - data/parameters/parameter_evidence_review_packet.csv
 - data/parameters/parameter_source_readiness_packet.csv
 - data/parameters/parameter_evidence_priority_packet.csv
+- data/parameters/parameter_source_decision_packet.csv
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_source_readiness_packet.csv
 - data/road/road_evidence_priority_packet.csv

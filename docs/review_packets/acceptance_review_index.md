@@ -12,7 +12,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 19 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
-| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 15 |
+| `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
@@ -73,6 +73,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
 | `Parameter Evidence Priority` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Parameter Source Readiness` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
+| `Parameter Source Decisions` | 6 | 1 | 5 | 0 | `false` | blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; needs_human_review_dispatch_policy=1; +3 more |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
 | `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
 | `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
@@ -83,7 +84,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -91,8 +92,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=665 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=683 |
+| `Tracked Artifact Audit` | 16 | 16 | 0 | 0 | `false` | data_or_manifest=2; documentation=1; realworld_code=4; +3 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -110,6 +111,7 @@ Priority blockers by packet:
 - `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
 - `Parameter Evidence Priority`: transfer-delay source evidence is absent (+3 more)
 - `Parameter Source Readiness`: all rows require human review or external source decisions before final claims (+2 more)
+- `Parameter Source Decisions`: formal parameter acceptance table is absent (+3 more)
 - `Rail Evidence Priority`: rail timing cache files are absent (+2 more)
 - `Rail Fetch Readiness`: rail timing cache files are absent unless source_cache_present is true (+2 more)
 - `Validation Benchmark Readiness`: validation_acceptance_record: data/manifests/validation_acceptance.json is absent
@@ -121,6 +123,7 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: plan.md: Commit, stash, or document this change before clean-checkout reproduction. (+15 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -182,6 +185,10 @@ Priority blockers by packet:
 - parameter_evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter_evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter_evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
+- parameter_evidence: parameter source decision: formal parameter acceptance table is absent
+- parameter_evidence: parameter source decision: parameter source decisions are pending for weak parameter groups
+- parameter_evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter_evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 - rail_evidence: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - rail_evidence: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - rail_evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
@@ -303,6 +310,10 @@ Priority blockers by packet:
 - Parameter Evidence: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - Parameter Evidence: parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - Parameter Evidence: parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
+- Parameter Evidence: parameter source decision: formal parameter acceptance table is absent
+- Parameter Evidence: parameter source decision: parameter source decisions are pending for weak parameter groups
+- Parameter Evidence: parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- Parameter Evidence: parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 - Rail Evidence: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
 - Rail Evidence: rail service evidence: derive headway and travel time from the cached records
 - Rail Evidence: rail fetch readiness: rail timing cache files are absent unless source_cache_present is true

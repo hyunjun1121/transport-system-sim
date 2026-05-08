@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T18:07:26+00:00`
+- Generated at: `2026-05-08T18:18:28+00:00`
 
 ## Decision
 
@@ -18,6 +18,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - data/parameters/parameter_evidence_source_request_packet.csv
 - data/parameters/parameter_source_readiness_manifest.json
 - data/parameters/parameter_evidence_priority_manifest.json
+- data/parameters/parameter_source_decision_manifest.json
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_evidence_source_request_packet.csv
 - data/road/road_source_readiness_manifest.json
@@ -33,11 +34,14 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - docs/parameter_source_readiness_packet.md
 - data/parameters/parameter_evidence_priority_packet.csv
 - docs/parameter_evidence_priority_packet.md
+- data/parameters/parameter_source_decision_packet.csv
+- docs/parameter_source_decision_packet.md
 - scripts/audit_parameter_evidence.py
 - scripts/write_parameter_review_packet.py
 - scripts/write_parameter_evidence_source_request_packet.py
 - scripts/write_parameter_source_readiness_packet.py
 - scripts/write_parameter_evidence_priority_packet.py
+- scripts/write_parameter_source_decision_packet.py
 
 ## Evidence And Source Paths
 
@@ -52,11 +56,15 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - data/parameters/parameter_evidence_priority_packet.csv
 - data/parameters/parameter_evidence_priority_manifest.json
 - docs/parameter_evidence_priority_packet.md
+- data/parameters/parameter_source_decision_packet.csv
+- data/parameters/parameter_source_decision_manifest.json
+- docs/parameter_source_decision_packet.md
 - scripts/audit_parameter_evidence.py
 - scripts/write_parameter_review_packet.py
 - scripts/write_parameter_evidence_source_request_packet.py
 - scripts/write_parameter_source_readiness_packet.py
 - scripts/write_parameter_evidence_priority_packet.py
+- scripts/write_parameter_source_decision_packet.py
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_source_readiness_packet.csv
 - data/road/road_evidence_priority_packet.csv
@@ -90,6 +98,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
+- parameter source decision: formal parameter acceptance table is absent
+- parameter source decision: parameter source decisions are pending for weak parameter groups
+- parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 
 ## Required Actions
 
@@ -108,6 +120,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
 - parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions
 - parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
+- parameter source decision: formal parameter acceptance table is absent
+- parameter source decision: parameter source decisions are pending for weak parameter groups
+- parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present
 
 ## Formal Acceptance Boundary
 
@@ -136,7 +152,11 @@ Formal acceptance artifacts:
     "parameter evidence priority: transfer-delay source evidence is absent",
     "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
     "parameter evidence priority: medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
-    "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions"
+    "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
+    "parameter source decision: formal parameter acceptance table is absent",
+    "parameter source decision: parameter source decisions are pending for weak parameter groups",
+    "parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
+    "parameter source decision: transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
   ],
   "details": {
     "parameter_evidence_priority_artifacts_present": true,
@@ -153,6 +173,17 @@ Formal acceptance artifacts:
       "needs_human_review_medium_priority_parameter_source": 3
     },
     "parameter_publication_ready": false,
+    "parameter_source_decision_artifacts_present": true,
+    "parameter_source_decision_blocking_decision_count": 1,
+    "parameter_source_decision_can_mark_complete": false,
+    "parameter_source_decision_human_review_decision_count": 5,
+    "parameter_source_decision_publication_ready": false,
+    "parameter_source_decision_recorded": false,
+    "parameter_source_decision_row_count": 6,
+    "parameter_source_decision_status_counts": {
+      "blocked_missing_parameter_source_decision": 1,
+      "needs_human_review_parameter_source_decision": 5
+    },
     "source_readiness_blocking_request_count": 1,
     "source_readiness_can_mark_complete": false,
     "source_readiness_human_review_request_count": 5,
@@ -189,11 +220,15 @@ Formal acceptance artifacts:
     "data/parameters/parameter_evidence_priority_packet.csv",
     "data/parameters/parameter_evidence_priority_manifest.json",
     "docs/parameter_evidence_priority_packet.md",
+    "data/parameters/parameter_source_decision_packet.csv",
+    "data/parameters/parameter_source_decision_manifest.json",
+    "docs/parameter_source_decision_packet.md",
     "scripts/audit_parameter_evidence.py",
     "scripts/write_parameter_review_packet.py",
     "scripts/write_parameter_evidence_source_request_packet.py",
     "scripts/write_parameter_source_readiness_packet.py",
-    "scripts/write_parameter_evidence_priority_packet.py"
+    "scripts/write_parameter_evidence_priority_packet.py",
+    "scripts/write_parameter_source_decision_packet.py"
   ],
   "gate_id": "parameter_evidence",
   "label": "Parameter Evidence",

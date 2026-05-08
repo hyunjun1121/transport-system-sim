@@ -91,6 +91,10 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         "data/parameters/parameter_evidence_priority_packet.csv"
         in evidence_agent.review_packet_paths
     )
+    assert (
+        "data/parameters/parameter_source_decision_packet.csv"
+        in evidence_agent.review_packet_paths
+    )
     assert "data/road/road_source_readiness_packet.csv" in (
         evidence_agent.review_packet_paths
     )
@@ -177,6 +181,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "publication_readiness_audit" in snapshot_ids
     assert "source_context_cache_request" in snapshot_ids
     assert "source_context_cache_decision" in snapshot_ids
+    assert "parameter_source_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
@@ -406,6 +411,27 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        parameter_source_decision_snapshot_path = (
+            root / "parameter_source_decision_manifest.json"
+        )
+        parameter_source_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 6,
+                    "blocking_decision_count": 1,
+                    "human_review_decision_count": 5,
+                    "decision_status_counts": {
+                        "blocked_missing_parameter_source_decision": 1,
+                        "needs_human_review_parameter_source_decision": 5,
+                    },
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "parameter_evidence_gate_closure_candidate_count": 0,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         formal_queue_snapshot_path = root / "formal_queue_manifest.json"
         formal_queue_snapshot_path.write_text(
             json.dumps(
@@ -573,6 +599,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     source_context_cache_decision_snapshot_path,
                 ),
                 (
+                    "parameter_source_decision",
+                    "Parameter Source Decisions",
+                    parameter_source_decision_snapshot_path,
+                ),
+                (
                     "formal_acceptance_blocker_queue",
                     "Formal Acceptance Blocker Queue",
                     formal_queue_snapshot_path,
@@ -684,6 +715,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 "blocked_missing_context_source_cache_or_exclusion_decision"
             ]
             == 4
+        )
+        assert snapshots["parameter_source_decision"]["row_count"] == 6
+        assert snapshots["parameter_source_decision"]["blocking_count"] == 1
+        assert snapshots["parameter_source_decision"]["human_review_count"] == 5
+        assert (
+            snapshots["parameter_source_decision"]["status_counts"][
+                "blocked_missing_parameter_source_decision"
+            ]
+            == 1
         )
         assert (
             snapshots["formal_acceptance_blocker_queue"]["blocking_count"]
