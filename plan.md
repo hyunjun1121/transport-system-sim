@@ -749,6 +749,13 @@ First pilot-smoke artifacts also exist:
   cache artifacts, available fetch or derivation helpers, and required reviewer
   actions without fetching public data, certifying licenses, or creating
   provenance acceptance.
+- `src/realworld/source_context_cache_decision_packet.py` and
+  `scripts/write_source_context_cache_decision_packet.py` now turn those four
+  context-cache requests into pending reviewer decision rows under
+  `data/manifests/source_context_cache_decision_packet.csv`. It keeps every
+  row blocked until a reviewed cache artifact, exclusion, or sensitivity-only
+  treatment is recorded outside the packet, and cannot create
+  `data/manifests/provenance_acceptance.json`.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed
@@ -833,8 +840,10 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
+.\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_context_cache_request_packet.py
+.\.venv\Scripts\python tests\test_realworld_source_context_cache_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
@@ -2058,6 +2067,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
+.\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py
@@ -2170,6 +2180,9 @@ Concrete next tasks:
    Use `data/manifests/source_context_cache_request_packet.csv` to turn each
    context-only public source into a reviewed cache action or explicit
    exclusion decision before final claims rely on it.
+   Use `data/manifests/source_context_cache_decision_packet.csv` to record the
+   pending cache, exclusion, or sensitivity-only reviewer decision for each
+   context-only source before provenance acceptance is drafted.
    Use `docs/acceptance_decision_templates.md` and
    `data/manifests/acceptance_templates/` only as non-approval starting points
    after those reviews; copy a template to a formal acceptance path only when

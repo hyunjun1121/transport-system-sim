@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T17:52:14+00:00",
+  "generated_at": "2026-05-08T18:03:28+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -25,8 +25,8 @@
       "can_mark_complete": false,
       "gate_id": "data_provenance",
       "record_path": "data/manifests/agent_reviews/data_provenance__osm_source_license_provenance_review_agent.json",
-      "required_action_count": 12,
-      "risk_count": 12,
+      "required_action_count": 19,
+      "risk_count": 19,
       "status": "blocked"
     },
     {
@@ -145,6 +145,13 @@
     "data_provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
     "data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "data_provenance: source context cache request: formal provenance acceptance record is absent",
+    "data_provenance: source context cache decision: formal provenance acceptance record is absent",
+    "data_provenance: source context cache decision: cache/exclusion decisions are pending for context-only public sources",
+    "data_provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
+    "data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
     "graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review",
@@ -282,6 +289,13 @@
     "Data Provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
     "Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "Data Provenance: source context cache request: formal provenance acceptance record is absent",
+    "Data Provenance: source context cache decision: formal provenance acceptance record is absent",
+    "Data Provenance: source context cache decision: cache/exclusion decisions are pending for context-only public sources",
+    "Data Provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
+    "Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence",
     "Parameter Evidence: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence",
     "Parameter Evidence: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence",
@@ -430,6 +444,39 @@
       "snapshot_id": "source_context_cache_request",
       "status_counts": {
         "blocked_missing_context_source_cache": 4
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Source Context Cache Decisions",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_context_cache_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "formal provenance acceptance record is absent",
+        "cache/exclusion decisions are pending for context-only public sources",
+        "retained context sources still require license, attribution, snapshot, and reproducibility review",
+        "ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
+        "metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
+        "seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+        "seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present"
+      ],
+      "result_scope": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
+      "review_items": [
+        "choose cache, exclude, or sensitivity-only treatment for each context source",
+        "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
+        "retain raw responses and SHA256 evidence when a source is cached",
+        "derive downstream rail evidence only after retained source extracts are reviewed",
+        "record final provenance only in data/manifests/provenance_acceptance.json"
+      ],
+      "row_count": 4,
+      "snapshot_id": "source_context_cache_decision",
+      "status_counts": {
+        "blocked_missing_context_source_cache_or_exclusion_decision": 4
       }
     },
     {
@@ -1141,7 +1188,7 @@
       }
     },
     {
-      "blocking_count": 3,
+      "blocking_count": 5,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1163,14 +1210,14 @@
       "row_count": 8,
       "snapshot_id": "reproducibility_review",
       "status_counts": {
+        "blocked_dirty_worktree": 1,
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
+        "blocked_untracked_reproducibility_artifacts": 1,
         "ready_for_review_bounded_clean_checkout_smoke": 1,
-        "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
-        "ready_for_review_no_cloned_repo_runtime_imports": 1,
-        "ready_for_review_no_untracked_reproducibility_artifacts": 1
+        "ready_for_review_no_cloned_repo_runtime_imports": 1
       }
     },
     {
@@ -1372,11 +1419,11 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 655
+        "present": 665
       }
     },
     {
-      "blocking_count": 0,
+      "blocking_count": 14,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1385,12 +1432,33 @@
       "manifest_valid": true,
       "path": "data/validation/tracked_artifact_audit_manifest.json",
       "publication_ready": false,
-      "remaining_blockers": [],
+      "remaining_blockers": [
+        "scripts/audit_plan_artifacts.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "scripts/run_acceptance_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "src/realworld/reproducibility_smoke.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_acceptance_orchestration.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_final_study_readiness.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "tests/test_realworld_plan_audit.py: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/source_context_cache_decision_manifest.json: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "data/manifests/source_context_cache_decision_packet.csv: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "docs/source_context_cache_decision_packet.md: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "scripts/write_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "src/realworld/source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope.",
+        "tests/test_realworld_source_context_cache_decision_packet.py: Add to version control, package explicitly, or exclude from accepted reproduction scope."
+      ],
       "result_scope": "",
       "review_items": [],
-      "row_count": 0,
+      "row_count": 14,
       "snapshot_id": "tracked_artifact_audit",
-      "status_counts": {}
+      "status_counts": {
+        "data_or_manifest": 2,
+        "documentation": 1,
+        "realworld_code": 4,
+        "script": 3,
+        "test": 4
+      }
     },
     {
       "blocking_count": 12,

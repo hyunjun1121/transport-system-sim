@@ -75,6 +75,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/source_context_cache_request_packet.csv" in (
         provenance_agent.review_packet_paths
     )
+    assert "data/manifests/source_context_cache_decision_packet.csv" in (
+        provenance_agent.review_packet_paths
+    )
     assert "data/manifests/current_goal_completion_audit.json" in (
         provenance_agent.reviewed_inputs
     )
@@ -173,6 +176,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "current_goal_completion_audit" in snapshot_ids
     assert "publication_readiness_audit" in snapshot_ids
     assert "source_context_cache_request" in snapshot_ids
+    assert "source_context_cache_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
@@ -382,6 +386,26 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        source_context_cache_decision_snapshot_path = (
+            root / "source_context_cache_decision_manifest.json"
+        )
+        source_context_cache_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 4,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 0,
+                    "decision_status_counts": {
+                        "blocked_missing_context_source_cache_or_exclusion_decision": 4
+                    },
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "provenance_gate_closure_candidate_count": 0,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         formal_queue_snapshot_path = root / "formal_queue_manifest.json"
         formal_queue_snapshot_path.write_text(
             json.dumps(
@@ -544,6 +568,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     source_context_cache_snapshot_path,
                 ),
                 (
+                    "source_context_cache_decision",
+                    "Source Context Cache Decisions",
+                    source_context_cache_decision_snapshot_path,
+                ),
+                (
                     "formal_acceptance_blocker_queue",
                     "Formal Acceptance Blocker Queue",
                     formal_queue_snapshot_path,
@@ -645,6 +674,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert (
             snapshots["source_context_cache_request"]["status_counts"][
                 "blocked_missing_context_source_cache"
+            ]
+            == 4
+        )
+        assert snapshots["source_context_cache_decision"]["row_count"] == 4
+        assert snapshots["source_context_cache_decision"]["blocking_count"] == 4
+        assert (
+            snapshots["source_context_cache_decision"]["status_counts"][
+                "blocked_missing_context_source_cache_or_exclusion_decision"
             ]
             == 4
         )

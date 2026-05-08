@@ -6,16 +6,29 @@ This audit checks whether current changed artifacts would be present in a clean 
 
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
-- Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Changed reproducibility artifacts: 14
+- Blocking changed artifacts: 14
+- Untracked artifacts: 6
+- Modified or staged artifacts: 8
 
 ## Changed Artifacts
 
 | Status | Category | Path | Required Action |
 | --- | --- | --- | --- |
-| none | none | `.` | No changed reproducibility artifact candidates found. |
+| M | script | `scripts/audit_plan_artifacts.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | script | `scripts/run_acceptance_audit.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | realworld_code | `src/realworld/acceptance_orchestration.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | realworld_code | `src/realworld/final_study_readiness.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | realworld_code | `src/realworld/reproducibility_smoke.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | test | `tests/test_realworld_acceptance_orchestration.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | test | `tests/test_realworld_final_study_readiness.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | test | `tests/test_realworld_plan_audit.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| ?? | data_or_manifest | `data/manifests/source_context_cache_decision_manifest.json` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | data_or_manifest | `data/manifests/source_context_cache_decision_packet.csv` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | documentation | `docs/source_context_cache_decision_packet.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | script | `scripts/write_source_context_cache_decision_packet.py` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | realworld_code | `src/realworld/source_context_cache_decision_packet.py` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | test | `tests/test_realworld_source_context_cache_decision_packet.py` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 
 ## Use
 

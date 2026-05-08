@@ -74,7 +74,7 @@
   "formal_record_present": false,
   "formal_target": "docs/final_study_audit.md",
   "gate": "final_audit_document",
-  "generated_at": "2026-05-08T17:51:45+00:00",
+  "generated_at": "2026-05-08T18:02:59+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

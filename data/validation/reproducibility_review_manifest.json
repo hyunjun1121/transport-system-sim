@@ -18,15 +18,15 @@
   "clean_checkout_smoke_present": true,
   "clean_checkout_smoke_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
   "clean_checkout_smoke_source_commit": "2be0bbe0fbca879d345f0a5a16f5d3741c21950b",
-  "clean_checkout_smoke_source_commit_lag_count": 1,
+  "clean_checkout_smoke_source_commit_lag_count": 2,
   "clean_checkout_smoke_source_commit_reachable_from_review_head": true,
   "clean_checkout_smoke_source_commit_relation_to_review_head": "ancestor_of_review_head",
   "clean_checkout_test_performed": true,
   "command_count": 46,
   "full_clean_environment_tested": false,
-  "git_modified_or_staged_count": 0,
-  "git_status_line_count": 0,
-  "git_untracked_count": 0,
+  "git_modified_or_staged_count": 8,
+  "git_status_line_count": 14,
+  "git_untracked_count": 6,
   "input_artifact_paths": {
     "current_goal_completion_audit_manifest": "data/manifests/current_goal_completion_audit.json",
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
@@ -41,7 +41,7 @@
   "reproducibility_acceptance_record_present": false,
   "reproducibility_manifest_scope": "scaffold-only real-world pilot package",
   "result_scope": "reproducibility_review_packet_not_reproducibility_acceptance",
-  "review_git_head_commit": "f7e9e378c722730267d4ead959d13a47cff59aaf",
+  "review_git_head_commit": "60701bf77602107d23e7623b4969eace6483d276",
   "review_items": [
     "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
     "run clean-checkout validation from a fresh clone or exported package and preserve command logs",
@@ -55,14 +55,14 @@
   "runtime_cloned_repo_import_hits": [],
   "schema_version": 1,
   "status_counts": {
+    "blocked_dirty_worktree": 1,
     "blocked_full_clean_checkout_not_run": 1,
     "blocked_no_reproducibility_acceptance_record": 1,
     "blocked_scaffold_only_manifest_scope": 1,
+    "blocked_untracked_reproducibility_artifacts": 1,
     "ready_for_review_bounded_clean_checkout_smoke": 1,
-    "ready_for_review_clean_worktree": 1,
     "ready_for_review_command_ladder_present": 1,
-    "ready_for_review_no_cloned_repo_runtime_imports": 1,
-    "ready_for_review_no_untracked_reproducibility_artifacts": 1
+    "ready_for_review_no_cloned_repo_runtime_imports": 1
   },
   "validation_command_count": 72
 }

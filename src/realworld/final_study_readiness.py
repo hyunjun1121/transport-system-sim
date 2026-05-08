@@ -94,6 +94,11 @@ from src.realworld.source_context_cache_request_packet import (
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_MANIFEST_PATH,
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH,
 )
+from src.realworld.source_context_cache_decision_packet import (
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_DOC_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH,
+)
 from src.realworld.validation_acceptance import summarize_validation_acceptance
 from src.realworld.validation_benchmark_decision_packet import (
     DEFAULT_VALIDATION_BENCHMARK_DECISION_DOC_PATH,
@@ -220,6 +225,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     source_context_cache_request_manifest = _load_json(
         DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_MANIFEST_PATH
     )
+    source_context_cache_decision_manifest = _load_json(
+        DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH
+    )
     rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
     rail_evidence_priority_manifest = _load_json(
         DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH
@@ -285,6 +293,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             source_url_remediation_manifest,
             source_provenance_priority_manifest,
             source_context_cache_request_manifest,
+            source_context_cache_decision_manifest,
         ),
         _parameter_gate(
             parameter_audit,
@@ -808,6 +817,7 @@ def _data_provenance_gate(
     source_url_remediation_manifest: dict[str, Any] | None = None,
     source_provenance_priority_manifest: dict[str, Any] | None = None,
     source_context_cache_request_manifest: dict[str, Any] | None = None,
+    source_context_cache_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest) and bool(
         source_provenance.get("manifest_present", False)
@@ -820,6 +830,7 @@ def _data_provenance_gate(
     url_remediation_manifest = source_url_remediation_manifest or {}
     source_priority = source_provenance_priority_manifest or {}
     source_context_cache = source_context_cache_request_manifest or {}
+    source_context_decision = source_context_cache_decision_manifest or {}
     source_priority_artifacts_present = (
         DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH.exists()
@@ -829,6 +840,11 @@ def _data_provenance_gate(
         DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH.exists()
         and DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_MANIFEST_PATH.exists()
         and DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_DOC_PATH.exists()
+    )
+    source_context_decision_artifacts_present = (
+        DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH.exists()
+        and DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_DOC_PATH.exists()
     )
     scope_blocked = "scaffold" in scope.lower()
     ready = (
@@ -855,6 +871,10 @@ def _data_provenance_gate(
         f"source context cache request: {item}"
         for item in source_context_cache.get("remaining_blockers", [])
     )
+    blockers.extend(
+        f"source context cache decision: {item}"
+        for item in source_context_decision.get("remaining_blockers", [])
+    )
     return _gate(
         "data_provenance",
         "Data Provenance",
@@ -873,12 +893,15 @@ def _data_provenance_gate(
             "data/manifests/source_provenance_priority_manifest.json",
             "data/manifests/source_context_cache_request_packet.csv",
             "data/manifests/source_context_cache_request_manifest.json",
+            "data/manifests/source_context_cache_decision_packet.csv",
+            "data/manifests/source_context_cache_decision_manifest.json",
             "data/manifests/reproducibility_manifest.json",
             "docs/source_license_review_packet.md",
             "docs/source_url_review_packet.md",
             "docs/source_url_remediation_packet.md",
             "docs/source_provenance_priority_packet.md",
             "docs/source_context_cache_request_packet.md",
+            "docs/source_context_cache_decision_packet.md",
             "docs/reproducibility_package.md",
             "docs/pilot_region_data_card.md",
             "scripts/audit_source_provenance.py",
@@ -887,6 +910,7 @@ def _data_provenance_gate(
             "scripts/write_source_url_remediation_packet.py",
             "scripts/write_source_provenance_priority_packet.py",
             "scripts/write_source_context_cache_request_packet.py",
+            "scripts/write_source_context_cache_decision_packet.py",
         ],
         blockers=blockers,
         details={
@@ -1022,6 +1046,32 @@ def _data_provenance_gate(
             "source_context_cache_request_can_mark_complete": source_context_cache.get(
                 "can_mark_complete",
                 False,
+            ),
+            "source_context_cache_decision_artifacts_present": (
+                source_context_decision_artifacts_present
+            ),
+            "source_context_cache_decision_row_count": source_context_decision.get(
+                "row_count",
+                0,
+            ),
+            "source_context_cache_decision_blocking_decision_count": (
+                source_context_decision.get("blocking_decision_count", 0)
+            ),
+            "source_context_cache_decision_human_review_decision_count": (
+                source_context_decision.get("human_review_decision_count", 0)
+            ),
+            "source_context_cache_decision_status_counts": (
+                source_context_decision.get("decision_status_counts", {})
+            ),
+            "source_context_cache_decision_recorded": source_context_decision.get(
+                "cache_or_exclusion_decision_recorded",
+                False,
+            ),
+            "source_context_cache_decision_publication_ready": (
+                source_context_decision.get("publication_ready", False)
+            ),
+            "source_context_cache_decision_can_mark_complete": (
+                source_context_decision.get("can_mark_complete", False)
             ),
             "scope": scope,
             "remaining_upgrade_count": len(remaining),

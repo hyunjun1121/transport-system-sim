@@ -154,6 +154,10 @@ from src.realworld.source_context_cache_request_packet import (  # noqa: E402
     build_source_context_cache_request_rows,
     write_source_context_cache_request_packet,
 )
+from src.realworld.source_context_cache_decision_packet import (  # noqa: E402
+    build_source_context_cache_decision_rows,
+    write_source_context_cache_decision_packet,
+)
 from src.realworld.reproducibility_review_packet import (  # noqa: E402
     build_reproducibility_review_rows,
     write_reproducibility_review_packet,
@@ -456,6 +460,13 @@ def _refresh_existing_review_packets(
     )
     write_source_context_cache_request_packet(rows=source_context_cache_rows)
     refreshed.append("data/manifests/source_context_cache_request_packet.csv")
+    source_context_cache_decision_rows = build_source_context_cache_decision_rows(
+        request_rows=source_context_cache_rows,
+    )
+    write_source_context_cache_decision_packet(
+        rows=source_context_cache_decision_rows,
+    )
+    refreshed.append("data/manifests/source_context_cache_decision_packet.csv")
     claim_alignment_rows = build_claim_alignment_review_rows()
     write_claim_alignment_review_packet(rows=claim_alignment_rows)
     refreshed.append("data/manifests/claim_alignment_review_packet.csv")

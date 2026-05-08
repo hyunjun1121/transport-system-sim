@@ -237,6 +237,11 @@ from src.realworld.source_context_cache_request_packet import (  # noqa: E402
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_MANIFEST_PATH,
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH,
 )
+from src.realworld.source_context_cache_decision_packet import (  # noqa: E402
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_DOC_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH,
+)
 from src.realworld.tracked_artifact_audit import (  # noqa: E402
     DEFAULT_TRACKED_ARTIFACT_AUDIT_CSV,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC,
@@ -403,6 +408,11 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "source_context_cache_request_packet",
         DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH,
+        4,
+    ),
+    CsvExpectation(
+        "source_context_cache_decision_packet",
+        DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH,
         4,
     ),
     CsvExpectation(
@@ -770,6 +780,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "source_context_cache_decision_manifest",
+        DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "rail_fetch_readiness_manifest",
         DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH,
     ),
@@ -1055,6 +1069,7 @@ DOC_EXPECTATIONS = (
     DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH,
     DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH,
     DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_DOC_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_DOC_PATH,
     ROOT / "docs" / "manuscript_acceptance_schema.md",
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_DOC_PATH,
     DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH,

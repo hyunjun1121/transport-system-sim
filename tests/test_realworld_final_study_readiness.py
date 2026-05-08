@@ -124,6 +124,24 @@ def test_current_final_study_readiness_is_blocked() -> None:
         ]
         == 4
     )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_context_cache_decision_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_context_cache_decision_row_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_context_cache_decision_blocking_decision_count"
+        ]
+        == 4
+    )
     assert any(
         "source provenance priority: context-only public sources still need"
         in item
@@ -131,6 +149,11 @@ def test_current_final_study_readiness_is_blocked() -> None:
     )
     assert any(
         "source context cache request: context-only public sources still lack"
+        in item
+        for item in gate_map["data_provenance"]["blockers"]
+    )
+    assert any(
+        "source context cache decision: cache/exclusion decisions are pending"
         in item
         for item in gate_map["data_provenance"]["blockers"]
     )

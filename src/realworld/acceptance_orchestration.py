@@ -49,6 +49,14 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         / "source_context_cache_request_manifest.json",
     ),
     (
+        "source_context_cache_decision",
+        "Source Context Cache Decisions",
+        PROJECT_ROOT
+        / "data"
+        / "manifests"
+        / "source_context_cache_decision_manifest.json",
+    ),
+    (
         "source_license_review",
         "Source/License Review",
         PROJECT_ROOT / "data" / "manifests" / "source_license_review_manifest.json",
@@ -338,6 +346,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/source_url_remediation_packet.csv",
             "data/manifests/source_provenance_priority_packet.csv",
             "data/manifests/source_context_cache_request_packet.csv",
+            "data/manifests/source_context_cache_decision_packet.csv",
             "data/manifests/reproducibility_manifest.json",
             "data/cache/pilot_region_road_manifest.json",
             "cloned_repo_manifest.md",
@@ -349,6 +358,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/source_url_remediation_manifest.json",
             "data/manifests/source_provenance_priority_manifest.json",
             "data/manifests/source_context_cache_request_manifest.json",
+            "data/manifests/source_context_cache_decision_manifest.json",
             "data/manifests/reproducibility_manifest.json",
             "data/manifests/current_goal_completion_audit.json",
             "docs/reproducibility_package.md",
@@ -360,6 +370,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/source_url_remediation_packet.csv",
             "data/manifests/source_provenance_priority_packet.csv",
             "data/manifests/source_context_cache_request_packet.csv",
+            "data/manifests/source_context_cache_decision_packet.csv",
             "docs/review_packets/data_provenance.md",
         ),
         decision_rules=(
