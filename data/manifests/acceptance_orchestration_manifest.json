@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T21:09:47+00:00",
+  "generated_at": "2026-05-08T21:30:59+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -125,8 +125,8 @@
       "can_mark_complete": false,
       "gate_id": "final_audit",
       "record_path": "data/manifests/agent_reviews/final_audit__final_independent_audit_agent.json",
-      "required_action_count": 5,
-      "risk_count": 5,
+      "required_action_count": 11,
+      "risk_count": 11,
       "status": "blocked"
     }
   ],
@@ -303,6 +303,12 @@
     "final_audit: Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence.",
     "final_audit: create docs/final_study_audit.md after all other gates close",
     "final_audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+    "final_audit: resolve final-audit decision blockers before final-audit acceptance",
+    "final_audit: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+    "final_audit: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
+    "final_audit: final-audit decision: docs/final_study_audit.md is absent",
+    "final_audit: final-audit decision: data/manifests/final_audit_acceptance.json is absent",
+    "final_audit: review final-audit human-decision rows before final-audit acceptance",
     "final_audit: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
     "Pilot Region Accepted: create an explicit pilot acceptance record after privacy and case-scope review",
     "Pilot Region Accepted: resolve pilot-region decision blockers before pilot acceptance",
@@ -453,6 +459,12 @@
     "Reproducibility: review reproducibility human-decision rows before reproducibility acceptance",
     "Final Audit: create docs/final_study_audit.md after all other gates close",
     "Final Audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+    "Final Audit: resolve final-audit decision blockers before final-audit acceptance",
+    "Final Audit: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+    "Final Audit: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
+    "Final Audit: final-audit decision: docs/final_study_audit.md is absent",
+    "Final Audit: final-audit decision: data/manifests/final_audit_acceptance.json is absent",
+    "Final Audit: review final-audit human-decision rows before final-audit acceptance",
     "Final Audit: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
   ],
   "review_index_path": "docs/review_packets/acceptance_review_index.md",
@@ -1521,7 +1533,7 @@
       }
     },
     {
-      "blocking_count": 3,
+      "blocking_count": 5,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1543,14 +1555,14 @@
       "row_count": 8,
       "snapshot_id": "reproducibility_review",
       "status_counts": {
+        "blocked_dirty_worktree": 1,
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
+        "blocked_untracked_reproducibility_artifacts": 1,
         "ready_for_review_bounded_clean_checkout_smoke": 1,
-        "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
-        "ready_for_review_no_cloned_repo_runtime_imports": 1,
-        "ready_for_review_no_untracked_reproducibility_artifacts": 1
+        "ready_for_review_no_cloned_repo_runtime_imports": 1
       }
     },
     {
@@ -1587,6 +1599,42 @@
         "needs_human_review_command_ladder_scope": 1,
         "needs_human_review_committed_package_state": 1,
         "needs_human_review_runtime_import_boundary": 1
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 3,
+      "label": "Final Audit Decision",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/final_audit_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+        "required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
+        "docs/final_study_audit.md is absent",
+        "data/manifests/final_audit_acceptance.json is absent"
+      ],
+      "result_scope": "Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence.",
+      "review_items": [
+        "confirm all pre-final gates are ready before final audit",
+        "confirm every required formal acceptance artifact is reviewed and non-template",
+        "author docs/final_study_audit.md only after upstream acceptance closes",
+        "record final_audit_acceptance.json only after prompt-to-artifact review",
+        "preserve the not-operational claim boundary in final-audit wording"
+      ],
+      "row_count": 7,
+      "snapshot_id": "final_audit_decision",
+      "status_counts": {
+        "blocked_missing_final_audit_acceptance_record": 1,
+        "blocked_missing_final_study_audit_document": 1,
+        "blocked_missing_formal_acceptance_artifacts": 1,
+        "blocked_pre_final_gates_not_ready": 1,
+        "needs_human_review_final_packet_handoff": 1,
+        "needs_human_review_not_operational_boundary": 1,
+        "needs_human_review_proxy_signal_boundary": 1
       }
     },
     {
@@ -1788,11 +1836,11 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 768
+        "present": 777
       }
     },
     {
-      "blocking_count": 0,
+      "blocking_count": 76,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1801,12 +1849,72 @@
       "manifest_valid": true,
       "path": "data/validation/tracked_artifact_audit_manifest.json",
       "publication_ready": false,
-      "remaining_blockers": [],
+      "remaining_blockers": [
+        "agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/acceptance_decision_template_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/acceptance_orchestration_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/acceptance_task_assignments_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/acceptance_templates/final_audit_acceptance_template.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_review_path_audit.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/cached_osm_input__road_rail_parameter_evidence_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/data_provenance__osm_source_license_provenance_review_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/final_audit__final_independent_audit_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/full_experiment_output__full_experiment_package_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/graph_scale_strategy__graph_scale_method_review_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/manuscript_report_alignment__paper_report_claim_alignment_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/pilot_region_accepted__pilot_region_privacy_review_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/rail_evidence__road_rail_parameter_evidence_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/reproducibility__clean_checkout_reproducibility_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/sensitivity_analysis__sensitivity_analysis_review_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/agent_reviews/validation_package__validation_benchmark_strategy_agent.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/current_goal_completion_audit.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/data_provenance_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/final_audit_document_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/final_audit_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/full_experiment_output_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/graph_scale_strategy_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/manuscript_report_alignment_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/parameter_acceptance_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/pilot_region_accepted_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/reproducibility_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/road_class_overrides_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/sensitivity_analysis_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/draft_acceptance/validation_package_pre_review.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/formal_acceptance_blocker_queue_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/formal_acceptance_evidence_matrix.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/formal_acceptance_evidence_matrix_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/manifests/publication_readiness_audit.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_decision_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_review_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_review_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/agent_review_path_audit.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/current_goal_completion_audit.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/formal_acceptance_evidence_matrix.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/formal_acceptance_pre_review.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/reproducibility_decision_packet.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/acceptance_review_index.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/cached_osm_input.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/data_provenance.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/final_audit.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/full_experiment_output.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/graph_scale_strategy.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "26 additional changed artifacts require packaging review"
+      ],
       "result_scope": "",
       "review_items": [],
-      "row_count": 0,
+      "row_count": 76,
       "snapshot_id": "tracked_artifact_audit",
-      "status_counts": {}
+      "status_counts": {
+        "agent_definition": 1,
+        "data_or_manifest": 40,
+        "documentation": 19,
+        "realworld_code": 7,
+        "root_document_or_config": 2,
+        "script": 3,
+        "test": 4
+      }
     },
     {
       "blocking_count": 12,

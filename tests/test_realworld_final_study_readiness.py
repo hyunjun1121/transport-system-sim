@@ -644,6 +644,32 @@ def test_current_final_study_readiness_is_blocked() -> None:
         for item in gate_map["reproducibility"]["blockers"]
     )
     assert gate_map["final_audit"]["ready"] is False
+    assert (
+        gate_map["final_audit"]["details"][
+            "final_audit_decision_manifest_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["final_audit"]["details"]["final_audit_decision_row_count"] == 7
+    )
+    assert (
+        gate_map["final_audit"]["details"][
+            "final_audit_decision_blocking_decision_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["final_audit"]["details"][
+            "final_audit_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert any(
+        "final-audit decision: data/manifests/final_audit_acceptance.json is absent"
+        in item
+        for item in gate_map["final_audit"]["blockers"]
+    )
     assert summary["remaining_blockers"]
 
     print("PASS: final-study readiness audit blocks scaffold-level completion")

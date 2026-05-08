@@ -197,6 +197,11 @@ Implemented extension modules now also cover:
 - `final_audit_acceptance.py`: explicit independent prompt-to-artifact
   completion, gate evidence, no-proxy completion, gate-list/count, and
   not-operational claim-boundary acceptance records.
+- `final_audit_decision_packet.py`: focused final-audit decision worksheet for
+  pre-final gate closure, formal acceptance artifacts, final-study audit
+  document creation, proxy-signal rejection, packet handoff, and final-audit
+  acceptance boundaries. It does not create `docs/final_study_audit.md` or
+  `data/manifests/final_audit_acceptance.json`.
 - `plausibility.py`: offline route, connector, speed, and capacity sanity
   checks for pilot scaffolds.
 - `accessibility.py`: route-level directed edge-removal accessibility-loss and

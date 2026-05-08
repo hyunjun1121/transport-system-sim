@@ -230,6 +230,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "validation" / "reproducibility_decision_manifest.json",
     ),
     (
+        "final_audit_decision",
+        "Final Audit Decision",
+        PROJECT_ROOT / "data" / "manifests" / "final_audit_decision_manifest.json",
+    ),
+    (
         "acceptance_decision_templates",
         "Acceptance Decision Templates",
         PROJECT_ROOT / "data" / "manifests" / "acceptance_decision_template_manifest.json",
@@ -840,6 +845,8 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/acceptance_orchestration_manifest.json",
             "data/manifests/formal_acceptance_evidence_matrix.csv",
             "data/manifests/formal_acceptance_package_audit.json",
+            "data/manifests/final_audit_decision_packet.csv",
+            "data/manifests/final_audit_decision_manifest.json",
         ),
         reviewed_inputs=(
             "docs/current_goal_completion_audit.md",
@@ -847,9 +854,14 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/acceptance_orchestration_manifest.json",
             "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
             "data/manifests/formal_acceptance_package_audit.json",
+            "docs/final_audit_decision_packet.md",
+            "data/manifests/final_audit_decision_manifest.json",
             "scripts/audit_final_study_readiness.py",
         ),
-        review_packet_paths=("docs/review_packets/final_audit.md",),
+        review_packet_paths=(
+            "data/manifests/final_audit_decision_packet.csv",
+            "docs/review_packets/final_audit.md",
+        ),
         decision_rules=(
             "Keep final_study_ready false unless every pre-final gate is accepted with evidence.",
             "Do not create docs/final_study_audit.md as a proxy for actual acceptance.",

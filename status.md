@@ -221,6 +221,12 @@ The codebase currently includes:
     records 7 non-approval decisions with 4 blocking decision rows, 3
     human-review rows, and
     `data/manifests/reproducibility_acceptance.json` still absent
+  - final-audit decision packet generation in
+    `src/realworld/final_audit_decision_packet.py` and
+    `scripts/write_final_audit_decision_packet.py`; the generated packet
+    records 7 non-approval decisions with 4 blocking decision rows, 3
+    human-review rows, and both `docs/final_study_audit.md` and
+    `data/manifests/final_audit_acceptance.json` still absent
   - bounded current-worktree reproducibility smoke in
     `src/realworld/reproducibility_smoke.py` and
     `scripts/run_reproducibility_smoke.py`; the current manifest records a

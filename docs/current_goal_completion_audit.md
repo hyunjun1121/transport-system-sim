@@ -37,7 +37,7 @@ The active objective is complete only when every final-study gate below is ready
 | Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+10 more | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>resolve experiment strategy-readiness blockers before experiment acceptance<br>experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated<br>+12 more |
 | Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+10 more | close evidence gates before final paper/report claims<br>create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>revise figure/table claim boundary from scaffold to accepted study scope<br>+15 more |
 | Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+8 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package<br>resolve reproducibility decision blockers before reproducibility acceptance<br>+5 more |
-| Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility |
+| Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json<br>data/manifests/final_audit_decision_packet.csv<br>data/manifests/final_audit_decision_manifest.json<br>+1 more | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>resolve final-audit decision blockers before final-audit acceptance<br>+6 more |
 
 ## Region-Scope Review Metadata
 
@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
-- Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Changed reproducibility artifacts: 76
+- Blocking changed artifacts: 76
+- Untracked artifacts: 6
+- Modified or staged artifacts: 70
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
@@ -260,6 +260,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_source_provenance_decision_packet.py
 .\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py
+.\.venv\Scripts\python scripts\write_final_audit_decision_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py

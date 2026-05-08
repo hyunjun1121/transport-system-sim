@@ -58,6 +58,10 @@ from src.realworld.experiment_strategy_readiness_packet import (  # noqa: E402
 from src.realworld.formal_acceptance_guard import (  # noqa: E402
     audit_formal_acceptance_artifacts,
 )
+from src.realworld.final_audit_decision_packet import (  # noqa: E402
+    build_final_audit_decision_rows,
+    write_final_audit_decision_packet,
+)
 from src.realworld.formal_acceptance_package import (  # noqa: E402
     write_formal_acceptance_package_audit,
 )
@@ -280,6 +284,9 @@ def main() -> int:
     refreshed.append("data/manifests/current_goal_completion_audit.json")
     publication_readiness = write_publication_readiness_audit()
     refreshed.append("data/manifests/publication_readiness_audit.json")
+    final_audit_decision_rows = build_final_audit_decision_rows()
+    write_final_audit_decision_packet(rows=final_audit_decision_rows)
+    refreshed.append("data/manifests/final_audit_decision_packet.csv")
     manifest = write_acceptance_orchestration_outputs()
     summary = {
         "acceptance_orchestration": manifest,

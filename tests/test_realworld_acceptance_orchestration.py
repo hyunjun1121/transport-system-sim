@@ -198,6 +198,15 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/current_goal_completion_audit.json" in (
         final_agent.source_paths
     )
+    assert "data/manifests/final_audit_decision_packet.csv" in (
+        final_agent.source_paths
+    )
+    assert "data/manifests/final_audit_decision_manifest.json" in (
+        final_agent.reviewed_inputs
+    )
+    assert "data/manifests/final_audit_decision_packet.csv" in (
+        final_agent.review_packet_paths
+    )
 
 
 def test_default_review_status_snapshots_cover_formal_workflow() -> None:
@@ -226,6 +235,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "figure_table_review" in snapshot_ids
     assert "manuscript_report_decision" in snapshot_ids
     assert "reproducibility_decision" in snapshot_ids
+    assert "final_audit_decision" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -435,6 +445,31 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "data/manifests/reproducibility_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        final_audit_decision_snapshot_path = (
+            root / "final_audit_decision_manifest.json"
+        )
+        final_audit_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 3,
+                    "final_audit_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_final_audit_acceptance_record": 1,
+                        "blocked_pre_final_gates_not_ready": 1,
+                        "needs_human_review_proxy_signal_boundary": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/final_audit_acceptance.json is absent"
                     ],
                 }
             )
@@ -802,6 +837,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     reproducibility_decision_snapshot_path,
                 ),
                 (
+                    "final_audit_decision",
+                    "Final Audit Decision",
+                    final_audit_decision_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -957,6 +997,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 1
         )
+        assert snapshots["final_audit_decision"]["row_count"] == 7
+        assert snapshots["final_audit_decision"]["blocking_count"] == 4
+        assert snapshots["final_audit_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["final_audit_decision"]["status_counts"][
+                "blocked_missing_final_audit_acceptance_record"
+            ]
+            == 1
+        )
         assert (
             snapshots["graph_scale_result_comparison"]["status_counts"][
                 "candidate_worsens"
@@ -1082,6 +1131,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Decision`" in index_text
         assert "`Experiment Design Decision`" in index_text
         assert "`Manuscript/Report Decision`" in index_text
+        assert "`Final Audit Decision`" in index_text
         assert "`Pilot Region Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Graph-Scale Method Decision`" in index_text
@@ -1114,6 +1164,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "parameter evidence: weak assumptions remain" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
         assert "blocked_missing_experiment_acceptance_record=1" in index_text
+        assert "blocked_missing_final_audit_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
         if not first_record_path.is_absolute():

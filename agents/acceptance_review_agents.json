@@ -523,6 +523,7 @@
         "Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence."
       ],
       "review_packet_paths": [
+        "data/manifests/final_audit_decision_packet.csv",
         "docs/review_packets/final_audit.md"
       ],
       "reviewed_inputs": [
@@ -531,6 +532,8 @@
         "data/manifests/acceptance_orchestration_manifest.json",
         "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
         "data/manifests/formal_acceptance_package_audit.json",
+        "docs/final_audit_decision_packet.md",
+        "data/manifests/final_audit_decision_manifest.json",
         "scripts/audit_final_study_readiness.py"
       ],
       "risks": [
@@ -543,7 +546,9 @@
         "data/manifests/current_goal_completion_audit.json",
         "data/manifests/acceptance_orchestration_manifest.json",
         "data/manifests/formal_acceptance_evidence_matrix.csv",
-        "data/manifests/formal_acceptance_package_audit.json"
+        "data/manifests/formal_acceptance_package_audit.json",
+        "data/manifests/final_audit_decision_packet.csv",
+        "data/manifests/final_audit_decision_manifest.json"
       ]
     }
   ],

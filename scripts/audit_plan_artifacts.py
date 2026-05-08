@@ -138,6 +138,11 @@ from src.realworld.reproducibility_decision_packet import (  # noqa: E402
     DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH,
     DEFAULT_REPRODUCIBILITY_DECISION_PACKET_PATH,
 )
+from src.realworld.final_audit_decision_packet import (  # noqa: E402
+    DEFAULT_FINAL_AUDIT_DECISION_DOC_PATH,
+    DEFAULT_FINAL_AUDIT_DECISION_MANIFEST_PATH,
+    DEFAULT_FINAL_AUDIT_DECISION_PACKET_PATH,
+)
 from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
     DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
     DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH,
@@ -721,6 +726,11 @@ CSV_EXPECTATIONS = (
         7,
     ),
     CsvExpectation(
+        "final_audit_decision_packet",
+        DEFAULT_FINAL_AUDIT_DECISION_PACKET_PATH,
+        7,
+    ),
+    CsvExpectation(
         "graph_scale_route_comparison",
         ROOT / "data" / "validation" / "graph_scale_route_comparison.csv",
         3,
@@ -1042,6 +1052,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "final_audit_decision_manifest",
+        DEFAULT_FINAL_AUDIT_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "acceptance_decision_template_manifest",
         DEFAULT_ACCEPTANCE_TEMPLATE_MANIFEST_PATH,
     ),
@@ -1202,6 +1216,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "reproducibility_package.md",
     ROOT / "docs" / "reproducibility_review_packet.md",
     DEFAULT_REPRODUCIBILITY_DECISION_DOC_PATH,
+    DEFAULT_FINAL_AUDIT_DECISION_DOC_PATH,
     DEFAULT_ACCEPTANCE_TEMPLATE_DOC_PATH,
     DEFAULT_BLOCKER_QUEUE_DOC_PATH,
     DEFAULT_TASK_ASSIGNMENT_DOC_PATH,

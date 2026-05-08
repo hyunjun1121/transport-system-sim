@@ -635,13 +635,22 @@
       "current_status": "blocked",
       "evidence_inspected": [
         "docs/final_study_audit.md",
-        "data/manifests/final_audit_acceptance.json"
+        "data/manifests/final_audit_acceptance.json",
+        "data/manifests/final_audit_decision_packet.csv",
+        "data/manifests/final_audit_decision_manifest.json",
+        "docs/final_audit_decision_packet.md"
       ],
       "gate_id": "final_audit",
       "label": "Final Audit",
       "missing_or_weak_requirements": [
         "create docs/final_study_audit.md after all other gates close",
         "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
+        "resolve final-audit decision blockers before final-audit acceptance",
+        "final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+        "final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
+        "final-audit decision: docs/final_study_audit.md is absent",
+        "final-audit decision: data/manifests/final_audit_acceptance.json is absent",
+        "review final-audit human-decision rows before final-audit acceptance",
         "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
       ],
       "ready": false

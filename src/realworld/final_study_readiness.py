@@ -14,6 +14,11 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from src.realworld.final_audit_acceptance import summarize_final_audit_acceptance
+from src.realworld.final_audit_decision_packet import (
+    DEFAULT_FINAL_AUDIT_DECISION_DOC_PATH,
+    DEFAULT_FINAL_AUDIT_DECISION_MANIFEST_PATH,
+    DEFAULT_FINAL_AUDIT_DECISION_PACKET_PATH,
+)
 from src.realworld.parameter_audit import audit_shipped_parameter_evidence
 from src.realworld.parameter_evidence_priority_packet import (
     DEFAULT_PARAMETER_EVIDENCE_PRIORITY_DOC_PATH,
@@ -265,6 +270,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     reproducibility_decision_manifest = _load_json(
         DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH
     )
+    final_audit_decision_manifest = _load_json(
+        DEFAULT_FINAL_AUDIT_DECISION_MANIFEST_PATH
+    )
     source_url_review_manifest = _load_json(DEFAULT_SOURCE_URL_REVIEW_MANIFEST_PATH)
     source_url_remediation_manifest = _load_json(
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
@@ -417,7 +425,11 @@ def audit_final_study_readiness() -> dict[str, Any]:
     ]
     gates = [
         *pre_final_gates,
-        _final_audit_gate(pre_final_gates, final_audit_acceptance),
+        _final_audit_gate(
+            pre_final_gates,
+            final_audit_acceptance,
+            final_audit_decision_manifest,
+        ),
     ]
     gate_map = {gate["gate_id"]: gate for gate in gates}
     missing_gate_ids = [
@@ -3038,10 +3050,14 @@ def _reproducibility_count_blockers(
 def _final_audit_gate(
     pre_final_gates: list[dict[str, Any]],
     final_audit_acceptance: dict[str, Any],
+    final_audit_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     text = _read_text(DEFAULT_FINAL_AUDIT_PATH)
     artifact_present = DEFAULT_FINAL_AUDIT_PATH.exists()
     acceptance_ready = bool(final_audit_acceptance["acceptance_ready"])
+    decision_manifest = final_audit_decision_manifest or {}
+    decision_blocking_count = _dict_int(decision_manifest, "blocking_decision_count")
+    decision_human_count = _dict_int(decision_manifest, "human_review_decision_count")
     count_blockers = _final_audit_count_blockers(
         pre_final_gates,
         final_audit_acceptance,
@@ -3052,6 +3068,9 @@ def _final_audit_gate(
         artifact_present
         and audit_text_ready
         and acceptance_ready
+        and bool(decision_manifest)
+        and decision_blocking_count == 0
+        and decision_human_count == 0
         and not count_blockers
         and not blocked_pre_final
     )
@@ -3064,6 +3083,20 @@ def _final_audit_gate(
         )
     if not acceptance_ready:
         blockers.extend(final_audit_acceptance["remaining_blockers"])
+    if not decision_manifest:
+        blockers.append("generate final-audit decision packet before final-audit acceptance")
+    elif decision_blocking_count:
+        blockers.append(
+            "resolve final-audit decision blockers before final-audit acceptance"
+        )
+        blockers.extend(
+            f"final-audit decision: {item}"
+            for item in decision_manifest.get("remaining_blockers", [])
+        )
+    if decision_human_count:
+        blockers.append(
+            "review final-audit human-decision rows before final-audit acceptance"
+        )
     blockers.extend(count_blockers)
     if blocked_pre_final:
         blockers.append(
@@ -3078,11 +3111,34 @@ def _final_audit_gate(
         evidence=[
             "docs/final_study_audit.md",
             "data/manifests/final_audit_acceptance.json",
+            "data/manifests/final_audit_decision_packet.csv",
+            "data/manifests/final_audit_decision_manifest.json",
+            "docs/final_audit_decision_packet.md",
         ],
         blockers=blockers,
         details={
             "acceptance_record_present": final_audit_acceptance["record_present"],
             "acceptance_path": final_audit_acceptance["path"],
+            "final_audit_decision_manifest_present": bool(decision_manifest),
+            "final_audit_decision_row_count": decision_manifest.get("row_count", 0),
+            "final_audit_decision_blocking_decision_count": decision_blocking_count,
+            "final_audit_decision_human_review_decision_count": decision_human_count,
+            "final_audit_decision_status_counts": decision_manifest.get(
+                "decision_status_counts",
+                {},
+            ),
+            "final_audit_decision_remaining_blockers": decision_manifest.get(
+                "remaining_blockers",
+                [],
+            ),
+            "final_audit_decision_publication_ready": decision_manifest.get(
+                "publication_ready",
+                False,
+            ),
+            "final_audit_decision_can_mark_complete": decision_manifest.get(
+                "can_mark_complete",
+                False,
+            ),
             "blocked_pre_final_gate_ids": blocked_pre_final,
             "expected_gate_count": final_audit_acceptance.get("expected_gate_count"),
             "pre_final_gate_count": len(pre_final_gates),

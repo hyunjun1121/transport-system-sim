@@ -20,7 +20,10 @@
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "evidence_paths": [
     "docs/final_study_audit.md",
-    "data/manifests/final_audit_acceptance.json"
+    "data/manifests/final_audit_acceptance.json",
+    "data/manifests/final_audit_decision_packet.csv",
+    "data/manifests/final_audit_decision_manifest.json",
+    "docs/final_audit_decision_packet.md"
   ],
   "expected_gate_count": 15,
   "final_study_ready": false,

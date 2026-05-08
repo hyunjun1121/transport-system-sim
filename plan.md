@@ -727,6 +727,13 @@ First pilot-smoke artifacts also exist:
   manifest scope, command-ladder scope, clean-checkout freshness, committed
   package state, runtime import boundaries, artifact regeneration, and the
   missing formal reproducibility acceptance boundary.
+- `src/realworld/final_audit_decision_packet.py` and
+  `scripts/write_final_audit_decision_packet.py` consolidate current
+  completion, formal-package, evidence-matrix, and orchestration evidence into
+  a 7-row non-approval decision packet for pre-final gate closure, formal
+  acceptance artifacts, `docs/final_study_audit.md`,
+  `data/manifests/final_audit_acceptance.json`, proxy-signal rejection,
+  reviewer handoff, and the not-operational claim boundary.
 - `src/realworld/reproducibility_smoke.py` and
   `scripts/run_reproducibility_smoke.py` run a bounded current-worktree smoke
   ladder. The current manifest records a passing bounded command ladder and
@@ -837,6 +844,11 @@ First pilot-smoke artifacts also exist:
   until an independent prompt-to-artifact audit verifies every pre-final gate,
   rejects proxy-only completion evidence, matches current gate lists/counts,
   and accepts the not-operational claim boundary.
+- `src/realworld/final_audit_decision_packet.py` keeps the final-audit
+  handoff explicit as a non-approval decision worksheet. The generated packet
+  records that pre-final gates, formal acceptance artifacts, the final-study
+  audit document, and the final-audit acceptance record remain blocked or
+  require review; it cannot close the final-audit gate.
 - `docs/plan_completion_audit.md` records the current plan-gate audit. It
   confirms that the executable quasi-real scaffold is in place while calibrated
   final-study claims remain blocked by pilot acceptance, stronger evidence, and
