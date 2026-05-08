@@ -212,7 +212,8 @@ Current generated artifact checks:
    helpers can create local caches when reviewed API requests and raw-response
    retention plans exist. Capacity is explicitly sensitivity-only. The current
    rail evidence cache still keeps headway, travel time, and availability as
-   documented assumption proxies until reviewed cached extracts are accepted.
+   documented assumption proxies until reviewed target source payloads are
+   accepted.
 5. Strengthen road speed/capacity, background traffic, disruption, fleet,
    transfer, demand/time, and censoring parameters with public, literature,
    agency, benchmark-calibrated, or expert-reviewed values. Use
