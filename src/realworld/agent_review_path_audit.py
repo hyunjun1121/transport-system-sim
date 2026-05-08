@@ -111,12 +111,13 @@ def audit_agent_review_paths(
 def write_agent_review_path_audit(
     *,
     root: str | Path = PROJECT_ROOT,
+    review_dir: str | Path | None = None,
     manifest_path: str | Path = DEFAULT_AGENT_REVIEW_PATH_AUDIT_MANIFEST,
     doc_path: str | Path = DEFAULT_AGENT_REVIEW_PATH_AUDIT_DOC,
 ) -> dict[str, Any]:
     """Write path-hygiene JSON and Markdown audit artifacts."""
 
-    summary = audit_agent_review_paths(root=root)
+    summary = audit_agent_review_paths(root=root, review_dir=review_dir)
     manifest = Path(manifest_path)
     doc = Path(doc_path)
     manifest.parent.mkdir(parents=True, exist_ok=True)

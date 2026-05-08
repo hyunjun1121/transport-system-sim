@@ -21,8 +21,9 @@ from src.realworld.acceptance_orchestration import (  # noqa: E402
 
 
 def test_agent_review_path_audit_allows_missing_formal_targets_only() -> None:
-    write_acceptance_orchestration_outputs()
-    summary = audit_agent_review_paths()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        review_dir = _write_temp_orchestration(Path(tmpdir))
+        summary = audit_agent_review_paths(root=ROOT, review_dir=review_dir)
     assert summary["record_count"] == 12
     assert summary["invalid_record_count"] == 0
     assert summary["missing_required_path_count"] == 0
@@ -60,10 +61,12 @@ def test_agent_review_path_audit_flags_missing_required_path() -> None:
 
 
 def test_write_agent_review_path_audit_outputs_files() -> None:
-    write_acceptance_orchestration_outputs()
     with tempfile.TemporaryDirectory() as tmpdir:
         root = Path(tmpdir)
+        review_dir = _write_temp_orchestration(root)
         summary = write_agent_review_path_audit(
+            root=ROOT,
+            review_dir=review_dir,
             manifest_path=root / "agent_review_path_audit.json",
             doc_path=root / "agent_review_path_audit.md",
         )
@@ -71,6 +74,19 @@ def test_write_agent_review_path_audit_outputs_files() -> None:
         assert loaded["record_count"] == summary["record_count"]
         assert (root / "agent_review_path_audit.md").exists()
         assert summary["can_mark_complete"] is False
+
+
+def _write_temp_orchestration(root: Path) -> Path:
+    review_dir = root / "agent_reviews"
+    write_acceptance_orchestration_outputs(
+        output_dir=review_dir,
+        review_packet_dir=root / "review_packets",
+        manifest_path=root / "acceptance_orchestration_manifest.json",
+        agent_definition_path=root / "agents.json",
+        agent_doc_path=root / "agents.md",
+        schema_path=root / "schema.json",
+    )
+    return review_dir
 
 
 if __name__ == "__main__":
