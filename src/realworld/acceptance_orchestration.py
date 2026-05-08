@@ -188,6 +188,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         "Formal Evidence Path Audit",
         PROJECT_ROOT / "data" / "manifests" / "formal_evidence_path_audit.json",
     ),
+    (
+        "agent_review_path_audit",
+        "Agent Review Path Audit",
+        PROJECT_ROOT / "data" / "manifests" / "agent_review_path_audit.json",
+    ),
 )
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "

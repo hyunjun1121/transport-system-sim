@@ -150,6 +150,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "formal_acceptance_pre_review" in snapshot_ids
     assert "formal_acceptance_package_audit" in snapshot_ids
     assert "formal_evidence_path_audit" in snapshot_ids
+    assert "agent_review_path_audit" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -299,6 +300,24 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        agent_path_snapshot_path = root / "agent_path_manifest.json"
+        agent_path_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "record_count": 12,
+                    "can_mark_complete": False,
+                    "agent_review_paths_ready": True,
+                    "missing_required_path_count": 0,
+                    "missing_formal_target_count": 36,
+                    "status_counts": {
+                        "missing_formal_target": 36,
+                        "present": 617,
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -337,6 +356,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "formal_acceptance_pre_review",
                     "Formal Acceptance Pre-Review",
                     pre_review_snapshot_path,
+                ),
+                (
+                    "agent_review_path_audit",
+                    "Agent Review Path Audit",
+                    agent_path_snapshot_path,
                 ),
             ),
         )
@@ -397,6 +421,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             snapshots["formal_acceptance_pre_review"]["human_review_count"]
             == 12
         )
+        assert snapshots["agent_review_path_audit"]["row_count"] == 12
+        assert snapshots["agent_review_path_audit"]["blocking_count"] == 0
+        assert (
+            snapshots["agent_review_path_audit"]["status_counts"][
+                "missing_formal_target"
+            ]
+            == 36
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
         assert index_path.exists()
@@ -410,9 +442,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Source URL Review`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
         assert "`Formal Acceptance Pre-Review`" in index_text
+        assert "`Agent Review Path Audit`" in index_text
         assert "candidate_worsens=24" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_evidence=8" in index_text
+        assert "missing_formal_target=36" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])

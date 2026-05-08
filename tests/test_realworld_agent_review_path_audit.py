@@ -28,6 +28,8 @@ def test_agent_review_path_audit_allows_missing_formal_targets_only() -> None:
     assert summary["invalid_record_count"] == 0
     assert summary["missing_required_path_count"] == 0
     assert summary["missing_formal_target_count"] >= 1
+    assert summary["status_counts"]["missing_formal_target"] >= 1
+    assert summary["status_counts"]["present"] >= 1
     assert summary["agent_review_paths_ready"] is True
     assert summary["can_mark_complete"] is False
 
@@ -59,6 +61,8 @@ def test_agent_review_path_audit_flags_missing_required_path() -> None:
     assert summary["agent_review_paths_ready"] is False
     assert summary["missing_required_path_count"] == 3
     assert summary["missing_formal_target_count"] == 1
+    assert summary["status_counts"]["missing_required_path"] == 3
+    assert summary["status_counts"]["missing_formal_target"] == 1
     assert any(
         row["field"] == "review_packet_paths"
         for row in summary["missing_required_paths"]
@@ -77,6 +81,7 @@ def test_write_agent_review_path_audit_outputs_files() -> None:
         )
         loaded = json.loads((root / "agent_review_path_audit.json").read_text())
         assert loaded["record_count"] == summary["record_count"]
+        assert loaded["status_counts"] == summary["status_counts"]
         assert (root / "agent_review_path_audit.md").exists()
         assert summary["can_mark_complete"] is False
 

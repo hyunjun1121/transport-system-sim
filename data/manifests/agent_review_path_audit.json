@@ -302,5 +302,9 @@
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "remaining_blockers": [],
-  "schema_version": 1
+  "schema_version": 1,
+  "status_counts": {
+    "missing_formal_target": 36,
+    "present": 617
+  }
 }

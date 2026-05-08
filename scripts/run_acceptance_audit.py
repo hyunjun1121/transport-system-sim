@@ -215,6 +215,7 @@ def main() -> int:
     manifest = write_acceptance_orchestration_outputs()
     agent_review_paths = write_agent_review_path_audit()
     refreshed.append("data/manifests/agent_review_path_audit.json")
+    manifest = write_acceptance_orchestration_outputs()
     tracked_artifact_rows = build_tracked_artifact_rows(
         git_status_lines=initial_git_status_lines,
     )

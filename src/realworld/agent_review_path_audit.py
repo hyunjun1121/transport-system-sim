@@ -89,6 +89,12 @@ def audit_agent_review_paths(
     ]
     existing = [check for check in checks if check.status == "present"]
     ready = not invalid_records and not missing_required and bool(record_paths)
+    status_counts = _status_counts(
+        present_count=len(existing),
+        missing_required_path_count=len(missing_required),
+        missing_formal_target_count=len(missing_formal),
+        invalid_record_count=len(invalid_records),
+    )
     return {
         "schema_version": 1,
         "claim_boundary": AGENT_REVIEW_PATH_CLAIM_BOUNDARY,
@@ -99,6 +105,7 @@ def audit_agent_review_paths(
         "present_path_count": len(existing),
         "missing_required_path_count": len(missing_required),
         "missing_formal_target_count": len(missing_formal),
+        "status_counts": status_counts,
         "agent_review_paths_ready": ready,
         "can_mark_complete": False,
         "invalid_records": invalid_records,
@@ -147,6 +154,7 @@ def build_agent_review_path_audit_markdown(summary: dict[str, Any]) -> str:
         f"- Present paths: {summary.get('present_path_count', 0)}",
         f"- Missing required paths: {summary.get('missing_required_path_count', 0)}",
         f"- Missing formal targets: {summary.get('missing_formal_target_count', 0)}",
+        f"- Status counts: {_format_status_counts(summary.get('status_counts', {}))}",
         "",
     ]
     missing_required = summary.get("missing_required_paths", [])
@@ -237,6 +245,30 @@ def _remaining_blockers(
             f"create or correct {check.field} path {check.path} in {check.record_path}"
         )
     return blockers
+
+
+def _status_counts(
+    *,
+    present_count: int,
+    missing_required_path_count: int,
+    missing_formal_target_count: int,
+    invalid_record_count: int,
+) -> dict[str, int]:
+    counts = {
+        "present": present_count,
+        "missing_formal_target": missing_formal_target_count,
+    }
+    if missing_required_path_count:
+        counts["missing_required_path"] = missing_required_path_count
+    if invalid_record_count:
+        counts["invalid_record"] = invalid_record_count
+    return counts
+
+
+def _format_status_counts(value: object) -> str:
+    if not isinstance(value, dict) or not value:
+        return "none"
+    return ", ".join(f"{key}={count}" for key, count in sorted(value.items()))
 
 
 def _path_table(rows: list[dict[str, Any]]) -> list[str]:

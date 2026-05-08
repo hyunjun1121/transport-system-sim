@@ -11,6 +11,7 @@ This audit checks sub-agent review-record path hygiene only. It does not approve
 - Present paths: 617
 - Missing required paths: 0
 - Missing formal targets: 36
+- Status counts: missing_formal_target=36, present=617
 
 ## Missing Formal Targets
 
