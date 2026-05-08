@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T21:48:03+00:00",
+  "generated_at": "2026-05-08T21:54:48+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -115,8 +115,8 @@
       "can_mark_complete": false,
       "gate_id": "reproducibility",
       "record_path": "data/manifests/agent_reviews/reproducibility__clean_checkout_reproducibility_agent.json",
-      "required_action_count": 10,
-      "risk_count": 10,
+      "required_action_count": 9,
+      "risk_count": 9,
       "status": "blocked"
     },
     {
@@ -295,7 +295,6 @@
     "reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package",
     "reproducibility: resolve reproducibility decision blockers before reproducibility acceptance",
     "reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility: reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "reproducibility: review reproducibility human-decision rows before reproducibility acceptance",
@@ -453,7 +452,6 @@
     "Reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package",
     "Reproducibility: resolve reproducibility decision blockers before reproducibility acceptance",
     "Reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only",
-    "Reproducibility: reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "Reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "Reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "Reproducibility: review reproducibility human-decision rows before reproducibility acceptance",
@@ -1558,18 +1556,18 @@
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
-        "ready_for_review_bounded_clean_checkout_smoke": 1,
         "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
+        "ready_for_review_full_clean_checkout_smoke": 1,
         "ready_for_review_no_cloned_repo_runtime_imports": 1,
         "ready_for_review_no_untracked_reproducibility_artifacts": 1
       }
     },
     {
-      "blocking_count": 4,
+      "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
-      "human_review_count": 3,
+      "human_review_count": 4,
       "label": "Reproducibility Decision",
       "manifest_present": true,
       "manifest_valid": true,
@@ -1577,7 +1575,6 @@
       "publication_ready": false,
       "remaining_blockers": [
         "reproducibility manifest remains scaffold-only",
-        "clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
         "clean-checkout artifact regeneration protocol has not been tested",
         "data/manifests/reproducibility_acceptance.json is absent"
       ],
@@ -1593,9 +1590,9 @@
       "snapshot_id": "reproducibility_decision",
       "status_counts": {
         "blocked_artifact_regeneration_not_tested": 1,
-        "blocked_bounded_clean_checkout_evidence_scope": 1,
         "blocked_missing_reproducibility_acceptance_record": 1,
         "blocked_scaffold_reproducibility_manifest_scope": 1,
+        "needs_human_review_clean_checkout_evidence_scope": 1,
         "needs_human_review_command_ladder_scope": 1,
         "needs_human_review_committed_package_state": 1,
         "needs_human_review_runtime_import_boundary": 1

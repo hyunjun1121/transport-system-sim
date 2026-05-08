@@ -21,7 +21,7 @@
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-08T21:48:03+00:00",
+  "generated_at": "2026-05-08T21:54:48+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
@@ -30,7 +30,6 @@
     "replace scaffold-only manifest with clean-checkout final reproduction package",
     "resolve reproducibility decision blockers before reproducibility acceptance",
     "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
@@ -65,7 +64,6 @@
     "replace scaffold-only manifest with clean-checkout final reproduction package",
     "resolve reproducibility decision blockers before reproducibility acceptance",
     "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"

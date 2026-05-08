@@ -5,15 +5,15 @@
   "row_count": 7,
   "decision_status_counts": {
     "blocked_artifact_regeneration_not_tested": 1,
-    "blocked_bounded_clean_checkout_evidence_scope": 1,
     "blocked_missing_reproducibility_acceptance_record": 1,
     "blocked_scaffold_reproducibility_manifest_scope": 1,
+    "needs_human_review_clean_checkout_evidence_scope": 1,
     "needs_human_review_command_ladder_scope": 1,
     "needs_human_review_committed_package_state": 1,
     "needs_human_review_runtime_import_boundary": 1
   },
-  "blocking_decision_count": 4,
-  "human_review_decision_count": 3,
+  "blocking_decision_count": 3,
+  "human_review_decision_count": 4,
   "reproducibility_manifest_decision_recorded": false,
   "command_ladder_decision_recorded": false,
   "clean_checkout_scope_decision_recorded": false,
@@ -43,7 +43,6 @@
   ],
   "remaining_blockers": [
     "reproducibility manifest remains scaffold-only",
-    "clean-checkout smoke is bounded to the current Python environment and not a full clean-environment reproduction",
     "clean-checkout artifact regeneration protocol has not been tested",
     "data/manifests/reproducibility_acceptance.json is absent"
   ]
