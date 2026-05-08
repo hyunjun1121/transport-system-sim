@@ -13,7 +13,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 11 |
-| `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 7 |
+| `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 8 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 11 |
@@ -68,6 +68,9 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - rail_evidence: rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
 - rail_evidence: rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
 - rail_evidence: rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
+- rail_evidence: rail evidence priority: rail timing cache files are absent
+- rail_evidence: rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
+- rail_evidence: rail evidence priority: capacity and availability treatment still require human/source-backed decisions
 - validation_package: Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - validation_package: Create validation_acceptance.json after benchmark-strategy review.
 - validation_package: create an explicit validation acceptance record after benchmark-strategy review
@@ -149,6 +152,9 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Rail Evidence: rail fetch readiness: rail timing cache files are absent unless source_cache_present is true
 - Rail Evidence: rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs
 - Rail Evidence: rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv
+- Rail Evidence: rail evidence priority: rail timing cache files are absent
+- Rail Evidence: rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent
+- Rail Evidence: rail evidence priority: capacity and availability treatment still require human/source-backed decisions
 - Validation Package: create an explicit validation acceptance record after benchmark-strategy review
 - Validation Package: resolve validation strategy-readiness blockers before validation acceptance
 - Validation Package: validation strategy readiness: validation_acceptance.json is absent

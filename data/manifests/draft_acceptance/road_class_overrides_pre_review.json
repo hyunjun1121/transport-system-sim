@@ -52,6 +52,12 @@
       "path": "data/rail/rail_fetch_readiness_packet.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_evidence_priority_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for road_class_overrides",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -134,6 +140,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/rail/rail_fetch_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_evidence_priority_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for road_class_overrides",
@@ -256,7 +268,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-08T12:40:18+00:00",
+  "generated_at": "2026-05-08T12:55:29+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

@@ -52,6 +52,12 @@
       "path": "data/rail/rail_fetch_readiness_packet.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_evidence_priority_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for parameter_acceptance",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -139,6 +145,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_evidence_priority_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/parameters/parameter_evidence_review_manifest.json"
     },
     {
@@ -199,6 +211,12 @@
       "claim_supported": "Repository evidence cited for parameter_acceptance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/rail_evidence_priority_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/audit_rail_evidence.py"
     },
     {
@@ -218,6 +236,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_rail_fetch_readiness_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for parameter_acceptance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_rail_evidence_priority_packet.py"
     },
     {
       "claim_supported": "Repository evidence cited for parameter_acceptance",
@@ -271,7 +295,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/parameter_acceptance.csv",
   "gate": "parameter_acceptance",
-  "generated_at": "2026-05-08T12:40:18+00:00",
+  "generated_at": "2026-05-08T12:55:29+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -299,6 +323,9 @@
     "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
     "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
     "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv",
+    "rail evidence priority: rail timing cache files are absent",
+    "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
+    "rail evidence priority: capacity and availability treatment still require human/source-backed decisions",
     "data/parameters/parameter_acceptance.csv is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -327,6 +354,9 @@
     "rail fetch readiness: rail timing cache files are absent unless source_cache_present is true",
     "rail fetch readiness: API-key and reviewed-GTFS rows require external reviewer-provided inputs",
     "rail fetch readiness: this packet is readiness evidence only and cannot create rail_service_evidence.csv",
+    "rail evidence priority: rail timing cache files are absent",
+    "rail evidence priority: DATA_GO_KR_KEY or reviewed GTFS input is absent",
+    "rail evidence priority: capacity and availability treatment still require human/source-backed decisions",
     "data/parameters/parameter_acceptance.csv is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
