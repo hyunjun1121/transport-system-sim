@@ -86,6 +86,9 @@ from src.realworld.pilot_privacy_review_packet import (  # noqa: E402
     build_pilot_privacy_review_rows,
     write_pilot_privacy_review_packet,
 )
+from src.realworld.publication_readiness import (  # noqa: E402
+    write_publication_readiness_audit,
+)
 from src.realworld.pilot_experiments import (  # noqa: E402
     DEFAULT_CACHE_PATH,
     DEFAULT_REGION_PATH,
@@ -223,6 +226,8 @@ def main() -> int:
     manifest = write_acceptance_orchestration_outputs()
     goal_audit = write_goal_completion_audit()
     refreshed.append("data/manifests/current_goal_completion_audit.json")
+    publication_readiness = write_publication_readiness_audit()
+    refreshed.append("data/manifests/publication_readiness_audit.json")
     manifest = write_acceptance_orchestration_outputs()
     summary = {
         "acceptance_orchestration": manifest,
@@ -232,6 +237,12 @@ def main() -> int:
             "verdict": goal_audit["verdict"],
             "ready_gate_count": len(goal_audit["ready_gate_ids"]),
             "blocked_gate_count": len(goal_audit["blocked_gate_ids"]),
+        },
+        "publication_readiness": {
+            "publication_ready": publication_readiness["publication_ready"],
+            "verdict": publication_readiness["verdict"],
+            "ready_gate_count": publication_readiness["ready_gate_count"],
+            "blocked_gate_count": publication_readiness["blocked_gate_count"],
         },
         "formal_acceptance_guard": {
             "artifact_count": formal_guard["artifact_count"],

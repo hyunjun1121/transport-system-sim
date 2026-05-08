@@ -156,6 +156,10 @@ from src.realworld.graph_scale_manifest_audit import (  # noqa: E402
 from src.realworld.goal_completion_audit import (  # noqa: E402
     DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
 )
+from src.realworld.publication_readiness import (  # noqa: E402
+    DEFAULT_PUBLICATION_READINESS_DOC_PATH,
+    DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH,
+)
 from src.realworld.full_graph_runtime_readiness_packet import (  # noqa: E402
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
@@ -895,6 +899,10 @@ JSON_EXPECTATIONS = (
         "current_goal_completion_audit_manifest",
         DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
     ),
+    JsonExpectation(
+        "publication_readiness_audit",
+        DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH,
+    ),
 )
 
 GRAPH_SCALE_MANIFEST_EXPECTATIONS = (
@@ -1014,6 +1022,7 @@ DOC_EXPECTATIONS = (
     DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC,
     ROOT / "docs" / "plan_completion_audit.md",
     ROOT / "docs" / "current_goal_completion_audit.md",
+    DEFAULT_PUBLICATION_READINESS_DOC_PATH,
     ROOT / "docs" / "agents" / "acceptance_review_agents.md",
     ROOT / "docs" / "review_packets" / "acceptance_review_index.md",
     ROOT / "docs" / "review_packets" / "pilot_region_accepted.md",

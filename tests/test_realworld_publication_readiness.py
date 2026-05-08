@@ -5,11 +5,15 @@ from __future__ import annotations
 import importlib.util
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.realworld.publication_readiness import audit_publication_readiness  # noqa: E402
+from src.realworld.publication_readiness import (  # noqa: E402
+    audit_publication_readiness,
+    write_publication_readiness_audit,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +50,31 @@ def test_audit_script_returns_success_without_fail_flag() -> None:
     print("PASS: readiness audit script reports blockers without default failure")
 
 
+def test_publication_readiness_writer_preserves_non_acceptance_scope() -> None:
+    """The writer should persist blocked claim-readiness without approval semantics."""
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        manifest = write_publication_readiness_audit(
+            manifest_path=root / "publication_readiness.json",
+            doc_path=root / "publication_readiness.md",
+        )
+
+        assert manifest["publication_ready"] is False
+        assert manifest["can_mark_complete"] is False
+        assert manifest["gate_count"] == 7
+        assert manifest["ready_gate_count"] == 1
+        assert manifest["blocked_gate_count"] == 6
+        assert manifest["status_counts"] == {"blocked": 6, "ready": 1}
+        assert "not_formal_acceptance" in manifest["result_scope"]
+        assert (root / "publication_readiness.json").exists()
+        doc_text = (root / "publication_readiness.md").read_text(encoding="utf-8")
+        assert "not a formal acceptance record" in doc_text
+        assert "`rail_station_binding_ready` | `true`" in doc_text
+
+    print("PASS: publication readiness writer preserves non-acceptance scope")
+
+
 def _load_audit_script():
     spec = importlib.util.spec_from_file_location(
         "audit_publication_readiness", AUDIT_SCRIPT_PATH
@@ -61,4 +90,5 @@ def _load_audit_script():
 if __name__ == "__main__":
     test_current_publication_readiness_is_blocked()
     test_audit_script_returns_success_without_fail_flag()
+    test_publication_readiness_writer_preserves_non_acceptance_scope()
     print("\n=== REALWORLD PUBLICATION READINESS TESTS PASSED ===")

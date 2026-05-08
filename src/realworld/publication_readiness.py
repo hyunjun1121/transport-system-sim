@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
+import json
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +24,18 @@ from src.realworld.road_evidence import (
 )
 from src.realworld.road_override_audit import audit_road_class_override_evidence
 from src.realworld.road_override_audit import audit_road_class_override_application
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "publication_readiness_audit.json"
+)
+DEFAULT_PUBLICATION_READINESS_DOC_PATH = (
+    PROJECT_ROOT / "docs" / "publication_readiness_audit.md"
+)
+PUBLICATION_READINESS_RESULT_SCOPE = (
+    "publication_readiness_audit_not_formal_acceptance"
+)
 
 
 def audit_publication_readiness(
@@ -85,6 +99,126 @@ def audit_publication_readiness(
     }
 
 
+def build_publication_readiness_manifest(
+    summary: dict[str, Any] | None = None,
+    *,
+    manifest_path: str | Path = DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH,
+    doc_path: str | Path = DEFAULT_PUBLICATION_READINESS_DOC_PATH,
+) -> dict[str, Any]:
+    """Return a machine-readable publication-readiness audit snapshot."""
+
+    summary = summary or audit_publication_readiness()
+    gates = dict(summary.get("gates", {}))
+    ready_gate_count = sum(1 for value in gates.values() if bool(value))
+    blocked_gate_count = len(gates) - ready_gate_count
+    return {
+        "schema_version": 1,
+        "generated_at": datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat(),
+        "result_scope": PUBLICATION_READINESS_RESULT_SCOPE,
+        "claim_boundary": summary.get("claim_boundary", ""),
+        "outputs": {
+            "manifest": _display_path(Path(manifest_path)),
+            "doc": _display_path(Path(doc_path)),
+        },
+        "publication_ready": bool(summary.get("publication_ready", False)),
+        "can_mark_complete": False,
+        "verdict": str(summary.get("verdict", "")),
+        "gate_count": len(gates),
+        "ready_gate_count": ready_gate_count,
+        "blocked_gate_count": blocked_gate_count,
+        "status_counts": {
+            "blocked": blocked_gate_count,
+            "ready": ready_gate_count,
+        },
+        "gates": gates,
+        "remaining_blockers": list(summary.get("remaining_blockers", [])),
+        "review_items": [
+            "resolve blocked parameter, road, and rail evidence gates before final publication claims",
+            "treat this audit as claim-readiness triage only, not formal acceptance",
+            "rerun final-study readiness after any formal acceptance or evidence artifact changes",
+        ],
+    }
+
+
+def build_publication_readiness_markdown(
+    manifest: dict[str, Any] | None = None,
+) -> str:
+    """Return a compact publication-readiness audit document."""
+
+    manifest = manifest or build_publication_readiness_manifest()
+    gates = manifest.get("gates", {})
+    gate_rows = []
+    if isinstance(gates, dict):
+        for gate_id, ready in gates.items():
+            gate_rows.append(
+                f"| `{gate_id}` | `{str(bool(ready)).lower()}` |"
+            )
+    blockers = [
+        str(item)
+        for item in manifest.get("remaining_blockers", [])
+        if str(item).strip()
+    ]
+    if blockers:
+        blocker_lines = [f"- {item}" for item in blockers]
+    else:
+        blocker_lines = ["- None recorded."]
+
+    return "\n".join(
+        [
+            "# Publication Readiness Audit",
+            "",
+            str(manifest.get("claim_boundary", "")),
+            "",
+            "This is a claim-readiness audit only. It is not a formal acceptance record, calibrated validation, or operational route approval.",
+            "",
+            f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
+            f"- Verdict: `{manifest.get('verdict', '')}`",
+            f"- Ready gates: {manifest.get('ready_gate_count', 0)} / {manifest.get('gate_count', 0)}",
+            f"- Blocked gates: {manifest.get('blocked_gate_count', 0)} / {manifest.get('gate_count', 0)}",
+            f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
+            "",
+            "## Evidence Gates",
+            "",
+            "| Gate | Ready |",
+            "| --- | --- |",
+            *gate_rows,
+            "",
+            "## Remaining Blockers",
+            "",
+            *blocker_lines,
+            "",
+        ]
+    )
+
+
+def write_publication_readiness_audit(
+    *,
+    manifest_path: str | Path = DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH,
+    doc_path: str | Path = DEFAULT_PUBLICATION_READINESS_DOC_PATH,
+) -> dict[str, Any]:
+    """Write publication-readiness manifest/doc snapshots and return the manifest."""
+
+    manifest_file = Path(manifest_path)
+    doc_file = Path(doc_path)
+    manifest = build_publication_readiness_manifest(
+        manifest_path=manifest_file,
+        doc_path=doc_file,
+    )
+    manifest_file.parent.mkdir(parents=True, exist_ok=True)
+    manifest_file.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    doc_file.parent.mkdir(parents=True, exist_ok=True)
+    doc_file.write_text(
+        build_publication_readiness_markdown(manifest),
+        encoding="utf-8",
+    )
+    return manifest
+
+
 def _remaining_blockers(
     *,
     parameter_audit: dict[str, Any],
@@ -122,4 +256,19 @@ def _remaining_blockers(
     return blockers
 
 
-__all__ = ["audit_publication_readiness"]
+def _display_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+__all__ = [
+    "DEFAULT_PUBLICATION_READINESS_DOC_PATH",
+    "DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH",
+    "PUBLICATION_READINESS_RESULT_SCOPE",
+    "audit_publication_readiness",
+    "build_publication_readiness_manifest",
+    "build_publication_readiness_markdown",
+    "write_publication_readiness_audit",
+]

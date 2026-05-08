@@ -85,7 +85,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T15:59:12+00:00",
+  "generated_at": "2026-05-08T16:11:15+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
