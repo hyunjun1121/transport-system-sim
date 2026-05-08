@@ -36,6 +36,16 @@ KTDB_GTFS_SOURCE_CITATION = (
     "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3785; "
     "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106"
 )
+METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
+METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
+METRO9_CAPACITY_SOURCE_CITATION = (
+    "https://www.metro9.co.kr/eng/sub03_02_01.do; "
+    "data/parameters/rail_assumptions.csv"
+)
+RAIL_CAPACITY_REVIEW_INPUT_PATHS = (
+    "data/parameters/rail_assumptions.csv; "
+    f"{METRO9_CAPACITY_EXTRACT_PATH}"
+)
 RAIL_TIMING_SOURCE_REQUEST_SCOPE = (
     "Rail timing source-request packet; not cached rail timing evidence, "
     "not GTFS validation, not rail-service calibration, and not operational "
@@ -213,22 +223,36 @@ def build_rail_timing_source_request_rows(
             region_id=region_id,
             evidence_fields="capacity",
             source_type="operator_or_literature_or_sensitivity_decision",
-            source_name="Line capacity source or explicit sensitivity-only treatment",
-            source_url_or_citation="data/parameters/rail_assumptions.csv",
-            required_external_input="reviewed train capacity source or explicit final sensitivity-only acceptance",
+            source_name=(
+                "Line capacity source context or explicit sensitivity-only treatment"
+            ),
+            source_url_or_citation=METRO9_CAPACITY_SOURCE_CITATION,
+            required_external_input=(
+                "review Metro9 capacity extract, source terms, and current rail "
+                "assumptions; then record a source-backed capacity update or "
+                "explicit final sensitivity-only acceptance"
+            ),
             access_station_name=access_name,
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
-            source_cache_path="data/parameters/rail_assumptions.csv",
-            raw_payload_path="",
+            source_cache_path=RAIL_CAPACITY_REVIEW_INPUT_PATHS,
+            raw_payload_path=METRO9_CAPACITY_RAW_PATH,
             fetch_command="not applicable",
-            derive_command="keep capacity as sensitivity-only or replace with reviewed source-backed capacity before final claims",
+            derive_command=(
+                "review cached Metro9 capacity context and keep capacity as "
+                "sensitivity-only or replace with reviewed source-backed capacity "
+                "before final claims"
+            ),
             expected_source_status="source_backed_or_sensitivity_only",
             expected_derived_fields="capacity",
             can_close_rail_timing_gate=False,
             publication_use_status="capacity treatment only; does not close timing evidence",
-            notes="Capacity is currently de-rated and sensitivity-only; this is acceptable only with explicit claim boundaries.",
+            notes=(
+                "Metro9 capacity context is cached for review only. The current "
+                "model remains a de-rated sensitivity-only capacity proxy until "
+                "a reviewer accepts a source-backed update or explicit bounds."
+            ),
         ),
         _row(
             request_id="rail_availability_scenario_request",
@@ -571,6 +595,10 @@ __all__ = [
     "RAIL_TIMING_SOURCE_REQUEST_SCOPE",
     "KTDB_GTFS_SOURCE_CITATION",
     "KTDB_GTFS_SOURCE_NAME",
+    "METRO9_CAPACITY_EXTRACT_PATH",
+    "METRO9_CAPACITY_RAW_PATH",
+    "METRO9_CAPACITY_SOURCE_CITATION",
+    "RAIL_CAPACITY_REVIEW_INPUT_PATHS",
     "build_rail_timing_source_request_rows",
     "write_rail_timing_source_request_packet",
 ]

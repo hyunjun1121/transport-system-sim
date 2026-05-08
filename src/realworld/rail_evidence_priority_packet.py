@@ -278,17 +278,19 @@ def build_rail_evidence_priority_markdown(
         "",
         "## Priority Rows",
         "",
-        "| Priority | Fields | Status | Cache | Timing Closure | Required Action |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Priority | Fields | Status | Source | Cache | Timing Closure | Required Action |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
-        cache = "present" if row.get("source_cache_present") == "true" else "absent"
+        cache_state = "present" if row.get("source_cache_present") == "true" else "absent"
+        cache_paths = _cache_summary(row)
         lines.append(
-            "| {priority} | {fields} | {status} | {cache} | {closure} | {action} |".format(
+            "| {priority} | {fields} | {status} | {source} | {cache} | {closure} | {action} |".format(
                 priority=_cell(row.get("priority_id", "")),
                 fields=_cell(row.get("evidence_fields", "")),
                 status=_cell(row.get("readiness_status", "")),
-                cache=cache,
+                source=_cell(row.get("source_name", "")),
+                cache=_cell(f"{cache_state}: {cache_paths}"),
                 closure=_cell(row.get("timing_fields_closed_if_completed", "")),
                 action=_cell(row.get("required_reviewer_action", "")),
             )
@@ -456,6 +458,14 @@ def _display_path(path: str | Path) -> str:
 
 def _cell(value: Any) -> str:
     return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def _cache_summary(row: Mapping[str, str]) -> str:
+    paths = [str(row.get("source_cache_path", "")).strip()]
+    raw_path = str(row.get("raw_payload_path", "")).strip()
+    if raw_path:
+        paths.append(f"raw: {raw_path}")
+    return "; ".join(path for path in paths if path) or "no cache path named"
 
 
 __all__ = [

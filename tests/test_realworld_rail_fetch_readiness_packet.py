@@ -22,6 +22,9 @@ from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
     KTDB_GTFS_SOURCE_CITATION,
     KTDB_GTFS_SOURCE_NAME,
+    METRO9_CAPACITY_RAW_PATH,
+    METRO9_CAPACITY_SOURCE_CITATION,
+    RAIL_CAPACITY_REVIEW_INPUT_PATHS,
 )
 
 
@@ -154,6 +157,14 @@ def test_shipped_rail_fetch_readiness_packet_matches_current_requests() -> None:
     assert gtfs["source_name"] == KTDB_GTFS_SOURCE_NAME
     assert gtfs["source_url_or_citation"] == KTDB_GTFS_SOURCE_CITATION
     assert "reviewed KTDB" in gtfs["required_external_input"]
+    capacity = by_id["rail_capacity_treatment_request"]
+    assert capacity["readiness_status"] == "needs_human_review_capacity_treatment"
+    assert capacity["source_url_or_citation"] == METRO9_CAPACITY_SOURCE_CITATION
+    assert capacity["source_cache_path"] == RAIL_CAPACITY_REVIEW_INPUT_PATHS
+    assert capacity["source_cache_present"] == "true"
+    assert capacity["raw_payload_path"] == METRO9_CAPACITY_RAW_PATH
+    assert capacity["raw_payload_present"] == "true"
+    assert capacity["can_support_rail_evidence_gate"] == "false"
 
     print("PASS: shipped rail fetch-readiness packet matches current requests")
 

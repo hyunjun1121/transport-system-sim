@@ -20,6 +20,11 @@ from src.realworld.rail_source_decision_packet import (  # noqa: E402
     build_rail_source_decision_rows,
     write_rail_source_decision_packet,
 )
+from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    METRO9_CAPACITY_RAW_PATH,
+    METRO9_CAPACITY_SOURCE_CITATION,
+    RAIL_CAPACITY_REVIEW_INPUT_PATHS,
+)
 
 
 def test_rail_source_decision_rows_classify_current_requests() -> None:
@@ -64,6 +69,13 @@ def test_rail_source_decision_rows_classify_current_requests() -> None:
     assert "replace_with_operator_or_literature_capacity_source" in by_id[
         "rail_capacity_treatment_request"
     ]["candidate_decision_options"]
+    capacity = by_id["rail_capacity_treatment_request"]
+    assert capacity["source_url_or_citation"] == METRO9_CAPACITY_SOURCE_CITATION
+    assert capacity["source_cache_path"] == RAIL_CAPACITY_REVIEW_INPUT_PATHS
+    assert capacity["raw_payload_path"] == METRO9_CAPACITY_RAW_PATH
+    assert "metro9_capacity_source_extract.csv" in capacity["followup_artifacts"]
+    assert "metro9_capacity_source_raw.html" in capacity["followup_artifacts"]
+    assert capacity["can_support_rail_evidence_gate"] == "false"
     assert "not_operational_claim_boundary" in by_id[
         "rail_timetable_headway_request"
     ]["required_evidence_fields"]
@@ -115,6 +127,8 @@ def test_rail_source_decision_writer_outputs_artifacts() -> None:
     assert written_manifest["human_review_decision_count"] == 2
     assert written_manifest["timing_source_decision_count"] == 3
     assert "Rail Source Decision Packet" in doc_text
+    assert "metro9_capacity_source_extract.csv" in doc_text
+    assert "metro9_capacity_source_raw.html" in doc_text
 
     print("PASS: rail source-decision writer emits artifacts")
 

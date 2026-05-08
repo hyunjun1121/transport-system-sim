@@ -14,14 +14,14 @@ This packet prioritizes rail evidence closure paths. It does not fetch API data,
 
 ## Priority Rows
 
-| Priority | Fields | Status | Cache | Timing Closure | Required Action |
-| --- | --- | --- | --- | --- | --- |
-| rail_shortest_path_travel_time_request | travel_time | blocked_missing_data_go_kr_key | absent |  | provide DATA_GO_KR_KEY or a reviewed cached API payload before derivation |
-| rail_static_gtfs_timing_request | headway;travel_time | blocked_missing_reviewed_gtfs_file | absent | headway;travel_time | provide a reviewed GTFS zip or directory before derivation |
-| rail_timetable_headway_request | headway | blocked_missing_data_go_kr_key | absent |  | provide DATA_GO_KR_KEY or a reviewed cached API payload before derivation |
-| rail_availability_scenario_request | availability;delay;partial_unavailability | needs_human_review_availability_scenario | present |  | accept scenario-only rail availability bounds or replace them with source-backed disruption evidence |
-| rail_capacity_treatment_request | capacity | needs_human_review_capacity_treatment | present |  | accept sensitivity-only capacity bounds or replace them with source-backed capacity evidence |
-| station_binding_prerequisite | station_binding | prerequisite_ready_not_timing_evidence | present |  | keep station binding separate from timing, capacity, and availability evidence |
+| Priority | Fields | Status | Source | Cache | Timing Closure | Required Action |
+| --- | --- | --- | --- | --- | --- | --- |
+| rail_shortest_path_travel_time_request | travel_time | blocked_missing_data_go_kr_key | data.go.kr Seoul Metro shortest-path API | absent: data/rail/pilot_rail_shortest_path_cache.csv; raw: data/rail/pilot_rail_shortest_path_raw.json |  | provide DATA_GO_KR_KEY or a reviewed cached API payload before derivation |
+| rail_static_gtfs_timing_request | headway;travel_time | blocked_missing_reviewed_gtfs_file | KTDB public transport GTFS dataset candidate | absent: data/rail/pilot_gtfs.zip | headway;travel_time | provide a reviewed GTFS zip or directory before derivation |
+| rail_timetable_headway_request | headway | blocked_missing_data_go_kr_key | data.go.kr Seoul Subway train schedule API | absent: data/rail/pilot_rail_timetable_cache.csv; raw: data/rail/pilot_rail_timetable_raw.json |  | provide DATA_GO_KR_KEY or a reviewed cached API payload before derivation |
+| rail_availability_scenario_request | availability;delay;partial_unavailability | needs_human_review_availability_scenario | Rail delay, unavailability, and station-access scenario evidence | present: data/scenarios/disruption_scenarios.csv |  | accept scenario-only rail availability bounds or replace them with source-backed disruption evidence |
+| rail_capacity_treatment_request | capacity | needs_human_review_capacity_treatment | Line capacity source context or explicit sensitivity-only treatment | present: data/parameters/rail_assumptions.csv; data/rail/metro9_capacity_source_extract.csv; raw: data/rail/metro9_capacity_source_raw.html |  | accept sensitivity-only capacity bounds or replace them with source-backed capacity evidence |
+| station_binding_prerequisite | station_binding | prerequisite_ready_not_timing_evidence | cached official station-name binding extract | present: data/parameters/rail_station_bindings.csv; raw: data/rail/pilot_station_binding_cache.csv |  | keep station binding separate from timing, capacity, and availability evidence |
 
 ## Boundary
 

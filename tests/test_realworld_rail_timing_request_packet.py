@@ -14,6 +14,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH,
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
+    METRO9_CAPACITY_EXTRACT_PATH,
+    METRO9_CAPACITY_RAW_PATH,
+    METRO9_CAPACITY_SOURCE_CITATION,
+    RAIL_CAPACITY_REVIEW_INPUT_PATHS,
     RAIL_TIMING_SOURCE_REQUEST_COLUMNS,
     RAIL_TIMING_SOURCE_REQUEST_SCOPE,
     build_rail_timing_source_request_rows,
@@ -36,6 +40,12 @@ def test_rail_timing_source_request_rows_are_actionable() -> None:
     assert by_id["rail_static_gtfs_timing_request"]["can_close_rail_timing_gate"] == "true"
     assert by_id["rail_static_gtfs_timing_request"]["expected_derived_fields"] == "headway;travel_time"
     assert by_id["rail_capacity_treatment_request"]["can_close_rail_timing_gate"] == "false"
+    capacity = by_id["rail_capacity_treatment_request"]
+    assert capacity["source_url_or_citation"] == METRO9_CAPACITY_SOURCE_CITATION
+    assert capacity["source_cache_path"] == RAIL_CAPACITY_REVIEW_INPUT_PATHS
+    assert capacity["raw_payload_path"] == METRO9_CAPACITY_RAW_PATH
+    assert METRO9_CAPACITY_EXTRACT_PATH in capacity["source_cache_path"]
+    assert "review only" in capacity["notes"]
     assert {row["claim_boundary"] for row in rows} == {RAIL_TIMING_SOURCE_REQUEST_SCOPE}
 
     print("PASS: rail timing source-request rows are actionable")

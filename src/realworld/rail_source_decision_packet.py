@@ -287,15 +287,17 @@ def build_rail_source_decision_markdown(
         "",
         "## Decision Rows",
         "",
-        "| Request | Fields | Status | Options | Required Action |",
-        "| --- | --- | --- | --- | --- |",
+        "| Request | Fields | Status | Source | Cache | Options | Required Action |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         lines.append(
-            "| {request} | {fields} | {status} | {options} | {action} |".format(
+            "| {request} | {fields} | {status} | {source} | {cache} | {options} | {action} |".format(
                 request=_cell(row.get("request_id", "")),
                 fields=_cell(row.get("evidence_fields", "")),
                 status=_cell(row.get("decision_status", "")),
+                source=_cell(_source_summary(row)),
+                cache=_cell(_cache_summary(row)),
                 options=_cell(row.get("candidate_decision_options", "")),
                 action=_cell(row.get("required_reviewer_action", "")),
             )
@@ -561,6 +563,33 @@ def _display_path(path: str | Path) -> str:
 def _cell(value: object) -> str:
     text = str(value).replace("\n", " ").replace("|", "\\|").strip()
     return text or "-"
+
+
+def _source_summary(row: Mapping[str, str]) -> str:
+    name = str(row.get("source_name", "")).strip()
+    citation = str(row.get("source_url_or_citation", "")).strip()
+    if name and citation:
+        return f"{name}; {citation}"
+    return name or citation
+
+
+def _cache_summary(row: Mapping[str, str]) -> str:
+    cache_state = (
+        "present"
+        if str(row.get("source_cache_present", "")).strip().lower() == "true"
+        else "absent"
+    )
+    paths = [str(row.get("source_cache_path", "")).strip()]
+    raw_path = str(row.get("raw_payload_path", "")).strip()
+    if raw_path:
+        raw_state = (
+            "present"
+            if str(row.get("raw_payload_present", "")).strip().lower() == "true"
+            else "absent"
+        )
+        paths.append(f"raw {raw_state}: {raw_path}")
+    path_text = "; ".join(path for path in paths if path) or "no cache path named"
+    return f"{cache_state}: {path_text}"
 
 
 __all__ = [

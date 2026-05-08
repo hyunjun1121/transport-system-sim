@@ -20,6 +20,10 @@ from src.realworld.rail_evidence_priority_packet import (  # noqa: E402
     build_rail_evidence_priority_rows,
     write_rail_evidence_priority_packet,
 )
+from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    METRO9_CAPACITY_RAW_PATH,
+    RAIL_CAPACITY_REVIEW_INPUT_PATHS,
+)
 
 
 def test_rail_evidence_priority_rows_classify_current_closure_paths() -> None:
@@ -47,6 +51,14 @@ def test_rail_evidence_priority_rows_classify_current_closure_paths() -> None:
     assert by_id["rail_capacity_treatment_request"]["readiness_status"] == (
         "needs_human_review_capacity_treatment"
     )
+    assert by_id["rail_capacity_treatment_request"]["source_cache_path"] == (
+        RAIL_CAPACITY_REVIEW_INPUT_PATHS
+    )
+    assert by_id["rail_capacity_treatment_request"]["source_cache_present"] == "true"
+    assert by_id["rail_capacity_treatment_request"]["raw_payload_path"] == (
+        METRO9_CAPACITY_RAW_PATH
+    )
+    assert by_id["rail_capacity_treatment_request"]["raw_payload_present"] == "true"
     assert {row["claim_boundary"] for row in rows} == {
         RAIL_EVIDENCE_PRIORITY_SCOPE
     }
@@ -85,6 +97,8 @@ def test_rail_evidence_priority_writer_outputs_artifacts() -> None:
     assert written_manifest["blocking_priority_count"] == 3
     assert written_manifest["human_review_priority_count"] == 2
     assert "Rail Evidence Priority Packet" in doc_text
+    assert "metro9_capacity_source_extract.csv" in doc_text
+    assert "metro9_capacity_source_raw.html" in doc_text
 
     print("PASS: rail evidence priority writer emits artifacts")
 
