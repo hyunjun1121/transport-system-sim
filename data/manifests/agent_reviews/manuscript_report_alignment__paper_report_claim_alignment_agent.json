@@ -22,7 +22,7 @@
     "docs/review_packets/manuscript_report_alignment.md"
   ],
   "gate_id": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T23:35:42+00:00",
+  "generated_at": "2026-05-08T23:51:57+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Revise or hold claims until all supporting evidence gates are accepted.",

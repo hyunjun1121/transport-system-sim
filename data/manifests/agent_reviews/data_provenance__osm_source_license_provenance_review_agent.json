@@ -42,7 +42,7 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T23:35:42+00:00",
+  "generated_at": "2026-05-08T23:51:57+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -50,7 +50,7 @@
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
     "source provenance priority: formal provenance acceptance record is absent",
-    "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+    "source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions",
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",
@@ -123,7 +123,7 @@
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
     "source provenance priority: formal provenance acceptance record is absent",
-    "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
+    "source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions",
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",

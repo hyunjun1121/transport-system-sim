@@ -298,7 +298,7 @@ Missing evidence:
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - source provenance priority: formal provenance acceptance record is absent
-- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
@@ -324,7 +324,7 @@ Residual risks:
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - source provenance priority: formal provenance acceptance record is absent
-- source provenance priority: context-only public sources still need cached extracts or exclusion decisions
+- source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation

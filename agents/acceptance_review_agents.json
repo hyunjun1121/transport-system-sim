@@ -52,7 +52,7 @@
       "agent_id": "osm_source_license_provenance_review_agent",
       "decision_rules": [
         "Do not assume license compatibility without cited or source-backed evidence.",
-        "Block final claims while source records are pending review or context-only."
+        "Block final claims while source records are pending review or target payloads are absent."
       ],
       "final_acceptance_artifacts": [
         "data/manifests/provenance_acceptance.json"

@@ -29,7 +29,7 @@ Required actions when not ready:
 
 Decision rules:
 - Do not assume license compatibility without cited or source-backed evidence.
-- Block final claims while source records are pending review or context-only.
+- Block final claims while source records are pending review or target payloads are absent.
 
 Required actions when not ready:
 - Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.
