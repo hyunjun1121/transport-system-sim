@@ -23,6 +23,7 @@
   "git_status_line_count": 0,
   "git_untracked_count": 0,
   "input_artifact_paths": {
+    "current_goal_completion_audit_manifest": "data/manifests/current_goal_completion_audit.json",
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
     "reproducibility_manifest": "data/manifests/reproducibility_manifest.json"
   },

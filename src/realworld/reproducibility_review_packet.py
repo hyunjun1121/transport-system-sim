@@ -31,6 +31,9 @@ DEFAULT_REPRODUCIBILITY_PACKAGE_DOC_PATH = (
     PROJECT_ROOT / "docs" / "reproducibility_package.md"
 )
 DEFAULT_GOAL_AUDIT_PATH = PROJECT_ROOT / "docs" / "current_goal_completion_audit.md"
+DEFAULT_GOAL_AUDIT_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "current_goal_completion_audit.json"
+)
 DEFAULT_REPRODUCIBILITY_REVIEW_PACKET_PATH = (
     PROJECT_ROOT / "data" / "validation" / "reproducibility_review_packet.csv"
 )
@@ -71,6 +74,7 @@ def build_reproducibility_review_rows(
     reproducibility_acceptance_path: str | Path = DEFAULT_REPRODUCIBILITY_ACCEPTANCE_PATH,
     reproducibility_package_doc_path: str | Path = DEFAULT_REPRODUCIBILITY_PACKAGE_DOC_PATH,
     goal_audit_path: str | Path = DEFAULT_GOAL_AUDIT_PATH,
+    goal_audit_manifest_path: str | Path = DEFAULT_GOAL_AUDIT_MANIFEST_PATH,
     clean_checkout_smoke_manifest_path: str
     | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     git_status_lines: Sequence[str] | None = None,
@@ -81,6 +85,7 @@ def build_reproducibility_review_rows(
     manifest = _read_json_object(reproducibility_manifest_path)
     package_text = _read_text(reproducibility_package_doc_path)
     goal_text = _read_text(goal_audit_path)
+    goal_manifest = _read_json_object(goal_audit_manifest_path)
     status_lines = (
         tuple(git_status_lines)
         if git_status_lines is not None
@@ -105,8 +110,10 @@ def build_reproducibility_review_rows(
         _clean_checkout_scope_row(
             reproducibility_package_doc_path,
             goal_audit_path,
+            goal_audit_manifest_path,
             package_text=package_text,
             goal_text=goal_text,
+            goal_manifest=goal_manifest,
         ),
     ]
 
@@ -118,6 +125,7 @@ def write_reproducibility_review_packet(
     manifest_path: str | Path = DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH,
     reproducibility_manifest_path: str | Path = DEFAULT_REPRODUCIBILITY_MANIFEST_PATH,
     reproducibility_acceptance_path: str | Path = DEFAULT_REPRODUCIBILITY_ACCEPTANCE_PATH,
+    goal_audit_manifest_path: str | Path = DEFAULT_GOAL_AUDIT_MANIFEST_PATH,
     clean_checkout_smoke_manifest_path: str
     | Path = DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     git_status_lines: Sequence[str] | None = None,
@@ -158,6 +166,9 @@ def write_reproducibility_review_packet(
         "input_artifact_paths": {
             "reproducibility_manifest": _display_path(reproducibility_manifest_path),
             "reproducibility_acceptance": _display_path(reproducibility_acceptance_path),
+            "current_goal_completion_audit_manifest": _display_path(
+                goal_audit_manifest_path
+            ),
         },
         "outputs": {
             "reproducibility_review_packet": _display_path(output),
@@ -408,12 +419,16 @@ def _clean_checkout_smoke_row(
 def _clean_checkout_scope_row(
     package_doc_path: str | Path,
     goal_audit_path: str | Path,
+    goal_audit_manifest_path: str | Path,
     *,
     package_text: str,
     goal_text: str,
+    goal_manifest: Mapping[str, Any],
 ) -> dict[str, str]:
     package_mentions_scaffold = "scaffold" in package_text.lower()
     goal_blocks_final = "final-study ready: `false`" in goal_text.lower()
+    manifest_blocks_final = goal_manifest.get("final_study_ready") is False
+    manifest_can_mark_complete = bool(goal_manifest.get("can_mark_complete", False))
     return _review_row(
         category_id="clean_checkout_execution_scope",
         check_name="Clean-checkout execution scope",
@@ -422,14 +437,20 @@ def _clean_checkout_scope_row(
         status="blocked_full_clean_checkout_not_run",
         status_detail=(
             f"package_mentions_scaffold={_bool_text(package_mentions_scaffold)}; "
-            f"goal_audit_blocks_final={_bool_text(goal_blocks_final)}"
+            f"goal_audit_blocks_final={_bool_text(goal_blocks_final)}; "
+            f"goal_manifest_blocks_final={_bool_text(manifest_blocks_final)}; "
+            f"goal_manifest_can_mark_complete={_bool_text(manifest_can_mark_complete)}"
         ),
         required_action=(
             "Run a fresh-clone or exported-package reproduction and preserve "
             "logs. If only smoke scope is feasible, keep full reproduction "
             "blocked and document the smoke boundary."
         ),
-        evidence_paths=[package_doc_path, goal_audit_path],
+        evidence_paths=[
+            package_doc_path,
+            goal_audit_path,
+            goal_audit_manifest_path,
+        ],
     )
 
 
@@ -582,6 +603,7 @@ def _display_path(path: str | Path) -> str:
 
 
 __all__ = [
+    "DEFAULT_GOAL_AUDIT_MANIFEST_PATH",
     "DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH",
     "DEFAULT_REPRODUCIBILITY_REVIEW_PACKET_PATH",
     "REPRODUCIBILITY_REVIEW_COLUMNS",

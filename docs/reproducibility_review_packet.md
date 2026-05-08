@@ -18,7 +18,10 @@ The packet makes the clean-checkout blocker auditable by checking:
 - whether the validation command ladder is present;
 - whether runtime code imports from `cloned_repo`;
 - whether bounded clean source-checkout smoke evidence exists;
-- whether a full clean-environment reproduction is still required.
+- whether a full clean-environment reproduction is still required, using both
+  `docs/current_goal_completion_audit.md` and
+  `data/manifests/current_goal_completion_audit.json` as current-state
+  blocker evidence.
 
 ## Command
 
@@ -30,6 +33,10 @@ The command writes:
 
 - `data/validation/reproducibility_review_packet.csv`
 - `data/validation/reproducibility_review_manifest.json`
+
+The execution-scope row cites both the Markdown and JSON current-goal
+completion audits. These are blocker evidence only and do not replace
+`data/manifests/reproducibility_acceptance.json`.
 
 ## Current-Worktree Smoke Companion
 
