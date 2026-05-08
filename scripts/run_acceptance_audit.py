@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 
@@ -124,6 +125,7 @@ from src.realworld.reproducibility_review_packet import (  # noqa: E402
 )
 from src.realworld.reproducibility_smoke import summarize_reproducibility_smoke  # noqa: E402
 from src.realworld.tracked_artifact_audit import (  # noqa: E402
+    build_tracked_artifact_rows,
     write_tracked_artifact_audit,
 )
 from src.realworld.route_road_evidence_exposure import (  # noqa: E402
@@ -152,9 +154,11 @@ def main() -> int:
     """Refresh review artifacts, write agent records, and print a JSON summary."""
 
     args = _parse_args()
+    initial_git_status_lines = _git_status_lines()
     refreshed = _refresh_existing_review_packets(
         live_source_url_checks=args.live_source_url_checks,
         source_url_timeout_sec=args.source_url_timeout_sec,
+        initial_git_status_lines=initial_git_status_lines,
     )
     manifest = write_acceptance_orchestration_outputs()
     formal_guard = audit_formal_acceptance_artifacts()
@@ -162,7 +166,10 @@ def main() -> int:
     formal_evidence_paths = formal_package.get("formal_evidence_path_audit", {})
     agent_review_paths = write_agent_review_path_audit()
     refreshed.append("data/manifests/agent_review_path_audit.json")
-    tracked_artifacts = write_tracked_artifact_audit()
+    tracked_artifact_rows = build_tracked_artifact_rows(
+        git_status_lines=initial_git_status_lines,
+    )
+    tracked_artifacts = write_tracked_artifact_audit(rows=tracked_artifact_rows)
     refreshed.append("data/validation/tracked_artifact_audit.csv")
     blocker_queue = write_acceptance_blocker_queue(package_summary=formal_package)
     task_assignments = write_acceptance_task_assignments(
@@ -308,6 +315,7 @@ def _refresh_existing_review_packets(
     *,
     live_source_url_checks: bool = False,
     source_url_timeout_sec: float = 8.0,
+    initial_git_status_lines: list[str] | None = None,
 ) -> list[str]:
     refreshed: list[str] = []
     pilot_privacy_rows = build_pilot_privacy_review_rows()
@@ -402,12 +410,31 @@ def _refresh_existing_review_packets(
     )
     write_validation_strategy_readiness_packet(rows=validation_readiness_rows)
     refreshed.append("data/validation/validation_strategy_readiness_packet.csv")
-    reproducibility_rows = build_reproducibility_review_rows()
-    write_reproducibility_review_packet(rows=reproducibility_rows)
+    reproducibility_rows = build_reproducibility_review_rows(
+        git_status_lines=initial_git_status_lines,
+    )
+    write_reproducibility_review_packet(
+        rows=reproducibility_rows,
+        git_status_lines=initial_git_status_lines,
+    )
     refreshed.append("data/validation/reproducibility_review_packet.csv")
     write_acceptance_decision_templates()
     refreshed.append("data/manifests/acceptance_decision_template_manifest.json")
     return refreshed
+
+
+def _git_status_lines() -> list[str]:
+    result = subprocess.run(
+        ["git", "status", "--short"],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        return [f"!! git status failed: {result.stderr.strip()}"]
+    return [line for line in result.stdout.splitlines() if line.strip()]
 
 
 def _parse_args() -> argparse.Namespace:
