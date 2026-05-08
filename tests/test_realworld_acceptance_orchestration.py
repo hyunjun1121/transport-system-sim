@@ -45,7 +45,13 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/pilot_privacy_review_packet.csv" in (
         pilot_agent.review_packet_paths
     )
+    assert "data/manifests/pilot_region_decision_packet.csv" in (
+        pilot_agent.review_packet_paths
+    )
     assert "data/manifests/pilot_privacy_review_manifest.json" in (
+        pilot_agent.source_paths
+    )
+    assert "data/manifests/pilot_region_decision_manifest.json" in (
         pilot_agent.source_paths
     )
     assert "data/manifests/current_goal_completion_audit.json" in (
@@ -194,6 +200,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "parameter_source_decision" in snapshot_ids
     assert "road_source_decision" in snapshot_ids
     assert "rail_source_decision" in snapshot_ids
+    assert "pilot_region_decision" in snapshot_ids
     assert "graph_scale_method_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
@@ -244,6 +251,30 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "review_items": ["cache or exclude context-only sources"],
                     "remaining_blockers": [
                         "context-only public sources still need cached extracts"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        pilot_region_decision_snapshot_path = (
+            root / "pilot_region_decision_manifest.json"
+        )
+        pilot_region_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 6,
+                    "blocking_decision_count": 3,
+                    "human_review_decision_count": 3,
+                    "pilot_acceptance_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_pilot_acceptance_record": 1,
+                        "needs_human_review_pilot_case_scope": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/pilot_acceptance.json is absent"
                     ],
                 }
             )
@@ -644,6 +675,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     source_priority_path,
                 ),
                 (
+                    "pilot_region_decision",
+                    "Pilot Region Decision",
+                    pilot_region_decision_snapshot_path,
+                ),
+                (
                     "validation_benchmark_readiness",
                     "Validation Benchmark Readiness",
                     validation_snapshot_path,
@@ -754,6 +790,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             for item in manifest["review_packet_snapshots"]
         }
         assert snapshots["source_provenance_priority"]["blocking_count"] == 4
+        assert snapshots["pilot_region_decision"]["blocking_count"] == 3
+        assert snapshots["pilot_region_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["pilot_region_decision"]["status_counts"][
+                "blocked_missing_pilot_acceptance_record"
+            ]
+            == 1
+        )
         assert (
             snapshots["validation_benchmark_readiness"]["human_review_count"]
             == 3
@@ -904,6 +948,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Validation Benchmark Decision`" in index_text
         assert "`Experiment Design Decision`" in index_text
+        assert "`Pilot Region Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Graph-Scale Method Decision`" in index_text
         assert "`Source URL Review`" in index_text
@@ -917,6 +962,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Current Goal Completion Audit`" in index_text
         assert "`Publication Readiness Audit`" in index_text
         assert "candidate_worsens=24" in index_text
+        assert "blocked_missing_pilot_acceptance_record=1" in index_text
         assert "needs_human_review_reduced_corridor_warning_policy=1" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text

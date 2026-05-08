@@ -72,6 +72,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "source_url_remediation_manifest.json",
     ),
     (
+        "pilot_region_decision",
+        "Pilot Region Decision",
+        PROJECT_ROOT / "data" / "manifests" / "pilot_region_decision_manifest.json",
+    ),
+    (
         "graph_scale_review",
         "Graph-Scale Method Review",
         PROJECT_ROOT / "data" / "validation" / "graph_scale_review_manifest.json",
@@ -326,6 +331,8 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "docs/pilot_region_data_card.md",
             "data/manifests/pilot_privacy_review_packet.csv",
             "data/manifests/pilot_privacy_review_manifest.json",
+            "data/manifests/pilot_region_decision_packet.csv",
+            "data/manifests/pilot_region_decision_manifest.json",
         ),
         reviewed_inputs=(
             "data/regions/pilot_region.yaml",
@@ -335,9 +342,12 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/manifests/pilot_privacy_review_packet.csv",
             "data/manifests/pilot_privacy_review_manifest.json",
             "docs/pilot_privacy_review_packet.md",
+            "data/manifests/pilot_region_decision_manifest.json",
+            "docs/pilot_region_decision_packet.md",
         ),
         review_packet_paths=(
             "data/manifests/pilot_privacy_review_packet.csv",
+            "data/manifests/pilot_region_decision_packet.csv",
             "docs/review_packets/pilot_region_accepted.md",
         ),
         decision_rules=(

@@ -23,7 +23,7 @@ The active objective is complete only when every final-study gate below is ready
 
 | Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
 | --- | --- | --- | --- |
-| Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+2 more | create an explicit pilot acceptance record after privacy and case-scope review |
+| Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+6 more | create an explicit pilot acceptance record after privacy and case-scope review<br>resolve pilot-region decision blockers before pilot acceptance<br>pilot-region decision: data/manifests/graph_scale_acceptance.json is absent<br>+3 more |
 | Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+25 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+12 more |
 | Real Input Smoke | ready | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
 | Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>graph-scale strategy readiness: graph_scale_acceptance.json is absent<br>+10 more |
@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
-- Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Changed reproducibility artifacts: 74
+- Blocking changed artifacts: 74
+- Untracked artifacts: 6
+- Modified or staged artifacts: 68
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
@@ -256,6 +256,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py
+.\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py

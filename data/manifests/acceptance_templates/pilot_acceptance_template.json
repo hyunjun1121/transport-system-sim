@@ -10,6 +10,10 @@
     "data/manifests/pilot_privacy_review_packet.csv",
     "data/manifests/pilot_privacy_review_manifest.json",
     "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "docs/pilot_region_decision_packet.md",
+    "scripts/write_pilot_region_decision_packet.py",
     "data/manifests/pilot_acceptance.json"
   ],
   "graph_scale_decision": "corridor_abstraction",

@@ -19,6 +19,11 @@ from src.realworld.pilot_privacy_review_packet import (  # noqa: E402
     DEFAULT_PILOT_PRIVACY_REVIEW_MANIFEST_PATH,
     DEFAULT_PILOT_PRIVACY_REVIEW_PACKET_PATH,
 )
+from src.realworld.pilot_region_decision_packet import (  # noqa: E402
+    DEFAULT_PILOT_REGION_DECISION_DOC_PATH,
+    DEFAULT_PILOT_REGION_DECISION_MANIFEST_PATH,
+    DEFAULT_PILOT_REGION_DECISION_PACKET_PATH,
+)
 from src.realworld.acceptance_orchestration import (  # noqa: E402
     DEFAULT_AGENT_REVIEW_DIR,
     REVIEW_AGENT_DEFINITIONS,
@@ -456,6 +461,11 @@ CSV_EXPECTATIONS = (
         7,
     ),
     CsvExpectation(
+        "pilot_region_decision_packet",
+        DEFAULT_PILOT_REGION_DECISION_PACKET_PATH,
+        6,
+    ),
+    CsvExpectation(
         "experiment_package_review_packet",
         DEFAULT_EXPERIMENT_PACKAGE_REVIEW_PACKET_PATH,
         9,
@@ -860,6 +870,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_PILOT_PRIVACY_REVIEW_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "pilot_region_decision_manifest",
+        DEFAULT_PILOT_REGION_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "experiment_package_review_manifest",
         DEFAULT_EXPERIMENT_PACKAGE_REVIEW_MANIFEST_PATH,
     ),
@@ -1134,6 +1148,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "final_audit_acceptance_schema.md",
     ROOT / "docs" / "pilot_acceptance_schema.md",
     DEFAULT_PILOT_PRIVACY_REVIEW_DOC_PATH,
+    DEFAULT_PILOT_REGION_DECISION_DOC_PATH,
     ROOT / "docs" / "parameter_acceptance_schema.md",
     ROOT / "docs" / "parameter_evidence_review_packet.md",
     ROOT / "docs" / "parameter_evidence_source_request_packet.md",

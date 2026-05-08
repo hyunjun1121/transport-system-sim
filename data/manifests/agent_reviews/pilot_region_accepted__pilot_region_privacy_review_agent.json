@@ -10,18 +10,28 @@
     "data/manifests/pilot_privacy_review_packet.csv",
     "data/manifests/pilot_privacy_review_manifest.json",
     "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "docs/pilot_region_decision_packet.md",
+    "scripts/write_pilot_region_decision_packet.py",
     "data/manifests/pilot_acceptance.json",
     "docs/review_packets/pilot_region_accepted.md"
   ],
   "gate_id": "pilot_region_accepted",
-  "generated_at": "2026-05-08T19:33:08+00:00",
+  "generated_at": "2026-05-08T19:54:12+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.",
-    "create an explicit pilot acceptance record after privacy and case-scope review"
+    "create an explicit pilot acceptance record after privacy and case-scope review",
+    "resolve pilot-region decision blockers before pilot acceptance",
+    "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
+    "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
+    "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
+    "review pilot-region decision human-decision items before pilot acceptance"
   ],
   "review_packet_paths": [
     "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_region_decision_packet.csv",
     "docs/review_packets/pilot_region_accepted.md"
   ],
   "reviewed_inputs": [
@@ -32,12 +42,21 @@
     "data/manifests/pilot_privacy_review_packet.csv",
     "data/manifests/pilot_privacy_review_manifest.json",
     "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "docs/pilot_region_decision_packet.md",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "scripts/write_pilot_region_decision_packet.py",
     "data/manifests/pilot_acceptance.json"
   ],
   "risks": [
     "Sensitive geography or destination abstraction could be overinterpreted as operational routing.",
     "Region choice may not be reusable unless privacy and scope are documented.",
-    "create an explicit pilot acceptance record after privacy and case-scope review"
+    "create an explicit pilot acceptance record after privacy and case-scope review",
+    "resolve pilot-region decision blockers before pilot acceptance",
+    "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
+    "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
+    "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
+    "review pilot-region decision human-decision items before pilot acceptance"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -45,6 +64,8 @@
     "docs/pilot_region_data_card.md",
     "data/manifests/pilot_privacy_review_packet.csv",
     "data/manifests/pilot_privacy_review_manifest.json",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "data/manifests/pilot_region_decision_manifest.json",
     "data/manifests/pilot_acceptance.json"
   ],
   "status": "needs_human_review"

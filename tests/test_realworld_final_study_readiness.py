@@ -49,6 +49,18 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["policy_alternatives"]["ready"] is True
     assert gate_map["real_input_smoke"]["ready"] is True
     assert gate_map["pilot_region_accepted"]["ready"] is False
+    pilot_details = gate_map["pilot_region_accepted"]["details"]
+    assert pilot_details["pilot_region_decision_artifacts_present"] is True
+    assert pilot_details["pilot_region_decision_row_count"] == 6
+    assert pilot_details["pilot_region_decision_blocking_decision_count"] == 3
+    assert pilot_details["pilot_region_decision_human_review_decision_count"] == 3
+    assert pilot_details["pilot_region_decision_recorded"] is False
+    assert pilot_details["pilot_region_decision_privacy_completion_recorded"] is False
+    assert any(
+        "pilot-region decision: data/manifests/pilot_acceptance.json is absent"
+        in item
+        for item in gate_map["pilot_region_accepted"]["blockers"]
+    )
     assert (
         gate_map["cached_osm_input"]["details"][
             "source_readiness_source_url_or_citation_present_count"

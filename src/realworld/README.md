@@ -103,6 +103,10 @@ Implemented extension modules now also cover:
   worksheet generated from the region YAML and data card. It checks boundary,
   public/synthetic points, coordinate policy, and claim-boundary review needs
   without approving the pilot case.
+- `pilot_region_decision_packet.py`: focused pilot-region decision worksheet
+  that separates case-scope, privacy-completion, graph-scale dependency,
+  provenance dependency, claim-boundary, and missing formal pilot-acceptance
+  decisions without creating `pilot_acceptance.json`.
 - `provenance_acceptance.py`: explicit source snapshot, license/attribution,
   privacy abstraction, cache manifest, reproducibility manifest, and
   not-operational claim-boundary acceptance records.

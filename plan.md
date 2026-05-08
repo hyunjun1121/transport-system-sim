@@ -196,6 +196,15 @@ First pilot-smoke artifacts also exist:
   `data/manifests/pilot_privacy_review_manifest.json`, and
   `docs/pilot_privacy_review_packet.md` are reviewer aids only and do not
   close the pilot-region gate.
+- `src/realworld/pilot_region_decision_packet.py` and
+  `scripts/write_pilot_region_decision_packet.py` now turn the pilot-region
+  gate into six focused reviewer decisions covering case scope, privacy
+  completion, graph-scale dependency, provenance dependency, not-operational
+  claim boundary, and the missing formal pilot acceptance record. The generated
+  `data/manifests/pilot_region_decision_packet.csv`,
+  `data/manifests/pilot_region_decision_manifest.json`, and
+  `docs/pilot_region_decision_packet.md` are reviewer aids only and do not
+  create `data/manifests/pilot_acceptance.json`.
 - `src/realworld/graph_scale_acceptance.py` and
   `docs/graph_scale_acceptance_schema.md` define the explicit review record
   required before the graph-scale strategy gate can close. The actual

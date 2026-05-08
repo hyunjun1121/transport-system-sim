@@ -16,7 +16,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 
 | Gate | Current Status | Recommendation | Formal Target | Missing Evidence | Human Action |
 | --- | --- | --- | --- | --- | --- |
-| pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>resolve pilot-region decision blockers before pilot acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+16 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+32 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -44,12 +44,15 @@ Draft pre-review recommendations only. These records classify remaining formal a
 Review packets:
 - docs/review_packets/pilot_region_accepted.md
 - data/manifests/pilot_privacy_review_packet.csv
+- data/manifests/pilot_region_decision_packet.csv
 
 Source paths:
 - data/regions/pilot_region.yaml
 - docs/pilot_region_data_card.md
 - data/manifests/pilot_privacy_review_packet.csv
 - data/manifests/pilot_privacy_review_manifest.json
+- data/manifests/pilot_region_decision_packet.csv
+- data/manifests/pilot_region_decision_manifest.json
 - data/manifests/pilot_acceptance.json
 
 Evidence inspected:
@@ -57,19 +60,33 @@ Evidence inspected:
 - `docs/pilot_region_data_card.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/pilot_privacy_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/pilot_privacy_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/pilot_region_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/pilot_region_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/pilot_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/pilot_region_accepted.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_privacy_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/pilot_region_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_pilot_region_decision_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
 - create an explicit pilot acceptance record after privacy and case-scope review
+- resolve pilot-region decision blockers before pilot acceptance
+- pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
+- pilot-region decision: data/manifests/provenance_acceptance.json is absent
+- pilot-region decision: data/manifests/pilot_acceptance.json is absent
+- review pilot-region decision human-decision items before pilot acceptance
 - data/manifests/pilot_acceptance.json is absent
 
 Residual risks:
 - Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.
 - create an explicit pilot acceptance record after privacy and case-scope review
+- resolve pilot-region decision blockers before pilot acceptance
+- pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
+- pilot-region decision: data/manifests/provenance_acceptance.json is absent
+- pilot-region decision: data/manifests/pilot_acceptance.json is absent
+- review pilot-region decision human-decision items before pilot acceptance
 - data/manifests/pilot_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.

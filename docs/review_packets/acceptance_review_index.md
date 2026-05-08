@@ -8,7 +8,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 
 | Gate | Agent | Status | Can Mark Complete | Required Action Count |
 | --- | --- | --- | --- | --- |
-| `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 2 |
+| `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 7 |
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 19 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 15 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
@@ -64,6 +64,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Source/License Review` | 11 | 4 | 11 | 0 | `false` | cached_snapshot_pending_review=3; context_only_not_cached=4; repository_input_pending_review=4 |
 | `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
 | `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
+| `Pilot Region Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_graph_scale_acceptance_record=1; blocked_missing_pilot_acceptance_record=1; blocked_missing_provenance_acceptance_record=1; +3 more |
 | `Graph-Scale Method Review` | 4 | 0 | 0 | 0 | `false` |  |
 | `Full-Graph Runtime Readiness` | 4 | 2 | 2 | 0 | `false` | blocked_missing_downstream_full_graph_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; needs_human_review_full_graph_runtime_scope_decision=1; +1 more |
 | `Graph-Scale Strategy Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +2 more |
@@ -87,7 +88,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
 | `Acceptance Task Assignments` | 15 | 0 | 15 | 0 | `false` | apply_reviewed_input_and_regenerate=1; create_or_supply_formal_evidence=13; replace_weak_or_scaffold_evidence=1 |
@@ -95,8 +96,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=729 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=740 |
+| `Tracked Artifact Audit` | 74 | 74 | 0 | 0 | `false` | agent_definition=1; data_or_manifest=39; documentation=18; +4 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -108,6 +109,7 @@ Priority blockers by packet:
 - `Source/License Review`: formal provenance acceptance record is absent (+2 more)
 - `Source URL Review`: formal provenance acceptance record is absent (+3 more)
 - `Source URL Remediation`: formal provenance acceptance record is absent (+3 more)
+- `Pilot Region Decision`: data/manifests/graph_scale_acceptance.json is absent (+2 more)
 - `Full-Graph Runtime Readiness`: full-graph full-profile outputs are absent (+2 more)
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
 - `Graph-Scale Method Decision`: multi-corridor candidate has only separated/sample-scale output (+3 more)
@@ -129,12 +131,18 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: agents/acceptance_review_agents.json: Commit, stash, or document this change before clean-checkout reproduction. (+50 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
 
 - pilot_region_accepted: Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.
 - pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review
+- pilot_region_accepted: resolve pilot-region decision blockers before pilot acceptance
+- pilot_region_accepted: pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
+- pilot_region_accepted: pilot-region decision: data/manifests/provenance_acceptance.json is absent
+- pilot_region_accepted: pilot-region decision: data/manifests/pilot_acceptance.json is absent
+- pilot_region_accepted: review pilot-region decision human-decision items before pilot acceptance
 - data_provenance: Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.
 - data_provenance: Create data/manifests/provenance_acceptance.json only after source-backed review.
 - data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
@@ -285,6 +293,11 @@ Priority blockers by packet:
 - final_audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed
 - final_audit: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
 - Pilot Region Accepted: create an explicit pilot acceptance record after privacy and case-scope review
+- Pilot Region Accepted: resolve pilot-region decision blockers before pilot acceptance
+- Pilot Region Accepted: pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
+- Pilot Region Accepted: pilot-region decision: data/manifests/provenance_acceptance.json is absent
+- Pilot Region Accepted: pilot-region decision: data/manifests/pilot_acceptance.json is absent
+- Pilot Region Accepted: review pilot-region decision human-decision items before pilot acceptance
 - Cached OSM Input: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration
 - Cached OSM Input: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values
 - Cached OSM Input: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence

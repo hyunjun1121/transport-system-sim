@@ -100,12 +100,21 @@
         "data/manifests/pilot_privacy_review_packet.csv",
         "data/manifests/pilot_privacy_review_manifest.json",
         "docs/pilot_privacy_review_packet.md",
+        "data/manifests/pilot_region_decision_packet.csv",
+        "data/manifests/pilot_region_decision_manifest.json",
+        "docs/pilot_region_decision_packet.md",
+        "scripts/write_pilot_region_decision_packet.py",
         "data/manifests/pilot_acceptance.json"
       ],
       "gate_id": "pilot_region_accepted",
       "label": "Pilot Region Accepted",
       "missing_or_weak_requirements": [
-        "create an explicit pilot acceptance record after privacy and case-scope review"
+        "create an explicit pilot acceptance record after privacy and case-scope review",
+        "resolve pilot-region decision blockers before pilot acceptance",
+        "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
+        "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
+        "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
+        "review pilot-region decision human-decision items before pilot acceptance"
       ],
       "ready": false
     },

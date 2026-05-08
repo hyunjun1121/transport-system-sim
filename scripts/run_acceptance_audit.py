@@ -102,6 +102,10 @@ from src.realworld.pilot_privacy_review_packet import (  # noqa: E402
     build_pilot_privacy_review_rows,
     write_pilot_privacy_review_packet,
 )
+from src.realworld.pilot_region_decision_packet import (  # noqa: E402
+    build_pilot_region_decision_rows,
+    write_pilot_region_decision_packet,
+)
 from src.realworld.publication_readiness import (  # noqa: E402
     write_publication_readiness_audit,
 )
@@ -405,6 +409,9 @@ def _refresh_existing_review_packets(
     pilot_privacy_rows = build_pilot_privacy_review_rows()
     write_pilot_privacy_review_packet(rows=pilot_privacy_rows)
     refreshed.append("data/manifests/pilot_privacy_review_packet.csv")
+    pilot_decision_rows = build_pilot_region_decision_rows()
+    write_pilot_region_decision_packet(rows=pilot_decision_rows)
+    refreshed.append("data/manifests/pilot_region_decision_packet.csv")
     graph_scale_manifest_rows = build_graph_scale_manifest_audit_rows()
     write_graph_scale_manifest_audit(rows=graph_scale_manifest_rows)
     refreshed.append("data/validation/graph_scale_manifest_audit.csv")

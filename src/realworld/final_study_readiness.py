@@ -44,6 +44,11 @@ from src.realworld.figure_table_review_packet import (
 )
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
 from src.realworld.pilot_acceptance import summarize_pilot_acceptance
+from src.realworld.pilot_region_decision_packet import (
+    DEFAULT_PILOT_REGION_DECISION_DOC_PATH,
+    DEFAULT_PILOT_REGION_DECISION_MANIFEST_PATH,
+    DEFAULT_PILOT_REGION_DECISION_PACKET_PATH,
+)
 from src.realworld.provenance_acceptance import summarize_provenance_acceptance
 from src.realworld.publication_readiness import audit_publication_readiness
 from src.realworld.rail_evidence import (
@@ -285,6 +290,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     validation_benchmark_decision_manifest = _load_json(
         DEFAULT_VALIDATION_BENCHMARK_DECISION_MANIFEST_PATH
     )
+    pilot_region_decision_manifest = _load_json(
+        DEFAULT_PILOT_REGION_DECISION_MANIFEST_PATH
+    )
     sensitivity_strategy_readiness_manifest = _load_json(
         DEFAULT_SENSITIVITY_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -302,7 +310,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
     final_audit_acceptance = summarize_final_audit_acceptance()
 
     pre_final_gates = [
-        _pilot_region_gate(pilot_acceptance),
+        _pilot_region_gate(pilot_acceptance, pilot_region_decision_manifest),
         _cached_osm_gate(
             road_audit,
             road_override_audit,
@@ -416,24 +424,68 @@ def audit_final_study_readiness() -> dict[str, Any]:
     }
 
 
-def _pilot_region_gate(pilot_acceptance: dict[str, Any]) -> dict[str, Any]:
+def _pilot_region_gate(
+    pilot_acceptance: dict[str, Any],
+    pilot_region_decision_manifest: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     region_path = PROJECT_ROOT / "data" / "regions" / "pilot_region.yaml"
     data_card_path = PROJECT_ROOT / "docs" / "pilot_region_data_card.md"
     accepted = bool(pilot_acceptance["acceptance_ready"])
+    decision = pilot_region_decision_manifest or {}
+    decision_remaining_blockers = _list_value(
+        pilot_region_decision_manifest,
+        "remaining_blockers",
+    )
+    decision_blocking_count = _dict_int(
+        pilot_region_decision_manifest,
+        "blocking_decision_count",
+    )
+    decision_human_review_count = _dict_int(
+        pilot_region_decision_manifest,
+        "human_review_decision_count",
+    )
+    decision_artifacts_present = (
+        DEFAULT_PILOT_REGION_DECISION_PACKET_PATH.exists()
+        and DEFAULT_PILOT_REGION_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_PILOT_REGION_DECISION_DOC_PATH.exists()
+    )
+    blockers = [] if accepted else list(pilot_acceptance["remaining_blockers"])
+    if not decision_artifacts_present:
+        blockers.append("create pilot-region decision artifacts")
+    if not accepted and decision_blocking_count:
+        blockers.append(
+            "resolve pilot-region decision blockers before pilot acceptance"
+        )
+        blockers.extend(
+            f"pilot-region decision: {item}"
+            for item in decision_remaining_blockers
+        )
+    if not accepted and decision_human_review_count:
+        blockers.append(
+            "review pilot-region decision human-decision items before pilot acceptance"
+        )
     return _gate(
         "pilot_region_accepted",
         "Pilot Region Accepted",
-        ready=accepted,
-        artifact_present=region_path.exists() and data_card_path.exists(),
+        ready=accepted and decision_artifacts_present,
+        artifact_present=(
+            region_path.exists()
+            and data_card_path.exists()
+            and decision_artifacts_present
+        ),
         evidence=[
             "data/regions/pilot_region.yaml",
             "docs/pilot_region_data_card.md",
             "data/manifests/pilot_privacy_review_packet.csv",
             "data/manifests/pilot_privacy_review_manifest.json",
             "docs/pilot_privacy_review_packet.md",
+            "data/manifests/pilot_region_decision_packet.csv",
+            "data/manifests/pilot_region_decision_manifest.json",
+            "docs/pilot_region_decision_packet.md",
+            "scripts/write_pilot_region_decision_packet.py",
             "data/manifests/pilot_acceptance.json",
         ],
-        blockers=[] if accepted else list(pilot_acceptance["remaining_blockers"]),
+        blockers=blockers,
         details={
             "acceptance_record_present": pilot_acceptance["record_present"],
             "acceptance_path": pilot_acceptance["path"],
@@ -443,6 +495,35 @@ def _pilot_region_gate(pilot_acceptance: dict[str, Any]) -> dict[str, Any]:
             "pilot_privacy_review_manifest_present": (
                 PROJECT_ROOT / "data" / "manifests" / "pilot_privacy_review_manifest.json"
             ).exists(),
+            "pilot_region_decision_artifacts_present": decision_artifacts_present,
+            "pilot_region_decision_manifest_present": bool(
+                pilot_region_decision_manifest
+            ),
+            "pilot_region_decision_row_count": decision.get("row_count", 0),
+            "pilot_region_decision_blocking_decision_count": decision.get(
+                "blocking_decision_count", 0
+            ),
+            "pilot_region_decision_human_review_decision_count": decision.get(
+                "human_review_decision_count", 0
+            ),
+            "pilot_region_decision_status_counts": decision.get(
+                "decision_status_counts", {}
+            ),
+            "pilot_region_decision_recorded": decision.get(
+                "pilot_region_decision_recorded", False
+            ),
+            "pilot_region_decision_privacy_completion_recorded": decision.get(
+                "privacy_completion_decision_recorded", False
+            ),
+            "pilot_region_decision_remaining_blockers": (
+                decision_remaining_blockers
+            ),
+            "pilot_region_decision_publication_ready": decision.get(
+                "publication_ready", False
+            ),
+            "pilot_region_decision_can_mark_complete": decision.get(
+                "can_mark_complete", False
+            ),
         },
     )
 
