@@ -28,6 +28,24 @@
       "path": "data/parameters/rail_station_bindings.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_source_readiness_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/road/road_source_readiness_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_fetch_readiness_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for road_class_overrides",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -79,7 +97,31 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/parameter_source_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/road/road_evidence_source_request_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/road/road_source_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/rail/rail_timing_source_request_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/rail/rail_fetch_readiness_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for road_class_overrides",
@@ -127,25 +169,7 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/road/road_evidence_source_request_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for road_class_overrides",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/road/road_evidence_source_request_manifest.json"
-    },
-    {
-      "claim_supported": "Repository evidence cited for road_class_overrides",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/road/road_source_readiness_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for road_class_overrides",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/road/road_source_readiness_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for road_class_overrides",
@@ -208,7 +232,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-08T09:12:56+00:00",
+  "generated_at": "2026-05-08T10:52:17+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

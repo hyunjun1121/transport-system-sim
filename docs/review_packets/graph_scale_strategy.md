@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -17,7 +17,10 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - docs/analysis_corridor_method_note.md
 - docs/graph_scale_diagnostics.md
 - data/validation/graph_scale_review_packet.csv
+- data/validation/full_graph_runtime_readiness_manifest.json
+- data/validation/graph_scale_strategy_readiness_manifest.json
 - data/validation/graph_scale_result_comparison.csv
+- data/validation/graph_scale_result_comparison_manifest.json
 - data/manifests/graph_scale_acceptance.json
 - data/validation/graph_scale_route_comparison.csv
 - data/validation/graph_scale_route_comparison_summary.md
@@ -27,12 +30,9 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - data/validation/graph_scale_multi_corridor_routes_summary.md
 - data/validation/graph_scale_review_manifest.json
 - data/validation/graph_scale_strategy_readiness_packet.csv
-- data/validation/graph_scale_strategy_readiness_manifest.json
 - docs/graph_scale_strategy_readiness_packet.md
 - data/validation/full_graph_runtime_readiness_packet.csv
-- data/validation/full_graph_runtime_readiness_manifest.json
 - docs/full_graph_runtime_readiness_packet.md
-- data/validation/graph_scale_result_comparison_manifest.json
 - scripts/write_graph_scale_review_packet.py
 - scripts/write_graph_scale_strategy_readiness_packet.py
 - scripts/write_graph_scale_result_comparison.py

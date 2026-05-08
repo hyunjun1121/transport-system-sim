@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -17,15 +17,15 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - scripts/run_pilot_experiments.py
 - data/scenarios/disruption_scenarios.csv
 - data/scenarios/policy_alternatives.csv
+- data/manifests/experiment_package_review_manifest.json
+- data/manifests/experiment_strategy_readiness_manifest.json
 - data/manifests/experiment_acceptance.json
 - results/realworld_pilot/pilot_full_results.csv
 - results/realworld_pilot/pilot_full_summary.csv
 - results/realworld_pilot/pilot_full_manifest.json
 - data/manifests/experiment_package_review_packet.csv
-- data/manifests/experiment_package_review_manifest.json
 - docs/experiment_package_review_packet.md
 - data/manifests/experiment_strategy_readiness_packet.csv
-- data/manifests/experiment_strategy_readiness_manifest.json
 - docs/experiment_strategy_readiness_packet.md
 
 ## Evidence And Source Paths

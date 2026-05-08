@@ -22,6 +22,18 @@
       "path": "results/realworld_pilot/pilot_full_summary.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_package_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_strategy_readiness_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for full_experiment_output",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -55,31 +67,19 @@
       "claim_supported": "Repository evidence cited for full_experiment_output",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/experiment_package_review_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for full_experiment_output",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/experiment_package_review_manifest.json"
     },
     {
       "claim_supported": "Repository evidence cited for full_experiment_output",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "docs/experiment_package_review_packet.md"
-    },
-    {
-      "claim_supported": "Repository evidence cited for full_experiment_output",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/manifests/experiment_strategy_readiness_packet.csv"
-    },
-    {
-      "claim_supported": "Repository evidence cited for full_experiment_output",
-      "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/experiment_strategy_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/experiment_package_review_packet.md"
     },
     {
       "claim_supported": "Repository evidence cited for full_experiment_output",
@@ -97,7 +97,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/experiment_acceptance.json",
   "gate": "full_experiment_output",
-  "generated_at": "2026-05-08T09:12:56+00:00",
+  "generated_at": "2026-05-08T10:52:17+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

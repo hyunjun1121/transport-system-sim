@@ -29,7 +29,7 @@
     "docs/review_packets/validation_package.md"
   ],
   "gate_id": "validation_package",
-  "generated_at": "2026-05-08T09:20:28+00:00",
+  "generated_at": "2026-05-08T10:52:01+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
@@ -43,8 +43,10 @@
   ],
   "reviewed_inputs": [
     "docs/validation_review_packet.md",
+    "docs/validation_strategy_readiness_packet.md",
     "docs/osrm_route_benchmark_manifest.md",
     "data/validation/validation_review_manifest.json",
+    "data/validation/validation_strategy_readiness_manifest.json",
     "data/manifests/validation_acceptance.json",
     "data/validation/validation_summary.md",
     "data/validation/external_route_benchmarks.csv",
@@ -56,8 +58,6 @@
     "data/validation/canonical_route_road_evidence_exposure_manifest.json",
     "data/validation/validation_review_packet.csv",
     "data/validation/validation_strategy_readiness_packet.csv",
-    "data/validation/validation_strategy_readiness_manifest.json",
-    "docs/validation_strategy_readiness_packet.md",
     "scripts/run_plausibility_validation.py",
     "scripts/run_accessibility_loss_analysis.py",
     "scripts/write_route_road_evidence_exposure.py",
@@ -79,7 +79,9 @@
   "schema_version": 1,
   "source_paths": [
     "data/validation/validation_review_packet.csv",
+    "data/validation/validation_strategy_readiness_packet.csv",
     "data/validation/osrm_route_benchmark_manifest.json",
+    "data/validation/accessibility_loss.csv",
     "data/validation/canonical_route_road_evidence_exposure.csv",
     "data/manifests/validation_acceptance.json"
   ],

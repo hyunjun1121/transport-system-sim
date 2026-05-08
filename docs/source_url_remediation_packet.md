@@ -9,7 +9,7 @@ Source URL remediation packet only; not source acceptance, not license certifica
 - Remediation rows: 17
 - Blocking issues: 0
 - Live checks still required: 0
-- Status counts: `{'local_citation_needs_review': 4, 'reachable_needs_license_review': 13}`
+- Status counts: `{'alternate_reachable_url_needs_review': 1, 'local_citation_needs_review': 4, 'reachable_needs_license_review': 12}`
 
 ## Remediation Rows
 
@@ -24,7 +24,7 @@ Source URL remediation packet only; not source acceptance, not license certifica
 | seoul_shortest_path_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | seoul_timetable_api_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
-| ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
+| ktdb_public_transport_gtfs_context | network_error | alternate_reachable_url_needs_review | medium | verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance |
 | ktdb_public_transport_gtfs_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | metro9_capacity_context | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |
 | osrm_public_route_benchmark | reachable | reachable_needs_license_review | medium | verify source identity, terms, attribution, and retained-snapshot policy before acceptance |

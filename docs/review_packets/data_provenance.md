@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -114,16 +114,18 @@ Formal acceptance artifacts:
     "source_url_remediation_publication_ready": false,
     "source_url_remediation_row_count": 17,
     "source_url_remediation_status_counts": {
+      "alternate_reachable_url_needs_review": 1,
       "local_citation_needs_review": 4,
-      "reachable_needs_license_review": 13
+      "reachable_needs_license_review": 12
     },
     "source_url_review_manifest_present": true,
     "source_url_review_packet_present": true,
     "source_url_status_counts": {
+      "network_error": 1,
       "no_url_detected": 4,
-      "reachable": 13
+      "reachable": 12
     },
-    "source_url_unreachable_or_error_count": 0
+    "source_url_unreachable_or_error_count": 1
   },
   "evidence": [
     "data/manifests/provenance_acceptance.json",

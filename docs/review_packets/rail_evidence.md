@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -16,15 +16,18 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 
 - data/parameters/parameter_evidence_review_packet.csv
 - data/parameters/parameter_evidence_source_request_packet.csv
+- data/parameters/parameter_source_readiness_manifest.json
 - data/parameters/road_evidence_review_packet.csv
+- data/road/road_evidence_source_request_packet.csv
+- data/road/road_source_readiness_manifest.json
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_timing_source_request_packet.csv
+- data/rail/rail_fetch_readiness_manifest.json
 - data/parameters/rail_service_evidence.csv
 - data/parameters/rail_station_bindings.csv
 - data/parameters/rail_evidence_review_manifest.json
 - data/rail/rail_timing_source_request_manifest.json
 - data/rail/rail_fetch_readiness_packet.csv
-- data/rail/rail_fetch_readiness_manifest.json
 - docs/rail_fetch_readiness_packet.md
 - scripts/audit_rail_evidence.py
 - scripts/write_rail_evidence_review_packet.py
@@ -61,7 +64,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - scripts/fetch_rail_shortest_path_cache.py
 - scripts/derive_rail_shortest_path_evidence.py
 - data/parameters/parameter_evidence_review_packet.csv
+- data/parameters/parameter_source_readiness_packet.csv
 - data/parameters/road_evidence_review_packet.csv
+- data/road/road_source_readiness_packet.csv
 - docs/review_packets/cached_osm_input.md
 - docs/review_packets/parameter_evidence.md
 - docs/review_packets/rail_evidence.md
@@ -117,6 +122,9 @@ Formal acceptance artifacts:
     "fetch_readiness_can_mark_complete": false,
     "fetch_readiness_manifest_present": true,
     "fetch_readiness_publication_ready": false,
+    "fetch_readiness_region_ids": [
+      "songpa_public_demo"
+    ],
     "fetch_readiness_remaining_blockers": [
       "rail timing cache files are absent unless source_cache_present is true",
       "API-key and reviewed-GTFS rows require external reviewer-provided inputs",

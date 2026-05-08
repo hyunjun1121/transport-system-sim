@@ -4,8 +4,9 @@
   "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
   "row_count": 17,
   "remediation_status_counts": {
+    "alternate_reachable_url_needs_review": 1,
     "local_citation_needs_review": 4,
-    "reachable_needs_license_review": 13
+    "reachable_needs_license_review": 12
   },
   "priority_counts": {
     "medium": 17

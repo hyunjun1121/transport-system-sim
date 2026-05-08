@@ -9,11 +9,12 @@
     "not_checked": 4
   },
   "url_status_counts": {
+    "network_error": 1,
     "no_url_detected": 4,
-    "reachable": 13
+    "reachable": 12
   },
   "live_check_performed": true,
-  "unreachable_or_error_count": 0,
+  "unreachable_or_error_count": 1,
   "requires_reviewer_confirmation_count": 17,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
@@ -29,6 +30,7 @@
   "review_items": [
     "open each URL and verify it is the intended official or retained source",
     "record license, attribution, derivative-use, and snapshot decisions outside this packet",
+    "resolve failed URL rows by replacement, caching, exclusion, or reviewer decision",
     "cache context-only public sources or exclude them from final claims",
     "treat live reachability as volatile and not as source acceptance",
     "create data/manifests/provenance_acceptance.json only after reviewer decisions"
@@ -36,6 +38,7 @@
   "remaining_blockers": [
     "formal provenance acceptance record is absent",
     "URL reachability does not certify license compatibility or evidence quality",
+    "unreachable, HTTP-error, or network-error URL rows require remediation review",
     "context-only URLs still need cached extracts or explicit exclusion from final claims"
   ]
 }

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -16,13 +16,13 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 
 - data/validation/sensitivity_review_packet.csv
 - data/validation/sensitivity_review_manifest.json
+- data/validation/sensitivity_strategy_readiness_manifest.json
 - scripts/run_sensitivity.py
 - data/manifests/sensitivity_acceptance.json
 - results/realworld_pilot/morris_results.csv
 - results/realworld_pilot/morris_summary.csv
 - results/realworld_pilot/morris_manifest.json
 - data/validation/sensitivity_strategy_readiness_packet.csv
-- data/validation/sensitivity_strategy_readiness_manifest.json
 - docs/sensitivity_strategy_readiness_packet.md
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py

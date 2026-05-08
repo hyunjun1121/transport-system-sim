@@ -10,7 +10,7 @@
     "docs/review_packets/final_audit.md"
   ],
   "gate_id": "final_audit",
-  "generated_at": "2026-05-08T09:20:28+00:00",
+  "generated_at": "2026-05-08T10:52:01+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
@@ -22,6 +22,8 @@
   "reviewed_inputs": [
     "docs/current_goal_completion_audit.md",
     "data/manifests/acceptance_orchestration_manifest.json",
+    "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+    "data/manifests/formal_acceptance_package_audit.json",
     "scripts/audit_final_study_readiness.py",
     "docs/final_study_audit.md",
     "data/manifests/final_audit_acceptance.json"
@@ -37,6 +39,8 @@
   "source_paths": [
     "docs/current_goal_completion_audit.md",
     "data/manifests/acceptance_orchestration_manifest.json",
+    "data/manifests/formal_acceptance_evidence_matrix.csv",
+    "data/manifests/formal_acceptance_package_audit.json",
     "docs/final_study_audit.md",
     "data/manifests/final_audit_acceptance.json"
   ],

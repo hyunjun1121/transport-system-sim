@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -16,9 +16,13 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 
 - data/parameters/parameter_evidence_review_packet.csv
 - data/parameters/parameter_evidence_source_request_packet.csv
+- data/parameters/parameter_source_readiness_manifest.json
 - data/parameters/road_evidence_review_packet.csv
+- data/road/road_evidence_source_request_packet.csv
+- data/road/road_source_readiness_manifest.json
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_timing_source_request_packet.csv
+- data/rail/rail_fetch_readiness_manifest.json
 - data/cache/pilot_region_road.graphml
 - data/cache/pilot_region_road_manifest.json
 - scripts/audit_road_evidence.py
@@ -26,10 +30,8 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/parameters/road_speed_evidence_candidates.csv
 - data/parameters/road_capacity_evidence_candidates.csv
 - data/parameters/road_evidence_review_manifest.json
-- data/road/road_evidence_source_request_packet.csv
 - data/road/road_evidence_source_request_manifest.json
 - data/road/road_source_readiness_packet.csv
-- data/road/road_source_readiness_manifest.json
 - docs/road_source_readiness_packet.md
 - scripts/write_road_speed_evidence.py
 - scripts/write_road_capacity_evidence.py
@@ -64,7 +66,9 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/write_road_class_override_template.py
 - scripts/audit_road_overrides.py
 - data/parameters/parameter_evidence_review_packet.csv
+- data/parameters/parameter_source_readiness_packet.csv
 - data/parameters/rail_evidence_review_packet.csv
+- data/rail/rail_fetch_readiness_packet.csv
 - docs/review_packets/cached_osm_input.md
 - docs/review_packets/parameter_evidence.md
 - docs/review_packets/rail_evidence.md
@@ -151,6 +155,9 @@ Formal acceptance artifacts:
     "source_readiness_human_review_request_count": 3,
     "source_readiness_manifest_present": true,
     "source_readiness_publication_ready": false,
+    "source_readiness_region_ids": [
+      "songpa_public_demo"
+    ],
     "source_readiness_remaining_blockers": [
       "reviewed road_class_overrides.csv is absent unless target_output_present is true",
       "capacity and disruption evidence still require external source or formal assumption decisions",

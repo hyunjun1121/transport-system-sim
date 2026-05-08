@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Paper / Report Claim Alignment Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -18,11 +18,11 @@ Paper / Report Claim Alignment Agent cannot accept gate manuscript_report_alignm
 - docs/current_goal_completion_audit.md
 - paper/paper_draft.md
 - report_draft.md
+- data/manifests/claim_alignment_review_manifest.json
 - data/manifests/manuscript_acceptance.json
 - report.docx
 - results/realworld_pilot/tables/figure_table_manifest.json
 - data/manifests/claim_alignment_review_packet.csv
-- data/manifests/claim_alignment_review_manifest.json
 - docs/claim_alignment_review_packet.md
 
 ## Evidence And Source Paths

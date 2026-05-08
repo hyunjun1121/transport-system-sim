@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Final Independent Audit Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T09:20:28+00:00`
+- Generated at: `2026-05-08T10:52:01+00:00`
 
 ## Decision
 
@@ -16,6 +16,8 @@ Final Independent Audit Agent cannot accept gate final_audit; the current final-
 
 - docs/current_goal_completion_audit.md
 - data/manifests/acceptance_orchestration_manifest.json
+- data/manifests/formal_acceptance_evidence_matrix_manifest.json
+- data/manifests/formal_acceptance_package_audit.json
 - scripts/audit_final_study_readiness.py
 - docs/final_study_audit.md
 - data/manifests/final_audit_acceptance.json
@@ -27,6 +29,8 @@ Final Independent Audit Agent cannot accept gate final_audit; the current final-
 - docs/review_packets/final_audit.md
 - docs/current_goal_completion_audit.md
 - data/manifests/acceptance_orchestration_manifest.json
+- data/manifests/formal_acceptance_evidence_matrix.csv
+- data/manifests/formal_acceptance_package_audit.json
 
 ## Risks
 

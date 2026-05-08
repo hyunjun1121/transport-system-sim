@@ -97,13 +97,18 @@
       ],
       "review_packet_paths": [
         "data/validation/graph_scale_review_packet.csv",
+        "data/validation/full_graph_runtime_readiness_packet.csv",
+        "data/validation/graph_scale_strategy_readiness_packet.csv",
         "docs/review_packets/graph_scale_strategy.md"
       ],
       "reviewed_inputs": [
         "docs/analysis_corridor_method_note.md",
         "docs/graph_scale_diagnostics.md",
         "data/validation/graph_scale_review_packet.csv",
-        "data/validation/graph_scale_result_comparison.csv"
+        "data/validation/full_graph_runtime_readiness_manifest.json",
+        "data/validation/graph_scale_strategy_readiness_manifest.json",
+        "data/validation/graph_scale_result_comparison.csv",
+        "data/validation/graph_scale_result_comparison_manifest.json"
       ],
       "risks": [
         "Reduced corridor may omit detours or alternate-route behavior.",
@@ -114,7 +119,10 @@
         "results/realworld_pilot/pilot_full_manifest.json",
         "data/validation/graph_scale_route_comparison.csv",
         "data/validation/graph_scale_alternate_routes.csv",
-        "data/validation/graph_scale_multi_corridor_routes.csv"
+        "data/validation/graph_scale_multi_corridor_routes.csv",
+        "data/validation/full_graph_runtime_readiness_packet.csv",
+        "data/validation/graph_scale_strategy_readiness_packet.csv",
+        "data/validation/graph_scale_result_comparison.csv"
       ]
     },
     {
@@ -141,8 +149,11 @@
       ],
       "review_packet_paths": [
         "data/parameters/parameter_evidence_review_packet.csv",
+        "data/parameters/parameter_source_readiness_packet.csv",
         "data/parameters/road_evidence_review_packet.csv",
+        "data/road/road_source_readiness_packet.csv",
         "data/parameters/rail_evidence_review_packet.csv",
+        "data/rail/rail_fetch_readiness_packet.csv",
         "docs/review_packets/cached_osm_input.md",
         "docs/review_packets/parameter_evidence.md",
         "docs/review_packets/rail_evidence.md"
@@ -150,9 +161,13 @@
       "reviewed_inputs": [
         "data/parameters/parameter_evidence_review_packet.csv",
         "data/parameters/parameter_evidence_source_request_packet.csv",
+        "data/parameters/parameter_source_readiness_manifest.json",
         "data/parameters/road_evidence_review_packet.csv",
+        "data/road/road_evidence_source_request_packet.csv",
+        "data/road/road_source_readiness_manifest.json",
         "data/parameters/rail_evidence_review_packet.csv",
-        "data/rail/rail_timing_source_request_packet.csv"
+        "data/rail/rail_timing_source_request_packet.csv",
+        "data/rail/rail_fetch_readiness_manifest.json"
       ],
       "risks": [
         "Road capacity and speed fallbacks are proxy values.",
@@ -164,7 +179,10 @@
         "data/parameters/parameter_sources.csv",
         "data/parameters/road_class_overrides_draft.csv",
         "data/parameters/rail_service_evidence.csv",
-        "data/parameters/rail_station_bindings.csv"
+        "data/parameters/rail_station_bindings.csv",
+        "data/parameters/parameter_source_readiness_packet.csv",
+        "data/road/road_source_readiness_packet.csv",
+        "data/rail/rail_fetch_readiness_packet.csv"
       ]
     },
     {
@@ -188,12 +206,15 @@
       ],
       "review_packet_paths": [
         "data/validation/validation_review_packet.csv",
+        "data/validation/validation_strategy_readiness_packet.csv",
         "docs/review_packets/validation_package.md"
       ],
       "reviewed_inputs": [
         "docs/validation_review_packet.md",
+        "docs/validation_strategy_readiness_packet.md",
         "docs/osrm_route_benchmark_manifest.md",
-        "data/validation/validation_review_manifest.json"
+        "data/validation/validation_review_manifest.json",
+        "data/validation/validation_strategy_readiness_manifest.json"
       ],
       "risks": [
         "Live or unpinned route benchmarks are not reproducible enough for final claims.",
@@ -202,7 +223,9 @@
       "role_name": "Validation Benchmark Strategy Agent",
       "source_paths": [
         "data/validation/validation_review_packet.csv",
+        "data/validation/validation_strategy_readiness_packet.csv",
         "data/validation/osrm_route_benchmark_manifest.json",
+        "data/validation/accessibility_loss.csv",
         "data/validation/canonical_route_road_evidence_exposure.csv"
       ]
     },
@@ -227,11 +250,13 @@
       ],
       "review_packet_paths": [
         "data/validation/sensitivity_review_packet.csv",
+        "data/validation/sensitivity_strategy_readiness_packet.csv",
         "docs/review_packets/sensitivity_analysis.md"
       ],
       "reviewed_inputs": [
         "data/validation/sensitivity_review_packet.csv",
         "data/validation/sensitivity_review_manifest.json",
+        "data/validation/sensitivity_strategy_readiness_manifest.json",
         "scripts/run_sensitivity.py"
       ],
       "risks": [
@@ -242,7 +267,8 @@
       "source_paths": [
         "results/realworld_pilot/morris_manifest.json",
         "results/realworld_pilot/morris_results.csv",
-        "results/realworld_pilot/morris_summary.csv"
+        "results/realworld_pilot/morris_summary.csv",
+        "data/validation/sensitivity_strategy_readiness_packet.csv"
       ]
     },
     {
@@ -265,12 +291,16 @@
         "Create experiment_acceptance.json with matching run profile and row counts."
       ],
       "review_packet_paths": [
+        "data/manifests/experiment_package_review_packet.csv",
+        "data/manifests/experiment_strategy_readiness_packet.csv",
         "docs/review_packets/full_experiment_output.md"
       ],
       "reviewed_inputs": [
         "scripts/run_pilot_experiments.py",
         "data/scenarios/disruption_scenarios.csv",
-        "data/scenarios/policy_alternatives.csv"
+        "data/scenarios/policy_alternatives.csv",
+        "data/manifests/experiment_package_review_manifest.json",
+        "data/manifests/experiment_strategy_readiness_manifest.json"
       ],
       "risks": [
         "Current outputs are useful scaffold runs, not final calibrated study results.",
@@ -280,7 +310,9 @@
       "source_paths": [
         "results/realworld_pilot/pilot_full_manifest.json",
         "results/realworld_pilot/pilot_full_results.csv",
-        "results/realworld_pilot/pilot_full_summary.csv"
+        "results/realworld_pilot/pilot_full_summary.csv",
+        "data/manifests/experiment_package_review_packet.csv",
+        "data/manifests/experiment_strategy_readiness_packet.csv"
       ]
     },
     {
@@ -303,13 +335,15 @@
         "Create manuscript_acceptance.json after claim-by-claim review."
       ],
       "review_packet_paths": [
+        "data/manifests/claim_alignment_review_packet.csv",
         "docs/review_packets/manuscript_report_alignment.md"
       ],
       "reviewed_inputs": [
         "scripts/audit_publication_readiness.py",
         "docs/current_goal_completion_audit.md",
         "paper/paper_draft.md",
-        "report_draft.md"
+        "report_draft.md",
+        "data/manifests/claim_alignment_review_manifest.json"
       ],
       "risks": [
         "Paper/report can overstate scaffold results as calibrated real-world findings.",
@@ -320,7 +354,8 @@
         "paper/paper_draft.md",
         "report_draft.md",
         "report.docx",
-        "results/realworld_pilot/tables/figure_table_manifest.json"
+        "results/realworld_pilot/tables/figure_table_manifest.json",
+        "data/manifests/claim_alignment_review_packet.csv"
       ]
     },
     {
@@ -344,12 +379,14 @@
       ],
       "review_packet_paths": [
         "data/validation/reproducibility_review_packet.csv",
+        "data/validation/tracked_artifact_audit.csv",
         "docs/review_packets/reproducibility.md"
       ],
       "reviewed_inputs": [
         "docs/reproducibility_package.md",
         "data/manifests/reproducibility_manifest.json",
         "data/validation/reproducibility_review_packet.csv",
+        "data/validation/tracked_artifact_audit.csv",
         "scripts/audit_plan_artifacts.py"
       ],
       "risks": [
@@ -360,6 +397,9 @@
       "source_paths": [
         "data/manifests/reproducibility_manifest.json",
         "data/validation/reproducibility_review_manifest.json",
+        "data/validation/reproducibility_smoke_manifest.json",
+        "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+        "data/validation/tracked_artifact_audit_manifest.json",
         "docs/reproducibility_package.md",
         "requirements.txt"
       ]
@@ -390,6 +430,8 @@
       "reviewed_inputs": [
         "docs/current_goal_completion_audit.md",
         "data/manifests/acceptance_orchestration_manifest.json",
+        "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+        "data/manifests/formal_acceptance_package_audit.json",
         "scripts/audit_final_study_readiness.py"
       ],
       "risks": [
@@ -399,7 +441,9 @@
       "role_name": "Final Independent Audit Agent",
       "source_paths": [
         "docs/current_goal_completion_audit.md",
-        "data/manifests/acceptance_orchestration_manifest.json"
+        "data/manifests/acceptance_orchestration_manifest.json",
+        "data/manifests/formal_acceptance_evidence_matrix.csv",
+        "data/manifests/formal_acceptance_package_audit.json"
       ]
     }
   ],

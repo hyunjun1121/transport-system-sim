@@ -88,23 +88,23 @@ Evidence inspected:
 - `data/validation/graph_scale_route_comparison.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_alternate_routes.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_multi_corridor_routes.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/full_graph_runtime_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_result_comparison.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/graph_scale_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/graph_scale_strategy.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/analysis_corridor_method_note.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/graph_scale_diagnostics.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/graph_scale_result_comparison.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/full_graph_runtime_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_route_comparison_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_alternate_routes_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_multi_corridor_routes_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/graph_scale_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/full_graph_runtime_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/full_graph_runtime_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/full_graph_runtime_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_result_comparison.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -224,6 +224,9 @@ Evidence inspected:
 - `data/parameters/road_class_overrides_draft.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_service_evidence.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_station_bindings.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_acceptance.csv`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/parameter_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -232,11 +235,13 @@ Evidence inspected:
 - `docs/review_packets/cached_osm_input.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/review_packets/rail_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/parameter_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_parameter_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_parameter_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -244,8 +249,6 @@ Evidence inspected:
 - `scripts/write_parameter_source_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/rail_fetch_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_rail_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_rail_evidence_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -327,6 +330,9 @@ Evidence inspected:
 - `data/parameters/road_class_overrides_draft.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_service_evidence.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/rail_station_bindings.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/road_class_overrides.csv`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/cached_osm_input.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -335,7 +341,11 @@ Evidence inspected:
 - `docs/review_packets/parameter_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/review_packets/rail_evidence.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/parameters/parameter_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_timing_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/rail/rail_fetch_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/cache/pilot_region_road.graphml`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/cache/pilot_region_road_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_road_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -343,10 +353,7 @@ Evidence inspected:
 - `data/parameters/road_speed_evidence_candidates.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/road_capacity_evidence_candidates.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/road_evidence_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/road/road_evidence_source_request_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/road/road_evidence_source_request_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/road/road_source_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/road/road_source_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/road_source_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_speed_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_road_capacity_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -418,22 +425,22 @@ Files to create or update after human decision:
 
 Evidence inspected:
 - `data/validation/validation_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/osrm_route_benchmark_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/accessibility_loss.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/canonical_route_road_evidence_exposure.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/validation_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/validation_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/validation_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/validation_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/osrm_route_benchmark_manifest.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/validation_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/validation_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/external_route_benchmarks_osrm.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/accessibility_loss.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/accessibility_loss_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/canonical_route_road_evidence_exposure_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/validation_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/validation_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `docs/validation_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_plausibility_validation.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_accessibility_loss_analysis.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_route_road_evidence_exposure.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -489,13 +496,13 @@ Evidence inspected:
 - `results/realworld_pilot/morris_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/morris_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/morris_summary.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/sensitivity_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/sensitivity_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/sensitivity_analysis.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `scripts/run_sensitivity.py`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/sensitivity_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/sensitivity_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/run_sensitivity.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/sensitivity_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_sensitivity_diagnostics.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_sensitivity_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -552,16 +559,16 @@ Evidence inspected:
 - `results/realworld_pilot/pilot_full_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/pilot_full_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/pilot_full_summary.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/experiment_package_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/experiment_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/experiment_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/full_experiment_output.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_pilot_experiments.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/scenarios/disruption_scenarios.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/scenarios/policy_alternatives.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/experiment_package_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/experiment_package_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
-- `docs/experiment_package_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/experiment_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/experiment_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/experiment_package_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/experiment_strategy_readiness_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
@@ -618,11 +625,11 @@ Evidence inspected:
 - `report_draft.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `report.docx`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/tables/figure_table_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/claim_alignment_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/manuscript_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/manuscript_report_alignment.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_publication_readiness.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/manifests/claim_alignment_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/claim_alignment_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/claim_alignment_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
@@ -674,15 +681,17 @@ Files to create or update after human decision:
 Evidence inspected:
 - `data/manifests/reproducibility_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/clean_checkout_reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/tracked_artifact_audit_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `requirements.txt`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/reproducibility_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/reproducibility.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/reproducibility_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/tracked_artifact_audit.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_plan_artifacts.py`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_smoke.md`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/validation/clean_checkout_reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/clean_checkout_reproducibility_smoke.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
@@ -723,8 +732,11 @@ Files to create or update after human decision:
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/acceptance_orchestration_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_evidence_matrix.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_package_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/final_study_audit.md`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/final_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_evidence_matrix_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_final_study_readiness.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/final_audit_acceptance.json`: absent; local supporting artifact absent
 
@@ -770,8 +782,11 @@ Files to create or update after human decision:
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/acceptance_orchestration_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_evidence_matrix.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_package_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/final_audit_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/final_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/formal_acceptance_evidence_matrix_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_final_study_readiness.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/final_study_audit.md`: absent; local supporting artifact absent
 
