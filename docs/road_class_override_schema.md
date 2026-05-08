@@ -46,13 +46,15 @@ accepted scenario evidence.
 To apply a reviewed table to a pilot experiment run, pass it explicitly:
 
 ```powershell
-.\.venv\Scripts\python scripts\run_pilot_experiments.py --sample --road-class-overrides-path data\parameters\road_class_overrides.csv
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --full --road-class-overrides-path data\parameters\road_class_overrides.csv
 ```
 
-The pilot manifest records `road_class_overrides_applied: true`,
+The full pilot manifest records `road_class_overrides_applied: true`,
 `inputs.road_class_overrides_path`,
 `inputs.road_class_overrides_sha256`, and a `graph_source` suffix when the
-table is supplied. Default scaffold runs still do not apply an override table.
+table is supplied. Sample override runs can be used for implementation checks,
+but they cannot replace the full-profile road-override application evidence.
+Default scaffold runs still do not apply an override table.
 
 ## Required Columns
 

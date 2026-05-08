@@ -315,11 +315,13 @@ Optional reruns for individual pilot experiment profiles:
 Optional reviewed road-class override run:
 
 ```powershell
-.\.venv\Scripts\python scripts\run_pilot_experiments.py --sample --road-class-overrides-path data\parameters\road_class_overrides.csv
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --full --road-class-overrides-path data\parameters\road_class_overrides.csv
 ```
 
-When supplied, the pilot manifest records the override path and SHA256 digest
-so later results can be tied to the reviewed table version.
+When supplied, the full pilot manifest records the override path and SHA256
+digest so later results can be tied to the reviewed table version. Sample
+override runs are implementation checks only and cannot replace the full-profile
+road-override application evidence.
 
 Optional draft road-class override worksheet:
 
