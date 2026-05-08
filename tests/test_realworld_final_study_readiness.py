@@ -81,6 +81,36 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["graph_scale_strategy"]["blockers"]
     )
+    assert gate_map["data_provenance"]["ready"] is False
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_provenance_priority_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_provenance_priority_row_count"
+        ]
+        == 11
+    )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_provenance_priority_blocking_source_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["data_provenance"]["details"][
+            "source_provenance_priority_context_only_source_count"
+        ]
+        == 4
+    )
+    assert any(
+        "source provenance priority: context-only public sources still need"
+        in item
+        for item in gate_map["data_provenance"]["blockers"]
+    )
     assert gate_map["parameter_evidence"]["ready"] is False
     assert (
         gate_map["parameter_evidence"]["details"][

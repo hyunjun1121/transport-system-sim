@@ -200,6 +200,11 @@ from src.realworld.source_url_remediation_packet import (  # noqa: E402
     DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH,
     DEFAULT_SOURCE_URL_REMEDIATION_PACKET_PATH,
 )
+from src.realworld.source_provenance_priority_packet import (  # noqa: E402
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH,
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.tracked_artifact_audit import (  # noqa: E402
     DEFAULT_TRACKED_ARTIFACT_AUDIT_CSV,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC,
@@ -357,6 +362,11 @@ CSV_EXPECTATIONS = (
         "source_url_remediation_packet",
         DEFAULT_SOURCE_URL_REMEDIATION_PACKET_PATH,
         None,
+    ),
+    CsvExpectation(
+        "source_provenance_priority_packet",
+        DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH,
+        11,
     ),
     CsvExpectation(
         "pilot_privacy_review_packet",
@@ -687,6 +697,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "source_provenance_priority_manifest",
+        DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "rail_fetch_readiness_manifest",
         DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH,
     ),
@@ -951,6 +965,7 @@ DOC_EXPECTATIONS = (
     DEFAULT_SOURCE_LICENSE_REVIEW_DOC_PATH,
     DEFAULT_SOURCE_URL_REVIEW_DOC_PATH,
     DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH,
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH,
     ROOT / "docs" / "manuscript_acceptance_schema.md",
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_DOC_PATH,
     ROOT / "docs" / "reproducibility_acceptance_schema.md",

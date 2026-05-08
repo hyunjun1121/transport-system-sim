@@ -701,6 +701,15 @@ First pilot-smoke artifacts also exist:
   `docs/source_url_remediation_packet.md`. This keeps unreachable, alternate,
   local-citation, and reachable-but-still-unreviewed source actions visible
   without closing the provenance gate.
+- `src/realworld/source_provenance_priority_packet.py` and
+  `scripts/write_source_provenance_priority_packet.py` now combine
+  source/license review rows and URL remediation rows into an 11-row per-source
+  priority worksheet under
+  `data/manifests/source_provenance_priority_packet.csv`. It highlights
+  context-only sources that need cached extracts or exclusion decisions, cached
+  snapshots that need source/license review, and repository inputs that need
+  human scope/privacy/reproducibility review without creating provenance
+  acceptance.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed
@@ -780,6 +789,8 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python tests\test_realworld_source_url_review_packet.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
+.\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
@@ -1993,6 +2004,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py
@@ -2096,6 +2108,9 @@ Concrete next tasks:
    `data/manifests/agent_reviews/*.json` records as the first checklist for
    remaining human/source-backed decisions. Do not create formal acceptance
    files until their packet risks and required actions are resolved.
+   Use `data/manifests/source_provenance_priority_packet.csv` to triage
+   context-only public sources, cached public snapshots, and repository-input
+   source-scope decisions before provenance acceptance.
    Use `docs/acceptance_decision_templates.md` and
    `data/manifests/acceptance_templates/` only as non-approval starting points
    after those reviews; copy a template to a formal acceptance path only when

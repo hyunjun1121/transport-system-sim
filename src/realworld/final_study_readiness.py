@@ -69,6 +69,11 @@ from src.realworld.sensitivity_index_review_packet import (
     DEFAULT_SENSITIVITY_INDEX_REVIEW_PACKET_PATH,
 )
 from src.realworld.source_provenance import summarize_source_provenance_manifest
+from src.realworld.source_provenance_priority_packet import (
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH,
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.validation_acceptance import summarize_validation_acceptance
 
 
@@ -178,6 +183,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     source_url_remediation_manifest = _load_json(
         DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH
     )
+    source_provenance_priority_manifest = _load_json(
+        DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH
+    )
     rail_fetch_readiness_manifest = _load_json(DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH)
     rail_evidence_priority_manifest = _load_json(
         DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH
@@ -238,6 +246,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             source_provenance,
             source_url_review_manifest,
             source_url_remediation_manifest,
+            source_provenance_priority_manifest,
         ),
         _parameter_gate(
             parameter_audit,
@@ -753,6 +762,7 @@ def _data_provenance_gate(
     source_provenance: dict[str, Any],
     source_url_review_manifest: dict[str, Any] | None = None,
     source_url_remediation_manifest: dict[str, Any] | None = None,
+    source_provenance_priority_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(reproducibility_manifest) and bool(
         source_provenance.get("manifest_present", False)
@@ -763,6 +773,12 @@ def _data_provenance_gate(
     source_provenance_ready = bool(source_provenance.get("diagnostics_ready", False))
     url_manifest = source_url_review_manifest or {}
     url_remediation_manifest = source_url_remediation_manifest or {}
+    source_priority = source_provenance_priority_manifest or {}
+    source_priority_artifacts_present = (
+        DEFAULT_SOURCE_PROVENANCE_PRIORITY_PACKET_PATH.exists()
+        and DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH.exists()
+        and DEFAULT_SOURCE_PROVENANCE_PRIORITY_DOC_PATH.exists()
+    )
     scope_blocked = "scaffold" in scope.lower()
     ready = (
         artifact_present
@@ -780,6 +796,10 @@ def _data_provenance_gate(
         blockers.append(
             "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance"
         )
+    blockers.extend(
+        f"source provenance priority: {item}"
+        for item in source_priority.get("remaining_blockers", [])
+    )
     return _gate(
         "data_provenance",
         "Data Provenance",
@@ -794,16 +814,20 @@ def _data_provenance_gate(
             "data/manifests/source_url_review_manifest.json",
             "data/manifests/source_url_remediation_packet.csv",
             "data/manifests/source_url_remediation_manifest.json",
+            "data/manifests/source_provenance_priority_packet.csv",
+            "data/manifests/source_provenance_priority_manifest.json",
             "data/manifests/reproducibility_manifest.json",
             "docs/source_license_review_packet.md",
             "docs/source_url_review_packet.md",
             "docs/source_url_remediation_packet.md",
+            "docs/source_provenance_priority_packet.md",
             "docs/reproducibility_package.md",
             "docs/pilot_region_data_card.md",
             "scripts/audit_source_provenance.py",
             "scripts/write_source_license_review_packet.py",
             "scripts/write_source_url_review_packet.py",
             "scripts/write_source_url_remediation_packet.py",
+            "scripts/write_source_provenance_priority_packet.py",
         ],
         blockers=blockers,
         details={
@@ -875,6 +899,43 @@ def _data_provenance_gate(
                 False,
             ),
             "source_url_remediation_can_mark_complete": url_remediation_manifest.get(
+                "can_mark_complete",
+                False,
+            ),
+            "source_provenance_priority_artifacts_present": (
+                source_priority_artifacts_present
+            ),
+            "source_provenance_priority_row_count": source_priority.get(
+                "row_count",
+                0,
+            ),
+            "source_provenance_priority_blocking_source_count": source_priority.get(
+                "blocking_source_count",
+                0,
+            ),
+            "source_provenance_priority_human_review_source_count": source_priority.get(
+                "human_review_source_count",
+                0,
+            ),
+            "source_provenance_priority_context_only_source_count": source_priority.get(
+                "context_only_source_count",
+                0,
+            ),
+            "source_provenance_priority_cached_snapshot_source_count": (
+                source_priority.get("cached_snapshot_source_count", 0)
+            ),
+            "source_provenance_priority_repository_input_source_count": (
+                source_priority.get("repository_input_source_count", 0)
+            ),
+            "source_provenance_priority_status_counts": source_priority.get(
+                "priority_status_counts",
+                {},
+            ),
+            "source_provenance_priority_publication_ready": source_priority.get(
+                "publication_ready",
+                False,
+            ),
+            "source_provenance_priority_can_mark_complete": source_priority.get(
                 "can_mark_complete",
                 False,
             ),

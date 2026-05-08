@@ -199,6 +199,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
+        row["label"] == "source_provenance_priority_packet" and row["rows"] == 11
+        for row in summary["csv_checks"]
+    )
+    assert any(
         row["label"] == "experiment_strategy_readiness_packet"
         and row["rows"] == 9
         for row in summary["csv_checks"]
@@ -350,6 +354,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["json_checks"]
     )
     assert any(
+        row["label"] == "source_provenance_priority_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
         row["label"] == "acceptance_decision_template_manifest" and row["ok"]
         for row in summary["json_checks"]
     )
@@ -395,6 +403,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     assert any(
         row["path"] == "docs/reproducibility_review_packet.md" and row["ok"]
+        for row in summary["doc_checks"]
+    )
+    assert any(
+        row["path"] == "docs/source_provenance_priority_packet.md" and row["ok"]
         for row in summary["doc_checks"]
     )
     assert any(
