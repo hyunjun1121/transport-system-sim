@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T14:53:43+00:00",
+  "generated_at": "2026-05-08T15:02:53+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -334,6 +334,41 @@
   ],
   "schema_path": "schemas/acceptance_record.schema.json",
   "schema_version": 1,
+  "source_provenance_priority": {
+    "blocking_source_count": 4,
+    "cached_snapshot_source_count": 3,
+    "can_mark_complete": false,
+    "claim_boundary": "This packet prioritizes existing source provenance review work. It does not create provenance_acceptance.json, certify license compatibility, accept source snapshots, or close provenance, validation, reproducibility, or final-study gates.",
+    "context_only_source_count": 4,
+    "human_review_source_count": 7,
+    "manifest_present": true,
+    "manifest_valid": true,
+    "packet_path": "data/manifests/source_provenance_priority_packet.csv",
+    "path": "data/manifests/source_provenance_priority_manifest.json",
+    "priority_status_counts": {
+      "blocked_context_only_source_not_cached": 4,
+      "needs_human_review_cached_snapshot_source": 3,
+      "needs_human_review_repository_input_source": 4
+    },
+    "provenance_gate_closure_candidate_count": 0,
+    "publication_ready": false,
+    "remaining_blockers": [
+      "formal provenance acceptance record is absent",
+      "context-only public sources still need cached extracts or exclusion decisions",
+      "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+      "repository inputs still require human scope/privacy/reproducibility review",
+      "URL remediation rows still require reviewer confirmation"
+    ],
+    "repository_input_source_count": 4,
+    "review_items": [
+      "cache or explicitly exclude context-only public sources before final claims",
+      "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
+      "confirm project-owned local citations and privacy abstraction for repository inputs",
+      "resolve alternate URL issues before provenance acceptance",
+      "create data/manifests/provenance_acceptance.json only after source-backed review"
+    ],
+    "row_count": 11
+  },
   "status_counts": {
     "blocked": 9,
     "needs_human_review": 3

@@ -31,6 +31,9 @@ DEFAULT_ACCEPTANCE_ORCHESTRATION_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "acceptance_orchestration_manifest.json"
 )
 DEFAULT_ACCEPTANCE_SCHEMA_PATH = PROJECT_ROOT / "schemas" / "acceptance_record.schema.json"
+DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "source_provenance_priority_manifest.json"
+)
 ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY = (
     "Sub-agent records are review aids. They do not replace formal acceptance "
     "artifacts, source-backed reviewer decisions, calibrated validation, or "
@@ -566,6 +569,9 @@ def write_acceptance_orchestration_outputs(
     agent_definition_path: Path = DEFAULT_AGENT_DEFINITION_PATH,
     agent_doc_path: Path = DEFAULT_AGENT_DOC_PATH,
     schema_path: Path = DEFAULT_ACCEPTANCE_SCHEMA_PATH,
+    source_provenance_priority_manifest_path: Path = (
+        DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH
+    ),
 ) -> dict[str, Any]:
     """Write definitions, per-gate records, review packets, schema, and manifest."""
 
@@ -573,6 +579,9 @@ def write_acceptance_orchestration_outputs(
 
     generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     final_audit = audit_final_study_readiness()
+    source_priority = _load_source_provenance_priority_summary(
+        source_provenance_priority_manifest_path
+    )
     gate_map = {str(gate["gate_id"]): gate for gate in final_audit["gates"]}
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -632,6 +641,7 @@ def write_acceptance_orchestration_outputs(
         packet_paths=packet_paths,
         agent_definition_path=agent_definition_path,
         schema_path=schema_path,
+        source_provenance_priority=source_priority,
     )
     manifest_path.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
@@ -882,6 +892,9 @@ def build_acceptance_review_index(
             )
             + " |"
         )
+    source_priority = manifest.get("source_provenance_priority")
+    if isinstance(source_priority, Mapping):
+        lines.extend(_source_provenance_priority_index_lines(source_priority))
     lines.extend(
         [
             "",
@@ -928,6 +941,7 @@ def _build_manifest(
     packet_paths: list[str],
     agent_definition_path: Path,
     schema_path: Path,
+    source_provenance_priority: Mapping[str, Any],
 ) -> dict[str, Any]:
     status_counts: dict[str, int] = {}
     for record in records:
@@ -953,6 +967,7 @@ def _build_manifest(
         "schema_path": _display_path(schema_path),
         "record_dir": _display_path(record_dir),
         "review_packet_paths": sorted(set(packet_paths)),
+        "source_provenance_priority": dict(source_provenance_priority),
         "records": [
             {
                 "gate_id": record.gate_id,
@@ -979,6 +994,128 @@ def _build_manifest(
             ]
         ),
     }
+
+
+def _load_source_provenance_priority_summary(path: Path) -> dict[str, Any]:
+    """Load compact source-provenance triage status for the review index."""
+
+    if not path.exists():
+        return {
+            "manifest_present": False,
+            "path": _display_path(path),
+            "row_count": 0,
+            "blocking_source_count": 0,
+            "human_review_source_count": 0,
+            "context_only_source_count": 0,
+            "cached_snapshot_source_count": 0,
+            "repository_input_source_count": 0,
+            "provenance_gate_closure_candidate_count": 0,
+            "can_mark_complete": False,
+            "publication_ready": False,
+            "remaining_blockers": [
+                "source provenance priority manifest is absent"
+            ],
+            "review_items": [
+                "generate the source provenance priority packet before provenance review"
+            ],
+        }
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return {
+            "manifest_present": True,
+            "manifest_valid": False,
+            "path": _display_path(path),
+            "row_count": 0,
+            "blocking_source_count": 0,
+            "human_review_source_count": 0,
+            "context_only_source_count": 0,
+            "cached_snapshot_source_count": 0,
+            "repository_input_source_count": 0,
+            "provenance_gate_closure_candidate_count": 0,
+            "can_mark_complete": False,
+            "publication_ready": False,
+            "remaining_blockers": [
+                f"source provenance priority manifest is invalid JSON: {exc}"
+            ],
+            "review_items": [
+                "regenerate the source provenance priority packet before provenance review"
+            ],
+        }
+    return {
+        "manifest_present": True,
+        "manifest_valid": True,
+        "path": _display_path(path),
+        "packet_path": str(data.get("outputs", {}).get("csv", "")),
+        "row_count": int(data.get("row_count", 0) or 0),
+        "blocking_source_count": int(data.get("blocking_source_count", 0) or 0),
+        "human_review_source_count": int(
+            data.get("human_review_source_count", 0) or 0
+        ),
+        "context_only_source_count": int(
+            data.get("context_only_source_count", 0) or 0
+        ),
+        "cached_snapshot_source_count": int(
+            data.get("cached_snapshot_source_count", 0) or 0
+        ),
+        "repository_input_source_count": int(
+            data.get("repository_input_source_count", 0) or 0
+        ),
+        "provenance_gate_closure_candidate_count": int(
+            data.get("provenance_gate_closure_candidate_count", 0) or 0
+        ),
+        "priority_status_counts": data.get("priority_status_counts", {}),
+        "can_mark_complete": bool(data.get("can_mark_complete", False)),
+        "publication_ready": bool(data.get("publication_ready", False)),
+        "remaining_blockers": list(_string_list(data.get("remaining_blockers", []))),
+        "review_items": list(_string_list(data.get("review_items", []))),
+        "claim_boundary": str(data.get("claim_boundary", "")),
+    }
+
+
+def _source_provenance_priority_index_lines(
+    source_priority: Mapping[str, Any],
+) -> list[str]:
+    """Render source-provenance triage status inside the acceptance index."""
+
+    lines = [
+        "",
+        "## Source Provenance Priority Snapshot",
+        "",
+        (
+            "This section summarizes the provenance triage packet for the "
+            "data-provenance reviewer. It is not source acceptance or license "
+            "approval."
+        ),
+        "",
+        f"- Manifest: `{source_priority.get('path', '')}`",
+        f"- Packet: `{source_priority.get('packet_path', '')}`",
+        (
+            "- Manifest present: "
+            f"`{str(source_priority.get('manifest_present', False)).lower()}`"
+        ),
+        f"- Source rows: {source_priority.get('row_count', 0)}",
+        f"- Blocking context-only sources: {source_priority.get('blocking_source_count', 0)}",
+        f"- Human-review sources: {source_priority.get('human_review_source_count', 0)}",
+        f"- Cached public snapshots: {source_priority.get('cached_snapshot_source_count', 0)}",
+        f"- Repository input sources: {source_priority.get('repository_input_source_count', 0)}",
+        (
+            "- Provenance gate closure candidates: "
+            f"{source_priority.get('provenance_gate_closure_candidate_count', 0)}"
+        ),
+        (
+            "- Can mark complete from provenance triage: "
+            f"`{str(source_priority.get('can_mark_complete', False)).lower()}`"
+        ),
+        "",
+        "Required reviewer actions:",
+        "",
+        *_bullet_lines(_string_list(source_priority.get("review_items", []))),
+    ]
+    remaining_blockers = _string_list(source_priority.get("remaining_blockers", []))
+    if remaining_blockers:
+        lines.extend(["", "Provenance blockers:", "", *_bullet_lines(remaining_blockers)])
+    return lines
 
 
 def _bullet_lines(values: Iterable[str]) -> list[str]:
@@ -1021,6 +1158,7 @@ __all__ = [
     "DEFAULT_AGENT_DOC_PATH",
     "DEFAULT_AGENT_REVIEW_DIR",
     "DEFAULT_REVIEW_PACKET_DIR",
+    "DEFAULT_SOURCE_PROVENANCE_PRIORITY_MANIFEST_PATH",
     "REVIEW_AGENT_DEFINITIONS",
     "ReviewAgentDefinition",
     "build_acceptance_record",

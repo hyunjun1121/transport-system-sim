@@ -21,6 +21,37 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 5 |
 
+## Source Provenance Priority Snapshot
+
+This section summarizes the provenance triage packet for the data-provenance reviewer. It is not source acceptance or license approval.
+
+- Manifest: `data/manifests/source_provenance_priority_manifest.json`
+- Packet: `data/manifests/source_provenance_priority_packet.csv`
+- Manifest present: `true`
+- Source rows: 11
+- Blocking context-only sources: 4
+- Human-review sources: 7
+- Cached public snapshots: 3
+- Repository input sources: 4
+- Provenance gate closure candidates: 0
+- Can mark complete from provenance triage: `false`
+
+Required reviewer actions:
+
+- cache or explicitly exclude context-only public sources before final claims
+- review cached public snapshots for license, attribution, snapshot, and reproducibility suitability
+- confirm project-owned local citations and privacy abstraction for repository inputs
+- resolve alternate URL issues before provenance acceptance
+- create data/manifests/provenance_acceptance.json only after source-backed review
+
+Provenance blockers:
+
+- formal provenance acceptance record is absent
+- context-only public sources still need cached extracts or exclusion decisions
+- cached public snapshots still require license, attribution, snapshot, and reproducibility review
+- repository inputs still require human scope/privacy/reproducibility review
+- URL remediation rows still require reviewer confirmation
+
 ## Remaining Blockers
 
 - pilot_region_accepted: Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.

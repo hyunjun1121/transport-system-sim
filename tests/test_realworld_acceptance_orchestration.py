@@ -165,6 +165,31 @@ def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> N
 def test_acceptance_orchestration_writes_records_and_manifest() -> None:
     with tempfile.TemporaryDirectory() as tmpdir:
         root = Path(tmpdir)
+        source_priority_path = root / "source_provenance_priority_manifest.json"
+        source_priority_path.write_text(
+            json.dumps(
+                {
+                    "outputs": {
+                        "csv": "data/manifests/source_provenance_priority_packet.csv"
+                    },
+                    "row_count": 11,
+                    "blocking_source_count": 4,
+                    "human_review_source_count": 7,
+                    "context_only_source_count": 4,
+                    "cached_snapshot_source_count": 3,
+                    "repository_input_source_count": 4,
+                    "provenance_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "review_items": ["cache or exclude context-only sources"],
+                    "remaining_blockers": [
+                        "context-only public sources still need cached extracts"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         manifest = write_acceptance_orchestration_outputs(
             output_dir=root / "agent_reviews",
             review_packet_dir=root / "review_packets",
@@ -172,13 +197,29 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             agent_definition_path=root / "agents.json",
             agent_doc_path=root / "agents.md",
             schema_path=root / "schema.json",
+            source_provenance_priority_manifest_path=source_priority_path,
         )
         assert manifest["final_study_ready"] is False
         assert manifest["record_count"] >= 10
         assert manifest["blocked_or_review_record_count"] >= 1
         assert manifest["can_mark_complete_count"] == 0
+        assert manifest["source_provenance_priority"]["row_count"] == 11
+        assert (
+            manifest["source_provenance_priority"]["blocking_source_count"] == 4
+        )
+        assert (
+            manifest["source_provenance_priority"][
+                "provenance_gate_closure_candidate_count"
+            ]
+            == 0
+        )
         assert (root / "acceptance_orchestration_manifest.json").exists()
-        assert (root / "review_packets" / "acceptance_review_index.md").exists()
+        index_path = root / "review_packets" / "acceptance_review_index.md"
+        assert index_path.exists()
+        index_text = index_path.read_text(encoding="utf-8")
+        assert "Source Provenance Priority Snapshot" in index_text
+        assert "Blocking context-only sources: 4" in index_text
+        assert "cache or exclude context-only sources" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
         if not first_record_path.is_absolute():
