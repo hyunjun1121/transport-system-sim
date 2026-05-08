@@ -37,7 +37,7 @@
     "docs/review_packets/validation_package.md"
   ],
   "gate_id": "validation_package",
-  "generated_at": "2026-05-08T17:38:43+00:00",
+  "generated_at": "2026-05-08T17:52:14+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
