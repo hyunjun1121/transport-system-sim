@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import stat
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -14,6 +15,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.clean_checkout_smoke import (  # noqa: E402
     CLEAN_CHECKOUT_SMOKE_SCOPE,
     CleanCheckoutStepResult,
+    _prepare_checkout_dir,
+    _remove_if_safe,
     build_clean_checkout_smoke_manifest,
     summarize_clean_checkout_smoke,
     write_clean_checkout_smoke_outputs,
@@ -127,6 +130,48 @@ def test_missing_clean_checkout_smoke_summary_is_blocked() -> None:
     print("PASS: missing clean-checkout smoke summary is blocked")
 
 
+def test_clean_checkout_cleanup_handles_readonly_git_files() -> None:
+    """Explicit checkout-parent cleanup should handle read-only Git files."""
+
+    with TemporaryDirectory() as tmp:
+        checkout_dir = Path(tmp) / "transport-system-sim-clean-checkout"
+        object_dir = checkout_dir / ".git" / "objects" / "00"
+        object_dir.mkdir(parents=True)
+        readonly_object = object_dir / "fixture-object"
+        readonly_object.write_text("object", encoding="utf-8")
+        readonly_object.chmod(stat.S_IREAD)
+
+        _remove_if_safe(checkout_dir)
+
+        assert not checkout_dir.exists()
+
+    print("PASS: clean-checkout cleanup handles read-only Git files")
+
+
+def test_clean_checkout_prepare_replaces_readonly_existing_checkout() -> None:
+    """Preparing a fixed checkout parent should replace stale read-only trees."""
+
+    with TemporaryDirectory() as tmp:
+        parent = Path(tmp)
+        checkout_dir = parent / "transport-system-sim-clean-checkout"
+        object_dir = checkout_dir / ".git" / "objects" / "00"
+        object_dir.mkdir(parents=True)
+        readonly_object = object_dir / "fixture-object"
+        readonly_object.write_text("object", encoding="utf-8")
+        readonly_object.chmod(stat.S_IREAD)
+
+        prepared_dir, cleanup = _prepare_checkout_dir(
+            checkout_parent=parent,
+            keep_checkout=False,
+        )
+
+        assert prepared_dir == checkout_dir
+        assert not checkout_dir.exists()
+        cleanup()
+
+    print("PASS: clean-checkout prepare replaces read-only existing checkout")
+
+
 def _step(step_id: str, *, passed: bool) -> CleanCheckoutStepResult:
     return CleanCheckoutStepResult(
         step_id=step_id,
@@ -146,4 +191,6 @@ if __name__ == "__main__":
     test_clean_checkout_smoke_manifest_never_accepts_gate()
     test_clean_checkout_smoke_outputs_and_summary()
     test_missing_clean_checkout_smoke_summary_is_blocked()
+    test_clean_checkout_cleanup_handles_readonly_git_files()
+    test_clean_checkout_prepare_replaces_readonly_existing_checkout()
     print("\n=== REALWORLD CLEAN-CHECKOUT SMOKE TESTS PASSED ===")

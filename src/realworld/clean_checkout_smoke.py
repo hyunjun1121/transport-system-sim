@@ -9,7 +9,9 @@ dependencies by default, and never creates formal acceptance records.
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -493,7 +495,7 @@ def _prepare_checkout_dir(
     if checkout_dir.exists():
         if not _safe_to_remove_checkout_dir(checkout_dir):
             raise ValueError(f"refusing to remove unsafe checkout path: {checkout_dir}")
-        shutil.rmtree(checkout_dir)
+        _rmtree_allowing_readonly(checkout_dir)
     return checkout_dir, (
         lambda: None if keep_checkout else _remove_if_safe(checkout_dir)
     )
@@ -511,7 +513,22 @@ def _remove_if_safe(path: Path) -> None:
     if path.exists():
         if not _safe_to_remove_checkout_dir(path):
             raise ValueError(f"refusing to remove unsafe checkout path: {path}")
-        shutil.rmtree(path)
+        _rmtree_allowing_readonly(path)
+
+
+def _rmtree_allowing_readonly(path: Path) -> None:
+    """Remove a checkout tree even when Git object files are read-only."""
+
+    def _make_writable_and_retry(
+        func: Any,
+        failing_path: str,
+        exc_info: object,
+    ) -> None:
+        del exc_info
+        os.chmod(failing_path, stat.S_IREAD | stat.S_IWRITE)
+        func(failing_path)
+
+    shutil.rmtree(path, onerror=_make_writable_and_retry)
 
 
 def _git_text(args: Sequence[str], *, cwd: Path) -> str:
