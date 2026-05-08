@@ -108,6 +108,7 @@ def test_write_rail_fetch_readiness_packet_outputs_artifacts() -> None:
         assert len(written_rows) == len(rows)
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
+        assert value["region_ids"] == ["songpa_public_demo"]
         assert value["source_url_or_citation_present_count"] == len(rows)
         assert value["required_external_input_present_count"] == len(rows)
         assert written_manifest["rail_evidence_gate_closure_candidate_count"] == 0
@@ -143,6 +144,7 @@ def test_shipped_rail_fetch_readiness_packet_matches_current_requests() -> None:
     ]
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
+    assert manifest["region_ids"] == ["songpa_public_demo"]
     assert manifest["result_scope"] == RAIL_FETCH_READINESS_SCOPE
     assert manifest["rail_evidence_gate_closure_candidate_count"] == 0
     assert manifest["source_url_or_citation_present_count"] == len(rows)

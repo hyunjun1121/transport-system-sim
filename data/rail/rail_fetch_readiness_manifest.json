@@ -3,6 +3,9 @@
   "claim_boundary": "Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence. This packet cannot close rail evidence or provenance gates.",
   "result_scope": "Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
   "row_count": 5,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "readiness_status_counts": {
     "blocked_missing_data_go_kr_key": 2,
     "blocked_missing_reviewed_gtfs_file": 1,

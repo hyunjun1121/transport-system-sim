@@ -3,6 +3,9 @@
   "claim_boundary": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval. This packet cannot close parameter evidence or formal acceptance gates.",
   "result_scope": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval.",
   "row_count": 6,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "weak_parameter_count": 20,
   "readiness_status_counts": {
     "blocked_missing_transfer_source": 1,

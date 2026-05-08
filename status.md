@@ -239,6 +239,11 @@ The codebase currently includes:
     `scripts/write_rail_timing_source_request_packet.py`; the generated 5-row
     packet names the API-key, GTFS, capacity, and availability inputs needed
     before cached rail timing evidence can be derived
+  - rail fetch-readiness packet generation in
+    `src/realworld/rail_fetch_readiness_packet.py` and
+    `scripts/write_rail_fetch_readiness_packet.py`; the manifest records the
+    `region_ids` from the rail timing request rows and remains a
+    non-acceptance preflight packet
   - rail-point station binding validation in
     `src/realworld/rail_station_binding.py` and
     `scripts/audit_rail_station_bindings.py`
@@ -290,6 +295,11 @@ The codebase currently includes:
     `scripts/write_parameter_evidence_source_request_packet.py`; the generated
     6-row packet covers 22 cross-cutting demand, fleet, dispatch, transfer,
     disruption, and traffic/BPR parameters and is request support only
+  - parameter source-readiness packet generation in
+    `src/realworld/parameter_source_readiness_packet.py` and
+    `scripts/write_parameter_source_readiness_packet.py`; the manifest records
+    the `region_ids` from the request rows and remains non-acceptance review
+    metadata
   - cached road-input evidence audit in
     `src/realworld/road_evidence.py` and `scripts/audit_road_evidence.py`
   - road-class evidence diagnostics in
@@ -318,6 +328,11 @@ The codebase currently includes:
     5-row packet names the source-backed speed, capacity, benchmark,
     disruption, and override-application inputs needed before reviewed road
     overrides can be built
+  - road source-readiness packet generation in
+    `src/realworld/road_source_readiness_packet.py` and
+    `scripts/write_road_source_readiness_packet.py`; the manifest records the
+    `region_ids` from the request rows and remains non-acceptance review
+    metadata
   - draft road-class override review templates in
     `src/realworld/road_override_template.py` and
     `scripts/write_road_class_override_template.py`; generated rows mirror

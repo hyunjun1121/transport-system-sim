@@ -6,6 +6,7 @@ Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation,
 
 - Publication ready: `false`
 - Can mark complete: `false`
+- Region IDs: `['songpa_public_demo']`
 - Request rows: 5
 - Blocking requests: 3
 - Status counts: `{'blocked_missing_data_go_kr_key': 2, 'blocked_missing_reviewed_gtfs_file': 1, 'needs_human_review_availability_scenario': 1, 'needs_human_review_capacity_treatment': 1}`

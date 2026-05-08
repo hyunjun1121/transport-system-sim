@@ -6,6 +6,7 @@ Parameter source-readiness packet only; not source evidence, not accepted parame
 
 - Publication ready: `false`
 - Can mark complete: `false`
+- Region IDs: `['songpa_public_demo']`
 - Request rows: 6
 - Weak parameters covered: 20
 - Blocking requests: 1

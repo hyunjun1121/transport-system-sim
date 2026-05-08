@@ -3,6 +3,9 @@
   "claim_boundary": "Road source-readiness packet only; not reviewed road-class overrides, not calibrated speed or capacity evidence, not accepted disruption evidence, not proof that overrides were applied, and not operational routing evidence. This packet cannot close cached-road, parameter, validation, or formal road acceptance gates.",
   "result_scope": "Road source-readiness packet only; not reviewed road-class overrides, not calibrated speed or capacity evidence, not accepted disruption evidence, not proof that overrides were applied, and not operational routing evidence.",
   "row_count": 5,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "readiness_status_counts": {
     "blocked_missing_capacity_source": 1,
     "blocked_missing_reviewed_road_class_overrides": 1,

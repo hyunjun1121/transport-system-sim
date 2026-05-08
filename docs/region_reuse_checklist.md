@@ -89,6 +89,10 @@ creating region-scoped review aids:
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py --cache-prefix <region_id>
 ```
 
+The downstream parameter, road, and rail source-readiness manifests expose the
+`region_ids` found in those request rows. Check those manifest fields before
+mixing review packets from multiple regions.
+
 For a publication-bound region, also rerun the full validation ladder listed
 in `plan.md` and keep formal acceptance artifacts absent until reviewed
 source-backed decisions are supplied.

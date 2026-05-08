@@ -135,6 +135,7 @@ def build_parameter_source_readiness_manifest(
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     group_counts = _counts(row.get("parameter_groups", "") for row in rows)
+    region_ids = _region_ids(rows)
     source_citation_count = sum(
         1 for row in rows if str(row.get("source_url_or_citation", "")).strip()
     )
@@ -158,6 +159,7 @@ def build_parameter_source_readiness_manifest(
         ),
         "result_scope": PARAMETER_SOURCE_READINESS_SCOPE,
         "row_count": len(rows),
+        "region_ids": region_ids,
         "weak_parameter_count": weak_parameter_count,
         "readiness_status_counts": status_counts,
         "parameter_group_counts": group_counts,
@@ -209,6 +211,7 @@ def build_parameter_source_readiness_markdown(
         "",
         f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
+        f"- Region IDs: `{manifest.get('region_ids', [])}`",
         f"- Request rows: {manifest.get('row_count', 0)}",
         f"- Weak parameters covered: {manifest.get('weak_parameter_count', 0)}",
         f"- Blocking requests: {manifest.get('blocking_request_count', 0)}",
@@ -409,6 +412,16 @@ def _counts(values: Sequence[str] | Any) -> dict[str, int]:
         key = str(value)
         counts[key] = counts.get(key, 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _region_ids(rows: Sequence[Mapping[str, str]]) -> list[str]:
+    return sorted(
+        {
+            str(row.get("region_id", "")).strip()
+            for row in rows
+            if str(row.get("region_id", "")).strip()
+        }
+    )
 
 
 def _int_value(value: object) -> int:

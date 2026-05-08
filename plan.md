@@ -909,6 +909,10 @@ Current fixture coverage:
   `region_id` in derivation commands and accepts `--cache-prefix` for
   region-scoped cache path suggestions. The shipped default packet still uses
   the current pilot cache prefix and remains a non-acceptance review aid.
+- Parameter, road, and rail source-readiness manifests now record the
+  `region_ids` present in their source-request rows, so review packet scope can
+  be checked when a non-pilot region is exercised. These fields are audit
+  metadata only and do not change acceptance status.
 
 ## Data Governance And Security
 

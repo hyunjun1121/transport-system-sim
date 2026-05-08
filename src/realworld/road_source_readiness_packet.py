@@ -155,6 +155,7 @@ def build_road_source_readiness_manifest(
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     source_type_counts = _counts(row.get("source_type", "") for row in rows)
+    region_ids = _region_ids(rows)
     source_citation_count = sum(
         1 for row in rows if str(row.get("source_url_or_citation", "")).strip()
     )
@@ -178,6 +179,7 @@ def build_road_source_readiness_manifest(
         ),
         "result_scope": ROAD_SOURCE_READINESS_SCOPE,
         "row_count": len(rows),
+        "region_ids": region_ids,
         "readiness_status_counts": status_counts,
         "source_type_counts": source_type_counts,
         "source_url_or_citation_present_count": source_citation_count,
@@ -229,6 +231,7 @@ def build_road_source_readiness_markdown(
         "",
         f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
+        f"- Region IDs: `{manifest.get('region_ids', [])}`",
         f"- Request rows: {manifest.get('row_count', 0)}",
         f"- Blocking requests: {manifest.get('blocking_request_count', 0)}",
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
@@ -436,6 +439,16 @@ def _counts(values: Sequence[str] | Any) -> dict[str, int]:
         key = str(value)
         counts[key] = counts.get(key, 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _region_ids(rows: Sequence[Mapping[str, str]]) -> list[str]:
+    return sorted(
+        {
+            str(row.get("region_id", "")).strip()
+            for row in rows
+            if str(row.get("region_id", "")).strip()
+        }
+    )
 
 
 def _int_value(record: Mapping[str, Any] | None, key: str) -> int:

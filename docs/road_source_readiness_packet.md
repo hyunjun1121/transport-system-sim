@@ -6,6 +6,7 @@ Road source-readiness packet only; not reviewed road-class overrides, not calibr
 
 - Publication ready: `false`
 - Can mark complete: `false`
+- Region IDs: `['songpa_public_demo']`
 - Request rows: 5
 - Blocking requests: 2
 - Human-review requests: 3
