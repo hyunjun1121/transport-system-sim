@@ -16,6 +16,7 @@ from src.realworld.rail_station_binding import (  # noqa: E402
     DEFAULT_RAIL_STATION_BINDING_PATH,
 )
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    DEFAULT_RAIL_CACHE_PREFIX,
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH,
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
     build_rail_timing_source_request_rows,
@@ -30,6 +31,7 @@ def main(argv: list[str] | None = None) -> int:
     rows = build_rail_timing_source_request_rows(
         station_binding_path=args.station_bindings,
         assumptions_path=args.assumptions,
+        cache_prefix=args.cache_prefix,
     )
     manifest = write_rail_timing_source_request_packet(
         rows=rows,
@@ -48,6 +50,14 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
             "Write the rail timing source-request worksheet. The output names "
             "required source inputs and commands; it is not timing evidence."
         )
+    )
+    parser.add_argument(
+        "--cache-prefix",
+        default=DEFAULT_RAIL_CACHE_PREFIX,
+        help=(
+            "Prefix for suggested rail cache files in generated commands. "
+            "Defaults to the current pilot prefix."
+        ),
     )
     parser.add_argument(
         "--station-bindings",

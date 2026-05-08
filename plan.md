@@ -905,6 +905,10 @@ Current fixture coverage:
   so review aids can be generated for a non-pilot region without editing
   production code. The shipped default packets still target
   `songpa_public_demo` and remain non-acceptance review aids.
+- Rail timing source-request generation now uses the station-binding
+  `region_id` in derivation commands and accepts `--cache-prefix` for
+  region-scoped cache path suggestions. The shipped default packet still uses
+  the current pilot cache prefix and remains a non-acceptance review aid.
 
 ## Data Governance And Security
 

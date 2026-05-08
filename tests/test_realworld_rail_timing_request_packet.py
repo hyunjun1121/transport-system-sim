@@ -41,6 +41,39 @@ def test_rail_timing_source_request_rows_are_actionable() -> None:
     print("PASS: rail timing source-request rows are actionable")
 
 
+def test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix() -> None:
+    """Rows should be reusable for non-pilot station-binding tables."""
+
+    with TemporaryDirectory() as directory:
+        binding_path = Path(directory) / "rail_station_bindings.csv"
+        _write_station_binding_fixture(binding_path)
+
+        rows = build_rail_timing_source_request_rows(
+            station_binding_path=binding_path,
+            cache_prefix="synthetic_region_fixture",
+        )
+    by_id = {row["request_id"]: row for row in rows}
+
+    assert {row["region_id"] for row in rows} == {"synthetic_region_fixture"}
+    assert by_id["rail_timetable_headway_request"]["source_cache_path"] == (
+        "data/rail/synthetic_region_fixture_rail_timetable_cache.csv"
+    )
+    assert "--region-id synthetic_region_fixture" in by_id[
+        "rail_timetable_headway_request"
+    ]["derive_command"]
+    assert "synthetic_region_fixture_rail_headway_v1" in by_id[
+        "rail_timetable_headway_request"
+    ]["derive_command"]
+    assert "synthetic_region_fixture_rail_shortest_path_cache.csv" in by_id[
+        "rail_shortest_path_travel_time_request"
+    ]["fetch_command"]
+    assert "synthetic_region_fixture_rail_gtfs_v1" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["derive_command"]
+
+    print("PASS: rail timing source-request rows use binding region and cache prefix")
+
+
 def test_write_rail_timing_source_request_packet_outputs_csv_and_manifest() -> None:
     """Writer should emit stable CSV fields and non-acceptance manifest."""
 
@@ -64,6 +97,7 @@ def test_write_rail_timing_source_request_packet_outputs_csv_and_manifest() -> N
 
         assert len(written_rows) == 5
         assert value["publication_ready"] is False
+        assert value["region_ids"] == ["songpa_public_demo"]
         assert value["timing_closure_candidate_count"] == 1
         assert value["requires_private_or_reviewed_input_count"] == 3
         assert written_manifest["row_count"] == 5
@@ -96,13 +130,66 @@ def test_shipped_rail_timing_source_request_packet_matches_current_inputs() -> N
         row["request_id"] for row in rows
     ]
     assert manifest["publication_ready"] is False
+    assert manifest["region_ids"] == ["songpa_public_demo"]
     assert manifest["result_scope"] == RAIL_TIMING_SOURCE_REQUEST_SCOPE
 
     print("PASS: shipped rail timing source-request packet matches current inputs")
 
 
+def _write_station_binding_fixture(path: Path) -> None:
+    columns = [
+        "binding_id",
+        "region_id",
+        "point_id",
+        "station_name",
+        "station_id",
+        "station_code",
+        "source_name",
+        "source_url_or_citation",
+        "source_accessed_date",
+        "source_status",
+        "claim_scope",
+        "notes",
+    ]
+    rows = [
+        {
+            "binding_id": "synthetic_S_1",
+            "region_id": "synthetic_region_fixture",
+            "point_id": "S",
+            "station_name": "Synthetic Access",
+            "station_id": "S100",
+            "station_code": "100",
+            "source_name": "Synthetic fixture",
+            "source_url_or_citation": "tests/fixtures/synthetic_region_fixture.yaml",
+            "source_accessed_date": "2026-05-08",
+            "source_status": "official_station_code_bound",
+            "claim_scope": "official station-code binding fixture only",
+            "notes": "fixture row",
+        },
+        {
+            "binding_id": "synthetic_R_1",
+            "region_id": "synthetic_region_fixture",
+            "point_id": "R",
+            "station_name": "Synthetic Egress",
+            "station_id": "R200",
+            "station_code": "200",
+            "source_name": "Synthetic fixture",
+            "source_url_or_citation": "tests/fixtures/synthetic_region_fixture.yaml",
+            "source_accessed_date": "2026-05-08",
+            "source_status": "official_station_code_bound",
+            "claim_scope": "official station-code binding fixture only",
+            "notes": "fixture row",
+        },
+    ]
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 if __name__ == "__main__":
     test_rail_timing_source_request_rows_are_actionable()
+    test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix()
     test_write_rail_timing_source_request_packet_outputs_csv_and_manifest()
     test_shipped_rail_timing_source_request_packet_matches_current_inputs()
     print("\n=== REALWORLD RAIL TIMING SOURCE-REQUEST TESTS PASSED ===")

@@ -17,6 +17,9 @@
     "rail_timing_source_request_packet": "data\\rail\\rail_timing_source_request_packet.csv"
   },
   "publication_ready": false,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
   "requires_private_or_reviewed_input_count": 3,
   "result_scope": "Rail timing source-request packet; not cached rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
   "review_items": [

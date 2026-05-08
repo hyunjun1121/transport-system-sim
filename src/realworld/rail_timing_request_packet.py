@@ -30,6 +30,7 @@ DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH = (
 DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "rail" / "rail_timing_source_request_manifest.json"
 )
+DEFAULT_RAIL_CACHE_PREFIX = "pilot"
 KTDB_GTFS_SOURCE_NAME = "KTDB public transport GTFS dataset candidate"
 KTDB_GTFS_SOURCE_CITATION = (
     "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106; "
@@ -69,9 +70,11 @@ def build_rail_timing_source_request_rows(
     *,
     station_binding_path: str | Path = DEFAULT_RAIL_STATION_BINDING_PATH,
     assumptions_path: str | Path = DEFAULT_RAIL_ASSUMPTIONS_PATH,
+    cache_prefix: str = DEFAULT_RAIL_CACHE_PREFIX,
 ) -> list[dict[str, str]]:
     """Return exact source-request rows for the current pilot rail leg."""
 
+    resolved_cache_prefix = _clean_cache_prefix(cache_prefix)
     station_records = load_rail_station_bindings(station_binding_path)
     station_summary = summarize_rail_station_bindings(station_records)
     assumptions = _load_assumptions(assumptions_path)
@@ -84,6 +87,15 @@ def build_rail_timing_source_request_rows(
     egress_name = egress.station_name if egress else ""
     egress_code = egress.station_code if egress else ""
     capacity = assumptions.get("rail_capacity", {}).get("value", "500")
+    timetable_cache_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_cache.csv"
+    timetable_raw_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_raw.json"
+    shortest_path_cache_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_shortest_path_cache.csv"
+    )
+    shortest_path_raw_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_shortest_path_raw.json"
+    )
+    gtfs_path = f"data/rail/{resolved_cache_prefix}_gtfs.zip"
 
     rows = [
         _row(
@@ -98,10 +110,20 @@ def build_rail_timing_source_request_rows(
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
-            source_cache_path="data/rail/pilot_rail_timetable_cache.csv",
-            raw_payload_path="data/rail/pilot_rail_timetable_raw.json",
-            fetch_command=_timetable_fetch_command(access_name, access_code),
-            derive_command=_headway_derive_command(egress_name, capacity),
+            source_cache_path=timetable_cache_path,
+            raw_payload_path=timetable_raw_path,
+            fetch_command=_timetable_fetch_command(
+                access_name,
+                access_code,
+                cache_path=timetable_cache_path,
+                raw_path=timetable_raw_path,
+            ),
+            derive_command=_headway_derive_command(
+                region_id,
+                egress_name,
+                capacity,
+                cache_path=timetable_cache_path,
+            ),
             expected_source_status="cached_timetable_derived",
             expected_derived_fields="headway",
             can_close_rail_timing_gate=False,
@@ -124,15 +146,21 @@ def build_rail_timing_source_request_rows(
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
-            source_cache_path="data/rail/pilot_rail_shortest_path_cache.csv",
-            raw_payload_path="data/rail/pilot_rail_shortest_path_raw.json",
+            source_cache_path=shortest_path_cache_path,
+            raw_payload_path=shortest_path_raw_path,
             fetch_command=_shortest_path_fetch_command(
                 access_name,
                 access_code,
                 egress_name,
                 egress_code,
+                cache_path=shortest_path_cache_path,
+                raw_path=shortest_path_raw_path,
             ),
-            derive_command=_shortest_path_derive_command(capacity),
+            derive_command=_shortest_path_derive_command(
+                region_id,
+                capacity,
+                cache_path=shortest_path_cache_path,
+            ),
             expected_source_status="cached_shortest_path_derived",
             expected_derived_fields="travel_time",
             can_close_rail_timing_gate=False,
@@ -158,13 +186,17 @@ def build_rail_timing_source_request_rows(
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
-            source_cache_path="data/rail/pilot_gtfs.zip",
+            source_cache_path=gtfs_path,
             raw_payload_path="",
             fetch_command=(
                 "manual KTDB data request or reviewed GTFS acquisition; do not "
                 "synthesize feed rows"
             ),
-            derive_command=_gtfs_derive_command(capacity),
+            derive_command=_gtfs_derive_command(
+                region_id,
+                capacity,
+                gtfs_path=gtfs_path,
+            ),
             expected_source_status="cached_gtfs_derived",
             expected_derived_fields="headway;travel_time",
             can_close_rail_timing_gate=station_ready,
@@ -248,6 +280,13 @@ def write_rail_timing_source_request_packet(
         for row in rows
         if str(row.get("can_close_rail_timing_gate", "")).lower() == "true"
     ]
+    region_ids = sorted(
+        {
+            str(row.get("region_id", "")).strip()
+            for row in rows
+            if str(row.get("region_id", "")).strip()
+        }
+    )
     value = {
         "schema_version": 1,
         "result_scope": RAIL_TIMING_SOURCE_REQUEST_SCOPE,
@@ -260,6 +299,7 @@ def write_rail_timing_source_request_packet(
             "manifest": _display_path(manifest),
         },
         "row_count": len(rows),
+        "region_ids": region_ids,
         "source_type_counts": _counts(row["source_type"] for row in rows),
         "evidence_field_counts": _field_counts(row["evidence_fields"] for row in rows),
         "timing_closure_candidate_count": len(timing_closure_candidates),
@@ -373,7 +413,13 @@ def _load_assumptions(path: str | Path) -> dict[str, dict[str, str]]:
         }
 
 
-def _timetable_fetch_command(access_name: str, access_code: str) -> str:
+def _timetable_fetch_command(
+    access_name: str,
+    access_code: str,
+    *,
+    cache_path: str,
+    raw_path: str,
+) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\fetch_rail_timetable_cache.py "
         "--line-name \"9%ED%98%B8%EC%84%A0\" "
@@ -381,18 +427,24 @@ def _timetable_fetch_command(access_name: str, access_code: str) -> str:
         "--wknd-se \"%ED%8F%89%EC%9D%BC\" "
         f"--station-name \"{access_name}\" --station-code {access_code} "
         f"--access-station-name \"{access_name}\" --access-station-code {access_code} "
-        "--output data\\rail\\pilot_rail_timetable_cache.csv "
-        "--raw-output data\\rail\\pilot_rail_timetable_raw.json"
+        f"--output {_ps_path(cache_path)} "
+        f"--raw-output {_ps_path(raw_path)}"
     )
 
 
-def _headway_derive_command(egress_name: str, capacity: str) -> str:
+def _headway_derive_command(
+    region_id: str,
+    egress_name: str,
+    capacity: str,
+    *,
+    cache_path: str,
+) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_headway_evidence.py "
-        "--input data\\rail\\pilot_rail_timetable_cache.csv "
+        f"--input {_ps_path(cache_path)} "
         "--output data\\parameters\\rail_service_evidence.csv "
-        "--evidence-id songpa_public_demo_rail_headway_v1 "
-        "--region-id songpa_public_demo --access-point S --egress-point R "
+        f"--evidence-id {region_id}_rail_headway_v1 "
+        f"--region-id {region_id} --access-point S --egress-point R "
         f"--egress-station-name \"{egress_name}\" "
         "--source-name \"Cached Seoul subway train schedule extract\" "
         "--source-url-or-citation \"https://www.data.go.kr/en/data/15143847/openapi.do\" "
@@ -409,6 +461,9 @@ def _shortest_path_fetch_command(
     access_code: str,
     egress_name: str,
     egress_code: str,
+    *,
+    cache_path: str,
+    raw_path: str,
 ) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\fetch_rail_shortest_path_cache.py "
@@ -417,18 +472,23 @@ def _shortest_path_fetch_command(
         "--search-dt \"REVIEW_DATE 09:00:00\" "
         f"--access-station-name \"{access_name}\" --access-station-code {access_code} "
         f"--egress-station-name \"{egress_name}\" --egress-station-code {egress_code} "
-        "--output data\\rail\\pilot_rail_shortest_path_cache.csv "
-        "--raw-output data\\rail\\pilot_rail_shortest_path_raw.json"
+        f"--output {_ps_path(cache_path)} "
+        f"--raw-output {_ps_path(raw_path)}"
     )
 
 
-def _shortest_path_derive_command(capacity: str) -> str:
+def _shortest_path_derive_command(
+    region_id: str,
+    capacity: str,
+    *,
+    cache_path: str,
+) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_shortest_path_evidence.py "
-        "--input data\\rail\\pilot_rail_shortest_path_cache.csv "
+        f"--input {_ps_path(cache_path)} "
         "--output data\\parameters\\rail_service_evidence.csv "
-        "--evidence-id songpa_public_demo_rail_shortest_path_v1 "
-        "--region-id songpa_public_demo --access-point S --egress-point R "
+        f"--evidence-id {region_id}_rail_shortest_path_v1 "
+        f"--region-id {region_id} --access-point S --egress-point R "
         "--source-name \"Cached Seoul subway shortest-path extract\" "
         "--source-url-or-citation \"https://data.seoul.go.kr/dataList/OA-22724/A/1/datasetView.do\" "
         "--extraction-date REVIEW_DATE --headway-min-proxy 10 "
@@ -439,13 +499,18 @@ def _shortest_path_derive_command(capacity: str) -> str:
     )
 
 
-def _gtfs_derive_command(capacity: str) -> str:
+def _gtfs_derive_command(
+    region_id: str,
+    capacity: str,
+    *,
+    gtfs_path: str,
+) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_gtfs_evidence.py "
-        "--input data\\rail\\pilot_gtfs.zip "
+        f"--input {_ps_path(gtfs_path)} "
         "--output data\\parameters\\rail_service_evidence.csv "
-        "--evidence-id songpa_public_demo_rail_gtfs_v1 "
-        "--region-id songpa_public_demo --access-point S --egress-point R "
+        f"--evidence-id {region_id}_rail_gtfs_v1 "
+        f"--region-id {region_id} --access-point S --egress-point R "
         "--access-stop-id REVIEWED_ACCESS_STOP_ID "
         "--egress-stop-id REVIEWED_EGRESS_STOP_ID "
         f"--source-name \"{KTDB_GTFS_SOURCE_NAME}\" "
@@ -455,6 +520,17 @@ def _gtfs_derive_command(capacity: str) -> str:
         "--service-window \"reviewed weekday service window\" "
         "--route-id REVIEWED_ROUTE_ID"
     )
+
+
+def _clean_cache_prefix(cache_prefix: str) -> str:
+    text = str(cache_prefix).strip()
+    if not text:
+        raise ValueError("cache_prefix must be non-empty")
+    return text.replace("\\", "_").replace("/", "_")
+
+
+def _ps_path(path: str) -> str:
+    return path.replace("/", "\\")
 
 
 def _field_counts(values: Iterable[str]) -> dict[str, int]:

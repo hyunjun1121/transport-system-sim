@@ -86,6 +86,7 @@ creating region-scoped review aids:
 ```powershell
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py --region-id <region_id>
 .\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py --region-id <region_id>
+.\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py --cache-prefix <region_id>
 ```
 
 For a publication-bound region, also rerun the full validation ladder listed
