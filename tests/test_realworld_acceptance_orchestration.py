@@ -47,6 +47,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/pilot_privacy_review_manifest.json" in (
         pilot_agent.source_paths
     )
+    assert "data/manifests/current_goal_completion_audit.json" in (
+        pilot_agent.reviewed_inputs
+    )
 
     graph_agent = agents["graph_scale_method_review_agent"]
     assert (
@@ -67,6 +70,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     )
     assert "data/manifests/source_provenance_priority_packet.csv" in (
         provenance_agent.review_packet_paths
+    )
+    assert "data/manifests/current_goal_completion_audit.json" in (
+        provenance_agent.reviewed_inputs
     )
 
     evidence_agent = agents["road_rail_parameter_evidence_agent"]
@@ -123,6 +129,14 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     reproducibility_agent = agents["clean_checkout_reproducibility_agent"]
     assert "data/validation/tracked_artifact_audit.csv" in (
         reproducibility_agent.review_packet_paths
+    )
+    assert "data/manifests/current_goal_completion_audit.json" in (
+        reproducibility_agent.source_paths
+    )
+
+    final_agent = agents["final_independent_audit_agent"]
+    assert "data/manifests/current_goal_completion_audit.json" in (
+        final_agent.source_paths
     )
 
 

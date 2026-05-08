@@ -26,6 +26,7 @@
         "data/regions/pilot_region.yaml",
         "docs/pilot_region_data_card.md",
         "docs/current_goal_completion_audit.md",
+        "data/manifests/current_goal_completion_audit.json",
         "data/manifests/pilot_privacy_review_packet.csv",
         "data/manifests/pilot_privacy_review_manifest.json",
         "docs/pilot_privacy_review_packet.md"
@@ -75,6 +76,7 @@
         "data/manifests/source_url_remediation_manifest.json",
         "data/manifests/source_provenance_priority_manifest.json",
         "data/manifests/reproducibility_manifest.json",
+        "data/manifests/current_goal_completion_audit.json",
         "docs/reproducibility_package.md",
         "cloned_repo_manifest.md"
       ],
@@ -384,6 +386,7 @@
       "reviewed_inputs": [
         "scripts/audit_publication_readiness.py",
         "docs/current_goal_completion_audit.md",
+        "data/manifests/current_goal_completion_audit.json",
         "paper/paper_draft.md",
         "report_draft.md",
         "data/manifests/claim_alignment_review_manifest.json"
@@ -428,6 +431,7 @@
       "reviewed_inputs": [
         "docs/reproducibility_package.md",
         "data/manifests/reproducibility_manifest.json",
+        "data/manifests/current_goal_completion_audit.json",
         "data/validation/reproducibility_review_packet.csv",
         "data/validation/tracked_artifact_audit.csv",
         "scripts/audit_plan_artifacts.py"
@@ -443,6 +447,7 @@
         "data/validation/reproducibility_smoke_manifest.json",
         "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
         "data/validation/tracked_artifact_audit_manifest.json",
+        "data/manifests/current_goal_completion_audit.json",
         "docs/reproducibility_package.md",
         "requirements.txt"
       ]
@@ -472,6 +477,7 @@
       ],
       "reviewed_inputs": [
         "docs/current_goal_completion_audit.md",
+        "data/manifests/current_goal_completion_audit.json",
         "data/manifests/acceptance_orchestration_manifest.json",
         "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
         "data/manifests/formal_acceptance_package_audit.json",
@@ -484,6 +490,7 @@
       "role_name": "Final Independent Audit Agent",
       "source_paths": [
         "docs/current_goal_completion_audit.md",
+        "data/manifests/current_goal_completion_audit.json",
         "data/manifests/acceptance_orchestration_manifest.json",
         "data/manifests/formal_acceptance_evidence_matrix.csv",
         "data/manifests/formal_acceptance_package_audit.json"

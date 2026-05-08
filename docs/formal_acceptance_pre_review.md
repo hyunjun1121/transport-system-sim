@@ -60,6 +60,7 @@ Evidence inspected:
 - `data/manifests/pilot_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/pilot_region_accepted.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/pilot_privacy_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
@@ -227,6 +228,7 @@ Evidence inspected:
 - `data/manifests/source_url_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_url_remediation_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/source_provenance_priority_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_license_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/source_url_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -849,6 +851,7 @@ Evidence inspected:
 - `docs/review_packets/manuscript_report_alignment.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/audit_publication_readiness.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/claim_alignment_review_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/claim_alignment_review_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 
@@ -908,6 +911,7 @@ Source paths:
 - data/validation/reproducibility_smoke_manifest.json
 - data/validation/clean_checkout_reproducibility_smoke_manifest.json
 - data/validation/tracked_artifact_audit_manifest.json
+- data/manifests/current_goal_completion_audit.json
 - docs/reproducibility_package.md
 - requirements.txt
 - data/manifests/reproducibility_acceptance.json
@@ -918,6 +922,7 @@ Evidence inspected:
 - `data/validation/reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/clean_checkout_reproducibility_smoke_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/tracked_artifact_audit_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `docs/reproducibility_package.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `requirements.txt`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/reproducibility_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
@@ -968,6 +973,7 @@ Review packets:
 
 Source paths:
 - docs/current_goal_completion_audit.md
+- data/manifests/current_goal_completion_audit.json
 - data/manifests/acceptance_orchestration_manifest.json
 - data/manifests/formal_acceptance_evidence_matrix.csv
 - data/manifests/formal_acceptance_package_audit.json
@@ -975,6 +981,7 @@ Source paths:
 
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/acceptance_orchestration_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/formal_acceptance_evidence_matrix.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/formal_acceptance_package_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -1028,6 +1035,7 @@ Review packets:
 
 Source paths:
 - docs/current_goal_completion_audit.md
+- data/manifests/current_goal_completion_audit.json
 - data/manifests/acceptance_orchestration_manifest.json
 - data/manifests/formal_acceptance_evidence_matrix.csv
 - data/manifests/formal_acceptance_package_audit.json
@@ -1035,6 +1043,7 @@ Source paths:
 
 Evidence inspected:
 - `docs/current_goal_completion_audit.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/manifests/current_goal_completion_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/acceptance_orchestration_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/formal_acceptance_evidence_matrix.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/formal_acceptance_package_audit.json`: present; local supporting artifact present; evidence quality still requires human/source review

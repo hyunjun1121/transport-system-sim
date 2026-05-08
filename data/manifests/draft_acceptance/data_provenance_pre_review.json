@@ -91,6 +91,12 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/reproducibility_package.md"
     },
     {
@@ -163,7 +169,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/provenance_acceptance.json",
   "gate": "data_provenance",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -242,6 +248,7 @@
     "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/source_provenance_priority_manifest.json",
     "data/manifests/reproducibility_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
     "docs/reproducibility_package.md",
     "cloned_repo_manifest.md"
   ],

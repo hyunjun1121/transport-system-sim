@@ -13,6 +13,12 @@
       "claim_supported": "Repository evidence cited for final_audit_document",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for final_audit_document",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/acceptance_orchestration_manifest.json"
     },
     {
@@ -68,7 +74,7 @@
   "formal_record_present": false,
   "formal_target": "docs/final_study_audit.md",
   "gate": "final_audit_document",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -111,6 +117,7 @@
   ],
   "reviewed_inputs": [
     "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
     "data/manifests/acceptance_orchestration_manifest.json",
     "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
     "data/manifests/formal_acceptance_package_audit.json",
@@ -119,6 +126,7 @@
   "schema_version": 1,
   "source_paths": [
     "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
     "data/manifests/acceptance_orchestration_manifest.json",
     "data/manifests/formal_acceptance_evidence_matrix.csv",
     "data/manifests/formal_acceptance_package_audit.json",

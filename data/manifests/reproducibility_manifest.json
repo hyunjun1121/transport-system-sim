@@ -98,6 +98,7 @@
                  "clean_checkout_reproducibility_smoke":  "docs/clean_checkout_reproducibility_smoke.md",
                  "plan_completion_audit":  "docs/plan_completion_audit.md",
                  "current_goal_completion_audit":  "docs/current_goal_completion_audit.md",
+                 "current_goal_completion_audit_manifest":  "data/manifests/current_goal_completion_audit.json",
                  "road_class_override_schema":  "docs/road_class_override_schema.md",
                  "rail_station_cache_schema":  "docs/rail_station_cache_schema.md",
                  "rail_timetable_cache_schema":  "docs/rail_timetable_cache_schema.md",

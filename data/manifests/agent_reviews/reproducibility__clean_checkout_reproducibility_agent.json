@@ -18,7 +18,7 @@
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-08T14:41:32+00:00",
+  "generated_at": "2026-05-08T14:46:44+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
@@ -34,6 +34,7 @@
   "reviewed_inputs": [
     "docs/reproducibility_package.md",
     "data/manifests/reproducibility_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
     "data/validation/reproducibility_review_packet.csv",
     "data/validation/tracked_artifact_audit.csv",
     "scripts/audit_plan_artifacts.py",
@@ -57,6 +58,7 @@
     "data/validation/reproducibility_smoke_manifest.json",
     "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
     "data/validation/tracked_artifact_audit_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
     "docs/reproducibility_package.md",
     "requirements.txt",
     "data/manifests/reproducibility_acceptance.json"

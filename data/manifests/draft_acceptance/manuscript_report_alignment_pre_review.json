@@ -61,6 +61,12 @@
       "claim_supported": "Repository evidence cited for manuscript_report_alignment",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for manuscript_report_alignment",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/claim_alignment_review_manifest.json"
     },
     {
@@ -79,7 +85,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -137,6 +143,7 @@
   "reviewed_inputs": [
     "scripts/audit_publication_readiness.py",
     "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
     "paper/paper_draft.md",
     "report_draft.md",
     "data/manifests/claim_alignment_review_manifest.json"

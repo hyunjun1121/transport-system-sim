@@ -87,6 +87,14 @@ def test_evidence_matrix_covers_current_formal_targets() -> None:
         "data/validation/tracked_artifact_audit_manifest.json"
         in by_gate["reproducibility"]["source_paths"]
     )
+    assert (
+        "data/manifests/current_goal_completion_audit.json"
+        in by_gate["reproducibility"]["source_paths"]
+    )
+    assert (
+        "data/manifests/current_goal_completion_audit.json"
+        in by_gate["final_audit"]["source_paths"]
+    )
 
 
 def test_write_evidence_matrix_outputs_non_approval_artifacts() -> None:

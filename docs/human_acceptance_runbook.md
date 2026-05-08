@@ -13,7 +13,9 @@ acceptance artifacts.
   `structured_disruptions`, and `policy_alternatives`) and 12 / 15 blocked.
 - Current formal acceptance status: 0 / 12 formal gates ready; all required
   formal acceptance artifacts are absent.
-- `docs/current_goal_completion_audit.md` is the current-state gap audit.
+- `docs/current_goal_completion_audit.md` and
+  `data/manifests/current_goal_completion_audit.json` are the current-state
+  gap audit outputs.
 - `docs/final_study_audit.md` must not be created until every pre-final gate is
   accepted with evidence.
 - `data/manifests/agent_reviews/*.json` are sub-agent review records, not

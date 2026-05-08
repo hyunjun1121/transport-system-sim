@@ -183,6 +183,7 @@ Current generated artifact checks:
 | `data/manifests/reproducibility_manifest.json` | valid JSON |
 | `scripts/audit_plan_artifacts.py` graph-scale checks | all pilot, sensitivity, Morris, and figure/table manifests record source and analysis graph scale |
 | `docs/current_goal_completion_audit.md` | non-acceptance active-goal prompt-to-artifact checklist; `final_study_ready: false` |
+| `data/manifests/current_goal_completion_audit.json` | structured non-acceptance active-goal prompt-to-artifact checklist; `can_mark_complete: false` |
 
 ## Remaining Blockers Before Final-Study Claim
 

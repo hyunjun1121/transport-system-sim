@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T14:41:32+00:00`
+- Generated at: `2026-05-08T14:46:44+00:00`
 
 ## Decision
 
@@ -16,6 +16,7 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 
 - docs/reproducibility_package.md
 - data/manifests/reproducibility_manifest.json
+- data/manifests/current_goal_completion_audit.json
 - data/validation/reproducibility_review_packet.csv
 - data/validation/tracked_artifact_audit.csv
 - scripts/audit_plan_artifacts.py
@@ -40,6 +41,7 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - data/validation/tracked_artifact_audit.csv
 - docs/review_packets/reproducibility.md
 - data/validation/tracked_artifact_audit_manifest.json
+- data/manifests/current_goal_completion_audit.json
 - requirements.txt
 
 ## Risks

@@ -16,7 +16,7 @@
     "docs/review_packets/manuscript_report_alignment.md"
   ],
   "gate_id": "manuscript_report_alignment",
-  "generated_at": "2026-05-08T14:41:32+00:00",
+  "generated_at": "2026-05-08T14:46:44+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Revise or hold claims until all supporting evidence gates are accepted.",
@@ -36,6 +36,7 @@
   "reviewed_inputs": [
     "scripts/audit_publication_readiness.py",
     "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
     "paper/paper_draft.md",
     "report_draft.md",
     "data/manifests/claim_alignment_review_manifest.json",

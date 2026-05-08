@@ -165,9 +165,10 @@ Current reproducible artifacts are scaffold-only:
 - final-study readiness audit mapping every `plan.md` final gate to concrete
   artifacts while separating scaffold artifact presence from final-study
   readiness
-- current active-goal completion audit that restates the objective as concrete
-  gates, lists named acceptance artifacts, rejects proxy-only completion
-  signals, and keeps the project blocked until reviewed final-study gates close
+- current active-goal completion audit and structured JSON manifest that
+  restate the objective as concrete gates, list named acceptance artifacts,
+  reject proxy-only completion signals, and keep the project blocked until
+  reviewed final-study gates close
 - clean-checkout reproducibility review packet that records scaffold manifest
   scope, formal acceptance-record absence, current Git worktree state,
   untracked artifact risk, validation command ladder coverage, runtime
@@ -655,6 +656,7 @@ git diff --check
 | `results/realworld_pilot/tables/` | Result, Morris sensitivity, bottleneck attribution, policy regime, and claim-boundary tables | scaffold-only |
 | `docs/plan_completion_audit.md` | Current gate-by-gate plan audit | scaffold status and blockers, not final acceptance |
 | `docs/current_goal_completion_audit.md` | Current active-goal prompt-to-artifact completion gap audit | non-acceptance blocker summary; not `docs/final_study_audit.md` |
+| `data/manifests/current_goal_completion_audit.json` | Structured current active-goal prompt-to-artifact completion gap audit | non-acceptance manifest with `can_mark_complete: false` |
 
 All pilot, sensitivity, Morris, and figure/table manifests now expose both
 source graph scale and analysis graph scale. This supports reproducibility of

@@ -37,6 +37,12 @@
       "claim_supported": "Repository evidence cited for reproducibility",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for reproducibility",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/reproducibility_package.md"
     },
     {
@@ -97,7 +103,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -147,6 +153,7 @@
   "reviewed_inputs": [
     "docs/reproducibility_package.md",
     "data/manifests/reproducibility_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
     "data/validation/reproducibility_review_packet.csv",
     "data/validation/tracked_artifact_audit.csv",
     "scripts/audit_plan_artifacts.py"
@@ -158,6 +165,7 @@
     "data/validation/reproducibility_smoke_manifest.json",
     "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
     "data/validation/tracked_artifact_audit_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
     "docs/reproducibility_package.md",
     "requirements.txt",
     "data/manifests/reproducibility_acceptance.json"

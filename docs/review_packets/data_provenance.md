@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T14:41:32+00:00`
+- Generated at: `2026-05-08T14:46:44+00:00`
 
 ## Decision
 
@@ -20,6 +20,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - data/manifests/source_url_remediation_manifest.json
 - data/manifests/source_provenance_priority_manifest.json
 - data/manifests/reproducibility_manifest.json
+- data/manifests/current_goal_completion_audit.json
 - docs/reproducibility_package.md
 - cloned_repo_manifest.md
 - data/manifests/provenance_acceptance.json

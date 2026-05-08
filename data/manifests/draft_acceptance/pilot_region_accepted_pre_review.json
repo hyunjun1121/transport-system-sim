@@ -49,6 +49,12 @@
       "claim_supported": "Repository evidence cited for pilot_region_accepted",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/pilot_privacy_review_packet.md"
     }
   ],
@@ -61,7 +67,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/pilot_acceptance.json",
   "gate": "pilot_region_accepted",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -105,6 +111,7 @@
     "data/regions/pilot_region.yaml",
     "docs/pilot_region_data_card.md",
     "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
     "data/manifests/pilot_privacy_review_packet.csv",
     "data/manifests/pilot_privacy_review_manifest.json",
     "docs/pilot_privacy_review_packet.md"

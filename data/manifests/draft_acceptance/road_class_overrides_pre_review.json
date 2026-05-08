@@ -280,7 +280,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-08T14:41:52+00:00",
+  "generated_at": "2026-05-08T14:47:04+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
