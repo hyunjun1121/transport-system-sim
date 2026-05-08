@@ -28,10 +28,9 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     rows = build_source_context_cache_request_rows()
     by_id = {row["source_id"]: row for row in rows}
 
-    assert len(rows) == 4
+    assert len(rows) == 3
     assert set(by_id) == {
         "ktdb_public_transport_gtfs_context",
-        "metro9_capacity_context",
         "seoul_shortest_path_api_context",
         "seoul_timetable_api_context",
     }
@@ -47,9 +46,6 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     assert "scripts/derive_rail_gtfs_evidence.py" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["available_fetch_or_derivation_helpers"]
-    assert "data/rail/metro9_capacity_source_extract.csv" in by_id[
-        "metro9_capacity_context"
-    ]["target_cache_artifacts"]
     assert {row["target_cache_artifacts_present"] for row in rows} == {"false"}
     assert {row["can_support_final_provenance_gate"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {
@@ -87,9 +83,9 @@ def test_context_cache_request_writer_outputs_artifacts() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert written_manifest["row_count"] == 4
-    assert written_manifest["blocking_request_count"] == 4
-    assert written_manifest["missing_target_cache_artifact_count"] == 4
+    assert written_manifest["row_count"] == 3
+    assert written_manifest["blocking_request_count"] == 3
+    assert written_manifest["missing_target_cache_artifact_count"] == 3
     assert "Source Context Cache Request Packet" in doc_text
 
     print("PASS: source context-cache request writer emits artifacts")
@@ -116,8 +112,8 @@ def test_shipped_context_cache_request_packet_matches_current_outputs() -> None:
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_request_count"] == 4
-    assert manifest["context_source_count"] == 4
+    assert manifest["blocking_request_count"] == 3
+    assert manifest["context_source_count"] == 3
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

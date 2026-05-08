@@ -42,7 +42,7 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T22:12:29+00:00",
+  "generated_at": "2026-05-08T22:27:49+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -61,7 +61,6 @@
     "source context cache decision: cache/exclusion decisions are pending for context-only public sources",
     "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
     "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "resolve source-provenance decision blockers before provenance acceptance",
@@ -135,7 +134,6 @@
     "source context cache decision: cache/exclusion decisions are pending for context-only public sources",
     "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
     "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "resolve source-provenance decision blockers before provenance acceptance",

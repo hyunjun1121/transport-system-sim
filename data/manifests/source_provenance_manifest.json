@@ -141,15 +141,17 @@
                         "source_type":  "operator_page",
                         "source_url_or_citation":  "https://www.metro9.co.kr/eng/sub03_02_01.do",
                         "license_or_terms":  "Operator webpage context; source review and citation required before capacity claims.",
-                        "snapshot_or_access_date":  "2026-05-03",
+                        "snapshot_or_access_date":  "2026-05-08T22:18:30+00:00",
                         "local_artifact_paths":  [
                                                      "data/parameters/rail_evidence_sources.csv",
-                                                     "data/parameters/rail_service_evidence.csv"
+                                                     "data/parameters/rail_service_evidence.csv",
+                                                     "data/rail/metro9_capacity_source_extract.csv",
+                                                     "data/rail/metro9_capacity_source_raw.html"
                                                  ],
-                        "used_for":  "rail capacity context for sensitivity-only capacity treatment",
-                        "review_status":  "context_only_not_cached",
-                        "claim_boundary":  "Capacity remains a planning sensitivity assumption unless source-backed capacity is reviewed and accepted.",
-                        "notes":  "Current model uses a de-rated 500 passenger train-capacity proxy."
+                        "used_for":  "cached operator-page rolling-stock context for human review of rail capacity assumptions; current simulation capacity remains sensitivity-only unless accepted",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Cached operator-page extract supports source review only; capacity remains a planning sensitivity assumption unless source-backed capacity is reviewed and accepted.",
+                        "notes":  "The cached extract records the operator page's 6-car configuration and total capacity field, but it does not change the current de-rated 500 passenger train-capacity proxy or create rail/provenance acceptance."
                     },
                     {
                         "source_id":  "osrm_public_route_benchmark",

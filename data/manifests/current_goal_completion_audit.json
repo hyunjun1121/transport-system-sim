@@ -301,7 +301,6 @@
         "source context cache decision: cache/exclusion decisions are pending for context-only public sources",
         "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
         "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-        "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
         "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
         "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
         "resolve source-provenance decision blockers before provenance acceptance",

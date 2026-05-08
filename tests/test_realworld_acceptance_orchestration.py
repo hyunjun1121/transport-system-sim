@@ -271,10 +271,10 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                         "csv": "data/manifests/source_provenance_priority_packet.csv"
                     },
                     "row_count": 11,
-                    "blocking_source_count": 4,
-                    "human_review_source_count": 7,
-                    "context_only_source_count": 4,
-                    "cached_snapshot_source_count": 3,
+                    "blocking_source_count": 3,
+                    "human_review_source_count": 8,
+                    "context_only_source_count": 3,
+                    "cached_snapshot_source_count": 4,
                     "repository_input_source_count": 4,
                     "provenance_gate_closure_candidate_count": 0,
                     "can_mark_complete": False,
@@ -549,13 +549,13 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         source_context_cache_snapshot_path.write_text(
             json.dumps(
                 {
-                    "row_count": 4,
-                    "blocking_request_count": 4,
-                    "missing_target_cache_artifact_count": 4,
+                    "row_count": 3,
+                    "blocking_request_count": 3,
+                    "missing_target_cache_artifact_count": 3,
                     "can_mark_complete": False,
                     "publication_ready": False,
                     "cache_request_status_counts": {
-                        "blocked_missing_context_source_cache": 4,
+                        "blocked_missing_context_source_cache": 3,
                     },
                     "remaining_blockers": [
                         "context-only public sources still lack reviewed cached extracts"
@@ -571,11 +571,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         source_context_cache_decision_snapshot_path.write_text(
             json.dumps(
                 {
-                    "row_count": 4,
-                    "blocking_decision_count": 4,
+                    "row_count": 3,
+                    "blocking_decision_count": 3,
                     "human_review_decision_count": 0,
                     "decision_status_counts": {
-                        "blocked_missing_context_source_cache_or_exclusion_decision": 4
+                        "blocked_missing_context_source_cache_or_exclusion_decision": 3
                     },
                     "publication_ready": False,
                     "can_mark_complete": False,
@@ -924,7 +924,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert manifest["can_mark_complete_count"] == 0
         assert manifest["source_provenance_priority"]["row_count"] == 11
         assert (
-            manifest["source_provenance_priority"]["blocking_source_count"] == 4
+            manifest["source_provenance_priority"]["blocking_source_count"] == 3
         )
         assert (
             manifest["source_provenance_priority"][
@@ -936,7 +936,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             item["snapshot_id"]: item
             for item in manifest["review_packet_snapshots"]
         }
-        assert snapshots["source_provenance_priority"]["blocking_count"] == 4
+        assert snapshots["source_provenance_priority"]["blocking_count"] == 3
         assert snapshots["pilot_region_decision"]["blocking_count"] == 3
         assert snapshots["pilot_region_decision"]["human_review_count"] == 3
         assert (
@@ -1026,21 +1026,21 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             snapshots["source_url_review"]["status_counts"]["network_error"]
             == 1
         )
-        assert snapshots["source_context_cache_request"]["row_count"] == 4
-        assert snapshots["source_context_cache_request"]["blocking_count"] == 4
+        assert snapshots["source_context_cache_request"]["row_count"] == 3
+        assert snapshots["source_context_cache_request"]["blocking_count"] == 3
         assert (
             snapshots["source_context_cache_request"]["status_counts"][
                 "blocked_missing_context_source_cache"
             ]
-            == 4
+            == 3
         )
-        assert snapshots["source_context_cache_decision"]["row_count"] == 4
-        assert snapshots["source_context_cache_decision"]["blocking_count"] == 4
+        assert snapshots["source_context_cache_decision"]["row_count"] == 3
+        assert snapshots["source_context_cache_decision"]["blocking_count"] == 3
         assert (
             snapshots["source_context_cache_decision"]["status_counts"][
                 "blocked_missing_context_source_cache_or_exclusion_decision"
             ]
-            == 4
+            == 3
         )
         assert snapshots["source_provenance_decision"]["blocking_count"] == 3
         assert snapshots["source_provenance_decision"]["human_review_count"] == 4
@@ -1124,7 +1124,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert index_path.exists()
         index_text = index_path.read_text(encoding="utf-8")
         assert "Source Provenance Priority Snapshot" in index_text
-        assert "Blocking context-only sources: 4" in index_text
+        assert "Blocking context-only sources: 3" in index_text
         assert "cache or exclude context-only sources" in index_text
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
@@ -1150,7 +1150,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "blocked_missing_pilot_acceptance_record=1" in index_text
         assert "needs_human_review_reduced_corridor_warning_policy=1" in index_text
         assert "network_error=1" in index_text
-        assert "blocked_missing_context_source_cache=4" in index_text
+        assert "blocked_missing_context_source_cache=3" in index_text
         assert "blocked_missing_provenance_acceptance_record=1" in index_text
         assert "blocked_missing_road_source_decision=2" in index_text
         assert "blocked_missing_rail_source_decision=3" in index_text

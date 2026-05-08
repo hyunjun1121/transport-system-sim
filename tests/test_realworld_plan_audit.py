@@ -239,11 +239,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "source_context_cache_request_packet" and row["rows"] == 4
+        row["label"] == "source_context_cache_request_packet" and row["rows"] == 3
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "source_context_cache_decision_packet" and row["rows"] == 4
+        row["label"] == "source_context_cache_decision_packet" and row["rows"] == 3
         for row in summary["csv_checks"]
     )
     assert any(

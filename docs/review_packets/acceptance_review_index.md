@@ -9,7 +9,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | Gate | Agent | Status | Can Mark Complete | Required Action Count |
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 7 |
-| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 24 |
+| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 23 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 15 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 19 |
@@ -29,9 +29,9 @@ This section summarizes the provenance triage packet for the data-provenance rev
 - Packet: `data/manifests/source_provenance_priority_packet.csv`
 - Manifest present: `true`
 - Source rows: 11
-- Blocking context-only sources: 4
-- Human-review sources: 7
-- Cached public snapshots: 3
+- Blocking context-only sources: 3
+- Human-review sources: 8
+- Cached public snapshots: 4
 - Repository input sources: 4
 - Provenance gate closure candidates: 0
 - Can mark complete from provenance triage: `false`
@@ -58,11 +58,11 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 
 | Packet | Rows | Blocking | Human Review | Gate Candidates | Can Complete | Key Status Counts |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
-| `Source Context Cache Requests` | 4 | 4 | 0 | 0 | `false` | blocked_missing_context_source_cache=4 |
-| `Source Context Cache Decisions` | 4 | 4 | 0 | 0 | `false` | blocked_missing_context_source_cache_or_exclusion_decision=4 |
+| `Source Provenance Priority` | 11 | 3 | 8 | 0 | `false` | blocked_context_only_source_not_cached=3; needs_human_review_cached_snapshot_source=4; needs_human_review_repository_input_source=4 |
+| `Source Context Cache Requests` | 3 | 3 | 0 | 0 | `false` | blocked_missing_context_source_cache=3 |
+| `Source Context Cache Decisions` | 3 | 3 | 0 | 0 | `false` | blocked_missing_context_source_cache_or_exclusion_decision=3 |
 | `Source Provenance Decision` | 7 | 3 | 4 | 0 | `false` | blocked_missing_context_cache_or_exclusion_decisions=1; blocked_missing_provenance_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; +4 more |
-| `Source/License Review` | 11 | 4 | 11 | 0 | `false` | cached_snapshot_pending_review=3; context_only_not_cached=4; repository_input_pending_review=4 |
+| `Source/License Review` | 11 | 3 | 11 | 0 | `false` | cached_snapshot_pending_review=4; context_only_not_cached=3; repository_input_pending_review=4 |
 | `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
 | `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
 | `Pilot Region Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_graph_scale_acceptance_record=1; blocked_missing_pilot_acceptance_record=1; blocked_missing_provenance_acceptance_record=1; +3 more |
@@ -90,7 +90,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 5 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Reproducibility Decision` | 7 | 2 | 5 | 0 | `false` | blocked_missing_reproducibility_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; needs_human_review_artifact_regeneration=1; +4 more |
 | `Final Audit Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_final_audit_acceptance_record=1; blocked_missing_final_study_audit_document=1; blocked_missing_formal_acceptance_artifacts=1; +4 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
@@ -101,7 +101,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=777 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Tracked Artifact Audit` | 28 | 28 | 0 | 0 | `false` | data_or_manifest=13; documentation=4; realworld_code=2; +2 more |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -109,7 +109,7 @@ Priority blockers by packet:
 
 - `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
 - `Source Context Cache Requests`: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions (+2 more)
-- `Source Context Cache Decisions`: formal provenance acceptance record is absent (+6 more)
+- `Source Context Cache Decisions`: formal provenance acceptance record is absent (+5 more)
 - `Source Provenance Decision`: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions (+2 more)
 - `Source/License Review`: formal provenance acceptance record is absent (+2 more)
 - `Source URL Review`: formal provenance acceptance record is absent (+3 more)
@@ -139,6 +139,7 @@ Priority blockers by packet:
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: data/manifests/source_context_cache_decision_manifest.json: Commit, stash, or document this change before clean-checkout reproduction. (+27 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
@@ -166,7 +167,6 @@ Priority blockers by packet:
 - data_provenance: source context cache decision: cache/exclusion decisions are pending for context-only public sources
 - data_provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
 - data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- data_provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - data_provenance: resolve source-provenance decision blockers before provenance acceptance
@@ -368,7 +368,6 @@ Priority blockers by packet:
 - Data Provenance: source context cache decision: cache/exclusion decisions are pending for context-only public sources
 - Data Provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
 - Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- Data Provenance: source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - Data Provenance: resolve source-provenance decision blockers before provenance acceptance

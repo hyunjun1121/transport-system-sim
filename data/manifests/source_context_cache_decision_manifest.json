@@ -1,16 +1,15 @@
 {
-  "blocking_decision_count": 4,
+  "blocking_decision_count": 3,
   "cache_or_exclusion_decision_recorded": false,
   "can_mark_complete": false,
   "claim_boundary": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval. It cannot create data/manifests/provenance_acceptance.json.",
   "decision_ids": [
     "ktdb_public_transport_gtfs_context",
-    "metro9_capacity_context",
     "seoul_shortest_path_api_context",
     "seoul_timetable_api_context"
   ],
   "decision_status_counts": {
-    "blocked_missing_context_source_cache_or_exclusion_decision": 4
+    "blocked_missing_context_source_cache_or_exclusion_decision": 3
   },
   "human_review_decision_count": 0,
   "inputs": {
@@ -20,7 +19,7 @@
     "source_provenance_priority_packet": "data/manifests/source_provenance_priority_packet.csv",
     "source_url_remediation_packet": "data/manifests/source_url_remediation_packet.csv"
   },
-  "missing_target_cache_artifact_count": 4,
+  "missing_target_cache_artifact_count": 3,
   "outputs": {
     "csv": "data/manifests/source_context_cache_decision_packet.csv",
     "doc": "docs/source_context_cache_decision_packet.md",
@@ -33,7 +32,6 @@
     "cache/exclusion decisions are pending for context-only public sources",
     "retained context sources still require license, attribution, snapshot, and reproducibility review",
     "ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
     "seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present"
   ],
@@ -45,6 +43,6 @@
     "derive downstream rail evidence only after retained source extracts are reviewed",
     "record final provenance only in data/manifests/provenance_acceptance.json"
   ],
-  "row_count": 4,
+  "row_count": 3,
   "schema_version": 1
 }

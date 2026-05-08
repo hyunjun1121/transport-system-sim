@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T22:12:29+00:00`
+- Generated at: `2026-05-08T22:27:49+00:00`
 
 ## Decision
 
@@ -109,7 +109,6 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: cache/exclusion decisions are pending for context-only public sources
 - source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
 - source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
@@ -136,7 +135,6 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: cache/exclusion decisions are pending for context-only public sources
 - source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
 - source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
@@ -173,7 +171,6 @@ Formal acceptance artifacts:
     "source context cache decision: cache/exclusion decisions are pending for context-only public sources",
     "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
     "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: metro9_capacity_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "resolve source-provenance decision blockers before provenance acceptance",
@@ -188,23 +185,23 @@ Formal acceptance artifacts:
     "remaining_upgrade_count": 25,
     "scope": "scaffold-only real-world pilot package",
     "source_context_cache_decision_artifacts_present": true,
-    "source_context_cache_decision_blocking_decision_count": 4,
+    "source_context_cache_decision_blocking_decision_count": 3,
     "source_context_cache_decision_can_mark_complete": false,
     "source_context_cache_decision_human_review_decision_count": 0,
     "source_context_cache_decision_publication_ready": false,
     "source_context_cache_decision_recorded": false,
-    "source_context_cache_decision_row_count": 4,
+    "source_context_cache_decision_row_count": 3,
     "source_context_cache_decision_status_counts": {
-      "blocked_missing_context_source_cache_or_exclusion_decision": 4
+      "blocked_missing_context_source_cache_or_exclusion_decision": 3
     },
     "source_context_cache_request_artifacts_present": true,
-    "source_context_cache_request_blocking_request_count": 4,
+    "source_context_cache_request_blocking_request_count": 3,
     "source_context_cache_request_can_mark_complete": false,
-    "source_context_cache_request_missing_target_cache_artifact_count": 4,
+    "source_context_cache_request_missing_target_cache_artifact_count": 3,
     "source_context_cache_request_publication_ready": false,
-    "source_context_cache_request_row_count": 4,
+    "source_context_cache_request_row_count": 3,
     "source_context_cache_request_status_counts": {
-      "blocked_missing_context_source_cache": 4
+      "blocked_missing_context_source_cache": 3
     },
     "source_license_review_manifest_present": true,
     "source_license_review_packet_present": true,
@@ -234,23 +231,23 @@ Formal acceptance artifacts:
     "source_provenance_manifest_present": true,
     "source_provenance_path": "data/manifests/source_provenance_manifest.json",
     "source_provenance_priority_artifacts_present": true,
-    "source_provenance_priority_blocking_source_count": 4,
-    "source_provenance_priority_cached_snapshot_source_count": 3,
+    "source_provenance_priority_blocking_source_count": 3,
+    "source_provenance_priority_cached_snapshot_source_count": 4,
     "source_provenance_priority_can_mark_complete": false,
-    "source_provenance_priority_context_only_source_count": 4,
-    "source_provenance_priority_human_review_source_count": 7,
+    "source_provenance_priority_context_only_source_count": 3,
+    "source_provenance_priority_human_review_source_count": 8,
     "source_provenance_priority_publication_ready": false,
     "source_provenance_priority_repository_input_source_count": 4,
     "source_provenance_priority_row_count": 11,
     "source_provenance_priority_status_counts": {
-      "blocked_context_only_source_not_cached": 4,
-      "needs_human_review_cached_snapshot_source": 3,
+      "blocked_context_only_source_not_cached": 3,
+      "needs_human_review_cached_snapshot_source": 4,
       "needs_human_review_repository_input_source": 4
     },
     "source_provenance_record_count": 11,
     "source_provenance_review_status_counts": {
-      "cached_snapshot_pending_review": 3,
-      "context_only_not_cached": 4,
+      "cached_snapshot_pending_review": 4,
+      "context_only_not_cached": 3,
       "repository_input_pending_review": 4
     },
     "source_url_can_mark_complete": false,

@@ -7,17 +7,16 @@ Source context-cache decision packet only; not source acceptance, not license ce
 - Publication ready: `false`
 - Can mark complete: `false`
 - Cache/exclusion decision recorded: `false`
-- Decision rows: 4
-- Blocking decisions: 4
+- Decision rows: 3
+- Blocking decisions: 3
 - Human-review decisions: 0
-- Missing target cache artifacts: 4
+- Missing target cache artifacts: 3
 
 ## Decision Rows
 
 | Source | Status | Options | Target Artifacts | Required Action |
 | --- | --- | --- | --- | --- |
 | ktdb_public_transport_gtfs_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_gtfs.zip; data/rail/pilot_gtfs/ | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
-| metro9_capacity_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims; retain_capacity_as_sensitivity_only | data/rail/metro9_capacity_source_extract.csv; data/rail/metro9_capacity_source_raw.html | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
 | seoul_shortest_path_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_rail_shortest_path_cache.csv; data/rail/pilot_rail_shortest_path_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
 | seoul_timetable_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_rail_timetable_cache.csv; data/rail/pilot_rail_timetable_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
 

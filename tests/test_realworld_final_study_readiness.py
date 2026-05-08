@@ -175,13 +175,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["data_provenance"]["details"][
             "source_provenance_priority_blocking_source_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][
             "source_provenance_priority_context_only_source_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][
@@ -193,13 +193,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["data_provenance"]["details"][
             "source_context_cache_request_row_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][
             "source_context_cache_request_blocking_request_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][
@@ -211,13 +211,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["data_provenance"]["details"][
             "source_context_cache_decision_row_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][
             "source_context_cache_decision_blocking_decision_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["data_provenance"]["details"][

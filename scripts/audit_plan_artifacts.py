@@ -468,12 +468,12 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "source_context_cache_request_packet",
         DEFAULT_SOURCE_CONTEXT_CACHE_REQUEST_PACKET_PATH,
-        4,
+        3,
     ),
     CsvExpectation(
         "source_context_cache_decision_packet",
         DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_PACKET_PATH,
-        4,
+        3,
     ),
     CsvExpectation(
         "source_provenance_decision_packet",

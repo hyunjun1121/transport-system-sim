@@ -28,10 +28,9 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     rows = build_source_context_cache_decision_rows()
     by_id = {row["source_id"]: row for row in rows}
 
-    assert len(rows) == 4
+    assert len(rows) == 3
     assert set(by_id) == {
         "ktdb_public_transport_gtfs_context",
-        "metro9_capacity_context",
         "seoul_shortest_path_api_context",
         "seoul_timetable_api_context",
     }
@@ -46,9 +45,6 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     ]["candidate_decision_options"]
     assert "exclude_from_final_claims" in by_id[
         "ktdb_public_transport_gtfs_context"
-    ]["candidate_decision_options"]
-    assert "retain_capacity_as_sensitivity_only" in by_id[
-        "metro9_capacity_context"
     ]["candidate_decision_options"]
     assert "sha256_or_digest_if_cached" in by_id[
         "seoul_shortest_path_api_context"
@@ -89,8 +85,8 @@ def test_context_cache_decision_writer_outputs_artifacts() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert written_manifest["row_count"] == 4
-    assert written_manifest["blocking_decision_count"] == 4
+    assert written_manifest["row_count"] == 3
+    assert written_manifest["blocking_decision_count"] == 3
     assert written_manifest["human_review_decision_count"] == 0
     assert written_manifest["provenance_gate_closure_candidate_count"] == 0
     assert "Source Context Cache Decision Packet" in doc_text
@@ -119,7 +115,7 @@ def test_shipped_context_cache_decision_packet_matches_current_outputs() -> None
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 4
+    assert manifest["blocking_decision_count"] == 3
     assert manifest["cache_or_exclusion_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

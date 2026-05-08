@@ -12,16 +12,16 @@
     "repository_input": 4
   },
   "review_status_counts": {
-    "cached_snapshot_pending_review": 3,
-    "context_only_not_cached": 4,
+    "cached_snapshot_pending_review": 4,
+    "context_only_not_cached": 3,
     "repository_input_pending_review": 4
   },
   "snapshot_status_counts": {
-    "context_only_not_cached": 4,
-    "local_artifacts_present": 7
+    "context_only_not_cached": 3,
+    "local_artifacts_present": 8
   },
   "review_required_count": 11,
-  "missing_snapshot_or_context_only_count": 4,
+  "missing_snapshot_or_context_only_count": 3,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "can_mark_complete": false,
