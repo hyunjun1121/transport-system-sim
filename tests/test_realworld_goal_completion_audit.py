@@ -19,6 +19,9 @@ from src.realworld.goal_completion_audit import (
 def test_goal_completion_audit_blocks_current_scaffold() -> None:
     text = build_goal_completion_audit_markdown()
     assert "Prompt-To-Artifact Checklist" in text
+    assert "Region-Scope Review Metadata" in text
+    assert "songpa_public_demo" in text
+    assert "Rail Evidence" in text
     assert "Final-study ready: `false`" in text
     assert "final_real_world_study_blocked" in text
     assert "docs/final_study_audit.md" in text

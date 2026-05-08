@@ -124,6 +124,21 @@ def build_goal_completion_audit_markdown(
     for gate in audit.get("gates", []):
         lines.append(_gate_table_row(gate))
 
+    region_scope_rows = _region_scope_rows(audit)
+    lines.extend(
+        [
+            "",
+            "## Region-Scope Review Metadata",
+            "",
+            "These rows copy region-scope metadata from final-study gate details. They help detect mixed-region review packets, but they do not approve a region, source, or acceptance gate.",
+            "",
+            "| Gate | Source-Readiness Region IDs |",
+            "| --- | --- |",
+            *region_scope_rows,
+            "",
+        ]
+    )
+
     lines.extend(
         [
             "",
@@ -439,6 +454,35 @@ def _gate_table_row(gate: dict[str, Any]) -> str:
     if not blockers:
         blockers = "none for current gate scope"
     return f"| {label} | {status} | {evidence} | {blockers} |"
+
+
+def _region_scope_rows(audit: dict[str, Any]) -> list[str]:
+    fields = {
+        "cached_osm_input": "source_readiness_region_ids",
+        "parameter_evidence": "source_readiness_region_ids",
+        "rail_evidence": "fetch_readiness_region_ids",
+    }
+    labels = {
+        str(gate.get("gate_id", "")): str(gate.get("label", gate.get("gate_id", "")))
+        for gate in audit.get("gates", [])
+        if isinstance(gate, dict)
+    }
+    details = {
+        str(gate.get("gate_id", "")): gate.get("details", {})
+        for gate in audit.get("gates", [])
+        if isinstance(gate, dict)
+    }
+    rows: list[str] = []
+    for gate_id, field in fields.items():
+        value = details.get(gate_id, {})
+        region_ids = value.get(field, []) if isinstance(value, dict) else []
+        rows.append(
+            "| {gate} | {regions} |".format(
+                gate=_cell_text(labels.get(gate_id, gate_id)),
+                regions=_summarize_list(region_ids, max_items=4),
+            )
+        )
+    return rows
 
 
 def _summarize_list(items: object, *, max_items: int) -> str:

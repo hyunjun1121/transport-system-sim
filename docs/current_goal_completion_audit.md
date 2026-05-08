@@ -39,6 +39,17 @@ The active objective is complete only when every final-study gate below is ready
 | Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+5 more | create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>replace scaffold-only manifest with clean-checkout final reproduction package |
 | Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json | create docs/final_study_audit.md after all other gates close<br>create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility |
 
+## Region-Scope Review Metadata
+
+These rows copy region-scope metadata from final-study gate details. They help detect mixed-region review packets, but they do not approve a region, source, or acceptance gate.
+
+| Gate | Source-Readiness Region IDs |
+| --- | --- |
+| Cached OSM Input | songpa_public_demo |
+| Parameter Evidence | songpa_public_demo |
+| Rail Evidence | songpa_public_demo |
+
+
 ## Named Acceptance Artifacts
 
 These files are required before final completion can be claimed. Missing files are expected in the current scaffold unless a reviewed acceptance decision has been made.
