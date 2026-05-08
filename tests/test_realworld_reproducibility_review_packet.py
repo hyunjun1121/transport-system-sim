@@ -11,6 +11,7 @@ from tempfile import TemporaryDirectory
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from src.realworld import reproducibility_review_packet as packet_module  # noqa: E402
 from src.realworld.reproducibility_review_packet import (  # noqa: E402
     REPRODUCIBILITY_REVIEW_COLUMNS,
     REPRODUCIBILITY_REVIEW_PACKET_SCOPE,
@@ -186,9 +187,49 @@ def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
     print("PASS: reproducibility review packet writer emits CSV and manifest")
 
 
+def test_writer_captures_git_status_before_writing_outputs() -> None:
+    """Manifest Git counts should not include the CSV written by the writer."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        output = root / "reproducibility_review.csv"
+        manifest = root / "reproducibility_review_manifest.json"
+        scan_dir = root / "src"
+        scan_dir.mkdir()
+        rows = [
+            {
+                "category_id": "git_worktree_state",
+                "status": "ready_for_review_clean_worktree",
+            }
+        ]
+        original_git_status_lines = packet_module._git_status_lines
+
+        def fake_git_status_lines() -> list[str]:
+            return [" M reproducibility_review.csv"] if output.exists() else []
+
+        packet_module._git_status_lines = fake_git_status_lines
+        try:
+            value = packet_module.write_reproducibility_review_packet(
+                rows=rows,
+                output_path=output,
+                manifest_path=manifest,
+                clean_checkout_smoke_manifest_path=root / "missing_clean_checkout.json",
+                scan_dirs=(scan_dir,),
+            )
+        finally:
+            packet_module._git_status_lines = original_git_status_lines
+
+        assert output.exists()
+        assert value["git_status_line_count"] == 0
+        assert value["git_modified_or_staged_count"] == 0
+
+    print("PASS: writer captures git status before writing outputs")
+
+
 if __name__ == "__main__":
     test_reproducibility_review_rows_are_conservative()
     test_reproducibility_review_rows_handle_fixture_state()
     test_reproducibility_review_detects_cloned_repo_imports()
     test_write_reproducibility_review_packet_outputs_csv_and_manifest()
+    test_writer_captures_git_status_before_writing_outputs()
     print("\n=== REALWORLD REPRODUCIBILITY REVIEW PACKET TESTS PASSED ===")

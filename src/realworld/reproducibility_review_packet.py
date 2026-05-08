@@ -127,16 +127,6 @@ def write_reproducibility_review_packet(
 
     output = Path(output_path)
     manifest_output = Path(manifest_path)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=REPRODUCIBILITY_REVIEW_COLUMNS,
-            extrasaction="ignore",
-        )
-        writer.writeheader()
-        writer.writerows(rows)
-
     status_lines = (
         tuple(git_status_lines)
         if git_status_lines is not None
@@ -151,6 +141,16 @@ def write_reproducibility_review_packet(
     command_count, validation_command_count = _command_counts(source_manifest)
     modified_count = _git_status_prefix_count(status_lines, prefixes=("M", "A", "D", "R", "C"))
     untracked_count = _git_status_prefix_count(status_lines, prefixes=("??",))
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=REPRODUCIBILITY_REVIEW_COLUMNS,
+            extrasaction="ignore",
+        )
+        writer.writeheader()
+        writer.writerows(rows)
 
     value = {
         "schema_version": 1,
