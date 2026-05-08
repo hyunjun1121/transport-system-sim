@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Sensitivity Analysis Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T12:14:07+00:00`
+- Generated at: `2026-05-08T12:27:27+00:00`
 
 ## Decision
 
@@ -16,16 +16,20 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 
 - data/validation/sensitivity_review_packet.csv
 - data/validation/sensitivity_review_manifest.json
+- data/validation/sensitivity_index_review_manifest.json
+- docs/sensitivity_index_review_packet.md
 - data/validation/sensitivity_strategy_readiness_manifest.json
 - scripts/run_sensitivity.py
 - data/manifests/sensitivity_acceptance.json
 - results/realworld_pilot/morris_results.csv
 - results/realworld_pilot/morris_summary.csv
 - results/realworld_pilot/morris_manifest.json
+- data/validation/sensitivity_index_review_packet.csv
 - data/validation/sensitivity_strategy_readiness_packet.csv
 - docs/sensitivity_strategy_readiness_packet.md
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
+- scripts/write_sensitivity_index_review_packet.py
 - scripts/write_sensitivity_strategy_readiness_packet.py
 
 ## Evidence And Source Paths
@@ -36,12 +40,16 @@ Sensitivity Analysis Review Agent cannot accept gate sensitivity_analysis; the c
 - results/realworld_pilot/morris_manifest.json
 - data/validation/sensitivity_review_packet.csv
 - data/validation/sensitivity_review_manifest.json
+- data/validation/sensitivity_index_review_packet.csv
+- data/validation/sensitivity_index_review_manifest.json
+- docs/sensitivity_index_review_packet.md
 - data/validation/sensitivity_strategy_readiness_packet.csv
 - data/validation/sensitivity_strategy_readiness_manifest.json
 - docs/sensitivity_strategy_readiness_packet.md
 - scripts/run_sensitivity.py
 - scripts/audit_sensitivity_diagnostics.py
 - scripts/write_sensitivity_review_packet.py
+- scripts/write_sensitivity_index_review_packet.py
 - scripts/write_sensitivity_strategy_readiness_packet.py
 - docs/review_packets/sensitivity_analysis.md
 
@@ -98,6 +106,14 @@ Formal acceptance artifacts:
     "acceptance_path": "data/manifests/sensitivity_acceptance.json",
     "acceptance_record_present": false,
     "accepted_method": "",
+    "index_review_all_zero_group_count": 150,
+    "index_review_artifacts_present": true,
+    "index_review_can_mark_complete": false,
+    "index_review_human_review_metric_count": 7,
+    "index_review_packet_row_count": 7,
+    "index_review_publication_ready": false,
+    "index_review_unavailable_index_row_count": 168,
+    "index_review_zero_mu_star_row_count": 4272,
     "method": "salib_morris",
     "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
     "review_packet_acceptance_gate_closure_candidate_count": 0,
@@ -138,12 +154,16 @@ Formal acceptance artifacts:
     "results/realworld_pilot/morris_manifest.json",
     "data/validation/sensitivity_review_packet.csv",
     "data/validation/sensitivity_review_manifest.json",
+    "data/validation/sensitivity_index_review_packet.csv",
+    "data/validation/sensitivity_index_review_manifest.json",
+    "docs/sensitivity_index_review_packet.md",
     "data/validation/sensitivity_strategy_readiness_packet.csv",
     "data/validation/sensitivity_strategy_readiness_manifest.json",
     "docs/sensitivity_strategy_readiness_packet.md",
     "scripts/run_sensitivity.py",
     "scripts/audit_sensitivity_diagnostics.py",
     "scripts/write_sensitivity_review_packet.py",
+    "scripts/write_sensitivity_index_review_packet.py",
     "scripts/write_sensitivity_strategy_readiness_packet.py"
   ],
   "gate_id": "sensitivity_analysis",
