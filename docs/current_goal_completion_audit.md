@@ -200,7 +200,7 @@ The smoke manifest records bounded validation commands run in the current worktr
 - Manifest present: `true`
 - Manifest path: `data/validation/reproducibility_smoke_manifest.json`
 - Result scope: `current_worktree_smoke_not_clean_checkout`
-- Commands passed: 27 / 27
+- Commands passed: 28 / 28
 - Smoke passed: `true`
 - Clean checkout tested: `false`
 - Can mark complete: `false`
@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 76
-- Blocking changed artifacts: 76
-- Untracked artifacts: 6
-- Modified or staged artifacts: 70
+- Changed reproducibility artifacts: 0
+- Blocking changed artifacts: 0
+- Untracked artifacts: 0
+- Modified or staged artifacts: 0
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
