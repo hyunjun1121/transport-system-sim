@@ -171,6 +171,75 @@ def test_reproducibility_review_detects_cloned_repo_imports() -> None:
     print("PASS: reproducibility review detects cloned_repo imports")
 
 
+def test_reproducibility_review_records_clean_checkout_commit_match() -> None:
+    """The clean-checkout row should expose the smoke source commit relation."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        manifest = root / "reproducibility_manifest.json"
+        package_doc = root / "reproducibility_package.md"
+        goal_audit = root / "goal.md"
+        goal_manifest = root / "goal.json"
+        clean_checkout = root / "clean_checkout.json"
+        acceptance = root / "reproducibility_acceptance.json"
+        scan_dir = root / "src"
+        scan_dir.mkdir()
+        (scan_dir / "ok.py").write_text("import os\n", encoding="utf-8")
+        manifest.write_text(
+            json.dumps(
+                {
+                    "scope": "scaffold-only test package",
+                    "commands": ["cmd"],
+                    "validation_commands": ["test"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        package_doc.write_text("This scaffold package is not final.\n", encoding="utf-8")
+        goal_audit.write_text("Final-study ready: `false`\n", encoding="utf-8")
+        goal_manifest.write_text(
+            json.dumps({"final_study_ready": False, "can_mark_complete": False}),
+            encoding="utf-8",
+        )
+        review_head = packet_module._git_head_commit()
+        clean_checkout.write_text(
+            json.dumps(
+                {
+                    "result_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
+                    "command_count": 1,
+                    "passed_count": 1,
+                    "failed_count": 0,
+                    "smoke_passed": True,
+                    "clean_checkout_test_performed": True,
+                    "full_clean_environment_tested": False,
+                    "source": {
+                        "source_commit": review_head,
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        rows = build_reproducibility_review_rows(
+            reproducibility_manifest_path=manifest,
+            reproducibility_acceptance_path=acceptance,
+            reproducibility_package_doc_path=package_doc,
+            goal_audit_path=goal_audit,
+            goal_audit_manifest_path=goal_manifest,
+            clean_checkout_smoke_manifest_path=clean_checkout,
+            git_status_lines=(),
+            scan_dirs=(scan_dir,),
+        )
+        by_category = {row["category_id"]: row for row in rows}
+        detail = by_category["bounded_clean_checkout_smoke"]["status_detail"]
+
+        assert f"source_commit={review_head}" in detail
+        assert f"review_git_head_commit={review_head}" in detail
+        assert "matches_review_head=true" in detail
+
+    print("PASS: reproducibility review records clean-checkout commit match")
+
+
 def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
     """Writer should emit stable CSV fields and non-acceptance manifest."""
 
@@ -209,6 +278,9 @@ def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
         assert value["publication_ready"] is False
         assert value["clean_checkout_test_performed"] is False
         assert value["clean_checkout_smoke_present"] is False
+        assert value["clean_checkout_smoke_source_commit"] == ""
+        assert value["clean_checkout_smoke_matches_review_head"] is False
+        assert isinstance(value["review_git_head_commit"], str)
         assert value["acceptance_gate_closure_candidate_count"] == 0
         assert written_manifest["row_count"] == 8
         assert written_manifest["input_artifact_paths"][
@@ -264,6 +336,7 @@ if __name__ == "__main__":
     test_reproducibility_review_rows_are_conservative()
     test_reproducibility_review_rows_handle_fixture_state()
     test_reproducibility_review_detects_cloned_repo_imports()
+    test_reproducibility_review_records_clean_checkout_commit_match()
     test_write_reproducibility_review_packet_outputs_csv_and_manifest()
     test_writer_captures_git_status_before_writing_outputs()
     print("\n=== REALWORLD REPRODUCIBILITY REVIEW PACKET TESTS PASSED ===")

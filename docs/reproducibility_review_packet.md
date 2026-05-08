@@ -67,7 +67,10 @@ It writes `data/validation/clean_checkout_reproducibility_smoke_manifest.json`,
 `docs/clean_checkout_reproducibility_smoke.md`. This is bounded
 source-checkout evidence using the current Python environment. It is not a
 clean-environment dependency reinstall, full validation ladder, artifact
-regeneration acceptance, or formal reviewer approval.
+regeneration acceptance, or formal reviewer approval. The review packet records
+the clean-checkout smoke source commit and the Git HEAD used when the packet is
+generated so reviewers can see whether the smoke evidence matched the reviewed
+source snapshot or only an earlier code snapshot.
 
 ## Tracked-Artifact Audit Companion
 

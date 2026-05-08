@@ -95,6 +95,7 @@ def build_reproducibility_review_rows(
     clean_checkout_smoke = summarize_clean_checkout_smoke(
         clean_checkout_smoke_manifest_path
     )
+    review_git_head_commit = _git_head_commit()
 
     return [
         _manifest_scope_row(reproducibility_manifest_path, manifest),
@@ -106,6 +107,7 @@ def build_reproducibility_review_rows(
         _clean_checkout_smoke_row(
             clean_checkout_smoke_manifest_path,
             clean_checkout_smoke,
+            review_git_head_commit=review_git_head_commit,
         ),
         _clean_checkout_scope_row(
             reproducibility_package_doc_path,
@@ -144,6 +146,15 @@ def write_reproducibility_review_packet(
     source_manifest = _read_json_object(reproducibility_manifest_path)
     clean_checkout_smoke = summarize_clean_checkout_smoke(
         clean_checkout_smoke_manifest_path
+    )
+    review_git_head_commit = _git_head_commit()
+    clean_checkout_smoke_source_commit = str(
+        clean_checkout_smoke.get("source_commit", "")
+    )
+    clean_checkout_smoke_matches_review_head = bool(
+        clean_checkout_smoke_source_commit
+        and review_git_head_commit
+        and clean_checkout_smoke_source_commit == review_git_head_commit
     )
     status_counts = _counts(row.get("status", "") for row in rows)
     command_count, validation_command_count = _command_counts(source_manifest)
@@ -196,6 +207,11 @@ def write_reproducibility_review_packet(
         "clean_checkout_smoke_passed": clean_checkout_smoke["smoke_passed"],
         "clean_checkout_smoke_scope": clean_checkout_smoke["result_scope"],
         "clean_checkout_smoke_command_count": clean_checkout_smoke["command_count"],
+        "clean_checkout_smoke_source_commit": clean_checkout_smoke_source_commit,
+        "review_git_head_commit": review_git_head_commit,
+        "clean_checkout_smoke_matches_review_head": (
+            clean_checkout_smoke_matches_review_head
+        ),
         "clean_checkout_test_performed": clean_checkout_smoke[
             "clean_checkout_test_performed"
         ],
@@ -382,6 +398,8 @@ def _cloned_repo_import_row(import_hits: Sequence[str]) -> dict[str, str]:
 def _clean_checkout_smoke_row(
     path: str | Path,
     summary: Mapping[str, Any],
+    *,
+    review_git_head_commit: str = "",
 ) -> dict[str, str]:
     present = bool(summary.get("manifest_present", False))
     passed = bool(summary.get("smoke_passed", False))
@@ -394,6 +412,12 @@ def _clean_checkout_smoke_row(
         status = "ready_for_review_full_clean_checkout_smoke"
     else:
         status = "ready_for_review_bounded_clean_checkout_smoke"
+    source_commit = str(summary.get("source_commit", ""))
+    matches_review_head = bool(
+        source_commit
+        and review_git_head_commit
+        and source_commit == review_git_head_commit
+    )
     return _review_row(
         category_id="bounded_clean_checkout_smoke",
         check_name="Bounded clean-checkout source-tree smoke",
@@ -405,7 +429,9 @@ def _clean_checkout_smoke_row(
             f"passed={_bool_text(passed)}; "
             f"commands={summary.get('command_count', 0)}; "
             f"full_clean_environment_tested={_bool_text(full_environment)}; "
-            f"source_commit={summary.get('source_commit', '')}"
+            f"source_commit={source_commit}; "
+            f"review_git_head_commit={review_git_head_commit}; "
+            f"matches_review_head={_bool_text(matches_review_head)}"
         ),
         required_action=(
             "Use this as bounded source-checkout evidence only. Review whether "
@@ -495,6 +521,22 @@ def _git_status_lines() -> list[str]:
     if result.returncode != 0:
         return [f"!! git status failed: {result.stderr.strip()}"]
     return [line for line in result.stdout.splitlines() if line.strip()]
+
+
+def _git_head_commit() -> str:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=PROJECT_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError:
+        return ""
+    if result.returncode != 0:
+        return ""
+    return result.stdout.strip()
 
 
 def _cloned_repo_import_hits(scan_dirs: Sequence[str | Path]) -> list[str]:
