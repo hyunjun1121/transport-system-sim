@@ -15,6 +15,11 @@ from typing import Any, Iterable
 
 from src.realworld.final_audit_acceptance import summarize_final_audit_acceptance
 from src.realworld.parameter_audit import audit_shipped_parameter_evidence
+from src.realworld.parameter_evidence_priority_packet import (
+    DEFAULT_PARAMETER_EVIDENCE_PRIORITY_DOC_PATH,
+    DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_PARAMETER_EVIDENCE_PRIORITY_PACKET_PATH,
+)
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
 from src.realworld.experiment_acceptance import summarize_experiment_acceptance
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
@@ -186,6 +191,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     parameter_source_readiness_manifest = _load_json(
         DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
     )
+    parameter_evidence_priority_manifest = _load_json(
+        DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH
+    )
     graph_scale_strategy_readiness_manifest = _load_json(
         DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -234,6 +242,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
         _parameter_gate(
             parameter_audit,
             parameter_source_readiness_manifest,
+            parameter_evidence_priority_manifest,
         ),
         _rail_gate(
             rail_service_audit,
@@ -878,17 +887,28 @@ def _data_provenance_gate(
 def _parameter_gate(
     parameter_audit: dict[str, Any],
     parameter_source_readiness_manifest: dict[str, Any] | None = None,
+    parameter_evidence_priority_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Return the parameter-evidence gate with source-readiness detail."""
 
     ready = bool(parameter_audit["publication_ready"])
     readiness = parameter_source_readiness_manifest or {}
+    priority = parameter_evidence_priority_manifest or {}
+    priority_artifacts_present = (
+        DEFAULT_PARAMETER_EVIDENCE_PRIORITY_PACKET_PATH.exists()
+        and DEFAULT_PARAMETER_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
+        and DEFAULT_PARAMETER_EVIDENCE_PRIORITY_DOC_PATH.exists()
+    )
     blockers = []
     if not ready:
         blockers.extend(parameter_audit.get("remaining_blockers", []))
         blockers.extend(
             f"parameter source readiness: {item}"
             for item in readiness.get("remaining_blockers", [])
+        )
+        blockers.extend(
+            f"parameter evidence priority: {item}"
+            for item in priority.get("remaining_blockers", [])
         )
     return _gate(
         "parameter_evidence",
@@ -904,10 +924,14 @@ def _parameter_gate(
             "data/parameters/parameter_source_readiness_packet.csv",
             "data/parameters/parameter_source_readiness_manifest.json",
             "docs/parameter_source_readiness_packet.md",
+            "data/parameters/parameter_evidence_priority_packet.csv",
+            "data/parameters/parameter_evidence_priority_manifest.json",
+            "docs/parameter_evidence_priority_packet.md",
             "scripts/audit_parameter_evidence.py",
             "scripts/write_parameter_review_packet.py",
             "scripts/write_parameter_evidence_source_request_packet.py",
             "scripts/write_parameter_source_readiness_packet.py",
+            "scripts/write_parameter_evidence_priority_packet.py",
         ],
         blockers=blockers,
         details={
@@ -947,6 +971,38 @@ def _parameter_gate(
                 False,
             ),
             "source_readiness_can_mark_complete": readiness.get(
+                "can_mark_complete",
+                False,
+            ),
+            "parameter_evidence_priority_artifacts_present": (
+                priority_artifacts_present
+            ),
+            "parameter_evidence_priority_row_count": priority.get("row_count", 0),
+            "parameter_evidence_priority_blocking_priority_count": priority.get(
+                "blocking_priority_count",
+                0,
+            ),
+            "parameter_evidence_priority_human_review_priority_count": priority.get(
+                "human_review_priority_count",
+                0,
+            ),
+            "parameter_evidence_priority_high_priority_parameter_count": priority.get(
+                "high_priority_parameter_count",
+                0,
+            ),
+            "parameter_evidence_priority_medium_priority_parameter_count": priority.get(
+                "medium_priority_parameter_count",
+                0,
+            ),
+            "parameter_evidence_priority_status_counts": priority.get(
+                "priority_status_counts",
+                {},
+            ),
+            "parameter_evidence_priority_publication_ready": priority.get(
+                "publication_ready",
+                False,
+            ),
+            "parameter_evidence_priority_can_mark_complete": priority.get(
                 "can_mark_complete",
                 False,
             ),

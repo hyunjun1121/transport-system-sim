@@ -414,6 +414,14 @@ First pilot-smoke artifacts also exist:
   covers 20 weak parameters, separates human-review rows from blocker rows,
   keeps `publication_ready: false`, and cannot approve weak assumptions or
   final parameter claims.
+- `src/realworld/parameter_evidence_priority_packet.py` and
+  `scripts/write_parameter_evidence_priority_packet.py` now combine the
+  parameter review, source-request, and source-readiness rows into a 6-row
+  priority worksheet under
+  `data/parameters/parameter_evidence_priority_packet.csv`. It highlights the
+  blocked transfer-source row, high-priority disruption and traffic/BPR rows,
+  and medium-priority demand, fleet, and dispatch rows, but it remains
+  prioritization support only and cannot approve parameter evidence.
 - `src/realworld/parameter_acceptance.py` and
   `docs/parameter_acceptance_schema.md` define the optional reviewer record
   needed when weak expert/sensitivity-only parameters are retained inside the
@@ -759,6 +767,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py
@@ -1972,6 +1981,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\audit_road_evidence.py
 .\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
 .\.venv\Scripts\python scripts\write_road_capacity_evidence.py
@@ -2131,6 +2141,7 @@ Concrete next tasks:
    shortest-path, literature, public speed/capacity references, hazard or
    scenario evidence, or benchmark-calibrated values where available. Use the
    parameter, rail, and road source-request packets plus
+   `data/parameters/parameter_evidence_priority_packet.csv` and
    `data/rail/rail_evidence_priority_packet.csv` before collecting new source
    inputs; official station binding is already cached and rail capacity is
    explicitly sensitivity-only, but cross-cutting parameter evidence, rail

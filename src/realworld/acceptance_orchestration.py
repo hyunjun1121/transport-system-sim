@@ -217,6 +217,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/rail_service_evidence.csv",
             "data/parameters/rail_station_bindings.csv",
             "data/parameters/parameter_source_readiness_packet.csv",
+            "data/parameters/parameter_evidence_priority_packet.csv",
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_evidence_priority_packet.csv",
             "data/rail/rail_fetch_readiness_packet.csv",
@@ -226,6 +227,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/parameter_evidence_review_packet.csv",
             "data/parameters/parameter_evidence_source_request_packet.csv",
             "data/parameters/parameter_source_readiness_manifest.json",
+            "data/parameters/parameter_evidence_priority_manifest.json",
             "data/parameters/road_evidence_review_packet.csv",
             "data/road/road_evidence_source_request_packet.csv",
             "data/road/road_source_readiness_manifest.json",
@@ -238,6 +240,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         review_packet_paths=(
             "data/parameters/parameter_evidence_review_packet.csv",
             "data/parameters/parameter_source_readiness_packet.csv",
+            "data/parameters/parameter_evidence_priority_packet.csv",
             "data/parameters/road_evidence_review_packet.csv",
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_evidence_priority_packet.csv",

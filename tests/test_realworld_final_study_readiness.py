@@ -97,8 +97,43 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert gate_map["parameter_evidence"]["details"][
         "source_readiness_region_ids"
     ] == ["songpa_public_demo"]
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "parameter_evidence_priority_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "parameter_evidence_priority_row_count"
+        ]
+        == 6
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "parameter_evidence_priority_blocking_priority_count"
+        ]
+        == 1
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "parameter_evidence_priority_high_priority_parameter_count"
+        ]
+        == 6
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "parameter_evidence_priority_medium_priority_parameter_count"
+        ]
+        == 14
+    )
     assert any(
         "parameter source readiness: all rows require human review" in item
+        for item in gate_map["parameter_evidence"]["blockers"]
+    )
+    assert any(
+        "parameter evidence priority: transfer-delay source evidence is absent"
+        in item
         for item in gate_map["parameter_evidence"]["blockers"]
     )
     assert gate_map["rail_evidence"]["ready"] is False
