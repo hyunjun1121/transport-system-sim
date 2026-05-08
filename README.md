@@ -54,12 +54,18 @@ The handoff target is a fresh clone on another computer after the main agent
 commits and pushes the intended repository state to `main`.
 
 ```powershell
-git clone https://github.com/hyunjun1121/transport-system-sim.git
-cd transport-system-sim
+git -c core.longpaths=true clone https://github.com/hyunjun1121/transport-system-sim.git C:\tss
+cd C:\tss
 py -3.11 -m venv .venv
 .\.venv\Scripts\python -m pip install --upgrade pip
 .\.venv\Scripts\python -m pip install -r requirements.txt
 ```
+
+On Windows, prefer a short checkout path such as `C:\tss` and keep
+`core.longpaths=true`; the retained `cloned_repo/` reference snapshots include
+deep paths that can exceed default Windows checkout limits in a long temp path.
+If `py -3.11` is unavailable but Python 3.11+ is installed, use the available
+`python -m venv .venv` command.
 
 Before handoff, verify that every required source, Markdown, data, manifest,
 and generated-result artifact is committed or deliberately excluded. A clean

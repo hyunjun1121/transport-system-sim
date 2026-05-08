@@ -741,12 +741,18 @@ The intended handoff path is a committed and pushed `main` branch, then a fresh
 clone on the other computer:
 
 ```powershell
-git clone https://github.com/hyunjun1121/transport-system-sim.git
-cd transport-system-sim
+git -c core.longpaths=true clone https://github.com/hyunjun1121/transport-system-sim.git C:\tss
+cd C:\tss
 py -3.11 -m venv .venv
 .\.venv\Scripts\python -m pip install --upgrade pip
 .\.venv\Scripts\python -m pip install -r requirements.txt
 ```
+
+Use a short checkout path such as `C:\tss` on Windows. The retained
+`cloned_repo/` reference snapshots include deep paths that can exceed default
+Windows checkout limits when cloned into a long temp directory. If the Python
+Launcher does not provide `py -3.11` but Python 3.11+ is installed, use the
+available `python -m venv .venv` command.
 
 Before the main agent commits and pushes, run `git status --short` and confirm
 that required root Markdown, code, tests, data/manifests, docs, and generated
