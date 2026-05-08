@@ -70,7 +70,10 @@ clean-environment dependency reinstall, full validation ladder, artifact
 regeneration acceptance, or formal reviewer approval. The review packet records
 the clean-checkout smoke source commit and the Git HEAD used when the packet is
 generated so reviewers can see whether the smoke evidence matched the reviewed
-source snapshot or only an earlier code snapshot.
+source snapshot or only an earlier code snapshot. It also records the source
+commit relation to that review HEAD and the commit lag count so committed
+review artifacts can represent ancestor evidence without implying exact-HEAD
+coverage.
 
 ## Tracked-Artifact Audit Companion
 

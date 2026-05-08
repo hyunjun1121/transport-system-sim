@@ -151,6 +151,14 @@ def write_reproducibility_review_packet(
     clean_checkout_smoke_source_commit = str(
         clean_checkout_smoke.get("source_commit", "")
     )
+    (
+        clean_checkout_smoke_source_commit_relation,
+        clean_checkout_smoke_source_commit_lag_count,
+        clean_checkout_smoke_source_commit_reachable,
+    ) = _source_commit_relation_to_review_head(
+        clean_checkout_smoke_source_commit,
+        review_git_head_commit,
+    )
     clean_checkout_smoke_matches_review_head = bool(
         clean_checkout_smoke_source_commit
         and review_git_head_commit
@@ -211,6 +219,15 @@ def write_reproducibility_review_packet(
         "review_git_head_commit": review_git_head_commit,
         "clean_checkout_smoke_matches_review_head": (
             clean_checkout_smoke_matches_review_head
+        ),
+        "clean_checkout_smoke_source_commit_relation_to_review_head": (
+            clean_checkout_smoke_source_commit_relation
+        ),
+        "clean_checkout_smoke_source_commit_lag_count": (
+            clean_checkout_smoke_source_commit_lag_count
+        ),
+        "clean_checkout_smoke_source_commit_reachable_from_review_head": (
+            clean_checkout_smoke_source_commit_reachable
         ),
         "clean_checkout_test_performed": clean_checkout_smoke[
             "clean_checkout_test_performed"
@@ -418,6 +435,10 @@ def _clean_checkout_smoke_row(
         and review_git_head_commit
         and source_commit == review_git_head_commit
     )
+    relation, lag_count, reachable = _source_commit_relation_to_review_head(
+        source_commit,
+        review_git_head_commit,
+    )
     return _review_row(
         category_id="bounded_clean_checkout_smoke",
         check_name="Bounded clean-checkout source-tree smoke",
@@ -431,7 +452,10 @@ def _clean_checkout_smoke_row(
             f"full_clean_environment_tested={_bool_text(full_environment)}; "
             f"source_commit={source_commit}; "
             f"review_git_head_commit={review_git_head_commit}; "
-            f"matches_review_head={_bool_text(matches_review_head)}"
+            f"matches_review_head={_bool_text(matches_review_head)}; "
+            f"source_commit_relation_to_review_head={relation}; "
+            f"source_commit_lag_count={_display_optional_int(lag_count)}; "
+            f"source_commit_reachable_from_review_head={_bool_text(reachable)}"
         ),
         required_action=(
             "Use this as bounded source-checkout evidence only. Review whether "
@@ -539,6 +563,67 @@ def _git_head_commit() -> str:
     return result.stdout.strip()
 
 
+def _source_commit_relation_to_review_head(
+    source_commit: str,
+    review_git_head_commit: str,
+) -> tuple[str, int | None, bool]:
+    """Return how a clean-checkout source commit relates to review HEAD."""
+
+    if not source_commit or not review_git_head_commit:
+        return "unknown", None, False
+    if source_commit == review_git_head_commit:
+        return "matches_review_head", 0, True
+    try:
+        result = subprocess.run(
+            [
+                "git",
+                "merge-base",
+                "--is-ancestor",
+                source_commit,
+                review_git_head_commit,
+            ],
+            cwd=PROJECT_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError:
+        return "unknown", None, False
+    if result.returncode == 0:
+        return (
+            "ancestor_of_review_head",
+            _git_commit_lag_count(source_commit, review_git_head_commit),
+            True,
+        )
+    if result.returncode == 1:
+        return "not_ancestor_of_review_head", None, False
+    return "unknown", None, False
+
+
+def _git_commit_lag_count(source_commit: str, review_git_head_commit: str) -> int | None:
+    try:
+        result = subprocess.run(
+            [
+                "git",
+                "rev-list",
+                "--count",
+                f"{source_commit}..{review_git_head_commit}",
+            ],
+            cwd=PROJECT_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0:
+        return None
+    try:
+        return int(result.stdout.strip())
+    except ValueError:
+        return None
+
+
 def _cloned_repo_import_hits(scan_dirs: Sequence[str | Path]) -> list[str]:
     hits: list[str] = []
     for raw_dir in scan_dirs:
@@ -634,6 +719,10 @@ def _counts(values: Iterable[object]) -> dict[str, int]:
 
 def _bool_text(value: object) -> str:
     return str(bool(value)).lower()
+
+
+def _display_optional_int(value: int | None) -> str:
+    return "unknown" if value is None else str(value)
 
 
 def _display_path(path: str | Path) -> str:
