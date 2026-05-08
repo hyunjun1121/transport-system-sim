@@ -259,7 +259,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/parameter_acceptance.csv",
   "gate": "parameter_acceptance",
-  "generated_at": "2026-05-08T10:52:17+00:00",
+  "generated_at": "2026-05-08T11:37:16+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
