@@ -133,6 +133,11 @@ from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_PACKET_PATH,
 )
+from src.realworld.graph_scale_manifest_audit import (  # noqa: E402
+    DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_DOC_PATH,
+    DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_MANIFEST_PATH,
+    DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_PATH,
+)
 from src.realworld.full_graph_runtime_readiness_packet import (  # noqa: E402
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
@@ -548,6 +553,11 @@ CSV_EXPECTATIONS = (
         ROOT / "data" / "validation" / "graph_scale_result_comparison.csv",
         819,
     ),
+    CsvExpectation(
+        "graph_scale_manifest_audit",
+        DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_PATH,
+        13,
+    ),
 )
 
 JSON_EXPECTATIONS = (
@@ -725,6 +735,10 @@ JSON_EXPECTATIONS = (
         / "graph_scale_result_comparison_manifest.json",
     ),
     JsonExpectation(
+        "graph_scale_manifest_audit_manifest",
+        DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "acceptance_orchestration_manifest",
         ROOT / "data" / "manifests" / "acceptance_orchestration_manifest.json",
     ),
@@ -841,6 +855,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "full_graph_smoke.md",
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     ROOT / "docs" / "graph_scale_result_comparison.md",
+    DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_DOC_PATH,
     ROOT / "docs" / "graph_scale_acceptance_schema.md",
     ROOT / "docs" / "validation_acceptance_schema.md",
     ROOT / "docs" / "validation_review_packet.md",

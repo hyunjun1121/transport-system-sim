@@ -49,6 +49,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         "data/validation/full_graph_runtime_readiness_packet.csv"
         in graph_agent.review_packet_paths
     )
+    assert "data/validation/graph_scale_manifest_audit.csv" in (
+        graph_agent.review_packet_paths
+    )
 
     evidence_agent = agents["road_rail_parameter_evidence_agent"]
     assert (
