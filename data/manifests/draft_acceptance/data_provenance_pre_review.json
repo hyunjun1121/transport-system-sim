@@ -37,6 +37,12 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_request_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/reproducibility_manifest.json"
     },
     {
@@ -91,6 +97,12 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_request_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/manifests/current_goal_completion_audit.json"
     },
     {
@@ -127,6 +139,12 @@
       "claim_supported": "Repository evidence cited for data_provenance",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_context_cache_request_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/pilot_region_data_card.md"
     },
     {
@@ -158,6 +176,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_source_provenance_priority_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_context_cache_request_packet.py"
     }
   ],
   "files_to_create_or_update_after_human_decision": [
@@ -169,7 +193,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/provenance_acceptance.json",
   "gate": "data_provenance",
-  "generated_at": "2026-05-08T16:27:54+00:00",
+  "generated_at": "2026-05-08T16:47:37+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -188,6 +212,9 @@
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent",
     "data/manifests/provenance_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -202,18 +229,22 @@
     "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/source_provenance_priority_packet.csv",
     "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_packet.csv",
+    "data/manifests/source_context_cache_request_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
     "docs/source_url_remediation_packet.md",
     "docs/source_provenance_priority_packet.md",
+    "docs/source_context_cache_request_packet.md",
     "docs/reproducibility_package.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
     "scripts/write_source_license_review_packet.py",
     "scripts/write_source_url_review_packet.py",
     "scripts/write_source_url_remediation_packet.py",
-    "scripts/write_source_provenance_priority_packet.py"
+    "scripts/write_source_provenance_priority_packet.py",
+    "scripts/write_source_context_cache_request_packet.py"
   ],
   "recommendation": "blocked_requires_human_decision",
   "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
@@ -230,6 +261,9 @@
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent",
     "data/manifests/provenance_acceptance.json is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
@@ -239,7 +273,8 @@
     "data/manifests/source_license_review_packet.csv",
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
-    "data/manifests/source_provenance_priority_packet.csv"
+    "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv"
   ],
   "reviewed_inputs": [
     "data/manifests/source_provenance_manifest.json",
@@ -247,6 +282,7 @@
     "data/manifests/source_url_review_manifest.json",
     "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "data/manifests/current_goal_completion_audit.json",
     "docs/reproducibility_package.md",
@@ -259,6 +295,7 @@
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
     "data/manifests/reproducibility_manifest.json",
     "data/cache/pilot_region_road_manifest.json",
     "cloned_repo_manifest.md",

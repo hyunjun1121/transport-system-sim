@@ -109,6 +109,10 @@ Implemented extension modules now also cover:
 - `source_provenance_priority_packet.py`: per-source provenance priority
   worksheet that joins source/license review with URL remediation, including
   same-source alternate URL candidates, without approving provenance.
+- `source_context_cache_request_packet.py`: context-only public-source cache
+  request worksheet that identifies the reviewed extracts, raw responses, or
+  explicit exclusion decisions needed before those sources can support final
+  provenance claims.
 - `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail
   timing source requests. It separates missing API keys, missing reviewed GTFS
   files, and human-review-only capacity/availability decisions without fetching

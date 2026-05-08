@@ -9,7 +9,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | Gate | Agent | Status | Can Mark Complete | Required Action Count |
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 2 |
-| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 9 |
+| `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 12 |
 | `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 9 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 12 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 15 |
@@ -59,6 +59,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | Packet | Rows | Blocking | Human Review | Gate Candidates | Can Complete | Key Status Counts |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | `Source Provenance Priority` | 11 | 4 | 7 | 0 | `false` | blocked_context_only_source_not_cached=4; needs_human_review_cached_snapshot_source=3; needs_human_review_repository_input_source=4 |
+| `Source Context Cache Requests` | 4 | 4 | 0 | 0 | `false` | blocked_missing_context_source_cache=4 |
 | `Source/License Review` | 11 | 4 | 11 | 0 | `false` | cached_snapshot_pending_review=3; context_only_not_cached=4; repository_input_pending_review=4 |
 | `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
 | `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
@@ -86,7 +87,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=617 |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=627 |
 | `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
@@ -94,6 +95,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 Priority blockers by packet:
 
 - `Source Provenance Priority`: formal provenance acceptance record is absent (+4 more)
+- `Source Context Cache Requests`: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions (+2 more)
 - `Source/License Review`: formal provenance acceptance record is absent (+2 more)
 - `Source URL Review`: formal provenance acceptance record is absent (+3 more)
 - `Source URL Remediation`: formal provenance acceptance record is absent (+3 more)
@@ -126,6 +128,9 @@ Priority blockers by packet:
 - data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation
+- data_provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
+- data_provenance: source context cache request: formal provenance acceptance record is absent
 - graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.
 - graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review
@@ -244,6 +249,9 @@ Priority blockers by packet:
 - Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation
+- Data Provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions
+- Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
+- Data Provenance: source context cache request: formal provenance acceptance record is absent
 - Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
 - Parameter Evidence: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence
 - Parameter Evidence: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence

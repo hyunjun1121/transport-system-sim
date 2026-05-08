@@ -74,7 +74,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/final_audit_acceptance.json",
   "gate": "final_audit",
-  "generated_at": "2026-05-08T16:27:54+00:00",
+  "generated_at": "2026-05-08T16:47:37+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",

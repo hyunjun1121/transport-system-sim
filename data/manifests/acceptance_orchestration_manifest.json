@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T16:28:24+00:00",
+  "generated_at": "2026-05-08T16:48:06+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -25,8 +25,8 @@
       "can_mark_complete": false,
       "gate_id": "data_provenance",
       "record_path": "data/manifests/agent_reviews/data_provenance__osm_source_license_provenance_review_agent.json",
-      "required_action_count": 9,
-      "risk_count": 9,
+      "required_action_count": 12,
+      "risk_count": 12,
       "status": "blocked"
     },
     {
@@ -142,6 +142,9 @@
     "data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
+    "data_provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "data_provenance: source context cache request: formal provenance acceptance record is absent",
     "graph_scale_strategy: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "graph_scale_strategy: Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
     "graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review",
@@ -260,6 +263,9 @@
     "Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
+    "Data Provenance: source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "Data Provenance: source context cache request: formal provenance acceptance record is absent",
     "Parameter Evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence",
     "Parameter Evidence: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence",
     "Parameter Evidence: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence",
@@ -364,6 +370,34 @@
         "blocked_context_only_source_not_cached": 4,
         "needs_human_review_cached_snapshot_source": 3,
         "needs_human_review_repository_input_source": 4
+      }
+    },
+    {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 0,
+      "label": "Source Context Cache Requests",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/source_context_cache_request_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+        "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+        "formal provenance acceptance record is absent"
+      ],
+      "result_scope": "Source context-cache request packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
+      "review_items": [
+        "for each row, either cache the reviewed source extract with terms/attribution review or exclude the source from final claims",
+        "retain raw API/page responses when a source is cached for reproducibility",
+        "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
+        "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed"
+      ],
+      "row_count": 4,
+      "snapshot_id": "source_context_cache_request",
+      "status_counts": {
+        "blocked_missing_context_source_cache": 4
       }
     },
     {
@@ -1200,7 +1234,7 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 617
+        "present": 627
       }
     },
     {

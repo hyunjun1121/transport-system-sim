@@ -72,6 +72,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/source_provenance_priority_packet.csv" in (
         provenance_agent.review_packet_paths
     )
+    assert "data/manifests/source_context_cache_request_packet.csv" in (
+        provenance_agent.review_packet_paths
+    )
     assert "data/manifests/current_goal_completion_audit.json" in (
         provenance_agent.reviewed_inputs
     )
@@ -154,6 +157,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "tracked_artifact_audit" in snapshot_ids
     assert "current_goal_completion_audit" in snapshot_ids
     assert "publication_readiness_audit" in snapshot_ids
+    assert "source_context_cache_request" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -265,6 +269,28 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "failed URL rows require remediation review"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        source_context_cache_snapshot_path = (
+            root / "source_context_cache_request_manifest.json"
+        )
+        source_context_cache_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 4,
+                    "blocking_request_count": 4,
+                    "missing_target_cache_artifact_count": 4,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "cache_request_status_counts": {
+                        "blocked_missing_context_source_cache": 4,
+                    },
+                    "remaining_blockers": [
+                        "context-only public sources still lack reviewed cached extracts"
                     ],
                 }
             )
@@ -413,6 +439,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     source_url_snapshot_path,
                 ),
                 (
+                    "source_context_cache_request",
+                    "Source Context Cache Requests",
+                    source_context_cache_snapshot_path,
+                ),
+                (
                     "formal_acceptance_blocker_queue",
                     "Formal Acceptance Blocker Queue",
                     formal_queue_snapshot_path,
@@ -485,6 +516,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             snapshots["source_url_review"]["status_counts"]["network_error"]
             == 1
         )
+        assert snapshots["source_context_cache_request"]["row_count"] == 4
+        assert snapshots["source_context_cache_request"]["blocking_count"] == 4
+        assert (
+            snapshots["source_context_cache_request"]["status_counts"][
+                "blocked_missing_context_source_cache"
+            ]
+            == 4
+        )
         assert (
             snapshots["formal_acceptance_blocker_queue"]["blocking_count"]
             == 15
@@ -538,6 +577,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Source URL Review`" in index_text
+        assert "`Source Context Cache Requests`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
         assert "`Formal Acceptance Pre-Review`" in index_text
         assert "`Agent Review Path Audit`" in index_text
@@ -546,6 +586,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Publication Readiness Audit`" in index_text
         assert "candidate_worsens=24" in index_text
         assert "network_error=1" in index_text
+        assert "blocked_missing_context_source_cache=4" in index_text
         assert "blocked_missing_evidence=8" in index_text
         assert "missing_formal_target=36" in index_text
         assert "generated_review_artifact=2" in index_text

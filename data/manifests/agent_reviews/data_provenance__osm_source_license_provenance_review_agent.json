@@ -15,11 +15,14 @@
     "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/source_provenance_priority_packet.csv",
     "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_packet.csv",
+    "data/manifests/source_context_cache_request_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
     "docs/source_url_remediation_packet.md",
     "docs/source_provenance_priority_packet.md",
+    "docs/source_context_cache_request_packet.md",
     "docs/reproducibility_package.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
@@ -27,10 +30,11 @@
     "scripts/write_source_url_review_packet.py",
     "scripts/write_source_url_remediation_packet.py",
     "scripts/write_source_provenance_priority_packet.py",
+    "scripts/write_source_context_cache_request_packet.py",
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-08T16:28:24+00:00",
+  "generated_at": "2026-05-08T16:48:06+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -41,13 +45,17 @@
     "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
-    "source provenance priority: URL remediation rows still require reviewer confirmation"
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent"
   ],
   "review_packet_paths": [
     "data/manifests/source_license_review_packet.csv",
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
     "docs/review_packets/data_provenance.md"
   ],
   "reviewed_inputs": [
@@ -56,6 +64,7 @@
     "data/manifests/source_url_review_manifest.json",
     "data/manifests/source_url_remediation_manifest.json",
     "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_manifest.json",
     "data/manifests/reproducibility_manifest.json",
     "data/manifests/current_goal_completion_audit.json",
     "docs/reproducibility_package.md",
@@ -65,16 +74,19 @@
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
     "docs/source_license_review_packet.md",
     "docs/source_url_review_packet.md",
     "docs/source_url_remediation_packet.md",
     "docs/source_provenance_priority_packet.md",
+    "docs/source_context_cache_request_packet.md",
     "docs/pilot_region_data_card.md",
     "scripts/audit_source_provenance.py",
     "scripts/write_source_license_review_packet.py",
     "scripts/write_source_url_review_packet.py",
     "scripts/write_source_url_remediation_packet.py",
-    "scripts/write_source_provenance_priority_packet.py"
+    "scripts/write_source_provenance_priority_packet.py",
+    "scripts/write_source_context_cache_request_packet.py"
   ],
   "risks": [
     "License or attribution requirements may be incomplete.",
@@ -85,7 +97,10 @@
     "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
-    "source provenance priority: URL remediation rows still require reviewer confirmation"
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -94,6 +109,7 @@
     "data/manifests/source_url_review_packet.csv",
     "data/manifests/source_url_remediation_packet.csv",
     "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
     "data/manifests/reproducibility_manifest.json",
     "data/cache/pilot_region_road_manifest.json",
     "cloned_repo_manifest.md",

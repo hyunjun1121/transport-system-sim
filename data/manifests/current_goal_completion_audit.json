@@ -231,18 +231,22 @@
         "data/manifests/source_url_remediation_manifest.json",
         "data/manifests/source_provenance_priority_packet.csv",
         "data/manifests/source_provenance_priority_manifest.json",
+        "data/manifests/source_context_cache_request_packet.csv",
+        "data/manifests/source_context_cache_request_manifest.json",
         "data/manifests/reproducibility_manifest.json",
         "docs/source_license_review_packet.md",
         "docs/source_url_review_packet.md",
         "docs/source_url_remediation_packet.md",
         "docs/source_provenance_priority_packet.md",
+        "docs/source_context_cache_request_packet.md",
         "docs/reproducibility_package.md",
         "docs/pilot_region_data_card.md",
         "scripts/audit_source_provenance.py",
         "scripts/write_source_license_review_packet.py",
         "scripts/write_source_url_review_packet.py",
         "scripts/write_source_url_remediation_packet.py",
-        "scripts/write_source_provenance_priority_packet.py"
+        "scripts/write_source_provenance_priority_packet.py",
+        "scripts/write_source_context_cache_request_packet.py"
       ],
       "gate_id": "data_provenance",
       "label": "Data Provenance",
@@ -253,7 +257,10 @@
         "source provenance priority: context-only public sources still need cached extracts or exclusion decisions",
         "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
         "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
-        "source provenance priority: URL remediation rows still require reviewer confirmation"
+        "source provenance priority: URL remediation rows still require reviewer confirmation",
+        "source context cache request: context-only public sources still lack reviewed cached extracts or explicit exclusion decisions",
+        "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+        "source context cache request: formal provenance acceptance record is absent"
       ],
       "ready": false
     },
