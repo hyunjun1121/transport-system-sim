@@ -725,7 +725,14 @@ Implemented pieces:
   `docs/current_goal_completion_audit.md`, a non-acceptance prompt-to-artifact
   checklist for the active `plan.md` objective.
 
-Default validation is offline:
+Default validation is offline. For complete real-world test coverage, run the
+batch form so newly added `tests/test_realworld_*.py` files are included:
+
+```powershell
+Get-ChildItem tests\test_realworld_*.py | Sort-Object Name | ForEach-Object { .\.venv\Scripts\python $_.FullName }
+```
+
+Frequently used direct commands are listed below for targeted reruns:
 
 ```powershell
 .\.venv\Scripts\python tests\test_realworld_types.py
