@@ -171,6 +171,7 @@ src/
     source_provenance.py   # Source provenance review packet validation
     source_license_review_packet.py # Source/license review worksheet generation
     source_url_review_packet.py # Source URL review worksheet generation
+    source_url_remediation_packet.py # Source URL remediation queue generation
     claim_alignment_review_packet.py # Manuscript/report claim review worksheet
     road_evidence.py       # Cached road-input evidence audit
     road_evidence_diagnostics.py # Road-class evidence gap diagnostics
@@ -247,6 +248,7 @@ scripts/
   write_road_class_override_template.py # Draft road override review template
   audit_source_provenance.py # Check source provenance review packet
   write_source_url_review_packet.py # Write URL-level source review worksheet
+  write_source_url_remediation_packet.py # Write URL-level source remediation queue
   audit_publication_readiness.py # Aggregate final-study claim blockers
   audit_final_study_readiness.py # Check all plan.md final-study gates
   audit_sensitivity_diagnostics.py # Review Morris output diagnostics
@@ -313,6 +315,7 @@ The current research context is distributed across these Markdown files:
 | `docs/source_provenance_manifest.md` | Source provenance manifest scope and audit notes |
 | `docs/source_license_review_packet.md` | Source/license review worksheet; not provenance acceptance |
 | `docs/source_url_review_packet.md` | URL-level source review worksheet; not provenance acceptance |
+| `docs/source_url_remediation_packet.md` | URL-level source remediation queue; not provenance acceptance |
 | `docs/experiment_package_review_packet.md` | Full experiment output worksheet; not experiment acceptance |
 | `docs/experiment_strategy_readiness_packet.md` | Experiment blocker/readiness worksheet; not experiment acceptance |
 | `docs/pilot_privacy_review_packet.md` | Pilot privacy/sensitivity review worksheet; not pilot acceptance |
