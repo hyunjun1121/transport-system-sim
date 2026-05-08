@@ -161,7 +161,7 @@ Current generated artifact checks:
 | `data/validation/full_graph_runtime_readiness_packet.csv` | 4 full-graph runtime-readiness rows; review aid only |
 | `data/validation/graph_scale_review_packet.csv` | 4 graph-scale method option rows; review aid only |
 | `data/validation/graph_scale_result_comparison.csv` | 819 current-vs-full-profile-candidate metric-delta rows; review aid only |
-| `scripts/audit_source_provenance.py` | structurally ready; 10 source records, 43 local artifacts, 3 cached snapshots pending review, 3 context-only sources not cached, and 4 repository inputs pending review |
+| `scripts/audit_source_provenance.py` | structurally ready; 11 source records, 52 local artifacts, 3 cached snapshots pending review, 4 context-only sources not cached, and 4 repository inputs pending review |
 | `scripts/audit_publication_readiness.py` | `publication_ready: false`; final-study claims blocked |
 | `scripts/audit_final_study_readiness.py` | `final_study_ready: false`; plan-level final gates blocked |
 | `data/validation/canonical_route_road_evidence_exposure.csv` | 76 route-level road-evidence exposure rows across 18 route candidates; review aid only |
