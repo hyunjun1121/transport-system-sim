@@ -18,7 +18,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
 | `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 17 |
 | `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 20 |
-| `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 9 |
+| `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 8 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 11 |
 
 ## Source Provenance Priority Snapshot
@@ -91,7 +91,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
 | `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
-| `Reproducibility Decision` | 7 | 3 | 4 | 0 | `false` | blocked_artifact_regeneration_not_tested=1; blocked_missing_reproducibility_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; +4 more |
+| `Reproducibility Decision` | 7 | 2 | 5 | 0 | `false` | blocked_missing_reproducibility_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; needs_human_review_artifact_regeneration=1; +4 more |
 | `Final Audit Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_final_audit_acceptance_record=1; blocked_missing_final_study_audit_document=1; blocked_missing_formal_acceptance_artifacts=1; +4 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
@@ -136,7 +136,7 @@ Priority blockers by packet:
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Manuscript/Report Decision`: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent (+3 more)
-- `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+2 more)
+- `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
@@ -307,7 +307,6 @@ Priority blockers by packet:
 - reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package
 - reproducibility: resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - reproducibility: review reproducibility human-decision rows before reproducibility acceptance
 - final_audit: After all pre-final gates are ready, write the independent prompt-to-artifact final audit.
@@ -464,7 +463,6 @@ Priority blockers by packet:
 - Reproducibility: replace scaffold-only manifest with clean-checkout final reproduction package
 - Reproducibility: resolve reproducibility decision blockers before reproducibility acceptance
 - Reproducibility: reproducibility decision: reproducibility manifest remains scaffold-only
-- Reproducibility: reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - Reproducibility: reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - Reproducibility: review reproducibility human-decision rows before reproducibility acceptance
 - Final Audit: create docs/final_study_audit.md after all other gates close

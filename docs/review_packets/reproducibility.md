@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T21:54:48+00:00`
+- Generated at: `2026-05-08T22:12:29+00:00`
 
 ## Decision
 
@@ -58,7 +58,6 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
 
@@ -70,7 +69,6 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 - replace scaffold-only manifest with clean-checkout final reproduction package
 - resolve reproducibility decision blockers before reproducibility acceptance
 - reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: clean-checkout artifact regeneration protocol has not been tested
 - reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
 
@@ -92,7 +90,6 @@ Formal acceptance artifacts:
     "replace scaffold-only manifest with clean-checkout final reproduction package",
     "resolve reproducibility decision blockers before reproducibility acceptance",
     "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: clean-checkout artifact regeneration protocol has not been tested",
     "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
   ],
@@ -112,21 +109,20 @@ Formal acceptance artifacts:
     "current_worktree_smoke_passed": true,
     "current_worktree_smoke_present": true,
     "current_worktree_smoke_scope": "current_worktree_smoke_not_clean_checkout",
-    "reproducibility_decision_blocking_decision_count": 3,
+    "reproducibility_decision_blocking_decision_count": 2,
     "reproducibility_decision_can_mark_complete": false,
-    "reproducibility_decision_human_review_decision_count": 4,
+    "reproducibility_decision_human_review_decision_count": 5,
     "reproducibility_decision_manifest_present": true,
     "reproducibility_decision_publication_ready": false,
     "reproducibility_decision_remaining_blockers": [
       "reproducibility manifest remains scaffold-only",
-      "clean-checkout artifact regeneration protocol has not been tested",
       "data/manifests/reproducibility_acceptance.json is absent"
     ],
     "reproducibility_decision_row_count": 7,
     "reproducibility_decision_status_counts": {
-      "blocked_artifact_regeneration_not_tested": 1,
       "blocked_missing_reproducibility_acceptance_record": 1,
       "blocked_scaffold_reproducibility_manifest_scope": 1,
+      "needs_human_review_artifact_regeneration": 1,
       "needs_human_review_clean_checkout_evidence_scope": 1,
       "needs_human_review_command_ladder_scope": 1,
       "needs_human_review_committed_package_state": 1,
