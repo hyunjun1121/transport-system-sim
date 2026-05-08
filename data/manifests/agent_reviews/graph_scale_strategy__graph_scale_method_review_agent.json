@@ -19,6 +19,9 @@
     "data/validation/graph_scale_strategy_readiness_packet.csv",
     "data/validation/graph_scale_strategy_readiness_manifest.json",
     "docs/graph_scale_strategy_readiness_packet.md",
+    "data/validation/graph_scale_method_decision_packet.csv",
+    "data/validation/graph_scale_method_decision_manifest.json",
+    "docs/graph_scale_method_decision_packet.md",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_manifest_audit_manifest.json",
     "docs/graph_scale_manifest_audit.md",
@@ -30,6 +33,7 @@
     "scripts/audit_graph_scale_manifests.py",
     "scripts/write_graph_scale_review_packet.py",
     "scripts/write_graph_scale_strategy_readiness_packet.py",
+    "scripts/write_graph_scale_method_decision_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -42,7 +46,7 @@
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "gate_id": "graph_scale_strategy",
-  "generated_at": "2026-05-08T19:04:46+00:00",
+  "generated_at": "2026-05-08T19:30:09+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
@@ -53,13 +57,20 @@
     "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
+    "resolve graph-scale method-decision blockers before graph-scale acceptance",
+    "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
+    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
+    "review graph-scale method-decision human-decision items before graph-scale acceptance"
   ],
   "review_packet_paths": [
     "data/validation/graph_scale_review_packet.csv",
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_method_decision_packet.csv",
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "reviewed_inputs": [
@@ -70,6 +81,8 @@
     "data/validation/full_graph_runtime_readiness_manifest.json",
     "data/validation/graph_scale_manifest_audit_manifest.json",
     "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "data/validation/graph_scale_method_decision_manifest.json",
+    "docs/graph_scale_method_decision_packet.md",
     "data/validation/graph_scale_result_comparison.csv",
     "data/validation/graph_scale_result_comparison_manifest.json",
     "data/manifests/graph_scale_acceptance.json",
@@ -82,12 +95,14 @@
     "data/validation/graph_scale_review_manifest.json",
     "data/validation/graph_scale_strategy_readiness_packet.csv",
     "docs/graph_scale_strategy_readiness_packet.md",
+    "data/validation/graph_scale_method_decision_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "docs/full_graph_runtime_readiness_packet.md",
     "scripts/audit_graph_scale_manifests.py",
     "scripts/write_graph_scale_review_packet.py",
     "scripts/write_graph_scale_strategy_readiness_packet.py",
+    "scripts/write_graph_scale_method_decision_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -107,7 +122,13 @@
     "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
+    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
+    "resolve graph-scale method-decision blockers before graph-scale acceptance",
+    "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
+    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
+    "review graph-scale method-decision human-decision items before graph-scale acceptance"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -118,6 +139,7 @@
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_method_decision_packet.csv",
     "data/validation/graph_scale_result_comparison.csv",
     "data/manifests/graph_scale_acceptance.json"
   ],

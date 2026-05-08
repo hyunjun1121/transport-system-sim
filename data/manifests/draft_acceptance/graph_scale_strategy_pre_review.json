@@ -49,6 +49,12 @@
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/graph_scale_method_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for graph_scale_strategy",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/validation/graph_scale_result_comparison.csv"
     },
     {
@@ -104,6 +110,18 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/validation/graph_scale_strategy_readiness_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for graph_scale_strategy",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/validation/graph_scale_method_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for graph_scale_strategy",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/graph_scale_method_decision_packet.md"
     },
     {
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
@@ -169,6 +187,12 @@
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_graph_scale_method_decision_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for graph_scale_strategy",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_graph_scale_result_comparison.py"
     },
     {
@@ -223,7 +247,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/graph_scale_acceptance.json",
   "gate": "graph_scale_strategy",
-  "generated_at": "2026-05-08T19:04:17+00:00",
+  "generated_at": "2026-05-08T19:29:40+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -242,6 +266,12 @@
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
+    "resolve graph-scale method-decision blockers before graph-scale acceptance",
+    "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
+    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
+    "review graph-scale method-decision human-decision items before graph-scale acceptance",
     "data/manifests/graph_scale_acceptance.json is absent"
   ],
   "must_not_be_used_as_final_acceptance": true,
@@ -260,6 +290,9 @@
     "data/validation/graph_scale_strategy_readiness_packet.csv",
     "data/validation/graph_scale_strategy_readiness_manifest.json",
     "docs/graph_scale_strategy_readiness_packet.md",
+    "data/validation/graph_scale_method_decision_packet.csv",
+    "data/validation/graph_scale_method_decision_manifest.json",
+    "docs/graph_scale_method_decision_packet.md",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_manifest_audit_manifest.json",
     "docs/graph_scale_manifest_audit.md",
@@ -271,6 +304,7 @@
     "scripts/audit_graph_scale_manifests.py",
     "scripts/write_graph_scale_review_packet.py",
     "scripts/write_graph_scale_strategy_readiness_packet.py",
+    "scripts/write_graph_scale_method_decision_packet.py",
     "scripts/write_graph_scale_result_comparison.py",
     "scripts/run_graph_scale_diagnostics.py",
     "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -296,6 +330,12 @@
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
+    "resolve graph-scale method-decision blockers before graph-scale acceptance",
+    "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
+    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
+    "review graph-scale method-decision human-decision items before graph-scale acceptance",
     "data/manifests/graph_scale_acceptance.json is absent",
     "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
     "Final-study readiness remains false until formal validators accept source-backed records."
@@ -305,7 +345,8 @@
     "data/validation/graph_scale_review_packet.csv",
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
-    "data/validation/graph_scale_strategy_readiness_packet.csv"
+    "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_method_decision_packet.csv"
   ],
   "reviewed_inputs": [
     "docs/analysis_corridor_method_note.md",
@@ -315,6 +356,8 @@
     "data/validation/full_graph_runtime_readiness_manifest.json",
     "data/validation/graph_scale_manifest_audit_manifest.json",
     "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "data/validation/graph_scale_method_decision_manifest.json",
+    "docs/graph_scale_method_decision_packet.md",
     "data/validation/graph_scale_result_comparison.csv",
     "data/validation/graph_scale_result_comparison_manifest.json"
   ],
@@ -327,6 +370,7 @@
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_strategy_readiness_packet.csv",
+    "data/validation/graph_scale_method_decision_packet.csv",
     "data/validation/graph_scale_result_comparison.csv",
     "data/manifests/graph_scale_acceptance.json"
   ],

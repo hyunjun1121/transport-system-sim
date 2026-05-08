@@ -474,6 +474,13 @@ The codebase currently includes:
     multi-corridor candidate, the 164-node / 246-edge full-profile
     multi-corridor candidate, and the full bus-practical graph as a review
     worksheet only
+  - graph-scale method-decision packet generation in
+    `src/realworld/graph_scale_method_decision_packet.py` and
+    `scripts/write_graph_scale_method_decision_packet.py`; current output has
+    7 reviewer-decision rows for reduced-corridor warning policy,
+    multi-corridor/full-graph method selection, graph-sensitive result deltas,
+    downstream regeneration scope, and the missing formal graph-scale
+    acceptance boundary
   - graph-scale result comparison generation in
     `src/realworld/graph_scale_result_comparison.py` and
     `scripts/write_graph_scale_result_comparison.py`; current output has 819

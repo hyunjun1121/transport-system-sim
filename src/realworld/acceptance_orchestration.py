@@ -90,6 +90,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "validation" / "graph_scale_strategy_readiness_manifest.json",
     ),
     (
+        "graph_scale_method_decision",
+        "Graph-Scale Method Decision",
+        PROJECT_ROOT / "data" / "validation" / "graph_scale_method_decision_manifest.json",
+    ),
+    (
         "graph_scale_manifest_audit",
         "Graph-Scale Manifest Audit",
         PROJECT_ROOT / "data" / "validation" / "graph_scale_manifest_audit_manifest.json",
@@ -422,6 +427,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/validation/full_graph_runtime_readiness_packet.csv",
             "data/validation/graph_scale_manifest_audit.csv",
             "data/validation/graph_scale_strategy_readiness_packet.csv",
+            "data/validation/graph_scale_method_decision_packet.csv",
             "data/validation/graph_scale_result_comparison.csv",
         ),
         reviewed_inputs=(
@@ -432,6 +438,8 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/validation/full_graph_runtime_readiness_manifest.json",
             "data/validation/graph_scale_manifest_audit_manifest.json",
             "data/validation/graph_scale_strategy_readiness_manifest.json",
+            "data/validation/graph_scale_method_decision_manifest.json",
+            "docs/graph_scale_method_decision_packet.md",
             "data/validation/graph_scale_result_comparison.csv",
             "data/validation/graph_scale_result_comparison_manifest.json",
         ),
@@ -440,6 +448,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/validation/full_graph_runtime_readiness_packet.csv",
             "data/validation/graph_scale_manifest_audit.csv",
             "data/validation/graph_scale_strategy_readiness_packet.csv",
+            "data/validation/graph_scale_method_decision_packet.csv",
             "docs/review_packets/graph_scale_strategy.md",
         ),
         decision_rules=(

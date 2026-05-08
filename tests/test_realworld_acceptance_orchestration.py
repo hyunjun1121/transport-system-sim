@@ -58,6 +58,10 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         in graph_agent.review_packet_paths
     )
     assert (
+        "data/validation/graph_scale_method_decision_packet.csv"
+        in graph_agent.review_packet_paths
+    )
+    assert (
         "data/validation/full_graph_runtime_readiness_packet.csv"
         in graph_agent.review_packet_paths
     )
@@ -190,6 +194,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "parameter_source_decision" in snapshot_ids
     assert "road_source_decision" in snapshot_ids
     assert "rail_source_decision" in snapshot_ids
+    assert "graph_scale_method_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
@@ -348,6 +353,30 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "review_items": [
                         "review candidate_worsens and nonfinite_difference rows"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        graph_method_decision_snapshot_path = (
+            root / "graph_method_decision_manifest.json"
+        )
+        graph_method_decision_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 3,
+                    "graph_scale_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_graph_scale_acceptance_record": 1,
+                        "needs_human_review_reduced_corridor_warning_policy": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/graph_scale_acceptance.json is absent"
                     ],
                 }
             )
@@ -640,6 +669,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     graph_result_snapshot_path,
                 ),
                 (
+                    "graph_scale_method_decision",
+                    "Graph-Scale Method Decision",
+                    graph_method_decision_snapshot_path,
+                ),
+                (
                     "source_url_review",
                     "Source URL Review",
                     source_url_snapshot_path,
@@ -760,6 +794,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 24
         )
+        assert snapshots["graph_scale_method_decision"]["blocking_count"] == 4
+        assert snapshots["graph_scale_method_decision"]["human_review_count"] == 3
+        assert (
+            snapshots["graph_scale_method_decision"]["status_counts"][
+                "blocked_missing_graph_scale_acceptance_record"
+            ]
+            == 1
+        )
         assert snapshots["source_url_review"]["blocking_count"] == 1
         assert snapshots["source_url_review"]["human_review_count"] == 17
         assert (
@@ -863,6 +905,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Validation Benchmark Decision`" in index_text
         assert "`Experiment Design Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
+        assert "`Graph-Scale Method Decision`" in index_text
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
         assert "`Road Source Decisions`" in index_text
@@ -874,6 +917,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Current Goal Completion Audit`" in index_text
         assert "`Publication Readiness Audit`" in index_text
         assert "candidate_worsens=24" in index_text
+        assert "needs_human_review_reduced_corridor_warning_policy=1" in index_text
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text
         assert "blocked_missing_road_source_decision=2" in index_text

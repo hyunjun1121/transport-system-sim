@@ -389,6 +389,13 @@ First pilot-smoke artifacts also exist:
   without choosing or approving a graph-scale method. The full-graph row now
   points to smoke/runtime evidence but remains blocked because full
   scenario-policy-seed outputs are absent.
+- `src/realworld/graph_scale_method_decision_packet.py` and
+  `scripts/write_graph_scale_method_decision_packet.py` convert the graph-scale
+  review, readiness, full-graph runtime, and result-delta artifacts into a
+  7-row reviewer-decision worksheet. It records reduced-corridor warning,
+  multi-corridor/full-graph method, graph-sensitive result-delta, downstream
+  regeneration, and formal graph-scale acceptance boundary decisions as
+  pending or blocked without choosing a graph method or creating acceptance.
 - `src/realworld/graph_scale_result_comparison.py` and
   `scripts/write_graph_scale_result_comparison.py` now compare the current
   full-pilot summary with the full-profile multi-corridor candidate summary.
@@ -2246,9 +2253,9 @@ Concrete next tasks:
    164-node / 246-edge candidate graph, or whether to replace the current
    graph method with full-graph runtime evidence or a multi-corridor ensemble
    before graph-scale acceptance. Use the graph-scale review packet,
-   full-graph runtime-readiness packet, and graph-scale strategy-readiness
-   packet as the consolidated method-selection and blocker-classification
-   worksheets.
+   full-graph runtime-readiness packet, graph-scale strategy-readiness packet,
+   and graph-scale method-decision packet as the consolidated method-selection
+   and blocker-classification worksheets.
 6. Review the source-graph and analysis-graph scale fields now recorded in
    every pilot, sensitivity, Morris, and figure/table manifest with
    `data/validation/graph_scale_manifest_audit.csv`, and keep this distinction

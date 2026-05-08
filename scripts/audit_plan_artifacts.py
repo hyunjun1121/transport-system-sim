@@ -173,6 +173,11 @@ from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_PACKET_PATH,
 )
+from src.realworld.graph_scale_method_decision_packet import (  # noqa: E402
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_DOC_PATH,
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_MANIFEST_PATH,
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_PACKET_PATH,
+)
 from src.realworld.graph_scale_manifest_audit import (  # noqa: E402
     DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_DOC_PATH,
     DEFAULT_GRAPH_SCALE_MANIFEST_AUDIT_MANIFEST_PATH,
@@ -701,6 +706,11 @@ CSV_EXPECTATIONS = (
         5,
     ),
     CsvExpectation(
+        "graph_scale_method_decision_packet",
+        DEFAULT_GRAPH_SCALE_METHOD_DECISION_PACKET_PATH,
+        7,
+    ),
+    CsvExpectation(
         "full_graph_runtime_readiness_packet",
         DEFAULT_FULL_GRAPH_RUNTIME_READINESS_PACKET_PATH,
         4,
@@ -937,6 +947,10 @@ JSON_EXPECTATIONS = (
         DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "graph_scale_method_decision_manifest",
+        DEFAULT_GRAPH_SCALE_METHOD_DECISION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
         "full_graph_smoke_manifest",
         DEFAULT_FULL_GRAPH_SMOKE_MANIFEST_PATH,
     ),
@@ -1077,6 +1091,7 @@ DOC_EXPECTATIONS = (
     ROOT / "docs" / "graph_scale_diagnostics.md",
     ROOT / "docs" / "graph_scale_review_packet.md",
     DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_DOC_PATH,
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_DOC_PATH,
     ROOT / "docs" / "full_graph_smoke.md",
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
     ROOT / "docs" / "graph_scale_result_comparison.md",

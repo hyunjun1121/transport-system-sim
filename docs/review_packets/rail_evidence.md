@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T19:04:46+00:00`
+- Generated at: `2026-05-08T19:30:09+00:00`
 
 ## Decision
 

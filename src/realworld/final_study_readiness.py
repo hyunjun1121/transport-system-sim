@@ -26,6 +26,11 @@ from src.realworld.parameter_source_decision_packet import (
     DEFAULT_PARAMETER_SOURCE_DECISION_PACKET_PATH,
 )
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
+from src.realworld.graph_scale_method_decision_packet import (
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_DOC_PATH,
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_MANIFEST_PATH,
+    DEFAULT_GRAPH_SCALE_METHOD_DECISION_PACKET_PATH,
+)
 from src.realworld.experiment_acceptance import summarize_experiment_acceptance
 from src.realworld.experiment_design_decision_packet import (
     DEFAULT_EXPERIMENT_DESIGN_DECISION_DOC_PATH,
@@ -271,6 +276,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     graph_scale_strategy_readiness_manifest = _load_json(
         DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH
     )
+    graph_scale_method_decision_manifest = _load_json(
+        DEFAULT_GRAPH_SCALE_METHOD_DECISION_MANIFEST_PATH
+    )
     validation_strategy_readiness_manifest = _load_json(
         DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH
     )
@@ -309,6 +317,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             pilot_manifest,
             graph_scale_acceptance,
             graph_scale_strategy_readiness_manifest,
+            graph_scale_method_decision_manifest,
         ),
         _data_provenance_gate(
             reproducibility_manifest,
@@ -658,9 +667,11 @@ def _graph_scale_gate(
     pilot_manifest: dict[str, Any] | None,
     graph_scale_acceptance: dict[str, Any],
     graph_scale_strategy_readiness_manifest: dict[str, Any] | None = None,
+    graph_scale_method_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     accepted = bool(graph_scale_acceptance["acceptance_ready"])
     readiness = graph_scale_strategy_readiness_manifest or {}
+    method_decision = graph_scale_method_decision_manifest or {}
     readiness_remaining_blockers = _list_value(
         graph_scale_strategy_readiness_manifest,
         "remaining_blockers",
@@ -687,6 +698,23 @@ def _graph_scale_gate(
         readiness_packet_path.exists()
         and readiness_manifest_path.exists()
         and readiness_doc_path.exists()
+    )
+    method_decision_remaining_blockers = _list_value(
+        graph_scale_method_decision_manifest,
+        "remaining_blockers",
+    )
+    method_decision_blocking_count = _dict_int(
+        graph_scale_method_decision_manifest,
+        "blocking_decision_count",
+    )
+    method_decision_human_review_count = _dict_int(
+        graph_scale_method_decision_manifest,
+        "human_review_decision_count",
+    )
+    method_decision_artifacts_present = (
+        DEFAULT_GRAPH_SCALE_METHOD_DECISION_PACKET_PATH.exists()
+        and DEFAULT_GRAPH_SCALE_METHOD_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_GRAPH_SCALE_METHOD_DECISION_DOC_PATH.exists()
     )
     if not pilot_manifest:
         return _gate(
@@ -723,6 +751,28 @@ def _graph_scale_gate(
                     if readiness_human_review_count
                     else []
                 ),
+                *(
+                    [
+                        "resolve graph-scale method-decision blockers before graph-scale acceptance"
+                    ]
+                    if method_decision_blocking_count
+                    else []
+                ),
+                *(
+                    [
+                        f"graph-scale method decision: {item}"
+                        for item in method_decision_remaining_blockers
+                    ]
+                    if method_decision_blocking_count
+                    else []
+                ),
+                *(
+                    [
+                        "review graph-scale method-decision human-decision items before graph-scale acceptance"
+                    ]
+                    if method_decision_human_review_count
+                    else []
+                ),
             ],
             details={
                 "acceptance_record_present": graph_scale_acceptance["record_present"],
@@ -735,6 +785,18 @@ def _graph_scale_gate(
                     readiness_human_review_count
                 ),
                 "strategy_readiness_remaining_blockers": readiness_remaining_blockers,
+                "method_decision_manifest_present": bool(
+                    graph_scale_method_decision_manifest
+                ),
+                "method_decision_blocking_decision_count": (
+                    method_decision_blocking_count
+                ),
+                "method_decision_human_review_decision_count": (
+                    method_decision_human_review_count
+                ),
+                "method_decision_remaining_blockers": (
+                    method_decision_remaining_blockers
+                ),
             },
         )
     count_blockers = _graph_scale_count_blockers(
@@ -747,6 +809,8 @@ def _graph_scale_gate(
     ]
     if not readiness_artifacts_present:
         blockers.append("create graph-scale strategy-readiness artifacts")
+    if not method_decision_artifacts_present:
+        blockers.append("create graph-scale method-decision artifacts")
     if not accepted and readiness_blocking_count:
         blockers.append(
             "resolve graph-scale strategy-readiness blockers before graph-scale acceptance"
@@ -759,11 +823,32 @@ def _graph_scale_gate(
         blockers.append(
             "review graph-scale strategy-readiness human-decision items before graph-scale acceptance"
         )
+    if not accepted and method_decision_blocking_count:
+        blockers.append(
+            "resolve graph-scale method-decision blockers before graph-scale acceptance"
+        )
+        blockers.extend(
+            f"graph-scale method decision: {item}"
+            for item in method_decision_remaining_blockers
+        )
+    if not accepted and method_decision_human_review_count:
+        blockers.append(
+            "review graph-scale method-decision human-decision items before graph-scale acceptance"
+        )
     return _gate(
         "graph_scale_strategy",
         "Graph-Scale Strategy",
-        ready=accepted and not count_blockers and readiness_artifacts_present,
-        artifact_present="graph_scale" in pilot_manifest and readiness_artifacts_present,
+        ready=(
+            accepted
+            and not count_blockers
+            and readiness_artifacts_present
+            and method_decision_artifacts_present
+        ),
+        artifact_present=(
+            "graph_scale" in pilot_manifest
+            and readiness_artifacts_present
+            and method_decision_artifacts_present
+        ),
         evidence=[
             "data/manifests/graph_scale_acceptance.json",
             "docs/analysis_corridor_method_note.md",
@@ -779,6 +864,9 @@ def _graph_scale_gate(
             "data/validation/graph_scale_strategy_readiness_packet.csv",
             "data/validation/graph_scale_strategy_readiness_manifest.json",
             "docs/graph_scale_strategy_readiness_packet.md",
+            "data/validation/graph_scale_method_decision_packet.csv",
+            "data/validation/graph_scale_method_decision_manifest.json",
+            "docs/graph_scale_method_decision_packet.md",
             "data/validation/graph_scale_manifest_audit.csv",
             "data/validation/graph_scale_manifest_audit_manifest.json",
             "docs/graph_scale_manifest_audit.md",
@@ -790,6 +878,7 @@ def _graph_scale_gate(
             "scripts/audit_graph_scale_manifests.py",
             "scripts/write_graph_scale_review_packet.py",
             "scripts/write_graph_scale_strategy_readiness_packet.py",
+            "scripts/write_graph_scale_method_decision_packet.py",
             "scripts/write_graph_scale_result_comparison.py",
             "scripts/run_graph_scale_diagnostics.py",
             "results/realworld_pilot/pilot_multi_corridor_results.csv",
@@ -838,6 +927,35 @@ def _graph_scale_gate(
                 "publication_ready", False
             ),
             "strategy_readiness_can_mark_complete": readiness.get(
+                "can_mark_complete", False
+            ),
+            "method_decision_artifacts_present": method_decision_artifacts_present,
+            "method_decision_manifest_present": bool(
+                graph_scale_method_decision_manifest
+            ),
+            "method_decision_row_count": method_decision.get("row_count", 0),
+            "method_decision_blocking_decision_count": method_decision.get(
+                "blocking_decision_count", 0
+            ),
+            "method_decision_human_review_decision_count": method_decision.get(
+                "human_review_decision_count", 0
+            ),
+            "method_decision_status_counts": method_decision.get(
+                "decision_status_counts", {}
+            ),
+            "method_decision_selected_graph_method_recorded": method_decision.get(
+                "selected_graph_method_recorded", False
+            ),
+            "method_decision_downstream_regeneration_decision_recorded": (
+                method_decision.get(
+                    "downstream_regeneration_decision_recorded", False
+                )
+            ),
+            "method_decision_remaining_blockers": method_decision_remaining_blockers,
+            "method_decision_publication_ready": method_decision.get(
+                "publication_ready", False
+            ),
+            "method_decision_can_mark_complete": method_decision.get(
                 "can_mark_complete", False
             ),
         },

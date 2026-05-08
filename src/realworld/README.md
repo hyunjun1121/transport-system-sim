@@ -25,6 +25,7 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
   `data/validation/graph_scale_strategy_readiness_packet.csv`, and
   `data/validation/sensitivity_strategy_readiness_packet.csv`, and
   `data/manifests/experiment_strategy_readiness_packet.csv`, plus
+  `data/validation/graph_scale_method_decision_packet.csv`,
   `data/validation/validation_benchmark_decision_packet.csv`,
   `data/manifests/experiment_design_decision_packet.csv`, and
   `data/manifests/figure_table_review_packet.csv`, are implemented preflight
@@ -71,6 +72,10 @@ Implemented extension modules now also cover:
   reduced-corridor alternate-route warnings, incomplete multi-corridor output,
   full-profile candidate result deltas, missing full-graph outputs, and missing
   graph-scale acceptance without choosing a graph-scale method.
+- `graph_scale_method_decision_packet.py`: focused reviewer-decision worksheet
+  for reduced-corridor warning policy, multi-corridor/full-graph method
+  selection, graph-sensitive result deltas, downstream regeneration scope, and
+  the formal graph-scale acceptance boundary. It is not graph-scale acceptance.
 - `graph_scale_result_comparison.py`: generated current-vs-full-profile
   multi-corridor candidate result-delta worksheet. It is review support only
   and not graph-scale acceptance.

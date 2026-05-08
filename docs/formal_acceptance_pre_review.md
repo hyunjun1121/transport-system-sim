@@ -17,7 +17,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | Gate | Current Status | Recommendation | Formal Target | Missing Evidence | Human Action |
 | --- | --- | --- | --- | --- | --- |
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>data/manifests/pilot_acceptance.json is absent | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+6 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+16 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+32 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+17 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -101,6 +101,7 @@ Review packets:
 - data/validation/full_graph_runtime_readiness_packet.csv
 - data/validation/graph_scale_manifest_audit.csv
 - data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_method_decision_packet.csv
 
 Source paths:
 - results/realworld_pilot/pilot_full_manifest.json
@@ -110,6 +111,7 @@ Source paths:
 - data/validation/full_graph_runtime_readiness_packet.csv
 - data/validation/graph_scale_manifest_audit.csv
 - data/validation/graph_scale_strategy_readiness_packet.csv
+- data/validation/graph_scale_method_decision_packet.csv
 - data/validation/graph_scale_result_comparison.csv
 - data/manifests/graph_scale_acceptance.json
 
@@ -121,6 +123,7 @@ Evidence inspected:
 - `data/validation/full_graph_runtime_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_manifest_audit.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_strategy_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_method_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/manifests/graph_scale_acceptance.json`: absent; formal artifact absent; expected until source-backed human approval exists
 - `docs/review_packets/graph_scale_strategy.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -131,6 +134,8 @@ Evidence inspected:
 - `data/validation/full_graph_runtime_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_manifest_audit_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_strategy_readiness_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `data/validation/graph_scale_method_decision_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/graph_scale_method_decision_packet.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_result_comparison_manifest.json`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_route_comparison_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/validation/graph_scale_alternate_routes_summary.md`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -141,6 +146,7 @@ Evidence inspected:
 - `scripts/audit_graph_scale_manifests.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_review_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_strategy_readiness_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
+- `scripts/write_graph_scale_method_decision_packet.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/write_graph_scale_result_comparison.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/run_graph_scale_diagnostics.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `results/realworld_pilot/pilot_multi_corridor_results.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -158,6 +164,12 @@ Missing evidence:
 - graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
+- resolve graph-scale method-decision blockers before graph-scale acceptance
+- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
+- graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
+- graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
+- review graph-scale method-decision human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 
 Residual risks:
@@ -170,6 +182,12 @@ Residual risks:
 - graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
+- resolve graph-scale method-decision blockers before graph-scale acceptance
+- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
+- graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
+- graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
+- graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
+- review graph-scale method-decision human-decision items before graph-scale acceptance
 - data/manifests/graph_scale_acceptance.json is absent
 - Draft recommendation could be overread as formal approval if copied into a final acceptance path.
 - Final-study readiness remains false until formal validators accept source-backed records.

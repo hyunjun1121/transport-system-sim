@@ -126,6 +126,7 @@
         "data/validation/full_graph_runtime_readiness_packet.csv",
         "data/validation/graph_scale_manifest_audit.csv",
         "data/validation/graph_scale_strategy_readiness_packet.csv",
+        "data/validation/graph_scale_method_decision_packet.csv",
         "docs/review_packets/graph_scale_strategy.md"
       ],
       "reviewed_inputs": [
@@ -136,6 +137,8 @@
         "data/validation/full_graph_runtime_readiness_manifest.json",
         "data/validation/graph_scale_manifest_audit_manifest.json",
         "data/validation/graph_scale_strategy_readiness_manifest.json",
+        "data/validation/graph_scale_method_decision_manifest.json",
+        "docs/graph_scale_method_decision_packet.md",
         "data/validation/graph_scale_result_comparison.csv",
         "data/validation/graph_scale_result_comparison_manifest.json"
       ],
@@ -152,6 +155,7 @@
         "data/validation/full_graph_runtime_readiness_packet.csv",
         "data/validation/graph_scale_manifest_audit.csv",
         "data/validation/graph_scale_strategy_readiness_packet.csv",
+        "data/validation/graph_scale_method_decision_packet.csv",
         "data/validation/graph_scale_result_comparison.csv"
       ]
     },

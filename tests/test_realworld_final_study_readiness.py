@@ -118,6 +118,33 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["graph_scale_strategy"]["blockers"]
     )
+    assert (
+        gate_map["graph_scale_strategy"]["details"][
+            "method_decision_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["graph_scale_strategy"]["details"]["method_decision_row_count"]
+        == 7
+    )
+    assert (
+        gate_map["graph_scale_strategy"]["details"][
+            "method_decision_blocking_decision_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["graph_scale_strategy"]["details"][
+            "method_decision_human_review_decision_count"
+        ]
+        == 3
+    )
+    assert any(
+        "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent"
+        in item
+        for item in gate_map["graph_scale_strategy"]["blockers"]
+    )
     assert gate_map["data_provenance"]["ready"] is False
     assert (
         gate_map["data_provenance"]["details"][

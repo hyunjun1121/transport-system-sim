@@ -74,6 +74,10 @@ from src.realworld.graph_scale_strategy_readiness_packet import (  # noqa: E402
     build_graph_scale_strategy_readiness_rows,
     write_graph_scale_strategy_readiness_packet,
 )
+from src.realworld.graph_scale_method_decision_packet import (  # noqa: E402
+    build_graph_scale_method_decision_rows,
+    write_graph_scale_method_decision_packet,
+)
 from src.realworld.parameter_evidence_request_packet import (  # noqa: E402
     build_parameter_evidence_source_request_rows,
     write_parameter_evidence_source_request_packet,
@@ -412,6 +416,9 @@ def _refresh_existing_review_packets(
     )
     write_graph_scale_strategy_readiness_packet(rows=graph_scale_readiness_rows)
     refreshed.append("data/validation/graph_scale_strategy_readiness_packet.csv")
+    graph_scale_method_decision_rows = build_graph_scale_method_decision_rows()
+    write_graph_scale_method_decision_packet(rows=graph_scale_method_decision_rows)
+    refreshed.append("data/validation/graph_scale_method_decision_packet.csv")
     parameter_rows = build_parameter_review_rows()
     write_parameter_review_packet(rows=parameter_rows)
     refreshed.append("data/parameters/parameter_evidence_review_packet.csv")
