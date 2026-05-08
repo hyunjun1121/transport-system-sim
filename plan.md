@@ -230,6 +230,12 @@ First pilot-smoke artifacts also exist:
   scaffold result scope, graph-scale dependency, input-evidence dependency,
   row-count/checksum/design/CRN review, and missing experiment acceptance
   without accepting full pilot outputs.
+- `src/realworld/experiment_design_decision_packet.py` and
+  `scripts/write_experiment_design_decision_packet.py` now turn the remaining
+  run-profile and scenario-policy-seed choices into 8 reviewer rows. The
+  generated packet compares sample/staged/full profiles and the multi-corridor
+  full candidate while keeping graph-scope, input-evidence, result-scope, and
+  missing formal acceptance blockers visible.
 - `src/realworld/provenance_acceptance.py` and
   `docs/provenance_acceptance_schema.md` define the explicit review record
   required before the data-provenance gate can close. The actual
@@ -550,6 +556,10 @@ First pilot-smoke artifacts also exist:
   auditable by checking current full output counts, checksums, design counts,
   graph/input dependencies, and formal acceptance absence without approving the
   run package.
+- `src/realworld/experiment_design_decision_packet.py` adds a focused
+  non-approval worksheet for deciding whether to retain the current full
+  profile, move to the multi-corridor full candidate, regenerate after
+  graph/input acceptance, or keep current outputs as review evidence only.
 - `scripts/run_sensitivity.py --sample` writes deterministic one-at-a-time
   sensitivity screening outputs and a SALib-compatible manifest.
 - `scripts/run_sensitivity.py --method morris --all` writes current SALib
@@ -2059,6 +2069,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
@@ -2208,9 +2219,10 @@ Concrete next tasks:
 9. Review the current sample/staged/full pilot runner outputs as the candidate
    accepted scenario, policy, and seed design. Use
    `data/manifests/experiment_package_review_packet.csv` and
-   `data/manifests/experiment_strategy_readiness_packet.csv` as the
-   row-count/checksum/design/dependency worksheets before creating any
-   experiment acceptance record.
+   `data/manifests/experiment_strategy_readiness_packet.csv` with
+   `data/manifests/experiment_design_decision_packet.csv` as the
+   row-count/checksum/design/dependency and run-profile decision worksheets
+   before creating any experiment acceptance record.
 10. Regenerate pilot-region figures, paper tables, Korean report updates, and
    final reproducibility manifests after validation passes; keep the current
    regenerated report in scaffold scope until manuscript acceptance is reviewed.

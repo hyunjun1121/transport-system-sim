@@ -25,7 +25,8 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
   `data/validation/graph_scale_strategy_readiness_packet.csv`, and
   `data/validation/sensitivity_strategy_readiness_packet.csv`, and
   `data/manifests/experiment_strategy_readiness_packet.csv`, plus
-  `data/validation/validation_benchmark_decision_packet.csv`, are implemented
+  `data/validation/validation_benchmark_decision_packet.csv` and
+  `data/manifests/experiment_design_decision_packet.csv`, are implemented
   preflight or decision-review aids only.
 - Current abstract-network and pilot outputs are not calibrated real-world
   results, formal approvals, or operational route plans.
@@ -184,6 +185,11 @@ Implemented extension modules now also cover:
   classifies full-experiment blockers and human-review items before any formal
   experiment acceptance record is created. It does not accept full outputs or
   calibrated result claims.
+- `experiment_design_decision_packet.py`: focused run-profile and
+  scenario-policy-seed reviewer worksheet. It compares sample/staged/full
+  profiles and the multi-corridor full candidate, while keeping graph-scope,
+  input-evidence, result-scope, regeneration, and formal acceptance decisions
+  blocked or in human-review scope.
 - `sensitivity.py`: deterministic one-at-a-time sensitivity screening with
   SALib-compatible problem metadata for later Morris/Sobol expansion.
 - `sensitivity_acceptance.py`: explicit sensitivity method, parameter range,

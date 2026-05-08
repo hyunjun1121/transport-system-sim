@@ -340,6 +340,23 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["full_experiment_output"]["blockers"]
     )
+    assert (
+        gate_map["full_experiment_output"]["details"][
+            "design_decision_blocking_decision_count"
+        ]
+        == 4
+    )
+    assert (
+        gate_map["full_experiment_output"]["details"][
+            "design_decision_human_review_decision_count"
+        ]
+        == 4
+    )
+    assert any(
+        "experiment design decision: data/manifests/experiment_acceptance.json is absent"
+        in item
+        for item in gate_map["full_experiment_output"]["blockers"]
+    )
     assert gate_map["manuscript_report_alignment"]["ready"] is False
     assert (
         gate_map["manuscript_report_alignment"]["details"][

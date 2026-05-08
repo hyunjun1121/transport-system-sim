@@ -34,6 +34,12 @@
       "path": "data/manifests/experiment_strategy_readiness_packet.csv"
     },
     {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_design_decision_packet.csv"
+    },
+    {
       "claim_supported": "Formal target required for full_experiment_output",
       "exists": false,
       "notes": "formal artifact absent; expected until source-backed human approval exists",
@@ -79,6 +85,18 @@
       "claim_supported": "Repository evidence cited for full_experiment_output",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/experiment_design_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/experiment_design_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/experiment_package_review_packet.md"
     },
     {
@@ -86,6 +104,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "docs/experiment_strategy_readiness_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for full_experiment_output",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_experiment_design_decision_packet.py"
     }
   ],
   "files_to_create_or_update_after_human_decision": [
@@ -97,7 +121,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/experiment_acceptance.json",
   "gate": "full_experiment_output",
-  "generated_at": "2026-05-08T17:03:53+00:00",
+  "generated_at": "2026-05-08T17:23:23+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -116,6 +140,12 @@
     "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
+    "resolve experiment design-decision blockers before experiment acceptance",
+    "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance",
     "data/manifests/experiment_acceptance.json is absent"
@@ -131,7 +161,11 @@
     "docs/experiment_package_review_packet.md",
     "data/manifests/experiment_strategy_readiness_packet.csv",
     "data/manifests/experiment_strategy_readiness_manifest.json",
-    "docs/experiment_strategy_readiness_packet.md"
+    "docs/experiment_strategy_readiness_packet.md",
+    "data/manifests/experiment_design_decision_packet.csv",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md",
+    "scripts/write_experiment_design_decision_packet.py"
   ],
   "recommendation": "blocked_missing_evidence",
   "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
@@ -148,6 +182,12 @@
     "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
+    "resolve experiment design-decision blockers before experiment acceptance",
+    "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance",
     "data/manifests/experiment_acceptance.json is absent",
@@ -157,14 +197,17 @@
   "review_packets": [
     "docs/review_packets/full_experiment_output.md",
     "data/manifests/experiment_package_review_packet.csv",
-    "data/manifests/experiment_strategy_readiness_packet.csv"
+    "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_design_decision_packet.csv"
   ],
   "reviewed_inputs": [
     "scripts/run_pilot_experiments.py",
     "data/scenarios/disruption_scenarios.csv",
     "data/scenarios/policy_alternatives.csv",
     "data/manifests/experiment_package_review_manifest.json",
-    "data/manifests/experiment_strategy_readiness_manifest.json"
+    "data/manifests/experiment_strategy_readiness_manifest.json",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md"
   ],
   "schema_version": 1,
   "source_paths": [
@@ -173,6 +216,7 @@
     "results/realworld_pilot/pilot_full_summary.csv",
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_design_decision_packet.csv",
     "data/manifests/experiment_acceptance.json"
   ],
   "status": "draft_pre_review"

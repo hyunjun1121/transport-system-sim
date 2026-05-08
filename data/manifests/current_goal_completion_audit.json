@@ -466,7 +466,11 @@
         "docs/experiment_package_review_packet.md",
         "data/manifests/experiment_strategy_readiness_packet.csv",
         "data/manifests/experiment_strategy_readiness_manifest.json",
-        "docs/experiment_strategy_readiness_packet.md"
+        "docs/experiment_strategy_readiness_packet.md",
+        "data/manifests/experiment_design_decision_packet.csv",
+        "data/manifests/experiment_design_decision_manifest.json",
+        "docs/experiment_design_decision_packet.md",
+        "scripts/write_experiment_design_decision_packet.py"
       ],
       "gate_id": "full_experiment_output",
       "label": "Full Experiment Output",
@@ -478,6 +482,12 @@
         "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
         "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
         "review experiment strategy-readiness human-decision items before experiment acceptance",
+        "resolve experiment design-decision blockers before experiment acceptance",
+        "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+        "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+        "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+        "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+        "review experiment design-decision human-decision items before experiment acceptance",
         "accept or regenerate full pilot outputs after input validation and graph-scale decision",
         "review experiment-package rows before formal experiment acceptance"
       ],

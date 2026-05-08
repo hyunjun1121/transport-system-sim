@@ -16,7 +16,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 10 |
 | `validation_package` | Validation Benchmark Strategy Agent | `needs_human_review` | `false` | 13 |
 | `sensitivity_analysis` | Sensitivity Analysis Review Agent | `blocked` | `false` | 10 |
-| `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 11 |
+| `full_experiment_output` | Full Experiment Package Agent | `blocked` | `false` | 17 |
 | `manuscript_report_alignment` | Paper / Report Claim Alignment Agent | `blocked` | `false` | 9 |
 | `reproducibility` | Clean-Checkout Reproducibility Agent | `blocked` | `false` | 4 |
 | `final_audit` | Final Independent Audit Agent | `blocked` | `false` | 5 |
@@ -80,6 +80,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Sensitivity Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; +4 more |
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
+| `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
 | `Formal Acceptance Blocker Queue` | 15 | 15 | 15 | 0 | `false` | blocked=15 |
@@ -88,7 +89,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Acceptance Pre-Review` | 12 | 12 | 12 | 0 | `false` | blocked_missing_evidence=8; blocked_requires_human_decision=4 |
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
-| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=637 |
+| `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=647 |
 | `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
@@ -114,6 +115,7 @@ Priority blockers by packet:
 - `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
+- `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
@@ -211,6 +213,12 @@ Priority blockers by packet:
 - full_experiment_output: experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
 - full_experiment_output: experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - full_experiment_output: review experiment strategy-readiness human-decision items before experiment acceptance
+- full_experiment_output: resolve experiment design-decision blockers before experiment acceptance
+- full_experiment_output: experiment design decision: experiment outputs depend on a graph method that is not accepted
+- full_experiment_output: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- full_experiment_output: experiment design decision: current full-pilot result scope is scaffold or not calibrated
+- full_experiment_output: experiment design decision: data/manifests/experiment_acceptance.json is absent
+- full_experiment_output: review experiment design-decision human-decision items before experiment acceptance
 - full_experiment_output: accept or regenerate full pilot outputs after input validation and graph-scale decision
 - full_experiment_output: review experiment-package rows before formal experiment acceptance
 - manuscript_report_alignment: Revise or hold claims until all supporting evidence gates are accepted.
@@ -306,6 +314,12 @@ Priority blockers by packet:
 - Full Experiment Output: experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
 - Full Experiment Output: experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - Full Experiment Output: review experiment strategy-readiness human-decision items before experiment acceptance
+- Full Experiment Output: resolve experiment design-decision blockers before experiment acceptance
+- Full Experiment Output: experiment design decision: experiment outputs depend on a graph method that is not accepted
+- Full Experiment Output: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- Full Experiment Output: experiment design decision: current full-pilot result scope is scaffold or not calibrated
+- Full Experiment Output: experiment design decision: data/manifests/experiment_acceptance.json is absent
+- Full Experiment Output: review experiment design-decision human-decision items before experiment acceptance
 - Full Experiment Output: accept or regenerate full pilot outputs after input validation and graph-scale decision
 - Full Experiment Output: review experiment-package rows before formal experiment acceptance
 - Manuscript Report Alignment: close evidence gates before final paper/report claims

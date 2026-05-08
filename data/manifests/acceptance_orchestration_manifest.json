@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-08T17:04:22+00:00",
+  "generated_at": "2026-05-08T17:23:51+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -95,8 +95,8 @@
       "can_mark_complete": false,
       "gate_id": "full_experiment_output",
       "record_path": "data/manifests/agent_reviews/full_experiment_output__full_experiment_package_agent.json",
-      "required_action_count": 11,
-      "risk_count": 11,
+      "required_action_count": 17,
+      "risk_count": 17,
       "status": "blocked"
     },
     {
@@ -223,6 +223,12 @@
     "full_experiment_output: experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "full_experiment_output: experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "full_experiment_output: review experiment strategy-readiness human-decision items before experiment acceptance",
+    "full_experiment_output: resolve experiment design-decision blockers before experiment acceptance",
+    "full_experiment_output: experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "full_experiment_output: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "full_experiment_output: experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "full_experiment_output: experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "full_experiment_output: review experiment design-decision human-decision items before experiment acceptance",
     "full_experiment_output: accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "full_experiment_output: review experiment-package rows before formal experiment acceptance",
     "manuscript_report_alignment: Revise or hold claims until all supporting evidence gates are accepted.",
@@ -318,6 +324,12 @@
     "Full Experiment Output: experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "Full Experiment Output: experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "Full Experiment Output: review experiment strategy-readiness human-decision items before experiment acceptance",
+    "Full Experiment Output: resolve experiment design-decision blockers before experiment acceptance",
+    "Full Experiment Output: experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "Full Experiment Output: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "Full Experiment Output: experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "Full Experiment Output: experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "Full Experiment Output: review experiment design-decision human-decision items before experiment acceptance",
     "Full Experiment Output: accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "Full Experiment Output: review experiment-package rows before formal experiment acceptance",
     "Manuscript Report Alignment: close evidence gates before final paper/report claims",
@@ -1047,6 +1059,43 @@
       }
     },
     {
+      "blocking_count": 4,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 4,
+      "label": "Experiment Design Decision",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/manifests/experiment_design_decision_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "experiment outputs depend on a graph method that is not accepted",
+        "upstream input, road override, parameter, validation, or provenance gates are not accepted",
+        "current full-pilot result scope is scaffold or not calibrated",
+        "data/manifests/experiment_acceptance.json is absent"
+      ],
+      "result_scope": "Experiment design-decision packet only; not experiment acceptance, not calibrated real-world results, not graph-scale acceptance, and not operational routing evidence.",
+      "review_items": [
+        "choose whether the current full_pilot or multi-corridor full candidate is the run profile to review",
+        "review the 7-policy, 9-scenario, 30-seed design and excluded policy treatment",
+        "resolve graph-scale and upstream input-evidence dependencies before accepting outputs",
+        "decide whether outputs must be regenerated after graph/input acceptance",
+        "record final experiment decisions only in data/manifests/experiment_acceptance.json"
+      ],
+      "row_count": 8,
+      "snapshot_id": "experiment_design_decision",
+      "status_counts": {
+        "blocked_graph_scale_dependency": 1,
+        "blocked_input_evidence_dependency": 1,
+        "blocked_missing_experiment_acceptance_record": 1,
+        "blocked_scaffold_or_not_calibrated_experiment_scope": 1,
+        "needs_human_review_current_full_profile_scope": 1,
+        "needs_human_review_multi_corridor_profile_scope": 1,
+        "needs_human_review_regenerate_or_retain_outputs": 1,
+        "needs_human_review_scenario_policy_seed_design": 1
+      }
+    },
+    {
       "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
@@ -1278,7 +1327,7 @@
       "snapshot_id": "agent_review_path_audit",
       "status_counts": {
         "missing_formal_target": 36,
-        "present": 637
+        "present": 647
       }
     },
     {

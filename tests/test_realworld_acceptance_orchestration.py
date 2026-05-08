@@ -133,6 +133,9 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
     assert "data/manifests/experiment_strategy_readiness_packet.csv" in (
         experiment_agent.review_packet_paths
     )
+    assert "data/manifests/experiment_design_decision_packet.csv" in (
+        experiment_agent.review_packet_paths
+    )
 
     reproducibility_agent = agents["clean_checkout_reproducibility_agent"]
     assert "data/validation/tracked_artifact_audit.csv" in (
@@ -163,6 +166,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "publication_readiness_audit" in snapshot_ids
     assert "source_context_cache_request" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
+    assert "experiment_design_decision" in snapshot_ids
 
 
 def test_acceptance_orchestration_blocks_nonready_gate_without_completion() -> None:
@@ -253,6 +257,28 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "data/manifests/validation_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        experiment_design_snapshot_path = root / "experiment_design_decision_manifest.json"
+        experiment_design_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 8,
+                    "blocking_decision_count": 4,
+                    "human_review_decision_count": 4,
+                    "experiment_gate_closure_candidate_count": 0,
+                    "can_mark_complete": False,
+                    "publication_ready": False,
+                    "decision_status_counts": {
+                        "blocked_missing_experiment_acceptance_record": 1,
+                        "needs_human_review_scenario_policy_seed_design": 1,
+                    },
+                    "remaining_blockers": [
+                        "data/manifests/experiment_acceptance.json is absent"
                     ],
                 }
             )
@@ -461,6 +487,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     validation_decision_snapshot_path,
                 ),
                 (
+                    "experiment_design_decision",
+                    "Experiment Design Decision",
+                    experiment_design_snapshot_path,
+                ),
+                (
                     "graph_scale_result_comparison",
                     "Graph-Scale Result Comparison",
                     graph_result_snapshot_path,
@@ -544,6 +575,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 1
         )
+        assert snapshots["experiment_design_decision"]["blocking_count"] == 4
+        assert snapshots["experiment_design_decision"]["human_review_count"] == 4
+        assert (
+            snapshots["experiment_design_decision"]["status_counts"][
+                "blocked_missing_experiment_acceptance_record"
+            ]
+            == 1
+        )
         assert (
             snapshots["graph_scale_result_comparison"]["status_counts"][
                 "candidate_worsens"
@@ -616,6 +655,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "Review Packet Status Snapshots" in index_text
         assert "`Validation Benchmark Readiness`" in index_text
         assert "`Validation Benchmark Decision`" in index_text
+        assert "`Experiment Design Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
@@ -629,12 +669,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=4" in index_text
         assert "needs_human_review_cached_osrm_scope_policy=1" in index_text
+        assert "needs_human_review_scenario_policy_seed_design=1" in index_text
         assert "blocked_missing_evidence=8" in index_text
         assert "missing_formal_target=36" in index_text
         assert "generated_review_artifact=2" in index_text
         assert "missing_acceptance_artifact=12" in index_text
         assert "parameter evidence: weak assumptions remain" in index_text
         assert "blocked_missing_validation_acceptance_record=1" in index_text
+        assert "blocked_missing_experiment_acceptance_record=1" in index_text
 
         first_record_path = Path(manifest["records"][0]["record_path"])
         if not first_record_path.is_absolute():

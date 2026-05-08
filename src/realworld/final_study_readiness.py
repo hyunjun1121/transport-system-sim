@@ -22,6 +22,11 @@ from src.realworld.parameter_evidence_priority_packet import (
 )
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
 from src.realworld.experiment_acceptance import summarize_experiment_acceptance
+from src.realworld.experiment_design_decision_packet import (
+    DEFAULT_EXPERIMENT_DESIGN_DECISION_DOC_PATH,
+    DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
+    DEFAULT_EXPERIMENT_DESIGN_DECISION_PACKET_PATH,
+)
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
 from src.realworld.pilot_acceptance import summarize_pilot_acceptance
 from src.realworld.provenance_acceptance import summarize_provenance_acceptance
@@ -177,6 +182,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     experiment_strategy_readiness_manifest = _load_json(
         DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH
     )
+    experiment_design_decision_manifest = _load_json(
+        DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH
+    )
     morris_manifest = _load_json(
         PROJECT_ROOT / "results" / "realworld_pilot" / "morris_manifest.json"
     )
@@ -298,6 +306,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             experiment_acceptance,
             experiment_package_review_manifest,
             experiment_strategy_readiness_manifest,
+            experiment_design_decision_manifest,
         ),
         _manuscript_report_gate(
             figure_manifest,
@@ -1867,6 +1876,7 @@ def _full_experiment_gate(
     experiment_acceptance: dict[str, Any],
     experiment_package_review_manifest: dict[str, Any] | None = None,
     experiment_strategy_readiness_manifest: dict[str, Any] | None = None,
+    experiment_design_decision_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     artifact_present = bool(pilot_manifest)
     strategy_readiness_packet_path = (
@@ -1880,10 +1890,16 @@ def _full_experiment_gate(
         and DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH.exists()
         and strategy_readiness_doc_path.exists()
     )
+    design_decision_artifacts_present = (
+        DEFAULT_EXPERIMENT_DESIGN_DECISION_PACKET_PATH.exists()
+        and DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH.exists()
+        and DEFAULT_EXPERIMENT_DESIGN_DECISION_DOC_PATH.exists()
+    )
     status = str((pilot_manifest or {}).get("design_status", ""))
     scope = str((pilot_manifest or {}).get("result_scope", ""))
     acceptance_ready = bool(experiment_acceptance["acceptance_ready"])
     strategy_readiness = experiment_strategy_readiness_manifest or {}
+    design_decision = experiment_design_decision_manifest or {}
     strategy_remaining_blockers = _list_value(
         experiment_strategy_readiness_manifest,
         "remaining_blockers",
@@ -1896,6 +1912,18 @@ def _full_experiment_gate(
         experiment_strategy_readiness_manifest,
         "human_review_request_count",
     )
+    design_decision_blocking_count = _dict_int(
+        experiment_design_decision_manifest,
+        "blocking_decision_count",
+    )
+    design_decision_human_review_count = _dict_int(
+        experiment_design_decision_manifest,
+        "human_review_decision_count",
+    )
+    design_decision_remaining_blockers = _list_value(
+        experiment_design_decision_manifest,
+        "remaining_blockers",
+    )
     scope_blocked = _experiment_scope_is_blocked(scope, status)
     count_blockers = _experiment_count_blockers(
         pilot_manifest,
@@ -1907,12 +1935,17 @@ def _full_experiment_gate(
         and strategy_readiness_artifacts_present
         and strategy_blocking_count == 0
         and strategy_human_review_count == 0
+        and design_decision_artifacts_present
+        and design_decision_blocking_count == 0
+        and design_decision_human_review_count == 0
         and not scope_blocked
         and not count_blockers
     )
     blockers: list[str] = []
     if not strategy_readiness_artifacts_present:
         blockers.append("create experiment strategy-readiness packet, manifest, and doc")
+    if not design_decision_artifacts_present:
+        blockers.append("create experiment design-decision packet, manifest, and doc")
     if not artifact_present:
         blockers.append("create full pilot outputs and manifest")
     if not acceptance_ready:
@@ -1928,6 +1961,18 @@ def _full_experiment_gate(
     if strategy_human_review_count:
         blockers.append(
             "review experiment strategy-readiness human-decision items before experiment acceptance"
+        )
+    if design_decision_blocking_count:
+        blockers.append(
+            "resolve experiment design-decision blockers before experiment acceptance"
+        )
+        blockers.extend(
+            f"experiment design decision: {item}"
+            for item in design_decision_remaining_blockers
+        )
+    if design_decision_human_review_count:
+        blockers.append(
+            "review experiment design-decision human-decision items before experiment acceptance"
         )
     if scope_blocked:
         blockers.append(
@@ -1955,6 +2000,10 @@ def _full_experiment_gate(
             "data/manifests/experiment_strategy_readiness_packet.csv",
             "data/manifests/experiment_strategy_readiness_manifest.json",
             "docs/experiment_strategy_readiness_packet.md",
+            "data/manifests/experiment_design_decision_packet.csv",
+            "data/manifests/experiment_design_decision_manifest.json",
+            "docs/experiment_design_decision_packet.md",
+            "scripts/write_experiment_design_decision_packet.py",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -1992,6 +2041,34 @@ def _full_experiment_gate(
                 "publication_ready", False
             ),
             "strategy_readiness_can_mark_complete": strategy_readiness.get(
+                "can_mark_complete", False
+            ),
+            "design_decision_artifacts_present": design_decision_artifacts_present,
+            "design_decision_manifest_present": bool(
+                experiment_design_decision_manifest
+            ),
+            "design_decision_blocking_decision_count": (
+                design_decision_blocking_count
+            ),
+            "design_decision_human_review_decision_count": (
+                design_decision_human_review_count
+            ),
+            "design_decision_status_counts": design_decision.get(
+                "decision_status_counts", {}
+            ),
+            "design_decision_remaining_blockers": (
+                design_decision_remaining_blockers
+            ),
+            "design_decision_selected_run_profile_recorded": design_decision.get(
+                "selected_run_profile_recorded", False
+            ),
+            "design_decision_scenario_policy_seed_decision_recorded": (
+                design_decision.get("scenario_policy_seed_decision_recorded", False)
+            ),
+            "design_decision_publication_ready": design_decision.get(
+                "publication_ready", False
+            ),
+            "design_decision_can_mark_complete": design_decision.get(
                 "can_mark_complete", False
             ),
         },

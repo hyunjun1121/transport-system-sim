@@ -15,10 +15,14 @@
     "data/manifests/experiment_strategy_readiness_packet.csv",
     "data/manifests/experiment_strategy_readiness_manifest.json",
     "docs/experiment_strategy_readiness_packet.md",
+    "data/manifests/experiment_design_decision_packet.csv",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md",
+    "scripts/write_experiment_design_decision_packet.py",
     "docs/review_packets/full_experiment_output.md"
   ],
   "gate_id": "full_experiment_output",
-  "generated_at": "2026-05-08T17:04:22+00:00",
+  "generated_at": "2026-05-08T17:23:51+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Regenerate or accept full outputs after input, graph-scale, and validation gates close.",
@@ -30,12 +34,19 @@
     "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
+    "resolve experiment design-decision blockers before experiment acceptance",
+    "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance"
   ],
   "review_packet_paths": [
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_design_decision_packet.csv",
     "docs/review_packets/full_experiment_output.md"
   ],
   "reviewed_inputs": [
@@ -44,6 +55,8 @@
     "data/scenarios/policy_alternatives.csv",
     "data/manifests/experiment_package_review_manifest.json",
     "data/manifests/experiment_strategy_readiness_manifest.json",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md",
     "data/manifests/experiment_acceptance.json",
     "results/realworld_pilot/pilot_full_results.csv",
     "results/realworld_pilot/pilot_full_summary.csv",
@@ -51,7 +64,9 @@
     "data/manifests/experiment_package_review_packet.csv",
     "docs/experiment_package_review_packet.md",
     "data/manifests/experiment_strategy_readiness_packet.csv",
-    "docs/experiment_strategy_readiness_packet.md"
+    "docs/experiment_strategy_readiness_packet.md",
+    "data/manifests/experiment_design_decision_packet.csv",
+    "scripts/write_experiment_design_decision_packet.py"
   ],
   "risks": [
     "Current outputs are useful scaffold runs, not final calibrated study results.",
@@ -63,6 +78,12 @@
     "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
+    "resolve experiment design-decision blockers before experiment acceptance",
+    "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance"
   ],
@@ -73,6 +94,7 @@
     "results/realworld_pilot/pilot_full_summary.csv",
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_strategy_readiness_packet.csv",
+    "data/manifests/experiment_design_decision_packet.csv",
     "data/manifests/experiment_acceptance.json"
   ],
   "status": "blocked"

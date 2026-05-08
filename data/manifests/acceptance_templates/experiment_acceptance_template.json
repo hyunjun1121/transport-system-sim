@@ -14,7 +14,11 @@
     "docs/experiment_package_review_packet.md",
     "data/manifests/experiment_strategy_readiness_packet.csv",
     "data/manifests/experiment_strategy_readiness_manifest.json",
-    "docs/experiment_strategy_readiness_packet.md"
+    "docs/experiment_strategy_readiness_packet.md",
+    "data/manifests/experiment_design_decision_packet.csv",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md",
+    "scripts/write_experiment_design_decision_packet.py"
   ],
   "expected_row_count": 1890,
   "expected_summary_row_count": 63,

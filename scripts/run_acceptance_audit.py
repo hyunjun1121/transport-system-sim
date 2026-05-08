@@ -39,6 +39,10 @@ from src.realworld.experiment_package_review_packet import (  # noqa: E402
     build_experiment_package_review_rows,
     write_experiment_package_review_packet,
 )
+from src.realworld.experiment_design_decision_packet import (  # noqa: E402
+    build_experiment_design_decision_rows,
+    write_experiment_design_decision_packet,
+)
 from src.realworld.experiment_strategy_readiness_packet import (  # noqa: E402
     build_experiment_strategy_readiness_rows,
     write_experiment_strategy_readiness_packet,
@@ -484,6 +488,9 @@ def _refresh_existing_review_packets(
     )
     write_experiment_strategy_readiness_packet(rows=experiment_readiness_rows)
     refreshed.append("data/manifests/experiment_strategy_readiness_packet.csv")
+    experiment_design_decision_rows = build_experiment_design_decision_rows()
+    write_experiment_design_decision_packet(rows=experiment_design_decision_rows)
+    refreshed.append("data/manifests/experiment_design_decision_packet.csv")
     benchmark_readiness_rows = build_validation_benchmark_readiness_rows()
     write_validation_benchmark_readiness_packet(rows=benchmark_readiness_rows)
     refreshed.append("data/validation/validation_benchmark_readiness_packet.csv")

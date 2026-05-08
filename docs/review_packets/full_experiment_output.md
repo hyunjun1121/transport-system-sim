@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Full Experiment Package Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T17:04:22+00:00`
+- Generated at: `2026-05-08T17:23:51+00:00`
 
 ## Decision
 
@@ -19,6 +19,8 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - data/scenarios/policy_alternatives.csv
 - data/manifests/experiment_package_review_manifest.json
 - data/manifests/experiment_strategy_readiness_manifest.json
+- data/manifests/experiment_design_decision_manifest.json
+- docs/experiment_design_decision_packet.md
 - data/manifests/experiment_acceptance.json
 - results/realworld_pilot/pilot_full_results.csv
 - results/realworld_pilot/pilot_full_summary.csv
@@ -27,6 +29,8 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - docs/experiment_package_review_packet.md
 - data/manifests/experiment_strategy_readiness_packet.csv
 - docs/experiment_strategy_readiness_packet.md
+- data/manifests/experiment_design_decision_packet.csv
+- scripts/write_experiment_design_decision_packet.py
 
 ## Evidence And Source Paths
 
@@ -40,6 +44,10 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - data/manifests/experiment_strategy_readiness_packet.csv
 - data/manifests/experiment_strategy_readiness_manifest.json
 - docs/experiment_strategy_readiness_packet.md
+- data/manifests/experiment_design_decision_packet.csv
+- data/manifests/experiment_design_decision_manifest.json
+- docs/experiment_design_decision_packet.md
+- scripts/write_experiment_design_decision_packet.py
 - docs/review_packets/full_experiment_output.md
 
 ## Risks
@@ -53,6 +61,12 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
 - experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
+- resolve experiment design-decision blockers before experiment acceptance
+- experiment design decision: experiment outputs depend on a graph method that is not accepted
+- experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment design decision: current full-pilot result scope is scaffold or not calibrated
+- experiment design decision: data/manifests/experiment_acceptance.json is absent
+- review experiment design-decision human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 
@@ -67,6 +81,12 @@ Full Experiment Package Agent cannot accept gate full_experiment_output; the cur
 - experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
 - experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - review experiment strategy-readiness human-decision items before experiment acceptance
+- resolve experiment design-decision blockers before experiment acceptance
+- experiment design decision: experiment outputs depend on a graph method that is not accepted
+- experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- experiment design decision: current full-pilot result scope is scaffold or not calibrated
+- experiment design decision: data/manifests/experiment_acceptance.json is absent
+- review experiment design-decision human-decision items before experiment acceptance
 - accept or regenerate full pilot outputs after input validation and graph-scale decision
 - review experiment-package rows before formal experiment acceptance
 
@@ -91,6 +111,12 @@ Formal acceptance artifacts:
     "experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted",
     "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
+    "resolve experiment design-decision blockers before experiment acceptance",
+    "experiment design decision: experiment outputs depend on a graph method that is not accepted",
+    "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
+    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
+    "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
     "review experiment-package rows before formal experiment acceptance"
   ],
@@ -98,6 +124,30 @@ Formal acceptance artifacts:
     "acceptance_path": "data/manifests/experiment_acceptance.json",
     "acceptance_record_present": false,
     "accepted_run_profile": "",
+    "design_decision_artifacts_present": true,
+    "design_decision_blocking_decision_count": 4,
+    "design_decision_can_mark_complete": false,
+    "design_decision_human_review_decision_count": 4,
+    "design_decision_manifest_present": true,
+    "design_decision_publication_ready": false,
+    "design_decision_remaining_blockers": [
+      "experiment outputs depend on a graph method that is not accepted",
+      "upstream input, road override, parameter, validation, or provenance gates are not accepted",
+      "current full-pilot result scope is scaffold or not calibrated",
+      "data/manifests/experiment_acceptance.json is absent"
+    ],
+    "design_decision_scenario_policy_seed_decision_recorded": false,
+    "design_decision_selected_run_profile_recorded": false,
+    "design_decision_status_counts": {
+      "blocked_graph_scale_dependency": 1,
+      "blocked_input_evidence_dependency": 1,
+      "blocked_missing_experiment_acceptance_record": 1,
+      "blocked_scaffold_or_not_calibrated_experiment_scope": 1,
+      "needs_human_review_current_full_profile_scope": 1,
+      "needs_human_review_multi_corridor_profile_scope": 1,
+      "needs_human_review_regenerate_or_retain_outputs": 1,
+      "needs_human_review_scenario_policy_seed_design": 1
+    },
     "design_status": "accepted_full_profile_pending_input_validation_and_compute_budget",
     "experiment_package_review_count_mismatch_count": 0,
     "experiment_package_review_manifest_present": true,
@@ -140,7 +190,11 @@ Formal acceptance artifacts:
     "docs/experiment_package_review_packet.md",
     "data/manifests/experiment_strategy_readiness_packet.csv",
     "data/manifests/experiment_strategy_readiness_manifest.json",
-    "docs/experiment_strategy_readiness_packet.md"
+    "docs/experiment_strategy_readiness_packet.md",
+    "data/manifests/experiment_design_decision_packet.csv",
+    "data/manifests/experiment_design_decision_manifest.json",
+    "docs/experiment_design_decision_packet.md",
+    "scripts/write_experiment_design_decision_packet.py"
   ],
   "gate_id": "full_experiment_output",
   "label": "Full Experiment Output",

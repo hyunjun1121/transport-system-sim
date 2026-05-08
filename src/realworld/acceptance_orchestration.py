@@ -158,6 +158,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "experiment_strategy_readiness_manifest.json",
     ),
     (
+        "experiment_design_decision",
+        "Experiment Design Decision",
+        PROJECT_ROOT / "data" / "manifests" / "experiment_design_decision_manifest.json",
+    ),
+    (
         "reproducibility_review",
         "Reproducibility Review",
         PROJECT_ROOT / "data" / "validation" / "reproducibility_review_manifest.json",
@@ -597,6 +602,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "results/realworld_pilot/pilot_full_summary.csv",
             "data/manifests/experiment_package_review_packet.csv",
             "data/manifests/experiment_strategy_readiness_packet.csv",
+            "data/manifests/experiment_design_decision_packet.csv",
         ),
         reviewed_inputs=(
             "scripts/run_pilot_experiments.py",
@@ -604,10 +610,13 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/scenarios/policy_alternatives.csv",
             "data/manifests/experiment_package_review_manifest.json",
             "data/manifests/experiment_strategy_readiness_manifest.json",
+            "data/manifests/experiment_design_decision_manifest.json",
+            "docs/experiment_design_decision_packet.md",
         ),
         review_packet_paths=(
             "data/manifests/experiment_package_review_packet.csv",
             "data/manifests/experiment_strategy_readiness_packet.csv",
+            "data/manifests/experiment_design_decision_packet.csv",
             "docs/review_packets/full_experiment_output.md",
         ),
         decision_rules=(
