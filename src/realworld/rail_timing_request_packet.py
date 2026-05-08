@@ -33,8 +33,8 @@ DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH = (
 DEFAULT_RAIL_CACHE_PREFIX = "pilot"
 KTDB_GTFS_SOURCE_NAME = "KTDB public transport GTFS dataset candidate"
 KTDB_GTFS_SOURCE_CITATION = (
-    "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106; "
-    "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3772"
+    "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3785; "
+    "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106"
 )
 RAIL_TIMING_SOURCE_REQUEST_SCOPE = (
     "Rail timing source-request packet; not cached rail timing evidence, "
