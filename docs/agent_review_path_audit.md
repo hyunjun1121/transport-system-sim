@@ -7,8 +7,8 @@ This audit checks sub-agent review-record path hygiene only. It does not approve
 - Agent review paths ready: `true`
 - Can mark complete: `false`
 - Review records: 12
-- Path references: 512
-- Present paths: 476
+- Path references: 527
+- Present paths: 491
 - Missing required paths: 0
 - Missing formal targets: 36
 

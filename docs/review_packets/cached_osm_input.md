@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-08T12:27:27+00:00`
+- Generated at: `2026-05-08T12:39:59+00:00`
 
 ## Decision
 
@@ -20,6 +20,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/parameters/road_evidence_review_packet.csv
 - data/road/road_evidence_source_request_packet.csv
 - data/road/road_source_readiness_manifest.json
+- data/road/road_evidence_priority_manifest.json
 - data/parameters/rail_evidence_review_packet.csv
 - data/rail/rail_timing_source_request_packet.csv
 - data/rail/rail_fetch_readiness_manifest.json
@@ -33,11 +34,14 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/road/road_evidence_source_request_manifest.json
 - data/road/road_source_readiness_packet.csv
 - docs/road_source_readiness_packet.md
+- data/road/road_evidence_priority_packet.csv
+- docs/road_evidence_priority_packet.md
 - scripts/write_road_speed_evidence.py
 - scripts/write_road_capacity_evidence.py
 - scripts/write_road_evidence_review_packet.py
 - scripts/write_road_evidence_source_request_packet.py
 - scripts/write_road_source_readiness_packet.py
+- scripts/write_road_evidence_priority_packet.py
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
 - scripts/audit_road_overrides.py
@@ -57,11 +61,15 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - data/road/road_source_readiness_packet.csv
 - data/road/road_source_readiness_manifest.json
 - docs/road_source_readiness_packet.md
+- data/road/road_evidence_priority_packet.csv
+- data/road/road_evidence_priority_manifest.json
+- docs/road_evidence_priority_packet.md
 - scripts/write_road_speed_evidence.py
 - scripts/write_road_capacity_evidence.py
 - scripts/write_road_evidence_review_packet.py
 - scripts/write_road_evidence_source_request_packet.py
 - scripts/write_road_source_readiness_packet.py
+- scripts/write_road_evidence_priority_packet.py
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
 - scripts/audit_road_overrides.py
@@ -146,6 +154,18 @@ Formal acceptance artifacts:
       "primary",
       "trunk"
     ],
+    "road_evidence_priority_artifacts_present": true,
+    "road_evidence_priority_blocking_priority_count": 5,
+    "road_evidence_priority_can_mark_complete": false,
+    "road_evidence_priority_exposed_highway_count": 7,
+    "road_evidence_priority_publication_ready": false,
+    "road_evidence_priority_row_count": 11,
+    "road_evidence_priority_status_counts": {
+      "blocked_exposed_connector_assumption": 1,
+      "blocked_exposed_high_priority_road_evidence_gap": 4,
+      "needs_review_exposed_medium_priority_road_evidence_gap": 2,
+      "queued_no_current_canonical_route_exposure": 4
+    },
     "road_override_draft_row_count": 10,
     "road_override_draft_table_present": true,
     "road_publication_ready": false,
@@ -187,11 +207,15 @@ Formal acceptance artifacts:
     "data/road/road_source_readiness_packet.csv",
     "data/road/road_source_readiness_manifest.json",
     "docs/road_source_readiness_packet.md",
+    "data/road/road_evidence_priority_packet.csv",
+    "data/road/road_evidence_priority_manifest.json",
+    "docs/road_evidence_priority_packet.md",
     "scripts/write_road_speed_evidence.py",
     "scripts/write_road_capacity_evidence.py",
     "scripts/write_road_evidence_review_packet.py",
     "scripts/write_road_evidence_source_request_packet.py",
     "scripts/write_road_source_readiness_packet.py",
+    "scripts/write_road_evidence_priority_packet.py",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
     "scripts/audit_road_overrides.py"
