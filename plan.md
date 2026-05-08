@@ -654,6 +654,14 @@ First pilot-smoke artifacts also exist:
   `--preserve-existing-live` carries forward prior live rows during offline
   refreshes. None of these modes certify licenses, source suitability, or
   provenance acceptance.
+- `src/realworld/source_url_remediation_packet.py` and
+  `scripts/write_source_url_remediation_packet.py` now convert URL status rows
+  into a remediation queue at
+  `data/manifests/source_url_remediation_packet.csv`,
+  `data/manifests/source_url_remediation_manifest.json`, and
+  `docs/source_url_remediation_packet.md`. This keeps unreachable, alternate,
+  local-citation, and reachable-but-still-unreviewed source actions visible
+  without closing the provenance gate.
 - `src/realworld/manuscript_acceptance.py` keeps the manuscript/report gate
   blocked until paper/report text, regenerated docx, figures/tables, evidence
   gates, result claims, and the not-operational claim boundary are reviewed
@@ -731,6 +739,8 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python tests\test_realworld_source_url_review_packet.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
+.\.venv\Scripts\python tests\test_realworld_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
@@ -1926,6 +1936,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
 .\.venv\Scripts\python scripts\audit_source_provenance.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
+.\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py

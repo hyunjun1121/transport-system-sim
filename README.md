@@ -667,6 +667,10 @@ Implemented pieces:
   provenance. Use `--preserve-existing-live` during offline refreshes when the
   existing packet already contains live reachability rows that should remain
   visible for review.
+- `scripts/write_source_url_remediation_packet.py` converts URL review rows
+  into a source-remediation queue for unreachable, alternate, local-citation,
+  and reachable-but-still-unreviewed source actions. It is a provenance review
+  aid only.
 - `scripts/write_experiment_package_review_packet.py` checks the full pilot
   manifest, result CSV, summary CSV, design counts, CRN declaration, graph
   scope, input dependencies, and checksums without accepting the experiment.
@@ -746,6 +750,7 @@ Default validation is offline:
 .\.venv\Scripts\python tests\test_realworld_provenance_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_source_license_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_source_url_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_source_url_remediation_packet.py
 .\.venv\Scripts\python tests\test_realworld_manuscript_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_claim_alignment_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_reproducibility_acceptance.py
@@ -807,6 +812,8 @@ OSRM benchmark command:
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
+.\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
+.\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\audit_rail_evidence.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
