@@ -354,6 +354,140 @@ def test_reproducibility_review_records_clean_checkout_ancestor_relation() -> No
     print("PASS: reproducibility review records clean-checkout ancestor relation")
 
 
+def test_reproducibility_review_preserves_clean_checkout_freshness_snapshot() -> None:
+    """Writer should not churn solely because the packaging commit moved."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        manifest = root / "reproducibility_manifest.json"
+        package_doc = root / "reproducibility_package.md"
+        goal_audit = root / "goal.md"
+        goal_manifest = root / "goal.json"
+        clean_checkout = root / "clean_checkout.json"
+        acceptance = root / "reproducibility_acceptance.json"
+        output = root / "reproducibility_review.csv"
+        manifest_output = root / "reproducibility_review_manifest.json"
+        scan_dir = root / "src"
+        scan_dir.mkdir()
+        (scan_dir / "ok.py").write_text("import os\n", encoding="utf-8")
+        manifest.write_text(
+            json.dumps(
+                {
+                    "scope": "scaffold-only test package",
+                    "commands": ["cmd"],
+                    "validation_commands": ["test"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        package_doc.write_text("This scaffold package is not final.\n", encoding="utf-8")
+        goal_audit.write_text("Final-study ready: `false`\n", encoding="utf-8")
+        goal_manifest.write_text(
+            json.dumps({"final_study_ready": False, "can_mark_complete": False}),
+            encoding="utf-8",
+        )
+        clean_checkout.write_text(
+            json.dumps(
+                {
+                    "result_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
+                    "command_count": 1,
+                    "passed_count": 1,
+                    "failed_count": 0,
+                    "smoke_passed": True,
+                    "clean_checkout_test_performed": True,
+                    "full_clean_environment_tested": True,
+                    "artifact_regeneration_tested": True,
+                    "source": {
+                        "source_commit": "source-parent",
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        original_head = packet_module._git_head_commit
+        original_relation = packet_module._source_commit_relation_to_review_head
+
+        def first_relation(
+            source_commit: str, review_head: str
+        ) -> tuple[str, int, bool]:
+            assert source_commit == "source-parent"
+            assert review_head == "review-head-1"
+            return "ancestor_of_review_head", 2, True
+
+        def second_relation(
+            source_commit: str, review_head: str
+        ) -> tuple[str, int, bool]:
+            assert source_commit == "source-parent"
+            assert review_head == "review-head-2"
+            return "ancestor_of_review_head", 3, True
+
+        try:
+            packet_module._git_head_commit = lambda: "review-head-1"
+            packet_module._source_commit_relation_to_review_head = first_relation
+            rows = build_reproducibility_review_rows(
+                reproducibility_manifest_path=manifest,
+                reproducibility_acceptance_path=acceptance,
+                reproducibility_package_doc_path=package_doc,
+                goal_audit_path=goal_audit,
+                goal_audit_manifest_path=goal_manifest,
+                clean_checkout_smoke_manifest_path=clean_checkout,
+                git_status_lines=(),
+                scan_dirs=(scan_dir,),
+            )
+            write_reproducibility_review_packet(
+                rows=rows,
+                output_path=output,
+                manifest_path=manifest_output,
+                reproducibility_manifest_path=manifest,
+                reproducibility_acceptance_path=acceptance,
+                goal_audit_manifest_path=goal_manifest,
+                clean_checkout_smoke_manifest_path=clean_checkout,
+                git_status_lines=(),
+                scan_dirs=(scan_dir,),
+            )
+
+            packet_module._git_head_commit = lambda: "review-head-2"
+            packet_module._source_commit_relation_to_review_head = second_relation
+            rows = build_reproducibility_review_rows(
+                reproducibility_manifest_path=manifest,
+                reproducibility_acceptance_path=acceptance,
+                reproducibility_package_doc_path=package_doc,
+                goal_audit_path=goal_audit,
+                goal_audit_manifest_path=goal_manifest,
+                clean_checkout_smoke_manifest_path=clean_checkout,
+                git_status_lines=(),
+                scan_dirs=(scan_dir,),
+            )
+            value = write_reproducibility_review_packet(
+                rows=rows,
+                output_path=output,
+                manifest_path=manifest_output,
+                reproducibility_manifest_path=manifest,
+                reproducibility_acceptance_path=acceptance,
+                goal_audit_manifest_path=goal_manifest,
+                clean_checkout_smoke_manifest_path=clean_checkout,
+                git_status_lines=(),
+                scan_dirs=(scan_dir,),
+            )
+        finally:
+            packet_module._git_head_commit = original_head
+            packet_module._source_commit_relation_to_review_head = original_relation
+
+        with output.open("r", encoding="utf-8", newline="") as handle:
+            written_rows = list(csv.DictReader(handle))
+        by_category = {row["category_id"]: row for row in written_rows}
+        detail = by_category["bounded_clean_checkout_smoke"]["status_detail"]
+
+        assert value["review_git_head_commit"] == "review-head-1"
+        assert value["clean_checkout_smoke_source_commit_lag_count"] == 2
+        assert "review_git_head_commit=review-head-1" in detail
+        assert "source_commit_lag_count=2" in detail
+        assert "review_git_head_commit=review-head-2" not in detail
+        assert "source_commit_lag_count=3" not in detail
+
+    print("PASS: reproducibility review preserves clean-checkout freshness snapshot")
+
+
 def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
     """Writer should emit stable CSV fields and non-acceptance manifest."""
 
@@ -461,6 +595,7 @@ if __name__ == "__main__":
     test_reproducibility_review_detects_cloned_repo_imports()
     test_reproducibility_review_records_clean_checkout_commit_match()
     test_reproducibility_review_records_clean_checkout_ancestor_relation()
+    test_reproducibility_review_preserves_clean_checkout_freshness_snapshot()
     test_write_reproducibility_review_packet_outputs_csv_and_manifest()
     test_writer_captures_git_status_before_writing_outputs()
     print("\n=== REALWORLD REPRODUCIBILITY REVIEW PACKET TESTS PASSED ===")

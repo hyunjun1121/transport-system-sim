@@ -8,6 +8,7 @@ reproduction, and it never writes ``reproducibility_acceptance.json``.
 from __future__ import annotations
 
 import csv
+import io
 import ast
 import json
 import subprocess
@@ -18,6 +19,8 @@ from src.realworld.clean_checkout_smoke import (
     DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     summarize_clean_checkout_smoke,
 )
+from src.realworld.manifest_timestamp import write_json_manifest_if_changed
+from src.realworld.manifest_timestamp import write_text_if_changed
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -169,15 +172,10 @@ def write_reproducibility_review_packet(
     modified_count = _git_status_prefix_count(status_lines, prefixes=("M", "A", "D", "R", "C"))
     untracked_count = _git_status_prefix_count(status_lines, prefixes=("??",))
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=REPRODUCIBILITY_REVIEW_COLUMNS,
-            extrasaction="ignore",
-        )
-        writer.writeheader()
-        writer.writerows(rows)
+    stable_rows = _preserve_clean_checkout_row_freshness_when_only_head_moved(
+        rows,
+        output,
+    )
 
     value = {
         "schema_version": 1,
@@ -257,9 +255,17 @@ def write_reproducibility_review_packet(
             "record any accepted decision only in data/manifests/reproducibility_acceptance.json",
         ],
     }
-    with manifest_output.open("w", encoding="utf-8") as handle:
-        json.dump(value, handle, indent=2, sort_keys=True)
-        handle.write("\n")
+    _preserve_clean_checkout_manifest_freshness_when_only_head_moved(
+        value,
+        manifest_output,
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    write_text_if_changed(
+        _render_reproducibility_review_csv(stable_rows),
+        output,
+    )
+    manifest_output.parent.mkdir(parents=True, exist_ok=True)
+    write_json_manifest_if_changed(value, manifest_output, sort_keys=True)
     return value
 
 
@@ -538,6 +544,112 @@ def _review_row(
         "evidence_paths": "; ".join(_display_path(path) for path in evidence_paths),
         "claim_boundary": REPRODUCIBILITY_REVIEW_PACKET_SCOPE,
     }
+
+
+def _render_reproducibility_review_csv(rows: Sequence[Mapping[str, str]]) -> str:
+    output = io.StringIO(newline="")
+    writer = csv.DictWriter(
+        output,
+        fieldnames=REPRODUCIBILITY_REVIEW_COLUMNS,
+        extrasaction="ignore",
+        lineterminator="\n",
+    )
+    writer.writeheader()
+    writer.writerows(rows)
+    return output.getvalue()
+
+
+def _preserve_clean_checkout_row_freshness_when_only_head_moved(
+    rows: Sequence[Mapping[str, str]],
+    output_path: Path,
+) -> list[dict[str, str]]:
+    """Keep prior clean-checkout freshness detail if only HEAD moved."""
+
+    current_rows = [dict(row) for row in rows]
+    if not output_path.exists():
+        return current_rows
+    try:
+        with output_path.open("r", encoding="utf-8", newline="") as handle:
+            previous_rows = list(csv.DictReader(handle))
+    except OSError:
+        return current_rows
+    previous_by_category = {
+        str(row.get("category_id", "")): row for row in previous_rows
+    }
+    previous_row = previous_by_category.get("bounded_clean_checkout_smoke")
+    current_row = next(
+        (
+            row
+            for row in current_rows
+            if row.get("category_id") == "bounded_clean_checkout_smoke"
+        ),
+        None,
+    )
+    if previous_row is None or current_row is None:
+        return current_rows
+    previous_comparable = dict(previous_row)
+    current_comparable = dict(current_row)
+    previous_comparable["status_detail"] = _normalize_clean_checkout_status_detail(
+        str(previous_comparable.get("status_detail", ""))
+    )
+    current_comparable["status_detail"] = _normalize_clean_checkout_status_detail(
+        str(current_comparable.get("status_detail", ""))
+    )
+    if previous_comparable == current_comparable:
+        current_row["status_detail"] = str(previous_row.get("status_detail", ""))
+    return current_rows
+
+
+def _preserve_clean_checkout_manifest_freshness_when_only_head_moved(
+    manifest: dict[str, Any],
+    manifest_path: Path,
+) -> None:
+    """Keep prior commit-freshness fields if only the review HEAD moved."""
+
+    if not manifest_path.exists():
+        return
+    try:
+        previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return
+    if not isinstance(previous, dict):
+        return
+
+    volatile_fields = {
+        "review_git_head_commit",
+        "clean_checkout_smoke_matches_review_head",
+        "clean_checkout_smoke_source_commit_relation_to_review_head",
+        "clean_checkout_smoke_source_commit_lag_count",
+        "clean_checkout_smoke_source_commit_reachable_from_review_head",
+    }
+    previous_comparable = dict(previous)
+    current_comparable = dict(manifest)
+    for field in volatile_fields:
+        previous_comparable.pop(field, None)
+        current_comparable.pop(field, None)
+    if previous_comparable != current_comparable:
+        return
+    for field in volatile_fields:
+        if field in previous:
+            manifest[field] = previous[field]
+
+
+def _normalize_clean_checkout_status_detail(value: str) -> str:
+    dynamic_keys = {
+        "review_git_head_commit",
+        "matches_review_head",
+        "source_commit_relation_to_review_head",
+        "source_commit_lag_count",
+        "source_commit_reachable_from_review_head",
+    }
+    parts = []
+    for raw_part in value.split("; "):
+        key, separator, _raw_value = raw_part.partition("=")
+        if separator and key in dynamic_keys:
+            parts.append(f"{key}=<dynamic>")
+        else:
+            parts.append(raw_part)
+    return "; ".join(parts)
 
 
 def _git_status_lines() -> list[str]:
