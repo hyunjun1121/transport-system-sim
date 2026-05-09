@@ -300,7 +300,7 @@ Missing evidence:
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
-- source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
@@ -310,7 +310,7 @@ Missing evidence:
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
-- source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
 - source provenance decision: data/manifests/provenance_acceptance.json is absent
 - review source-provenance decision human-decision items before provenance acceptance
@@ -326,7 +326,7 @@ Residual risks:
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
-- source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
@@ -336,7 +336,7 @@ Residual risks:
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
-- source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
 - source provenance decision: data/manifests/provenance_acceptance.json is absent
 - review source-provenance decision human-decision items before provenance acceptance

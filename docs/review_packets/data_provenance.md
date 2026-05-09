@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Generated at: `2026-05-09T04:10:50+00:00`
 
 ## Decision
 
@@ -102,7 +102,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
-- source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
@@ -112,7 +112,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
-- source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
 - source provenance decision: data/manifests/provenance_acceptance.json is absent
 - review source-provenance decision human-decision items before provenance acceptance
@@ -128,7 +128,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
-- source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
@@ -138,7 +138,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
-- source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions
+- source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
 - source provenance decision: data/manifests/provenance_acceptance.json is absent
 - review source-provenance decision human-decision items before provenance acceptance
@@ -164,7 +164,7 @@ Formal acceptance artifacts:
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",
-    "source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "source context cache request: formal provenance acceptance record is absent",
     "source context cache decision: formal provenance acceptance record is absent",
@@ -174,7 +174,7 @@ Formal acceptance artifacts:
     "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "resolve source-provenance decision blockers before provenance acceptance",
-    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "source provenance decision: reproducibility manifest remains scaffold-only",
     "source provenance decision: data/manifests/provenance_acceptance.json is absent",
     "review source-provenance decision human-decision items before provenance acceptance"
@@ -214,7 +214,7 @@ Formal acceptance artifacts:
     "source_provenance_decision_publication_ready": false,
     "source_provenance_decision_recorded": false,
     "source_provenance_decision_remaining_blockers": [
-      "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+      "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
       "reproducibility manifest remains scaffold-only",
       "data/manifests/provenance_acceptance.json is absent"
     ],

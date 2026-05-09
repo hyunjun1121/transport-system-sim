@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T03:27:07+00:00",
+  "generated_at": "2026-05-09T04:10:50+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -147,7 +147,7 @@
     "data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
-    "data_provenance: source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "data_provenance: source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "data_provenance: source context cache request: formal provenance acceptance record is absent",
     "data_provenance: source context cache decision: formal provenance acceptance record is absent",
@@ -157,7 +157,7 @@
     "data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "data_provenance: resolve source-provenance decision blockers before provenance acceptance",
-    "data_provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "data_provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "data_provenance: source provenance decision: reproducibility manifest remains scaffold-only",
     "data_provenance: source provenance decision: data/manifests/provenance_acceptance.json is absent",
     "data_provenance: review source-provenance decision human-decision items before provenance acceptance",
@@ -347,7 +347,7 @@
     "Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
-    "Data Provenance: source context cache request: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "Data Provenance: source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "Data Provenance: source context cache request: formal provenance acceptance record is absent",
     "Data Provenance: source context cache decision: formal provenance acceptance record is absent",
@@ -357,7 +357,7 @@
     "Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
     "Data Provenance: resolve source-provenance decision blockers before provenance acceptance",
-    "Data Provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "Data Provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "Data Provenance: source provenance decision: reproducibility manifest remains scaffold-only",
     "Data Provenance: source provenance decision: data/manifests/provenance_acceptance.json is absent",
     "Data Provenance: review source-provenance decision human-decision items before provenance acceptance",
@@ -521,13 +521,13 @@
       "path": "data/manifests/source_context_cache_request_manifest.json",
       "publication_ready": false,
       "remaining_blockers": [
-        "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+        "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
         "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
         "formal provenance acceptance record is absent"
       ],
       "result_scope": "Source context-cache request packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
       "review_items": [
-        "for each row, either cache the reviewed source extract with terms/attribution review or exclude the source from final claims",
+        "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from final claims",
         "retain raw API/page responses when a source is cached for reproducibility",
         "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
         "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed"
@@ -581,7 +581,7 @@
       "path": "data/manifests/source_provenance_decision_manifest.json",
       "publication_ready": false,
       "remaining_blockers": [
-        "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+        "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
         "reproducibility manifest remains scaffold-only",
         "data/manifests/provenance_acceptance.json is absent"
       ],
