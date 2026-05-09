@@ -252,22 +252,55 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
+.\.venv\Scripts\python scripts\audit_rail_evidence.py
+.\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
+.\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
+.\.venv\Scripts\python scripts\audit_rail_station_bindings.py
+.\.venv\Scripts\python scripts\audit_road_evidence.py
+.\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py
+.\.venv\Scripts\python scripts\write_road_capacity_evidence.py
+.\.venv\Scripts\python scripts\write_road_speed_evidence.py
+.\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
+.\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_road_source_decision_packet.py
+.\.venv\Scripts\python scripts\write_road_class_override_template.py --output data\parameters\road_class_overrides_draft.csv --overwrite
+.\.venv\Scripts\python scripts\audit_parameter_evidence.py
+.\.venv\Scripts\python scripts\write_parameter_review_packet.py
+.\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\run_full_graph_smoke.py
+.\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py
 .\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
+.\.venv\Scripts\python scripts\audit_graph_scale_manifests.py
 .\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_decision_packet.py
+.\.venv\Scripts\python scripts\run_plausibility_validation.py
+.\.venv\Scripts\python scripts\run_accessibility_loss_analysis.py
+.\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
+.\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
+.\.venv\Scripts\python scripts\write_validation_review_packet.py
+.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --multi-corridor
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --multi-corridor-full
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --full
+.\.venv\Scripts\python scripts\run_sensitivity.py --sample
+.\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all
+.\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
@@ -275,15 +308,16 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_experiment_package_review_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py
+.\.venv\Scripts\python scripts\make_pilot_statistics.py
+.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
+.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
+.\.venv\Scripts\python scripts\make_pilot_figures.py
 .\.venv\Scripts\python scripts\write_figure_table_review_packet.py
 .\.venv\Scripts\python scripts\write_claim_alignment_review_packet.py
 .\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_review_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py
 .\.venv\Scripts\python scripts\write_final_audit_decision_packet.py
-.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
-.\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
-.\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
 .\.venv\Scripts\python scripts\write_acceptance_decision_templates.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_blocker_queue.py
 .\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
@@ -298,6 +332,8 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\run_clean_checkout_smoke.py
 .\.venv\Scripts\python scripts\audit_publication_readiness.py --fail-on-blockers
 .\.venv\Scripts\python scripts\audit_final_study_readiness.py --fail-on-blockers
+.\.venv\Scripts\python scripts\write_goal_completion_audit.py
+.\.venv\Scripts\python generate_report.py
 Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }
 rg -n "(^|\s)(from|import)\s+cloned_repo" src tests scripts
 git diff --check

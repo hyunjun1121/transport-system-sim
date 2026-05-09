@@ -67,6 +67,17 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "scripts\\write_road_evidence_priority_packet.py" in text
     assert "scripts\\write_parameter_evidence_priority_packet.py" in text
     assert "scripts\\write_rail_evidence_priority_packet.py" in text
+    assert "scripts\\run_graph_scale_diagnostics.py" in text
+    assert "scripts\\write_graph_scale_result_comparison.py" in text
+    assert "scripts\\audit_graph_scale_manifests.py" in text
+    assert "scripts\\write_rail_evidence_review_packet.py" in text
+    assert "scripts\\write_road_capacity_evidence.py" in text
+    assert "scripts\\write_parameter_review_packet.py" in text
+    assert "scripts\\run_plausibility_validation.py" in text
+    assert "scripts\\write_route_road_evidence_exposure.py" in text
+    assert "scripts\\run_pilot_experiments.py --full" in text
+    assert "scripts\\run_sensitivity.py --method morris --all" in text
+    assert "scripts\\make_pilot_figures.py" in text
     assert "scripts\\write_sensitivity_method_decision_packet.py" in text
     assert "scripts\\write_experiment_design_decision_packet.py" in text
     assert "scripts\\write_figure_table_review_packet.py" in text
@@ -76,6 +87,8 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "scripts\\write_formal_acceptance_blocker_queue.py" in text
     assert "scripts\\run_reproducibility_smoke.py" in text
     assert "scripts\\run_clean_checkout_smoke.py" in text
+    assert "scripts\\write_goal_completion_audit.py" in text
+    assert "generate_report.py" in text
 
 
 def test_goal_completion_audit_lists_final_acceptance_artifacts() -> None:
