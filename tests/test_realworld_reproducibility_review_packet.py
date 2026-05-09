@@ -538,6 +538,16 @@ def test_write_reproducibility_review_packet_outputs_csv_and_manifest() -> None:
             is False
         )
         assert isinstance(value["review_git_head_commit"], str)
+        assert (
+            "last committed source tree tested"
+            in value["clean_checkout_freshness_snapshot_note"]
+        )
+        assert "data/validation/reproducibility_review_packet.csv" in value[
+            "git_status_ignored_generated_outputs"
+        ]
+        assert "data/validation/clean_checkout_reproducibility_smoke_manifest.json" in value[
+            "git_status_ignored_generated_outputs"
+        ]
         assert value["acceptance_gate_closure_candidate_count"] == 0
         assert written_manifest["row_count"] == 8
         assert written_manifest["input_artifact_paths"][

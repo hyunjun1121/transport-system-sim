@@ -70,6 +70,10 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
             "source_commit_relation=ancestor_of_review_head"
             in clean_checkout_evidence
         )
+    assert (
+        "freshness_reference=last_clean_checkout_smoke_source_commit"
+        in clean_checkout_evidence
+    )
     assert by_id["clean_checkout_evidence_scope_decision"]["blocking_reason"] == ""
     assert {row["claim_boundary"] for row in rows} == {
         REPRODUCIBILITY_DECISION_SCOPE

@@ -534,6 +534,7 @@ def _clean_checkout_evidence(
         f"matches_review_head={str(review_manifest.get('clean_checkout_smoke_matches_review_head', False)).lower()}; "
         f"source_commit_relation={review_manifest.get('clean_checkout_smoke_source_commit_relation_to_review_head', '')}; "
         f"source_commit_lag_count={review_manifest.get('clean_checkout_smoke_source_commit_lag_count', '')}; "
+        "freshness_reference=last_clean_checkout_smoke_source_commit; "
         f"full_clean_environment_tested={str(review_manifest.get('full_clean_environment_tested', False)).lower()}; "
         f"dependency_install_tested={str(clean_checkout_smoke.get('dependency_install_tested', False)).lower()}; "
         f"source_commit={source.get('source_commit', '')}"

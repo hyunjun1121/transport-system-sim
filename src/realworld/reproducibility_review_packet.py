@@ -62,6 +62,12 @@ REPRODUCIBILITY_REVIEW_GIT_STATUS_IGNORED_OUTPUTS: frozenset[str] = frozenset(
         *REPRODUCIBILITY_REVIEW_SELF_OUTPUTS,
     }
 )
+REPRODUCIBILITY_REVIEW_FRESHNESS_SNAPSHOT_NOTE = (
+    "Clean-checkout commit fields describe the last committed source tree tested "
+    "by scripts/run_clean_checkout_smoke.py. A later packaging commit may commit "
+    "only generated evidence; use git rev-parse HEAD for the current repository "
+    "head and rerun clean-checkout smoke after source or validation-scope changes."
+)
 
 REPRODUCIBILITY_REVIEW_PACKET_SCOPE = (
     "reproducibility_review_packet_not_reproducibility_acceptance"
@@ -242,6 +248,12 @@ def write_reproducibility_review_packet(
         ),
         "clean_checkout_smoke_source_commit_reachable_from_review_head": (
             clean_checkout_smoke_source_commit_reachable
+        ),
+        "clean_checkout_freshness_snapshot_note": (
+            REPRODUCIBILITY_REVIEW_FRESHNESS_SNAPSHOT_NOTE
+        ),
+        "git_status_ignored_generated_outputs": sorted(
+            REPRODUCIBILITY_REVIEW_GIT_STATUS_IGNORED_OUTPUTS
         ),
         "clean_checkout_test_performed": clean_checkout_smoke[
             "clean_checkout_test_performed"
