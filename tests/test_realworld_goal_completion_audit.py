@@ -76,8 +76,10 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "scripts\\write_rail_evidence_review_packet.py" in text
     assert "scripts\\write_road_capacity_evidence.py" in text
     assert "scripts\\write_parameter_review_packet.py" in text
+    assert "scripts\\write_transfer_evidence_review_packet.py" in text
     assert "scripts\\run_plausibility_validation.py" in text
     assert "scripts\\write_route_road_evidence_exposure.py" in text
+    assert "scripts\\write_osm_graph_snapshot_review_packet.py" in text
     assert "scripts\\run_pilot_experiments.py --full" in text
     assert "scripts\\run_sensitivity.py --method morris --all" in text
     assert "scripts\\make_pilot_figures.py" in text

@@ -2169,6 +2169,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
+.\.venv\Scripts\python scripts\write_transfer_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
@@ -2199,6 +2200,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_osrm_snapshot_manifest.py
 .\.venv\Scripts\python scripts\write_route_road_evidence_exposure.py
 .\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
+.\.venv\Scripts\python scripts\write_osm_graph_snapshot_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py

@@ -60,6 +60,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
+.\.venv\Scripts\python scripts\write_transfer_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
@@ -68,6 +69,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py
+.\.venv\Scripts\python scripts\write_osm_graph_snapshot_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
