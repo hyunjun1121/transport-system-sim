@@ -137,7 +137,7 @@ real-world extension:
   bus-practical graph. This packet supports method selection but does not
   replace a reviewed graph-scale acceptance record.
 - `data/validation/graph_scale_strategy_readiness_packet.csv` stores a 5-row
-  graph-scale strategy-readiness worksheet with 3 blocking requests and 2
+  graph-scale strategy-readiness worksheet with 2 blocking requests and 3
   human-review requests. It is implemented preflight support only and cannot
   close `data/manifests/graph_scale_acceptance.json`.
 - Current pilot scaffold outputs include 1,890 full pilot rows and 63 full
@@ -1212,11 +1212,11 @@ competitive, or fragile.
 7. Review the current graph-scale route parity, alternate-route, and
    multi-corridor candidate diagnostics. Decide whether the six
    alternate-route warning rows are acceptable under a documented
-   corridor-selection rule, whether to regenerate on the 164-node / 246-edge
-   candidate graph, or whether full-graph runtime or a multi-corridor ensemble
-   is the final study method. Use the graph-scale review packet and graph-scale
-   strategy-readiness packet as method-selection worksheets before writing
-   final result claims.
+   corridor-selection rule, whether to use the existing 164-node / 246-edge
+   full-profile candidate graph and regenerate downstream artifacts, or
+   whether full-graph runtime or a multi-corridor ensemble is the final study
+   method. Use the graph-scale review packet and graph-scale strategy-readiness
+   packet as method-selection worksheets before writing final result claims.
 8. Review the current SALib Morris outputs with the sensitivity review packet
    for the accepted staged/full pilot profile, resolve missing/non-finite index
    handling and zero `mu_star` interpretation, and add Sobol only if compute
