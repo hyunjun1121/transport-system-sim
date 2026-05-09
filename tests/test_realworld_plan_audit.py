@@ -632,12 +632,18 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     for expected in (
         "docs/source_context_cache_decision_packet.md",
+        "docs/pilot_region_decision_packet.md",
+        "docs/rail_evidence_priority_packet.md",
         "docs/road_source_decision_packet.md",
+        "docs/road_evidence_priority_packet.md",
+        "docs/parameter_evidence_priority_packet.md",
         "docs/parameter_source_decision_packet.md",
         "docs/validation_benchmark_decision_packet.md",
         "docs/sensitivity_method_decision_packet.md",
         "docs/experiment_design_decision_packet.md",
         "docs/figure_table_review_packet.md",
+        "docs/reproducibility_review_packet.md",
+        "docs/reproducibility_decision_packet.md",
         "docs/final_audit_decision_packet.md",
     ):
         assert expected in runbook_text

@@ -45,11 +45,15 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
+.\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
+.\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
@@ -65,8 +69,13 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_figure_table_review_packet.py
 .\.venv\Scripts\python scripts\write_claim_alignment_review_packet.py
 .\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py
+.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py
+.\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py
+.\.venv\Scripts\python scripts\write_final_audit_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
+.\.venv\Scripts\python scripts\write_acceptance_decision_templates.py
+.\.venv\Scripts\python scripts\write_formal_acceptance_blocker_queue.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
 ```
 
