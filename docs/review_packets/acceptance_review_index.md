@@ -105,7 +105,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=795 |
-| `Tracked Artifact Audit` | 6 | 6 | 0 | 0 | `false` | data_or_manifest=3; documentation=1; realworld_code=1; +1 more |
+| `Tracked Artifact Audit` | 8 | 8 | 0 | 0 | `false` | data_or_manifest=4; documentation=4 |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -147,7 +147,7 @@ Priority blockers by packet:
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
-- `Tracked Artifact Audit`: data/manifests/source_provenance_priority_packet.csv: Commit, stash, or document this change before clean-checkout reproduction. (+5 more)
+- `Tracked Artifact Audit`: data/manifests/acceptance_orchestration_manifest.json: Commit, stash, or document this change before clean-checkout reproduction. (+7 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
