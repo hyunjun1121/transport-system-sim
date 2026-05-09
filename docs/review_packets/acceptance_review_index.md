@@ -74,13 +74,13 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
 | `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
-| `Road Source Decisions` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
+| `Road Source Decisions` | 5 | 2 | 3 | 0 | `false` | blocked_missing_road_source_decision=2; needs_human_review_road_source_decision=3 |
 | `Parameter Evidence Priority` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
 | `Parameter Source Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
-| `Parameter Source Decisions` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
+| `Parameter Source Decisions` | 7 | 2 | 5 | 0 | `false` | blocked_missing_parameter_source_decision=2; needs_human_review_parameter_source_decision=5 |
 | `Rail Evidence Priority` | 6 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +2 more |
 | `Rail Fetch Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
-| `Rail Source Decisions` | 5 | 3 | 2 | 0 | `false` | blocked_missing_data_go_kr_key=2; blocked_missing_reviewed_gtfs_file=1; needs_human_review_availability_scenario=1; +1 more |
+| `Rail Source Decisions` | 5 | 3 | 2 | 0 | `false` | blocked_missing_rail_source_decision=3; needs_human_review_rail_source_decision=2 |
 | `Validation Benchmark Readiness` | 4 | 1 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; needs_human_review_alternative_benchmark_decision=1; needs_human_review_cached_osrm_snapshot=1; +1 more |
 | `Validation Benchmark Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_scaffold_validation_scope=1; blocked_weak_route_road_evidence_dependency=1; +3 more |
 | `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
@@ -90,7 +90,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 4 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Reproducibility Decision` | 7 | 2 | 5 | 0 | `false` | blocked_missing_reproducibility_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; needs_human_review_artifact_regeneration=1; +4 more |
 | `Final Audit Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_final_audit_acceptance_record=1; blocked_missing_final_study_audit_document=1; blocked_missing_formal_acceptance_artifacts=1; +4 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
@@ -101,7 +101,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=777 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Tracked Artifact Audit` | 49 | 49 | 0 | 0 | `false` | data_or_manifest=34; documentation=15 |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -139,6 +139,7 @@ Priority blockers by packet:
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: data/manifests/acceptance_decision_template_manifest.json: Commit, stash, or document this change before clean-checkout reproduction. (+48 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers
