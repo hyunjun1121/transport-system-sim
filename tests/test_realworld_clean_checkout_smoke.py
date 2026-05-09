@@ -60,6 +60,7 @@ def test_clean_checkout_smoke_manifest_never_accepts_gate() -> None:
     assert manifest["full_clean_environment_tested"] is False
     assert manifest["dependency_install_tested"] is False
     assert manifest["formal_acceptance_created"] is False
+    assert manifest["source"]["source_git_status_lines"] == []
 
     print("PASS: clean-checkout smoke manifest never accepts gate")
 
@@ -201,6 +202,7 @@ def test_clean_checkout_smoke_outputs_and_summary() -> None:
         assert manifest_path.exists()
         assert log_path.exists()
         assert doc_path.exists()
+        assert summary["source_status_lines"] == [" M plan.md"]
         assert len(log_path.read_text(encoding="utf-8").splitlines()) == 2
         assert summary["manifest_present"] is True
         assert summary["smoke_passed"] is True

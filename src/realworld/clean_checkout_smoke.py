@@ -335,6 +335,7 @@ def build_clean_checkout_smoke_manifest(
             "source_repo": str(Path(source_repo)),
             "source_commit": source_commit,
             "source_git_status_line_count": len(source_status_lines),
+            "source_git_status_lines": list(source_status_lines),
             "source_dirty_worktree_ignored": bool(source_status_lines),
         },
         "checkout": {
@@ -503,6 +504,9 @@ def summarize_clean_checkout_smoke(
             value.get("artifact_regeneration_scope", "")
         ),
         "source_commit": str((value.get("source") or {}).get("source_commit", "")),
+        "source_status_lines": list(
+            (value.get("source") or {}).get("source_git_status_lines", [])
+        ),
         "environment_scope": str(value.get("environment_scope", "")),
         "failed_command_ids": list(
             (value.get("inner_smoke") or {}).get("failed_command_ids", [])
