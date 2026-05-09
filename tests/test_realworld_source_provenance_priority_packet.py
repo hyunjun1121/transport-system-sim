@@ -57,6 +57,12 @@ def test_source_provenance_priority_rows_classify_current_sources() -> None:
     assert "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["alternate_url_candidates"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_shortest_path_api_context"
+    ]["required_reviewer_decision"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_timetable_api_context"
+    ]["publication_use_status"]
     assert {row["claim_boundary"] for row in rows} == {
         SOURCE_PROVENANCE_PRIORITY_SCOPE
     }

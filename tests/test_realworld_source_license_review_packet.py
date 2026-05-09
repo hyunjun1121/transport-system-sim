@@ -48,6 +48,12 @@ def test_source_license_review_rows_are_source_specific() -> None:
     assert "provide a reviewed target payload" in by_id[
         "seoul_shortest_path_api_context"
     ]["required_reviewer_decision"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_timetable_api_context"
+    ]["required_reviewer_decision"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_shortest_path_api_context"
+    ]["publication_use_status"]
     assert by_id["pilot_region_spec"]["privacy_review_required"] == "true"
     assert {row["claim_boundary"] for row in rows} == {
         SOURCE_LICENSE_REVIEW_SCOPE

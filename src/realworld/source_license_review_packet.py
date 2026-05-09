@@ -169,7 +169,7 @@ def build_source_license_review_manifest(
         },
         "review_items": [
             "verify each source URL, license, attribution requirement, and derivative-use constraint",
-            "provide reviewed target payloads for context-source rows or explicitly exclude them from final claims",
+            "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
             "confirm local artifact paths and snapshot dates for every cached source",
             "review project-owned synthetic/privacy abstraction before provenance acceptance",
             "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed",
@@ -177,7 +177,7 @@ def build_source_license_review_manifest(
         "remaining_blockers": [
             "formal provenance acceptance record is absent",
             "source/license packet rows are review aids and do not certify license compatibility",
-            "context-source target artifacts still need reviewed payloads or explicit exclusion from final claims",
+            "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims",
         ],
     }
 
@@ -223,7 +223,7 @@ def build_source_license_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Review official source terms and attribution requirements for every retained public source.",
-            "- Provide reviewed target payloads or exclude context-source rows before using them in final claims.",
+            "- Provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or exclude them before final claims.",
             "- Confirm project-owned synthetic/privacy abstractions before accepting the pilot package.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
             "",
@@ -280,7 +280,8 @@ def _required_decision(record: SourceProvenanceRecord, snapshot_status: str) -> 
     if record.review_status == "context_only_not_cached":
         return (
             "provide a reviewed target payload with terms/attribution review, "
-            "or exclude this context-source row from final-study claims"
+            "retain this context-source row as sensitivity/context-only, or "
+            "exclude it from final-study claims"
         )
     if snapshot_status != "local_artifacts_present":
         return "repair or document missing local artifacts before provenance acceptance"
@@ -297,7 +298,10 @@ def _publication_use_status(record: SourceProvenanceRecord, can_support_final: b
     if can_support_final:
         return "eligible for formal provenance acceptance if cited by reviewer"
     if record.review_status == "context_only_not_cached":
-        return "context only; cannot support final claims until cached or excluded"
+        return (
+            "context only; cannot support final claims until cached, retained "
+            "as sensitivity/context-only, or excluded"
+        )
     if record.review_status == "repository_input_pending_review":
         return "repository input pending human/source-scope review"
     if record.review_status == "cached_snapshot_pending_review":

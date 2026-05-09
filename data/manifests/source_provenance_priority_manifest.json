@@ -26,7 +26,7 @@
   "publication_ready": false,
   "remaining_blockers": [
     "formal provenance acceptance record is absent",
-    "context-source target artifacts still need reviewed payloads or exclusion decisions",
+    "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
     "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "repository inputs still require human scope/privacy/reproducibility review",
     "URL remediation rows still require reviewer confirmation"
@@ -34,7 +34,7 @@
   "repository_input_source_count": 4,
   "result_scope": "Source provenance priority packet only; not source acceptance, not license certification, not calibrated real-world validation, not provenance gate closure, and not operational routing approval.",
   "review_items": [
-    "provide reviewed target payloads or explicitly exclude context-source rows before final claims",
+    "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
     "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
     "confirm project-owned local citations and privacy abstraction for repository inputs",
     "resolve alternate URL issues before provenance acceptance",

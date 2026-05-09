@@ -234,7 +234,7 @@ def build_source_provenance_priority_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "provide reviewed target payloads or explicitly exclude context-source rows before final claims",
+            "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
             "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
             "confirm project-owned local citations and privacy abstraction for repository inputs",
             "resolve alternate URL issues before provenance acceptance",
@@ -242,7 +242,7 @@ def build_source_provenance_priority_manifest(
         ],
         "remaining_blockers": [
             "formal provenance acceptance record is absent",
-            "context-source target artifacts still need reviewed payloads or exclusion decisions",
+            "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
             "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
             "repository inputs still require human scope/privacy/reproducibility review",
             "URL remediation rows still require reviewer confirmation",
