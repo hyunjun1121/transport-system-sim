@@ -676,6 +676,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert "not approve paper or report claims" in runbook_text
     assert "do not fetch external" in runbook_text
     assert "road data or create overrides" in runbook_text
+    for doc_path in ("README.md", "status.md", "agents.md"):
+        doc_text = (ROOT / doc_path).read_text(encoding="utf-8")
+        assert "write_formal_acceptance_blocker_queue.py" in doc_text
+        assert "write_acceptance_blocker_queue.py" in doc_text
     plan_text = (ROOT / "plan.md").read_text(encoding="utf-8")
     for expected in (
         "scripts\\write_source_license_review_packet.py",

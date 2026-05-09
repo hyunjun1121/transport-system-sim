@@ -550,11 +550,13 @@ The codebase currently includes:
     tests, OSM presence, or scaffold outputs as approval.
   - formal acceptance blocker queue in
     `src/realworld/acceptance_blocker_queue.py` and
-    `scripts/write_acceptance_blocker_queue.py`; it writes
+    `scripts/write_formal_acceptance_blocker_queue.py`; it writes
     `data/manifests/formal_acceptance_blocker_queue.csv`,
     `data/manifests/formal_acceptance_blocker_queue_manifest.json`, and
     `docs/formal_acceptance_blocker_queue.md` with one row per unresolved
-    reviewer action. It is a work queue only and cannot approve a gate.
+    reviewer action. `scripts/write_acceptance_blocker_queue.py` remains the
+    compatibility implementation behind that explicit command. It is a work
+    queue only and cannot approve a gate.
   - acceptance task assignments in
     `src/realworld/acceptance_task_assignments.py` and
     `scripts/write_acceptance_task_assignments.py`; they map the 15 current

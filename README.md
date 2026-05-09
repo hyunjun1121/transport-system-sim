@@ -331,7 +331,8 @@ scripts/
   audit_agent_review_paths.py # Check review-agent path references
   audit_tracked_artifacts.py # List changed artifacts missing from clean checkout
   write_acceptance_decision_templates.py # Write non-approval formal acceptance templates
-  write_acceptance_blocker_queue.py # Write gate-by-gate formal blocker queue
+  write_formal_acceptance_blocker_queue.py # Explicit formal blocker queue command
+  write_acceptance_blocker_queue.py # Compatibility implementation for blocker queue
   write_acceptance_task_assignments.py # Assign blocker rows to review-agent roles
   write_formal_acceptance_evidence_matrix.py # Write per-artifact evidence matrix
   write_formal_acceptance_pre_review.py # Write draft formal pre-review recommendations
@@ -518,10 +519,11 @@ Implemented pieces:
   packets, writes 12 records under `data/manifests/agent_reviews/`, and keeps
   all non-ready gates as `blocked` or `needs_human_review`; it does not create
   formal acceptance artifacts.
-- `src.realworld.acceptance_blocker_queue` and
-  `scripts/write_acceptance_blocker_queue.py` write one CSV row per unresolved
-  formal acceptance blocker for reviewer assignment. The generated queue is not
-  acceptance evidence.
+- `src.realworld.acceptance_blocker_queue` and the explicit
+  `scripts/write_formal_acceptance_blocker_queue.py` command write one CSV row
+  per unresolved formal acceptance blocker for reviewer assignment. The
+  compatibility implementation is `scripts/write_acceptance_blocker_queue.py`.
+  The generated queue is not acceptance evidence.
 - `src.realworld.acceptance_task_assignments` and
   `scripts/write_acceptance_task_assignments.py` assign every unresolved formal
   blocker row to a deterministic review-agent role. The generated task table is

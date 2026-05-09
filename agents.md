@@ -307,6 +307,7 @@ scripts/
   write_experiment_package_review_packet.py
   write_experiment_strategy_readiness_packet.py
   write_acceptance_decision_templates.py
+  write_formal_acceptance_blocker_queue.py
   write_acceptance_blocker_queue.py
   write_acceptance_task_assignments.py
   write_formal_acceptance_evidence_matrix.py
@@ -542,10 +543,12 @@ Implemented behavior:
   workflow for moving from review packets and non-approval templates to formal
   acceptance artifacts. It is instructional only and cannot approve a gate.
 - `src/realworld/acceptance_blocker_queue.py` and
-  `scripts/write_acceptance_blocker_queue.py` write
+  `scripts/write_formal_acceptance_blocker_queue.py` write
   `data/manifests/formal_acceptance_blocker_queue.csv`,
   `data/manifests/formal_acceptance_blocker_queue_manifest.json`, and
-  `docs/formal_acceptance_blocker_queue.md`. These rows are reviewer work
+  `docs/formal_acceptance_blocker_queue.md`.
+  `scripts/write_acceptance_blocker_queue.py` remains the compatibility
+  implementation behind that explicit command. These rows are reviewer work
   items only; they do not create approvals.
 - `src/realworld/acceptance_task_assignments.py` and
   `scripts/write_acceptance_task_assignments.py` map formal blocker rows to
