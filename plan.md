@@ -813,21 +813,23 @@ First pilot-smoke artifacts also exist:
   source/license review rows and URL remediation rows into an 11-row per-source
   priority worksheet under
   `data/manifests/source_provenance_priority_packet.csv`. It highlights
-  context-source target rows that still need reviewed payloads or exclusion
-  decisions, cached snapshots that need source/license review, and repository
-  inputs that need human scope/privacy/reproducibility review. It now carries
-  same-source alternate URL candidates up from the URL-remediation packet
-  without creating provenance acceptance.
+  context-source target rows that still need reviewed payloads,
+  sensitivity/context-only retention decisions, or exclusion decisions, cached
+  snapshots that need source/license review, and repository inputs that need
+  human scope/privacy/reproducibility review. It now carries same-source
+  alternate URL candidates up from the URL-remediation packet without creating
+  provenance acceptance.
 - `src/realworld/source_context_cache_request_packet.py` and
   `scripts/write_source_context_cache_request_packet.py` now split the three
-  context-source target artifacts into explicit cache-or-exclude requests under
+  context-source target artifacts into explicit cache,
+  sensitivity/context-only retention, or exclusion requests under
   `data/manifests/source_context_cache_request_packet.csv`. It names target
   cache artifacts, available fetch or derivation helpers, and required reviewer
   actions without fetching public data, certifying licenses, or creating
   provenance acceptance. The KTDB row now includes a cached source-metadata
   extract and raw HTML pages as review support only; it still requires a
-  reviewed GTFS zip or directory, or an exclusion decision, before final
-  rail/provenance claims can use the source.
+  reviewed GTFS zip or directory, sensitivity/context-only retention, or an
+  exclusion decision before final rail/provenance claims can use the source.
 - `src/realworld/source_context_cache_decision_packet.py` and
   `scripts/write_source_context_cache_decision_packet.py` now turn those three
   context-cache requests into pending reviewer decision rows under
@@ -837,10 +839,10 @@ First pilot-smoke artifacts also exist:
   `data/manifests/provenance_acceptance.json`.
 - `src/realworld/source_provenance_decision_packet.py` and
   `scripts/write_source_provenance_decision_packet.py` now consolidate the
-  source inventory, license/attribution, context-source cache/exclusion, URL
-  remediation, cached snapshot, repository-input, reproducibility-scope, and
-  formal provenance-acceptance boundary decisions into a 7-row reviewer
-  worksheet. The generated
+  source inventory, license/attribution, context-source cache, retention, or
+  exclusion, URL remediation, cached snapshot, repository-input,
+  reproducibility-scope, and formal provenance-acceptance boundary decisions
+  into a 7-row reviewer worksheet. The generated
   `data/manifests/source_provenance_decision_packet.csv`,
   `data/manifests/source_provenance_decision_manifest.json`, and
   `docs/source_provenance_decision_packet.md` are reviewer aids only and do
@@ -2318,11 +2320,13 @@ Concrete next tasks:
    context-source target-artifact gaps, cached public snapshots, and
    repository-input source-scope decisions before provenance acceptance.
    Use `data/manifests/source_context_cache_request_packet.csv` to turn each
-   context-source target artifact into a reviewed cache action or explicit
-   exclusion decision before final claims rely on it.
+   context-source target artifact into a reviewed cache action,
+   sensitivity/context-only retention decision, or explicit exclusion decision
+   before final claims rely on it.
    Use `data/manifests/source_context_cache_decision_packet.csv` to record the
-   pending cache, exclusion, or sensitivity-only reviewer decision for each
-   context-source target before provenance acceptance is drafted.
+   pending cache, sensitivity/context-only retention, or exclusion reviewer
+   decision for each context-source target before provenance acceptance is
+   drafted.
    Use `docs/acceptance_decision_templates.md` and
    `data/manifests/acceptance_templates/` only as non-approval starting points
    after those reviews; copy a template to a formal acceptance path only when
