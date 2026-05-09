@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T02:32:28+00:00",
+  "generated_at": "2026-05-09T02:38:25+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -1342,6 +1342,34 @@
         "needs_human_review_defer_or_continue": 1,
         "needs_human_review_index_handling_policy": 1,
         "needs_human_review_morris_screening_scope": 1
+      }
+    },
+    {
+      "blocking_count": 0,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 7,
+      "label": "Sensitivity Index Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/sensitivity_index_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "metric-level index handling still requires human review",
+        "Morris-vs-Sobol method decision is absent from formal sensitivity acceptance"
+      ],
+      "result_scope": "Sensitivity index review packet only; not sensitivity acceptance, not a Sobol waiver, not calibrated real-world sensitivity evidence, and not operational routing evidence.",
+      "review_items": [
+        "document how unavailable p80/p95 arrival Morris indices are handled before manuscript use",
+        "interpret zero mu_star rows as scaffold diagnostics rather than calibrated no-effect findings",
+        "decide whether Morris screening is sufficient or Sobol analysis is required in sensitivity_acceptance.json",
+        "keep sensitivity figures and tables inside scaffold scope until graph-scale and sensitivity acceptance close"
+      ],
+      "row_count": 7,
+      "snapshot_id": "sensitivity_index_review",
+      "status_counts": {
+        "needs_human_review_unavailable_indices": 2,
+        "needs_human_review_zero_mu_star_rows": 5
       }
     },
     {

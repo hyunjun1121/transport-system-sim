@@ -197,6 +197,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "validation" / "sensitivity_method_decision_manifest.json",
     ),
     (
+        "sensitivity_index_review",
+        "Sensitivity Index Review",
+        PROJECT_ROOT / "data" / "validation" / "sensitivity_index_review_manifest.json",
+    ),
+    (
         "sensitivity_strategy_readiness",
         "Sensitivity Strategy Readiness",
         PROJECT_ROOT / "data" / "validation" / "sensitivity_strategy_readiness_manifest.json",
@@ -1640,6 +1645,7 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "readiness_status_counts",
         "priority_status_counts",
         "review_status_counts",
+        "index_review_status_counts",
         "snapshot_status_counts",
         "url_status_counts",
         "remediation_status_counts",

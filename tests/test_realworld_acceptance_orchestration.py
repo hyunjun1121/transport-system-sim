@@ -231,6 +231,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "pilot_region_decision" in snapshot_ids
     assert "graph_scale_method_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
+    assert "sensitivity_index_review" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
     assert "integrated_evidence_review" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
@@ -353,6 +354,23 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     },
                     "remaining_blockers": [
                         "data/manifests/validation_acceptance.json is absent"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        sensitivity_index_snapshot_path = root / "sensitivity_index_manifest.json"
+        sensitivity_index_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 7,
+                    "index_review_status_counts": {
+                        "needs_human_review_unavailable_indices": 2,
+                        "needs_human_review_zero_mu_star_rows": 5,
+                    },
+                    "remaining_blockers": [
+                        "metric-level index handling still requires human review"
                     ],
                 }
             )
@@ -820,6 +838,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     validation_decision_snapshot_path,
                 ),
                 (
+                    "sensitivity_index_review",
+                    "Sensitivity Index Review",
+                    sensitivity_index_snapshot_path,
+                ),
+                (
                     "experiment_design_decision",
                     "Experiment Design Decision",
                     experiment_design_snapshot_path,
@@ -965,6 +988,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 "blocked_missing_validation_acceptance_record"
             ]
             == 1
+        )
+        assert snapshots["sensitivity_index_review"]["row_count"] == 7
+        assert snapshots["sensitivity_index_review"]["blocking_count"] == 0
+        assert snapshots["sensitivity_index_review"]["human_review_count"] == 7
+        assert (
+            snapshots["sensitivity_index_review"]["status_counts"][
+                "needs_human_review_unavailable_indices"
+            ]
+            == 2
         )
         assert snapshots["experiment_design_decision"]["blocking_count"] == 4
         assert snapshots["experiment_design_decision"]["human_review_count"] == 4

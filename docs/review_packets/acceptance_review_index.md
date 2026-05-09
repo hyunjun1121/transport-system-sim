@@ -85,6 +85,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Validation Benchmark Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_scaffold_validation_scope=1; blocked_weak_route_road_evidence_dependency=1; +3 more |
 | `Validation Strategy Readiness` | 7 | 2 | 5 | 0 | `false` | blocked_missing_validation_acceptance_record=1; blocked_weak_route_road_evidence_exposure=1; needs_human_review_accessibility_disconnections=1; +4 more |
 | `Sensitivity Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; +4 more |
+| `Sensitivity Index Review` | 7 | 0 | 7 | 0 | `false` | needs_human_review_unavailable_indices=2; needs_human_review_zero_mu_star_rows=5 |
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
@@ -132,6 +133,7 @@ Priority blockers by packet:
 - `Validation Benchmark Decision`: validation summary still declares scaffold or sanity scope (+2 more)
 - `Validation Strategy Readiness`: validation_acceptance.json is absent (+1 more)
 - `Sensitivity Method Decision`: Morris-vs-Sobol method decision is not recorded in formal acceptance (+3 more)
+- `Sensitivity Index Review`: metric-level index handling still requires human review (+1 more)
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
