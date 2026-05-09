@@ -44,6 +44,14 @@ def test_validation_benchmark_decision_rows_classify_current_state() -> None:
     assert by_id["road_evidence_dependency"]["decision_status"] == (
         "blocked_weak_route_road_evidence_dependency"
     )
+    assert (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+        in by_id["road_evidence_dependency"]["followup_artifacts"]
+    )
+    assert (
+        "data/road/road_evidence_priority_manifest.json"
+        in by_id["road_evidence_dependency"]["evidence_input_paths"]
+    )
     assert by_id["formal_validation_acceptance_boundary"]["decision_status"] == (
         "blocked_missing_validation_acceptance_record"
     )
@@ -83,6 +91,12 @@ def test_validation_benchmark_decision_writer_outputs_artifacts() -> None:
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 6
     assert written_manifest["validation_gate_closure_candidate_count"] == 0
+    assert written_manifest["inputs"]["route_road_evidence_exposure_manifest"] == (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+    )
+    assert written_manifest["inputs"]["road_evidence_priority_manifest"] == (
+        "data/road/road_evidence_priority_manifest.json"
+    )
     assert "Validation Benchmark Decision Packet" in doc_text
 
     print("PASS: validation benchmark decision writer emits artifacts")
@@ -114,6 +128,12 @@ def test_shipped_validation_benchmark_decision_packet_matches_current_outputs() 
     assert manifest["alternative_benchmark_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
+    assert manifest["inputs"]["route_road_evidence_exposure_manifest"] == (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+    )
+    assert manifest["inputs"]["road_evidence_priority_manifest"] == (
+        "data/road/road_evidence_priority_manifest.json"
+    )
 
     print("PASS: shipped validation benchmark decision packet matches outputs")
 

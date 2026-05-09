@@ -13,6 +13,14 @@ import json
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
+from src.realworld.road_evidence_priority_packet import (
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
+    DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+)
+from src.realworld.route_road_evidence_exposure import (
+    DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH,
+    DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+)
 from src.realworld.validation_acceptance import DEFAULT_VALIDATION_ACCEPTANCE_PATH
 from src.realworld.validation_benchmark_readiness_packet import (
     DEFAULT_VALIDATION_BENCHMARK_READINESS_MANIFEST_PATH,
@@ -72,6 +80,14 @@ def build_validation_benchmark_decision_rows(
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     osrm_benchmark_manifest_path: str | Path = DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
     validation_acceptance_path: str | Path = DEFAULT_VALIDATION_ACCEPTANCE_PATH,
+    route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
+    road_evidence_priority_path: str | Path = DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+    road_evidence_priority_manifest_path: str | Path = (
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
+    ),
 ) -> list[dict[str, str]]:
     """Return reviewer rows for benchmark strategy decisions."""
 
@@ -85,6 +101,18 @@ def build_validation_benchmark_decision_rows(
         benchmark_readiness_manifest_path=benchmark_readiness_manifest_path,
         strategy_readiness_manifest_path=strategy_readiness_manifest_path,
         osrm_benchmark_manifest_path=osrm_benchmark_manifest_path,
+    )
+    road_dependency_evidence_paths = _evidence_paths(
+        validation_review_manifest_path=validation_review_manifest_path,
+        benchmark_readiness_manifest_path=benchmark_readiness_manifest_path,
+        strategy_readiness_manifest_path=strategy_readiness_manifest_path,
+        osrm_benchmark_manifest_path=osrm_benchmark_manifest_path,
+        extra_paths=(
+            route_exposure_path,
+            route_exposure_manifest_path,
+            road_evidence_priority_path,
+            road_evidence_priority_manifest_path,
+        ),
     )
 
     fallback_counts = _dict_value(review_manifest, "fallback_benchmark_status_counts")
@@ -232,9 +260,12 @@ def build_validation_benchmark_decision_rows(
             ),
             followup_artifacts=(
                 "data/validation/canonical_route_road_evidence_exposure.csv; "
+                "data/validation/canonical_route_road_evidence_exposure_manifest.json; "
+                "data/road/road_evidence_priority_packet.csv; "
+                "data/road/road_evidence_priority_manifest.json; "
                 "data/manifests/validation_acceptance.json"
             ),
-            evidence_input_paths=evidence_paths,
+            evidence_input_paths=road_dependency_evidence_paths,
         ),
         _row(
             decision_id="formal_validation_acceptance_boundary",
@@ -278,6 +309,14 @@ def write_validation_benchmark_decision_packet(
     strategy_readiness_manifest_path: str
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     osrm_benchmark_manifest_path: str | Path = DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
+    route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
+    road_evidence_priority_path: str | Path = DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+    road_evidence_priority_manifest_path: str | Path = (
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
+    ),
 ) -> dict[str, Any]:
     """Write benchmark decision CSV, manifest, and Markdown review packet."""
 
@@ -311,6 +350,10 @@ def write_validation_benchmark_decision_packet(
         benchmark_readiness_manifest_path=benchmark_readiness_manifest_path,
         strategy_readiness_manifest_path=strategy_readiness_manifest_path,
         osrm_benchmark_manifest_path=osrm_benchmark_manifest_path,
+        route_exposure_path=route_exposure_path,
+        route_exposure_manifest_path=route_exposure_manifest_path,
+        road_evidence_priority_path=road_evidence_priority_path,
+        road_evidence_priority_manifest_path=road_evidence_priority_manifest_path,
     )
     manifest.write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
@@ -335,6 +378,14 @@ def build_validation_benchmark_decision_manifest(
     strategy_readiness_manifest_path: str
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     osrm_benchmark_manifest_path: str | Path = DEFAULT_OSRM_BENCHMARK_MANIFEST_PATH,
+    route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
+    road_evidence_priority_path: str | Path = DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+    road_evidence_priority_manifest_path: str | Path = (
+        DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
+    ),
 ) -> dict[str, Any]:
     """Return a conservative manifest for benchmark decision rows."""
 
@@ -374,6 +425,16 @@ def build_validation_benchmark_decision_manifest(
                 Path(strategy_readiness_manifest_path)
             ),
             "osrm_benchmark_manifest": _display_path(Path(osrm_benchmark_manifest_path)),
+            "route_road_evidence_exposure": _display_path(Path(route_exposure_path)),
+            "route_road_evidence_exposure_manifest": _display_path(
+                Path(route_exposure_manifest_path)
+            ),
+            "road_evidence_priority_packet": _display_path(
+                Path(road_evidence_priority_path)
+            ),
+            "road_evidence_priority_manifest": _display_path(
+                Path(road_evidence_priority_manifest_path)
+            ),
         },
         "outputs": {
             "csv": _display_path(Path(output_path)),
@@ -474,6 +535,7 @@ def _evidence_paths(
     benchmark_readiness_manifest_path: str | Path,
     strategy_readiness_manifest_path: str | Path,
     osrm_benchmark_manifest_path: str | Path,
+    extra_paths: Sequence[str | Path] = (),
 ) -> str:
     paths = [
         DEFAULT_VALIDATION_REVIEW_PACKET_PATH,
@@ -483,6 +545,7 @@ def _evidence_paths(
         benchmark_readiness_manifest_path,
         strategy_readiness_manifest_path,
         osrm_benchmark_manifest_path,
+        *extra_paths,
     ]
     return "; ".join(_display_path(Path(path)) for path in paths)
 

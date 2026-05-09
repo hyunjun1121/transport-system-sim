@@ -22,6 +22,10 @@
   "human_review_decision_count": 3,
   "inputs": {
     "osrm_benchmark_manifest": "data/validation/osrm_route_benchmark_manifest.json",
+    "road_evidence_priority_manifest": "data/road/road_evidence_priority_manifest.json",
+    "road_evidence_priority_packet": "data/road/road_evidence_priority_packet.csv",
+    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv",
+    "route_road_evidence_exposure_manifest": "data/validation/canonical_route_road_evidence_exposure_manifest.json",
     "validation_benchmark_readiness_manifest": "data/validation/validation_benchmark_readiness_manifest.json",
     "validation_review_manifest": "data/validation/validation_review_manifest.json",
     "validation_strategy_readiness_manifest": "data/validation/validation_strategy_readiness_manifest.json"
