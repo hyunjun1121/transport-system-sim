@@ -32,6 +32,13 @@ DEFAULT_CLEAN_CHECKOUT_SMOKE_LOG_PATH = (
 DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH = (
     PROJECT_ROOT / "docs" / "clean_checkout_reproducibility_smoke.md"
 )
+CLEAN_CHECKOUT_SMOKE_SELF_OUTPUTS: frozenset[str] = frozenset(
+    {
+        "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+        "data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
+        "docs/clean_checkout_reproducibility_smoke.md",
+    }
+)
 CLEAN_CHECKOUT_SMOKE_SCOPE = "clean_checkout_source_tree_smoke_not_formal_acceptance"
 MAX_CAPTURE_CHARS = 4000
 ARTIFACT_REGENERATION_SCOPE = (
@@ -118,7 +125,9 @@ def run_clean_checkout_smoke(
 
     source_path = Path(source_repo).resolve()
     source_commit = _git_text(("git", "rev-parse", "HEAD"), cwd=source_path)
-    source_status_lines = _git_lines(("git", "status", "--short"), cwd=source_path)
+    source_status_lines = _filter_source_status_lines(
+        _git_lines(("git", "status", "--short"), cwd=source_path)
+    )
     checkout_dir, cleanup = _prepare_checkout_dir(
         checkout_parent=checkout_parent,
         keep_checkout=keep_checkout,
@@ -740,6 +749,25 @@ def _git_text(args: Sequence[str], *, cwd: Path) -> str:
 def _git_lines(args: Sequence[str], *, cwd: Path) -> list[str]:
     text = _git_text(args, cwd=cwd)
     return [line for line in text.splitlines() if line.strip()]
+
+
+def _filter_source_status_lines(lines: Sequence[str]) -> list[str]:
+    """Drop clean-checkout smoke outputs from source dirtiness checks."""
+
+    filtered: list[str] = []
+    for line in lines:
+        normalized = _status_path(line)
+        if normalized in CLEAN_CHECKOUT_SMOKE_SELF_OUTPUTS:
+            continue
+        filtered.append(line)
+    return filtered
+
+
+def _status_path(line: str) -> str:
+    path = line[3:].strip() if len(line) > 3 else ""
+    if " -> " in path:
+        path = path.split(" -> ", 1)[1].strip()
+    return path.strip().strip('"').replace("\\", "/").lstrip("./")
 
 
 def _read_json_object(path: str | Path) -> dict[str, Any]:

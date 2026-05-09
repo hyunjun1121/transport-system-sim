@@ -18,6 +18,7 @@ from src.realworld.clean_checkout_smoke import (  # noqa: E402
     CLEAN_CHECKOUT_SMOKE_SCOPE,
     CleanCheckoutStepResult,
     _prepare_checkout_dir,
+    _filter_source_status_lines,
     _remove_if_safe,
     build_clean_checkout_smoke_manifest,
     summarize_clean_checkout_smoke,
@@ -213,6 +214,21 @@ def test_clean_checkout_smoke_outputs_and_summary() -> None:
     print("PASS: clean-checkout smoke outputs and summary are written")
 
 
+def test_clean_checkout_source_status_ignores_own_outputs() -> None:
+    filtered = _filter_source_status_lines(
+        (
+            " M data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+            " M data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
+            " M docs/clean_checkout_reproducibility_smoke.md",
+            " M plan.md",
+        )
+    )
+
+    assert filtered == [" M plan.md"]
+
+    print("PASS: clean-checkout smoke ignores only its own output files")
+
+
 def test_missing_clean_checkout_smoke_summary_is_blocked() -> None:
     """Missing clean-checkout smoke should become an explicit blocker."""
 
@@ -289,6 +305,7 @@ if __name__ == "__main__":
     test_clean_checkout_smoke_manifest_records_dependency_install_scope()
     test_clean_checkout_smoke_manifest_records_artifact_regeneration_scope()
     test_clean_checkout_smoke_outputs_and_summary()
+    test_clean_checkout_source_status_ignores_own_outputs()
     test_missing_clean_checkout_smoke_summary_is_blocked()
     test_clean_checkout_cleanup_handles_readonly_git_files()
     test_clean_checkout_prepare_replaces_readonly_existing_checkout()
