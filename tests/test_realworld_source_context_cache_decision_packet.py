@@ -49,6 +49,18 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     assert "sha256_or_digest_if_cached" in by_id[
         "seoul_shortest_path_api_context"
     ]["required_evidence_fields"]
+    assert "data/rail/ktdb_gtfs_source_extract.csv" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["evidence_input_paths"]
+    assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
+        "ktdb_public_transport_gtfs_context"
+    ]["evidence_input_paths"]
+    assert "docs/rail_shortest_path_cache_schema.md" in by_id[
+        "seoul_shortest_path_api_context"
+    ]["evidence_input_paths"]
+    assert "docs/rail_timetable_cache_schema.md" in by_id[
+        "seoul_timetable_api_context"
+    ]["evidence_input_paths"]
     assert {row["can_support_final_provenance_gate"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {
         SOURCE_CONTEXT_CACHE_DECISION_SCOPE

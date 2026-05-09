@@ -320,7 +320,10 @@ def _decision_row(
             "retained_raw_response_policy; sha256_or_digest_if_cached"
         ),
         "followup_artifacts": _followup_artifacts(row),
-        "evidence_input_paths": evidence_paths,
+        "evidence_input_paths": _artifact_list(
+            evidence_paths,
+            row.get("context_local_artifacts", ""),
+        ),
         "target_acceptance_artifact": str(
             row.get(
                 "target_acceptance_artifact",
@@ -371,6 +374,18 @@ def _evidence_paths(
         provenance_manifest_path,
     ]
     return "; ".join(_display_path(path) for path in paths)
+
+
+def _artifact_list(*values: object) -> str:
+    artifacts: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for artifact in str(value).split(";"):
+            clean = artifact.strip()
+            if clean and clean not in seen:
+                seen.add(clean)
+                artifacts.append(clean)
+    return "; ".join(artifacts)
 
 
 def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
