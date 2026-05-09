@@ -46,6 +46,9 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     assert "exclude_from_final_claims" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["candidate_decision_options"]
+    assert "retain_as_sensitivity_or_context_only" in by_id[
+        "seoul_shortest_path_api_context"
+    ]["candidate_decision_options"]
     assert "sha256_or_digest_if_cached" in by_id[
         "seoul_shortest_path_api_context"
     ]["required_evidence_fields"]

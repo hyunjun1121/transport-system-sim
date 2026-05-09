@@ -336,7 +336,11 @@ def _decision_row(
 
 
 def _candidate_options(row: Mapping[str, str]) -> str:
-    options = ["cache_reviewed_extract", "exclude_from_final_claims"]
+    options = [
+        "cache_reviewed_extract",
+        "retain_as_sensitivity_or_context_only",
+        "exclude_from_final_claims",
+    ]
     source_id = str(row.get("source_id", ""))
     if source_id == "metro9_capacity_context":
         options.append("retain_capacity_as_sensitivity_only")

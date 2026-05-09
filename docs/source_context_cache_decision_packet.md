@@ -16,9 +16,9 @@ Source context-cache decision packet only; not source acceptance, not license ce
 
 | Source | Status | Options | Target Artifacts | Required Action |
 | --- | --- | --- | --- | --- |
-| ktdb_public_transport_gtfs_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_gtfs.zip; data/rail/pilot_gtfs/ | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
-| seoul_shortest_path_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_rail_shortest_path_cache.csv; data/rail/pilot_rail_shortest_path_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
-| seoul_timetable_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; exclude_from_final_claims | data/rail/pilot_rail_timetable_cache.csv; data/rail/pilot_rail_timetable_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
+| ktdb_public_transport_gtfs_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; retain_as_sensitivity_or_context_only; exclude_from_final_claims | data/rail/pilot_gtfs.zip; data/rail/pilot_gtfs/ | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
+| seoul_shortest_path_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; retain_as_sensitivity_or_context_only; exclude_from_final_claims | data/rail/pilot_rail_shortest_path_cache.csv; data/rail/pilot_rail_shortest_path_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
+| seoul_timetable_api_context | blocked_missing_context_source_cache_or_exclusion_decision | cache_reviewed_extract; retain_as_sensitivity_or_context_only; exclude_from_final_claims | data/rail/pilot_rail_timetable_cache.csv; data/rail/pilot_rail_timetable_raw.json | Choose whether to cache reviewed source evidence, exclude this source from final claims, or retain it only as sensitivity/context. |
 
 ## Boundary
 
