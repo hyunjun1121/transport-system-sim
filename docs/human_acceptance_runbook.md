@@ -72,6 +72,7 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\write_integrated_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
@@ -147,6 +148,12 @@ whether fallback, OSRM, or other route benchmarks are sufficient for the
 validation claim boundary. They do not convert plausibility checks into ground
 truth or create `validation_acceptance.json`.
 
+The integrated evidence review packet consolidates the rail-source,
+validation-benchmark, validation-strategy, experiment-design, context-cache,
+and source-provenance decision manifests into a cross-gate worksheet. It is a
+review aid only; it does not accept rail timing, validation benchmarks,
+experiment outputs, or integrated final claims.
+
 The sensitivity review, index-review, strategy-readiness, and method-decision
 packets do not accept Morris output, waive Sobol analysis, or approve final
 sensitivity claims. They record whether missing/non-finite Morris indices,
@@ -221,7 +228,7 @@ Get-Content docs\formal_acceptance_pre_review.md
 | `cached_osm_input` | `docs/review_packets/cached_osm_input.md`; `docs/road_evidence_review_packet.md`; `docs/road_evidence_priority_packet.md`; `docs/road_source_readiness_packet.md`; `docs/road_source_decision_packet.md` | `data/parameters/road_class_overrides.csv` | Reviewed road speed, capacity, base-disruption evidence, benchmark limits, or bounded override decision |
 | `parameter_evidence` | `docs/review_packets/parameter_evidence.md`; `docs/parameter_evidence_review_packet.md`; `docs/parameter_evidence_priority_packet.md`; `docs/parameter_source_readiness_packet.md`; `docs/parameter_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Acceptance or replacement of weak demand, fleet, transfer, disruption, traffic, censoring, and rail-dependent parameters |
 | `rail_evidence` | `docs/review_packets/rail_evidence.md`; `docs/rail_evidence_review_packet.md`; `docs/rail_evidence_priority_packet.md`; `docs/rail_fetch_readiness_packet.md`; `docs/rail_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Rail headway, travel time, station, GTFS/API cache, capacity, availability, or sensitivity-only boundary |
-| `validation_package` | `docs/review_packets/validation_package.md`; `docs/validation_review_packet.md`; `docs/validation_strategy_readiness_packet.md`; `docs/validation_benchmark_readiness_packet.md`; `docs/validation_benchmark_decision_packet.md` | `data/manifests/validation_acceptance.json` | Benchmark strategy, thresholds, sample scope, failure cases, weak road-evidence dependency, and benchmark-not-ground-truth acknowledgement |
+| `validation_package` | `docs/review_packets/validation_package.md`; `docs/validation_review_packet.md`; `docs/validation_strategy_readiness_packet.md`; `docs/validation_benchmark_readiness_packet.md`; `docs/validation_benchmark_decision_packet.md`; `docs/integrated_evidence_review_packet.md` | `data/manifests/validation_acceptance.json` | Benchmark strategy, thresholds, sample scope, failure cases, weak road-evidence dependency, cross-gate evidence dependencies, and benchmark-not-ground-truth acknowledgement |
 | `sensitivity_analysis` | `docs/review_packets/sensitivity_analysis.md`; `docs/sensitivity_review_packet.md`; `docs/sensitivity_index_review_packet.md`; `docs/sensitivity_strategy_readiness_packet.md`; `docs/sensitivity_method_decision_packet.md` | `data/manifests/sensitivity_acceptance.json` | Parameter ranges, Morris diagnostics, missing/non-finite indices, Sobol decision, graph scope, and interpretation caveats |
 | `full_experiment_output` | `docs/review_packets/full_experiment_output.md`; `docs/experiment_package_review_packet.md`; `docs/experiment_strategy_readiness_packet.md`; `docs/experiment_design_decision_packet.md` | `data/manifests/experiment_acceptance.json` | Scenario-policy-seed package, row counts, manifests, checksums where available, graph/input dependencies, and rerun requirement after upstream changes |
 | `manuscript_report_alignment` | `docs/review_packets/manuscript_report_alignment.md`; `docs/figure_table_review_packet.md`; `docs/claim_alignment_review_packet.md`; `docs/manuscript_report_decision_packet.md` | `data/manifests/manuscript_acceptance.json` | Claim-by-claim alignment of paper/report/figures against accepted evidence, graph scope, proxy interpretation, and upstream gate dependencies |

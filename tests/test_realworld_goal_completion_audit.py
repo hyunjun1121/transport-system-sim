@@ -85,6 +85,7 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "scripts\\write_experiment_design_decision_packet.py" in text
     assert "scripts\\write_figure_table_review_packet.py" in text
     assert "scripts\\write_validation_benchmark_decision_packet.py" in text
+    assert "scripts\\write_integrated_evidence_review_packet.py" in text
     assert "scripts\\write_reproducibility_review_packet.py" in text
     assert "scripts\\write_acceptance_decision_templates.py" in text
     assert "scripts\\write_formal_acceptance_blocker_queue.py" in text

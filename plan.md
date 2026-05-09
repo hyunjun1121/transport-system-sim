@@ -2203,6 +2203,7 @@ Project-specific final commands:
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\write_integrated_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample

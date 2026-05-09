@@ -295,6 +295,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\write_integrated_evidence_review_packet.py
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --staged
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --multi-corridor
