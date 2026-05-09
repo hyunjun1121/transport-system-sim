@@ -218,7 +218,7 @@ The codebase currently includes:
   - reproducibility decision packet generation in
     `src/realworld/reproducibility_decision_packet.py` and
     `scripts/write_reproducibility_decision_packet.py`; the generated packet
-    records 7 non-approval decisions with 4 blocking decision rows, 3
+    records 7 non-approval decisions with 2 blocking decision rows, 5
     human-review rows, and
     `data/manifests/reproducibility_acceptance.json` still absent
   - final-audit decision packet generation in

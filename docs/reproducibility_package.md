@@ -176,9 +176,9 @@ Current reproducible artifacts are scaffold-only:
   reproduction has not been accepted
 - bounded clean source-checkout smoke manifest, command log, and markdown
   summary; the current clean-checkout smoke clones the committed tree with
-  Windows long-path support and runs an 8-command minimal profile using the
-  current Python environment, but it is not clean-environment dependency
-  reinstall evidence and does not close reproducibility acceptance
+  Windows long-path support and runs a 9-command bounded smoke profile in a
+  fresh virtual environment with dependency installation, but it is not a full
+  validation-ladder reproduction and does not close reproducibility acceptance
 - bounded current-worktree reproducibility smoke manifest and command log; the
   current smoke records passing command counts in
   `data/validation/reproducibility_smoke_manifest.json`, but it is not a
@@ -510,7 +510,7 @@ git diff --check
 | `docs/reproducibility_acceptance_schema.md` | Optional final-study reproducibility acceptance schema | future reviewed clean-checkout reproduction decision only; no accepted record is committed |
 | `docs/reproducibility_review_packet.md` | Clean-checkout reproducibility review packet documentation | review support only; not reproducibility acceptance |
 | `docs/reproducibility_smoke.md` | Current-worktree reproducibility smoke summary | execution evidence only; not clean-checkout acceptance |
-| `docs/clean_checkout_reproducibility_smoke.md` | Bounded clean source-checkout smoke summary | source-checkout smoke evidence only; not clean-environment reproduction or acceptance |
+| `docs/clean_checkout_reproducibility_smoke.md` | Bounded clean source-checkout smoke summary | source-checkout smoke evidence with fresh virtual environment and dependency installation; not full validation-ladder reproduction or acceptance |
 | `docs/final_audit_acceptance_schema.md` | Optional final-study independent-audit acceptance schema | future reviewed prompt-to-artifact completion decision only; no accepted record is committed |
 | `docs/parameter_evidence_review_packet.md` | Parameter review packet documentation | review support only; not accepted calibration |
 | `docs/parameter_evidence_source_request_packet.md` | Parameter evidence source-request packet documentation | request support only; not accepted calibration |
@@ -572,7 +572,7 @@ git diff --check
 | `data/validation/reproducibility_review_packet.csv` | Clean-checkout reproducibility review worksheet | 8 rows summarizing scaffold scope, formal acceptance absence, Git worktree state, untracked artifact risk, validation command ladder, runtime import boundary, bounded clean-checkout smoke, and clean-environment execution scope |
 | `data/validation/reproducibility_smoke_manifest.json` | Current-worktree smoke manifest | bounded smoke summary with `can_mark_complete: false` |
 | `data/validation/reproducibility_smoke_log.jsonl` | Current-worktree smoke command log | JSONL command records for smoke review |
-| `data/validation/clean_checkout_reproducibility_smoke_manifest.json` | Bounded clean source-checkout smoke manifest | 8-command clean-checkout minimal profile; `can_mark_complete: false` |
+| `data/validation/clean_checkout_reproducibility_smoke_manifest.json` | Bounded clean source-checkout smoke manifest | 9-command clean-checkout smoke profile with dependency installation; `can_mark_complete: false` |
 | `data/validation/clean_checkout_reproducibility_smoke_log.jsonl` | Bounded clean source-checkout smoke command log | JSONL outer-step and inner-command records for smoke review |
 | `data/validation/validation_review_manifest.json` | Validation review manifest | non-acceptance summary; `publication_ready: false`, `acceptance_ready: false`, and 0 acceptance-gate closure candidates |
 | `data/validation/graph_scale_route_comparison.csv` | Full-vs-reduced route parity checks for `A -> D`, `A -> S`, and `R -> D` | scaffold graph-scale review evidence, not acceptance |
