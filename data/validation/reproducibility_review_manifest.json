@@ -20,7 +20,7 @@
   "clean_checkout_smoke_present": true,
   "clean_checkout_smoke_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
   "clean_checkout_smoke_source_commit": "dac338580a88255caf57bb578c00377d570cb339",
-  "clean_checkout_smoke_source_commit_lag_count": 1,
+  "clean_checkout_smoke_source_commit_lag_count": 6,
   "clean_checkout_smoke_source_commit_reachable_from_review_head": true,
   "clean_checkout_smoke_source_commit_relation_to_review_head": "ancestor_of_review_head",
   "clean_checkout_test_performed": true,
@@ -43,7 +43,7 @@
   "reproducibility_acceptance_record_present": false,
   "reproducibility_manifest_scope": "scaffold-only real-world pilot package",
   "result_scope": "reproducibility_review_packet_not_reproducibility_acceptance",
-  "review_git_head_commit": "8880c35d32c9e7583f1741698becd0d22909f105",
+  "review_git_head_commit": "98f5876a105c822bc0d78d50201b4b73d927c96e",
   "review_items": [
     "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
     "run clean-checkout validation from a fresh clone or exported package and preserve command logs",

@@ -1189,6 +1189,56 @@ def test_acceptance_orchestration_summary_reports_absent_manifest() -> None:
     assert summary["remaining_blockers"]
 
 
+def test_acceptance_orchestration_preserves_timestamps_when_unchanged() -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        manifest_path = root / "acceptance_orchestration_manifest.json"
+        write_acceptance_orchestration_outputs(
+            output_dir=root / "agent_reviews",
+            review_packet_dir=root / "review_packets",
+            manifest_path=manifest_path,
+            agent_definition_path=root / "agents.json",
+            agent_doc_path=root / "agents.md",
+            schema_path=root / "schema.json",
+            source_provenance_priority_manifest_path=root / "missing_priority.json",
+            review_status_snapshot_manifests=(),
+        )
+        first_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first_manifest["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest_path.write_text(
+            json.dumps(first_manifest, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        first_record_path = sorted((root / "agent_reviews").glob("*.json"))[0]
+        first_record = json.loads(first_record_path.read_text(encoding="utf-8"))
+        first_record["generated_at"] = "2000-01-01T00:00:00+00:00"
+        first_record_path.write_text(
+            json.dumps(first_record, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        manifest = write_acceptance_orchestration_outputs(
+            output_dir=root / "agent_reviews",
+            review_packet_dir=root / "review_packets",
+            manifest_path=manifest_path,
+            agent_definition_path=root / "agents.json",
+            agent_doc_path=root / "agents.md",
+            schema_path=root / "schema.json",
+            source_provenance_priority_manifest_path=root / "missing_priority.json",
+            review_status_snapshot_manifests=(),
+        )
+        loaded_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        loaded_record = json.loads(first_record_path.read_text(encoding="utf-8"))
+        packet_text = (root / "review_packets" / f"{loaded_record['gate_id']}.md").read_text(
+            encoding="utf-8"
+        )
+
+        assert manifest["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert loaded_manifest["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert loaded_record["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert "2000-01-01T00:00:00+00:00" in packet_text
+
+
 if __name__ == "__main__":
     test_acceptance_orchestration_defines_required_review_agents()
     test_review_agents_point_at_current_readiness_packets()
@@ -1196,4 +1246,5 @@ if __name__ == "__main__":
     test_acceptance_orchestration_blocks_nonready_gate_without_completion()
     test_acceptance_orchestration_writes_records_and_manifest()
     test_acceptance_orchestration_summary_reports_absent_manifest()
+    test_acceptance_orchestration_preserves_timestamps_when_unchanged()
     print("PASS: acceptance orchestration")

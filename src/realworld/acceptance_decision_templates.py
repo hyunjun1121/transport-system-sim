@@ -19,6 +19,11 @@ from src.realworld.final_audit_acceptance import summarize_final_audit_acceptanc
 from src.realworld.final_study_readiness import audit_final_study_readiness
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
+from src.realworld.manifest_timestamp import (
+    preserve_generated_at_when_unchanged,
+    write_json_manifest_if_changed,
+    write_text_if_changed,
+)
 from src.realworld.parameter_acceptance import (
     REQUIRED_COLUMNS as PARAMETER_ACCEPTANCE_COLUMNS,
     summarize_parameter_acceptance,
@@ -118,11 +123,9 @@ def write_acceptance_decision_templates(
         final_audit=final_audit,
         non_ready_summaries=non_ready_summaries,
     )
-    manifest.write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    doc.write_text(build_acceptance_decision_template_markdown(value), encoding="utf-8")
+    preserve_generated_at_when_unchanged(value, manifest)
+    write_json_manifest_if_changed(value, manifest, sort_keys=True)
+    write_text_if_changed(build_acceptance_decision_template_markdown(value), doc)
     return value
 
 

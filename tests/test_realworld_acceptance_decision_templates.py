@@ -91,8 +91,38 @@ def test_write_acceptance_decision_templates_outputs_non_ready_files() -> None:
     print("PASS: acceptance decision templates write non-ready files")
 
 
+def test_write_acceptance_decision_templates_preserves_timestamp_when_unchanged() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        manifest_path = root / "manifest.json"
+        write_acceptance_decision_templates(
+            template_dir=root / "templates",
+            manifest_path=manifest_path,
+            doc_path=root / "templates.md",
+            parameter_template_path=root / "parameter_acceptance_template.csv",
+        )
+        first = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest_path.write_text(
+            json.dumps(first, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        value = write_acceptance_decision_templates(
+            template_dir=root / "templates",
+            manifest_path=manifest_path,
+            doc_path=root / "templates.md",
+            parameter_template_path=root / "parameter_acceptance_template.csv",
+        )
+        loaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+        assert value["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
+
+
 if __name__ == "__main__":
     test_acceptance_decision_templates_are_non_approval()
     test_parameter_acceptance_template_rows_stay_unaccepted()
     test_write_acceptance_decision_templates_outputs_non_ready_files()
+    test_write_acceptance_decision_templates_preserves_timestamp_when_unchanged()
     print("\n=== REALWORLD ACCEPTANCE DECISION TEMPLATE TESTS PASSED ===")

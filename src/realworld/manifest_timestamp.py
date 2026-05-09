@@ -31,7 +31,9 @@ def preserve_generated_at_when_unchanged(
     current_without_time = dict(manifest)
     previous_without_time.pop("generated_at", None)
     current_without_time.pop("generated_at", None)
-    if previous_without_time == current_without_time:
+    if _json_equivalent(previous_without_time) == _json_equivalent(
+        current_without_time
+    ):
         manifest["generated_at"] = previous_generated_at
 
 
@@ -50,7 +52,7 @@ def write_json_manifest_if_changed(
             previous = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             previous = None
-        if previous == manifest:
+        if _json_equivalent(previous) == _json_equivalent(manifest):
             return False
 
     path.write_text(
@@ -61,7 +63,31 @@ def write_json_manifest_if_changed(
     return True
 
 
+def write_text_if_changed(text: str, path: str | Path) -> bool:
+    """Write text only when the existing logical text differs."""
+
+    output = Path(path)
+    if output.exists():
+        try:
+            if output.read_text(encoding="utf-8") == text:
+                return False
+        except OSError:
+            pass
+    output.write_text(text, encoding="utf-8")
+    return True
+
+
+def _json_equivalent(value: Any) -> Any:
+    """Return a JSON-round-tripped value so tuples compare like JSON arrays."""
+
+    try:
+        return json.loads(json.dumps(value, sort_keys=True))
+    except (TypeError, ValueError):
+        return value
+
+
 __all__ = [
     "preserve_generated_at_when_unchanged",
     "write_json_manifest_if_changed",
+    "write_text_if_changed",
 ]

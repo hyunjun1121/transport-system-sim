@@ -20,6 +20,11 @@ from src.realworld.formal_acceptance_evidence_matrix import (
 from src.realworld.formal_acceptance_package import (
     build_formal_acceptance_package_summary,
 )
+from src.realworld.manifest_timestamp import (
+    preserve_generated_at_when_unchanged,
+    write_json_manifest_if_changed,
+    write_text_if_changed,
+)
 from src.realworld.final_study_readiness import audit_final_study_readiness
 
 
@@ -154,14 +159,16 @@ def write_formal_acceptance_pre_review(
     doc.parent.mkdir(parents=True, exist_ok=True)
 
     record_paths: list[str] = []
+    stable_records: list[dict[str, Any]] = []
     for record in records:
         gate_id = str(record["gate"])
         record_path = output / f"{gate_id}_pre_review.json"
-        record_path.write_text(
-            json.dumps(record, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
+        stable_record = dict(record)
+        preserve_generated_at_when_unchanged(stable_record, record_path)
+        write_json_manifest_if_changed(stable_record, record_path, sort_keys=True)
+        stable_records.append(stable_record)
         record_paths.append(_display_path(record_path))
+    records = stable_records
 
     status_counts: dict[str, int] = {}
     for record in records:
@@ -191,13 +198,11 @@ def write_formal_acceptance_pre_review(
             "with real source-backed reviewer decisions."
         ),
     }
-    manifest.write_text(
-        json.dumps(manifest_value, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    doc.write_text(
+    preserve_generated_at_when_unchanged(manifest_value, manifest)
+    write_json_manifest_if_changed(manifest_value, manifest, sort_keys=True)
+    write_text_if_changed(
         build_formal_acceptance_pre_review_markdown(manifest_value, records),
-        encoding="utf-8",
+        doc,
     )
     return manifest_value
 

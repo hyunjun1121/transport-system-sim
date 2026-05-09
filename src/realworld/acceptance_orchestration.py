@@ -20,6 +20,11 @@ from src.realworld.acceptance_records import (
     validate_acceptance_record_mapping,
     write_acceptance_record_schema,
 )
+from src.realworld.manifest_timestamp import (
+    preserve_generated_at_when_unchanged,
+    write_json_manifest_if_changed,
+    write_text_if_changed,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -914,23 +919,16 @@ def write_acceptance_orchestration_outputs(
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     write_acceptance_record_schema(schema_path)
 
-    agent_definition_path.write_text(
-        json.dumps(
-            {
-                "schema_version": 1,
-                "claim_boundary": ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY,
-                "agents": [agent.to_dict() for agent in REVIEW_AGENT_DEFINITIONS],
-            },
-            indent=2,
-            sort_keys=True,
-        )
-        + "\n",
-        encoding="utf-8",
+    write_json_manifest_if_changed(
+        {
+            "schema_version": 1,
+            "claim_boundary": ACCEPTANCE_ORCHESTRATION_CLAIM_BOUNDARY,
+            "agents": [agent.to_dict() for agent in REVIEW_AGENT_DEFINITIONS],
+        },
+        agent_definition_path,
+        sort_keys=True,
     )
-    agent_doc_path.write_text(
-        build_agent_definition_markdown(),
-        encoding="utf-8",
-    )
+    write_text_if_changed(build_agent_definition_markdown(), agent_doc_path)
 
     records: list[AcceptanceRecord] = []
     packet_paths: list[str] = []
@@ -942,17 +940,20 @@ def write_acceptance_orchestration_outputs(
             else:
                 record = build_acceptance_record(agent, gate, generated_at)
             record_path = output_dir / f"{gate_id}__{agent.agent_id}.json"
-            record_path.write_text(
-                json.dumps(record.to_dict(), indent=2, sort_keys=True) + "\n",
-                encoding="utf-8",
+            record_value = record.to_dict()
+            preserve_generated_at_when_unchanged(record_value, record_path)
+            write_json_manifest_if_changed(
+                record_value,
+                record_path,
+                sort_keys=True,
             )
-            acceptance_record_from_mapping(record.to_dict())
+            record = acceptance_record_from_mapping(record_value)
             records.append(record)
 
             packet_path = review_packet_dir / f"{gate_id}.md"
-            packet_path.write_text(
+            write_text_if_changed(
                 build_gate_review_packet(record, agent, gate),
-                encoding="utf-8",
+                packet_path,
             )
             packet_paths.append(_display_path(packet_path))
 
@@ -967,20 +968,14 @@ def write_acceptance_orchestration_outputs(
         source_provenance_priority=source_priority,
         review_packet_snapshots=review_packet_snapshots,
     )
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
     index_path = review_packet_dir / "acceptance_review_index.md"
-    index_path.write_text(
-        build_acceptance_review_index(manifest, records),
-        encoding="utf-8",
-    )
     manifest["review_index_path"] = _display_path(index_path)
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    preserve_generated_at_when_unchanged(manifest, manifest_path)
+    write_text_if_changed(
+        build_acceptance_review_index(manifest, records),
+        index_path,
     )
+    write_json_manifest_if_changed(manifest, manifest_path, sort_keys=True)
     return manifest
 
 
