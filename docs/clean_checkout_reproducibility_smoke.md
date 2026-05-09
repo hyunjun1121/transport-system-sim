@@ -14,7 +14,7 @@ reproducibility acceptance and does not close
 - Full clean environment tested: `true`
 - Artifact regeneration tested: `true`
 - Artifact regeneration scope: `bounded_review_and_audit_artifact_regeneration_not_full_reproduction`
-- Source commit: `cdd05fe9b1e4f7b11d134f5b14aec1c914f04c46`
+- Source commit: `3b0e2c95f233c9e5770cad033cc8243a7e56a31e`
 - Environment scope: `clean_source_checkout_fresh_venv_with_dependency_install`
 - Can mark complete: `false`
 
