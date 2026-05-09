@@ -95,11 +95,12 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\audit_agent_review_paths.py
 ```
 
-The source-provenance audit, live source-URL option, source URL review packet,
-remediation packet, and provenance-priority packet are reviewer aids only.
-They record citation reachability, source-specific actions, and source-level
-priorities; they do not certify licenses, attribution, source suitability, or
-provenance acceptance.
+The source-provenance audit, live source-URL option, source-license review
+packet, source URL review packet, remediation packet, provenance-priority
+packet, and source-provenance decision packet are reviewer aids only. They
+record citation reachability, source-specific actions, source-level priorities,
+and pending source decisions; they do not certify licenses, attribution, source
+suitability, or provenance acceptance.
 
 The source context-cache request and decision packets identify context-source
 target payload blockers such as the KTDB GTFS zip or directory, Seoul
