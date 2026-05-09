@@ -60,8 +60,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | --- | ---: | ---: | ---: | ---: | --- | --- |
 | `Source Provenance Priority` | 11 | 2 | 9 | 0 | `false` | blocked_context_only_source_not_cached=2; needs_human_review_cached_snapshot_source=5; needs_human_review_repository_input_source=4 |
 | `Source Context Cache Requests` | 3 | 3 | 0 | 0 | `false` | blocked_missing_context_source_cache=3 |
-| `Source Context Cache Decisions` | 3 | 3 | 0 | 0 | `false` | blocked_missing_context_source_cache_or_exclusion_decision=3 |
-| `Source Provenance Decision` | 7 | 3 | 4 | 0 | `false` | blocked_missing_context_cache_or_exclusion_decisions=1; blocked_missing_provenance_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; +4 more |
+| `Source Context Cache Decisions` | 3 | 3 | 0 | 0 | `false` | blocked_missing_context_source_cache_retention_or_exclusion_decision=3 |
+| `Source Provenance Decision` | 7 | 3 | 4 | 0 | `false` | blocked_missing_context_cache_retention_or_exclusion_decisions=1; blocked_missing_provenance_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; +4 more |
 | `Source/License Review` | 11 | 2 | 11 | 0 | `false` | cached_snapshot_pending_review=5; context_only_not_cached=2; repository_input_pending_review=4 |
 | `Source URL Review` | 17 | 1 | 17 | 0 | `false` | network_error=1; no_url_detected=4; reachable=12 |
 | `Source URL Remediation` | 17 | 0 | 0 | 0 | `false` | alternate_reachable_url_needs_review=1; local_citation_needs_review=4; reachable_needs_license_review=12 |
@@ -171,11 +171,11 @@ Priority blockers by packet:
 - data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - data_provenance: source context cache request: formal provenance acceptance record is absent
 - data_provenance: source context cache decision: formal provenance acceptance record is absent
-- data_provenance: source context cache decision: target cache/exclusion decisions are pending for context-source rows
+- data_provenance: source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows
 - data_provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
-- data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
-- data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
 - data_provenance: resolve source-provenance decision blockers before provenance acceptance
 - data_provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - data_provenance: source provenance decision: reproducibility manifest remains scaffold-only
@@ -371,11 +371,11 @@ Priority blockers by packet:
 - Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - Data Provenance: source context cache request: formal provenance acceptance record is absent
 - Data Provenance: source context cache decision: formal provenance acceptance record is absent
-- Data Provenance: source context cache decision: target cache/exclusion decisions are pending for context-source rows
+- Data Provenance: source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows
 - Data Provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
-- Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
-- Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
 - Data Provenance: resolve source-provenance decision blockers before provenance acceptance
 - Data Provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - Data Provenance: source provenance decision: reproducibility manifest remains scaffold-only

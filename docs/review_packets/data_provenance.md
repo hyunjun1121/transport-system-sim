@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T04:16:12+00:00`
+- Generated at: `2026-05-09T04:31:33+00:00`
 
 ## Decision
 
@@ -106,11 +106,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
-- source context cache decision: target cache/exclusion decisions are pending for context-source rows
+- source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows
 - source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
-- source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
 - source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
@@ -132,11 +132,11 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources
 - source context cache request: formal provenance acceptance record is absent
 - source context cache decision: formal provenance acceptance record is absent
-- source context cache decision: target cache/exclusion decisions are pending for context-source rows
+- source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows
 - source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review
-- source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present
-- source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present
+- source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
+- source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present
 - resolve source-provenance decision blockers before provenance acceptance
 - source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions
 - source provenance decision: reproducibility manifest remains scaffold-only
@@ -168,11 +168,11 @@ Formal acceptance artifacts:
     "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "source context cache request: formal provenance acceptance record is absent",
     "source context cache decision: formal provenance acceptance record is absent",
-    "source context cache decision: target cache/exclusion decisions are pending for context-source rows",
+    "source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
     "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
     "resolve source-provenance decision blockers before provenance acceptance",
     "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "source provenance decision: reproducibility manifest remains scaffold-only",
@@ -192,7 +192,7 @@ Formal acceptance artifacts:
     "source_context_cache_decision_recorded": false,
     "source_context_cache_decision_row_count": 3,
     "source_context_cache_decision_status_counts": {
-      "blocked_missing_context_source_cache_or_exclusion_decision": 3
+      "blocked_missing_context_source_cache_retention_or_exclusion_decision": 3
     },
     "source_context_cache_request_artifacts_present": true,
     "source_context_cache_request_blocking_request_count": 3,
@@ -208,7 +208,7 @@ Formal acceptance artifacts:
     "source_provenance_decision_artifacts_present": true,
     "source_provenance_decision_blocking_decision_count": 3,
     "source_provenance_decision_can_mark_complete": false,
-    "source_provenance_decision_context_cache_or_exclusion_recorded": false,
+    "source_provenance_decision_context_cache_retention_or_exclusion_recorded": false,
     "source_provenance_decision_human_review_decision_count": 4,
     "source_provenance_decision_manifest_present": true,
     "source_provenance_decision_publication_ready": false,
@@ -220,7 +220,7 @@ Formal acceptance artifacts:
     ],
     "source_provenance_decision_row_count": 7,
     "source_provenance_decision_status_counts": {
-      "blocked_missing_context_cache_or_exclusion_decisions": 1,
+      "blocked_missing_context_cache_retention_or_exclusion_decisions": 1,
       "blocked_missing_provenance_acceptance_record": 1,
       "blocked_scaffold_reproducibility_manifest_scope": 1,
       "needs_human_review_cached_snapshot_and_repository_scope": 1,

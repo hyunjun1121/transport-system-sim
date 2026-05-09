@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T04:25:33+00:00",
+  "generated_at": "2026-05-09T04:31:33+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -151,11 +151,11 @@
     "data_provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "data_provenance: source context cache request: formal provenance acceptance record is absent",
     "data_provenance: source context cache decision: formal provenance acceptance record is absent",
-    "data_provenance: source context cache decision: target cache/exclusion decisions are pending for context-source rows",
+    "data_provenance: source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
     "data_provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "data_provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
     "data_provenance: resolve source-provenance decision blockers before provenance acceptance",
     "data_provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "data_provenance: source provenance decision: reproducibility manifest remains scaffold-only",
@@ -351,11 +351,11 @@
     "Data Provenance: source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
     "Data Provenance: source context cache request: formal provenance acceptance record is absent",
     "Data Provenance: source context cache decision: formal provenance acceptance record is absent",
-    "Data Provenance: source context cache decision: target cache/exclusion decisions are pending for context-source rows",
+    "Data Provenance: source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
     "Data Provenance: source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-    "Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "Data Provenance: source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
     "Data Provenance: resolve source-provenance decision blockers before provenance acceptance",
     "Data Provenance: source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "Data Provenance: source provenance decision: reproducibility manifest remains scaffold-only",
@@ -550,15 +550,15 @@
       "publication_ready": false,
       "remaining_blockers": [
         "formal provenance acceptance record is absent",
-        "target cache/exclusion decisions are pending for context-source rows",
+        "target cache/retention/exclusion decisions are pending for context-source rows",
         "retained context sources still require license, attribution, snapshot, and reproducibility review",
-        "ktdb_public_transport_gtfs_context: no reviewed cache artifact or explicit exclusion decision is present",
-        "seoul_shortest_path_api_context: no reviewed cache artifact or explicit exclusion decision is present",
-        "seoul_timetable_api_context: no reviewed cache artifact or explicit exclusion decision is present"
+        "ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+        "seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+        "seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present"
       ],
       "result_scope": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
       "review_items": [
-        "choose cache, exclude, or sensitivity-only treatment for each context source",
+        "choose cache, sensitivity/context-only retention, or exclusion treatment for each context source",
         "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
         "retain raw responses and SHA256 evidence when a source is cached",
         "derive downstream rail evidence only after retained source extracts are reviewed",
@@ -567,7 +567,7 @@
       "row_count": 3,
       "snapshot_id": "source_context_cache_decision",
       "status_counts": {
-        "blocked_missing_context_source_cache_or_exclusion_decision": 3
+        "blocked_missing_context_source_cache_retention_or_exclusion_decision": 3
       }
     },
     {
@@ -589,14 +589,14 @@
       "review_items": [
         "confirm retained source inventory and excluded-source scope",
         "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
-        "resolve context-source target cache, exclusion, or sensitivity-only decisions",
+        "resolve context-source target cache, sensitivity/context-only retention, or exclusion decisions",
         "confirm reachable URLs, local citations, and alternate URL candidates",
         "record final provenance only in data/manifests/provenance_acceptance.json"
       ],
       "row_count": 7,
       "snapshot_id": "source_provenance_decision",
       "status_counts": {
-        "blocked_missing_context_cache_or_exclusion_decisions": 1,
+        "blocked_missing_context_cache_retention_or_exclusion_decisions": 1,
         "blocked_missing_provenance_acceptance_record": 1,
         "blocked_scaffold_reproducibility_manifest_scope": 1,
         "needs_human_review_cached_snapshot_and_repository_scope": 1,
