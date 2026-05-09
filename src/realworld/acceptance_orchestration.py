@@ -1636,8 +1636,8 @@ def _first_int(data: Mapping[str, Any], keys: tuple[str, ...]) -> int:
 
 def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
     for key in (
-        "readiness_status_counts",
         "decision_status_counts",
+        "readiness_status_counts",
         "priority_status_counts",
         "review_status_counts",
         "snapshot_status_counts",
