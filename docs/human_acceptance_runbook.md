@@ -39,26 +39,42 @@ acceptance artifacts.
 ```powershell
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
+.\.venv\Scripts\python scripts\audit_source_provenance.py
+.\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
+.\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_road_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
+.\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
+.\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_sensitivity_method_decision_packet.py
+.\.venv\Scripts\python scripts\write_experiment_package_review_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py
+.\.venv\Scripts\python scripts\write_figure_table_review_packet.py
+.\.venv\Scripts\python scripts\write_claim_alignment_review_packet.py
+.\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
 ```
 
-The live source-URL option records volatile reachability evidence for
-`docs/source_url_review_packet.md`. The remediation packet turns those URL
-statuses into source-specific reviewer actions. Both are reviewer aids only;
-they do not certify licenses, attribution, source suitability, or provenance
-acceptance.
+The source-provenance audit, live source-URL option, source URL review packet,
+remediation packet, and provenance-priority packet are reviewer aids only.
+They record citation reachability, source-specific actions, and source-level
+priorities; they do not certify licenses, attribution, source suitability, or
+provenance acceptance.
 
 The source context-cache request and decision packets identify context-source
 target payload blockers such as the KTDB GTFS zip or directory, Seoul
@@ -66,19 +82,21 @@ shortest-path API cache/raw JSON, and Seoul timetable API cache/raw JSON. They
 are cache-or-exclude review aids only. Cached KTDB metadata is review support,
 not a GTFS payload cache or provenance acceptance.
 
-The rail fetch-readiness packet does not fetch live data. It records whether
-rail timing source requests are blocked by missing API keys, missing reviewed
-GTFS files, or human-review-only capacity and availability decisions.
+The rail fetch-readiness and source-decision packets do not fetch or approve
+live data. They record whether rail timing source requests are blocked by
+missing API keys, missing reviewed GTFS files, or human-review-only capacity
+and availability decisions.
 
-The road source-readiness packet does not fetch external road data. It records
-whether road source requests are blocked by missing capacity/override evidence
-or require human review for sparse speed candidates, benchmark strategy, and
-scenario-only disruption treatment.
+The road source-readiness and source-decision packets do not fetch external
+road data or create overrides. They record whether road source requests are
+blocked by missing capacity/override evidence or require human review for
+sparse speed candidates, benchmark strategy, and scenario-only disruption
+treatment.
 
-The parameter source-readiness packet does not accept weak assumptions. It
-records whether demand, fleet, dispatch, transfer, disruption, and traffic/BPR
-source requests are blocked or require human review before final parameter
-claims.
+The parameter source-readiness and source-decision packets do not accept weak
+assumptions. They record whether demand, fleet, dispatch, transfer,
+disruption, and traffic/BPR source requests are blocked or require human
+review before final parameter claims.
 
 The graph-scale strategy-readiness packet does not choose the final
 source-vs-analysis graph. It records whether the current reduced corridor,
@@ -97,23 +115,35 @@ human-review items. Current cross-references are
 `data/validation/validation_strategy_readiness_packet.csv`, and
 `data/validation/validation_strategy_readiness_manifest.json`.
 
-The sensitivity strategy-readiness packet does not accept Morris output,
-waive Sobol analysis, or approve final sensitivity claims. It records whether
-missing/non-finite Morris indices, zero `mu_star` interpretation, reduced graph
-scope, scaffold result scope, the Morris-vs-Sobol decision, and the missing
-sensitivity acceptance record are blockers or human-review items. Current
-cross-references are `docs/sensitivity_strategy_readiness_packet.md`,
+The validation benchmark-readiness and benchmark-decision packets isolate
+whether fallback, OSRM, or other route benchmarks are sufficient for the
+validation claim boundary. They do not convert plausibility checks into ground
+truth or create `validation_acceptance.json`.
+
+The sensitivity review, index-review, strategy-readiness, and method-decision
+packets do not accept Morris output, waive Sobol analysis, or approve final
+sensitivity claims. They record whether missing/non-finite Morris indices,
+zero `mu_star` interpretation, reduced graph scope, scaffold result scope, the
+Morris-vs-Sobol decision, and the missing sensitivity acceptance record are
+blockers or human-review items. Current cross-references are
+`docs/sensitivity_strategy_readiness_packet.md`,
 `data/validation/sensitivity_strategy_readiness_packet.csv`, and
 `data/validation/sensitivity_strategy_readiness_manifest.json`.
 
-The experiment strategy-readiness packet does not accept full pilot outputs or
-approve calibrated experiment claims. It records whether scaffold result scope,
-graph-scale dependency, upstream input-evidence dependency, row-count and
-checksum review, scenario-policy-seed design, CRN pairing, and the missing
-experiment acceptance record are blockers or human-review items. Current
-cross-references are `docs/experiment_strategy_readiness_packet.md`,
+The experiment package, strategy-readiness, and design-decision packets do not
+accept full pilot outputs or approve calibrated experiment claims. They record
+whether scaffold result scope, graph-scale dependency, upstream input-evidence
+dependency, row-count and checksum review, scenario-policy-seed design, CRN
+pairing, and the missing experiment acceptance record are blockers or
+human-review items. Current cross-references are
+`docs/experiment_strategy_readiness_packet.md`,
 `data/manifests/experiment_strategy_readiness_packet.csv`, and
 `data/manifests/experiment_strategy_readiness_manifest.json`.
+
+The figure-table, claim-alignment, and manuscript/report decision packets do
+not approve paper or report claims. They keep artifact inventory, captions,
+graph scope, proxy interpretation, and evidence-gate dependencies visible
+before any `manuscript_acceptance.json` record is drafted.
 
 2. Inspect the aggregate blockers:
 
