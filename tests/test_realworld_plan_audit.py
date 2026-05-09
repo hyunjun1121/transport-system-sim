@@ -661,6 +661,28 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert "not approve paper or report claims" in runbook_text
     assert "do not fetch external" in runbook_text
     assert "road data or create overrides" in runbook_text
+    plan_text = (ROOT / "plan.md").read_text(encoding="utf-8")
+    for expected in (
+        "scripts\\write_source_license_review_packet.py",
+        "scripts\\write_source_provenance_decision_packet.py",
+        "scripts\\write_pilot_privacy_review_packet.py",
+        "scripts\\write_full_graph_runtime_readiness_packet.py",
+        "scripts\\write_graph_scale_method_decision_packet.py",
+        "scripts\\write_sensitivity_method_decision_packet.py",
+        "scripts\\write_experiment_package_review_packet.py",
+        "scripts\\write_claim_alignment_review_packet.py",
+        "scripts\\write_manuscript_report_decision_packet.py",
+        "scripts\\write_reproducibility_review_packet.py",
+        "scripts\\write_final_audit_decision_packet.py",
+        "scripts\\write_acceptance_task_assignments.py",
+        "scripts\\write_formal_acceptance_pre_review.py",
+        "scripts\\audit_agent_review_paths.py",
+        "scripts\\run_clean_checkout_smoke.py",
+        "scripts\\validate_formal_acceptance_package.py --fail-on-blockers",
+        "scripts\\audit_publication_readiness.py --fail-on-blockers",
+        "scripts\\audit_final_study_readiness.py --fail-on-blockers",
+    ):
+        assert expected in plan_text
     assert any(
         row["path"] == "docs/validation_strategy_readiness_packet.md" and row["ok"]
         for row in summary["doc_checks"]
