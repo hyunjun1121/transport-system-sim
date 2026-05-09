@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T04:31:33+00:00",
+  "generated_at": "2026-05-09T04:46:03+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -1650,7 +1650,7 @@
       }
     },
     {
-      "blocking_count": 3,
+      "blocking_count": 4,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1672,10 +1672,10 @@
       "row_count": 8,
       "snapshot_id": "reproducibility_review",
       "status_counts": {
+        "blocked_dirty_worktree": 1,
         "blocked_full_clean_checkout_not_run": 1,
         "blocked_no_reproducibility_acceptance_record": 1,
         "blocked_scaffold_only_manifest_scope": 1,
-        "ready_for_review_clean_worktree": 1,
         "ready_for_review_command_ladder_present": 1,
         "ready_for_review_full_clean_checkout_smoke": 1,
         "ready_for_review_no_cloned_repo_runtime_imports": 1,
@@ -1955,7 +1955,7 @@
       }
     },
     {
-      "blocking_count": 0,
+      "blocking_count": 8,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
       "human_review_count": 0,
@@ -1964,12 +1964,24 @@
       "manifest_valid": true,
       "path": "data/validation/tracked_artifact_audit_manifest.json",
       "publication_ready": false,
-      "remaining_blockers": [],
+      "remaining_blockers": [
+        "data/manifests/acceptance_orchestration_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_decision_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_review_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+        "data/validation/reproducibility_review_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/current_goal_completion_audit.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/reproducibility_decision_packet.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/acceptance_review_index.md: Commit, stash, or document this change before clean-checkout reproduction.",
+        "docs/review_packets/reproducibility.md: Commit, stash, or document this change before clean-checkout reproduction."
+      ],
       "result_scope": "",
       "review_items": [],
-      "row_count": 0,
+      "row_count": 8,
       "snapshot_id": "tracked_artifact_audit",
-      "status_counts": {}
+      "status_counts": {
+        "data_or_manifest": 4,
+        "documentation": 4
+      }
     },
     {
       "blocking_count": 12,
@@ -2036,6 +2048,7 @@
   "schema_path": "schemas/acceptance_record.schema.json",
   "schema_version": 1,
   "source_provenance_priority": {
+    "blocking_context_target_gap_count": 3,
     "blocking_source_count": 2,
     "cached_snapshot_source_count": 5,
     "can_mark_complete": false,
