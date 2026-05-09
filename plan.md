@@ -25,7 +25,7 @@ superior in the real world.
 
 ## Current Audit Snapshot
 
-As of 2026-05-08, the final-study readiness audit remains blocked:
+As of 2026-05-09, the final-study readiness audit remains blocked:
 `final_study_ready=false`. The ready final gates are 3/15:
 `real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
 The other 12/15 gates are blocked.
