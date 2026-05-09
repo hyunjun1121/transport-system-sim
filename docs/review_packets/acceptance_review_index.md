@@ -38,7 +38,7 @@ This section summarizes the provenance triage packet for the data-provenance rev
 
 Required reviewer actions:
 
-- provide reviewed target payloads or explicitly exclude context-source rows before final claims
+- provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims
 - review cached public snapshots for license, attribution, snapshot, and reproducibility suitability
 - confirm project-owned local citations and privacy abstraction for repository inputs
 - resolve alternate URL issues before provenance acceptance
@@ -47,7 +47,7 @@ Required reviewer actions:
 Provenance blockers:
 
 - formal provenance acceptance record is absent
-- context-source target artifacts still need reviewed payloads or exclusion decisions
+- context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions
 - cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - repository inputs still require human scope/privacy/reproducibility review
 - URL remediation rows still require reviewer confirmation
@@ -163,7 +163,7 @@ Priority blockers by packet:
 - data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - data_provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - data_provenance: source provenance priority: formal provenance acceptance record is absent
-- data_provenance: source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
+- data_provenance: source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions
 - data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation
@@ -363,7 +363,7 @@ Priority blockers by packet:
 - Data Provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - Data Provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - Data Provenance: source provenance priority: formal provenance acceptance record is absent
-- Data Provenance: source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
+- Data Provenance: source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions
 - Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation

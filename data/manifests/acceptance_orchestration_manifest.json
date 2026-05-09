@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T04:10:50+00:00",
+  "generated_at": "2026-05-09T04:16:12+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -143,7 +143,7 @@
     "data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "data_provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
     "data_provenance: source provenance priority: formal provenance acceptance record is absent",
-    "data_provenance: source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions",
+    "data_provenance: source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
     "data_provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "data_provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "data_provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
@@ -343,7 +343,7 @@
     "Data Provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "Data Provenance: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
     "Data Provenance: source provenance priority: formal provenance acceptance record is absent",
-    "Data Provenance: source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions",
+    "Data Provenance: source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
     "Data Provenance: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "Data Provenance: source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "Data Provenance: source provenance priority: URL remediation rows still require reviewer confirmation",
@@ -489,14 +489,14 @@
       "publication_ready": false,
       "remaining_blockers": [
         "formal provenance acceptance record is absent",
-        "context-source target artifacts still need reviewed payloads or exclusion decisions",
+        "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
         "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
         "repository inputs still require human scope/privacy/reproducibility review",
         "URL remediation rows still require reviewer confirmation"
       ],
       "result_scope": "Source provenance priority packet only; not source acceptance, not license certification, not calibrated real-world validation, not provenance gate closure, and not operational routing approval.",
       "review_items": [
-        "provide reviewed target payloads or explicitly exclude context-source rows before final claims",
+        "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
         "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
         "confirm project-owned local citations and privacy abstraction for repository inputs",
         "resolve alternate URL issues before provenance acceptance",
@@ -618,12 +618,12 @@
       "remaining_blockers": [
         "formal provenance acceptance record is absent",
         "source/license packet rows are review aids and do not certify license compatibility",
-        "context-source target artifacts still need reviewed payloads or explicit exclusion from final claims"
+        "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims"
       ],
       "result_scope": "Source/license review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
       "review_items": [
         "verify each source URL, license, attribution requirement, and derivative-use constraint",
-        "provide reviewed target payloads for context-source rows or explicitly exclude them from final claims",
+        "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
         "confirm local artifact paths and snapshot dates for every cached source",
         "review project-owned synthetic/privacy abstraction before provenance acceptance",
         "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed"
@@ -2055,14 +2055,14 @@
     "publication_ready": false,
     "remaining_blockers": [
       "formal provenance acceptance record is absent",
-      "context-source target artifacts still need reviewed payloads or exclusion decisions",
+      "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
       "cached public snapshots still require license, attribution, snapshot, and reproducibility review",
       "repository inputs still require human scope/privacy/reproducibility review",
       "URL remediation rows still require reviewer confirmation"
     ],
     "repository_input_source_count": 4,
     "review_items": [
-      "provide reviewed target payloads or explicitly exclude context-source rows before final claims",
+      "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
       "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
       "confirm project-owned local citations and privacy abstraction for repository inputs",
       "resolve alternate URL issues before provenance acceptance",

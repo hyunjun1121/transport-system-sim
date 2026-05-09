@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `OSM / Source / License / Provenance Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T04:10:50+00:00`
+- Generated at: `2026-05-09T04:16:12+00:00`
 
 ## Decision
 
@@ -98,7 +98,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - source provenance priority: formal provenance acceptance record is absent
-- source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
+- source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
@@ -124,7 +124,7 @@ OSM / Source / License / Provenance Review Agent cannot accept gate data_provena
 - create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review
 - replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance
 - source provenance priority: formal provenance acceptance record is absent
-- source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions
+- source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions
 - source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review
 - source provenance priority: repository inputs still require human scope/privacy/reproducibility review
 - source provenance priority: URL remediation rows still require reviewer confirmation
@@ -160,7 +160,7 @@ Formal acceptance artifacts:
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
     "source provenance priority: formal provenance acceptance record is absent",
-    "source provenance priority: context-source target artifacts still need reviewed payloads or exclusion decisions",
+    "source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
     "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
     "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
     "source provenance priority: URL remediation rows still require reviewer confirmation",
