@@ -633,6 +633,9 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     for expected in (
         "docs/source_context_cache_decision_packet.md",
         "docs/pilot_region_decision_packet.md",
+        "scripts\\write_source_license_review_packet.py",
+        "scripts\\write_source_provenance_decision_packet.py",
+        "scripts\\write_pilot_privacy_review_packet.py",
         "scripts\\write_rail_evidence_review_packet.py",
         "scripts\\write_road_evidence_review_packet.py",
         "scripts\\write_parameter_review_packet.py",

@@ -40,11 +40,14 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\audit_source_provenance.py
+.\.venv\Scripts\python scripts\write_source_license_review_packet.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
+.\.venv\Scripts\python scripts\write_source_provenance_decision_packet.py
+.\.venv\Scripts\python scripts\write_pilot_privacy_review_packet.py
 .\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
 .\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py

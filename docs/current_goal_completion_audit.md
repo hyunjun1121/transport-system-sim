@@ -247,6 +247,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\audit_source_provenance.py
+.\.venv\Scripts\python scripts\write_source_license_review_packet.py
 .\.venv\Scripts\python scripts\write_source_url_review_packet.py --preserve-existing-live
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_priority_packet.py
@@ -283,6 +284,7 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py
 .\.venv\Scripts\python scripts\audit_graph_scale_manifests.py
+.\.venv\Scripts\python scripts\write_pilot_privacy_review_packet.py
 .\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
 .\.venv\Scripts\python scripts\write_source_provenance_decision_packet.py
 .\.venv\Scripts\python scripts\run_plausibility_validation.py

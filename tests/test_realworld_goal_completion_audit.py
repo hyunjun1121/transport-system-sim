@@ -58,10 +58,13 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "scripts\\audit_formal_evidence_paths.py" in text
     assert "scripts\\validate_formal_acceptance_package.py --fail-on-blockers" in text
     assert "scripts\\audit_source_provenance.py" in text
+    assert "scripts\\write_source_license_review_packet.py" in text
     assert "scripts\\write_source_url_review_packet.py --preserve-existing-live" in text
+    assert "scripts\\write_source_provenance_decision_packet.py" in text
     assert "scripts\\write_source_provenance_priority_packet.py" in text
     assert "scripts\\write_source_context_cache_request_packet.py" in text
     assert "scripts\\write_source_context_cache_decision_packet.py" in text
+    assert "scripts\\write_pilot_privacy_review_packet.py" in text
     assert "scripts\\write_road_source_decision_packet.py" in text
     assert "scripts\\write_parameter_source_decision_packet.py" in text
     assert "scripts\\write_road_evidence_priority_packet.py" in text
