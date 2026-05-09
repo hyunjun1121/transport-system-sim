@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 
@@ -99,8 +100,29 @@ def test_write_blocker_queue_preserves_timestamp_when_unchanged() -> None:
         assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
 
 
+def test_formal_blocker_queue_wrapper_is_runnable() -> None:
+    """Plan-ladder compatibility command should delegate to the queue writer."""
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts" / "write_formal_acceptance_blocker_queue.py"),
+            "--help",
+        ],
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+    assert result.returncode == 0
+    assert "--fail-on-blockers" in result.stdout
+
+
 if __name__ == "__main__":
     test_blocker_queue_rows_reflect_current_formal_package()
     test_write_blocker_queue_outputs_csv_manifest_and_doc()
     test_write_blocker_queue_preserves_timestamp_when_unchanged()
+    test_formal_blocker_queue_wrapper_is_runnable()
     print("PASS: formal acceptance blocker queue")
