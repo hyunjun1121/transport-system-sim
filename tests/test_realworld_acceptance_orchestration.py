@@ -286,9 +286,9 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                         "csv": "data/manifests/source_provenance_priority_packet.csv"
                     },
                     "row_count": 11,
-                    "blocking_source_count": 3,
+                    "blocking_source_count": 2,
                     "human_review_source_count": 8,
-                    "context_only_source_count": 3,
+                    "context_only_source_count": 2,
                     "cached_snapshot_source_count": 4,
                     "repository_input_source_count": 4,
                     "provenance_gate_closure_candidate_count": 0,
@@ -1025,7 +1025,13 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert manifest["can_mark_complete_count"] == 0
         assert manifest["source_provenance_priority"]["row_count"] == 11
         assert (
-            manifest["source_provenance_priority"]["blocking_source_count"] == 3
+            manifest["source_provenance_priority"]["blocking_source_count"] == 2
+        )
+        assert (
+            manifest["source_provenance_priority"][
+                "blocking_context_target_gap_count"
+            ]
+            == 3
         )
         assert (
             manifest["source_provenance_priority"][
@@ -1037,7 +1043,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             item["snapshot_id"]: item
             for item in manifest["review_packet_snapshots"]
         }
-        assert snapshots["source_provenance_priority"]["blocking_count"] == 3
+        assert snapshots["source_provenance_priority"]["blocking_count"] == 2
         assert snapshots["pilot_region_decision"]["blocking_count"] == 3
         assert snapshots["pilot_region_decision"]["human_review_count"] == 3
         assert (

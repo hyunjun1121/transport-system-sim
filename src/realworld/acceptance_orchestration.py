@@ -1300,6 +1300,13 @@ def _build_manifest(
         for record in records
         if record.status in {"blocked", "needs_human_review"}
     ]
+    source_priority_summary = dict(source_provenance_priority)
+    source_priority_summary["blocking_context_target_gap_count"] = (
+        _blocking_context_target_gap_count(
+            source_priority_summary,
+            review_packet_snapshots,
+        )
+    )
     return {
         "schema_version": 1,
         "generated_at": generated_at,
@@ -1316,7 +1323,7 @@ def _build_manifest(
         "schema_path": _display_path(schema_path),
         "record_dir": _display_path(record_dir),
         "review_packet_paths": sorted(set(packet_paths)),
-        "source_provenance_priority": dict(source_provenance_priority),
+        "source_provenance_priority": source_priority_summary,
         "review_packet_snapshots": [dict(snapshot) for snapshot in review_packet_snapshots],
         "records": [
             {
@@ -1546,11 +1553,27 @@ def _load_source_provenance_priority_summary(path: Path) -> dict[str, Any]:
     }
 
 
+def _blocking_context_target_gap_count(
+    source_priority: Mapping[str, Any],
+    review_packet_snapshots: Iterable[Mapping[str, Any]],
+) -> int:
+    """Return the context-source target-artifact gap count for the index."""
+
+    for snapshot in review_packet_snapshots:
+        if snapshot.get("snapshot_id") == "source_context_cache_request":
+            return int(snapshot.get("blocking_count", 0) or 0)
+    return int(source_priority.get("blocking_source_count", 0) or 0)
+
+
 def _source_provenance_priority_index_lines(
     source_priority: Mapping[str, Any],
 ) -> list[str]:
     """Render source-provenance triage status inside the acceptance index."""
 
+    target_gap_count = source_priority.get(
+        "blocking_context_target_gap_count",
+        source_priority.get("blocking_source_count", 0),
+    )
     lines = [
         "",
         "## Source Provenance Priority Snapshot",
@@ -1568,7 +1591,7 @@ def _source_provenance_priority_index_lines(
             f"`{str(source_priority.get('manifest_present', False)).lower()}`"
         ),
         f"- Source rows: {source_priority.get('row_count', 0)}",
-        f"- Blocking context-source target gaps: {source_priority.get('blocking_source_count', 0)}",
+        f"- Blocking context-source target gaps: {target_gap_count}",
         f"- Human-review sources: {source_priority.get('human_review_source_count', 0)}",
         f"- Cached public snapshots: {source_priority.get('cached_snapshot_source_count', 0)}",
         f"- Repository input sources: {source_priority.get('repository_input_source_count', 0)}",
