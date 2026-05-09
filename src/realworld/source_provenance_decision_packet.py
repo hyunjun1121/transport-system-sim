@@ -159,6 +159,7 @@ def build_source_provenance_decision_rows(
             decision_topic="Context source cache or exclusion",
             candidate_decision=(
                 "Cache retained context-source target artifacts or explicitly "
+                "retain the source as sensitivity/context-only evidence, or "
                 "exclude the source from final claims"
             ),
             current_evidence=_context_evidence(
@@ -263,8 +264,8 @@ def build_source_provenance_decision_rows(
             decision_topic="Formal provenance acceptance",
             candidate_decision=(
                 "Record accepted sources, reviewer, date, license scope, "
-                "cache/exclusion decisions, evidence paths, and claim boundary "
-                "only in the formal provenance acceptance path"
+                "cache/exclusion/sensitivity decisions, evidence paths, and "
+                "claim boundary only in the formal provenance acceptance path"
             ),
             current_evidence=(
                 f"acceptance_path={_display_path(acceptance_path)}; "

@@ -44,6 +44,9 @@ def test_source_provenance_decision_rows_surface_current_blockers() -> None:
     assert by_id["context_source_cache_or_exclusion_decision"][
         "decision_status"
     ] == "blocked_missing_context_cache_or_exclusion_decisions"
+    assert "sensitivity/context-only" in by_id[
+        "context_source_cache_or_exclusion_decision"
+    ]["candidate_decision"]
     assert by_id["url_remediation_decision"]["decision_status"] == (
         "needs_human_review_url_remediation"
     )
