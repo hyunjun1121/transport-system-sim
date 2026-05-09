@@ -238,7 +238,6 @@
         "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
         "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
         "resolve graph-scale method-decision blockers before graph-scale acceptance",
-        "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
         "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
         "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
         "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",

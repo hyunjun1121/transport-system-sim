@@ -525,13 +525,14 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             json.dumps(
                 {
                     "row_count": 7,
-                    "blocking_decision_count": 4,
-                    "human_review_decision_count": 3,
+                    "blocking_decision_count": 3,
+                    "human_review_decision_count": 4,
                     "graph_scale_gate_closure_candidate_count": 0,
                     "can_mark_complete": False,
                     "publication_ready": False,
                     "decision_status_counts": {
                         "blocked_missing_graph_scale_acceptance_record": 1,
+                        "needs_human_review_multi_corridor_sample_scope": 1,
                         "needs_human_review_reduced_corridor_warning_policy": 1,
                     },
                     "remaining_blockers": [
@@ -1078,8 +1079,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 24
         )
-        assert snapshots["graph_scale_method_decision"]["blocking_count"] == 4
-        assert snapshots["graph_scale_method_decision"]["human_review_count"] == 3
+        assert snapshots["graph_scale_method_decision"]["blocking_count"] == 3
+        assert snapshots["graph_scale_method_decision"]["human_review_count"] == 4
         assert (
             snapshots["graph_scale_method_decision"]["status_counts"][
                 "blocked_missing_graph_scale_acceptance_record"

@@ -36,7 +36,7 @@ def test_graph_scale_method_decision_rows_surface_current_blockers() -> None:
         "current_reduced_corridor_method_option"
     ]["current_evidence"]
     assert by_id["multi_corridor_candidate_method_option"]["decision_status"] == (
-        "blocked_incomplete_multi_corridor_run_profile"
+        "needs_human_review_multi_corridor_sample_scope"
     )
     assert by_id["multi_corridor_full_candidate_method_option"][
         "decision_status"
@@ -120,8 +120,8 @@ def test_shipped_graph_scale_method_decision_packet_matches_current_outputs() ->
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 7
-    assert manifest["blocking_decision_count"] == 4
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == 3
+    assert manifest["human_review_decision_count"] == 4
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

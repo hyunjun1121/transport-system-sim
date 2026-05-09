@@ -33,7 +33,7 @@ def test_graph_scale_strategy_readiness_rows_classify_current_options() -> None:
         "needs_human_review_reduced_corridor_alternate_route_warnings"
     )
     assert by_option["multi_corridor_candidate"]["readiness_status"] == (
-        "blocked_incomplete_multi_corridor_run_profile"
+        "needs_human_review_multi_corridor_sample_scope"
     )
     assert by_option["multi_corridor_full_candidate"]["readiness_status"] == (
         "needs_human_review_multi_corridor_result_deltas"

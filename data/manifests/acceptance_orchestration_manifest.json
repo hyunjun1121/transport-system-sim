@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T02:47:24+00:00",
+  "generated_at": "2026-05-09T02:59:40+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -35,8 +35,8 @@
       "can_mark_complete": false,
       "gate_id": "graph_scale_strategy",
       "record_path": "data/manifests/agent_reviews/graph_scale_strategy__graph_scale_method_review_agent.json",
-      "required_action_count": 15,
-      "risk_count": 15,
+      "required_action_count": 14,
+      "risk_count": 14,
       "status": "needs_human_review"
     },
     {
@@ -171,7 +171,6 @@
     "graph_scale_strategy: graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "graph_scale_strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
     "graph_scale_strategy: resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph_scale_strategy: graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
     "graph_scale_strategy: graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph_scale_strategy: graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "graph_scale_strategy: graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
@@ -338,7 +337,6 @@
     "Graph-Scale Strategy: graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "Graph-Scale Strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
     "Graph-Scale Strategy: resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "Graph-Scale Strategy: graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
     "Graph-Scale Strategy: graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "Graph-Scale Strategy: graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "Graph-Scale Strategy: graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
@@ -795,10 +793,10 @@
       }
     },
     {
-      "blocking_count": 3,
+      "blocking_count": 2,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
-      "human_review_count": 2,
+      "human_review_count": 3,
       "label": "Graph-Scale Strategy Readiness",
       "manifest_present": true,
       "manifest_valid": true,
@@ -822,25 +820,24 @@
       "row_count": 5,
       "snapshot_id": "graph_scale_strategy_readiness",
       "status_counts": {
-        "blocked_incomplete_multi_corridor_run_profile": 1,
         "blocked_missing_full_graph_experiment_outputs": 1,
         "blocked_missing_graph_scale_acceptance_record": 1,
         "needs_human_review_multi_corridor_result_deltas": 1,
+        "needs_human_review_multi_corridor_sample_scope": 1,
         "needs_human_review_reduced_corridor_alternate_route_warnings": 1
       }
     },
     {
-      "blocking_count": 4,
+      "blocking_count": 3,
       "can_mark_complete": false,
       "gate_closure_candidate_count": 0,
-      "human_review_count": 3,
+      "human_review_count": 4,
       "label": "Graph-Scale Method Decision",
       "manifest_present": true,
       "manifest_valid": true,
       "path": "data/validation/graph_scale_method_decision_manifest.json",
       "publication_ready": false,
       "remaining_blockers": [
-        "multi-corridor candidate has only separated/sample-scale output",
         "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
         "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
         "data/manifests/graph_scale_acceptance.json is absent"
@@ -857,12 +854,12 @@
       "row_count": 7,
       "snapshot_id": "graph_scale_method_decision",
       "status_counts": {
-        "blocked_incomplete_multi_corridor_run_profile": 1,
         "blocked_missing_downstream_regeneration_decision": 1,
         "blocked_missing_full_graph_full_profile_outputs": 1,
         "blocked_missing_graph_scale_acceptance_record": 1,
         "needs_human_review_graph_sensitive_result_deltas": 1,
         "needs_human_review_multi_corridor_result_delta_policy": 1,
+        "needs_human_review_multi_corridor_sample_scope": 1,
         "needs_human_review_reduced_corridor_warning_policy": 1
       }
     },

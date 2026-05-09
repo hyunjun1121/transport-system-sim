@@ -84,6 +84,9 @@ def build_graph_scale_method_decision_rows(
     runtime_manifest = _read_json_object(full_graph_runtime_manifest_path)
     acceptance = Path(acceptance_path)
     by_option = {str(row.get("option_id", "")): row for row in review_rows}
+    full_multi_corridor_profile_available = _full_multi_corridor_profile_available(
+        by_option
+    )
     evidence_paths = _evidence_paths(
         review_packet_path=review_packet_path,
         review_manifest_path=review_manifest_path,
@@ -119,20 +122,29 @@ def build_graph_scale_method_decision_rows(
             decision_id="multi_corridor_candidate_method_option",
             decision_topic="164-node multi-corridor candidate",
             candidate_decision=(
-                "Use the 164-node multi-corridor graph only after deciding "
-                "whether the separated candidate output is sufficient or a "
-                "full-profile run is required"
+                "Treat the separated multi-corridor candidate as "
+                "route-preservation and smoke-scale evidence; use the "
+                "full-profile candidate row for method selection if "
+                "multi-corridor execution is selected"
             ),
             current_evidence=_option_evidence(
                 by_option.get("multi_corridor_candidate", {})
             ),
-            decision_status="blocked_incomplete_multi_corridor_run_profile",
+            decision_status=(
+                "needs_human_review_multi_corridor_sample_scope"
+                if full_multi_corridor_profile_available
+                else "blocked_incomplete_multi_corridor_run_profile"
+            ),
             blocking_reason=(
-                "multi-corridor candidate has only separated/sample-scale output"
+                ""
+                if full_multi_corridor_profile_available
+                else "multi-corridor candidate has only separated/sample-scale output"
             ),
             required_reviewer_action=(
-                "Use the existing full-profile candidate, regenerate the "
-                "accepted output package on this graph, or exclude this option."
+                "Keep the separated candidate in review-support scope and "
+                "review the existing full-profile candidate, regenerate the "
+                "accepted output package on the selected graph, or exclude "
+                "this option."
             ),
             followup_artifacts=(
                 "results/realworld_pilot/pilot_multi_corridor_full_manifest.json; "
@@ -526,6 +538,13 @@ def _runtime_evidence(manifest: Mapping[str, Any]) -> str:
         f"runtime_human_review_requests={_int(manifest.get('human_review_request_count'))}; "
         f"runtime_status_counts={_format_counts(counts)}"
     )
+
+
+def _full_multi_corridor_profile_available(
+    by_option: Mapping[str, Mapping[str, str]],
+) -> bool:
+    row = by_option.get("multi_corridor_full_candidate", {})
+    return _int(row.get("experiment_row_count")) >= 1000
 
 
 def _strategy_evidence(manifest: Mapping[str, Any]) -> str:

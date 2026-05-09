@@ -145,13 +145,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["graph_scale_strategy"]["details"][
             "method_decision_blocking_decision_count"
         ]
-        == 4
+        == 3
     )
     assert (
         gate_map["graph_scale_strategy"]["details"][
             "method_decision_human_review_decision_count"
         ]
-        == 3
+        == 4
     )
     assert any(
         "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent"

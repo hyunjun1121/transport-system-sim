@@ -10,7 +10,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 | --- | --- | --- | --- | --- |
 | `pilot_region_accepted` | Pilot Region & Privacy Review Agent | `needs_human_review` | `false` | 7 |
 | `data_provenance` | OSM / Source / License / Provenance Review Agent | `blocked` | `false` | 23 |
-| `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 15 |
+| `graph_scale_strategy` | Graph Scale Method Review Agent | `needs_human_review` | `false` | 14 |
 | `cached_osm_input` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 17 |
 | `parameter_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 21 |
 | `rail_evidence` | Road / Rail / Parameter Evidence Agent | `blocked` | `false` | 16 |
@@ -68,8 +68,8 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Pilot Region Decision` | 6 | 3 | 3 | 0 | `false` | blocked_missing_graph_scale_acceptance_record=1; blocked_missing_pilot_acceptance_record=1; blocked_missing_provenance_acceptance_record=1; +3 more |
 | `Graph-Scale Method Review` | 4 | 0 | 0 | 0 | `false` |  |
 | `Full-Graph Runtime Readiness` | 4 | 2 | 2 | 0 | `false` | blocked_missing_downstream_full_graph_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; needs_human_review_full_graph_runtime_scope_decision=1; +1 more |
-| `Graph-Scale Strategy Readiness` | 5 | 3 | 2 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +2 more |
-| `Graph-Scale Method Decision` | 7 | 4 | 3 | 0 | `false` | blocked_incomplete_multi_corridor_run_profile=1; blocked_missing_downstream_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; +4 more |
+| `Graph-Scale Strategy Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_full_graph_experiment_outputs=1; blocked_missing_graph_scale_acceptance_record=1; needs_human_review_multi_corridor_result_deltas=1; +2 more |
+| `Graph-Scale Method Decision` | 7 | 3 | 4 | 0 | `false` | blocked_missing_downstream_regeneration_decision=1; blocked_missing_full_graph_full_profile_outputs=1; blocked_missing_graph_scale_acceptance_record=1; +4 more |
 | `Graph-Scale Manifest Audit` | 13 | 0 | 0 | 0 | `false` | complete_reduced_analysis_graph_recorded=13 |
 | `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
@@ -120,7 +120,7 @@ Priority blockers by packet:
 - `Pilot Region Decision`: data/manifests/graph_scale_acceptance.json is absent (+2 more)
 - `Full-Graph Runtime Readiness`: full-graph full-profile outputs are absent (+2 more)
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
-- `Graph-Scale Method Decision`: multi-corridor candidate has only separated/sample-scale output (+3 more)
+- `Graph-Scale Method Decision`: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output (+2 more)
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
 - `OSM Graph Snapshot Review`: OSM source snapshot remains pending review or provenance acceptance is absent (+4 more)
 - `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
@@ -189,7 +189,6 @@ Priority blockers by packet:
 - graph_scale_strategy: graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph_scale_strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - graph_scale_strategy: resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph_scale_strategy: graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - graph_scale_strategy: graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph_scale_strategy: graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph_scale_strategy: graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
@@ -356,7 +355,6 @@ Priority blockers by packet:
 - Graph-Scale Strategy: graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - Graph-Scale Strategy: review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - Graph-Scale Strategy: resolve graph-scale method-decision blockers before graph-scale acceptance
-- Graph-Scale Strategy: graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - Graph-Scale Strategy: graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - Graph-Scale Strategy: graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - Graph-Scale Strategy: graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent

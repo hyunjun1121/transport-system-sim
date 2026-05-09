@@ -17,7 +17,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | Gate | Current Status | Recommendation | Formal Target | Missing Evidence | Human Action |
 | --- | --- | --- | --- | --- | --- |
 | pilot_region_accepted | `blocked` | `blocked_requires_human_decision` | `data/manifests/pilot_acceptance.json` | create an explicit pilot acceptance record after privacy and case-scope review<br>resolve pilot-region decision blockers before pilot acceptance<br>+5 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+12 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>+11 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>+20 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing<br>+34 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>+17 more | Inspect the listed review packets and evidence paths.<br>Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -182,7 +182,6 @@ Missing evidence:
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
@@ -200,7 +199,6 @@ Residual risks:
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent

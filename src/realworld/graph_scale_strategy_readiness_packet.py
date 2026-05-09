@@ -87,8 +87,14 @@ def build_graph_scale_strategy_readiness_rows(
         else _load_review_rows(review_packet_path)
     )
     result_manifest = _load_json_object(result_comparison_manifest_path)
+    full_multi_corridor_profile_available = _full_multi_corridor_profile_available(rows)
     readiness_rows = [
-        _readiness_row(row, result_manifest=result_manifest) for row in rows
+        _readiness_row(
+            row,
+            result_manifest=result_manifest,
+            full_multi_corridor_profile_available=full_multi_corridor_profile_available,
+        )
+        for row in rows
     ]
     acceptance = Path(acceptance_path)
     readiness_rows.append(_acceptance_requirement_row(acceptance))
@@ -282,8 +288,13 @@ def _readiness_row(
     row: Mapping[str, str],
     *,
     result_manifest: Mapping[str, Any],
+    full_multi_corridor_profile_available: bool,
 ) -> dict[str, str]:
-    status, reason, action = _classify_option(row, result_manifest=result_manifest)
+    status, reason, action = _classify_option(
+        row,
+        result_manifest=result_manifest,
+        full_multi_corridor_profile_available=full_multi_corridor_profile_available,
+    )
     return {
         "option_id": str(row.get("option_id", "")),
         "option_label": str(row.get("option_label", "")),
@@ -347,6 +358,7 @@ def _classify_option(
     row: Mapping[str, str],
     *,
     result_manifest: Mapping[str, Any],
+    full_multi_corridor_profile_available: bool,
 ) -> tuple[str, str, str]:
     option_id = str(row.get("option_id", ""))
     alternate_warn = _int(row.get("alternate_route_warn"))
@@ -367,6 +379,12 @@ def _classify_option(
         )
     if option_id == "multi_corridor_candidate":
         if experiment_rows < 1000:
+            if full_multi_corridor_profile_available:
+                return (
+                    "needs_human_review_multi_corridor_sample_scope",
+                    "",
+                    "treat the separated candidate as route-preservation/smoke evidence and review the full-profile candidate before method selection",
+                )
             return (
                 "blocked_incomplete_multi_corridor_run_profile",
                 "multi-corridor candidate has only separated/sample-scale output",
@@ -415,6 +433,14 @@ def _result_manifest_has_nontrivial_deltas(manifest: Mapping[str, Any]) -> bool:
     return _int(counts.get("candidate_worsens")) > 0 or _int(
         counts.get("nonfinite_difference")
     ) > 0
+
+
+def _full_multi_corridor_profile_available(rows: Sequence[Mapping[str, str]]) -> bool:
+    for row in rows:
+        if str(row.get("option_id", "")) != "multi_corridor_full_candidate":
+            continue
+        return _int(row.get("experiment_row_count")) >= 1000
+    return False
 
 
 def _result_comparison_signal(manifest: Mapping[str, Any]) -> str:

@@ -408,11 +408,12 @@ First pilot-smoke artifacts also exist:
   current-vs-candidate result-delta manifest into a 5-row pre-review readiness
   packet under
   `data/validation/graph_scale_strategy_readiness_packet.csv`. It separates
-  current reduced-corridor alternate-route warnings, incomplete small
-  multi-corridor output, full-profile candidate result deltas, missing
+  current reduced-corridor alternate-route warnings, small multi-corridor
+  sample evidence, full-profile candidate result deltas, missing
   full-graph experiment output, and the missing graph-scale acceptance record
-  without choosing or approving a graph-scale method. The full-graph row now
-  points to smoke/runtime evidence but remains blocked because full
+  without choosing or approving a graph-scale method. The small
+  multi-corridor row is review-support evidence now that the full-profile
+  candidate exists; the full-graph row remains blocked because full
   scenario-policy-seed outputs are absent.
 - `src/realworld/graph_scale_method_decision_packet.py` and
   `scripts/write_graph_scale_method_decision_packet.py` convert the graph-scale
@@ -2345,10 +2346,11 @@ Concrete next tasks:
 5. Review the full-vs-reduced route parity, alternate-route, and
    multi-corridor candidate diagnostics. Decide whether the 6 current
    alternate-route warning rows are acceptable under a documented
-   corridor-selection rule, whether to regenerate experiments on the
-   164-node / 246-edge candidate graph, or whether to replace the current
-   graph method with full-graph runtime evidence or a multi-corridor ensemble
-   before graph-scale acceptance. Use the graph-scale review packet,
+   corridor-selection rule, whether to use the existing 164-node / 246-edge
+   full-profile candidate graph and regenerate downstream artifacts, or
+   whether to replace the current graph method with full-graph runtime
+   evidence or a multi-corridor ensemble before graph-scale acceptance. Use
+   the graph-scale review packet,
    full-graph runtime-readiness packet, graph-scale strategy-readiness packet,
    and graph-scale method-decision packet as the consolidated method-selection
    and blocker-classification worksheets.

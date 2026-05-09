@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Generated at: `2026-05-09T02:59:40+00:00`
 
 ## Decision
 
@@ -107,7 +107,6 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
@@ -125,7 +124,6 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 - graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - review graph-scale strategy-readiness human-decision items before graph-scale acceptance
 - resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: multi-corridor candidate has only separated/sample-scale output
 - graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
 - graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
@@ -153,7 +151,6 @@ Formal acceptance artifacts:
     "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
     "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: multi-corridor candidate has only separated/sample-scale output",
     "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
     "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
@@ -172,14 +169,13 @@ Formal acceptance artifacts:
     "analysis_graph_reduced": true,
     "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
     "method_decision_artifacts_present": true,
-    "method_decision_blocking_decision_count": 4,
+    "method_decision_blocking_decision_count": 3,
     "method_decision_can_mark_complete": false,
     "method_decision_downstream_regeneration_decision_recorded": false,
-    "method_decision_human_review_decision_count": 3,
+    "method_decision_human_review_decision_count": 4,
     "method_decision_manifest_present": true,
     "method_decision_publication_ready": false,
     "method_decision_remaining_blockers": [
-      "multi-corridor candidate has only separated/sample-scale output",
       "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
       "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
       "data/manifests/graph_scale_acceptance.json is absent"
@@ -187,19 +183,19 @@ Formal acceptance artifacts:
     "method_decision_row_count": 7,
     "method_decision_selected_graph_method_recorded": false,
     "method_decision_status_counts": {
-      "blocked_incomplete_multi_corridor_run_profile": 1,
       "blocked_missing_downstream_regeneration_decision": 1,
       "blocked_missing_full_graph_full_profile_outputs": 1,
       "blocked_missing_graph_scale_acceptance_record": 1,
       "needs_human_review_graph_sensitive_result_deltas": 1,
       "needs_human_review_multi_corridor_result_delta_policy": 1,
+      "needs_human_review_multi_corridor_sample_scope": 1,
       "needs_human_review_reduced_corridor_warning_policy": 1
     },
     "source_graph_edges": 9148,
     "source_graph_nodes": 4608,
-    "strategy_readiness_blocking_request_count": 3,
+    "strategy_readiness_blocking_request_count": 2,
     "strategy_readiness_can_mark_complete": false,
-    "strategy_readiness_human_review_request_count": 2,
+    "strategy_readiness_human_review_request_count": 3,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
     "strategy_readiness_remaining_blockers": [
@@ -209,10 +205,10 @@ Formal acceptance artifacts:
       "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
     ],
     "strategy_readiness_status_counts": {
-      "blocked_incomplete_multi_corridor_run_profile": 1,
       "blocked_missing_full_graph_experiment_outputs": 1,
       "blocked_missing_graph_scale_acceptance_record": 1,
       "needs_human_review_multi_corridor_result_deltas": 1,
+      "needs_human_review_multi_corridor_sample_scope": 1,
       "needs_human_review_reduced_corridor_alternate_route_warnings": 1
     }
   },
