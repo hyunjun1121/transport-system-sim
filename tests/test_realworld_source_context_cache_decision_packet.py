@@ -35,7 +35,7 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
         "seoul_timetable_api_context",
     }
     assert {row["decision_status"] for row in rows} == {
-        "blocked_missing_context_source_cache_or_exclusion_decision"
+        "blocked_missing_context_source_cache_retention_or_exclusion_decision"
     }
     assert {row["provisional_decision"] for row in rows} == {
         "pending_reviewer_decision"
@@ -131,7 +131,7 @@ def test_shipped_context_cache_decision_packet_matches_current_outputs() -> None
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
     assert manifest["blocking_decision_count"] == 3
-    assert manifest["cache_or_exclusion_decision_recorded"] is False
+    assert manifest["cache_retention_or_exclusion_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

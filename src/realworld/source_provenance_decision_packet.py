@@ -155,8 +155,8 @@ def build_source_provenance_decision_rows(
             evidence_input_paths=evidence_paths,
         ),
         _row(
-            decision_id="context_source_cache_or_exclusion_decision",
-            decision_topic="Context source cache or exclusion",
+            decision_id="context_source_cache_retention_or_exclusion_decision",
+            decision_topic="Context source cache, retention, or exclusion",
             candidate_decision=(
                 "Cache retained context-source target artifacts or explicitly "
                 "retain the source as sensitivity/context-only evidence, or "
@@ -167,9 +167,9 @@ def build_source_provenance_decision_rows(
                 context_decision_manifest,
             ),
             decision_status=(
-                "blocked_missing_context_cache_or_exclusion_decisions"
+                "blocked_missing_context_cache_retention_or_exclusion_decisions"
                 if context_blocking_count
-                else "needs_human_review_context_cache_decisions"
+                else "needs_human_review_context_cache_retention_or_exclusion_decisions"
             ),
             blocking_reason=(
                 "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions"
@@ -177,7 +177,7 @@ def build_source_provenance_decision_rows(
                 else ""
             ),
             required_reviewer_action=(
-                "Resolve cache, exclusion, or sensitivity-only treatment for "
+                "Resolve cache, sensitivity/context-only retention, or exclusion treatment for "
                 "each context source before final provenance claims."
             ),
             followup_artifacts=(
@@ -406,7 +406,7 @@ def build_source_provenance_decision_manifest(
         "provenance_decision_recorded": False,
         "source_inventory_decision_recorded": False,
         "license_attribution_decision_recorded": False,
-        "context_cache_or_exclusion_decision_recorded": False,
+        "context_cache_retention_or_exclusion_decision_recorded": False,
         "provenance_gate_closure_candidate_count": 0,
         "publication_ready": False,
         "can_mark_complete": False,
@@ -440,7 +440,7 @@ def build_source_provenance_decision_manifest(
         "review_items": [
             "confirm retained source inventory and excluded-source scope",
             "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
-            "resolve context-source target cache, exclusion, or sensitivity-only decisions",
+            "resolve context-source target cache, sensitivity/context-only retention, or exclusion decisions",
             "confirm reachable URLs, local citations, and alternate URL candidates",
             "record final provenance only in data/manifests/provenance_acceptance.json",
         ],
@@ -557,7 +557,7 @@ def _context_evidence(
         f"context_source_count={_int(request_manifest.get('context_source_count'))}; "
         f"missing_target_cache_artifact_count={_int(decision_manifest.get('missing_target_cache_artifact_count'))}; "
         f"blocking_decision_count={_int(decision_manifest.get('blocking_decision_count'))}; "
-        f"cache_or_exclusion_decision_recorded={str(decision_manifest.get('cache_or_exclusion_decision_recorded', False)).lower()}"
+        f"cache_retention_or_exclusion_decision_recorded={str(decision_manifest.get('cache_retention_or_exclusion_decision_recorded', False)).lower()}"
     )
 
 

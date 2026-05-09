@@ -610,7 +610,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     "blocking_decision_count": 3,
                     "human_review_decision_count": 0,
                     "decision_status_counts": {
-                        "blocked_missing_context_source_cache_or_exclusion_decision": 3
+                        "blocked_missing_context_source_cache_retention_or_exclusion_decision": 3
                     },
                     "publication_ready": False,
                     "can_mark_complete": False,
@@ -1148,7 +1148,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert snapshots["source_context_cache_decision"]["blocking_count"] == 3
         assert (
             snapshots["source_context_cache_decision"]["status_counts"][
-                "blocked_missing_context_source_cache_or_exclusion_decision"
+                "blocked_missing_context_source_cache_retention_or_exclusion_decision"
             ]
             == 3
         )

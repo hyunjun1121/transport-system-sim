@@ -41,11 +41,11 @@ def test_source_provenance_decision_rows_surface_current_blockers() -> None:
     assert "review_required_count=11" in by_id["license_attribution_decision"][
         "current_evidence"
     ]
-    assert by_id["context_source_cache_or_exclusion_decision"][
+    assert by_id["context_source_cache_retention_or_exclusion_decision"][
         "decision_status"
-    ] == "blocked_missing_context_cache_or_exclusion_decisions"
+    ] == "blocked_missing_context_cache_retention_or_exclusion_decisions"
     assert "sensitivity/context-only" in by_id[
-        "context_source_cache_or_exclusion_decision"
+        "context_source_cache_retention_or_exclusion_decision"
     ]["candidate_decision"]
     assert by_id["url_remediation_decision"]["decision_status"] == (
         "needs_human_review_url_remediation"

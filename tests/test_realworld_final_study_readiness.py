@@ -260,7 +260,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         for item in gate_map["data_provenance"]["blockers"]
     )
     assert any(
-        "source context cache decision: target cache/exclusion decisions are pending"
+        "source context cache decision: target cache/retention/exclusion decisions are pending"
         in item
         for item in gate_map["data_provenance"]["blockers"]
     )

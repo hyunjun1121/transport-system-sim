@@ -1,4 +1,4 @@
-"""Context-source cache/exclusion decision worksheet.
+"""Context-source cache, retention, or exclusion decision worksheet.
 
 This module turns context-cache requests into per-source reviewer decision
 rows. It does not fetch sources, cache extracts, certify licenses, or create
@@ -74,7 +74,7 @@ def build_source_context_cache_decision_rows(
     | Path = DEFAULT_SOURCE_URL_REMEDIATION_PACKET_PATH,
     provenance_manifest_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return one pending cache/exclusion decision row per context source."""
+    """Return one pending cache/retention/exclusion decision row per context source."""
 
     rows = (
         list(request_rows)
@@ -195,7 +195,7 @@ def build_source_context_cache_decision_manifest(
         "blocking_decision_count": blocking_count,
         "human_review_decision_count": human_review_count,
         "missing_target_cache_artifact_count": missing_target_count,
-        "cache_or_exclusion_decision_recorded": False,
+        "cache_retention_or_exclusion_decision_recorded": False,
         "provenance_gate_closure_candidate_count": 0,
         "publication_ready": False,
         "can_mark_complete": False,
@@ -218,7 +218,7 @@ def build_source_context_cache_decision_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "choose cache, exclude, or sensitivity-only treatment for each context source",
+            "choose cache, sensitivity/context-only retention, or exclusion treatment for each context source",
             "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
             "retain raw responses and SHA256 evidence when a source is cached",
             "derive downstream rail evidence only after retained source extracts are reviewed",
@@ -244,7 +244,7 @@ def build_source_context_cache_decision_markdown(
         "",
         f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
-        f"- Cache/exclusion decision recorded: `{str(manifest.get('cache_or_exclusion_decision_recorded', False)).lower()}`",
+        f"- Cache/retention/exclusion decision recorded: `{str(manifest.get('cache_retention_or_exclusion_decision_recorded', False)).lower()}`",
         f"- Decision rows: {manifest.get('row_count', 0)}",
         f"- Blocking decisions: {manifest.get('blocking_decision_count', 0)}",
         f"- Human-review decisions: {manifest.get('human_review_decision_count', 0)}",
@@ -286,20 +286,20 @@ def _decision_row(
 ) -> dict[str, str]:
     target_present = str(row.get("target_cache_artifacts_present", "")).lower() == "true"
     decision_status = (
-        "needs_human_review_cache_or_exclude_decision"
+        "needs_human_review_cache_retention_or_exclusion_decision"
         if target_present
-        else "blocked_missing_context_source_cache_or_exclusion_decision"
+        else "blocked_missing_context_source_cache_retention_or_exclusion_decision"
     )
     blocking_reason = (
         ""
         if target_present
-        else "no reviewed cache artifact or explicit exclusion decision is present"
+        else "no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present"
     )
     return {
         "source_id": str(row.get("source_id", "")),
         "source_name": str(row.get("source_name", "")),
         "source_type": str(row.get("source_type", "")),
-        "decision_topic": "Context source cache or exclusion decision",
+        "decision_topic": "Context source cache, retention, or exclusion decision",
         "current_cache_request_status": str(row.get("cache_request_status", "")),
         "candidate_decision_options": _candidate_options(row),
         "provisional_decision": "pending_reviewer_decision",
@@ -311,8 +311,8 @@ def _decision_row(
         ),
         "source_url_or_citation": str(row.get("source_url_or_citation", "")),
         "required_reviewer_action": (
-            "Choose whether to cache reviewed source evidence, exclude this "
-            "source from final claims, or retain it only as sensitivity/context."
+            "Choose whether to cache reviewed source evidence, retain this "
+            "source as sensitivity/context-only, or exclude it from final claims."
         ),
         "required_evidence_fields": (
             "reviewer; decision_date; decision_basis; terms_or_license_summary; "
@@ -395,7 +395,7 @@ def _artifact_list(*values: object) -> str:
 def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
     blockers = [
         "formal provenance acceptance record is absent",
-        "target cache/exclusion decisions are pending for context-source rows",
+        "target cache/retention/exclusion decisions are pending for context-source rows",
         "retained context sources still require license, attribution, snapshot, and reproducibility review",
     ]
     for row in rows:

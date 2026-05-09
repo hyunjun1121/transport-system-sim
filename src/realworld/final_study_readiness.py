@@ -1425,7 +1425,7 @@ def _data_provenance_gate(
                 source_context_decision.get("decision_status_counts", {})
             ),
             "source_context_cache_decision_recorded": source_context_decision.get(
-                "cache_or_exclusion_decision_recorded",
+                "cache_retention_or_exclusion_decision_recorded",
                 False,
             ),
             "source_context_cache_decision_publication_ready": (
@@ -1458,9 +1458,9 @@ def _data_provenance_gate(
                 "provenance_decision_recorded",
                 False,
             ),
-            "source_provenance_decision_context_cache_or_exclusion_recorded": (
+            "source_provenance_decision_context_cache_retention_or_exclusion_recorded": (
                 provenance_decision.get(
-                    "context_cache_or_exclusion_decision_recorded",
+                    "context_cache_retention_or_exclusion_decision_recorded",
                     False,
                 )
             ),
