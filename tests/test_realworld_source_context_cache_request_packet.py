@@ -23,7 +23,7 @@ from src.realworld.source_context_cache_request_packet import (  # noqa: E402
 
 
 def test_context_cache_request_rows_classify_current_context_sources() -> None:
-    """Current context-only sources should become cache/exclusion requests."""
+    """Current context-only sources should become cache/retention/exclusion requests."""
 
     rows = build_source_context_cache_request_rows()
     by_id = {row["source_id"]: row for row in rows}

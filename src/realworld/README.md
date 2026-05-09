@@ -124,16 +124,17 @@ Implemented extension modules now also cover:
   same-source alternate URL candidates, without approving provenance.
 - `source_context_cache_request_packet.py`: context-source target-artifact
   cache request worksheet that identifies the reviewed payloads, raw
-  responses, or explicit exclusion decisions needed before those sources can
-  support final provenance claims.
+  responses, sensitivity/context-only retention decisions, or explicit
+  exclusion decisions needed before those sources can support final provenance
+  claims.
 - `source_context_cache_decision_packet.py`: pending reviewer-decision
-  worksheet that records cache, exclusion, or sensitivity-only treatment for
-  each context-source target before provenance acceptance. It does not fetch or
-  cache source data, and cached metadata does not replace a reviewed source
-  payload.
+  worksheet that records cache, sensitivity/context-only retention, or
+  exclusion treatment for each context-source target before provenance
+  acceptance. It does not fetch or cache source data, and cached metadata does
+  not replace a reviewed source payload.
 - `source_provenance_decision_packet.py`: focused provenance-gate decision
   worksheet that consolidates source inventory, license/attribution,
-  context-source cache/exclusion, URL remediation, cached snapshot,
+  context-source cache/retention/exclusion, URL remediation, cached snapshot,
   repository-input, reproducibility-scope, and missing formal provenance
   acceptance decisions without creating `provenance_acceptance.json`.
 - `rail_fetch_readiness_packet.py`: preflight worksheet generated from rail

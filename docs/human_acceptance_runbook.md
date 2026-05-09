@@ -105,8 +105,9 @@ suitability, or provenance acceptance.
 The source context-cache request and decision packets identify context-source
 target payload blockers such as the KTDB GTFS zip or directory, Seoul
 shortest-path API cache/raw JSON, and Seoul timetable API cache/raw JSON. They
-are cache-or-exclude review aids only. Cached KTDB metadata is review support,
-not a GTFS payload cache or provenance acceptance.
+are cache, sensitivity/context-only retention, or exclusion review aids only.
+Cached KTDB metadata is review support, not a GTFS payload cache or provenance
+acceptance.
 
 The rail fetch-readiness and source-decision packets do not fetch or approve
 live data. They record whether rail timing source requests are blocked by
@@ -215,7 +216,7 @@ Get-Content docs\formal_acceptance_pre_review.md
 | Gate | Review Packet | Formal Target | Reviewer Decision Needed |
 | --- | --- | --- | --- |
 | `pilot_region_accepted` | `docs/review_packets/pilot_region_accepted.md`; `docs/pilot_privacy_review_packet.md`; `docs/pilot_region_decision_packet.md` | `data/manifests/pilot_acceptance.json` | Privacy, sensitivity, region scope, upstream graph/provenance dependencies, and not-operational boundary acceptance |
-| `data_provenance` | `docs/review_packets/data_provenance.md`; `docs/source_license_review_packet.md`; `docs/source_url_review_packet.md`; `docs/source_url_remediation_packet.md`; `docs/source_provenance_priority_packet.md`; `docs/source_context_cache_request_packet.md`; `docs/source_context_cache_decision_packet.md`; `docs/source_provenance_decision_packet.md` | `data/manifests/provenance_acceptance.json` | Source URLs, OSM/license/attribution, snapshot, reproducibility, privacy abstraction, and target payload cache/exclude decisions |
+| `data_provenance` | `docs/review_packets/data_provenance.md`; `docs/source_license_review_packet.md`; `docs/source_url_review_packet.md`; `docs/source_url_remediation_packet.md`; `docs/source_provenance_priority_packet.md`; `docs/source_context_cache_request_packet.md`; `docs/source_context_cache_decision_packet.md`; `docs/source_provenance_decision_packet.md` | `data/manifests/provenance_acceptance.json` | Source URLs, OSM/license/attribution, snapshot, reproducibility, privacy abstraction, and target payload cache/retention/exclusion decisions |
 | `graph_scale_strategy` | `docs/review_packets/graph_scale_strategy.md`; `docs/graph_scale_review_packet.md`; `docs/full_graph_runtime_readiness_packet.md`; `docs/graph_scale_strategy_readiness_packet.md`; `docs/graph_scale_method_decision_packet.md` | `data/manifests/graph_scale_acceptance.json` | Reduced-corridor, multi-corridor, or full-graph method choice with matching graph counts and downstream regeneration decision |
 | `cached_osm_input` | `docs/review_packets/cached_osm_input.md`; `docs/road_evidence_review_packet.md`; `docs/road_evidence_priority_packet.md`; `docs/road_source_readiness_packet.md`; `docs/road_source_decision_packet.md` | `data/parameters/road_class_overrides.csv` | Reviewed road speed, capacity, base-disruption evidence, benchmark limits, or bounded override decision |
 | `parameter_evidence` | `docs/review_packets/parameter_evidence.md`; `docs/parameter_evidence_review_packet.md`; `docs/parameter_evidence_priority_packet.md`; `docs/parameter_source_readiness_packet.md`; `docs/parameter_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Acceptance or replacement of weak demand, fleet, transfer, disruption, traffic, censoring, and rail-dependent parameters |

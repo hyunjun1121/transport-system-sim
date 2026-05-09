@@ -264,7 +264,7 @@ def build_source_provenance_decision_rows(
             decision_topic="Formal provenance acceptance",
             candidate_decision=(
                 "Record accepted sources, reviewer, date, license scope, "
-                "cache/exclusion/sensitivity decisions, evidence paths, and "
+                "cache/retention/exclusion decisions, evidence paths, and "
                 "claim boundary only in the formal provenance acceptance path"
             ),
             current_evidence=(
