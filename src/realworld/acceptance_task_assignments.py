@@ -25,6 +25,10 @@ from src.realworld.acceptance_orchestration import (
 from src.realworld.formal_acceptance_package import (
     build_formal_acceptance_package_summary,
 )
+from src.realworld.manifest_timestamp import (
+    preserve_generated_at_when_unchanged,
+    write_json_manifest_if_changed,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -146,10 +150,8 @@ def write_acceptance_task_assignments(
             "rerun scripts/run_acceptance_audit.py after any formal artifact changes",
         ],
     }
-    manifest.write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    preserve_generated_at_when_unchanged(value, manifest)
+    write_json_manifest_if_changed(value, manifest, sort_keys=True)
     doc.write_text(build_acceptance_task_assignment_markdown(value, rows), encoding="utf-8")
     return value
 

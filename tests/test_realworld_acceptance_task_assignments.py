@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -73,7 +74,40 @@ def test_write_task_assignments_outputs_csv_manifest_and_doc() -> None:
         assert compact["can_mark_complete"] is False
 
 
+def test_write_task_assignments_preserves_timestamp_when_unchanged() -> None:
+    summary = build_formal_acceptance_package_summary()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        output = root / "assignments.csv"
+        manifest = root / "assignments_manifest.json"
+        doc = root / "assignments.md"
+        write_acceptance_task_assignments(
+            output_path=output,
+            manifest_path=manifest,
+            doc_path=doc,
+            package_summary=summary,
+        )
+        first = json.loads(manifest.read_text(encoding="utf-8"))
+        first["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest.write_text(
+            json.dumps(first, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        value = write_acceptance_task_assignments(
+            output_path=output,
+            manifest_path=manifest,
+            doc_path=doc,
+            package_summary=summary,
+        )
+        loaded = json.loads(manifest.read_text(encoding="utf-8"))
+
+        assert value["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
+
+
 if __name__ == "__main__":
     test_task_assignments_cover_current_formal_blockers()
     test_write_task_assignments_outputs_csv_manifest_and_doc()
+    test_write_task_assignments_preserves_timestamp_when_unchanged()
     print("PASS: acceptance task assignments")

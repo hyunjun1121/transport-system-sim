@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -66,7 +67,40 @@ def test_write_blocker_queue_outputs_csv_manifest_and_doc() -> None:
         assert compact["can_mark_complete"] is False
 
 
+def test_write_blocker_queue_preserves_timestamp_when_unchanged() -> None:
+    summary = build_formal_acceptance_package_summary()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        output = root / "queue.csv"
+        manifest = root / "queue_manifest.json"
+        doc = root / "queue.md"
+        write_acceptance_blocker_queue(
+            output_path=output,
+            manifest_path=manifest,
+            doc_path=doc,
+            package_summary=summary,
+        )
+        first = json.loads(manifest.read_text(encoding="utf-8"))
+        first["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest.write_text(
+            json.dumps(first, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        value = write_acceptance_blocker_queue(
+            output_path=output,
+            manifest_path=manifest,
+            doc_path=doc,
+            package_summary=summary,
+        )
+        loaded = json.loads(manifest.read_text(encoding="utf-8"))
+
+        assert value["generated_at"] == "2000-01-01T00:00:00+00:00"
+        assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
+
+
 if __name__ == "__main__":
     test_blocker_queue_rows_reflect_current_formal_package()
     test_write_blocker_queue_outputs_csv_manifest_and_doc()
+    test_write_blocker_queue_preserves_timestamp_when_unchanged()
     print("PASS: formal acceptance blocker queue")
