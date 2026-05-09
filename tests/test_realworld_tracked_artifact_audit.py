@@ -88,9 +88,37 @@ def test_write_tracked_artifact_audit_outputs_files() -> None:
         assert "excludes its own generated CSV, manifest, and Markdown outputs" in text
 
 
+def test_write_tracked_artifact_audit_preserves_timestamp_when_unchanged() -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        manifest_path = root / "tracked.json"
+        write_tracked_artifact_audit(
+            rows=[],
+            output_path=root / "tracked.csv",
+            manifest_path=manifest_path,
+            doc_path=root / "tracked.md",
+        )
+        first = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest_path.write_text(
+            json.dumps(first, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        summary = write_tracked_artifact_audit(
+            rows=[],
+            output_path=root / "tracked.csv",
+            manifest_path=manifest_path,
+            doc_path=root / "tracked.md",
+        )
+        loaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert summary["generated_at"] == "2000-01-01T00:00:00+00:00"
+    assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
+
+
 if __name__ == "__main__":
     test_tracked_artifact_rows_filter_reproducibility_candidates()
     test_tracked_artifact_rows_ignore_own_outputs()
     test_tracked_artifact_summary_stays_non_acceptance()
     test_write_tracked_artifact_audit_outputs_files()
+    test_write_tracked_artifact_audit_preserves_timestamp_when_unchanged()
     print("PASS: tracked artifact audit")

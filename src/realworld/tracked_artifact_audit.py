@@ -159,6 +159,7 @@ def write_tracked_artifact_audit(
             "clean_checkout_reproducibility_ready": False,
         }
     )
+    _preserve_generated_at_when_unchanged(summary, manifest)
     manifest.write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -358,6 +359,31 @@ def _display_path(path: str | Path) -> str:
         return candidate.resolve().relative_to(PROJECT_ROOT).as_posix()
     except ValueError:
         return candidate.as_posix()
+
+
+def _preserve_generated_at_when_unchanged(
+    summary: dict[str, Any],
+    manifest_path: Path,
+) -> None:
+    """Avoid timestamp-only churn when audit content is unchanged."""
+
+    if not manifest_path.exists():
+        return
+    try:
+        previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return
+    if not isinstance(previous, dict):
+        return
+    previous_generated_at = previous.get("generated_at")
+    if not isinstance(previous_generated_at, str) or not previous_generated_at:
+        return
+    previous_without_time = dict(previous)
+    current_without_time = dict(summary)
+    previous_without_time.pop("generated_at", None)
+    current_without_time.pop("generated_at", None)
+    if previous_without_time == current_without_time:
+        summary["generated_at"] = previous_generated_at
 
 
 def _cell(value: str) -> str:
