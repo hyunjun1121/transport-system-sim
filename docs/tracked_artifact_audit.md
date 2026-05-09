@@ -6,16 +6,21 @@ This audit checks whether current changed artifacts would be present in a clean 
 
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
+- Changed reproducibility artifacts: 6
+- Blocking changed artifacts: 6
 - Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Modified or staged artifacts: 6
 
 ## Changed Artifacts
 
 | Status | Category | Path | Required Action |
 | --- | --- | --- | --- |
-| none | none | `.` | No changed reproducibility artifact candidates found. |
+| M | data_or_manifest | `data/manifests/source_provenance_priority_packet.csv` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | data_or_manifest | `data/manifests/source_url_remediation_manifest.json` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | data_or_manifest | `data/manifests/source_url_remediation_packet.csv` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | documentation | `docs/source_url_remediation_packet.md` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | realworld_code | `src/realworld/source_url_remediation_packet.py` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | test | `tests/test_realworld_source_url_remediation_packet.py` | Commit, stash, or document this change before clean-checkout reproduction. |
 
 ## Use
 

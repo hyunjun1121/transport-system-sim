@@ -12,6 +12,10 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from src.realworld.source_provenance import (
+    DEFAULT_SOURCE_PROVENANCE_PATH,
+    load_source_provenance_manifest,
+)
 from src.realworld.source_url_review_packet import (
     DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
     SOURCE_URL_REVIEW_SCOPE,
@@ -41,6 +45,8 @@ SOURCE_URL_REMEDIATION_COLUMNS: tuple[str, ...] = (
     "alternate_url_candidates",
     "url_status",
     "http_status",
+    "local_artifact_count",
+    "local_artifact_paths",
     "remediation_status",
     "priority",
     "evidence_gap",
@@ -57,6 +63,7 @@ def build_source_url_remediation_rows(
     *,
     url_rows: Sequence[Mapping[str, str]] | None = None,
     url_review_packet_path: str | Path = DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
+    source_provenance_manifest_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PATH,
 ) -> list[dict[str, str]]:
     """Return remediation rows from URL review rows or a review-packet CSV."""
 
@@ -66,10 +73,14 @@ def build_source_url_remediation_rows(
         else _load_url_rows(url_review_packet_path)
     )
     reachable_urls_by_source_id = _reachable_urls_by_source_id(rows)
+    local_artifacts_by_source_id = _local_artifacts_by_source_id(
+        source_provenance_manifest_path
+    )
     return [
         _remediation_row(
             row,
             reachable_urls_by_source_id=reachable_urls_by_source_id,
+            local_artifacts_by_source_id=local_artifacts_by_source_id,
         )
         for row in rows
     ]
@@ -82,6 +93,7 @@ def write_source_url_remediation_packet(
     manifest_path: str | Path = DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH,
     doc_path: str | Path = DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH,
     url_review_packet_path: str | Path = DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
+    source_provenance_manifest_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PATH,
 ) -> dict[str, Any]:
     """Write CSV, JSON, and Markdown source-URL remediation artifacts."""
 
@@ -109,6 +121,7 @@ def write_source_url_remediation_packet(
         manifest_path=manifest,
         doc_path=doc,
         url_review_packet_path=url_review_packet_path,
+        source_provenance_manifest_path=source_provenance_manifest_path,
     )
     manifest.write_text(
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
@@ -128,6 +141,7 @@ def build_source_url_remediation_manifest(
     manifest_path: str | Path = DEFAULT_SOURCE_URL_REMEDIATION_MANIFEST_PATH,
     doc_path: str | Path = DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH,
     url_review_packet_path: str | Path = DEFAULT_SOURCE_URL_REVIEW_PACKET_PATH,
+    source_provenance_manifest_path: str | Path = DEFAULT_SOURCE_PROVENANCE_PATH,
 ) -> dict[str, Any]:
     """Return a conservative manifest for source-URL remediation rows."""
 
@@ -145,6 +159,11 @@ def build_source_url_remediation_manifest(
     )
     alternate_candidate_row_count = sum(
         1 for row in rows if str(row.get("alternate_url_candidates", "")).strip()
+    )
+    local_artifact_row_count = sum(
+        1
+        for row in rows
+        if _safe_int(row.get("local_artifact_count", "0")) > 0
     )
     closure_candidate_count = sum(
         1
@@ -171,11 +190,15 @@ def build_source_url_remediation_manifest(
         "blocking_issue_count": blocking_issue_count,
         "live_check_required_count": live_check_required_count,
         "alternate_candidate_row_count": alternate_candidate_row_count,
+        "local_artifact_row_count": local_artifact_row_count,
         "provenance_gate_closure_candidate_count": closure_candidate_count,
         "publication_ready": False,
         "can_mark_complete": False,
         "inputs": {
             "source_url_review_packet": _display_path(Path(url_review_packet_path)),
+            "source_provenance_manifest": _display_path(
+                Path(source_provenance_manifest_path)
+            ),
         },
         "outputs": {
             "csv": _display_path(Path(output_path)),
@@ -210,16 +233,17 @@ def build_source_url_remediation_markdown(
         "",
         "## Remediation Rows",
         "",
-        "| Source | URL Status | Remediation | Alternate Candidates | Priority | Required Action |",
-        "| --- | --- | --- | --- | --- | --- |",
+        "| Source | URL Status | Remediation | Alternate Candidates | Local Artifacts | Priority | Required Action |",
+        "| --- | --- | --- | --- | ---: | --- | --- |",
     ]
     for row in rows:
         lines.append(
-            "| {source} | {url_status} | {remediation} | {candidates} | {priority} | {action} |".format(
+            "| {source} | {url_status} | {remediation} | {candidates} | {local_count} | {priority} | {action} |".format(
                 source=_cell(row.get("source_id", "")),
                 url_status=_cell(row.get("url_status", "")),
                 remediation=_cell(row.get("remediation_status", "")),
                 candidates=_cell(row.get("alternate_url_candidates", "")),
+                local_count=_cell(row.get("local_artifact_count", "")),
                 priority=_cell(row.get("priority", "")),
                 action=_cell(row.get("required_reviewer_action", "")),
             )
@@ -243,6 +267,7 @@ def _remediation_row(
     row: Mapping[str, str],
     *,
     reachable_urls_by_source_id: Mapping[str, tuple[str, ...]],
+    local_artifacts_by_source_id: Mapping[str, tuple[str, ...]],
 ) -> dict[str, str]:
     source_id = str(row.get("source_id", ""))
     source_type = str(row.get("source_type", ""))
@@ -251,8 +276,10 @@ def _remediation_row(
         row,
         reachable_urls_by_source_id=reachable_urls_by_source_id,
     )
+    local_artifact_paths = local_artifacts_by_source_id.get(source_id, ())
     remediation_status, priority, evidence_gap, action = _classify(
         source_has_reachable_url=bool(alternate_url_candidates),
+        source_has_local_artifacts=bool(local_artifact_paths),
         source_type=source_type,
         url_status=url_status,
     )
@@ -264,6 +291,8 @@ def _remediation_row(
         "alternate_url_candidates": "; ".join(alternate_url_candidates),
         "url_status": url_status,
         "http_status": str(row.get("http_status", "")),
+        "local_artifact_count": str(len(local_artifact_paths)),
+        "local_artifact_paths": "; ".join(local_artifact_paths),
         "remediation_status": remediation_status,
         "priority": priority,
         "evidence_gap": evidence_gap,
@@ -279,6 +308,7 @@ def _remediation_row(
 def _classify(
     *,
     source_has_reachable_url: bool,
+    source_has_local_artifacts: bool,
     source_type: str,
     url_status: str,
 ) -> tuple[str, str, str, str]:
@@ -311,12 +341,26 @@ def _classify(
             "add a verified official URL, source citation, cached extract, or exclusion decision",
         )
     if url_status in {"http_error", "network_error"}:
+        if source_has_reachable_url and source_has_local_artifacts:
+            return (
+                "alternate_reachable_url_needs_review",
+                "medium",
+                "one cited URL failed, but the same source has at least one reachable URL row and retained local artifact paths",
+                "verify whether the reachable URL and retained local artifacts are sufficient, then replace or remove the failed alternate citation before acceptance",
+            )
         if source_has_reachable_url:
             return (
                 "alternate_reachable_url_needs_review",
                 "medium",
                 "one cited URL failed, but the same source has at least one reachable URL row",
                 "verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance",
+            )
+        if source_has_local_artifacts:
+            return (
+                "cached_snapshot_url_needs_review",
+                "medium",
+                "live check could not reach the cited public URL, but retained local artifact paths exist for reviewer inspection",
+                "manually verify the URL and decide whether retained local artifacts are sufficient, need replacement, or should be excluded before acceptance",
             )
         return (
             "blocked_unreachable_or_http_error",
@@ -345,6 +389,23 @@ def _load_url_rows(path: str | Path) -> list[dict[str, str]]:
         return []
     with packet.open("r", encoding="utf-8-sig", newline="") as handle:
         return list(csv.DictReader(handle))
+
+
+def _local_artifacts_by_source_id(path: str | Path) -> dict[str, tuple[str, ...]]:
+    manifest_path = Path(path)
+    if not manifest_path.exists():
+        return {}
+    manifest = load_source_provenance_manifest(manifest_path)
+    values: dict[str, tuple[str, ...]] = {}
+    for record in manifest.records:
+        artifacts = tuple(
+            artifact.strip()
+            for artifact in record.local_artifact_paths
+            if artifact.strip()
+        )
+        if artifacts:
+            values[record.source_id] = artifacts
+    return values
 
 
 def _reachable_urls_by_source_id(
@@ -408,6 +469,10 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
         items.append(
             "review alternate URL candidates before replacing or removing failed citations"
         )
+    if remediation_counts.get("cached_snapshot_url_needs_review", 0):
+        items.append(
+            "review retained local artifacts before deciding whether failed public URLs need replacement or exclusion"
+        )
     items.extend(
         [
             "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
@@ -436,13 +501,25 @@ def _remaining_blockers(
     if remediation_counts.get("reachable_needs_license_review", 0) or remediation_counts.get(
         "alternate_reachable_url_needs_review",
         0,
+    ) or remediation_counts.get(
+        "cached_snapshot_url_needs_review",
+        0,
     ):
-        blockers.append("reachable URL rows still require source/license/snapshot review")
+        blockers.append(
+            "reachable URL and retained-snapshot rows still require source/license/snapshot review"
+        )
     return blockers
 
 
 def _is_true(value: str) -> bool:
     return str(value).strip().lower() == "true"
+
+
+def _safe_int(value: object) -> int:
+    try:
+        return int(str(value))
+    except ValueError:
+        return 0
 
 
 def _display_path(path: Path) -> str:

@@ -66,6 +66,8 @@ def test_source_url_remediation_rows_classify_review_actions() -> None:
     )
     assert by_id["repo"]["remediation_status"] == "local_citation_needs_review"
     assert by_id["api_unchecked"]["remediation_status"] == "live_check_required"
+    assert {row["local_artifact_count"] for row in rows} == {"0"}
+    assert {row["local_artifact_paths"] for row in rows} == {""}
     assert {row["claim_boundary"] for row in rows} == {SOURCE_URL_REMEDIATION_SCOPE}
     assert all(row["can_support_final_provenance_gate"] == "false" for row in rows)
 
@@ -106,6 +108,7 @@ def test_write_source_url_remediation_packet_outputs_artifacts() -> None:
         assert value["can_mark_complete"] is False
         assert value["blocking_issue_count"] == 1
         assert value["alternate_candidate_row_count"] == 0
+        assert value["local_artifact_row_count"] == 0
         assert any("blocked URL rows" in item for item in value["remaining_blockers"])
         assert any("sensitivity/context-only" in item for item in value["review_items"])
         assert written_manifest["provenance_gate_closure_candidate_count"] == 0
@@ -137,11 +140,23 @@ def test_shipped_source_url_remediation_packet_matches_current_review_packet() -
     assert [row["source_id"] for row in written_rows] == [
         row["source_id"] for row in rows
     ]
+    ktdb_rows = [
+        row
+        for row in rows
+        if row["source_id"] == "ktdb_public_transport_gtfs_context"
+    ]
+    assert any(
+        row["url_status"] == "network_error"
+        and row["local_artifact_count"] == "11"
+        and "data/rail/ktdb_gtfs_source_extract.csv" in row["local_artifact_paths"]
+        for row in ktdb_rows
+    )
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert manifest["result_scope"] == SOURCE_URL_REMEDIATION_SCOPE
     assert manifest["provenance_gate_closure_candidate_count"] == 0
     assert manifest["alternate_candidate_row_count"] >= 0
+    assert manifest["local_artifact_row_count"] == 17
     assert any("sensitivity/context-only" in item for item in manifest["review_items"])
     if manifest["blocking_issue_count"] == 0 and manifest["live_check_required_count"] == 0:
         assert not any(

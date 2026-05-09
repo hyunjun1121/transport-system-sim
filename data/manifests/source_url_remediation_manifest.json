@@ -14,11 +14,13 @@
   "blocking_issue_count": 0,
   "live_check_required_count": 0,
   "alternate_candidate_row_count": 1,
+  "local_artifact_row_count": 17,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "can_mark_complete": false,
   "inputs": {
-    "source_url_review_packet": "data/manifests/source_url_review_packet.csv"
+    "source_url_review_packet": "data/manifests/source_url_review_packet.csv",
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json"
   },
   "outputs": {
     "csv": "data/manifests/source_url_remediation_packet.csv",
@@ -36,6 +38,6 @@
     "formal provenance acceptance record is absent",
     "remediation rows do not certify official source identity or license compatibility",
     "local-citation rows require reviewer confirmation",
-    "reachable URL rows still require source/license/snapshot review"
+    "reachable URL and retained-snapshot rows still require source/license/snapshot review"
   ]
 }
