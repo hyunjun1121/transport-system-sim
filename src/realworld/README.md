@@ -310,5 +310,69 @@ Implemented extension modules now also cover:
 - `publication_readiness.py`: aggregated parameter, road, rail-service, and
   station-binding readiness gates for final-study claim control.
 
+Additional package modules provide the lower-level pipeline and audit
+infrastructure used by those review aids:
+
+- `types.py`: typed records and validators for region specifications.
+- `regions.py`: region registry loading and validation helpers.
+- `osm_network.py`: optional OSM extraction and offline GraphML cache helpers
+  behind a lazy OSMnx import boundary.
+- `attributes.py`: deterministic OSM-style road-attribute mapping to simulator
+  edge fields.
+- `zones.py`: zone snapping and connector-edge helpers for road graphs.
+- `adapter.py`: normalized OSM-like road graph to simulator `DiGraph` adapter.
+- `validation.py`: simulator-graph readiness validation before scenario runs.
+- `acceptance_records.py`: common schema validation for review-agent records.
+- `acceptance_orchestration.py`: deterministic review-agent record generation
+  from final-study readiness blockers.
+- `formal_acceptance_evidence_matrix.py`: reviewer intake matrix joining
+  formal targets, blockers, assigned agents, and evidence paths.
+- `formal_acceptance_pre_review.py`: draft-only blocked-gate pre-review
+  package under `data/manifests/draft_acceptance/`.
+- `agent_review_path_audit.py`: path hygiene audit for review-agent evidence
+  references.
+- `final_study_readiness.py`: plan-level audit that maps final-study gates to
+  concrete repository artifacts.
+- `goal_completion_audit.py`: active-goal completion gap audit that rejects
+  proxy-only final-study completion.
+- `manifest_timestamp.py`: stable generated-manifest timestamp helpers.
+- `clean_checkout_smoke.py`: bounded clean-checkout smoke helper for
+  reproducibility evidence.
+- `source_provenance.py`: source provenance review-packet validation.
+- `source_url_review_packet.py`: URL-level source review worksheet generation.
+- `ktdb_gtfs_source.py`: KTDB GTFS source-metadata cache extractor for human
+  review.
+- `metro9_capacity_source.py`: Metro 9 rolling-stock source extractor for
+  capacity-source review.
+- `parameter_audit.py`: conservative publication-readiness audit for parameter
+  evidence.
+- `parameter_evidence_request_packet.py`: parameter evidence source-request
+  packet generation.
+- `parameter_evidence_priority_packet.py`: parameter evidence priority
+  worksheet generation.
+- `parameter_source_decision_packet.py`: parameter source-decision worksheet.
+- `transfer_evidence_review_packet.py`: transfer-delay evidence review
+  worksheet.
+- `road_evidence.py`: cached OSM road-input evidence audit.
+- `road_evidence_diagnostics.py`: road-class evidence gap diagnostics.
+- `road_evidence_priority_packet.py`: road evidence priority worksheet.
+- `road_override_template.py`: draft road-class override table builder.
+- `road_overrides.py`: reviewed road-class override loader and applier.
+- `road_source_decision_packet.py`: road source-decision worksheet.
+- `rail_evidence.py`: rail evidence cache validation.
+- `rail_evidence_priority_packet.py`: rail evidence priority worksheet.
+- `rail_timetable_api.py`: optional data.go.kr timetable fetch/parse helpers
+  kept outside default offline validation.
+- `rail_shortest_path_api.py`: optional Seoul Metro shortest-path API
+  fetch/parse helpers kept outside default offline validation.
+- `full_graph_runtime_readiness_packet.py`: full-graph runtime-readiness
+  worksheet generation.
+- `graph_scale_manifest_audit.py`: graph-scale field audit across generated
+  pilot manifests.
+- `sensitivity_diagnostics.py`: scaffold Morris sensitivity output
+  diagnostics.
+- `validation_benchmark_readiness_packet.py`: benchmark-specific validation
+  readiness worksheet.
+
 These modules support quasi-real study scaffolding. They do not by themselves
 create calibrated real-world results or operational routing guidance.
