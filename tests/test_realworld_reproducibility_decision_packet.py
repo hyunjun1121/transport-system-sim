@@ -58,12 +58,18 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
     assert by_id["formal_reproducibility_acceptance_boundary"]["decision_status"] == (
         "blocked_missing_reproducibility_acceptance_record"
     )
-    assert "matches_review_head=false" in by_id[
-        "clean_checkout_evidence_scope_decision"
-    ]["current_evidence"]
-    assert "source_commit_relation=ancestor_of_review_head" in by_id[
-        "clean_checkout_evidence_scope_decision"
-    ]["current_evidence"]
+    clean_checkout_evidence = by_id["clean_checkout_evidence_scope_decision"][
+        "current_evidence"
+    ]
+    if _clean_checkout_smoke_matches_review_head():
+        assert "matches_review_head=true" in clean_checkout_evidence
+        assert "source_commit_relation=matches_review_head" in clean_checkout_evidence
+    else:
+        assert "matches_review_head=false" in clean_checkout_evidence
+        assert (
+            "source_commit_relation=ancestor_of_review_head"
+            in clean_checkout_evidence
+        )
     assert by_id["clean_checkout_evidence_scope_decision"]["blocking_reason"] == ""
     assert {row["claim_boundary"] for row in rows} == {
         REPRODUCIBILITY_DECISION_SCOPE
@@ -153,6 +159,24 @@ def _clean_checkout_artifact_regeneration_tested() -> bool:
         DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH.read_text(encoding="utf-8")
     )
     return bool(value.get("artifact_regeneration_tested", False))
+
+
+def _clean_checkout_smoke_matches_review_head() -> bool:
+    if not DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH.exists():
+        return False
+    value = json.loads(
+        DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH.read_text(encoding="utf-8")
+    )
+    review_manifest_path = (
+        DEFAULT_REPRODUCIBILITY_DECISION_MANIFEST_PATH.parent
+        / "reproducibility_review_manifest.json"
+    )
+    if not review_manifest_path.exists():
+        return False
+    review_value = json.loads(review_manifest_path.read_text(encoding="utf-8"))
+    source_commit = str((value.get("source") or {}).get("source_commit", ""))
+    review_head = str(review_value.get("review_git_head_commit", ""))
+    return bool(source_commit and review_head and source_commit == review_head)
 
 
 if __name__ == "__main__":

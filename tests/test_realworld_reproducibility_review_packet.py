@@ -589,6 +589,29 @@ def test_writer_captures_git_status_before_writing_outputs() -> None:
     print("PASS: writer captures git status before writing outputs")
 
 
+def test_reproducibility_review_status_filter_ignores_generated_outputs() -> None:
+    """Clean-checkout and review outputs should not self-block dirty-state rows."""
+
+    lines = [
+        " M data/validation/clean_checkout_reproducibility_smoke_manifest.json",
+        " M data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
+        " M docs/clean_checkout_reproducibility_smoke.md",
+        " M data/validation/reproducibility_review_packet.csv",
+        " M data/validation/reproducibility_review_manifest.json",
+        " M data/validation/reproducibility_decision_packet.csv",
+        " M data/validation/reproducibility_decision_manifest.json",
+        " M docs/reproducibility_decision_packet.md",
+        " M plan.md",
+        "?? data/new_review_input.csv",
+    ]
+
+    filtered = packet_module._filter_reproducibility_review_status_lines(lines)
+
+    assert filtered == [" M plan.md", "?? data/new_review_input.csv"]
+
+    print("PASS: reproducibility review ignores generated evidence outputs")
+
+
 if __name__ == "__main__":
     test_reproducibility_review_rows_are_conservative()
     test_reproducibility_review_rows_handle_fixture_state()
@@ -598,4 +621,5 @@ if __name__ == "__main__":
     test_reproducibility_review_preserves_clean_checkout_freshness_snapshot()
     test_write_reproducibility_review_packet_outputs_csv_and_manifest()
     test_writer_captures_git_status_before_writing_outputs()
+    test_reproducibility_review_status_filter_ignores_generated_outputs()
     print("\n=== REALWORLD REPRODUCIBILITY REVIEW PACKET TESTS PASSED ===")

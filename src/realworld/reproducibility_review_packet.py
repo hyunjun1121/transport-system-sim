@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from src.realworld.clean_checkout_smoke import (
+    CLEAN_CHECKOUT_SMOKE_SELF_OUTPUTS,
     DEFAULT_CLEAN_CHECKOUT_SMOKE_MANIFEST_PATH,
     summarize_clean_checkout_smoke,
 )
@@ -45,6 +46,21 @@ DEFAULT_REPRODUCIBILITY_REVIEW_MANIFEST_PATH = (
 )
 DEFAULT_CLEAN_CHECKOUT_SMOKE_DOC_PATH = (
     PROJECT_ROOT / "docs" / "clean_checkout_reproducibility_smoke.md"
+)
+REPRODUCIBILITY_REVIEW_SELF_OUTPUTS: frozenset[str] = frozenset(
+    {
+        "data/validation/reproducibility_review_packet.csv",
+        "data/validation/reproducibility_review_manifest.json",
+        "data/validation/reproducibility_decision_packet.csv",
+        "data/validation/reproducibility_decision_manifest.json",
+        "docs/reproducibility_decision_packet.md",
+    }
+)
+REPRODUCIBILITY_REVIEW_GIT_STATUS_IGNORED_OUTPUTS: frozenset[str] = frozenset(
+    {
+        *CLEAN_CHECKOUT_SMOKE_SELF_OUTPUTS,
+        *REPRODUCIBILITY_REVIEW_SELF_OUTPUTS,
+    }
 )
 
 REPRODUCIBILITY_REVIEW_PACKET_SCOPE = (
@@ -665,7 +681,21 @@ def _git_status_lines() -> list[str]:
         return ["!! git status unavailable"]
     if result.returncode != 0:
         return [f"!! git status failed: {result.stderr.strip()}"]
-    return [line for line in result.stdout.splitlines() if line.strip()]
+    return _filter_reproducibility_review_status_lines(result.stdout.splitlines())
+
+
+def _filter_reproducibility_review_status_lines(lines: Iterable[str]) -> list[str]:
+    """Drop generated reproducibility evidence outputs from dirty-state checks."""
+
+    filtered: list[str] = []
+    for line in lines:
+        if not line.strip():
+            continue
+        normalized = _git_status_path(line)
+        if normalized in REPRODUCIBILITY_REVIEW_GIT_STATUS_IGNORED_OUTPUTS:
+            continue
+        filtered.append(line)
+    return filtered
 
 
 def _git_head_commit() -> str:
