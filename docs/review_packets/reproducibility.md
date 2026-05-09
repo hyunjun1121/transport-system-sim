@@ -129,7 +129,7 @@ Formal acceptance artifacts:
       "needs_human_review_runtime_import_boundary": 1
     },
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 4,
+    "review_packet_git_status_line_count": 0,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,
