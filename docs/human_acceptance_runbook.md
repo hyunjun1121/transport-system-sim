@@ -40,6 +40,8 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\run_acceptance_audit.py
 .\.venv\Scripts\python scripts\run_acceptance_audit.py --live-source-url-checks --source-url-timeout-sec 12
 .\.venv\Scripts\python scripts\write_source_url_remediation_packet.py
+.\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
+.\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
@@ -57,6 +59,12 @@ The live source-URL option records volatile reachability evidence for
 statuses into source-specific reviewer actions. Both are reviewer aids only;
 they do not certify licenses, attribution, source suitability, or provenance
 acceptance.
+
+The source context-cache request and decision packets identify context-source
+target payload blockers such as the KTDB GTFS zip or directory, Seoul
+shortest-path API cache/raw JSON, and Seoul timetable API cache/raw JSON. They
+are cache-or-exclude review aids only. Cached KTDB metadata is review support,
+not a GTFS payload cache or provenance acceptance.
 
 The rail fetch-readiness packet does not fetch live data. It records whether
 rail timing source requests are blocked by missing API keys, missing reviewed
@@ -151,7 +159,7 @@ Get-Content docs\formal_acceptance_pre_review.md
 | Gate | Review Packet | Formal Target | Reviewer Decision Needed |
 | --- | --- | --- | --- |
 | `pilot_region_accepted` | `docs/review_packets/pilot_region_accepted.md`; `docs/pilot_privacy_review_packet.md` | `data/manifests/pilot_acceptance.json` | Privacy, sensitivity, region scope, and not-operational boundary acceptance |
-| `data_provenance` | `docs/review_packets/data_provenance.md`; `docs/source_license_review_packet.md` | `data/manifests/provenance_acceptance.json` | Source URLs, OSM/license/attribution, snapshot, reproducibility, and privacy abstraction review |
+| `data_provenance` | `docs/review_packets/data_provenance.md`; `docs/source_license_review_packet.md`; `docs/source_context_cache_request_packet.md`; `docs/source_context_cache_decision_packet.md` | `data/manifests/provenance_acceptance.json` | Source URLs, OSM/license/attribution, snapshot, reproducibility, privacy abstraction, and target payload cache/exclude decisions |
 | `graph_scale_strategy` | `docs/review_packets/graph_scale_strategy.md` | `data/manifests/graph_scale_acceptance.json` | Reduced-corridor, multi-corridor, or full-graph method choice with matching graph counts |
 | `cached_osm_input` | `docs/review_packets/cached_osm_input.md` | `data/parameters/road_class_overrides.csv` | Reviewed road speed, capacity, and base-disruption evidence or bounded override decision |
 | `parameter_evidence` | `docs/review_packets/parameter_evidence.md` | `data/parameters/parameter_acceptance.csv` | Acceptance or replacement of weak demand, fleet, transfer, disruption, traffic, and censoring parameters |
