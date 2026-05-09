@@ -1,6 +1,6 @@
 # Reproducibility Review Packet
 
-> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-09): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
 
 `data/validation/reproducibility_review_packet.csv` is a reviewer worksheet for
@@ -65,9 +65,9 @@ committed source tree:
 It writes `data/validation/clean_checkout_reproducibility_smoke_manifest.json`,
 `data/validation/clean_checkout_reproducibility_smoke_log.jsonl`, and
 `docs/clean_checkout_reproducibility_smoke.md`. This is bounded
-source-checkout evidence using the current Python environment. It is not a
-clean-environment dependency reinstall, full validation ladder, artifact
-regeneration acceptance, or formal reviewer approval. The review packet records
+source-checkout evidence using a fresh virtual environment with dependency
+installation. It is not a full validation ladder, artifact-regeneration
+acceptance, or formal reviewer approval. The review packet records
 the clean-checkout smoke source commit and the Git HEAD used when the packet is
 generated so reviewers can see whether the smoke evidence matched the reviewed
 source snapshot or only an earlier code snapshot. It also records the source

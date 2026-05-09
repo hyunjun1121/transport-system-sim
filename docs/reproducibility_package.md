@@ -836,9 +836,9 @@ Not allowed:
 - Use `data/validation/clean_checkout_reproducibility_smoke_manifest.json` and
   `data/validation/clean_checkout_reproducibility_smoke_log.jsonl` as bounded
   clean source-checkout smoke evidence. They show that the committed source
-  tree can be cloned and a minimal evidence profile can pass, but they do not
-  prove dependency reinstall, full validation-ladder execution, artifact
-  regeneration, or final reproducibility acceptance.
+  tree can be cloned and a bounded evidence profile can pass with dependency
+  installation, but they do not prove full validation-ladder execution,
+  full artifact regeneration, or final reproducibility acceptance.
 - Use `data/validation/reproducibility_smoke_manifest.json` and
   `data/validation/reproducibility_smoke_log.jsonl` as current-worktree smoke
   evidence only. They can help reviewers inspect the command ladder, but they
