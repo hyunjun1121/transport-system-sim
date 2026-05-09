@@ -1,19 +1,29 @@
 {
-  "blocking_change_count": 0,
+  "blocking_change_count": 4,
   "can_mark_complete": false,
-  "category_counts": {},
+  "category_counts": {
+    "data_or_manifest": 3,
+    "documentation": 1
+  },
   "claim_boundary": "This audit checks whether current changed artifacts would be present in a clean checkout of the current Git HEAD. It does not commit files, approve reproducibility, validate evidence quality, or close final-study gates.",
   "clean_checkout_reproducibility_ready": false,
-  "generated_at": "2026-05-09T04:47:30+00:00",
-  "modified_or_staged_count": 0,
+  "generated_at": "2026-05-09T05:09:40+00:00",
+  "modified_or_staged_count": 4,
   "outputs": {
     "csv": "data/validation/tracked_artifact_audit.csv",
     "doc": "docs/tracked_artifact_audit.md",
     "manifest": "data/validation/tracked_artifact_audit_manifest.json"
   },
-  "remaining_blockers": [],
-  "risk_counts": {},
-  "row_count": 0,
+  "remaining_blockers": [
+    "data/validation/reproducibility_decision_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+    "data/validation/reproducibility_review_manifest.json: Commit, stash, or document this change before clean-checkout reproduction.",
+    "data/validation/reproducibility_review_packet.csv: Commit, stash, or document this change before clean-checkout reproduction.",
+    "docs/reproducibility_decision_packet.md: Commit, stash, or document this change before clean-checkout reproduction."
+  ],
+  "risk_counts": {
+    "changed_after_head": 4
+  },
+  "row_count": 4,
   "schema_version": 1,
   "untracked_count": 0
 }

@@ -94,7 +94,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Integrated E2/E3/E5 Evidence Review` | 5 | 5 | 14 | 0 | `false` | blocked_experiment_design_dependencies=1; blocked_integrated_claim_boundary=1; blocked_rail_source_decisions_pending=1; +2 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
-| `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
+| `Reproducibility Review` | 8 | 4 | 0 | 0 | `false` | blocked_dirty_worktree=1; blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; +5 more |
 | `Reproducibility Decision` | 7 | 2 | 5 | 0 | `false` | blocked_missing_reproducibility_acceptance_record=1; blocked_scaffold_reproducibility_manifest_scope=1; needs_human_review_artifact_regeneration=1; +4 more |
 | `Final Audit Decision` | 7 | 4 | 3 | 0 | `false` | blocked_missing_final_audit_acceptance_record=1; blocked_missing_final_study_audit_document=1; blocked_missing_formal_acceptance_artifacts=1; +4 more |
 | `Acceptance Decision Templates` | 9 | 0 | 0 | 0 | `false` |  |
@@ -105,7 +105,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Formal Package Audit` | 12 | 12 | 0 | 0 | `false` |  |
 | `Formal Evidence Path Audit` | 11 | 0 | 0 | 0 | `false` |  |
 | `Agent Review Path Audit` | 12 | 0 | 0 | 0 | `false` | missing_formal_target=36; present=795 |
-| `Tracked Artifact Audit` | 0 | 0 | 0 | 0 | `false` |  |
+| `Tracked Artifact Audit` | 4 | 4 | 0 | 0 | `false` | data_or_manifest=3; documentation=1 |
 | `Current Goal Completion Audit` | 15 | 12 | 0 | 0 | `false` | blocked=12; missing_acceptance_artifact=12; ready=3 |
 | `Publication Readiness Audit` | 7 | 6 | 0 | 0 | `false` | blocked=6; ready=1 |
 
@@ -147,6 +147,7 @@ Priority blockers by packet:
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
 - `Final Audit Decision`: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility (+3 more)
 - `Formal Package Audit`: pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review (+27 more)
+- `Tracked Artifact Audit`: data/validation/reproducibility_decision_packet.csv: Commit, stash, or document this change before clean-checkout reproduction. (+3 more)
 - `Publication Readiness Audit`: parameter evidence: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence (+14 more)
 
 ## Remaining Blockers

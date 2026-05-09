@@ -6,16 +6,19 @@ This audit checks whether current changed artifacts would be present in a clean 
 
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
+- Changed reproducibility artifacts: 4
+- Blocking changed artifacts: 4
 - Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Modified or staged artifacts: 4
 
 ## Changed Artifacts
 
 | Status | Category | Path | Required Action |
 | --- | --- | --- | --- |
-| none | none | `.` | No changed reproducibility artifact candidates found. |
+| M | data_or_manifest | `data/validation/reproducibility_decision_packet.csv` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | data_or_manifest | `data/validation/reproducibility_review_manifest.json` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | data_or_manifest | `data/validation/reproducibility_review_packet.csv` | Commit, stash, or document this change before clean-checkout reproduction. |
+| M | documentation | `docs/reproducibility_decision_packet.md` | Commit, stash, or document this change before clean-checkout reproduction. |
 
 ## Use
 
