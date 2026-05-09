@@ -2269,10 +2269,25 @@ default validation ladder:
 .\.venv\Scripts\python scripts\run_osrm_route_benchmark.py
 ```
 
+Optional live public-source cache commands are separate from the default
+validation ladder and should only be run when intentionally refreshing
+reviewer source snapshots:
+
+```powershell
+.\.venv\Scripts\python scripts\cache_ktdb_gtfs_source.py
+.\.venv\Scripts\python scripts\cache_metro9_capacity_source.py
+```
+
 Use `--source fixture` only for deterministic fixture fallback work. Use
 `--source overpass` only when intentionally replacing the cached OSM snapshot,
 then rerun smoke, sample experiments, validation, figures, and documentation
 checks before carrying the new snapshot forward.
+
+The KTDB command caches source metadata only; it does not cache a reviewed GTFS
+feed. The Metro 9 command caches a rolling-stock source-review extract only;
+it does not accept rail capacity. After refreshing either source snapshot,
+rerun the rail/source-provenance review packets and keep final claims blocked
+until reviewers accept the retained source treatment.
 
 If any command depends on optional external software, provide a cached or
 documented fallback and do not make it part of default unit tests.

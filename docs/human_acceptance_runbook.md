@@ -110,6 +110,20 @@ are cache, sensitivity/context-only retention, or exclusion review aids only.
 Cached KTDB metadata is review support, not a GTFS payload cache or provenance
 acceptance.
 
+Optional live source-cache refresh commands are separate from the default
+packet refresh and should only be run when a reviewer intentionally updates
+source snapshots:
+
+```powershell
+.\.venv\Scripts\python scripts\cache_ktdb_gtfs_source.py
+.\.venv\Scripts\python scripts\cache_metro9_capacity_source.py
+```
+
+The KTDB command writes public source metadata only, not a reviewed GTFS feed.
+The Metro 9 command writes a rolling-stock source-review extract only, not
+accepted rail capacity. After either command, rerun the rail and
+source-provenance review packets before considering any formal source decision.
+
 The rail fetch-readiness and source-decision packets do not fetch or approve
 live data. They record whether rail timing source requests are blocked by
 missing API keys, missing reviewed GTFS files, or human-review-only capacity

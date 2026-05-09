@@ -650,6 +650,8 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         "scripts\\write_graph_scale_review_packet.py",
         "scripts\\write_validation_review_packet.py",
         "scripts\\write_integrated_evidence_review_packet.py",
+        "scripts\\cache_ktdb_gtfs_source.py",
+        "scripts\\cache_metro9_capacity_source.py",
         "docs/integrated_evidence_review_packet.md",
         "docs/rail_evidence_priority_packet.md",
         "docs/road_source_decision_packet.md",
@@ -692,6 +694,8 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         "scripts\\audit_publication_readiness.py --fail-on-blockers",
         "scripts\\audit_final_study_readiness.py --fail-on-blockers",
         "scripts\\write_integrated_evidence_review_packet.py",
+        "scripts\\cache_ktdb_gtfs_source.py",
+        "scripts\\cache_metro9_capacity_source.py",
     ):
         assert expected in plan_text
     assert any(
