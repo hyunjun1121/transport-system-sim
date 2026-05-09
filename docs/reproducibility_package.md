@@ -535,7 +535,7 @@ git diff --check
 | `data/parameters/parameter_sources.csv` | Parameter-source table | assumption and sensitivity evidence |
 | `data/parameters/parameter_evidence_review_packet.csv` | Core-parameter evidence review worksheet | 29 rows, 25 weak for final-study claims; review support only |
 | `data/parameters/parameter_evidence_review_manifest.json` | Parameter review-packet manifest | summarizes weak rows, priorities, groups, and non-acceptance claim boundary |
-| `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter evidence source-request worksheet | 6 rows for demand, fleet, dispatch, transfer, disruption, and traffic/BPR source inputs; request aid only |
+| `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter evidence source-request worksheet | 7 rows for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR source inputs; request aid only |
 | `data/parameters/parameter_evidence_source_request_manifest.json` | Parameter source-request manifest | summarizes covered parameters and keeps `publication_ready: false` |
 | `docs/parameter_acceptance_schema.md` | Optional weak-parameter acceptance schema | future reviewed acceptance only; no accepted record is committed |
 | `data/parameters/rail_assumptions.csv` | Rail evidence table | documented assumptions |

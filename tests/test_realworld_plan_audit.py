@@ -680,6 +680,27 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         doc_text = (ROOT / doc_path).read_text(encoding="utf-8")
         assert "write_formal_acceptance_blocker_queue.py" in doc_text
         assert "write_acceptance_blocker_queue.py" in doc_text
+    docs_by_path = {
+        doc_path: (ROOT / doc_path).read_text(encoding="utf-8")
+        for doc_path in ("README.md", "agents.md", "docs/reproducibility_package.md")
+    }
+    assert "produce a 7-row\n  source-request worksheet" in docs_by_path["README.md"]
+    assert (
+        "parameter_evidence_source_request_packet.csv # 7-row parameter source-request aid"
+        in docs_by_path["agents.md"]
+    )
+    assert (
+        "reproducibility_review_packet.csv # 8-row clean-checkout review aid"
+        in docs_by_path["agents.md"]
+    )
+    assert (
+        "7 rows for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR"
+        in docs_by_path["docs/reproducibility_package.md"]
+    )
+    for doc_path, doc_text in docs_by_path.items():
+        assert "produce a 6-row" not in doc_text, doc_path
+        assert "# 6-row parameter source-request aid" not in doc_text, doc_path
+        assert "6 rows for demand, fleet, dispatch, transfer, disruption" not in doc_text, doc_path
     script_names = sorted(path.name for path in (ROOT / "scripts").glob("*.py"))
     for doc_path in ("agents.md", "status.md"):
         doc_text = (ROOT / doc_path).read_text(encoding="utf-8")

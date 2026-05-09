@@ -486,10 +486,10 @@ Implemented pieces:
   reviewer worksheet. The generated packet marks 25 core parameters as weak
   for final-study claims and does not accept or calibrate any value.
 - `src.realworld.parameter_evidence_request_packet` and
-  `scripts/write_parameter_evidence_source_request_packet.py` produce a 6-row
+  `scripts/write_parameter_evidence_source_request_packet.py` produce a 7-row
   source-request worksheet for cross-cutting demand, fleet, dispatch,
-  transfer, disruption, and traffic/BPR evidence. It is a request aid only and
-  does not accept weak parameters.
+  transfer, rail, disruption, and traffic/BPR evidence. It is a request aid
+  only and does not accept weak parameters.
 - `src.realworld.pilot_acceptance` validates an explicit
   `data/manifests/pilot_acceptance.json` review record for future final-study
   acceptance. The record is intentionally absent in the current scaffold.

@@ -232,7 +232,7 @@ data/
     road_class_overrides_draft.csv  # 10-row expert-assumption review worksheet
     parameter_evidence_review_packet.csv # 29-row weak-parameter review worksheet
     parameter_evidence_review_manifest.json
-    parameter_evidence_source_request_packet.csv # 6-row parameter source-request aid
+    parameter_evidence_source_request_packet.csv # 7-row parameter source-request aid
     parameter_evidence_source_request_manifest.json
     road_capacity_evidence_candidates.csv # 10-row capacity evidence gap aid
     road_speed_evidence_candidates.csv # 10-row OSM maxspeed review aid
@@ -252,7 +252,7 @@ data/
     validation_strategy_readiness_manifest.json
     graph_scale_strategy_readiness_packet.csv # 5-row graph-scale blocker/readiness aid
     graph_scale_strategy_readiness_manifest.json
-    reproducibility_review_packet.csv # 7-row clean-checkout review aid
+    reproducibility_review_packet.csv # 8-row clean-checkout review aid
     reproducibility_review_manifest.json
     experiment_strategy_readiness_packet.csv # 9-row experiment blocker/readiness aid
     experiment_strategy_readiness_manifest.json
@@ -697,10 +697,10 @@ Implemented behavior:
   29-row review worksheet. The current packet marks 25 core parameters as weak
   for final-study claims and remains review support only.
 - `src/realworld/parameter_evidence_request_packet.py` and
-  `scripts/write_parameter_evidence_source_request_packet.py` produce a 6-row
+  `scripts/write_parameter_evidence_source_request_packet.py` produce a 7-row
   source-request worksheet for cross-cutting demand, fleet, dispatch,
-  transfer, disruption, and traffic/BPR evidence. It is request support only
-  and does not accept weak parameters.
+  transfer, rail, disruption, and traffic/BPR evidence. It is request support
+  only and does not accept weak parameters.
 - `src/realworld/parameter_acceptance.py` validates optional
   `data/parameters/parameter_acceptance.csv` review records for weak
   assumptions that are explicitly retained inside final claim boundaries. This
