@@ -7,6 +7,8 @@
   "inputs": {
     "experiment_design_decision_manifest": "data/manifests/experiment_design_decision_manifest.json",
     "rail_source_decision_manifest": "data/rail/rail_source_decision_manifest.json",
+    "source_context_cache_decision_manifest": "data/manifests/source_context_cache_decision_manifest.json",
+    "source_provenance_decision_manifest": "data/manifests/source_provenance_decision_manifest.json",
     "validation_benchmark_decision_manifest": "data/validation/validation_benchmark_decision_manifest.json",
     "validation_strategy_readiness_manifest": "data/validation/validation_strategy_readiness_manifest.json"
   },

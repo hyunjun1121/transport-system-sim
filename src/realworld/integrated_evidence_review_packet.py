@@ -29,6 +29,12 @@ DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH = (
 DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "experiment_design_decision_manifest.json"
 )
+DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "source_context_cache_decision_manifest.json"
+)
+DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "manifests" / "source_provenance_decision_manifest.json"
+)
 DEFAULT_INTEGRATED_EVIDENCE_REVIEW_PACKET_PATH = (
     PROJECT_ROOT / "data" / "validation" / "integrated_evidence_review_packet.csv"
 )
@@ -68,6 +74,10 @@ def build_integrated_evidence_review_rows(
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     experiment_design_decision_manifest_path: str
     | Path = DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
+    source_context_cache_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    source_provenance_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
 ) -> list[dict[str, str]]:
     """Return conservative integration-review rows for existing packets."""
 
@@ -85,6 +95,12 @@ def build_integrated_evidence_review_rows(
         ),
         experiment_design_decision_manifest_path=(
             experiment_design_decision_manifest_path
+        ),
+        source_context_cache_decision_manifest_path=(
+            source_context_cache_decision_manifest_path
+        ),
+        source_provenance_decision_manifest_path=(
+            source_provenance_decision_manifest_path
         ),
     )
 
@@ -304,6 +320,10 @@ def write_integrated_evidence_review_packet(
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     experiment_design_decision_manifest_path: str
     | Path = DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
+    source_context_cache_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    source_provenance_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
 ) -> dict[str, Any]:
     """Write integrated review CSV, manifest, and Markdown."""
 
@@ -344,6 +364,12 @@ def write_integrated_evidence_review_packet(
         experiment_design_decision_manifest_path=(
             experiment_design_decision_manifest_path
         ),
+        source_context_cache_decision_manifest_path=(
+            source_context_cache_decision_manifest_path
+        ),
+        source_provenance_decision_manifest_path=(
+            source_provenance_decision_manifest_path
+        ),
     )
     manifest.write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
@@ -370,6 +396,10 @@ def build_integrated_evidence_review_manifest(
     | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     experiment_design_decision_manifest_path: str
     | Path = DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
+    source_context_cache_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    source_provenance_decision_manifest_path: str
+    | Path = DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
 ) -> dict[str, Any]:
     """Return a conservative manifest for integrated evidence review."""
 
@@ -419,6 +449,12 @@ def build_integrated_evidence_review_manifest(
             ),
             "experiment_design_decision_manifest": _display_path(
                 Path(experiment_design_decision_manifest_path)
+            ),
+            "source_context_cache_decision_manifest": _display_path(
+                Path(source_context_cache_decision_manifest_path)
+            ),
+            "source_provenance_decision_manifest": _display_path(
+                Path(source_provenance_decision_manifest_path)
             ),
         },
         "outputs": {
@@ -535,8 +571,14 @@ def _evidence_paths(
     validation_benchmark_decision_manifest_path: str | Path,
     validation_strategy_readiness_manifest_path: str | Path,
     experiment_design_decision_manifest_path: str | Path,
+    source_context_cache_decision_manifest_path: str | Path,
+    source_provenance_decision_manifest_path: str | Path,
 ) -> str:
     paths = [
+        PROJECT_ROOT / "data" / "manifests" / "source_context_cache_decision_packet.csv",
+        source_context_cache_decision_manifest_path,
+        PROJECT_ROOT / "data" / "manifests" / "source_provenance_decision_packet.csv",
+        source_provenance_decision_manifest_path,
         PROJECT_ROOT / "data" / "rail" / "rail_source_decision_packet.csv",
         rail_source_decision_manifest_path,
         PROJECT_ROOT / "data" / "validation" / "validation_benchmark_decision_packet.csv",

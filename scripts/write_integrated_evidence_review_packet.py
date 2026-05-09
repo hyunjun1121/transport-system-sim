@@ -17,6 +17,8 @@ from src.realworld.integrated_evidence_review_packet import (  # noqa: E402
     DEFAULT_INTEGRATED_EVIDENCE_REVIEW_MANIFEST_PATH,
     DEFAULT_INTEGRATED_EVIDENCE_REVIEW_PACKET_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
+    DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
     DEFAULT_VALIDATION_BENCHMARK_DECISION_MANIFEST_PATH,
     DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
     build_integrated_evidence_review_rows,
@@ -39,6 +41,12 @@ def main(argv: list[str] | None = None) -> int:
         experiment_design_decision_manifest_path=(
             args.experiment_design_decision_manifest
         ),
+        source_context_cache_decision_manifest_path=(
+            args.source_context_cache_decision_manifest
+        ),
+        source_provenance_decision_manifest_path=(
+            args.source_provenance_decision_manifest
+        ),
     )
     manifest = write_integrated_evidence_review_packet(
         rows=rows,
@@ -54,6 +62,12 @@ def main(argv: list[str] | None = None) -> int:
         ),
         experiment_design_decision_manifest_path=(
             args.experiment_design_decision_manifest
+        ),
+        source_context_cache_decision_manifest_path=(
+            args.source_context_cache_decision_manifest
+        ),
+        source_provenance_decision_manifest_path=(
+            args.source_provenance_decision_manifest
         ),
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
@@ -85,6 +99,16 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--experiment-design-decision-manifest",
         type=Path,
         default=DEFAULT_EXPERIMENT_DESIGN_DECISION_MANIFEST_PATH,
+    )
+    parser.add_argument(
+        "--source-context-cache-decision-manifest",
+        type=Path,
+        default=DEFAULT_SOURCE_CONTEXT_CACHE_DECISION_MANIFEST_PATH,
+    )
+    parser.add_argument(
+        "--source-provenance-decision-manifest",
+        type=Path,
+        default=DEFAULT_SOURCE_PROVENANCE_DECISION_MANIFEST_PATH,
     )
     parser.add_argument(
         "--output",

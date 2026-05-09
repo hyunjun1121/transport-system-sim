@@ -44,6 +44,14 @@ def test_integrated_evidence_review_rows_classify_current_state() -> None:
     assert by_id["integrated_claim_boundary"]["integration_status"] == (
         "blocked_integrated_claim_boundary"
     )
+    assert (
+        "data/manifests/source_context_cache_decision_manifest.json"
+        in by_id["e2_rail_timing_capacity_dependency"]["evidence_input_paths"]
+    )
+    assert (
+        "data/manifests/source_provenance_decision_packet.csv"
+        in by_id["integrated_claim_boundary"]["evidence_input_paths"]
+    )
     assert {row["claim_boundary"] for row in rows} == {
         INTEGRATED_EVIDENCE_REVIEW_SCOPE
     }
@@ -80,6 +88,12 @@ def test_integrated_evidence_review_writer_outputs_artifacts() -> None:
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 5
     assert written_manifest["integrated_gate_closure_candidate_count"] == 0
+    assert written_manifest["inputs"]["source_context_cache_decision_manifest"] == (
+        "data/manifests/source_context_cache_decision_manifest.json"
+    )
+    assert written_manifest["inputs"]["source_provenance_decision_manifest"] == (
+        "data/manifests/source_provenance_decision_manifest.json"
+    )
     assert "Integrated Evidence Review Packet" in doc_text
 
     print("PASS: integrated evidence review writer emits artifacts")
@@ -113,6 +127,12 @@ def test_shipped_integrated_evidence_review_packet_matches_current_outputs() -> 
     assert manifest["integrated_gate_closure_candidate_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
+    assert manifest["inputs"]["source_context_cache_decision_manifest"] == (
+        "data/manifests/source_context_cache_decision_manifest.json"
+    )
+    assert manifest["inputs"]["source_provenance_decision_manifest"] == (
+        "data/manifests/source_provenance_decision_manifest.json"
+    )
 
     print("PASS: shipped integrated evidence review packet matches outputs")
 
