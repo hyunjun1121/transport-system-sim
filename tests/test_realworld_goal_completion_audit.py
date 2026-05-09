@@ -53,9 +53,12 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "Current-Worktree Reproducibility Smoke" in text
     assert "Clean checkout tested: `false`" in text
     assert "Bounded Clean-Checkout Smoke" in text
-    assert "Full clean environment tested: `false`" in text
+    assert "Full clean environment tested:" in text
+    assert "Clean-checkout reproducibility ready: `false`" in text
     assert "scripts\\audit_formal_evidence_paths.py" in text
     assert "scripts\\validate_formal_acceptance_package.py --fail-on-blockers" in text
+    assert "scripts\\write_source_context_cache_request_packet.py" in text
+    assert "scripts\\write_source_context_cache_decision_packet.py" in text
     assert "scripts\\run_reproducibility_smoke.py" in text
     assert "scripts\\run_clean_checkout_smoke.py" in text
 
