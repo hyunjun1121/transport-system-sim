@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 8
-- Blocking changed artifacts: 8
+- Changed reproducibility artifacts: 0
+- Blocking changed artifacts: 0
 - Untracked artifacts: 0
-- Modified or staged artifacts: 8
+- Modified or staged artifacts: 0
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
