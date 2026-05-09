@@ -854,6 +854,12 @@ First pilot-smoke artifacts also exist:
   records that pre-final gates, formal acceptance artifacts, the final-study
   audit document, and the final-audit acceptance record remain blocked or
   require review; it cannot close the final-audit gate.
+- `src/realworld/integrated_evidence_review_packet.py` consolidates the E2
+  rail-source decisions, E3 fallback/OSRM benchmark decisions, validation
+  strategy blockers, and E5 experiment design dependencies into one
+  non-approval review packet. The generated
+  `data/validation/integrated_evidence_review_packet.csv` and manifest keep
+  fallback and OSRM rows as plausibility checks and cannot close any gate.
 - `docs/plan_completion_audit.md` records the current plan-gate audit. It
   confirms that the executable quasi-real scaffold is in place while calibrated
   final-study claims remain blocked by pilot acceptance, stronger evidence, and
@@ -2311,7 +2317,9 @@ Concrete next tasks:
    still treat that as a necessary hygiene check, not approval.
 2. Review the integrated GPT-5.5 xhigh E2 rail-evidence, E3 external-benchmark,
    validation review packet, and E5 pilot-experiment outputs. Keep fallback
-   and OSRM benchmarks labeled as plausibility checks, not ground truth.
+   and OSRM benchmarks labeled as plausibility checks, not ground truth. Use
+   `data/validation/integrated_evidence_review_packet.csv` as the consolidated
+   non-approval worksheet for this cross-gate review.
 3. Review the current SALib Morris scaffold outputs against the full
    policy/scenario design using `data/validation/sensitivity_review_packet.csv`,
    `data/validation/sensitivity_index_review_packet.csv`, and

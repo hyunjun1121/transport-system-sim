@@ -86,6 +86,10 @@ from src.realworld.graph_scale_method_decision_packet import (  # noqa: E402
     build_graph_scale_method_decision_rows,
     write_graph_scale_method_decision_packet,
 )
+from src.realworld.integrated_evidence_review_packet import (  # noqa: E402
+    build_integrated_evidence_review_rows,
+    write_integrated_evidence_review_packet,
+)
 from src.realworld.parameter_evidence_request_packet import (  # noqa: E402
     build_parameter_evidence_source_request_rows,
     write_parameter_evidence_source_request_packet,
@@ -591,6 +595,9 @@ def _refresh_existing_review_packets(
         rows=validation_benchmark_decision_rows
     )
     refreshed.append("data/validation/validation_benchmark_decision_packet.csv")
+    integrated_evidence_rows = build_integrated_evidence_review_rows()
+    write_integrated_evidence_review_packet(rows=integrated_evidence_rows)
+    refreshed.append("data/validation/integrated_evidence_review_packet.csv")
     reproducibility_rows = build_reproducibility_review_rows(
         git_status_lines=initial_git_status_lines,
     )

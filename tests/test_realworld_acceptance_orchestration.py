@@ -232,6 +232,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "graph_scale_method_decision" in snapshot_ids
     assert "validation_benchmark_decision" in snapshot_ids
     assert "experiment_design_decision" in snapshot_ids
+    assert "integrated_evidence_review" in snapshot_ids
     assert "figure_table_review" in snapshot_ids
     assert "manuscript_report_decision" in snapshot_ids
     assert "reproducibility_decision" in snapshot_ids

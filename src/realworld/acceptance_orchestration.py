@@ -212,6 +212,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "manifests" / "experiment_design_decision_manifest.json",
     ),
     (
+        "integrated_evidence_review",
+        "Integrated E2/E3/E5 Evidence Review",
+        PROJECT_ROOT / "data" / "validation" / "integrated_evidence_review_manifest.json",
+    ),
+    (
         "figure_table_review",
         "Figure/Table Review",
         PROJECT_ROOT / "data" / "manifests" / "figure_table_review_manifest.json",

@@ -28,6 +28,7 @@ a simulator-compatible NetworkX graph for `run_scenario(...)`.
   `data/validation/graph_scale_method_decision_packet.csv`,
   `data/validation/validation_benchmark_decision_packet.csv`,
   `data/manifests/experiment_design_decision_packet.csv`, and
+  `data/validation/integrated_evidence_review_packet.csv`, and
   `data/manifests/figure_table_review_packet.csv`, are implemented preflight
   or decision-review aids only.
 - Current abstract-network and pilot outputs are not calibrated real-world
@@ -161,6 +162,10 @@ Implemented extension modules now also cover:
   alternative benchmark evidence, validation-summary scope, route-road
   evidence dependency, and formal validation-acceptance boundary decisions
   without treating any benchmark as ground truth.
+- `integrated_evidence_review_packet.py`: consolidated E2/E3/E5 reviewer
+  worksheet for rail-source decisions, fallback/OSRM benchmark scope,
+  validation strategy blockers, and pilot experiment design dependencies. It
+  keeps every row non-acceptance and cannot create formal gate artifacts.
 - `manuscript_acceptance.py`: explicit English manuscript, Korean report,
   regenerated docx, figure/table manifest, evidence-gate, result-claim, and
   not-operational claim-boundary acceptance records.

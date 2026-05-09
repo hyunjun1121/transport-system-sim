@@ -88,6 +88,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Sensitivity Strategy Readiness` | 7 | 4 | 3 | 0 | `false` | blocked_missing_morris_vs_sobol_decision=1; blocked_missing_sensitivity_acceptance_record=1; blocked_reduced_graph_scope_for_sensitivity_claims=1; +4 more |
 | `Experiment Strategy Readiness` | 9 | 4 | 5 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
 | `Experiment Design Decision` | 8 | 4 | 4 | 0 | `false` | blocked_graph_scale_dependency=1; blocked_input_evidence_dependency=1; blocked_missing_experiment_acceptance_record=1; +5 more |
+| `Integrated E2/E3/E5 Evidence Review` | 5 | 5 | 14 | 0 | `false` | blocked_experiment_design_dependencies=1; blocked_integrated_claim_boundary=1; blocked_rail_source_decisions_pending=1; +2 more |
 | `Figure/Table Review` | 8 | 3 | 5 | 0 | `false` | blocked_missing_manuscript_acceptance_record=1; blocked_reduced_graph_scope_dependency=1; blocked_upstream_evidence_dependency=1; +5 more |
 | `Manuscript/Report Decision` | 7 | 4 | 3 | 0 | `false` | blocked_claim_alignment_review_dependency=1; blocked_figure_table_review_dependency=1; blocked_missing_manuscript_acceptance_record=1; +4 more |
 | `Reproducibility Review` | 8 | 3 | 0 | 0 | `false` | blocked_full_clean_checkout_not_run=1; blocked_no_reproducibility_acceptance_record=1; blocked_scaffold_only_manifest_scope=1; +5 more |
@@ -134,6 +135,7 @@ Priority blockers by packet:
 - `Sensitivity Strategy Readiness`: sensitivity outputs use a reduced analysis graph (+3 more)
 - `Experiment Strategy Readiness`: current full-pilot result scope is scaffold or not calibrated (+3 more)
 - `Experiment Design Decision`: experiment outputs depend on a graph method that is not accepted (+3 more)
+- `Integrated E2/E3/E5 Evidence Review`: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests (+4 more)
 - `Figure/Table Review`: figure/table outputs depend on reduced analysis graph scope (+2 more)
 - `Manuscript/Report Decision`: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent (+3 more)
 - `Reproducibility Decision`: reproducibility manifest remains scaffold-only (+1 more)
