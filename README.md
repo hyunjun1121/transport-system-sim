@@ -149,9 +149,11 @@ src/
     acceptance_blocker_queue.py # Formal blocker queue for reviewer actions
     acceptance_task_assignments.py # Map formal blockers to review-agent tasks
     formal_acceptance_evidence_matrix.py # Per-artifact reviewer intake matrix
+    formal_acceptance_pre_review.py # Draft-only formal acceptance pre-review
     formal_acceptance_guard.py # Detect placeholder/template misuse in formal paths
     formal_evidence_path_audit.py # Check formal evidence/source paths exist
     formal_acceptance_package.py # Aggregate formal acceptance intake audit
+    manifest_timestamp.py # Stable generated-manifest timestamp helpers
     manuscript_acceptance.py # Explicit manuscript/report acceptance validation
     types.py               # Region, boundary, zone, and rail input records
     regions.py             # Region registry loading and validation helpers
@@ -168,45 +170,80 @@ src/
     parameter_audit.py     # Parameter evidence readiness audit
     parameter_review_packet.py # Weak-parameter review worksheet generation
     parameter_evidence_request_packet.py # Cross-cutting parameter source-request worksheet
+    transfer_evidence_review_packet.py # Transfer-delay evidence review worksheet
+    parameter_source_readiness_packet.py # Parameter source-readiness classification
+    parameter_source_decision_packet.py # Parameter source-decision worksheet
+    parameter_evidence_priority_packet.py # Parameter evidence priority worksheet
     pilot_acceptance.py    # Explicit pilot acceptance record validation
     pilot_privacy_review_packet.py # Pilot privacy/sensitivity review worksheet
+    pilot_region_decision_packet.py # Pilot-region non-approval decision worksheet
     provenance_acceptance.py # Explicit data-provenance acceptance validation
     source_provenance.py   # Source provenance review packet validation
     source_license_review_packet.py # Source/license review worksheet generation
     source_url_review_packet.py # Source URL review worksheet generation
     source_url_remediation_packet.py # Source URL remediation queue generation
+    source_provenance_priority_packet.py # Source provenance priority worksheet
+    source_context_cache_request_packet.py # Context-source cache/retention request worksheet
+    source_context_cache_decision_packet.py # Context-source cache/retention decision worksheet
+    source_provenance_decision_packet.py # Source provenance decision worksheet
+    ktdb_gtfs_source.py # KTDB GTFS source-metadata cache extractor
     claim_alignment_review_packet.py # Manuscript/report claim review worksheet
+    figure_table_review_packet.py # Scaffold figure/table claim-boundary review worksheet
+    manuscript_report_decision_packet.py # Manuscript/report decision worksheet
     road_evidence.py       # Cached road-input evidence audit
     road_evidence_diagnostics.py # Road-class evidence gap diagnostics
     road_capacity_evidence.py # Cached OSM lanes capacity candidate evidence
     road_speed_evidence.py # Cached OSM maxspeed candidate evidence
     road_evidence_review_packet.py # Consolidated road-input review worksheet
     road_evidence_request_packet.py # Road evidence source-request worksheet
+    road_source_readiness_packet.py # Road source-readiness worksheet
+    road_source_decision_packet.py # Road source-decision worksheet
+    road_evidence_priority_packet.py # Road evidence priority worksheet
     road_overrides.py      # Optional road-class evidence override loader
     road_override_template.py # Draft road-class override review templates
     road_override_audit.py # Optional road-class override readiness audit
     plausibility.py        # Offline pilot route plausibility checks
     validation_review_packet.py # Validation-strategy review worksheet generator
+    validation_strategy_readiness_packet.py # Validation strategy readiness worksheet
+    validation_benchmark_readiness_packet.py # Validation benchmark readiness worksheet
+    validation_benchmark_decision_packet.py # Validation benchmark decision worksheet
+    integrated_evidence_review_packet.py # E2/E3/E5 integrated evidence review
     route_road_evidence_exposure.py # Route-level road evidence exposure review aid
     accessibility.py       # Route accessibility-loss diagnostics
+    osm_graph_snapshot_review_packet.py # OSM graph snapshot review worksheet
+    full_graph_runtime_readiness_packet.py # Full-graph runtime readiness worksheet
     graph_scale_diagnostics.py # Full-vs-reduced route parity and alternate-route diagnostics
     graph_scale_review.py  # Graph-scale method option review worksheet
+    graph_scale_strategy_readiness_packet.py # Graph-scale strategy readiness worksheet
+    graph_scale_method_decision_packet.py # Graph-scale method decision worksheet
+    graph_scale_manifest_audit.py # Graph-scale manifest coverage audit
+    graph_scale_result_comparison.py # Current-vs-candidate graph result comparison
     disruption_scenarios.py # Structured disruption scenario definitions
     policy_alternatives.py # Policy alternative config variants
     pilot_experiments.py   # Cached pilot scaffold experiment runner
     experiment_acceptance.py # Explicit pilot experiment-output acceptance validation
     experiment_package_review_packet.py # Full experiment output review worksheet
+    experiment_strategy_readiness_packet.py # Experiment strategy readiness worksheet
+    experiment_design_decision_packet.py # Experiment run-profile decision worksheet
     reproducibility_acceptance.py # Explicit clean-checkout acceptance validation
     reproducibility_review_packet.py # Clean-checkout review worksheet generator
+    reproducibility_decision_packet.py # Reproducibility decision worksheet
     reproducibility_smoke.py # Current-worktree smoke evidence runner
+    clean_checkout_smoke.py # Bounded clean-checkout smoke helper
+    agent_review_path_audit.py # Review-agent path hygiene audit
     tracked_artifact_audit.py # Changed-artifact clean-checkout packaging audit
     sensitivity.py         # Deterministic and SALib Morris sensitivity scaffold
     sensitivity_acceptance.py # Explicit sensitivity acceptance validation
     sensitivity_diagnostics.py # Morris output review diagnostics
     sensitivity_review_packet.py # Morris diagnostics review worksheet generator
+    sensitivity_strategy_readiness_packet.py # Sensitivity strategy readiness worksheet
+    sensitivity_index_review_packet.py # Morris index issue review worksheet
+    sensitivity_method_decision_packet.py # Morris/Sobol method decision worksheet
     pilot_figures.py       # Scaffold-only figures and claim-boundary tables
     publication_readiness.py # Aggregated final-claim readiness audit
     final_study_readiness.py # Plan-level final-study gate audit
+    goal_completion_audit.py # Active-goal non-acceptance completion audit
+    final_audit_decision_packet.py # Final-audit decision worksheet
     rail_evidence.py       # Offline rail evidence cache validation
     rail_station_binding.py # Rail-point station binding evidence audit
     rail_station_cache.py  # Cached station extract -> binding derivation
@@ -215,8 +252,12 @@ src/
     rail_gtfs.py           # Cached static GTFS -> rail timing evidence
     rail_shortest_path.py  # Cached shortest-path -> rail travel-time evidence
     rail_shortest_path_api.py # Optional data.go.kr shortest-path cache fetcher
+    metro9_capacity_source.py # Metro 9 rolling-stock source extractor
     rail_evidence_review_packet.py # Consolidated rail evidence review worksheet
     rail_timing_request_packet.py # Rail timing source-request worksheet
+    rail_fetch_readiness_packet.py # Rail timing fetch-readiness worksheet
+    rail_evidence_priority_packet.py # Rail evidence priority worksheet
+    rail_source_decision_packet.py # Rail source-decision worksheet
   experiment/
     doe.py                 # Phase 1 and Phase 2 grids
     runner.py              # CRN paired experiment execution
@@ -237,34 +278,63 @@ scripts/
   audit_rail_evidence.py   # Check rail evidence cache status
   write_rail_evidence_review_packet.py # Write rail evidence review packet
   write_rail_timing_source_request_packet.py # Write rail timing source requests
+  write_rail_fetch_readiness_packet.py # Write rail fetch-readiness packet
+  write_rail_evidence_priority_packet.py # Write rail evidence priority packet
+  write_rail_source_decision_packet.py # Write rail source-decision packet
   audit_rail_station_bindings.py # Check rail-point station binding status
+  cache_ktdb_gtfs_source.py # Optional KTDB GTFS source-metadata cache
+  cache_metro9_capacity_source.py # Optional Metro 9 capacity source cache
   audit_parameter_evidence.py # Check core parameter evidence readiness
   write_parameter_review_packet.py # Write weak-parameter review packet
   write_parameter_evidence_source_request_packet.py # Write parameter source-request packet
+  write_transfer_evidence_review_packet.py # Write transfer-delay review packet
+  write_parameter_source_readiness_packet.py # Write parameter source-readiness packet
+  write_parameter_evidence_priority_packet.py # Write parameter evidence priority packet
+  write_parameter_source_decision_packet.py # Write parameter source-decision packet
   audit_road_evidence.py   # Check OSM road input evidence readiness
   audit_road_evidence_diagnostics.py # Rank road-class evidence gaps
   write_road_capacity_evidence.py # Write cached OSM lane-count capacity candidates
   write_road_speed_evidence.py # Write cached OSM maxspeed candidate evidence
   write_road_evidence_review_packet.py # Write road-input evidence review packet
   write_road_evidence_source_request_packet.py # Write road evidence source-request packet
+  write_road_source_readiness_packet.py # Write road source-readiness packet
+  write_road_evidence_priority_packet.py # Write road evidence priority packet
+  write_road_source_decision_packet.py # Write road source-decision packet
   audit_road_overrides.py  # Check optional road-class override evidence status
   write_road_class_override_template.py # Draft road override review template
   audit_source_provenance.py # Check source provenance review packet
   write_source_url_review_packet.py # Write URL-level source review worksheet
   write_source_url_remediation_packet.py # Write URL-level source remediation queue
+  write_source_provenance_priority_packet.py # Write source provenance priority worksheet
+  write_source_context_cache_request_packet.py # Write context-source cache/retention requests
+  write_source_context_cache_decision_packet.py # Write context-source decision worksheet
+  write_source_provenance_decision_packet.py # Write source provenance decision worksheet
+  write_pilot_region_decision_packet.py # Write pilot-region decision packet
   audit_publication_readiness.py # Aggregate final-study claim blockers
   audit_final_study_readiness.py # Check all plan.md final-study gates
   audit_sensitivity_diagnostics.py # Review Morris output diagnostics
   write_sensitivity_review_packet.py # Write Morris diagnostics review packet
+  write_sensitivity_strategy_readiness_packet.py # Write sensitivity strategy readiness packet
+  write_sensitivity_index_review_packet.py # Write Morris index issue review packet
+  write_sensitivity_method_decision_packet.py # Write Morris/Sobol method decision packet
   write_osrm_snapshot_manifest.py # Write optional OSRM checksum/query manifest
   write_validation_review_packet.py # Write validation-strategy review packet
+  write_validation_strategy_readiness_packet.py # Write validation strategy readiness packet
+  write_validation_benchmark_readiness_packet.py # Write benchmark readiness packet
+  write_validation_benchmark_decision_packet.py # Write benchmark decision packet
+  write_integrated_evidence_review_packet.py # Write E2/E3/E5 integrated review packet
+  write_osm_graph_snapshot_review_packet.py # Write OSM graph snapshot review packet
   write_reproducibility_review_packet.py # Write clean-checkout review packet
+  write_reproducibility_decision_packet.py # Write reproducibility decision packet
   run_reproducibility_smoke.py # Run bounded current-worktree reproducibility smoke
+  run_clean_checkout_smoke.py # Run bounded clean-checkout smoke
+  audit_agent_review_paths.py # Check review-agent path references
   audit_tracked_artifacts.py # List changed artifacts missing from clean checkout
   write_acceptance_decision_templates.py # Write non-approval formal acceptance templates
   write_acceptance_blocker_queue.py # Write gate-by-gate formal blocker queue
   write_acceptance_task_assignments.py # Assign blocker rows to review-agent roles
   write_formal_acceptance_evidence_matrix.py # Write per-artifact evidence matrix
+  write_formal_acceptance_pre_review.py # Write draft formal pre-review recommendations
   audit_formal_acceptance_artifacts.py # Guard formal paths against templates/placeholders
   audit_formal_evidence_paths.py # Check formal evidence/source path hygiene
   validate_formal_acceptance_package.py # Validate reviewer-supplied formal acceptance package
@@ -279,7 +349,15 @@ scripts/
   run_accessibility_loss_analysis.py # Route critical-edge/accessibility loss
   run_graph_scale_diagnostics.py # Full-vs-reduced route parity and alternate-route diagnostics
   write_graph_scale_review_packet.py # Write graph-scale method review packet
+  write_graph_scale_strategy_readiness_packet.py # Write graph-scale readiness packet
+  write_graph_scale_method_decision_packet.py # Write graph-scale method decision packet
+  audit_graph_scale_manifests.py # Check graph-scale manifest coverage
   write_graph_scale_result_comparison.py # Compare current vs candidate graph-scale results
+  write_experiment_strategy_readiness_packet.py # Write experiment strategy readiness packet
+  write_experiment_design_decision_packet.py # Write experiment design decision packet
+  write_figure_table_review_packet.py # Write figure/table review packet
+  write_manuscript_report_decision_packet.py # Write manuscript/report decision packet
+  write_final_audit_decision_packet.py # Write final-audit decision packet
   run_acceptance_audit.py  # Refresh review packets and sub-agent gate records
   audit_plan_artifacts.py  # Check scaffold artifacts and claim boundary
   write_goal_completion_audit.py # Write active-goal non-acceptance audit
