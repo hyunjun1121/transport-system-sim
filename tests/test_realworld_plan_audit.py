@@ -627,6 +627,23 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         row["path"] == "docs/human_acceptance_runbook.md" and row["ok"]
         for row in summary["doc_checks"]
     )
+    runbook_text = (ROOT / "docs" / "human_acceptance_runbook.md").read_text(
+        encoding="utf-8"
+    )
+    for expected in (
+        "docs/source_context_cache_decision_packet.md",
+        "docs/road_source_decision_packet.md",
+        "docs/parameter_source_decision_packet.md",
+        "docs/validation_benchmark_decision_packet.md",
+        "docs/sensitivity_method_decision_packet.md",
+        "docs/experiment_design_decision_packet.md",
+        "docs/figure_table_review_packet.md",
+        "docs/final_audit_decision_packet.md",
+    ):
+        assert expected in runbook_text
+    assert "not approve paper or report claims" in runbook_text
+    assert "do not fetch external" in runbook_text
+    assert "road data or create overrides" in runbook_text
     assert any(
         row["path"] == "docs/validation_strategy_readiness_packet.md" and row["ok"]
         for row in summary["doc_checks"]
