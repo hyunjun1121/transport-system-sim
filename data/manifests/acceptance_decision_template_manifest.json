@@ -3,7 +3,7 @@
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "final_study_ready": false,
   "formal_acceptance_created": false,
-  "generated_at": "2026-05-09T00:27:02+00:00",
+  "generated_at": "2026-05-09T00:29:14+00:00",
   "json_template_count": 9,
   "non_ready_summary_keys": [
     "data_provenance",
