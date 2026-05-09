@@ -206,6 +206,7 @@ def write_publication_readiness_audit(
         manifest_path=manifest_file,
         doc_path=doc_file,
     )
+    _preserve_generated_at_when_unchanged(manifest, manifest_file)
     manifest_file.parent.mkdir(parents=True, exist_ok=True)
     manifest_file.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
@@ -261,6 +262,31 @@ def _display_path(path: Path) -> str:
         return path.resolve().relative_to(PROJECT_ROOT).as_posix()
     except ValueError:
         return path.as_posix()
+
+
+def _preserve_generated_at_when_unchanged(
+    manifest: dict[str, Any],
+    manifest_path: Path,
+) -> None:
+    """Avoid timestamp-only churn when audit content is unchanged."""
+
+    if not manifest_path.exists():
+        return
+    try:
+        previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return
+    if not isinstance(previous, dict):
+        return
+    previous_generated_at = previous.get("generated_at")
+    if not isinstance(previous_generated_at, str) or not previous_generated_at:
+        return
+    previous_without_time = dict(previous)
+    current_without_time = dict(manifest)
+    previous_without_time.pop("generated_at", None)
+    current_without_time.pop("generated_at", None)
+    if previous_without_time == current_without_time:
+        manifest["generated_at"] = previous_generated_at
 
 
 __all__ = [

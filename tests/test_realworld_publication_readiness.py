@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import os
 import sys
 import tempfile
@@ -75,6 +76,36 @@ def test_publication_readiness_writer_preserves_non_acceptance_scope() -> None:
     print("PASS: publication readiness writer preserves non-acceptance scope")
 
 
+def test_publication_readiness_writer_preserves_timestamp_when_unchanged() -> None:
+    """Repeated writes should not dirty manifests solely via generated_at."""
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        manifest_path = root / "publication_readiness.json"
+        doc_path = root / "publication_readiness.md"
+        write_publication_readiness_audit(
+            manifest_path=manifest_path,
+            doc_path=doc_path,
+        )
+        first = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first["generated_at"] = "2000-01-01T00:00:00+00:00"
+        manifest_path.write_text(
+            json.dumps(first, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+        second = write_publication_readiness_audit(
+            manifest_path=manifest_path,
+            doc_path=doc_path,
+        )
+        loaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert second["generated_at"] == "2000-01-01T00:00:00+00:00"
+    assert loaded["generated_at"] == "2000-01-01T00:00:00+00:00"
+
+    print("PASS: publication readiness writer preserves timestamp when unchanged")
+
+
 def _load_audit_script():
     spec = importlib.util.spec_from_file_location(
         "audit_publication_readiness", AUDIT_SCRIPT_PATH
@@ -91,4 +122,5 @@ if __name__ == "__main__":
     test_current_publication_readiness_is_blocked()
     test_audit_script_returns_success_without_fail_flag()
     test_publication_readiness_writer_preserves_non_acceptance_scope()
+    test_publication_readiness_writer_preserves_timestamp_when_unchanged()
     print("\n=== REALWORLD PUBLICATION READINESS TESTS PASSED ===")
