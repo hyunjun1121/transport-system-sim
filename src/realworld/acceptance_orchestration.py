@@ -131,6 +131,11 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         PROJECT_ROOT / "data" / "road" / "road_evidence_priority_manifest.json",
     ),
     (
+        "osm_graph_snapshot_review",
+        "OSM Graph Snapshot Review",
+        PROJECT_ROOT / "data" / "validation" / "osm_graph_snapshot_review_manifest.json",
+    ),
+    (
         "road_source_readiness",
         "Road Source Readiness",
         PROJECT_ROOT / "data" / "road" / "road_source_readiness_manifest.json",

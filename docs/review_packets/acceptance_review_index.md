@@ -73,6 +73,7 @@ These manifest summaries help reviewers triage existing packets. They do not acc
 | `Graph-Scale Manifest Audit` | 13 | 0 | 0 | 0 | `false` | complete_reduced_analysis_graph_recorded=13 |
 | `Graph-Scale Result Comparison` | 819 | 0 | 0 | 0 | `false` | candidate_improves=24; candidate_worsens=24; nonfinite_difference=30; +1 more |
 | `Road Evidence Priority` | 11 | 5 | 2 | 0 | `false` | blocked_exposed_connector_assumption=1; blocked_exposed_high_priority_road_evidence_gap=4; needs_review_exposed_medium_priority_road_evidence_gap=2; +1 more |
+| `OSM Graph Snapshot Review` | 6 | 5 | 1 | 0 | `false` | blocked_graph_scale_acceptance_missing=1; blocked_osm_snapshot_claim_boundary=1; blocked_osm_source_provenance_pending=1; +3 more |
 | `Road Source Readiness` | 5 | 2 | 3 | 0 | `false` | blocked_missing_capacity_source=1; blocked_missing_reviewed_road_class_overrides=1; needs_human_review_benchmark_strategy=1; +2 more |
 | `Road Source Decisions` | 5 | 2 | 3 | 0 | `false` | blocked_missing_road_source_decision=2; needs_human_review_road_source_decision=3 |
 | `Parameter Evidence Priority` | 7 | 2 | 5 | 0 | `false` | blocked_missing_rail_timing_or_capacity_source=1; blocked_missing_transfer_source=1; needs_human_review_demand_scenario=1; +4 more |
@@ -121,6 +122,7 @@ Priority blockers by packet:
 - `Graph-Scale Strategy Readiness`: graph_scale_acceptance.json is absent (+3 more)
 - `Graph-Scale Method Decision`: multi-corridor candidate has only separated/sample-scale output (+3 more)
 - `Road Evidence Priority`: reviewed road_class_overrides.csv is still absent (+2 more)
+- `OSM Graph Snapshot Review`: OSM source snapshot remains pending review or provenance acceptance is absent (+4 more)
 - `Road Source Readiness`: reviewed road_class_overrides.csv is absent unless target_output_present is true (+2 more)
 - `Road Source Decisions`: reviewed road_class_overrides.csv is absent (+4 more)
 - `Parameter Evidence Priority`: transfer-delay source evidence is absent (+4 more)

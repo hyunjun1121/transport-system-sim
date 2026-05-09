@@ -344,6 +344,12 @@ First pilot-smoke artifacts also exist:
   blocking decisions and 3 human-review decisions, keeps
   `road_source_decision_recorded=false`, and does not create reviewed
   `road_class_overrides.csv` or close the cached OSM input gate.
+- `src/realworld/osm_graph_snapshot_review_packet.py` and
+  `scripts/write_osm_graph_snapshot_review_packet.py` now consolidate the
+  cached Overpass/OSM GraphML manifest, OSM source-provenance row,
+  route-exposed road-evidence priorities, road-source decisions, and
+  source-vs-analysis graph-scale fields into one non-approval worksheet under
+  `data/validation/osm_graph_snapshot_review_packet.csv`.
 - `src/realworld/road_override_template.py` and
   `scripts/write_road_class_override_template.py` can create a draft
   non-acceptance road-class override template from those diagnostics. The draft
@@ -2333,7 +2339,9 @@ Concrete next tasks:
    routeable speed/capacity/disruption evidence, and use
    `data/road/road_evidence_priority_packet.csv` to triage exposed road classes
    before deciding whether the reduced analysis corridor is an acceptable study
-   abstraction or only a smoke-test shortcut.
+   abstraction or only a smoke-test shortcut. Use
+   `data/validation/osm_graph_snapshot_review_packet.csv` as the consolidated
+   OSM-cache and road-evidence snapshot worksheet.
 5. Review the full-vs-reduced route parity, alternate-route, and
    multi-corridor candidate diagnostics. Decide whether the 6 current
    alternate-route warning rows are acceptable under a documented

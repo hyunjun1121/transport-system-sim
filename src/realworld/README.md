@@ -148,6 +148,11 @@ Implemented extension modules now also cover:
   evidence source requests. It separates sparse speed candidates, missing
   capacity sources, benchmark/disruption human-review decisions, and missing
   reviewed override application without approving road evidence.
+- `osm_graph_snapshot_review_packet.py`: consolidated reviewer worksheet for
+  the cached Overpass/OSM GraphML manifest, OSM source-provenance row,
+  route-exposed road-evidence priority rows, road-source decisions, and
+  graph-scale manifest fields. It does not refresh OSM, certify attribution,
+  accept road overrides, or close the cached OSM input gate.
 - `parameter_source_readiness_packet.py`: preflight worksheet generated from
   cross-cutting parameter source requests. It separates demand, fleet,
   dispatch, transfer, disruption, and traffic/BPR review states without

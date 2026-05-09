@@ -5,7 +5,7 @@
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
   "final_study_ready": false,
   "final_study_verdict": "final_real_world_study_blocked",
-  "generated_at": "2026-05-09T02:38:25+00:00",
+  "generated_at": "2026-05-09T02:47:24+00:00",
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "records": [
@@ -945,6 +945,42 @@
         "blocked_exposed_high_priority_road_evidence_gap": 4,
         "needs_review_exposed_medium_priority_road_evidence_gap": 2,
         "queued_no_current_canonical_route_exposure": 4
+      }
+    },
+    {
+      "blocking_count": 5,
+      "can_mark_complete": false,
+      "gate_closure_candidate_count": 0,
+      "human_review_count": 1,
+      "label": "OSM Graph Snapshot Review",
+      "manifest_present": true,
+      "manifest_valid": true,
+      "path": "data/validation/osm_graph_snapshot_review_manifest.json",
+      "publication_ready": false,
+      "remaining_blockers": [
+        "OSM source snapshot remains pending review or provenance acceptance is absent",
+        "reviewed road_class_overrides.csv is still absent",
+        "reviewed road_class_overrides.csv is absent",
+        "data/manifests/graph_scale_acceptance.json is absent",
+        "source provenance, road overrides, road source decisions, or graph-scale acceptance remain unresolved"
+      ],
+      "result_scope": "OSM graph snapshot review packet only; not source-provenance acceptance, not reviewed road calibration, not graph-scale acceptance, not validation acceptance, and not operational routing evidence.",
+      "review_items": [
+        "review OSM/Overpass attribution, snapshot date, bbox, and local cache metadata",
+        "resolve source-provenance review before using the cached graph for final claims",
+        "prioritize exposed road classes and connector assumptions before route-level claims",
+        "decide graph-scale method before interpreting source-vs-analysis graph counts",
+        "record accepted decisions only in formal provenance, graph-scale, and road override artifacts"
+      ],
+      "row_count": 6,
+      "snapshot_id": "osm_graph_snapshot_review",
+      "status_counts": {
+        "blocked_graph_scale_acceptance_missing": 1,
+        "blocked_osm_snapshot_claim_boundary": 1,
+        "blocked_osm_source_provenance_pending": 1,
+        "blocked_road_evidence_priority_dependencies": 1,
+        "blocked_road_source_decisions_pending": 1,
+        "needs_human_review_osm_cache_metadata": 1
       }
     },
     {

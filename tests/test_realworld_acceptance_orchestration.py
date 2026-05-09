@@ -225,6 +225,7 @@ def test_default_review_status_snapshots_cover_formal_workflow() -> None:
     assert "source_context_cache_request" in snapshot_ids
     assert "source_context_cache_decision" in snapshot_ids
     assert "source_provenance_decision" in snapshot_ids
+    assert "osm_graph_snapshot_review" in snapshot_ids
     assert "parameter_source_decision" in snapshot_ids
     assert "road_source_decision" in snapshot_ids
     assert "rail_source_decision" in snapshot_ids
@@ -648,6 +649,31 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             + "\n",
             encoding="utf-8",
         )
+        osm_graph_snapshot_review_path = (
+            root / "osm_graph_snapshot_review_manifest.json"
+        )
+        osm_graph_snapshot_review_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 6,
+                    "blocking_review_count": 5,
+                    "human_review_count": 1,
+                    "review_status_counts": {
+                        "blocked_osm_snapshot_claim_boundary": 1,
+                        "blocked_osm_source_provenance_pending": 1,
+                        "needs_human_review_osm_cache_metadata": 1,
+                    },
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "cached_osm_gate_closure_candidate_count": 0,
+                    "remaining_blockers": [
+                        "OSM source snapshot remains pending review"
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         road_source_decision_snapshot_path = (
             root / "road_source_decision_manifest.json"
         )
@@ -903,6 +929,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     parameter_source_decision_snapshot_path,
                 ),
                 (
+                    "osm_graph_snapshot_review",
+                    "OSM Graph Snapshot Review",
+                    osm_graph_snapshot_review_path,
+                ),
+                (
                     "road_source_decision",
                     "Road Source Decisions",
                     road_source_decision_snapshot_path,
@@ -1093,6 +1124,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 "blocked_missing_parameter_source_decision"
             ]
             == 2
+        )
+        assert snapshots["osm_graph_snapshot_review"]["row_count"] == 6
+        assert snapshots["osm_graph_snapshot_review"]["blocking_count"] == 5
+        assert snapshots["osm_graph_snapshot_review"]["human_review_count"] == 1
+        assert (
+            snapshots["osm_graph_snapshot_review"]["status_counts"][
+                "blocked_osm_source_provenance_pending"
+            ]
+            == 1
         )
         assert snapshots["road_source_decision"]["row_count"] == 5
         assert snapshots["road_source_decision"]["blocking_count"] == 2
