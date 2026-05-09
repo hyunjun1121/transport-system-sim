@@ -45,7 +45,7 @@
   ],
   "remaining_blockers": [
     "figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "claim-alignment packet has 108 rows requiring revision or acceptance",
+    "claim-alignment packet has 86 rows requiring revision or acceptance",
     "upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
     "data/manifests/manuscript_acceptance.json is absent"
   ]

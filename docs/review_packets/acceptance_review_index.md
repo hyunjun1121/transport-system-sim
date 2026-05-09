@@ -304,7 +304,7 @@ Priority blockers by packet:
 - manuscript_report_alignment: claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - manuscript_report_alignment: resolve manuscript/report decision blockers before manuscript acceptance
 - manuscript_report_alignment: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
-- manuscript_report_alignment: manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript_report_alignment: manuscript/report decision: claim-alignment packet has 86 rows requiring revision or acceptance
 - manuscript_report_alignment: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
 - manuscript_report_alignment: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
 - manuscript_report_alignment: review manuscript/report human-decision rows before manuscript acceptance
@@ -461,7 +461,7 @@ Priority blockers by packet:
 - Manuscript Report Alignment: claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - Manuscript Report Alignment: resolve manuscript/report decision blockers before manuscript acceptance
 - Manuscript Report Alignment: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
-- Manuscript Report Alignment: manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- Manuscript Report Alignment: manuscript/report decision: claim-alignment packet has 86 rows requiring revision or acceptance
 - Manuscript Report Alignment: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
 - Manuscript Report Alignment: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
 - Manuscript Report Alignment: review manuscript/report human-decision rows before manuscript acceptance

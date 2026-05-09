@@ -97,7 +97,7 @@ The repository now includes a first non-sensitive offline pilot scaffold:
 | `scripts/run_pilot_smoke.py` | Loads the pilot cache and runs `bus_only` and `multimodal` |
 | `tests/test_realworld_pilot_smoke.py` | Direct-execution test for the offline pilot path |
 | `data/parameters/` | Parameter, rail, and fleet evidence tables |
-| `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter source-request worksheet; 6 request rows for demand, fleet, dispatch, transfer, disruption, and traffic/BPR evidence |
+| `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter source-request worksheet; 7 request rows for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR evidence |
 | `data/parameters/road_capacity_evidence_candidates.csv` | Cached OSM lane-count capacity candidate evidence; 10 road-class rows, 0 with observed lane tags, not accepted calibration |
 | `data/parameters/road_speed_evidence_candidates.csv` | Cached OSM maxspeed candidate evidence; 10 road-class rows, 5 with observed tags, not accepted calibration |
 | `data/parameters/road_class_overrides_draft.csv` | Current road-class override review worksheet; 10 expert-assumption rows, not accepted evidence |

@@ -10,7 +10,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 from src.realworld.manuscript_report_decision_packet import (  # noqa: E402
     DEFAULT_MANUSCRIPT_REPORT_DECISION_MANIFEST_PATH,
@@ -50,7 +51,12 @@ def test_manuscript_report_decision_rows_classify_current_state() -> None:
     assert by_id["formal_manuscript_acceptance_boundary"]["decision_status"] == (
         "blocked_missing_manuscript_acceptance_record"
     )
-    assert "overclaim_candidate_count=108" in by_id[
+    claim_alignment_manifest = json.loads(
+        (ROOT / "data" / "manifests" / "claim_alignment_review_manifest.json")
+        .read_text(encoding="utf-8")
+    )
+    expected_overclaim_count = claim_alignment_manifest["overclaim_candidate_count"]
+    assert f"overclaim_candidate_count={expected_overclaim_count}" in by_id[
         "result_claim_alignment_decision"
     ]["current_evidence"]
     assert {row["claim_boundary"] for row in rows} == {

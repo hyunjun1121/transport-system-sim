@@ -401,7 +401,7 @@ Parameter evidence source-request packet:
 
 This writes `data/parameters/parameter_evidence_source_request_packet.csv` and
 `data/parameters/parameter_evidence_source_request_manifest.json`. The current
-packet has 6 request rows covering 22 demand, fleet, dispatch, transfer,
+packet has 7 request rows covering 25 demand, fleet, dispatch, transfer, rail,
 disruption, and traffic/BPR parameters. It is a source-request worksheet only,
 not source evidence, accepted calibration, or weak-parameter acceptance.
 

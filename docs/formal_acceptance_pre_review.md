@@ -1065,7 +1065,7 @@ Missing evidence:
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - resolve manuscript/report decision blockers before manuscript acceptance
 - manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
-- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: claim-alignment packet has 86 rows requiring revision or acceptance
 - manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
 - manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
 - review manuscript/report human-decision rows before manuscript acceptance
@@ -1088,7 +1088,7 @@ Residual risks:
 - claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims
 - resolve manuscript/report decision blockers before manuscript acceptance
 - manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
-- manuscript/report decision: claim-alignment packet has 108 rows requiring revision or acceptance
+- manuscript/report decision: claim-alignment packet has 86 rows requiring revision or acceptance
 - manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
 - manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
 - review manuscript/report human-decision rows before manuscript acceptance

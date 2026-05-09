@@ -77,6 +77,58 @@ def test_write_claim_alignment_review_packet_outputs_artifacts() -> None:
     print("PASS: claim alignment review writer emits artifacts")
 
 
+def test_claim_alignment_ignores_artifact_paths_and_keeps_real_claims() -> None:
+    """Inline artifact paths should not masquerade as manuscript claims."""
+
+    with TemporaryDirectory() as directory:
+        base = Path(directory)
+        paper = base / "paper.md"
+        report = base / "report.md"
+        missing_manifest = base / "missing_figure_manifest.json"
+        paper.write_text(
+            "\n".join(
+                [
+                    "`data/validation/validation_review_packet.csv` stores review rows.",
+                    "This is not validation acceptance.",
+                    "Calibrated real-world result evidence is absent.",
+                    "The framework proves operational superiority.",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        report.write_text("", encoding="utf-8")
+
+        rows = build_claim_alignment_review_rows(
+            paper_path=paper,
+            report_path=report,
+            figure_manifest_path=missing_manifest,
+            final_study_audit={"gates": []},
+        )
+
+    assert len(rows) == 3
+    by_excerpt = {row["excerpt"]: row for row in rows}
+    assert "This is not validation acceptance." in by_excerpt
+    assert (
+        by_excerpt["This is not validation acceptance."]["review_status"]
+        == "guardrail_language"
+    )
+    assert "Calibrated real-world result evidence is absent." in by_excerpt
+    assert (
+        by_excerpt[
+            "Calibrated real-world result evidence is absent."
+        ]["review_status"]
+        == "guardrail_language"
+    )
+    assert "The framework proves operational superiority." in by_excerpt
+    assert (
+        by_excerpt["The framework proves operational superiority."]["review_status"]
+        == "requires_revision_or_acceptance"
+    )
+
+    print("PASS: claim alignment ignores artifact paths and keeps real claims")
+
+
 def test_shipped_claim_alignment_review_packet_matches_current_inputs() -> None:
     """Current shipped packet should match deterministic manuscript inputs."""
 
@@ -109,5 +161,6 @@ def test_shipped_claim_alignment_review_packet_matches_current_inputs() -> None:
 if __name__ == "__main__":
     test_claim_alignment_rows_find_guardrails_and_claim_candidates()
     test_write_claim_alignment_review_packet_outputs_artifacts()
+    test_claim_alignment_ignores_artifact_paths_and_keeps_real_claims()
     test_shipped_claim_alignment_review_packet_matches_current_inputs()
     print("\n=== REALWORLD CLAIM ALIGNMENT REVIEW PACKET TESTS PASSED ===")

@@ -65,17 +65,34 @@ CLAIM_PATTERNS: tuple[tuple[str, str, str], ...] = (
     ("real-world", r"\breal[- ]world\b", "real_world_claim"),
     ("proves", r"\bprov(?:e|es|ed)\b", "causal_or_superiority_claim"),
     ("superior", r"\bsuperior(?:ity)?\b|\balways superior\b", "causal_or_superiority_claim"),
-    ("ready", r"\bready\b|\bcomplete\b", "readiness_claim"),
+    (
+        "ready",
+        (
+            r"\b(final[- ]study|publication|study|deployment|operational)\s+ready\b"
+            r"|\bready\s+for\s+(publication|deployment|operations?)\b"
+            r"|\bcomplete(?:d|ly)?\b"
+        ),
+        "readiness_claim",
+    ),
     ("publication", r"\bpublication[- ]grade\b|\bSCI[- ]grade\b", "publication_claim"),
 )
+INLINE_CODE_PATTERN = re.compile(r"`[^`]*`")
 GUARDRAIL_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
-        r"\bnot\b.{0,80}\b(calibrated|operational|accepted|validated|ready|complete|proof|proves?)\b",
+        r"\bnot\b.{0,120}\b(calibrated|operational|accepted|acceptance|validated|validation|ready|complete|proof|proves?|real[- ]world|publication[- ]grade|SCI[- ]grade|superior(?:ity)?)\b",
+        r"\bno\b.{0,120}\b(formal approvals?|formal acceptance|calibrated|accepted|validation|validated|real[- ]world results?|operational)\b",
+        r"\b(absent|missing|unavailable)\b.{0,120}\b(formal approvals?|formal acceptance|acceptance|approval|calibrated|validation|validated|real[- ]world results?|operational)\b",
+        r"\b(calibrated|accepted|acceptance|validation|validated|real[- ]world results?|operational)\b.{0,120}\b(absent|missing|unavailable)\b",
+        r"\bdoes not\b.{0,120}\b(create|replace|close|approve|support|waive|evaluate|prove|provide|contain)\b",
+        r"\bis not\b.{0,120}\b(.*acceptance|.*evidence|.*calibration|.*calibrated|.*validation|.*validated|.*operational|.*approval|.*publication)\b",
         r"\bdo not\b.{0,80}\b(claim|interpret|describe|use|approve)\b",
         r"\bshould not\b.{0,80}\b(claim|interpret|describe|use|be reported)\b",
         r"\bcannot\b.{0,80}\b(accept|approve|mark|claim|support)\b",
         r"\bmust not\b.{0,80}\b(claim|interpret|describe|use|approve)\b",
+        r"\bwithout\b.{0,120}\b(accepting|approving|creating|claiming|validating)\b",
+        r"\brather than\b.{0,120}\b(accepted|calibrated|source-backed|evidence|approval)\b",
+        r"\bshould not be described as\b",
     )
 )
 
@@ -389,11 +406,16 @@ def _row(
 
 
 def _line_matches(line: str) -> list[tuple[str, str]]:
+    scan_text = _claim_scan_text(line)
     matches: list[tuple[str, str]] = []
     for term, pattern, category in CLAIM_PATTERNS:
-        if re.search(pattern, line, flags=re.IGNORECASE):
+        if re.search(pattern, scan_text, flags=re.IGNORECASE):
             matches.append((term, category))
     return matches
+
+
+def _claim_scan_text(line: str) -> str:
+    return INLINE_CODE_PATTERN.sub("", line)
 
 
 def _dominant_category(matches: Sequence[tuple[str, str]]) -> str:

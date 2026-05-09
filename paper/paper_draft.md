@@ -18,9 +18,9 @@ exists with an Overpass/OSM-derived cached road graph, but its outputs are
 explicitly scaffold-only and are not calibrated real-world findings. The formal
 evidence boundary is also explicit: final-study readiness is `false`, only
 `3/15` final-study gates are ready, `12/15` gates remain blocked, formal
-acceptance readiness is `0/12`, and no formal approvals or calibrated
-real-world results are present. The validation, graph-scale, sensitivity, and
-experiment strategy-readiness packets are blocker/review aids only; they are
+acceptance readiness is `0/12`. Formal approvals are absent, calibrated
+real-world result evidence is absent, and the validation, graph-scale,
+sensitivity, and experiment strategy-readiness packets are blocker/review aids only; they are
 not acceptance records. This draft therefore separates:
 
 - what is already implemented,
@@ -63,10 +63,10 @@ real-world extension:
   override-application inputs needed before reviewed road overrides can be
   built; it is not road evidence. The current
   `parameter_evidence_review_packet.csv` has 29 core-parameter rows and marks
-  25 as weak for final-study claims; it is a prioritization worksheet, not
-  accepted calibration. The current
-  `parameter_evidence_source_request_packet.csv` adds 6 request rows covering
-  22 demand, fleet, dispatch, transfer, disruption, and traffic/BPR parameters;
+  25 as weak for final-study claims; it is a prioritization worksheet and does
+  not accept or calibrate parameter values. The current
+  `parameter_evidence_source_request_packet.csv` adds 7 request rows covering
+  25 demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR parameters;
   it names required source inputs but is not parameter evidence or acceptance.
 - `data/rail/pilot_station_binding_cache.csv` and
   `data/parameters/rail_station_bindings.csv` now bind the pilot rail points
