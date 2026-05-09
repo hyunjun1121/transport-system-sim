@@ -57,8 +57,17 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "Clean-checkout reproducibility ready: `false`" in text
     assert "scripts\\audit_formal_evidence_paths.py" in text
     assert "scripts\\validate_formal_acceptance_package.py --fail-on-blockers" in text
+    assert "scripts\\audit_source_provenance.py" in text
+    assert "scripts\\write_source_url_review_packet.py --preserve-existing-live" in text
+    assert "scripts\\write_source_provenance_priority_packet.py" in text
     assert "scripts\\write_source_context_cache_request_packet.py" in text
     assert "scripts\\write_source_context_cache_decision_packet.py" in text
+    assert "scripts\\write_road_source_decision_packet.py" in text
+    assert "scripts\\write_parameter_source_decision_packet.py" in text
+    assert "scripts\\write_sensitivity_method_decision_packet.py" in text
+    assert "scripts\\write_experiment_design_decision_packet.py" in text
+    assert "scripts\\write_figure_table_review_packet.py" in text
+    assert "scripts\\write_validation_benchmark_decision_packet.py" in text
     assert "scripts\\run_reproducibility_smoke.py" in text
     assert "scripts\\run_clean_checkout_smoke.py" in text
 
