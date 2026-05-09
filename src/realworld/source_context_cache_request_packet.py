@@ -1,8 +1,9 @@
 """Context-source cache request packet.
 
-This module turns context-source target artifact blockers into concrete cache
-or exclusion work items. It is a reviewer aid only: it does not fetch public
-data, cache source payloads, certify licenses, or create provenance acceptance.
+This module turns context-source target artifact blockers into concrete cache,
+sensitivity/context-only, or exclusion work items. It is a reviewer aid only:
+it does not fetch public data, cache source payloads, certify licenses, or
+create provenance acceptance.
 """
 
 from __future__ import annotations
@@ -71,7 +72,8 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         ),
         (
             "provide DATA_GO_KR_KEY or reviewed cached API payload, retain raw "
-            "response, derive travel-time evidence, or exclude this source"
+            "response, derive travel-time evidence, retain this source as "
+            "sensitivity/context-only, or exclude this source"
         ),
     ),
     "seoul_timetable_api_context": (
@@ -87,8 +89,8 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         ),
         (
             "provide DATA_GO_KR_KEY or reviewed cached timetable payload, "
-            "retain raw response, derive headway/travel-time evidence, or "
-            "exclude this source"
+            "retain raw response, derive headway/travel-time evidence, "
+            "retain this source as sensitivity/context-only, or exclude this source"
         ),
     ),
     "ktdb_public_transport_gtfs_context": (
@@ -104,8 +106,8 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         (
             "optionally cache KTDB source metadata for review, then provide "
             "reviewed KTDB or equivalent GTFS zip/directory with license and "
-            "attribution review, derive rail timing evidence, or exclude this "
-            "source"
+            "attribution review, derive rail timing evidence, retain this "
+            "source as sensitivity/context-only, or exclude this source"
         ),
     ),
     "metro9_capacity_context": (
@@ -226,12 +228,12 @@ def build_source_context_cache_request_manifest(
         "schema_version": 1,
         "result_scope": SOURCE_CONTEXT_CACHE_REQUEST_SCOPE,
         "claim_boundary": (
-            "This packet converts context-source target artifacts into cache "
-            "or exclusion requests. Cached source metadata is review support "
-            "only; it does not replace a reviewed source payload. This packet "
-            "does not fetch data, certify terms, create source snapshots, or "
-            "close data-provenance, rail-evidence, validation, reproducibility, "
-            "or final-study gates."
+            "This packet converts context-source target artifacts into cache, "
+            "sensitivity/context-only, or exclusion requests. Cached source "
+            "metadata is review support only; it does not replace a reviewed "
+            "source payload. This packet does not fetch data, certify terms, "
+            "create source snapshots, or close data-provenance, rail-evidence, "
+            "validation, reproducibility, or final-study gates."
         ),
         "row_count": len(rows),
         "context_source_count": len(rows),
@@ -254,13 +256,13 @@ def build_source_context_cache_request_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "for each row, either cache the reviewed source extract with terms/attribution review or exclude the source from final claims",
+            "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from final claims",
             "retain raw API/page responses when a source is cached for reproducibility",
             "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
             "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed",
         ],
         "remaining_blockers": [
-            "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+            "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
             "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
             "formal provenance acceptance record is absent",
         ],
@@ -307,7 +309,7 @@ def build_source_context_cache_request_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Cache reviewed target source artifacts or explicitly exclude each context-source row from final claims.",
+            "- Cache reviewed target source artifacts, retain each context-source row as sensitivity/context-only evidence, or explicitly exclude it from final claims.",
             "- Review terms, attribution, extraction date, retained raw response, and reproducibility before using a cached source.",
             "- Treat helper scripts as derivation paths only; they do not prove source suitability or close acceptance gates.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
@@ -327,7 +329,7 @@ def _request_row(
         (
             ("reviewer_defined_cached_source_extract",),
             (),
-            "cache a reviewed source extract or exclude this source from final claims",
+            "cache a reviewed source extract, retain this source as sensitivity/context-only, or exclude this source from final claims",
         ),
     )
     target_present = _target_artifacts_present(source_id, targets)
@@ -397,7 +399,8 @@ def _required_reviewer_decision(
     if not target_present and source_id in _TARGETS_BY_SOURCE_ID:
         return (
             "cache the target source artifact with terms/attribution review, "
-            "or exclude this source from final-study claims"
+            "retain this source as sensitivity/context-only, or exclude this "
+            "source from final-study claims"
         )
     return str(row.get("required_reviewer_decision", ""))
 
@@ -411,7 +414,7 @@ def _publication_use_status(
     if not target_present and source_id in _TARGETS_BY_SOURCE_ID:
         return (
             "target cache missing; cannot support final claims until cached or "
-            "explicitly excluded"
+            "retained as sensitivity/context-only or explicitly excluded"
         )
     return str(row.get("publication_use_status", ""))
 

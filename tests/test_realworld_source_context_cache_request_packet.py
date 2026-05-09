@@ -52,6 +52,12 @@ def test_context_cache_request_rows_classify_current_context_sources() -> None:
     assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["context_local_artifacts"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_shortest_path_api_context"
+    ]["required_reviewer_decision"]
+    assert "sensitivity/context-only" in by_id[
+        "seoul_timetable_api_context"
+    ]["required_cache_action"]
     assert "data/rail/ktdb_gtfs_source_extract.csv" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["context_local_artifacts"]

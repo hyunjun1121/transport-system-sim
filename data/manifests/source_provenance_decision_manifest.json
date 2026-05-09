@@ -42,7 +42,7 @@
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
   "remaining_blockers": [
-    "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions",
+    "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
     "reproducibility manifest remains scaffold-only",
     "data/manifests/provenance_acceptance.json is absent"
   ],

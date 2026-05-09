@@ -172,7 +172,7 @@ def build_source_provenance_decision_rows(
                 else "needs_human_review_context_cache_decisions"
             ),
             blocking_reason=(
-                "context-source target cache artifacts still lack reviewed source payloads or explicit exclusion decisions"
+                "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions"
                 if context_blocking_count
                 else ""
             ),
