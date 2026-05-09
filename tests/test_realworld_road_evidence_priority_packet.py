@@ -44,6 +44,14 @@ def test_road_evidence_priority_rows_rank_current_route_exposure() -> None:
     assert "road_capacity_lane_count_source_request" in by_highway["primary"][
         "needed_source_requests"
     ]
+    assert (
+        "data/validation/canonical_route_road_evidence_exposure.csv"
+        in by_highway["primary"]["candidate_artifacts"]
+    )
+    assert (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+        in by_highway["primary"]["candidate_artifacts"]
+    )
     assert {row["claim_boundary"] for row in rows} == {
         ROAD_EVIDENCE_PRIORITY_SCOPE
     }
@@ -81,6 +89,9 @@ def test_road_evidence_priority_writer_outputs_artifacts() -> None:
     assert written_manifest["row_count"] == 11
     assert written_manifest["exposed_highway_count"] == 7
     assert written_manifest["unexposed_highway_count"] == 4
+    assert written_manifest["inputs"]["route_road_evidence_exposure_manifest"] == (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+    )
     assert "Road Evidence Priority Packet" in doc_text
 
     print("PASS: road evidence priority writer emits artifacts")
@@ -109,6 +120,9 @@ def test_shipped_road_evidence_priority_packet_matches_current_outputs() -> None
     assert manifest["blocking_priority_count"] == 5
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
+    assert manifest["inputs"]["route_road_evidence_exposure_manifest"] == (
+        "data/validation/canonical_route_road_evidence_exposure_manifest.json"
+    )
 
     print("PASS: shipped road evidence priority packet matches current outputs")
 

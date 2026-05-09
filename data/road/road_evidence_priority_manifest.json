@@ -6,7 +6,8 @@
   "inputs": {
     "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv",
     "road_source_readiness_packet": "data/road/road_source_readiness_packet.csv",
-    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv"
+    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv",
+    "route_road_evidence_exposure_manifest": "data/validation/canonical_route_road_evidence_exposure_manifest.json"
   },
   "needed_source_request_ids": [
     "reviewed_road_class_override_application_request",

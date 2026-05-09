@@ -25,6 +25,7 @@ from src.realworld.road_source_readiness_packet import (  # noqa: E402
     DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 )
 from src.realworld.route_road_evidence_exposure import (  # noqa: E402
+    DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH,
     DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
 )
 
@@ -36,6 +37,7 @@ def main(argv: list[str] | None = None) -> int:
     rows = build_road_evidence_priority_rows(
         road_evidence_review_path=args.road_evidence_review,
         route_exposure_path=args.route_exposure,
+        route_exposure_manifest_path=args.route_exposure_manifest,
         road_source_readiness_path=args.road_source_readiness,
     )
     manifest = write_road_evidence_priority_packet(
@@ -45,6 +47,7 @@ def main(argv: list[str] | None = None) -> int:
         doc_path=args.doc,
         road_evidence_review_path=args.road_evidence_review,
         route_exposure_path=args.route_exposure,
+        route_exposure_manifest_path=args.route_exposure_manifest,
         road_source_readiness_path=args.road_source_readiness,
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
@@ -67,6 +70,11 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--route-exposure",
         type=Path,
         default=DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    )
+    parser.add_argument(
+        "--route-exposure-manifest",
+        type=Path,
+        default=DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH,
     )
     parser.add_argument(
         "--road-source-readiness",

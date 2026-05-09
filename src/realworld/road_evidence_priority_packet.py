@@ -22,6 +22,7 @@ from src.realworld.road_source_readiness_packet import (
     DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 )
 from src.realworld.route_road_evidence_exposure import (
+    DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH,
     DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
 )
 
@@ -73,6 +74,9 @@ def build_road_evidence_priority_rows(
     *,
     road_evidence_review_path: str | Path = DEFAULT_ROAD_EVIDENCE_REVIEW_PACKET_PATH,
     route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
     road_source_readiness_path: str | Path = DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 ) -> list[dict[str, str]]:
     """Return road-class priority rows from evidence and route exposure packets."""
@@ -96,6 +100,10 @@ def build_road_evidence_priority_rows(
             road_rows.get(highway, {}),
             exposure_by_highway.get(highway, _empty_exposure()),
             source_request_ids=source_request_ids,
+            route_exposure_artifacts=(
+                _display_path(route_exposure_path),
+                _display_path(route_exposure_manifest_path),
+            ),
         )
         for highway in highways
     ]
@@ -111,6 +119,9 @@ def write_road_evidence_priority_packet(
     doc_path: str | Path = DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
     road_evidence_review_path: str | Path = DEFAULT_ROAD_EVIDENCE_REVIEW_PACKET_PATH,
     route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
     road_source_readiness_path: str | Path = DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 ) -> dict[str, Any]:
     """Write road evidence priority CSV, manifest, and Markdown."""
@@ -137,6 +148,7 @@ def write_road_evidence_priority_packet(
         doc_path=doc,
         road_evidence_review_path=road_evidence_review_path,
         route_exposure_path=route_exposure_path,
+        route_exposure_manifest_path=route_exposure_manifest_path,
         road_source_readiness_path=road_source_readiness_path,
     )
     manifest.write_text(
@@ -158,6 +170,9 @@ def build_road_evidence_priority_manifest(
     doc_path: str | Path = DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
     road_evidence_review_path: str | Path = DEFAULT_ROAD_EVIDENCE_REVIEW_PACKET_PATH,
     route_exposure_path: str | Path = DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_PATH,
+    route_exposure_manifest_path: str | Path = (
+        DEFAULT_ROUTE_ROAD_EVIDENCE_EXPOSURE_MANIFEST_PATH
+    ),
     road_source_readiness_path: str | Path = DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
 ) -> dict[str, Any]:
     """Return a conservative manifest for road evidence priority rows."""
@@ -198,6 +213,9 @@ def build_road_evidence_priority_manifest(
         "inputs": {
             "road_evidence_review_packet": _display_path(road_evidence_review_path),
             "route_road_evidence_exposure": _display_path(route_exposure_path),
+            "route_road_evidence_exposure_manifest": _display_path(
+                route_exposure_manifest_path
+            ),
             "road_source_readiness_packet": _display_path(road_source_readiness_path),
         },
         "outputs": {
@@ -277,6 +295,7 @@ def _priority_row(
     exposure: Mapping[str, Any],
     *,
     source_request_ids: set[str],
+    route_exposure_artifacts: Sequence[str],
 ) -> dict[str, str]:
     exposure_count = int(exposure["row_count"])
     review_priority = str(road_row.get("review_priority", "") or "route_connector_review")
@@ -329,9 +348,10 @@ def _priority_row(
             exposure_count=exposure_count,
             source_request_ids=source_request_ids,
         ),
-        "candidate_artifacts": str(
-            road_row.get("candidate_artifacts", "")
-            or exposure.get("candidate_artifacts", "")
+        "candidate_artifacts": _artifact_list(
+            road_row.get("candidate_artifacts", ""),
+            exposure.get("candidate_artifacts", ""),
+            *route_exposure_artifacts,
         ),
         "required_reviewer_action": _required_action(
             highway=highway,
@@ -503,6 +523,18 @@ def _format_counts(counter: Counter[str]) -> str:
 
 def _join_sorted(values: Iterable[Any]) -> str:
     return "; ".join(sorted({str(value).strip() for value in values if str(value).strip()}))
+
+
+def _artifact_list(*values: Any) -> str:
+    artifacts: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        for artifact in str(value).split(";"):
+            clean = artifact.strip()
+            if clean and clean not in seen:
+                seen.add(clean)
+                artifacts.append(clean)
+    return "; ".join(artifacts)
 
 
 def _float_value(value: Any) -> float:
