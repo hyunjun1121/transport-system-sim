@@ -685,7 +685,7 @@ The codebase currently includes:
     `scripts/write_manuscript_report_decision_packet.py`; this consolidates
     manuscript/report gate decisions without creating
     `data/manifests/manuscript_acceptance.json`
-  - plan-gate audit in `docs/plan_completion_audit.md`
+  - static plan-gate audit snapshot in `docs/plan_completion_audit.md`
   - reduced-corridor method boundary in
     `docs/analysis_corridor_method_note.md`
   - separated sample/staged/full outputs under `results/realworld_pilot/`

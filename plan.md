@@ -879,7 +879,7 @@ First pilot-smoke artifacts also exist:
   non-approval review packet. The generated
   `data/validation/integrated_evidence_review_packet.csv` and manifest keep
   fallback and OSRM rows as plausibility checks and cannot close any gate.
-- `docs/plan_completion_audit.md` records the current plan-gate audit. It
+- `docs/plan_completion_audit.md` records a static plan-gate audit snapshot. It
   confirms that the executable quasi-real scaffold is in place while calibrated
   final-study claims remain blocked by pilot acceptance, stronger evidence, and
   final manuscript/report review.

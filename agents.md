@@ -958,8 +958,8 @@ Implemented behavior:
 - `docs/reproducibility_smoke.md` summarizes the bounded current-worktree
   smoke run. It is execution evidence only and must not be treated as
   clean-checkout reproducibility acceptance.
-- `docs/plan_completion_audit.md` records the current gate-by-gate audit and
-  remaining final-study blockers.
+- `docs/plan_completion_audit.md` records a static gate-by-gate audit snapshot
+  and remaining final-study blockers.
 
 Treat outputs from this path as quasi-real decision-support experiments until
 pilot data, travel-time assumptions, capacity proxies, rail inputs, and

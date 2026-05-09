@@ -2,6 +2,11 @@
 
 Audit date: 2026-05-08
 
+This is a static plan-gate snapshot retained for review history. For the
+current regenerated active-goal completion audit, use
+`docs/current_goal_completion_audit.md` and
+`data/manifests/current_goal_completion_audit.json`.
+
 Scope: compare the current repository artifacts against `plan.md` for the
 final real-world or quasi-real transport-resilience study goal.
 

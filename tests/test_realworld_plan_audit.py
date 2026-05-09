@@ -680,6 +680,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         doc_text = (ROOT / doc_path).read_text(encoding="utf-8")
         assert "write_formal_acceptance_blocker_queue.py" in doc_text
         assert "write_acceptance_blocker_queue.py" in doc_text
+    plan_completion_text = (ROOT / "docs" / "plan_completion_audit.md").read_text(
+        encoding="utf-8"
+    )
+    assert "static plan-gate snapshot" in plan_completion_text
+    assert "docs/current_goal_completion_audit.md" in plan_completion_text
     plan_text = (ROOT / "plan.md").read_text(encoding="utf-8")
     for expected in (
         "scripts\\write_source_license_review_packet.py",
