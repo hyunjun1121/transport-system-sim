@@ -21,6 +21,7 @@ from src.realworld.rail_source_decision_packet import (  # noqa: E402
     write_rail_source_decision_packet,
 )
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    KTDB_GTFS_SOURCE_METADATA_PATHS,
     METRO9_CAPACITY_RAW_PATH,
     METRO9_CAPACITY_SOURCE_CITATION,
     RAIL_CAPACITY_REVIEW_INPUT_PATHS,
@@ -66,6 +67,9 @@ def test_rail_source_decision_rows_classify_current_requests() -> None:
     assert "provide_reviewed_static_gtfs_feed" in by_id[
         "rail_static_gtfs_timing_request"
     ]["candidate_decision_options"]
+    gtfs = by_id["rail_static_gtfs_timing_request"]
+    assert gtfs["raw_payload_path"] == KTDB_GTFS_SOURCE_METADATA_PATHS
+    assert gtfs["raw_payload_present"] == "true"
     assert "replace_with_operator_or_literature_capacity_source" in by_id[
         "rail_capacity_treatment_request"
     ]["candidate_decision_options"]

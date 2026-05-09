@@ -21,6 +21,7 @@ from src.realworld.rail_evidence_priority_packet import (  # noqa: E402
     write_rail_evidence_priority_packet,
 )
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
+    KTDB_GTFS_SOURCE_METADATA_PATHS,
     METRO9_CAPACITY_RAW_PATH,
     RAIL_CAPACITY_REVIEW_INPUT_PATHS,
 )
@@ -45,6 +46,10 @@ def test_rail_evidence_priority_rows_classify_current_closure_paths() -> None:
     assert by_id["rail_static_gtfs_timing_request"][
         "can_close_timing_fields_after_review"
     ] == "true"
+    assert by_id["rail_static_gtfs_timing_request"]["raw_payload_path"] == (
+        KTDB_GTFS_SOURCE_METADATA_PATHS
+    )
+    assert by_id["rail_static_gtfs_timing_request"]["raw_payload_present"] == "true"
     assert by_id["station_binding_prerequisite"]["readiness_status"] == (
         "prerequisite_ready_not_timing_evidence"
     )

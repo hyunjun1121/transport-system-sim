@@ -36,6 +36,11 @@ KTDB_GTFS_SOURCE_CITATION = (
     "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3785; "
     "https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106"
 )
+KTDB_GTFS_SOURCE_METADATA_PATHS = (
+    "data/rail/ktdb_gtfs_source_extract.csv; "
+    "data/rail/ktdb_gtfs_notice_raw.html; "
+    "data/rail/ktdb_gtfs_dataset_list_raw.html"
+)
 METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
 METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
 METRO9_CAPACITY_SOURCE_CITATION = (
@@ -200,10 +205,10 @@ def build_rail_timing_source_request_rows(
             egress_station_name=egress_name,
             egress_station_code=egress_code,
             source_cache_path=gtfs_path,
-            raw_payload_path="",
+            raw_payload_path=KTDB_GTFS_SOURCE_METADATA_PATHS,
             fetch_command=(
-                "manual KTDB data request or reviewed GTFS acquisition; do not "
-                "synthesize feed rows"
+                "review cached KTDB source metadata, then perform manual KTDB data "
+                "request or reviewed GTFS acquisition; do not synthesize feed rows"
             ),
             derive_command=_gtfs_derive_command(
                 region_id,

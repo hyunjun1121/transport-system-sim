@@ -21,6 +21,7 @@ from src.realworld.rail_fetch_readiness_packet import (  # noqa: E402
 )
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
     KTDB_GTFS_SOURCE_CITATION,
+    KTDB_GTFS_SOURCE_METADATA_PATHS,
     KTDB_GTFS_SOURCE_NAME,
     METRO9_CAPACITY_RAW_PATH,
     METRO9_CAPACITY_SOURCE_CITATION,
@@ -157,6 +158,9 @@ def test_shipped_rail_fetch_readiness_packet_matches_current_requests() -> None:
     assert gtfs["source_name"] == KTDB_GTFS_SOURCE_NAME
     assert gtfs["source_url_or_citation"] == KTDB_GTFS_SOURCE_CITATION
     assert "reviewed KTDB" in gtfs["required_external_input"]
+    assert gtfs["raw_payload_path"] == KTDB_GTFS_SOURCE_METADATA_PATHS
+    assert gtfs["raw_payload_present"] == "true"
+    assert gtfs["readiness_status"] == "blocked_missing_reviewed_gtfs_file"
     capacity = by_id["rail_capacity_treatment_request"]
     assert capacity["readiness_status"] == "needs_human_review_capacity_treatment"
     assert capacity["source_url_or_citation"] == METRO9_CAPACITY_SOURCE_CITATION

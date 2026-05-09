@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.rail_timing_request_packet import (  # noqa: E402
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_MANIFEST_PATH,
     DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
+    KTDB_GTFS_SOURCE_METADATA_PATHS,
     METRO9_CAPACITY_EXTRACT_PATH,
     METRO9_CAPACITY_RAW_PATH,
     METRO9_CAPACITY_SOURCE_CITATION,
@@ -39,6 +40,12 @@ def test_rail_timing_source_request_rows_are_actionable() -> None:
     assert "derive_rail_shortest_path_evidence.py" in by_id["rail_shortest_path_travel_time_request"]["derive_command"]
     assert by_id["rail_static_gtfs_timing_request"]["can_close_rail_timing_gate"] == "true"
     assert by_id["rail_static_gtfs_timing_request"]["expected_derived_fields"] == "headway;travel_time"
+    assert by_id["rail_static_gtfs_timing_request"]["raw_payload_path"] == (
+        KTDB_GTFS_SOURCE_METADATA_PATHS
+    )
+    assert "cached KTDB source metadata" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["fetch_command"]
     assert by_id["rail_capacity_treatment_request"]["can_close_rail_timing_gate"] == "false"
     capacity = by_id["rail_capacity_treatment_request"]
     assert capacity["source_url_or_citation"] == METRO9_CAPACITY_SOURCE_CITATION
