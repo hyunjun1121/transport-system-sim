@@ -98,6 +98,10 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\audit_agent_review_paths.py
 ```
 
+Use `scripts\write_formal_acceptance_blocker_queue.py` in refresh checklists.
+`scripts\write_acceptance_blocker_queue.py` is the compatibility implementation
+behind that explicit formal-acceptance command name.
+
 The source-provenance audit, live source-URL option, source-license review
 packet, source URL review packet, remediation packet, provenance-priority
 packet, and source-provenance decision packet are reviewer aids only. They

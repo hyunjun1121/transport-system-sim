@@ -88,7 +88,9 @@ one CSV row per unresolved reviewer action. It writes
 `data/manifests/formal_acceptance_blocker_queue.csv`,
 `data/manifests/formal_acceptance_blocker_queue_manifest.json`, and
 `docs/formal_acceptance_blocker_queue.md`. This makes the remaining work easier
-to assign and audit, but it is still not approval evidence.
+to assign and audit, but it is still not approval evidence. The default command
+ladder uses `scripts\write_formal_acceptance_blocker_queue.py`; the underlying
+implementation script is `scripts\write_acceptance_blocker_queue.py`.
 
 An acceptance task-assignment layer now maps each formal blocker queue row to a
 deterministic review-agent role. It writes
