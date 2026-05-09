@@ -31,7 +31,7 @@
     "open each URL and verify it is the intended official or retained source",
     "record license, attribution, derivative-use, and snapshot decisions outside this packet",
     "resolve failed URL rows by replacement, caching, exclusion, or reviewer decision",
-    "provide reviewed target payloads for context-source rows or exclude them from final claims",
+    "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
     "treat live reachability as volatile and not as source acceptance",
     "create data/manifests/provenance_acceptance.json only after reviewer decisions"
   ],
@@ -39,6 +39,6 @@
     "formal provenance acceptance record is absent",
     "URL reachability does not certify license compatibility or evidence quality",
     "unreachable, HTTP-error, or network-error URL rows require remediation review",
-    "context-source target URLs still need reviewed payloads or explicit exclusion from final claims"
+    "context-source target URLs still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims"
   ]
 }

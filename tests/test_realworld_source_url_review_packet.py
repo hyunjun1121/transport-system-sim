@@ -378,6 +378,11 @@ def test_source_url_review_manifest_surfaces_failed_live_rows() -> None:
         for blocker in manifest["remaining_blockers"]
     )
     assert any("failed URL rows" in item for item in manifest["review_items"])
+    assert any("sensitivity/context-only" in item for item in manifest["review_items"])
+    assert any(
+        "sensitivity/context-only" in blocker
+        for blocker in manifest["remaining_blockers"]
+    )
 
     print("PASS: source URL review manifest surfaces failed live rows")
 
@@ -410,6 +415,11 @@ def test_shipped_source_url_review_packet_matches_current_manifest() -> None:
     assert manifest["provenance_gate_closure_candidate_count"] == 0
     assert manifest["row_count"] == len(rows)
     assert manifest["requires_reviewer_confirmation_count"] == len(rows)
+    assert any("sensitivity/context-only" in item for item in manifest["review_items"])
+    assert any(
+        "sensitivity/context-only" in blocker
+        for blocker in manifest["remaining_blockers"]
+    )
     for row in written_rows:
         if row["url"]:
             assert row["check_mode"] in {"not_checked", "live_http"}

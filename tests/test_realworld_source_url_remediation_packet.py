@@ -107,6 +107,7 @@ def test_write_source_url_remediation_packet_outputs_artifacts() -> None:
         assert value["blocking_issue_count"] == 1
         assert value["alternate_candidate_row_count"] == 0
         assert any("blocked URL rows" in item for item in value["remaining_blockers"])
+        assert any("sensitivity/context-only" in item for item in value["review_items"])
         assert written_manifest["provenance_gate_closure_candidate_count"] == 0
         assert "Source URL Remediation Packet" in text
 
@@ -141,6 +142,7 @@ def test_shipped_source_url_remediation_packet_matches_current_review_packet() -
     assert manifest["result_scope"] == SOURCE_URL_REMEDIATION_SCOPE
     assert manifest["provenance_gate_closure_candidate_count"] == 0
     assert manifest["alternate_candidate_row_count"] >= 0
+    assert any("sensitivity/context-only" in item for item in manifest["review_items"])
     if manifest["blocking_issue_count"] == 0 and manifest["live_check_required_count"] == 0:
         assert not any(
             "unreachable" in item or "network-error" in item or "not-checked" in item

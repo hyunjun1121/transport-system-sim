@@ -229,7 +229,7 @@ def build_source_url_remediation_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Replace stale or unreachable public URLs with verified official sources, or exclude them from final claims.",
+            "- Replace stale or unreachable public URLs with verified official sources, retain them as sensitivity/context-only evidence, or exclude them from final claims.",
             "- Confirm that local repository citations are acceptable for project-owned inputs.",
             "- Treat `reachable` as connectivity evidence only; license and source suitability still need review.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
@@ -410,7 +410,7 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
         )
     items.extend(
         [
-            "provide reviewed target payloads for retained context-source rows or exclude them from final claims",
+            "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
             "create data/manifests/provenance_acceptance.json only after source-backed review",
         ]
     )

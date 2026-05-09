@@ -35,7 +35,7 @@ Source URL remediation packet only; not source acceptance, not license certifica
 
 ## Required Reviewer Actions
 
-- Replace stale or unreachable public URLs with verified official sources, or exclude them from final claims.
+- Replace stale or unreachable public URLs with verified official sources, retain them as sensitivity/context-only evidence, or exclude them from final claims.
 - Confirm that local repository citations are acceptable for project-owned inputs.
 - Treat `reachable` as connectivity evidence only; license and source suitability still need review.
 - Create `data/manifests/provenance_acceptance.json` only after source-backed review.

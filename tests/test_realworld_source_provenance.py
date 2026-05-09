@@ -38,6 +38,7 @@ def test_shipped_source_provenance_manifest_is_diagnosable() -> None:
     assert summary["record_count"] >= 8
     assert summary["remaining_blockers"] == []
     assert summary["review_items"]
+    assert any("sensitivity/context-only" in item for item in summary["review_items"])
     assert summary["local_artifact_count"] >= 30
     assert summary["review_status_counts"]["context_only_not_cached"] >= 1
     assert "not operational" in summary["claim_boundary"]
