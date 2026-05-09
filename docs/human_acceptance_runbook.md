@@ -46,16 +46,26 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\write_source_context_cache_request_packet.py
 .\.venv\Scripts\python scripts\write_source_context_cache_decision_packet.py
 .\.venv\Scripts\python scripts\write_pilot_region_decision_packet.py
+.\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py
+.\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py
 .\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py
 .\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_rail_source_decision_packet.py
+.\.venv\Scripts\python scripts\write_road_evidence_review_packet.py
+.\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_road_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_road_source_decision_packet.py
+.\.venv\Scripts\python scripts\write_parameter_review_packet.py
+.\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py
+.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_review_packet.py
 .\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py
+.\.venv\Scripts\python scripts\write_validation_review_packet.py
 .\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py
 .\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py
@@ -76,7 +86,10 @@ acceptance artifacts.
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\write_acceptance_decision_templates.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_blocker_queue.py
+.\.venv\Scripts\python scripts\write_acceptance_task_assignments.py
+.\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
+.\.venv\Scripts\python scripts\audit_agent_review_paths.py
 ```
 
 The source-provenance audit, live source-URL option, source URL review packet,

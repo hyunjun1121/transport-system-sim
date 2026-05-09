@@ -633,6 +633,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     for expected in (
         "docs/source_context_cache_decision_packet.md",
         "docs/pilot_region_decision_packet.md",
+        "scripts\\write_rail_evidence_review_packet.py",
+        "scripts\\write_road_evidence_review_packet.py",
+        "scripts\\write_parameter_review_packet.py",
+        "scripts\\write_graph_scale_review_packet.py",
+        "scripts\\write_validation_review_packet.py",
         "docs/rail_evidence_priority_packet.md",
         "docs/road_source_decision_packet.md",
         "docs/road_evidence_priority_packet.md",
@@ -645,6 +650,9 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         "docs/reproducibility_review_packet.md",
         "docs/reproducibility_decision_packet.md",
         "docs/final_audit_decision_packet.md",
+        "scripts\\write_acceptance_task_assignments.py",
+        "scripts\\write_formal_acceptance_evidence_matrix.py",
+        "scripts\\audit_agent_review_paths.py",
     ):
         assert expected in runbook_text
     assert "not approve paper or report claims" in runbook_text
