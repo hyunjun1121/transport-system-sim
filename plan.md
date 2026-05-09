@@ -464,6 +464,14 @@ First pilot-smoke artifacts also exist:
   transfer, rail, disruption, and traffic/BPR evidence collection. The generated
   packet covers 25 parameters, keeps `publication_ready: false`, and does not
   close the parameter-evidence or weak-parameter acceptance gates.
+- `src/realworld/transfer_evidence_review_packet.py` and
+  `scripts/write_transfer_evidence_review_packet.py` now create a 5-row
+  transfer-delay review packet under
+  `data/parameters/transfer_evidence_review_packet.csv`. It traces the current
+  fixed and per-passenger transfer-delay values, sensitivity bounds, and
+  station-binding context while preserving the missing station-layout,
+  observed-transfer, or pedestrian-flow source gap. This is review support
+  only, not accepted transfer calibration.
 - `src/realworld/parameter_source_readiness_packet.py` and
   `scripts/write_parameter_source_readiness_packet.py` now classify those 7
   parameter source requests into concrete readiness states. The current packet
@@ -483,10 +491,10 @@ First pilot-smoke artifacts also exist:
   parameter review, source-request, and source-readiness rows into a 7-row
   priority worksheet under
   `data/parameters/parameter_evidence_priority_packet.csv`. It highlights the
-  blocked transfer-source row, blocked rail timing/capacity row, high-priority
-  disruption and traffic/BPR rows, and medium-priority demand, fleet, and
-  dispatch rows, but it remains prioritization support only and cannot approve
-  parameter evidence.
+  transfer-delay human-review row, blocked rail timing/capacity row,
+  high-priority disruption and traffic/BPR rows, and medium-priority demand,
+  fleet, dispatch, and transfer rows, but it remains prioritization support
+  only and cannot approve parameter evidence.
 - `src/realworld/parameter_acceptance.py` and
   `docs/parameter_acceptance_schema.md` define the optional reviewer record
   needed when weak expert/sensitivity-only parameters are retained inside the
@@ -919,6 +927,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 .\.venv\Scripts\python scripts\audit_rail_station_bindings.py
 .\.venv\Scripts\python scripts\audit_parameter_evidence.py
 .\.venv\Scripts\python scripts\write_parameter_review_packet.py
+.\.venv\Scripts\python scripts\write_transfer_evidence_review_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py
 .\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py
 .\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py
@@ -1282,6 +1291,8 @@ Create or update:
 - `data/parameters/parameter_evidence_review_manifest.json`
 - `data/parameters/parameter_evidence_source_request_packet.csv`
 - `data/parameters/parameter_evidence_source_request_manifest.json`
+- `data/parameters/transfer_evidence_review_packet.csv`
+- `data/parameters/transfer_evidence_review_manifest.json`
 - `data/parameters/rail_assumptions.csv`
 - `data/parameters/rail_station_bindings.csv`
 - `data/parameters/rail_evidence_review_packet.csv`
@@ -2362,12 +2373,14 @@ Concrete next tasks:
    shortest-path, literature, public speed/capacity references, hazard or
    scenario evidence, or benchmark-calibrated values where available. Use the
    parameter, rail, and road source-request packets plus
-   `data/parameters/parameter_evidence_priority_packet.csv` and
-   `data/rail/rail_evidence_priority_packet.csv` and
+   `data/parameters/parameter_evidence_priority_packet.csv`,
+   `data/parameters/transfer_evidence_review_packet.csv`,
+   `data/rail/rail_evidence_priority_packet.csv`, and
    `data/rail/rail_source_decision_packet.csv` before collecting new source
    inputs; official station binding is already cached and rail capacity is
-   explicitly sensitivity-only, but cross-cutting parameter evidence, rail
-   timing, and road override evidence remain weak.
+   explicitly sensitivity-only, but transfer timing still requires human
+   review or source-backed treatment, and cross-cutting parameter evidence,
+   rail timing, and road override evidence remain weak.
 8. Review `data/validation/osrm_route_benchmark_manifest.json` and decide
    whether the current optional OSRM snapshot is sufficient as a plausibility
    benchmark or whether cached Valhalla, routingpy, R5/OpenTripPlanner, UXsim,

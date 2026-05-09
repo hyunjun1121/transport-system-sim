@@ -284,21 +284,25 @@ def build_parameter_evidence_source_request_rows(
                 "observed transfer range, or pedestrian-flow literature"
             ),
             source_url_or_citation=(
+                "data/parameters/transfer_evidence_review_packet.csv; "
                 "data/parameters/parameter_sources.csv; "
-                "data/regions/pilot_region.yaml"
+                "data/regions/pilot_region.yaml; "
+                "data/scenarios/sensitivity_design.csv"
             ),
             required_external_input=(
                 "reviewed transfer path length, walking speed, vertical-circulation "
                 "or crowding assumptions, and per-passenger delay treatment"
             ),
-            source_cache_path="data/parameters/parameter_sources.csv",
-            raw_payload_path="",
+            source_cache_path="data/parameters/transfer_evidence_review_packet.csv",
+            raw_payload_path="data/parameters/transfer_evidence_review_manifest.json",
             acquisition_command=(
-                "manual station-layout, field-observation, or literature acquisition"
+                ".\\.venv\\Scripts\\python "
+                "scripts\\write_transfer_evidence_review_packet.py"
             ),
             review_or_derivation_command=(
-                "replace or bound transfer delay rows in "
-                "data\\parameters\\parameter_sources.csv, then run "
+                "review data\\parameters\\transfer_evidence_review_packet.csv, "
+                "then replace or bound transfer delay rows in "
+                "data\\parameters\\parameter_sources.csv and run "
                 ".\\.venv\\Scripts\\python scripts\\write_parameter_review_packet.py"
             ),
             target_output_path="data/parameters/parameter_sources.csv",
@@ -310,9 +314,10 @@ def build_parameter_evidence_source_request_rows(
                 "transfer source-request support only; not observed transfer timing"
             ),
             notes=(
-                "The baseline fixed transfer delay and disabled crowding delay remain "
-                "assumptions until reviewed transfer evidence or sensitivity bounds "
-                "are recorded."
+                "The transfer review packet traces current values, station context, "
+                "and sensitivity bounds, but the baseline fixed transfer delay and "
+                "disabled crowding delay remain weak until reviewed transfer evidence "
+                "or explicit acceptance is recorded."
             ),
             review_rows=review_rows,
             by_parameter=by_parameter,

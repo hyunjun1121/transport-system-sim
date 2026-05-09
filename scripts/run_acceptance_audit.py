@@ -110,6 +110,10 @@ from src.realworld.parameter_review_packet import (  # noqa: E402
     build_parameter_review_rows,
     write_parameter_review_packet,
 )
+from src.realworld.transfer_evidence_review_packet import (  # noqa: E402
+    build_transfer_evidence_review_rows,
+    write_transfer_evidence_review_packet,
+)
 from src.realworld.pilot_privacy_review_packet import (  # noqa: E402
     build_pilot_privacy_review_rows,
     write_pilot_privacy_review_packet,
@@ -456,6 +460,9 @@ def _refresh_existing_review_packets(
     parameter_rows = build_parameter_review_rows()
     write_parameter_review_packet(rows=parameter_rows)
     refreshed.append("data/parameters/parameter_evidence_review_packet.csv")
+    transfer_rows = build_transfer_evidence_review_rows()
+    write_transfer_evidence_review_packet(rows=transfer_rows)
+    refreshed.append("data/parameters/transfer_evidence_review_packet.csv")
     parameter_request_rows = build_parameter_evidence_source_request_rows()
     write_parameter_evidence_source_request_packet(rows=parameter_request_rows)
     refreshed.append("data/parameters/parameter_evidence_source_request_packet.csv")

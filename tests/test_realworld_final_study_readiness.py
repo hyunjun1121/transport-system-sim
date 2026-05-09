@@ -301,7 +301,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_blocking_priority_count"
         ]
-        == 2
+        == 1
     )
     assert (
         gate_map["parameter_evidence"]["details"][
@@ -331,20 +331,26 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_blocking_decision_count"
         ]
-        == 2
+        == 1
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_human_review_decision_count"
         ]
-        == 5
+        == 6
+    )
+    assert (
+        gate_map["parameter_evidence"]["details"][
+            "transfer_evidence_review_artifacts_present"
+        ]
+        is True
     )
     assert any(
         "parameter source readiness: all rows require human review" in item
         for item in gate_map["parameter_evidence"]["blockers"]
     )
     assert any(
-        "parameter evidence priority: transfer-delay source evidence is absent"
+        "parameter evidence priority: transfer-delay evidence still requires human review"
         in item
         for item in gate_map["parameter_evidence"]["blockers"]
     )

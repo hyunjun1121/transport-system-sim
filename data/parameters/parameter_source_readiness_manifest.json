@@ -9,12 +9,12 @@
   "weak_parameter_count": 23,
   "readiness_status_counts": {
     "blocked_missing_rail_timing_or_capacity_source": 1,
-    "blocked_missing_transfer_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
     "needs_human_review_disruption_parameter_scenario": 1,
     "needs_human_review_fleet_package": 1,
-    "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+    "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1,
+    "needs_human_review_transfer_source": 1
   },
   "parameter_group_counts": {
     "demand_time_censoring": 1,
@@ -26,8 +26,8 @@
   },
   "source_url_or_citation_present_count": 7,
   "required_external_input_present_count": 7,
-  "blocking_request_count": 2,
-  "human_review_request_count": 5,
+  "blocking_request_count": 1,
+  "human_review_request_count": 6,
   "parameter_evidence_gate_closure_candidate_count": 0,
   "acceptance_gate_closure_candidate_count": 0,
   "publication_ready": false,

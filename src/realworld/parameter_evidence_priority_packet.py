@@ -222,20 +222,8 @@ def build_parameter_evidence_priority_manifest(
             "manifest": _display_path(manifest_path),
             "doc": _display_path(doc_path),
         },
-        "review_items": [
-            "resolve blocked transfer evidence before transfer-delay final claims",
-            "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
-            "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
-            "review demand, fleet, and dispatch scenario assumptions as bounded planning inputs",
-            "rerun parameter and final-study audits after source-backed parameter changes",
-        ],
-        "remaining_blockers": [
-            "transfer-delay source evidence is absent",
-            "rail timing/source-decision evidence is incomplete",
-            "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
-            "medium-priority demand, fleet, and dispatch rows remain scenario assumptions",
-            "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
-        ],
+        "review_items": _review_items(rows),
+        "remaining_blockers": _remaining_blockers(rows),
     }
 
 
@@ -388,6 +376,54 @@ def _priority_sort_key(row: Mapping[str, str]) -> tuple[int, int, int, str]:
         -_int_value(row.get("high_priority_parameter_count", "0")),
         -_int_value(row.get("weak_parameter_count", "0")),
         str(row.get("priority_id", "")),
+    )
+
+
+def _review_items(rows: Sequence[Mapping[str, str]]) -> list[str]:
+    items = [
+        "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
+        "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
+        "review demand, fleet, dispatch, and transfer assumptions as bounded planning inputs",
+        "rerun parameter and final-study audits after source-backed parameter changes",
+    ]
+    if _group_has_status(rows, "transfer", "blocked_"):
+        items.insert(0, "resolve blocked transfer evidence before transfer-delay final claims")
+    else:
+        items.insert(
+            0,
+            "review transfer evidence packet rows before transfer-delay final claims",
+        )
+    return items
+
+
+def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
+    blockers: list[str] = []
+    if _group_has_status(rows, "transfer", "blocked_"):
+        blockers.append("transfer-delay source evidence is absent")
+    elif any(str(row.get("parameter_groups", "")) == "transfer" for row in rows):
+        blockers.append(
+            "transfer-delay evidence still requires human review and source-backed or accepted-assumption treatment"
+        )
+    blockers.extend(
+        [
+            "rail timing/source-decision evidence is incomplete",
+            "high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
+            "medium-priority demand, fleet, dispatch, and transfer rows remain scenario assumptions",
+            "parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
+        ]
+    )
+    return blockers
+
+
+def _group_has_status(
+    rows: Sequence[Mapping[str, str]],
+    group: str,
+    status_prefix: str,
+) -> bool:
+    return any(
+        str(row.get("parameter_groups", "")) == group
+        and str(row.get("priority_status", "")).startswith(status_prefix)
+        for row in rows
     )
 
 

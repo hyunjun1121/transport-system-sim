@@ -42,6 +42,13 @@ def test_parameter_source_readiness_rows_classify_blockers() -> None:
                     "transfer",
                     "station_layout_or_pedestrian_flow_source_required",
                     target,
+                    target,
+                    target,
+                ),
+                _request(
+                    "transfer_missing",
+                    "station_layout_or_pedestrian_flow_source_required",
+                    target,
                     "",
                     target,
                 ),
@@ -70,7 +77,12 @@ def test_parameter_source_readiness_rows_classify_blockers() -> None:
         "fixture citation for demand"
     )
     assert by_id["demand"]["required_external_input"] == "fixture input for demand"
-    assert by_id["transfer"]["readiness_status"] == "blocked_missing_transfer_source"
+    assert by_id["transfer"]["readiness_status"] == (
+        "needs_human_review_transfer_source"
+    )
+    assert by_id["transfer_missing"]["readiness_status"] == (
+        "blocked_missing_transfer_source"
+    )
     assert by_id["traffic"]["readiness_status"] == "blocked_missing_traffic_bpr_source"
     assert by_id["rail"]["readiness_status"] == (
         "blocked_missing_rail_timing_or_capacity_source"

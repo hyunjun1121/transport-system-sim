@@ -111,6 +111,18 @@ def test_review_agents_point_at_current_readiness_packets() -> None:
         "data/parameters/parameter_source_decision_packet.csv"
         in evidence_agent.review_packet_paths
     )
+    assert (
+        "data/parameters/transfer_evidence_review_packet.csv"
+        in evidence_agent.review_packet_paths
+    )
+    assert (
+        "data/parameters/transfer_evidence_review_packet.csv"
+        in evidence_agent.source_paths
+    )
+    assert (
+        "data/parameters/transfer_evidence_review_manifest.json"
+        in evidence_agent.reviewed_inputs
+    )
     assert "data/road/road_source_readiness_packet.csv" in (
         evidence_agent.review_packet_paths
     )
@@ -636,15 +648,41 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             json.dumps(
                 {
                     "row_count": 7,
-                    "blocking_decision_count": 2,
-                    "human_review_decision_count": 5,
+                    "blocking_decision_count": 1,
+                    "human_review_decision_count": 6,
                     "decision_status_counts": {
-                        "blocked_missing_parameter_source_decision": 2,
-                        "needs_human_review_parameter_source_decision": 5,
+                        "blocked_missing_parameter_source_decision": 1,
+                        "needs_human_review_parameter_source_decision": 6,
                     },
                     "publication_ready": False,
                     "can_mark_complete": False,
                     "parameter_evidence_gate_closure_candidate_count": 0,
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        transfer_evidence_snapshot_path = (
+            root / "transfer_evidence_review_manifest.json"
+        )
+        transfer_evidence_snapshot_path.write_text(
+            json.dumps(
+                {
+                    "row_count": 5,
+                    "blocking_review_count": 1,
+                    "human_review_count": 4,
+                    "evidence_status_counts": {
+                        "documented_parameter_proxy": 1,
+                        "missing_station_layout_or_observed_transfer_source": 1,
+                        "public_station_context_present": 2,
+                        "sensitivity_bounds_present": 1,
+                    },
+                    "publication_ready": False,
+                    "can_mark_complete": False,
+                    "parameter_evidence_gate_closure_candidate_count": 0,
+                    "remaining_blockers": [
+                        "station-layout, observed transfer, or pedestrian-flow source artifact is still absent"
+                    ],
                 }
             )
             + "\n",
@@ -930,6 +968,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                     parameter_source_decision_snapshot_path,
                 ),
                 (
+                    "transfer_evidence_review",
+                    "Transfer Evidence Review",
+                    transfer_evidence_snapshot_path,
+                ),
+                (
                     "osm_graph_snapshot_review",
                     "OSM Graph Snapshot Review",
                     osm_graph_snapshot_review_path,
@@ -1118,13 +1161,22 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             == 1
         )
         assert snapshots["parameter_source_decision"]["row_count"] == 7
-        assert snapshots["parameter_source_decision"]["blocking_count"] == 2
-        assert snapshots["parameter_source_decision"]["human_review_count"] == 5
+        assert snapshots["parameter_source_decision"]["blocking_count"] == 1
+        assert snapshots["parameter_source_decision"]["human_review_count"] == 6
         assert (
             snapshots["parameter_source_decision"]["status_counts"][
                 "blocked_missing_parameter_source_decision"
             ]
-            == 2
+            == 1
+        )
+        assert snapshots["transfer_evidence_review"]["row_count"] == 5
+        assert snapshots["transfer_evidence_review"]["blocking_count"] == 1
+        assert snapshots["transfer_evidence_review"]["human_review_count"] == 4
+        assert (
+            snapshots["transfer_evidence_review"]["status_counts"][
+                "missing_station_layout_or_observed_transfer_source"
+            ]
+            == 1
         )
         assert snapshots["osm_graph_snapshot_review"]["row_count"] == 6
         assert snapshots["osm_graph_snapshot_review"]["blocking_count"] == 5
@@ -1214,6 +1266,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Source URL Review`" in index_text
         assert "`Source Context Cache Requests`" in index_text
         assert "`Source Provenance Decision`" in index_text
+        assert "`Transfer Evidence Review`" in index_text
         assert "`Road Source Decisions`" in index_text
         assert "`Rail Source Decisions`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
@@ -1228,6 +1281,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "network_error=1" in index_text
         assert "blocked_missing_context_source_cache=3" in index_text
         assert "blocked_missing_provenance_acceptance_record=1" in index_text
+        assert "blocked_missing_parameter_source_decision=1" in index_text
+        assert "missing_station_layout_or_observed_transfer_source=1" in index_text
         assert "blocked_missing_road_source_decision=2" in index_text
         assert "blocked_missing_rail_source_decision=3" in index_text
         assert "needs_human_review_cached_osrm_scope_policy=1" in index_text

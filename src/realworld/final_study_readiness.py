@@ -30,6 +30,11 @@ from src.realworld.parameter_source_decision_packet import (
     DEFAULT_PARAMETER_SOURCE_DECISION_MANIFEST_PATH,
     DEFAULT_PARAMETER_SOURCE_DECISION_PACKET_PATH,
 )
+from src.realworld.transfer_evidence_review_packet import (
+    DEFAULT_TRANSFER_EVIDENCE_REVIEW_DOC_PATH,
+    DEFAULT_TRANSFER_EVIDENCE_REVIEW_MANIFEST_PATH,
+    DEFAULT_TRANSFER_EVIDENCE_REVIEW_PACKET_PATH,
+)
 from src.realworld.graph_scale_acceptance import summarize_graph_scale_acceptance
 from src.realworld.graph_scale_method_decision_packet import (
     DEFAULT_GRAPH_SCALE_METHOD_DECISION_DOC_PATH,
@@ -1498,6 +1503,11 @@ def _parameter_gate(
         and DEFAULT_PARAMETER_SOURCE_DECISION_MANIFEST_PATH.exists()
         and DEFAULT_PARAMETER_SOURCE_DECISION_DOC_PATH.exists()
     )
+    transfer_artifacts_present = (
+        DEFAULT_TRANSFER_EVIDENCE_REVIEW_PACKET_PATH.exists()
+        and DEFAULT_TRANSFER_EVIDENCE_REVIEW_MANIFEST_PATH.exists()
+        and DEFAULT_TRANSFER_EVIDENCE_REVIEW_DOC_PATH.exists()
+    )
     blockers = []
     if not ready:
         blockers.extend(parameter_audit.get("remaining_blockers", []))
@@ -1522,6 +1532,9 @@ def _parameter_gate(
             "data/parameters/parameter_sources.csv",
             "data/parameters/parameter_evidence_review_packet.csv",
             "data/parameters/parameter_evidence_review_manifest.json",
+            "data/parameters/transfer_evidence_review_packet.csv",
+            "data/parameters/transfer_evidence_review_manifest.json",
+            "docs/transfer_evidence_review_packet.md",
             "data/parameters/parameter_evidence_source_request_packet.csv",
             "data/parameters/parameter_evidence_source_request_manifest.json",
             "data/parameters/parameter_source_readiness_packet.csv",
@@ -1534,6 +1547,7 @@ def _parameter_gate(
             "data/parameters/parameter_source_decision_manifest.json",
             "docs/parameter_source_decision_packet.md",
             "scripts/audit_parameter_evidence.py",
+            "scripts/write_transfer_evidence_review_packet.py",
             "scripts/write_parameter_review_packet.py",
             "scripts/write_parameter_evidence_source_request_packet.py",
             "scripts/write_parameter_source_readiness_packet.py",
@@ -1613,6 +1627,7 @@ def _parameter_gate(
                 "can_mark_complete",
                 False,
             ),
+            "transfer_evidence_review_artifacts_present": transfer_artifacts_present,
             "parameter_source_decision_artifacts_present": (
                 decision_artifacts_present
             ),

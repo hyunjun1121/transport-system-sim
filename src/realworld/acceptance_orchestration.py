@@ -167,6 +167,14 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
         / "parameter_source_decision_manifest.json",
     ),
     (
+        "transfer_evidence_review",
+        "Transfer Evidence Review",
+        PROJECT_ROOT
+        / "data"
+        / "parameters"
+        / "transfer_evidence_review_manifest.json",
+    ),
+    (
         "rail_evidence_priority",
         "Rail Evidence Priority",
         PROJECT_ROOT / "data" / "rail" / "rail_evidence_priority_manifest.json",
@@ -545,6 +553,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/parameter_source_readiness_packet.csv",
             "data/parameters/parameter_evidence_priority_packet.csv",
             "data/parameters/parameter_source_decision_packet.csv",
+            "data/parameters/transfer_evidence_review_packet.csv",
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_source_decision_packet.csv",
             "data/road/road_evidence_priority_packet.csv",
@@ -558,6 +567,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/parameter_source_readiness_manifest.json",
             "data/parameters/parameter_evidence_priority_manifest.json",
             "data/parameters/parameter_source_decision_manifest.json",
+            "data/parameters/transfer_evidence_review_manifest.json",
             "data/parameters/road_evidence_review_packet.csv",
             "data/road/road_evidence_source_request_packet.csv",
             "data/road/road_source_readiness_manifest.json",
@@ -574,6 +584,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "data/parameters/parameter_source_readiness_packet.csv",
             "data/parameters/parameter_evidence_priority_packet.csv",
             "data/parameters/parameter_source_decision_packet.csv",
+            "data/parameters/transfer_evidence_review_packet.csv",
             "data/parameters/road_evidence_review_packet.csv",
             "data/road/road_source_readiness_packet.csv",
             "data/road/road_source_decision_packet.csv",
@@ -1443,6 +1454,7 @@ def _load_review_status_snapshot(
             "validation_gate_closure_candidate_count",
             "sensitivity_gate_closure_candidate_count",
             "experiment_gate_closure_candidate_count",
+            "parameter_evidence_gate_closure_candidate_count",
             "acceptance_gate_closure_candidate_count",
         ),
     )
@@ -1649,6 +1661,7 @@ def _status_counts(data: Mapping[str, Any]) -> dict[str, int]:
         "decision_status_counts",
         "readiness_status_counts",
         "priority_status_counts",
+        "evidence_status_counts",
         "review_status_counts",
         "index_review_status_counts",
         "snapshot_status_counts",

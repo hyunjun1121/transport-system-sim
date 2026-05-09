@@ -30,7 +30,7 @@ def test_parameter_evidence_priority_rows_classify_current_sources() -> None:
 
     assert len(rows) == 7
     assert by_id["transfer_delay_source_request"]["priority_status"] == (
-        "blocked_missing_parameter_source"
+        "needs_human_review_medium_priority_parameter_source"
     )
     assert by_id["rail_service_parameter_source_request"]["priority_status"] == (
         "blocked_missing_parameter_source"
@@ -56,6 +56,9 @@ def test_parameter_evidence_priority_rows_classify_current_sources() -> None:
     assert by_id["dispatch_turnaround_source_request"]["priority_status"] == (
         "needs_human_review_medium_priority_parameter_source"
     )
+    assert "transfer_evidence_review_packet.csv" in by_id[
+        "transfer_delay_source_request"
+    ]["candidate_artifacts"]
     assert {row["claim_boundary"] for row in rows} == {
         PARAMETER_EVIDENCE_PRIORITY_SCOPE
     }
@@ -91,8 +94,8 @@ def test_parameter_evidence_priority_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 7
-    assert written_manifest["blocking_priority_count"] == 2
-    assert written_manifest["human_review_priority_count"] == 5
+    assert written_manifest["blocking_priority_count"] == 1
+    assert written_manifest["human_review_priority_count"] == 6
     assert "Parameter Evidence Priority Packet" in doc_text
 
     print("PASS: parameter evidence priority writer emits artifacts")

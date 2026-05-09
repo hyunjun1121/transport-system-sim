@@ -1,22 +1,22 @@
 {
   "acceptance_gate_closure_candidate_count": 0,
-  "blocking_decision_count": 2,
+  "blocking_decision_count": 1,
   "can_mark_complete": false,
   "claim_boundary": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval. It cannot create data/parameters/parameter_acceptance.csv.",
   "decision_ids": [
     "rail_service_parameter_source_request",
-    "transfer_delay_source_request",
     "background_traffic_bpr_calibration_source_request",
     "demand_arrival_horizon_censoring_source_request",
     "dispatch_turnaround_source_request",
     "disruption_scenario_assumption_source_request",
-    "fleet_vehicle_capacity_source_request"
+    "fleet_vehicle_capacity_source_request",
+    "transfer_delay_source_request"
   ],
   "decision_status_counts": {
-    "blocked_missing_parameter_source_decision": 2,
-    "needs_human_review_parameter_source_decision": 5
+    "blocked_missing_parameter_source_decision": 1,
+    "needs_human_review_parameter_source_decision": 6
   },
-  "human_review_decision_count": 5,
+  "human_review_decision_count": 6,
   "inputs": {
     "parameter_evidence_priority_manifest": "data/parameters/parameter_evidence_priority_manifest.json",
     "parameter_evidence_priority_packet": "data/parameters/parameter_evidence_priority_packet.csv",
@@ -43,12 +43,12 @@
   "publication_ready": false,
   "readiness_status_counts": {
     "blocked_missing_rail_timing_or_capacity_source": 1,
-    "blocked_missing_transfer_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
     "needs_human_review_disruption_parameter_scenario": 1,
     "needs_human_review_fleet_package": 1,
-    "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1
+    "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1,
+    "needs_human_review_transfer_source": 1
   },
   "region_ids": [
     "songpa_public_demo"
@@ -57,8 +57,7 @@
     "formal parameter acceptance table is absent",
     "parameter source decisions are pending for weak parameter groups",
     "retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance",
-    "rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete",
-    "transfer_delay_source_request: no station-layout, observed transfer, or pedestrian-flow source artifact is present"
+    "rail_service_parameter_source_request: rail timing cache, reviewed GTFS, or source-decision evidence remains incomplete"
   ],
   "result_scope": "Parameter source-decision packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
   "review_items": [
