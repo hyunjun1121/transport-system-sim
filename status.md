@@ -1124,7 +1124,7 @@ Defer as first-pass core dependencies:
 
 ## Implemented Real-World MVP Validation
 
-Known real-world MVP checks that passed in the current validation pass:
+Maintained real-world MVP validation and helper-command inventory:
 
 - `.\.venv\Scripts\python tests\test_realworld_types.py`
 - `.\.venv\Scripts\python tests\test_realworld_attributes.py`
@@ -1191,22 +1191,36 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\run_pilot_smoke.py`
 - `.\.venv\Scripts\python scripts\run_full_graph_smoke.py`
 - `.\.venv\Scripts\python scripts\run_graph_scale_diagnostics.py`
+- `.\.venv\Scripts\python scripts\audit_graph_scale_manifests.py`
 - `.\.venv\Scripts\python scripts\write_graph_scale_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_graph_scale_strategy_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_full_graph_runtime_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_graph_scale_method_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_graph_scale_result_comparison.py`
+- `.\.venv\Scripts\python scripts\write_osm_graph_snapshot_review_packet.py`
 - `.\.venv\Scripts\python scripts\audit_rail_evidence.py`
 - `.\.venv\Scripts\python scripts\write_rail_evidence_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_rail_timing_source_request_packet.py`
+- `.\.venv\Scripts\python scripts\write_rail_fetch_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_rail_evidence_priority_packet.py`
+- `.\.venv\Scripts\python scripts\write_rail_source_decision_packet.py`
 - `.\.venv\Scripts\python scripts\audit_rail_station_bindings.py`
 - `.\.venv\Scripts\python scripts\audit_parameter_evidence.py`
 - `.\.venv\Scripts\python scripts\write_parameter_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_transfer_evidence_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_parameter_evidence_source_request_packet.py`
+- `.\.venv\Scripts\python scripts\write_parameter_source_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_parameter_evidence_priority_packet.py`
+- `.\.venv\Scripts\python scripts\write_parameter_source_decision_packet.py`
 - `.\.venv\Scripts\python scripts\audit_road_evidence.py`
 - `.\.venv\Scripts\python scripts\audit_road_evidence_diagnostics.py`
 - `.\.venv\Scripts\python scripts\write_road_capacity_evidence.py`
 - `.\.venv\Scripts\python scripts\write_road_speed_evidence.py`
 - `.\.venv\Scripts\python scripts\write_road_evidence_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_road_evidence_source_request_packet.py`
+- `.\.venv\Scripts\python scripts\write_road_source_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_road_evidence_priority_packet.py`
+- `.\.venv\Scripts\python scripts\write_road_source_decision_packet.py`
 - `.\.venv\Scripts\python scripts\audit_source_provenance.py`
 - `.\.venv\Scripts\python scripts\audit_road_overrides.py`
 - `.\.venv\Scripts\python scripts\audit_publication_readiness.py`
@@ -1224,23 +1238,46 @@ Known real-world MVP checks that passed in the current validation pass:
 - `.\.venv\Scripts\python scripts\run_sensitivity.py --method morris --all`
 - `.\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py`
 - `.\.venv\Scripts\python scripts\write_sensitivity_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_sensitivity_index_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_sensitivity_method_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_validation_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_validation_strategy_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_validation_benchmark_readiness_packet.py`
+- `.\.venv\Scripts\python scripts\write_validation_benchmark_decision_packet.py`
+- `.\.venv\Scripts\python scripts\write_integrated_evidence_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py`
+- `.\.venv\Scripts\python scripts\write_experiment_package_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_figure_table_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_decision_packet.py`
 - `.\.venv\Scripts\python scripts\run_reproducibility_smoke.py`
+- `.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py`
 - `.\.venv\Scripts\python scripts\run_acceptance_audit.py`
+- `.\.venv\Scripts\python scripts\write_acceptance_decision_templates.py`
+- `.\.venv\Scripts\python scripts\write_formal_acceptance_blocker_queue.py`
+- `.\.venv\Scripts\python scripts\write_acceptance_blocker_queue.py`
+- `.\.venv\Scripts\python scripts\write_acceptance_task_assignments.py`
+- `.\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py`
+- `.\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py`
+- `.\.venv\Scripts\python scripts\audit_agent_review_paths.py`
+- `.\.venv\Scripts\python scripts\audit_formal_acceptance_artifacts.py`
+- `.\.venv\Scripts\python scripts\audit_formal_evidence_paths.py`
+- `.\.venv\Scripts\python scripts\validate_formal_acceptance_package.py`
+- `.\.venv\Scripts\python scripts\write_final_audit_decision_packet.py`
+- `.\.venv\Scripts\python scripts\audit_tracked_artifacts.py`
+- `.\.venv\Scripts\python scripts\write_goal_completion_audit.py`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full`
 - `.\.venv\Scripts\python scripts\make_pilot_figures.py`
 - `.\.venv\Scripts\python scripts\audit_plan_artifacts.py`
 - `.\.venv\Scripts\python tests\test_scenario.py`
+- Optional source-cache helpers, for reviewer-provided source payloads only:
+  `.\.venv\Scripts\python scripts\cache_ktdb_gtfs_source.py --help` and
+  `.\.venv\Scripts\python scripts\cache_metro9_capacity_source.py --help`
 
 These tests and default scripts are offline. Live OSM extraction and
 `.\.venv\Scripts\python scripts\run_osrm_route_benchmark.py` are optional manual

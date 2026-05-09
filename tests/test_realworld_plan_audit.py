@@ -680,6 +680,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         doc_text = (ROOT / doc_path).read_text(encoding="utf-8")
         assert "write_formal_acceptance_blocker_queue.py" in doc_text
         assert "write_acceptance_blocker_queue.py" in doc_text
+    script_names = sorted(path.name for path in (ROOT / "scripts").glob("*.py"))
+    for doc_path in ("agents.md", "status.md"):
+        doc_text = (ROOT / doc_path).read_text(encoding="utf-8")
+        missing_scripts = [name for name in script_names if name not in doc_text]
+        assert not missing_scripts, f"{doc_path} is missing {missing_scripts}"
     plan_completion_text = (ROOT / "docs" / "plan_completion_audit.md").read_text(
         encoding="utf-8"
     )

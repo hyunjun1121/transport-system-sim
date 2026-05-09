@@ -268,68 +268,107 @@ data/
   manifests/reproducibility_manifest.json
   manifests/formal_evidence_path_audit.json # formal evidence-path hygiene summary
 scripts/
-  build_pilot_cache.py       # Preserves cache by default; explicit fixture/Overpass refresh
-  run_pilot_smoke.py
-  run_full_graph_smoke.py
-  audit_rail_evidence.py
-  write_rail_evidence_review_packet.py
-  write_rail_timing_source_request_packet.py
-  audit_rail_station_bindings.py
-  audit_parameter_evidence.py
-  write_parameter_review_packet.py
-  write_parameter_evidence_source_request_packet.py
-  audit_road_evidence.py
-  audit_road_evidence_diagnostics.py
-  write_road_capacity_evidence.py
-  write_road_speed_evidence.py
-  write_road_evidence_review_packet.py
-  write_road_evidence_source_request_packet.py
-  audit_road_overrides.py
-  write_road_class_override_template.py
-  write_pilot_privacy_review_packet.py
-  audit_source_provenance.py
-  audit_publication_readiness.py
+  audit_agent_review_paths.py
   audit_final_study_readiness.py
-  derive_rail_station_bindings.py
-  run_plausibility_validation.py
-  run_osrm_route_benchmark.py
-  write_osrm_snapshot_manifest.py
-  derive_rail_service_evidence.py
-  derive_rail_headway_evidence.py
-  fetch_rail_timetable_cache.py
-  derive_rail_gtfs_evidence.py
-  derive_rail_shortest_path_evidence.py
-  fetch_rail_shortest_path_cache.py
-  run_graph_scale_diagnostics.py
-  write_graph_scale_review_packet.py
-  write_graph_scale_strategy_readiness_packet.py
-  write_graph_scale_result_comparison.py
-  run_acceptance_audit.py
-  write_experiment_package_review_packet.py
-  write_experiment_strategy_readiness_packet.py
-  write_acceptance_decision_templates.py
-  write_formal_acceptance_blocker_queue.py
-  write_acceptance_blocker_queue.py
-  write_acceptance_task_assignments.py
-  write_formal_acceptance_evidence_matrix.py
-  write_source_license_review_packet.py
-  write_source_url_review_packet.py
-  write_claim_alignment_review_packet.py
   audit_formal_acceptance_artifacts.py
   audit_formal_evidence_paths.py
-  validate_formal_acceptance_package.py
-  run_pilot_experiments.py
-  run_sensitivity.py
+  audit_graph_scale_manifests.py
+  audit_parameter_evidence.py
+  audit_plan_artifacts.py
+  audit_publication_readiness.py
+  audit_rail_evidence.py
+  audit_rail_station_bindings.py
+  audit_road_evidence.py
+  audit_road_evidence_diagnostics.py
+  audit_road_overrides.py
   audit_sensitivity_diagnostics.py
+  audit_source_provenance.py
+  audit_tracked_artifacts.py
+  build_pilot_cache.py       # Preserves cache by default; explicit fixture/Overpass refresh
+  cache_ktdb_gtfs_source.py  # Optional source-cache helper; not default acceptance evidence
+  cache_metro9_capacity_source.py # Optional source-cache helper; not default acceptance evidence
+  derive_rail_gtfs_evidence.py
+  derive_rail_headway_evidence.py
+  derive_rail_service_evidence.py
+  derive_rail_shortest_path_evidence.py
+  derive_rail_station_bindings.py
+  fetch_rail_shortest_path_cache.py
+  fetch_rail_timetable_cache.py
+  make_pilot_figures.py
+  make_pilot_statistics.py
+  run_acceptance_audit.py
+  run_accessibility_loss_analysis.py
+  run_clean_checkout_smoke.py
+  run_full_graph_smoke.py
+  run_graph_scale_diagnostics.py
+  run_osrm_route_benchmark.py
+  run_pilot_experiments.py
+  run_pilot_smoke.py
+  run_plausibility_validation.py
+  run_reproducibility_smoke.py
+  run_sensitivity.py
+  validate_formal_acceptance_package.py
+  write_acceptance_blocker_queue.py
+  write_acceptance_decision_templates.py
+  write_acceptance_task_assignments.py
+  write_claim_alignment_review_packet.py
+  write_experiment_design_decision_packet.py
+  write_experiment_package_review_packet.py
+  write_experiment_strategy_readiness_packet.py
+  write_figure_table_review_packet.py
+  write_final_audit_decision_packet.py
+  write_formal_acceptance_blocker_queue.py
+  write_formal_acceptance_evidence_matrix.py
+  write_formal_acceptance_pre_review.py
+  write_full_graph_runtime_readiness_packet.py
+  write_goal_completion_audit.py
+  write_graph_scale_method_decision_packet.py
+  write_graph_scale_result_comparison.py
+  write_graph_scale_review_packet.py
+  write_graph_scale_strategy_readiness_packet.py
+  write_integrated_evidence_review_packet.py
+  write_manuscript_report_decision_packet.py
+  write_osm_graph_snapshot_review_packet.py
+  write_osrm_snapshot_manifest.py
+  write_parameter_evidence_priority_packet.py
+  write_parameter_evidence_source_request_packet.py
+  write_parameter_review_packet.py
+  write_parameter_source_decision_packet.py
+  write_parameter_source_readiness_packet.py
+  write_pilot_privacy_review_packet.py
+  write_pilot_region_decision_packet.py
+  write_rail_evidence_priority_packet.py
+  write_rail_evidence_review_packet.py
+  write_rail_fetch_readiness_packet.py
+  write_rail_source_decision_packet.py
+  write_rail_timing_source_request_packet.py
+  write_reproducibility_decision_packet.py
+  write_reproducibility_review_packet.py
+  write_road_capacity_evidence.py
+  write_road_class_override_template.py
+  write_road_evidence_priority_packet.py
+  write_road_evidence_review_packet.py
+  write_road_evidence_source_request_packet.py
+  write_road_source_decision_packet.py
+  write_road_source_readiness_packet.py
+  write_road_speed_evidence.py
+  write_route_road_evidence_exposure.py
+  write_sensitivity_index_review_packet.py
+  write_sensitivity_method_decision_packet.py
   write_sensitivity_review_packet.py
   write_sensitivity_strategy_readiness_packet.py
+  write_source_context_cache_decision_packet.py
+  write_source_context_cache_request_packet.py
+  write_source_license_review_packet.py
+  write_source_provenance_decision_packet.py
+  write_source_provenance_priority_packet.py
+  write_source_url_remediation_packet.py
+  write_source_url_review_packet.py
+  write_transfer_evidence_review_packet.py
+  write_validation_benchmark_decision_packet.py
+  write_validation_benchmark_readiness_packet.py
   write_validation_review_packet.py
   write_validation_strategy_readiness_packet.py
-  write_reproducibility_review_packet.py
-  run_reproducibility_smoke.py
-  write_route_road_evidence_exposure.py
-  make_pilot_figures.py
-  audit_plan_artifacts.py
 results/                   # Generated CSV outputs and PNG plots
   realworld_pilot/          # Separated pilot scaffold sample/staged/full outputs
 cloned_repo/               # Public repo source snapshots for reference
