@@ -21,7 +21,7 @@ forecasts.
 
 ## Current Audit Snapshot
 
-As of 2026-05-08, the final-study audit reports
+As of 2026-05-09, the final-study audit reports
 `final_study_ready=false`. Three of 15 final gates are ready:
 `real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
 The remaining 12 gates are blocked.
@@ -31,9 +31,12 @@ are ready, and the corresponding formal acceptance artifacts are intentionally
 absent until source-backed human review supplies them. The current
 `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
 `sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
-are implemented blocker/readiness aids, not acceptance records. No generated
-output in this repository is a calibrated real-world result or an operational
-route plan.
+are implemented blocker/readiness aids, and focused
+`validation_benchmark_decision`, `experiment_design_decision`, and
+`figure_table_review` worksheets keep benchmark scope, run-profile design, and
+figure/table claim boundaries reviewable. These artifacts are not acceptance
+records. No generated output in this repository is a calibrated real-world
+result or an operational route plan.
 
 ## Windows Setup
 
