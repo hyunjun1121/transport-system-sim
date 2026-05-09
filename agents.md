@@ -22,17 +22,18 @@ local virtual environment, then run project commands through
 
 ## Current Audit Snapshot
 
-As of 2026-05-06, `final_study_ready=false`. The current final-study audit has
+As of 2026-05-09, `final_study_ready=false`. The current final-study audit has
 15 gates: 3 ready (`real_input_smoke`, `structured_disruptions`,
 `policy_alternatives`) and 12 blocked. Formal acceptance is 0/12 ready, and
 the required formal acceptance artifacts are intentionally absent until
 source-backed human review supplies them.
 
 The latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
-are implemented, but they are blocker/readiness review aids only. Do not treat
-them as acceptance records, calibration evidence, operational route plans, or
-final-study approval.
+`sensitivity_strategy_readiness`, `experiment_strategy_readiness`,
+`validation_benchmark_decision`, `experiment_design_decision`, and
+`figure_table_review` packets are implemented, but they are blocker/readiness
+or decision-review aids only. Do not treat them as acceptance records,
+calibration evidence, operational route plans, or final-study approval.
 
 ## Repository Structure
 
