@@ -219,6 +219,7 @@ def test_clean_checkout_smoke_outputs_and_summary() -> None:
 def test_clean_checkout_source_status_ignores_own_outputs() -> None:
     filtered = _filter_source_status_lines(
         (
+            "M data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
             " M data/validation/clean_checkout_reproducibility_smoke_manifest.json",
             " M data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
             " M docs/clean_checkout_reproducibility_smoke.md",

@@ -751,8 +751,17 @@ def _git_text(args: Sequence[str], *, cwd: Path) -> str:
 
 
 def _git_lines(args: Sequence[str], *, cwd: Path) -> list[str]:
-    text = _git_text(args, cwd=cwd)
-    return [line for line in text.splitlines() if line.strip()]
+    completed = subprocess.run(
+        list(args),
+        cwd=cwd,
+        check=False,
+        capture_output=True,
+        text=True,
+        errors="replace",
+    )
+    if completed.returncode != 0:
+        return []
+    return [line.rstrip() for line in completed.stdout.splitlines() if line.strip()]
 
 
 def _filter_source_status_lines(lines: Sequence[str]) -> list[str]:
@@ -768,7 +777,12 @@ def _filter_source_status_lines(lines: Sequence[str]) -> list[str]:
 
 
 def _status_path(line: str) -> str:
-    path = line[3:].strip() if len(line) > 3 else ""
+    if len(line) >= 3 and line[2] == " ":
+        path = line[3:].strip()
+    elif len(line) >= 2 and line[1] == " ":
+        path = line[2:].strip()
+    else:
+        path = line[3:].strip() if len(line) > 3 else ""
     if " -> " in path:
         path = path.split(" -> ", 1)[1].strip()
     return path.strip().strip('"').replace("\\", "/").lstrip("./")
