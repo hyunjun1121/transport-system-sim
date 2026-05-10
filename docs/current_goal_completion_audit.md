@@ -1,6 +1,6 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-05-09
+Audit date: 2026-05-10
 
 ## Objective
 
@@ -224,10 +224,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 0
-- Blocking changed artifacts: 0
+- Changed reproducibility artifacts: 12
+- Blocking changed artifacts: 12
 - Untracked artifacts: 0
-- Modified or staged artifacts: 0
+- Modified or staged artifacts: 12
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
