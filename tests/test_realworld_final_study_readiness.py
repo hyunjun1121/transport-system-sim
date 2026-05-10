@@ -587,17 +587,22 @@ def test_current_final_study_readiness_is_blocked() -> None:
         in item
         for item in gate_map["manuscript_report_alignment"]["blockers"]
     )
+    claim_alignment_manifest = json.loads(
+        (ROOT / "data" / "manifests" / "claim_alignment_review_manifest.json")
+        .read_text(encoding="utf-8")
+    )
+    expected_overclaim_count = claim_alignment_manifest["overclaim_candidate_count"]
     assert (
         gate_map["manuscript_report_alignment"]["details"][
             "claim_alignment_overclaim_candidate_count"
         ]
-        == 108
+        == expected_overclaim_count
     )
     assert (
         gate_map["manuscript_report_alignment"]["details"][
             "claim_alignment_review_status_counts"
         ]["requires_revision_or_acceptance"]
-        == 108
+        == expected_overclaim_count
     )
     assert any(
         "claim-alignment rows are review aids" in item
