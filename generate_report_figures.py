@@ -31,6 +31,7 @@ def main() -> None:
     phase1 = pd.read_csv(RESULTS_DIR / "phase1_summary.csv")
 
     _setup_style()
+    _plot_pipeline_overview()
     _plot_time_efficiency_summary(phase1)
     _plot_undelivered_risk(phase1)
     _plot_decision_lens()
@@ -53,6 +54,184 @@ def _setup_style() -> None:
             "text.color": TEXT_COLOR,
         }
     )
+
+
+STAGE_COLOR = "#24476b"
+STAGE_ALT_COLOR = "#5f8f3f"
+STAGE_AUX_COLOR = "#b0413e"
+UNCERTAINTY_COLOR = "#f3e8d2"
+
+
+def _plot_pipeline_overview() -> None:
+    """Render the implementation pipeline that matches the current design.
+
+    The diagram lists the actual data sources, libraries, and analysis steps
+    documented in the report's "구현 기술 스택 및 시뮬레이션 설계" section.
+    """
+
+    fig, ax = plt.subplots(figsize=(13.2, 6.6))
+    ax.set_axis_off()
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+
+    ax.text(
+        0.5,
+        0.955,
+        "위기상황 지역 인력 이동 시뮬레이션 구현 파이프라인",
+        ha="center",
+        va="center",
+        fontsize=17,
+        fontweight="bold",
+    )
+    ax.text(
+        0.5,
+        0.905,
+        "공개 지도 자료를 추출하여 그래프로 변환하고, 이산사건 시뮬레이션과 민감도 분석을 거쳐 검토용 산출물을 만든다.",
+        ha="center",
+        va="center",
+        fontsize=10.5,
+        color="#516170",
+    )
+
+    stages = [
+        (
+            "입력 자료",
+            STAGE_COLOR,
+            [
+                "OpenStreetMap (Overpass API)",
+                "KTDB GTFS · 9호선 (선택)",
+                "시범 권역 YAML",
+            ],
+        ),
+        (
+            "네트워크 구축",
+            STAGE_COLOR,
+            [
+                "NetworkX MultiDiGraph",
+                "GraphML 캐시",
+                "13,268 노드 / 28,947 간선",
+            ],
+        ),
+        (
+            "시뮬레이션 엔진",
+            STAGE_ALT_COLOR,
+            [
+                "SimPy 이산사건",
+                "BPR α=0.15, β=4",
+                "Bernoulli 도로 장애",
+                "LogNormal 지각",
+                "공통난수 시드 페어링",
+            ],
+        ),
+        (
+            "분석 · 검증",
+            STAGE_AUX_COLOR,
+            [
+                "SALib Morris 민감도",
+                "OSRM 캐시 벤치마크 (선택)",
+                "접근성 손실 진단",
+            ],
+        ),
+        (
+            "산출물",
+            STAGE_COLOR,
+            [
+                "pandas KPI 표 (CSV)",
+                "matplotlib · seaborn 그림",
+                "python-docx 보고서",
+            ],
+        ),
+    ]
+
+    n = len(stages)
+    margin_x = 0.035
+    gap = 0.014
+    box_top = 0.78
+    box_bottom = 0.28
+    box_h = box_top - box_bottom
+    total_w = 1 - 2 * margin_x - (n - 1) * gap
+    box_w = total_w / n
+
+    for i, (title, color, items) in enumerate(stages):
+        x = margin_x + i * (box_w + gap)
+        _rounded_box(ax, x, box_bottom, box_w, box_h, color, alpha=1.0)
+        ax.text(
+            x + box_w / 2,
+            box_top - 0.04,
+            title,
+            ha="center",
+            va="center",
+            fontsize=12.5,
+            fontweight="bold",
+            color="white",
+        )
+        line_y = box_top - 0.085
+        line_step = (box_h - 0.11) / max(len(items), 1)
+        for item in items:
+            ax.text(
+                x + box_w / 2,
+                line_y,
+                item,
+                ha="center",
+                va="top",
+                fontsize=10,
+                color="white",
+            )
+            line_y -= line_step
+
+        if i < n - 1:
+            arrow_x = x + box_w + gap / 2
+            ax.annotate(
+                "",
+                xy=(arrow_x + 0.006, (box_top + box_bottom) / 2),
+                xytext=(arrow_x - 0.006, (box_top + box_bottom) / 2),
+                arrowprops=dict(arrowstyle="-|>", color="#516170", lw=1.4),
+            )
+
+    _rounded_box(ax, margin_x, 0.10, 1 - 2 * margin_x, 0.13, UNCERTAINTY_COLOR, alpha=1.0)
+    ax.text(
+        margin_x + 0.015,
+        0.195,
+        "불확실성 입력",
+        ha="left",
+        va="center",
+        fontsize=11.5,
+        fontweight="bold",
+        color="#8a5a1e",
+    )
+    uncertainty_items = [
+        "집결 지연 (LogNormal μ=2.0, σ∈{0.3, 0.5, 0.7, 1.0})",
+        "혼잡 척도 5수준 (0.8~2.0)",
+        "도로 장애 확률 7수준 (×0.0~3.0)",
+        "장애 모드: 차단 / 용량 저하",
+        "환승 처리 시간",
+    ]
+    item_x = margin_x + 0.14
+    item_w = (1 - 2 * margin_x - 0.14) / len(uncertainty_items)
+    for i, item in enumerate(uncertainty_items):
+        ax.text(
+            item_x + i * item_w + item_w / 2,
+            0.135,
+            item,
+            ha="center",
+            va="center",
+            fontsize=9.5,
+            color="#5a4214",
+        )
+
+    ax.text(
+        0.5,
+        0.035,
+        "현재 산출물은 추상 네트워크와 시범 캐시에서 나온 조건부 결과로, 보정된 실제 지역 성과나 운영 지침이 아니다.",
+        ha="center",
+        va="center",
+        fontsize=9.5,
+        color="#7a8794",
+        fontstyle="italic",
+    )
+
+    fig.savefig(FIGURE_DIR / "figure0_pipeline_overview.png", dpi=200, bbox_inches="tight")
+    plt.close(fig)
 
 
 def _plot_time_efficiency_summary(phase1: pd.DataFrame) -> None:
