@@ -1,4 +1,4 @@
-# Final Real-World Transport-Resilience Study Plan
+﻿# Final Real-World Transport-Resilience Study Plan
 
 ## Purpose
 
@@ -45,8 +45,8 @@ Current outputs remain quasi-real scaffold evidence only.
 ## Expert Consultation Follow-Up
 
 An external consultation reply is recorded in
-`docs/expert_consultation_request_reply.md`, with the implementation work plan
-translated into `docs/expert_consultation_followup_plan.md`. The reply was based
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`, with the implementation work plan
+translated into `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`. The reply was based
 on a renewed `required_deliverables.zip` inspection with the core repository
 implementation, data, scripts, tests, results, and review artifacts included.
 The package is still not accepted; it remains blocked by evidence and acceptance
@@ -149,7 +149,7 @@ Near-term work is now ordered as follows:
    claim alignment after upstream evidence gates close.
 
 The detailed owner/deliverable/success-criterion plan is maintained in
-`docs/expert_consultation_followup_plan.md` and should be used together with
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` and should be used together with
 the blocker queue, evidence matrix, human acceptance runbook, and final
 validation ladder below.
 
@@ -310,7 +310,7 @@ copies that had occupied final paths were moved to draft storage:
 - `docs/pilot_region_data_card.md` documents public/synthetic coordinate
   handling, claim limits, and reuse notes.
 - `src/realworld/pilot_acceptance.py` and
-  `docs/pilot_acceptance_schema.md` define the explicit human-review record
+  `docs/schemas/pilot_acceptance_schema.md` define the explicit human-review record
   required before the pilot-region gate can close. The actual
   `data/manifests/pilot_acceptance.json` file is intentionally absent in the
   current scaffold.
@@ -333,22 +333,22 @@ copies that had occupied final paths were moved to draft storage:
   `docs/pilot_region_decision_packet.md` are reviewer aids only and do not
   create `data/manifests/pilot_acceptance.json`.
 - `src/realworld/graph_scale_acceptance.py` and
-  `docs/graph_scale_acceptance_schema.md` define the explicit review record
+  `docs/schemas/graph_scale_acceptance_schema.md` define the explicit review record
   required before the graph-scale strategy gate can close. The actual
   `data/manifests/graph_scale_acceptance.json` file is intentionally absent in
   the current scaffold.
 - `src/realworld/validation_acceptance.py` and
-  `docs/validation_acceptance_schema.md` define the explicit review record
+  `docs/schemas/validation_acceptance_schema.md` define the explicit review record
   required before the validation-package gate can close. The actual
   `data/manifests/validation_acceptance.json` file is intentionally absent in
   the current scaffold.
 - `src/realworld/sensitivity_acceptance.py` and
-  `docs/sensitivity_acceptance_schema.md` define the explicit review record
+  `docs/schemas/sensitivity_acceptance_schema.md` define the explicit review record
   required before the sensitivity-analysis gate can close. The actual
   `data/manifests/sensitivity_acceptance.json` file is intentionally absent in
   the current scaffold.
 - `src/realworld/experiment_acceptance.py` and
-  `docs/experiment_acceptance_schema.md` define the explicit review record
+  `docs/schemas/experiment_acceptance_schema.md` define the explicit review record
   required before the full-experiment-output gate can close. The actual
   `data/manifests/experiment_acceptance.json` file is intentionally absent in
   the current scaffold.
@@ -419,12 +419,12 @@ copies that had occupied final paths were moved to draft storage:
   full candidate while keeping graph-scope, input-evidence, result-scope, and
   missing formal acceptance blockers visible.
 - `src/realworld/provenance_acceptance.py` and
-  `docs/provenance_acceptance_schema.md` define the explicit review record
+  `docs/schemas/provenance_acceptance_schema.md` define the explicit review record
   required before the data-provenance gate can close. The actual
   `data/manifests/provenance_acceptance.json` file is intentionally absent in
   the current scaffold.
 - `src/realworld/manuscript_acceptance.py` and
-  `docs/manuscript_acceptance_schema.md` define the explicit review record
+  `docs/schemas/manuscript_acceptance_schema.md` define the explicit review record
   required before the manuscript/report-alignment gate can close. The actual
   `data/manifests/manuscript_acceptance.json` file is intentionally absent in
   the current scaffold.
@@ -456,12 +456,12 @@ copies that had occupied final paths were moved to draft storage:
   `docs/manuscript_report_decision_packet.md` do not create
   `data/manifests/manuscript_acceptance.json`.
 - `src/realworld/reproducibility_acceptance.py` and
-  `docs/reproducibility_acceptance_schema.md` define the explicit review record
+  `docs/schemas/reproducibility_acceptance_schema.md` define the explicit review record
   required before the reproducibility gate can close. The actual
   `data/manifests/reproducibility_acceptance.json` file is intentionally
   absent in the current scaffold.
 - `src/realworld/final_audit_acceptance.py` and
-  `docs/final_audit_acceptance_schema.md` define the explicit review record
+  `docs/schemas/final_audit_acceptance_schema.md` define the explicit review record
   required before the final-audit gate can close. The actual
   `data/manifests/final_audit_acceptance.json` file is intentionally absent in
   the current scaffold.
@@ -667,7 +667,7 @@ copies that had occupied final paths were moved to draft storage:
   fleet, dispatch, and transfer rows, but it remains prioritization support
   only and cannot approve parameter evidence.
 - `src/realworld/parameter_acceptance.py` and
-  `docs/parameter_acceptance_schema.md` define the optional reviewer record
+  `docs/schemas/parameter_acceptance_schema.md` define the optional reviewer record
   needed when weak expert/sensitivity-only parameters are retained inside the
   final claim boundary. The actual `data/parameters/parameter_acceptance.csv`
   file is intentionally absent in the current scaffold.
@@ -715,11 +715,11 @@ copies that had occupied final paths were moved to draft storage:
   service evidence.
 - `src/realworld/rail_station_cache.py`,
   `scripts/derive_rail_station_bindings.py`, and
-  `docs/rail_station_cache_schema.md` provide the offline derivation path for
+  `docs/schemas/rail_station_cache_schema.md` provide the offline derivation path for
   regenerating binding-ready rows from a reviewed official station extract.
 - `src/realworld/rail_timetable.py`,
   `scripts/derive_rail_service_evidence.py`, and
-  `docs/rail_timetable_cache_schema.md` provide the offline derivation path for
+  `docs/schemas/rail_timetable_cache_schema.md` provide the offline derivation path for
   reviewed station-event timetable extracts. Derived rows can support headway
   and matched trip travel time when station codes match official bindings and
   source artifact SHA256 values are preserved.
@@ -730,7 +730,7 @@ copies that had occupied final paths were moved to draft storage:
   time.
 - `src/realworld/rail_gtfs.py`,
   `scripts/derive_rail_gtfs_evidence.py`, and
-  `docs/rail_gtfs_cache_schema.md` provide the offline derivation path for a
+  `docs/schemas/rail_gtfs_cache_schema.md` provide the offline derivation path for a
   reviewed static GTFS zip or directory. Derived rows can support scheduled
   headway and access-to-egress travel time while preserving source artifact
   SHA256. No reviewed GTFS feed is committed for the current pilot, so this is
@@ -742,7 +742,7 @@ copies that had occupied final paths were moved to draft storage:
   rail evidence unless the cache and raw response are reviewed.
 - `src/realworld/rail_shortest_path.py`,
   `scripts/derive_rail_shortest_path_evidence.py`, and
-  `docs/rail_shortest_path_cache_schema.md` provide the offline derivation path
+  `docs/schemas/rail_shortest_path_cache_schema.md` provide the offline derivation path
   for reviewed station-to-station shortest-path extracts. Derived rows support
   travel-time evidence only; headway and capacity still require separate
   evidence or sensitivity-only treatment.
@@ -896,7 +896,7 @@ copies that had occupied final paths were moved to draft storage:
   road-class override table is currently present and no accepted pilot
   manifest applies one, so built-in road speed, capacity, and base-disruption
   proxies remain final-claim blockers.
-- `docs/road_class_override_schema.md` defines the reviewed override table
+- `docs/schemas/road_class_override_schema.md` defines the reviewed override table
   shape and explicitly warns that example values are not evidence.
 - `docs/reproducibility_package.md` and
   `data/manifests/reproducibility_manifest.json` record the current

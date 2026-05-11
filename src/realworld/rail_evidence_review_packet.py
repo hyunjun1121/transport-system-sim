@@ -292,7 +292,7 @@ def _service_value_rows(
             current_source=_assumption_source(assumptions, "rail_headway", service_record),
             candidate_artifacts=(
                 "data/parameters/rail_service_evidence.csv; "
-                "docs/rail_timetable_cache_schema.md; docs/rail_gtfs_cache_schema.md"
+                "docs/schemas/rail_timetable_cache_schema.md; docs/schemas/rail_gtfs_cache_schema.md"
             ),
             recommended_upgrade=(
                 "Derive headway from a reviewed timetable or static GTFS cache and record artifact SHA256."
@@ -328,8 +328,8 @@ def _service_value_rows(
             ),
             candidate_artifacts=(
                 "data/parameters/rail_service_evidence.csv; "
-                "docs/rail_shortest_path_cache_schema.md; "
-                "docs/rail_timetable_cache_schema.md; docs/rail_gtfs_cache_schema.md"
+                "docs/schemas/rail_shortest_path_cache_schema.md; "
+                "docs/schemas/rail_timetable_cache_schema.md; docs/schemas/rail_gtfs_cache_schema.md"
             ),
             recommended_upgrade=(
                 "Derive travel time from reviewed shortest-path, timetable, or GTFS cache and record artifact SHA256."
@@ -458,7 +458,7 @@ def _derivation_path_rows(
             review_item_id="rail_timetable_derivation_path",
             component="timetable_cache",
             script_path=PROJECT_ROOT / "scripts" / "derive_rail_service_evidence.py",
-            doc_path=PROJECT_ROOT / "docs" / "rail_timetable_cache_schema.md",
+            doc_path=PROJECT_ROOT / "docs" / "schemas" / "rail_timetable_cache_schema.md",
             service_record=service_record,
             service_summary=service_summary,
             station_summary=station_summary,
@@ -471,7 +471,7 @@ def _derivation_path_rows(
             review_item_id="rail_gtfs_derivation_path",
             component="gtfs_cache",
             script_path=PROJECT_ROOT / "scripts" / "derive_rail_gtfs_evidence.py",
-            doc_path=PROJECT_ROOT / "docs" / "rail_gtfs_cache_schema.md",
+            doc_path=PROJECT_ROOT / "docs" / "schemas" / "rail_gtfs_cache_schema.md",
             service_record=service_record,
             service_summary=service_summary,
             station_summary=station_summary,
@@ -484,7 +484,7 @@ def _derivation_path_rows(
             review_item_id="rail_shortest_path_derivation_path",
             component="shortest_path_cache",
             script_path=PROJECT_ROOT / "scripts" / "derive_rail_shortest_path_evidence.py",
-            doc_path=PROJECT_ROOT / "docs" / "rail_shortest_path_cache_schema.md",
+            doc_path=PROJECT_ROOT / "docs" / "schemas" / "rail_shortest_path_cache_schema.md",
             service_record=service_record,
             service_summary=service_summary,
             station_summary=station_summary,

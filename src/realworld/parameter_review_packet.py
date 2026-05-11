@@ -110,8 +110,8 @@ CANDIDATE_ARTIFACTS: Mapping[str, str] = {
     "rail": (
         "data/parameters/rail_service_evidence.csv; "
         "data/parameters/rail_station_bindings.csv; "
-        "docs/rail_gtfs_cache_schema.md; docs/rail_timetable_cache_schema.md; "
-        "docs/rail_shortest_path_cache_schema.md"
+        "docs/schemas/rail_gtfs_cache_schema.md; docs/schemas/rail_timetable_cache_schema.md; "
+        "docs/schemas/rail_shortest_path_cache_schema.md"
     ),
     "transfer": "data/parameters/parameter_sources.csv",
     "demand_time_censoring": (

@@ -82,19 +82,25 @@ def build_expert_review_handoff_summary(
     zip_sha = _sha256(zip_file) if zip_file.exists() else ""
     mirror_sha = _sha256(mirror_zip) if mirror_zip.exists() else ""
     previous_sha = _sha256(previous_zip) if previous_zip.exists() else ""
+    consultation_files = [
+        Path(consultation_request_path),
+        Path(consultation_reply_path),
+        Path(consultation_followup_path),
+    ]
+    consultation_files_to_send = [path for path in consultation_files if path.exists()]
+    omitted_files = [path for path in consultation_files if not path.exists()]
     files_to_send = [
         zip_file,
         Path(build_doc_path),
         Path(path_audit_doc_path),
-        Path(consultation_request_path),
-        Path(consultation_reply_path),
-        Path(consultation_followup_path),
+        *consultation_files_to_send,
     ]
     return {
         "schema_version": 1,
         "handoff_date": handoff_date or date.today().isoformat(),
         "claim_boundary": EXPERT_REVIEW_HANDOFF_CLAIM_BOUNDARY,
         "files_to_send": [_display_path(project_root, path) for path in files_to_send],
+        "omitted_files": [_display_path(project_root, path) for path in omitted_files],
         "file_identities": [_file_identity(project_root, path) for path in files_to_send],
         "zip": {
             "path": _display_path(project_root, zip_file),
@@ -187,6 +193,19 @@ def build_expert_review_handoff_markdown(summary: Mapping[str, Any]) -> str:
     ]
     for path in summary.get("files_to_send", []):
         lines.append(f"- `{path}`")
+    omitted_files = summary.get("omitted_files", [])
+    if omitted_files:
+        lines.extend(
+            [
+                "",
+                "## Omitted Optional Files",
+                "",
+                "The following consultation-sidecar files were previously required in older rounds but are missing in this workspace:",
+                "",
+            ]
+        )
+        for path in omitted_files:
+            lines.append(f"- `{path}`")
     lines.extend(
         [
             "",

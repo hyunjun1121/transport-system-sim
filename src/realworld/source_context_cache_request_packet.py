@@ -68,7 +68,7 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         (
             "scripts/fetch_rail_shortest_path_cache.py",
             "scripts/derive_rail_shortest_path_evidence.py",
-            "docs/rail_shortest_path_cache_schema.md",
+            "docs/schemas/rail_shortest_path_cache_schema.md",
         ),
         (
             "provide DATA_GO_KR_KEY or reviewed cached API payload, retain raw "
@@ -85,7 +85,7 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
             "scripts/fetch_rail_timetable_cache.py",
             "scripts/derive_rail_service_evidence.py",
             "scripts/derive_rail_headway_evidence.py",
-            "docs/rail_timetable_cache_schema.md",
+            "docs/schemas/rail_timetable_cache_schema.md",
         ),
         (
             "provide DATA_GO_KR_KEY or reviewed cached timetable payload, "
@@ -101,7 +101,7 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         (
             "scripts/cache_ktdb_gtfs_source.py",
             "scripts/derive_rail_gtfs_evidence.py",
-            "docs/rail_gtfs_cache_schema.md",
+            "docs/schemas/rail_gtfs_cache_schema.md",
         ),
         (
             "optionally cache KTDB source metadata for review, then provide "

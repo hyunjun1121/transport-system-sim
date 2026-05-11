@@ -110,7 +110,7 @@ def _write_acceptance(
         "acceptance_scope": "fixture parameter acceptance",
         "claim_boundary": claim_boundary,
         "sensitivity_reviewed": sensitivity_reviewed,
-        "evidence_paths": "data/parameters/parameter_sources.csv;docs/pilot_acceptance_schema.md",
+        "evidence_paths": "data/parameters/parameter_sources.csv;docs/schemas/pilot_acceptance_schema.md",
         "notes": "fixture row",
     }
     with path.open("w", encoding="utf-8", newline="") as handle:

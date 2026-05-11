@@ -1,4 +1,4 @@
-# Human Acceptance Runbook
+﻿# Human Acceptance Runbook
 
 This runbook explains how a reviewer should close final-study gates without
 fabricating approval, source evidence, calibration, validation, or operational
@@ -31,8 +31,7 @@ acceptance artifacts.
   worksheets. They intentionally keep `accepted: false`.
 - A copied template, unresolved `REVIEW_REQUIRED` value, draft road override,
   or current-state audit text cannot close a gate.
-- `docs/expert_consultation_request_reply.md` and
-  `docs/expert_consultation_followup_plan.md` add an explicit package
+- `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` adds an explicit package
   completeness requirement before renewed expert acceptance review. The expert
   reply reported that the submitted ZIP lacked the implementation, scripts,
   tests, data, results, and full documentation needed for technical review, so
@@ -57,7 +56,7 @@ policy-comparison claims again, perform this preflight:
 6. Confirm that every missing local evidence path is intentionally externalized
    with URL or citation, retrieval date, checksum or archive note, license
    disposition, and reviewer decision.
-7. Include `docs/expert_consultation_followup_plan.md` in the package so the
+7. Include `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` in the package so the
    reviewer can see how the previous reply was converted into work items.
 
 The preflight is packaging and review hygiene only. It does not accept any

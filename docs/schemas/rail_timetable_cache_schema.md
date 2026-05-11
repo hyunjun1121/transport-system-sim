@@ -142,6 +142,6 @@ separately so a future shortest-path-only row cannot accidentally certify
 headway evidence, and a future timetable-only headway row can be combined with
 a separate cached shortest-path travel-time row.
 
-Use `docs/rail_station_cache_schema.md` and
+Use `docs/schemas/rail_station_cache_schema.md` and
 `scripts/derive_rail_station_bindings.py` to create official station bindings
 from a reviewed station source before deriving final-study rail timing claims.

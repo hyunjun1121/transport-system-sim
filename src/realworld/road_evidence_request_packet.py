@@ -217,7 +217,7 @@ def build_road_evidence_source_request_rows(
             evidence_fields="speed;capacity;base_disruption;override_application",
             source_type="reviewed_override_table_and_manifest_application_required",
             source_name="Reviewed road_class_overrides.csv plus accepted pilot manifest",
-            source_url_or_citation="docs/road_class_override_schema.md",
+            source_url_or_citation="docs/schemas/road_class_override_schema.md",
             required_external_input=(
                 "reviewed road_class_overrides.csv with strong source classes; "
                 "rerun pilot outputs with --road-class-overrides-path; reviewer acceptance"

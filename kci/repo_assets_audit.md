@@ -259,7 +259,7 @@ The `schemas/` directory is omitted from `kci/` entirely; the simulator core use
 | `docs/experiment_design_decision_packet.md`, `docs/experiment_strategy_readiness_packet.md` | ADAPT | Two-phase paired-CRN DoE rationale. Distill into Methods. |
 | `docs/figure_table_review_packet.md` | REFERENCE-ONLY | Useful checklist when assembling KCI figures / tables. |
 | `docs/reproducibility_package.md`, `docs/reproducibility_smoke.md`, `docs/clean_checkout_reproducibility_smoke.md` | ADAPT (consolidate) | One short reproducibility appendix for KCI; drop the 0/12 formal-acceptance language. |
-| `docs/manuscript_acceptance_schema.md`, `docs/manuscript_report_decision_packet.md`, `docs/claim_alignment_review_packet.md` | REFERENCE-ONLY | Useful claim-boundary discipline; do not copy verbatim. |
+| `docs/schemas/manuscript_acceptance_schema.md`, `docs/manuscript_report_decision_packet.md`, `docs/claim_alignment_review_packet.md` | REFERENCE-ONLY | Useful claim-boundary discipline; do not copy verbatim. |
 | `docs/realworld_pipeline.md` | EXCLUDE | Real-world calibration track — explicitly deferred. |
 | `docs/pilot_region_*`, `pilot_privacy_*`, `region_reuse_checklist.md` | EXCLUDE | Pilot / privacy machinery for the deferred calibration. |
 | `docs/parameter_evidence_*`, `parameter_source_*`, `parameter_acceptance_schema.md` | EXCLUDE | Parameter-evidence acceptance is part of the 12 deferred gates. |

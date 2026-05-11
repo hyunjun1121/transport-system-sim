@@ -1,4 +1,4 @@
-# Implemented System Notes
+﻿# Implemented System Notes
 
 This document records the current implemented system. It is an implementation
 record, not a worker launch schedule.
@@ -23,7 +23,7 @@ operational route plans, or formal acceptance.
 ## Expert Consultation Implementation Implications
 
 The external consultation reply in
-`docs/expert_consultation_request_reply.md` does not change the implemented
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` does not change the implemented
 simulator semantics below. It changes the implementation work order around
 packaging, evidence closure, and acceptance hygiene.
 
@@ -90,7 +90,7 @@ Implementation-adjacent follow-up:
   structure, and paired-statistics review, but they are not acceptance records.
 
 The detailed post-consultation execution plan is maintained in
-`docs/expert_consultation_followup_plan.md`.
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`.
 
 ## Implemented Scope
 

@@ -1,4 +1,4 @@
-# AGENTS.md - Transport System Simulation
+﻿# AGENTS.md - Transport System Simulation
 
 ## Project Overview
 
@@ -984,7 +984,7 @@ Implemented behavior:
   gates and keeps scaffold artifact presence separate from final readiness for
   pilot acceptance, graph scale, evidence, validation, experiment, sensitivity,
   manuscript/report, reproducibility, and final audit requirements.
-- `docs/graph_scale_acceptance_schema.md` defines the graph-scale acceptance
+- `docs/schemas/graph_scale_acceptance_schema.md` defines the graph-scale acceptance
   record shape; do not create the actual acceptance JSON unless a real review
   has accepted the source-vs-analysis graph decision and claim boundary.
 - `docs/graph_scale_diagnostics.md` documents the route-parity and
@@ -995,29 +995,29 @@ Implemented behavior:
 - `docs/graph_scale_result_comparison.md` documents the current-vs-candidate
   graph-scale result-delta table; keep it distinct from graph-scale
   acceptance.
-- `docs/validation_acceptance_schema.md` defines the validation acceptance
+- `docs/schemas/validation_acceptance_schema.md` defines the validation acceptance
   record shape; do not create the actual acceptance JSON unless a real review
   has accepted the benchmark strategy and its not-ground-truth limitation.
-- `docs/experiment_acceptance_schema.md` defines the experiment-output
+- `docs/schemas/experiment_acceptance_schema.md` defines the experiment-output
   acceptance record shape; do not create the actual acceptance JSON unless a
   real review has accepted graph scope, input validation,
   scenario-policy-seed design, CRN pairing, counts, and not-operational claim
   limits.
-- `docs/provenance_acceptance_schema.md` defines the data-provenance
+- `docs/schemas/provenance_acceptance_schema.md` defines the data-provenance
   acceptance record shape; do not create the actual acceptance JSON unless a
   real review has accepted source snapshots, license/attribution, privacy
   abstraction, cache manifests, reproducibility paths, and not-operational
   claim limits.
-- `docs/manuscript_acceptance_schema.md` defines the manuscript/report
+- `docs/schemas/manuscript_acceptance_schema.md` defines the manuscript/report
   acceptance record shape; do not create the actual acceptance JSON unless a
   real review has accepted paper/report text, regenerated docx, figures/tables,
   evidence gates, result claims, and not-operational claim limits.
-- `docs/reproducibility_acceptance_schema.md` defines the clean-checkout
+- `docs/schemas/reproducibility_acceptance_schema.md` defines the clean-checkout
   reproducibility acceptance record shape; do not create the actual acceptance
   JSON unless a real clean-checkout reproduction review has accepted validation
   commands, regenerated artifacts, manifest paths, import boundaries, and
   not-operational claim limits.
-- `docs/final_audit_acceptance_schema.md` defines the independent final-audit
+- `docs/schemas/final_audit_acceptance_schema.md` defines the independent final-audit
   acceptance record shape; do not create the actual acceptance JSON unless a
   real final audit has reviewed every prompt-to-artifact requirement and all
   pre-final gates are closed.

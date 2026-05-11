@@ -465,7 +465,7 @@ Evidence inspected:
 - `scripts/derive_rail_headway_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/derive_rail_service_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/derive_rail_gtfs_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
-- `docs/rail_gtfs_cache_schema.md`: present; local supporting artifact present; evidence quality still requires human/source review
+- `docs/schemas/rail_gtfs_cache_schema.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/fetch_rail_shortest_path_cache.py`: present; local supporting artifact present; evidence quality still requires human/source review
 - `scripts/derive_rail_shortest_path_evidence.py`: present; local supporting artifact present; evidence quality still requires human/source review
 

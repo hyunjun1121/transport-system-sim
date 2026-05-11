@@ -50,7 +50,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - scripts/derive_rail_headway_evidence.py
 - scripts/derive_rail_service_evidence.py
 - scripts/derive_rail_gtfs_evidence.py
-- docs/rail_gtfs_cache_schema.md
+- docs/schemas/rail_gtfs_cache_schema.md
 - scripts/fetch_rail_shortest_path_cache.py
 - scripts/derive_rail_shortest_path_evidence.py
 
@@ -81,7 +81,7 @@ Road / Rail / Parameter Evidence Agent cannot accept gate rail_evidence; the cur
 - scripts/derive_rail_headway_evidence.py
 - scripts/derive_rail_service_evidence.py
 - scripts/derive_rail_gtfs_evidence.py
-- docs/rail_gtfs_cache_schema.md
+- docs/schemas/rail_gtfs_cache_schema.md
 - scripts/fetch_rail_shortest_path_cache.py
 - scripts/derive_rail_shortest_path_evidence.py
 - data/parameters/parameter_evidence_review_packet.csv
@@ -258,7 +258,7 @@ Formal acceptance artifacts:
     "scripts/derive_rail_headway_evidence.py",
     "scripts/derive_rail_service_evidence.py",
     "scripts/derive_rail_gtfs_evidence.py",
-    "docs/rail_gtfs_cache_schema.md",
+    "docs/schemas/rail_gtfs_cache_schema.md",
     "scripts/fetch_rail_shortest_path_cache.py",
     "scripts/derive_rail_shortest_path_evidence.py"
   ],

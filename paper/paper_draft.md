@@ -1,4 +1,4 @@
-# A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
+﻿# A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
 
 > Current project status (2026-05-09): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
 
@@ -1088,7 +1088,7 @@ Current limitations:
   readiness packets are implemented preflight worksheets, not substitutes for
   formal acceptance records or calibrated real-world validation.
 - The external consultation reply in
-  `docs/expert_consultation_request_reply.md` reviewed the submitted ZIP as an
+  `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` reviewed the submitted ZIP as an
   acceptance package and reported that it lacked the full implementation,
   scripts, tests, data/cache tree, results, and documentation needed for
   technical review. This paper must therefore treat package completeness and

@@ -58,10 +58,10 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     assert "scripts/cache_ktdb_gtfs_source.py" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["evidence_input_paths"]
-    assert "docs/rail_shortest_path_cache_schema.md" in by_id[
+    assert "docs/schemas/rail_shortest_path_cache_schema.md" in by_id[
         "seoul_shortest_path_api_context"
     ]["evidence_input_paths"]
-    assert "docs/rail_timetable_cache_schema.md" in by_id[
+    assert "docs/schemas/rail_timetable_cache_schema.md" in by_id[
         "seoul_timetable_api_context"
     ]["evidence_input_paths"]
     assert {row["can_support_final_provenance_gate"] for row in rows} == {"false"}

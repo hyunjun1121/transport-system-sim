@@ -1,4 +1,4 @@
-# Experiment Statistical Analysis Plan
+﻿# Experiment Statistical Analysis Plan
 
 This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.
 
@@ -16,7 +16,7 @@ This statistical-analysis plan and scenario-policy-seed note is a pre-review pla
 The expert reply confirmed that no model- or experiment-level claim can move from
 scaffold to accepted status until package and formal-artifact hygiene is in place.
 This plan remains a non-acceptance control artifact and must be kept aligned with
-`docs/expert_consultation_followup_plan.md`.
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`.
 
 - The reviewed `required_deliverables.zip` now includes implementation, results,
   tests, and docs, so statistical claims can be checked against execution code.

@@ -1,4 +1,4 @@
-# Tracked Artifact Audit
+﻿# Tracked Artifact Audit
 
 This audit checks whether current changed artifacts would be present in a clean checkout of the current Git HEAD. It does not commit files, approve reproducibility, validate evidence quality, or close final-study gates.
 
@@ -104,9 +104,7 @@ This audit checks whether current changed artifacts would be present in a clean 
 | ?? | documentation | `docs/deterministic_rerun_audit.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 | ?? | documentation | `docs/draft_acceptance/` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 | ?? | documentation | `docs/experiment_statistical_analysis_plan.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
-| ?? | documentation | `docs/expert_consultation_followup_plan.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
-| ?? | documentation | `docs/expert_consultation_request.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
-| ?? | documentation | `docs/expert_consultation_request_reply.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
+| ?? | documentation | `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 | ?? | documentation | `docs/formal_target_placeholder_relocation.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 | ?? | documentation | `docs/replication_adequacy_audit.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
 | ?? | documentation | `docs/seed_stream_manifest.md` | Add to version control, package explicitly, or exclude from accepted reproduction scope. |
@@ -141,3 +139,4 @@ This audit checks whether current changed artifacts would be present in a clean 
 ## Use
 
 Run this before clean-checkout reproducibility acceptance. Any row means the current working tree contains changes that a clean checkout of the current Git HEAD would not reproduce unless they are committed, packaged, or explicitly excluded from the accepted reproduction scope. The audit excludes its own generated CSV, manifest, and Markdown outputs from candidate rows so reruns do not create self-blockers. It also excludes review-package build, inventory, and path-audit sidecars because those are generated after ZIP assembly for external handoff and are not accepted reproduction-scope inputs.
+

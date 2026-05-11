@@ -178,15 +178,15 @@ def test_audit_script_reports_cached_derivation_path() -> None:
     summary = module.summarize_rail_service_evidence(records)
     summary["cached_timetable_derivation_path_available"] = (
         (ROOT / "scripts" / "derive_rail_service_evidence.py").exists()
-        and (ROOT / "docs" / "rail_timetable_cache_schema.md").exists()
+        and (ROOT / "docs" / "schemas" / "rail_timetable_cache_schema.md").exists()
     )
     summary["cached_shortest_path_derivation_path_available"] = (
         (ROOT / "scripts" / "derive_rail_shortest_path_evidence.py").exists()
-        and (ROOT / "docs" / "rail_shortest_path_cache_schema.md").exists()
+        and (ROOT / "docs" / "schemas" / "rail_shortest_path_cache_schema.md").exists()
     )
     summary["cached_gtfs_derivation_path_available"] = (
         (ROOT / "scripts" / "derive_rail_gtfs_evidence.py").exists()
-        and (ROOT / "docs" / "rail_gtfs_cache_schema.md").exists()
+        and (ROOT / "docs" / "schemas" / "rail_gtfs_cache_schema.md").exists()
     )
 
     assert summary["publication_ready"] is False

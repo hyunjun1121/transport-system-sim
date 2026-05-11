@@ -1,4 +1,4 @@
-# Project Status
+﻿# Project Status
 
 ## Current Date And Workspace
 
@@ -39,9 +39,9 @@
 
 ## Expert Consultation Follow-Up Status
 
-`docs/expert_consultation_request_reply.md` has been reviewed and translated
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` has been reviewed and translated
 into the active follow-up plan at
-`docs/expert_consultation_followup_plan.md`. Current status is now a
+`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`. Current status is now a
 review-ready but acceptance-incomplete snapshot.
 
 Status implications:
@@ -80,7 +80,7 @@ Reply-driven status checks now require:
 
 - Keep all planning text files in the renewal package:
   `plan.md`, `status.md`, `IMPLEMENTATION_PLAN.md`, `README.md`,
-  `agents.md`, and `docs/expert_consultation_followup_plan.md`.
+  `agents.md`, and `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`.
 - Rerun `scripts/audit_formal_acceptance_artifacts.py`,
   `scripts/audit_formal_evidence_paths.py`, and
   `scripts/validate_formal_acceptance_package.py` immediately after any
@@ -164,7 +164,7 @@ The codebase currently includes:
   - `data/parameters/parameter_sources.csv`
   - optional weak-parameter acceptance validation in
     `src/realworld/parameter_acceptance.py` and
-    `docs/parameter_acceptance_schema.md`; the actual
+    `docs/schemas/parameter_acceptance_schema.md`; the actual
     `data/parameters/parameter_acceptance.csv` file is intentionally absent
     until reviewers explicitly accept retained weak assumptions within final
     claim boundaries
@@ -195,22 +195,22 @@ The codebase currently includes:
   - `data/scenarios/policy_alternatives.csv`
   - explicit graph-scale acceptance validation in
     `src/realworld/graph_scale_acceptance.py` and
-    `docs/graph_scale_acceptance_schema.md`; the actual
+    `docs/schemas/graph_scale_acceptance_schema.md`; the actual
     `data/manifests/graph_scale_acceptance.json` record is intentionally
     absent until a real source-vs-analysis graph decision is reviewed
   - explicit validation-package acceptance validation in
     `src/realworld/validation_acceptance.py` and
-    `docs/validation_acceptance_schema.md`; the actual
+    `docs/schemas/validation_acceptance_schema.md`; the actual
     `data/manifests/validation_acceptance.json` record is intentionally
     absent until a real benchmark-strategy review occurs
   - explicit sensitivity-analysis acceptance validation in
     `src/realworld/sensitivity_acceptance.py` and
-    `docs/sensitivity_acceptance_schema.md`; the actual
+    `docs/schemas/sensitivity_acceptance_schema.md`; the actual
     `data/manifests/sensitivity_acceptance.json` record is intentionally
     absent until a real Morris/Sobol review occurs
   - explicit experiment-output acceptance validation in
     `src/realworld/experiment_acceptance.py` and
-    `docs/experiment_acceptance_schema.md`; the actual
+    `docs/schemas/experiment_acceptance_schema.md`; the actual
     `data/manifests/experiment_acceptance.json` record is intentionally
     absent until graph scope, input validation, scenario-policy-seed design,
     CRN pairing, counts, and not-operational claim limits are reviewed
@@ -238,14 +238,14 @@ The codebase currently includes:
     without selecting a final accepted run profile
   - explicit data-provenance acceptance validation in
     `src/realworld/provenance_acceptance.py` and
-    `docs/provenance_acceptance_schema.md`; the actual
+    `docs/schemas/provenance_acceptance_schema.md`; the actual
     `data/manifests/provenance_acceptance.json` record is intentionally
     absent until source snapshots, license/attribution, privacy abstraction,
     cache manifests, reproduction paths, and not-operational claim limits are
     reviewed
   - explicit manuscript/report acceptance validation in
     `src/realworld/manuscript_acceptance.py` and
-    `docs/manuscript_acceptance_schema.md`; the actual
+    `docs/schemas/manuscript_acceptance_schema.md`; the actual
     `data/manifests/manuscript_acceptance.json` record is intentionally absent
     until paper/report text, regenerated docx, figures/tables, evidence gates,
     result claims, and not-operational claim limits are reviewed
@@ -274,7 +274,7 @@ The codebase currently includes:
     missing formal manuscript acceptance
   - explicit clean-checkout reproducibility acceptance validation in
     `src/realworld/reproducibility_acceptance.py` and
-    `docs/reproducibility_acceptance_schema.md`; the actual
+    `docs/schemas/reproducibility_acceptance_schema.md`; the actual
     `data/manifests/reproducibility_acceptance.json` record is intentionally
     absent until validation ladder, artifact regeneration, manifest paths,
     runtime import boundaries, command counts, and not-operational claim limits
@@ -322,14 +322,14 @@ The codebase currently includes:
     `can_mark_complete: false`
   - explicit independent final-audit acceptance validation in
     `src/realworld/final_audit_acceptance.py` and
-    `docs/final_audit_acceptance_schema.md`; the actual
+    `docs/schemas/final_audit_acceptance_schema.md`; the actual
     `data/manifests/final_audit_acceptance.json` record is intentionally
     absent until a prompt-to-artifact audit verifies every pre-final gate,
     rejects proxy-only completion evidence, and confirms no blocked gates
     remain
   - explicit pilot acceptance validation in
     `src/realworld/pilot_acceptance.py` and
-    `docs/pilot_acceptance_schema.md`; the actual
+    `docs/schemas/pilot_acceptance_schema.md`; the actual
     `data/manifests/pilot_acceptance.json` acceptance record is intentionally
     absent until a real privacy, graph-scale, evidence, and claim-boundary
     review occurs
@@ -814,7 +814,7 @@ Current pilot graph scale after adapter filtering:
   and 174 edges
 - The current reduced corridor is not accepted final-study evidence; the
   future acceptance record is defined by
-  `docs/graph_scale_acceptance_schema.md`.
+  `docs/schemas/graph_scale_acceptance_schema.md`.
 - Full-graph smoke: bus-only and baseline multimodal run on the 4,608-node /
   9,148-edge bus-practical graph without corridor reduction; the current
   `data/validation/full_graph_smoke_manifest.json` records 2 smoke rows and
@@ -1660,8 +1660,8 @@ Suggested next work:
 - `scripts/derive_rail_gtfs_evidence.py`
 - `scripts/derive_rail_shortest_path_evidence.py`
 - `scripts/fetch_rail_shortest_path_cache.py`
-- `docs/rail_shortest_path_cache_schema.md`
-- `docs/rail_gtfs_cache_schema.md`
+- `docs/schemas/rail_shortest_path_cache_schema.md`
+- `docs/schemas/rail_gtfs_cache_schema.md`
 - `src/realworld/pilot_experiments.py`
 - `src/realworld/experiment_acceptance.py`
 - `src/realworld/experiment_design_decision_packet.py`
@@ -1809,12 +1809,12 @@ Suggested next work:
 - `docs/analysis_corridor_method_note.md`
 - `docs/graph_scale_diagnostics.md`
 - `docs/graph_scale_review_packet.md`
-- `docs/pilot_acceptance_schema.md`
-- `docs/graph_scale_acceptance_schema.md`
-- `docs/validation_acceptance_schema.md`
-- `docs/sensitivity_acceptance_schema.md`
-- `docs/experiment_acceptance_schema.md`
-- `docs/provenance_acceptance_schema.md`
+- `docs/schemas/pilot_acceptance_schema.md`
+- `docs/schemas/graph_scale_acceptance_schema.md`
+- `docs/schemas/validation_acceptance_schema.md`
+- `docs/schemas/sensitivity_acceptance_schema.md`
+- `docs/schemas/experiment_acceptance_schema.md`
+- `docs/schemas/provenance_acceptance_schema.md`
 - `docs/source_provenance_manifest.md`
 - `docs/road_evidence_diagnostics.md`
 - `docs/road_evidence_review_packet.md`
@@ -1822,11 +1822,11 @@ Suggested next work:
 - `docs/parameter_evidence_source_request_packet.md`
 - `docs/rail_evidence_review_packet.md`
 - `docs/rail_timing_source_request_packet.md`
-- `docs/manuscript_acceptance_schema.md`
-- `docs/reproducibility_acceptance_schema.md`
-- `docs/final_audit_acceptance_schema.md`
+- `docs/schemas/manuscript_acceptance_schema.md`
+- `docs/schemas/reproducibility_acceptance_schema.md`
+- `docs/schemas/final_audit_acceptance_schema.md`
 - `docs/sensitivity_diagnostics.md`
-- `docs/parameter_acceptance_schema.md`
+- `docs/schemas/parameter_acceptance_schema.md`
 - `data/manifests/reproducibility_manifest.json`
 
 ## Paper Draft State

@@ -133,7 +133,7 @@ The repository now includes a local derivation path:
 
 - `src/realworld/rail_timetable.py`
 - `scripts/derive_rail_service_evidence.py`
-- `docs/rail_timetable_cache_schema.md`
+- `docs/schemas/rail_timetable_cache_schema.md`
 
 This path can convert a reviewed station-event timetable CSV into the
 `rail_service_evidence.csv` schema. It derives median access-station headway
@@ -160,7 +160,7 @@ The repository now includes a local GTFS derivation path:
 
 - `src/realworld/rail_gtfs.py`
 - `scripts/derive_rail_gtfs_evidence.py`
-- `docs/rail_gtfs_cache_schema.md`
+- `docs/schemas/rail_gtfs_cache_schema.md`
 
 This path reads a reviewed static GTFS zip or directory and derives scheduled
 headway plus access-stop to egress-stop travel time from `stops.txt`,
@@ -179,7 +179,7 @@ The repository now includes a local travel-time derivation path:
 
 - `src/realworld/rail_shortest_path.py`
 - `scripts/derive_rail_shortest_path_evidence.py`
-- `docs/rail_shortest_path_cache_schema.md`
+- `docs/schemas/rail_shortest_path_cache_schema.md`
 
 This path can convert a reviewed station-to-station shortest-path CSV into a
 `cached_shortest_path_derived` rail evidence row. It records `travel_time` as
@@ -198,7 +198,7 @@ The repository now separates rail-service values from station binding evidence:
 - `src/realworld/rail_station_cache.py`
 - `scripts/audit_rail_station_bindings.py`
 - `scripts/derive_rail_station_bindings.py`
-- `docs/rail_station_cache_schema.md`
+- `docs/schemas/rail_station_cache_schema.md`
 
 The current `S` and `R` rows are official line-specific station-code binding
 rows derived from the cached Seoul Open Data Plaza station-name search extract
@@ -212,7 +212,7 @@ source. This station-binding requirement is now satisfied for the pilot points,
 but it is deliberately separate from rail service evidence.
 
 The repository now includes an offline derivation path for that upgrade. A
-reviewed station-source CSV that follows `docs/rail_station_cache_schema.md`
+reviewed station-source CSV that follows `docs/schemas/rail_station_cache_schema.md`
 can be converted into official binding rows with
 `scripts/derive_rail_station_bindings.py`.
 

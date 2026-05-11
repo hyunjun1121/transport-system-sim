@@ -90,7 +90,7 @@
                         "snapshot_or_access_date":  "2026-05-04",
                         "local_artifact_paths":  [
                                                      "data/parameters/rail_evidence_sources.csv",
-                                                     "docs/rail_shortest_path_cache_schema.md",
+                                                     "docs/schemas/rail_shortest_path_cache_schema.md",
                                                      "scripts/fetch_rail_shortest_path_cache.py"
                                                  ],
                         "used_for":  "rail station-to-station shortest-path and travel-time evidence context",
@@ -107,7 +107,7 @@
                         "snapshot_or_access_date":  "2026-05-04",
                         "local_artifact_paths":  [
                                                      "data/parameters/rail_evidence_sources.csv",
-                                                     "docs/rail_timetable_cache_schema.md",
+                                                     "docs/schemas/rail_timetable_cache_schema.md",
                                                      "scripts/fetch_rail_timetable_cache.py",
                                                      "scripts/derive_rail_headway_evidence.py"
                                                  ],
@@ -130,7 +130,7 @@
                                                      "data/rail/rail_timing_source_request_packet.csv",
                                                      "data/rail/rail_timing_source_request_manifest.json",
                                                      "docs/rail_timing_source_request_packet.md",
-                                                     "docs/rail_gtfs_cache_schema.md",
+                                                     "docs/schemas/rail_gtfs_cache_schema.md",
                                                      "src/realworld/ktdb_gtfs_source.py",
                                                      "scripts/cache_ktdb_gtfs_source.py",
                                                      "tests/test_realworld_ktdb_gtfs_source.py",

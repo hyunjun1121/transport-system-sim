@@ -490,28 +490,28 @@ git diff --check
 | Artifact | Role | Scope |
 | --- | --- | --- |
 | `data/regions/pilot_region.yaml` | Pilot region, zones, rail points, and rail service assumptions | public/synthetic pilot scaffold |
-| `docs/pilot_acceptance_schema.md` | Optional final-study pilot acceptance schema | future human acceptance record only; no accepted record is committed |
-| `docs/graph_scale_acceptance_schema.md` | Optional final-study graph-scale acceptance schema | future reviewed graph-scale decision only; no accepted record is committed |
+| `docs/schemas/pilot_acceptance_schema.md` | Optional final-study pilot acceptance schema | future human acceptance record only; no accepted record is committed |
+| `docs/schemas/graph_scale_acceptance_schema.md` | Optional final-study graph-scale acceptance schema | future reviewed graph-scale decision only; no accepted record is committed |
 | `docs/graph_scale_diagnostics.md` | Full-vs-reduced route parity diagnostic note | current scaffold review support, not graph-scale acceptance |
 | `docs/graph_scale_review_packet.md` | Graph-scale method review packet documentation | review support only; not graph-scale acceptance |
-| `docs/validation_acceptance_schema.md` | Optional final-study validation acceptance schema | future reviewed benchmark strategy only; no accepted record is committed |
+| `docs/schemas/validation_acceptance_schema.md` | Optional final-study validation acceptance schema | future reviewed benchmark strategy only; no accepted record is committed |
 | `docs/validation_review_packet.md` | Validation-strategy review packet documentation | review support only; not validation acceptance |
 | `docs/validation_strategy_readiness_packet.md` | Validation strategy-readiness packet documentation | blocker/readiness review support only; not validation acceptance |
 | `docs/route_road_evidence_exposure.md` | Route-level road-evidence exposure documentation | review support only; not road calibration or validation acceptance |
-| `docs/sensitivity_acceptance_schema.md` | Optional final-study sensitivity acceptance schema | future reviewed sensitivity method and Sobol decision only; no accepted record is committed |
+| `docs/schemas/sensitivity_acceptance_schema.md` | Optional final-study sensitivity acceptance schema | future reviewed sensitivity method and Sobol decision only; no accepted record is committed |
 | `docs/sensitivity_diagnostics.md` | Morris sensitivity diagnostic note | current scaffold review support, not sensitivity acceptance |
 | `docs/sensitivity_strategy_readiness_packet.md` | Sensitivity strategy-readiness packet documentation | blocker/readiness review support only; not sensitivity acceptance or Sobol waiver |
-| `docs/experiment_acceptance_schema.md` | Optional final-study experiment-output acceptance schema | future reviewed graph-scope, validation, design, CRN, count, and claim-boundary decision only; no accepted record is committed |
+| `docs/schemas/experiment_acceptance_schema.md` | Optional final-study experiment-output acceptance schema | future reviewed graph-scope, validation, design, CRN, count, and claim-boundary decision only; no accepted record is committed |
 | `docs/experiment_strategy_readiness_packet.md` | Experiment strategy-readiness packet documentation | blocker/readiness review support only; not experiment acceptance |
-| `docs/provenance_acceptance_schema.md` | Optional final-study provenance acceptance schema | future reviewed source/license/snapshot/privacy decision only; no accepted record is committed |
+| `docs/schemas/provenance_acceptance_schema.md` | Optional final-study provenance acceptance schema | future reviewed source/license/snapshot/privacy decision only; no accepted record is committed |
 | `data/manifests/source_provenance_manifest.json` | Source provenance review packet | source/license/snapshot manifest only; not acceptance |
 | `docs/source_provenance_manifest.md` | Source provenance manifest documentation | review support for provenance gate |
-| `docs/manuscript_acceptance_schema.md` | Optional final-study manuscript/report acceptance schema | future reviewed paper/report/figure/claim-boundary decision only; no accepted record is committed |
-| `docs/reproducibility_acceptance_schema.md` | Optional final-study reproducibility acceptance schema | future reviewed clean-checkout reproduction decision only; no accepted record is committed |
+| `docs/schemas/manuscript_acceptance_schema.md` | Optional final-study manuscript/report acceptance schema | future reviewed paper/report/figure/claim-boundary decision only; no accepted record is committed |
+| `docs/schemas/reproducibility_acceptance_schema.md` | Optional final-study reproducibility acceptance schema | future reviewed clean-checkout reproduction decision only; no accepted record is committed |
 | `docs/reproducibility_review_packet.md` | Clean-checkout reproducibility review packet documentation | review support only; not reproducibility acceptance |
 | `docs/reproducibility_smoke.md` | Current-worktree reproducibility smoke summary | execution evidence only; not clean-checkout acceptance |
 | `docs/clean_checkout_reproducibility_smoke.md` | Bounded clean source-checkout smoke summary | source-checkout smoke evidence with fresh virtual environment and dependency installation; not full validation-ladder reproduction or acceptance |
-| `docs/final_audit_acceptance_schema.md` | Optional final-study independent-audit acceptance schema | future reviewed prompt-to-artifact completion decision only; no accepted record is committed |
+| `docs/schemas/final_audit_acceptance_schema.md` | Optional final-study independent-audit acceptance schema | future reviewed prompt-to-artifact completion decision only; no accepted record is committed |
 | `docs/parameter_evidence_review_packet.md` | Parameter review packet documentation | review support only; not accepted calibration |
 | `docs/parameter_evidence_source_request_packet.md` | Parameter evidence source-request packet documentation | request support only; not accepted calibration |
 | `data/cache/pilot_region_road.graphml` | Cached road graph input | offline Overpass/OSM snapshot |
@@ -528,7 +528,7 @@ git diff --check
 | `data/road/road_evidence_source_request_packet.csv` | Road evidence source-request worksheet | 5 request rows for speed, capacity, benchmark, disruption, and override-application evidence; request aid only |
 | `data/road/road_evidence_source_request_manifest.json` | Road evidence source-request manifest | summarizes required source inputs and keeps `publication_ready: false` |
 | road-class override table | Optional reviewed speed/capacity/disruption evidence | not committed or applied in current default pilot outputs |
-| `docs/road_class_override_schema.md` | Road-class override schema and claim limits | optional upgrade path for reviewed speed/capacity/disruption inputs |
+| `docs/schemas/road_class_override_schema.md` | Road-class override schema and claim limits | optional upgrade path for reviewed speed/capacity/disruption inputs |
 | `scripts/write_road_class_override_template.py` | Draft road-class override worksheet generator | non-acceptance reviewer aid populated from diagnostics and current mapper defaults |
 | `data/parameters/road_class_overrides_draft.csv` | Current draft road-class override worksheet | 10 routeable road-class rows, all `expert assumption`; review aid only |
 | `scripts/audit_road_overrides.py` | Optional road-class override evidence audit | reports the missing default override table without failing |
@@ -537,7 +537,7 @@ git diff --check
 | `data/parameters/parameter_evidence_review_manifest.json` | Parameter review-packet manifest | summarizes weak rows, priorities, groups, and non-acceptance claim boundary |
 | `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter evidence source-request worksheet | 7 rows for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR source inputs; request aid only |
 | `data/parameters/parameter_evidence_source_request_manifest.json` | Parameter source-request manifest | summarizes covered parameters and keeps `publication_ready: false` |
-| `docs/parameter_acceptance_schema.md` | Optional weak-parameter acceptance schema | future reviewed acceptance only; no accepted record is committed |
+| `docs/schemas/parameter_acceptance_schema.md` | Optional weak-parameter acceptance schema | future reviewed acceptance only; no accepted record is committed |
 | `data/parameters/rail_assumptions.csv` | Rail evidence table | documented assumptions |
 | `data/parameters/rail_evidence_sources.csv` | Rail source review index | context for station, timetable, shortest-path, and capacity evidence |
 | `data/parameters/rail_service_evidence.csv` | Rail service value evidence cache | current row is assumption proxy for timing and sensitivity-only for capacity, not timetable-derived |
@@ -549,12 +549,12 @@ git diff --check
 | `data/rail/rail_timing_source_request_packet.csv` | Rail timing source-request worksheet | 5 rows naming required API-key, GTFS, capacity, and availability inputs |
 | `data/rail/rail_timing_source_request_manifest.json` | Rail timing source-request manifest | source request counts and non-acceptance claim boundary |
 | `docs/rail_timing_source_request_packet.md` | Rail timing source-request documentation | request support only; not cached timing evidence |
-| `docs/rail_station_cache_schema.md` | Cached station extract schema and derivation command | optional upgrade path for official station binding evidence |
-| `docs/rail_timetable_cache_schema.md` | Cached timetable extract schema and derivation command | optional upgrade path for derived rail timing evidence |
-| `docs/rail_gtfs_cache_schema.md` | Cached static-GTFS extract schema and derivation command | optional upgrade path for scheduled headway and access-to-egress travel-time evidence |
+| `docs/schemas/rail_station_cache_schema.md` | Cached station extract schema and derivation command | optional upgrade path for official station binding evidence |
+| `docs/schemas/rail_timetable_cache_schema.md` | Cached timetable extract schema and derivation command | optional upgrade path for derived rail timing evidence |
+| `docs/schemas/rail_gtfs_cache_schema.md` | Cached static-GTFS extract schema and derivation command | optional upgrade path for scheduled headway and access-to-egress travel-time evidence |
 | `scripts/fetch_rail_timetable_cache.py` | Optional live data.go.kr train-schedule cache fetcher | key-required source-caching helper; not default validation |
 | `scripts/derive_rail_headway_evidence.py` | Optional cached timetable headway derivation | headway-only evidence path; does not satisfy travel-time evidence alone |
-| `docs/rail_shortest_path_cache_schema.md` | Cached shortest-path extract schema and derivation command | optional upgrade path for station-to-station travel-time evidence only |
+| `docs/schemas/rail_shortest_path_cache_schema.md` | Cached shortest-path extract schema and derivation command | optional upgrade path for station-to-station travel-time evidence only |
 | `scripts/fetch_rail_shortest_path_cache.py` | Optional live data.go.kr shortest-path cache fetcher | key-required source-caching helper; not default validation |
 | `data/parameters/fleet_assumptions.csv` | Fleet evidence table | documented assumptions |
 | `data/validation/route_plausibility.csv` | Route plausibility checks | scaffold sanity evidence |
