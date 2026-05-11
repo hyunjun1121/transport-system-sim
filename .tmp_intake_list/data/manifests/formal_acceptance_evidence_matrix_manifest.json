@@ -1,0 +1,26 @@
+{
+  "blocked_gate_count": 12,
+  "can_mark_complete": false,
+  "claim_boundary": "Formal acceptance evidence matrix only. Rows connect each required formal artifact to review packets, templates, agents, blockers, and validation commands. They do not approve evidence, certify sources, calibrate results, or close final-study gates.",
+  "final_study_ready": false,
+  "formal_acceptance_ready": false,
+  "formal_gate_count": 12,
+  "formal_package_claim_boundary": "This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.",
+  "generated_at": "2026-05-09T00:29:22+00:00",
+  "human_decision_required_count": 12,
+  "invalid_gate_count": 0,
+  "matrix_path": "data/manifests/formal_acceptance_evidence_matrix.csv",
+  "orchestration_claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
+  "ready_gate_count": 0,
+  "review_items": [
+    "inspect one matrix row per formal target before creating any formal artifact",
+    "use the listed review packets and templates as intake aids only",
+    "leave formal targets absent or blocked when source-backed evidence is missing",
+    "rerun scripts/validate_formal_acceptance_package.py after any formal artifact is added"
+  ],
+  "row_count": 12,
+  "schema_version": 1,
+  "status_counts": {
+    "blocked": 12
+  }
+}

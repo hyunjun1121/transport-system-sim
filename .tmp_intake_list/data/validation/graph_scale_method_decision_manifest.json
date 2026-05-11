@@ -1,0 +1,56 @@
+{
+  "blocking_decision_count": 3,
+  "can_mark_complete": false,
+  "claim_boundary": "Graph-scale method-decision packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, and not operational routing evidence. It cannot create data/manifests/graph_scale_acceptance.json.",
+  "decision_ids": [
+    "current_reduced_corridor_method_option",
+    "multi_corridor_candidate_method_option",
+    "multi_corridor_full_candidate_method_option",
+    "full_bus_practical_graph_method_option",
+    "graph_sensitive_result_interpretation",
+    "downstream_regeneration_scope",
+    "formal_graph_scale_acceptance_boundary"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_downstream_regeneration_decision": 1,
+    "blocked_missing_full_graph_full_profile_outputs": 1,
+    "blocked_missing_graph_scale_acceptance_record": 1,
+    "needs_human_review_graph_sensitive_result_deltas": 1,
+    "needs_human_review_multi_corridor_result_delta_policy": 1,
+    "needs_human_review_multi_corridor_sample_scope": 1,
+    "needs_human_review_reduced_corridor_warning_policy": 1
+  },
+  "downstream_regeneration_decision_recorded": false,
+  "graph_scale_gate_closure_candidate_count": 0,
+  "human_review_decision_count": 4,
+  "inputs": {
+    "full_graph_runtime_readiness_manifest": "data/validation/full_graph_runtime_readiness_manifest.json",
+    "graph_scale_result_comparison_manifest": "data/validation/graph_scale_result_comparison_manifest.json",
+    "graph_scale_review_manifest": "data/validation/graph_scale_review_manifest.json",
+    "graph_scale_review_packet": "data/validation/graph_scale_review_packet.csv",
+    "graph_scale_strategy_readiness_manifest": "data/validation/graph_scale_strategy_readiness_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/validation/graph_scale_method_decision_packet.csv",
+    "doc": "docs/graph_scale_method_decision_packet.md",
+    "manifest": "data/validation/graph_scale_method_decision_manifest.json"
+  },
+  "publication_ready": false,
+  "remaining_blockers": [
+    "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "data/manifests/graph_scale_acceptance.json is absent"
+  ],
+  "result_scope": "Graph-scale method-decision packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, and not operational routing evidence.",
+  "review_items": [
+    "decide whether current reduced-corridor alternate-route warnings are acceptable",
+    "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
+    "decide whether full-graph execution must be generated or formally scoped out",
+    "review graph-sensitive result deltas before interpreting policy outcomes",
+    "record downstream regeneration requirements after method selection",
+    "record final graph-scale decisions only in data/manifests/graph_scale_acceptance.json"
+  ],
+  "row_count": 7,
+  "schema_version": 1,
+  "selected_graph_method_recorded": false
+}

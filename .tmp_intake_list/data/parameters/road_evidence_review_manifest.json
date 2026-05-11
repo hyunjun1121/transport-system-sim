@@ -1,0 +1,34 @@
+{
+  "base_disruption_status_counts": {
+    "missing_disruption_probability_evidence": 10
+  },
+  "capacity_status_counts": {
+    "missing_lane_or_capacity_evidence": 10
+  },
+  "claim_boundary": "This packet organizes road-input evidence review by road class. It does not create accepted road-class overrides, calibrated road capacity, disruption probabilities, traffic assignment, or final publication readiness.",
+  "draft_override_path": "data/parameters/road_class_overrides_draft.csv",
+  "input_graph": "data/cache/pilot_region_road.graphml",
+  "outputs": {
+    "manifest": "data/parameters/road_evidence_review_manifest.json",
+    "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv"
+  },
+  "publication_ready": false,
+  "result_scope": "Road-input evidence review packet; not accepted road calibration, road-class override evidence, traffic assignment validation, or operational routing evidence.",
+  "review_items": [
+    "replace high-priority weak road classes with source-backed speed, capacity, and base-disruption evidence",
+    "move accepted values into data/parameters/road_class_overrides.csv only after review",
+    "apply reviewed overrides in the pilot graph adapter before making road-calibration claims",
+    "rerun road, publication-readiness, and final-study-readiness audits after road evidence changes"
+  ],
+  "review_priority_counts": {
+    "high": 4,
+    "medium": 6
+  },
+  "row_count": 10,
+  "schema_version": 1,
+  "speed_status_counts": {
+    "missing_public_speed_evidence": 5,
+    "sparse_public_maxspeed_tags": 5
+  },
+  "weak_for_final_claim_count": 10
+}

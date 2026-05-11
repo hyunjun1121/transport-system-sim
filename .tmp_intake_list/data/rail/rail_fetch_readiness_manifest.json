@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence. This packet cannot close rail evidence or provenance gates.",
+  "result_scope": "Rail fetch-readiness packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
+  "row_count": 5,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
+  "readiness_status_counts": {
+    "blocked_missing_data_go_kr_key": 2,
+    "blocked_missing_reviewed_gtfs_file": 1,
+    "needs_human_review_availability_scenario": 1,
+    "needs_human_review_capacity_treatment": 1
+  },
+  "source_type_counts": {
+    "operator_or_literature_or_sensitivity_decision": 1,
+    "public_api_key_required": 2,
+    "reviewed_static_gtfs_file_required": 1,
+    "scenario_or_public_disruption_source_required": 1
+  },
+  "source_url_or_citation_present_count": 5,
+  "required_external_input_present_count": 5,
+  "blocking_request_count": 3,
+  "data_go_kr_key_required_count": 2,
+  "data_go_kr_key_present_request_count": 0,
+  "rail_evidence_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "rail_timing_source_request_packet": "data/rail/rail_timing_source_request_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/rail/rail_fetch_readiness_packet.csv",
+    "manifest": "data/rail/rail_fetch_readiness_manifest.json",
+    "doc": "docs/rail_fetch_readiness_packet.md"
+  },
+  "review_items": [
+    "supply DATA_GO_KR_KEY only for reviewed optional live fetches",
+    "obtain reviewed static GTFS input before GTFS derivation",
+    "retain raw payloads and cache files before deriving rail timing evidence",
+    "review capacity and availability rows as bounded assumptions or replace with source-backed evidence",
+    "create formal rail or parameter acceptance only after source-backed review"
+  ],
+  "remaining_blockers": [
+    "rail timing cache files are absent unless source_cache_present is true",
+    "API-key and reviewed-GTFS rows require external reviewer-provided inputs",
+    "this packet is readiness evidence only and cannot create rail_service_evidence.csv"
+  ]
+}

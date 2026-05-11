@@ -1,0 +1,116 @@
+{
+  "analysis_graph_reduced": true,
+  "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded",
+  "command": "scripts/run_pilot_experiments.py --staged",
+  "common_random_numbers": "Rows with the same seed use the existing run_scenario seed split for arrival and failure streams across compared policies.",
+  "corridor_path_count": 1,
+  "design_claim_boundary": "This design supports quasi-real decision-support experiments only. Outputs are not calibrated real-world results, operational route plans, or public-agency forecasts.",
+  "design_overrides": {
+    "policy_ids": false,
+    "scenario_ids": false,
+    "seeds": false
+  },
+  "design_path": "data/manifests/pilot_experiment_design.json",
+  "design_scope": "Scenario-policy-seed design metadata for the next pilot experiment package. It separates the existing sample scaffold from staged and full pilot runs.",
+  "design_status": "accepted_staged_profile_for_prepublication_execution",
+  "disruption_sampling": "Road p_fail/base_p_fail are reset to zero on a graph copy, then scenario-selected road edges are set to one with p_fail_scale=1.",
+  "excluded_policy_ids": {
+    "bus_corridor_redundancy": "Excluded from staged/full pilot profiles until an accepted real-world redundant-corridor graph variant is documented."
+  },
+  "expected_row_count": 315,
+  "graph_edges": 174,
+  "graph_nodes": 118,
+  "graph_reduction_strategy": "single_corridor",
+  "graph_scale": {
+    "analysis": {
+      "corridor_path_count": 1,
+      "edges": 174,
+      "graph_corridor_path_count": 1,
+      "graph_corridor_strategy": "single_shortest_time_route_corridor",
+      "graph_reduction_strategy": "single_corridor",
+      "nodes": 118,
+      "reduced": true,
+      "strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded"
+    },
+    "source": {
+      "edges": 9148,
+      "nodes": 4608
+    }
+  },
+  "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
+  "inputs": {
+    "cache_path": "data/cache/pilot_region_road.graphml",
+    "disruption_scenarios_path": "data/scenarios/disruption_scenarios.csv",
+    "pilot_experiment_design_path": "data/manifests/pilot_experiment_design.json",
+    "policy_alternatives_path": "data/scenarios/policy_alternatives.csv",
+    "region_path": "data/regions/pilot_region.yaml",
+    "road_class_overrides_path": null,
+    "road_class_overrides_sha256": null
+  },
+  "metric_columns": [
+    "completion_rate",
+    "censored_count",
+    "penalized_makespan",
+    "makespan",
+    "road_vehicle_service_minutes",
+    "train_service_minutes",
+    "total_service_minutes",
+    "passenger_travel_minutes",
+    "passengers_per_total_service_minute",
+    "first_arrival_time",
+    "median_arrival_time",
+    "p80_arrival_time",
+    "p95_arrival_time"
+  ],
+  "output_prefix": "pilot_staged",
+  "outputs": {
+    "manifest": "results/realworld_pilot/pilot_staged_manifest.json",
+    "results": "results/realworld_pilot/pilot_staged_results.csv",
+    "summary": "results/realworld_pilot/pilot_staged_summary.csv"
+  },
+  "policy_ids": [
+    "bus_only",
+    "baseline_multimodal",
+    "multimodal_lastmile_redundancy",
+    "staggered_or_adaptive_dispatch",
+    "multimodal_increased_feeder_capacity",
+    "rail_delay_or_partial_unavailability",
+    "fleet_shortage_stress"
+  ],
+  "region_id": "songpa_public_demo",
+  "result_scope": "Pilot staged scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
+  "road_class_overrides_applied": false,
+  "row_count": 315,
+  "run_profile": "staged_pilot",
+  "run_stage": "staged",
+  "sample_scaffold": false,
+  "scenario_ids": [
+    "no_disruption",
+    "songpa_random_capacity_reduction",
+    "songpa_random_blockage",
+    "songpa_critical_link_blockage",
+    "songpa_access_origin_to_station",
+    "songpa_access_origin_to_destination",
+    "songpa_last_mile_station_to_destination",
+    "songpa_rail_station_access",
+    "songpa_spatial_tancheon_corridor"
+  ],
+  "scenario_policy_seed_design": {
+    "common_random_numbers": true,
+    "expected_row_count": 315,
+    "policy_count": 7,
+    "scenario_count": 9,
+    "seed_count": 5
+  },
+  "schema_version": 2,
+  "seeds": [
+    2101,
+    2102,
+    2103,
+    2104,
+    2105
+  ],
+  "source_graph_edges": 9148,
+  "source_graph_nodes": 4608,
+  "summary_row_count": 63
+}

@@ -1,0 +1,223 @@
+{
+    "schema_version":  1,
+    "region_id":  "songpa_public_demo",
+    "claim_boundary":  "This manifest supports source provenance review for a quasi-real decision-support study; it is not operational routing acceptance and not calibrated real-world validation.",
+    "records":  [
+                    {
+                        "source_id":  "osm_overpass_road_snapshot",
+                        "source_name":  "OpenStreetMap road graph via Overpass",
+                        "source_type":  "public_map",
+                        "source_url_or_citation":  "https://www.openstreetmap.org/copyright; https://overpass-api.de/",
+                        "license_or_terms":  "OpenStreetMap data is licensed under ODbL with attribution to OpenStreetMap contributors; Overpass service use requires responsible access.",
+                        "snapshot_or_access_date":  "2026-05-03T12:57:13+00:00",
+                        "local_artifact_paths":  [
+                                                     "data/cache/pilot_region_road.graphml",
+                                                     "data/cache/pilot_region_road_manifest.json",
+                                                     "data/parameters/road_capacity_evidence_candidates.csv",
+                                                     "data/parameters/road_capacity_evidence_manifest.json",
+                                                     "data/parameters/road_speed_evidence_candidates.csv",
+                                                     "data/parameters/road_speed_evidence_manifest.json"
+                                                 ],
+                        "used_for":  "cached pilot road network geometry, OSM-style road attributes, sparse maxspeed candidate evidence, and lane-count capacity candidate evidence",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Road snapshot supports offline scaffold experiments only; not operational routing or calibrated traffic evidence.",
+                        "notes":  "Cache manifest records raw source graph size and bus-practical adapted graph counts are recorded in pilot result manifests."
+                    },
+                    {
+                        "source_id":  "pilot_region_spec",
+                        "source_name":  "Repository pilot region specification",
+                        "source_type":  "repository_input",
+                        "source_url_or_citation":  "data/regions/pilot_region.yaml; docs/pilot_region_data_card.md",
+                        "license_or_terms":  "Project-owned public/synthetic pilot specification.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/regions/pilot_region.yaml",
+                                                     "docs/pilot_region_data_card.md"
+                                                 ],
+                        "used_for":  "non-sensitive region boundary, public/synthetic zone points, rail access and egress points",
+                        "review_status":  "repository_input_pending_review",
+                        "claim_boundary":  "Pilot points demonstrate the input pipeline; they are not an operational assembly or destination plan.",
+                        "notes":  "Destination point is synthetic by design and requires privacy review before final claims."
+                    },
+                    {
+                        "source_id":  "parameter_source_tables",
+                        "source_name":  "Repository parameter evidence tables",
+                        "source_type":  "repository_input",
+                        "source_url_or_citation":  "data/parameters/parameter_sources.csv; data/parameters/fleet_assumptions.csv; data/parameters/rail_assumptions.csv; data/parameters/parameter_evidence_review_packet.csv; data/parameters/parameter_evidence_source_request_packet.csv; data/road/road_evidence_source_request_packet.csv",
+                        "license_or_terms":  "Project-owned parameter and assumption tables with source-class labels.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/parameters/parameter_sources.csv",
+                                                     "data/parameters/fleet_assumptions.csv",
+                                                     "data/parameters/rail_assumptions.csv",
+                                                     "data/parameters/road_class_overrides_draft.csv",
+                                                     "data/parameters/parameter_evidence_review_packet.csv",
+                                                     "data/parameters/parameter_evidence_review_manifest.json",
+                                                     "data/parameters/parameter_evidence_source_request_packet.csv",
+                                                     "data/parameters/parameter_evidence_source_request_manifest.json",
+                                                     "docs/parameter_evidence_source_request_packet.md",
+                                                     "data/road/road_evidence_source_request_packet.csv",
+                                                     "data/road/road_evidence_source_request_manifest.json",
+                                                     "docs/road_evidence_source_request_packet.md"
+                                                 ],
+                        "used_for":  "road, fleet, rail, transfer, demand, disruption, metric assumptions, weak-parameter review prioritization, parameter evidence source-request planning, and road evidence source-request planning",
+                        "review_status":  "repository_input_pending_review",
+                        "claim_boundary":  "Parameter tables document assumptions and sensitivity ranges; they do not prove publication-grade calibration.",
+                        "notes":  "Parameter evidence audit currently reports 25 weak core parameters; the review packet plus parameter and road evidence source-request packets prioritize replacements or explicit acceptance without closing final-study gates."
+                    },
+                    {
+                        "source_id":  "seoul_station_binding_cache",
+                        "source_name":  "Seoul Open Data Plaza station-name search extract",
+                        "source_type":  "public_api",
+                        "source_url_or_citation":  "https://data.seoul.go.kr/dataList/OA-121/S/1/datasetView.do",
+                        "license_or_terms":  "Seoul Open Data Plaza public data terms; attribution and source review required before final claims.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/rail/pilot_station_binding_cache.csv",
+                                                     "data/parameters/rail_station_bindings.csv"
+                                                 ],
+                        "used_for":  "official station-code binding for pilot rail access and egress points",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Station-code binding supports traceability only; it is not rail service timing, capacity, or emergency availability evidence.",
+                        "notes":  "Station binding audit reports binding_ready true, while rail-service evidence remains blocked."
+                    },
+                    {
+                        "source_id":  "seoul_shortest_path_api_context",
+                        "source_name":  "Seoul Open Data Plaza Seoul Metro shortest-path API",
+                        "source_type":  "public_api",
+                        "source_url_or_citation":  "https://data.seoul.go.kr/dataList/OA-22724/A/1/datasetView.do; https://www.data.go.kr/en/data/15143842/openapi.do",
+                        "license_or_terms":  "Seoul Open Data Plaza public data terms; attribution required and cached extraction is required for reproducibility.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/parameters/rail_evidence_sources.csv",
+                                                     "docs/rail_shortest_path_cache_schema.md",
+                                                     "scripts/fetch_rail_shortest_path_cache.py"
+                                                 ],
+                        "used_for":  "rail station-to-station shortest-path and travel-time evidence context",
+                        "review_status":  "context_only_not_cached",
+                        "claim_boundary":  "Context-only source reference; no station-to-station shortest-path output is cached for final-study claims.",
+                        "notes":  "Derivation and optional key-required fetch code exist, but data/rail/pilot_rail_shortest_path_cache.csv is intentionally absent until reviewed extraction and raw-response retention."
+                    },
+                    {
+                        "source_id":  "seoul_timetable_api_context",
+                        "source_name":  "Seoul subway timetable and train schedule public API context",
+                        "source_type":  "public_api",
+                        "source_url_or_citation":  "https://data.seoul.go.kr/dataList/32/literacyView.do; https://www.data.go.kr/en/data/15143847/openapi.do",
+                        "license_or_terms":  "Public data portal and Seoul Open Data terms; cached extraction is required for reproducibility.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/parameters/rail_evidence_sources.csv",
+                                                     "docs/rail_timetable_cache_schema.md",
+                                                     "scripts/fetch_rail_timetable_cache.py",
+                                                     "scripts/derive_rail_headway_evidence.py"
+                                                 ],
+                        "used_for":  "rail headway and travel-time evidence context",
+                        "review_status":  "context_only_not_cached",
+                        "claim_boundary":  "Context-only source reference; no timetable extract is cached for final-study headway claims.",
+                        "notes":  "Derivation, headway-only derivation, and optional key-required fetch code exist, but data/rail/pilot_rail_timetable_cache.csv is intentionally absent until reviewed extraction and raw-response retention."
+                    },
+                    {
+                        "source_id":  "ktdb_public_transport_gtfs_context",
+                        "source_name":  "KTDB public transport GTFS dataset candidate",
+                        "source_type":  "public_data",
+                        "source_url_or_citation":  "https://www.ktdb.go.kr/www/selectBbsNttView.do?bbsNo=2&key=45&nttNo=3785; https://www.ktdb.go.kr/www/selectPbldataChargerWebList.do?key=12&searchClStepCode=106",
+                        "license_or_terms":  "Cached KTDB data-list and notice metadata; access route, license, attribution, and redistribution terms require reviewer confirmation before any GTFS artifact is cached or used.",
+                        "snapshot_or_access_date":  "2026-05-08T23:24:46+00:00",
+                        "local_artifact_paths":  [
+                                                     "data/rail/ktdb_gtfs_source_extract.csv",
+                                                     "data/rail/ktdb_gtfs_notice_raw.html",
+                                                     "data/rail/ktdb_gtfs_dataset_list_raw.html",
+                                                     "data/rail/rail_timing_source_request_packet.csv",
+                                                     "data/rail/rail_timing_source_request_manifest.json",
+                                                     "docs/rail_timing_source_request_packet.md",
+                                                     "docs/rail_gtfs_cache_schema.md",
+                                                     "src/realworld/ktdb_gtfs_source.py",
+                                                     "scripts/cache_ktdb_gtfs_source.py",
+                                                     "tests/test_realworld_ktdb_gtfs_source.py",
+                                                     "scripts/derive_rail_gtfs_evidence.py"
+                                                 ],
+                        "used_for":  "reviewer-facing candidate source for a static GTFS feed that could derive pilot rail headway and station-to-station travel time after reviewed acquisition",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Cached KTDB source metadata only; no KTDB GTFS zip or derived timing evidence is cached for final-study rail claims, and this is not operational routing evidence.",
+                        "notes":  "The cached KTDB metadata extract records the public-transport GTFS listing and a 2025-11-28 notice for 2024-03 baseline GTFS information, but the repository still requires reviewed GTFS acquisition, cache retention, SHA256 recording, stop/route/service-window review, and derivation before rail evidence can improve."
+                    },
+                    {
+                        "source_id":  "metro9_capacity_context",
+                        "source_name":  "Seoul Metro Line 9 rolling stock context",
+                        "source_type":  "operator_page",
+                        "source_url_or_citation":  "https://www.metro9.co.kr/eng/sub03_02_01.do",
+                        "license_or_terms":  "Operator webpage context; source review and citation required before capacity claims.",
+                        "snapshot_or_access_date":  "2026-05-08T22:18:30+00:00",
+                        "local_artifact_paths":  [
+                                                     "data/parameters/rail_evidence_sources.csv",
+                                                     "data/parameters/rail_service_evidence.csv",
+                                                     "data/rail/metro9_capacity_source_extract.csv",
+                                                     "data/rail/metro9_capacity_source_raw.html"
+                                                 ],
+                        "used_for":  "cached operator-page rolling-stock context for human review of rail capacity assumptions; current simulation capacity remains sensitivity-only unless accepted",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "Cached operator-page extract supports source review only; capacity remains a planning sensitivity assumption unless source-backed capacity is reviewed and accepted.",
+                        "notes":  "The cached extract records the operator page's 6-car configuration and total capacity field, but it does not change the current de-rated 500 passenger train-capacity proxy or create rail/provenance acceptance."
+                    },
+                    {
+                        "source_id":  "osrm_public_route_benchmark",
+                        "source_name":  "OSRM public demo route benchmark snapshot",
+                        "source_type":  "public_router",
+                        "source_url_or_citation":  "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false; https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false",
+                        "license_or_terms":  "OSRM public demo service is a plausibility reference only; not ground truth and not an operational dependency.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/validation/external_route_benchmarks_osrm.csv",
+                                                     "data/validation/osrm_route_benchmark_summary.md",
+                                                     "data/validation/osrm_route_benchmark_manifest.json",
+                                                     "data/validation/validation_review_packet.csv",
+                                                     "data/validation/validation_review_manifest.json",
+                                                     "docs/validation_review_packet.md"
+                                                 ],
+                        "used_for":  "optional external route-distance and travel-time plausibility comparison and validation-strategy review worksheet",
+                        "review_status":  "cached_snapshot_pending_review",
+                        "claim_boundary":  "OSRM benchmark supports plausibility checks only; it is not calibrated traffic validation.",
+                        "notes":  "Default validation keeps deterministic offline fallback separate from this optional live-router snapshot. The validation review packet summarizes fallback, OSRM, internal plausibility, accessibility, and benchmark-strategy blockers without accepting the validation gate."
+                    },
+                    {
+                        "source_id":  "structured_scenario_tables",
+                        "source_name":  "Repository disruption and policy scenario tables",
+                        "source_type":  "repository_input",
+                        "source_url_or_citation":  "data/scenarios/disruption_scenarios.csv; data/scenarios/policy_alternatives.csv; data/scenarios/sensitivity_design.csv; data/validation/sensitivity_review_packet.csv",
+                        "license_or_terms":  "Project-owned scenario and sensitivity design tables.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "data/scenarios/disruption_scenarios.csv",
+                                                     "data/scenarios/policy_alternatives.csv",
+                                                     "data/scenarios/sensitivity_design.csv",
+                                                     "data/validation/sensitivity_review_packet.csv",
+                                                     "data/validation/sensitivity_review_manifest.json",
+                                                     "docs/sensitivity_review_packet.md"
+                                                 ],
+                        "used_for":  "structured disruption families, policy alternatives, sensitivity parameter ranges, and Morris sensitivity review planning",
+                        "review_status":  "repository_input_pending_review",
+                        "claim_boundary":  "Scenario tables define decision-support experiments; they are not observed disaster outcomes or operational recommendations.",
+                        "notes":  "Final claims require scenario review and acceptance of the graph-scale and evidence boundaries. The sensitivity review packet summarizes Morris diagnostic blockers but does not accept sensitivity evidence."
+                    },
+                    {
+                        "source_id":  "reproducibility_package",
+                        "source_name":  "Repository reproducibility package",
+                        "source_type":  "repository_input",
+                        "source_url_or_citation":  "docs/reproducibility_package.md; data/manifests/reproducibility_manifest.json",
+                        "license_or_terms":  "Project-owned reproducibility documentation and manifest.",
+                        "snapshot_or_access_date":  "2026-05-04",
+                        "local_artifact_paths":  [
+                                                     "docs/reproducibility_package.md",
+                                                     "data/manifests/reproducibility_manifest.json",
+                                                     "data/validation/reproducibility_review_packet.csv",
+                                                     "data/validation/reproducibility_review_manifest.json",
+                                                     "docs/reproducibility_review_packet.md",
+                                                     "scripts/write_reproducibility_review_packet.py"
+                                                 ],
+                        "used_for":  "offline reproduction commands, artifact paths, optional live-command separation, clean-checkout review worksheet generation, and claim limits",
+                        "review_status":  "repository_input_pending_review",
+                        "claim_boundary":  "Reproducibility package is scaffold-only until clean-checkout acceptance and final evidence gates close.",
+                        "notes":  "The reproducibility review packet records scaffold scope, Git worktree state, untracked artifact risk, runtime import boundary, and clean-checkout execution scope without accepting the gate. The reproducibility acceptance record is intentionally absent until final review."
+                    }
+                ]
+}

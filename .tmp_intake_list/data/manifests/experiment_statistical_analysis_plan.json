@@ -1,0 +1,186 @@
+{
+  "acceptance_ready": false,
+  "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
+  "blocking_check_count": 1,
+  "can_mark_complete": false,
+  "checks": [
+    {
+      "check_id": "selected_profile_present",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "full_pilot",
+      "review_action": "Restore the selected run profile before experiment review.",
+      "status": "pass"
+    },
+    {
+      "check_id": "result_row_count_matches_design",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "1890 / 1890",
+      "review_action": "Regenerate results or revise the scenario-policy-seed design before acceptance.",
+      "status": "pass"
+    },
+    {
+      "check_id": "summary_row_count_matches_design",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "63 / 63",
+      "review_action": "Regenerate summary outputs or revise the run design before acceptance.",
+      "status": "pass"
+    },
+    {
+      "check_id": "primary_metrics_pre_specified",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "completion_rate, penalized_makespan, p95_arrival_time, passengers_per_total_service_minute",
+      "review_action": "Confirm, revise, or narrow the proposed primary metric set.",
+      "status": "needs_human_review_primary_metrics"
+    },
+    {
+      "check_id": "primary_policy_contrast_pre_specified",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "bus_only vs baseline_multimodal",
+      "review_action": "Confirm whether this is the accepted primary contrast or mark all contrasts exploratory.",
+      "status": "needs_human_review_primary_comparison"
+    },
+    {
+      "check_id": "crn_structural_pairing",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "True",
+      "review_action": "Resolve structural CRN blockers before paired policy claims.",
+      "status": "pass"
+    },
+    {
+      "check_id": "replication_statistics_structure",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "True",
+      "review_action": "Regenerate paired statistics or resolve replication audit blockers.",
+      "status": "pass"
+    },
+    {
+      "check_id": "replication_adequacy_human_review",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "5 replication audit rows need review",
+      "review_action": "Decide whether seed count, finite paired counts, and CI method are adequate for final claims.",
+      "status": "needs_human_review_replication_adequacy"
+    },
+    {
+      "check_id": "multiple_comparison_boundary",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "No formal multiple-comparison correction is accepted for the current scaffold outputs. Primary comparisons must be selected before formal experiment acceptance; all other scenario, policy, and metric comparisons are exploratory.",
+      "review_action": "Accept a multiplicity procedure or keep secondary comparisons exploratory.",
+      "status": "needs_human_review_multiple_comparisons"
+    },
+    {
+      "check_id": "formal_experiment_acceptance",
+      "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+      "observed": "data/manifests/experiment_acceptance.json absent unless reviewer supplies it",
+      "review_action": "Create the formal experiment acceptance record only after graph, input, CRN, counts, and claim-scope review.",
+      "status": "blocked_missing_experiment_acceptance_record"
+    }
+  ],
+  "ci_method": "normal_approximation_mean_plus_minus_1_96_standard_errors",
+  "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.",
+  "design_status": "accepted_full_profile_pending_input_validation_and_compute_budget",
+  "generated_at": "2026-05-10T10:05:49+00:00",
+  "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
+  "inputs": {
+    "crn_pairing_audit_manifest": "data/manifests/crn_pairing_audit_manifest.json",
+    "design": "data/manifests/pilot_experiment_design.json",
+    "pilot_manifest": "results/realworld_pilot/pilot_full_manifest.json",
+    "replication_adequacy_audit_manifest": "data/manifests/replication_adequacy_audit_manifest.json",
+    "statistics_manifest": "results/realworld_pilot/tables/pilot_full_statistics_manifest.json"
+  },
+  "multiple_comparison_method": "No formal multiple-comparison correction is accepted for the current scaffold outputs. Primary comparisons must be selected before formal experiment acceptance; all other scenario, policy, and metric comparisons are exploratory.",
+  "needs_human_review_count": 4,
+  "outputs": {
+    "doc": "docs/experiment_statistical_analysis_plan.md",
+    "manifest": "data/manifests/experiment_statistical_analysis_plan.json"
+  },
+  "primary_comparisons": [
+    {
+      "baseline_policy_id": "bus_only",
+      "comparison_policy_id": "baseline_multimodal",
+      "comparison_scope": "candidate_primary_policy_contrast",
+      "interpretation": "rail-bus multimodal candidate compared with bus-only baseline"
+    }
+  ],
+  "primary_metrics": [
+    "completion_rate",
+    "penalized_makespan",
+    "p95_arrival_time",
+    "passengers_per_total_service_minute"
+  ],
+  "publication_ready": false,
+  "region_id": "songpa_public_demo",
+  "result_scope": "Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
+  "review_items": [
+    "confirm or revise the candidate primary policy contrast before formal experiment acceptance",
+    "confirm whether the primary metrics are sufficient for completion, tail risk, and resource efficiency claims",
+    "review CRN source-code markers and structural pairing before interpreting paired deltas",
+    "decide whether 30 seeds and normal-approximation intervals are sufficient for accepted primary metrics",
+    "record any accepted multiplicity procedure only in the formal experiment acceptance evidence"
+  ],
+  "scenario_policy_seed_design": {
+    "common_random_numbers": true,
+    "expected_row_count": 1890,
+    "expected_summary_row_count": 63,
+    "observed_row_count": 1890,
+    "observed_summary_row_count": 63,
+    "policy_count": 7,
+    "policy_ids": [
+      "bus_only",
+      "baseline_multimodal",
+      "multimodal_lastmile_redundancy",
+      "staggered_or_adaptive_dispatch",
+      "multimodal_increased_feeder_capacity",
+      "rail_delay_or_partial_unavailability",
+      "fleet_shortage_stress"
+    ],
+    "scenario_count": 9,
+    "scenario_ids": [
+      "no_disruption",
+      "songpa_random_capacity_reduction",
+      "songpa_random_blockage",
+      "songpa_critical_link_blockage",
+      "songpa_access_origin_to_station",
+      "songpa_access_origin_to_destination",
+      "songpa_last_mile_station_to_destination",
+      "songpa_rail_station_access",
+      "songpa_spatial_tancheon_corridor"
+    ],
+    "seed_count": 30,
+    "seeds": [
+      3101,
+      3102,
+      3103,
+      3104,
+      3105,
+      3106,
+      3107,
+      3108,
+      3109,
+      3110,
+      3111,
+      3112,
+      3113,
+      3114,
+      3115,
+      3116,
+      3117,
+      3118,
+      3119,
+      3120,
+      3121,
+      3122,
+      3123,
+      3124,
+      3125,
+      3126,
+      3127,
+      3128,
+      3129,
+      3130
+    ]
+  },
+  "schema_version": 1,
+  "secondary_comparison_boundary": "All other policy, scenario, and metric contrasts remain exploratory until a reviewer accepts a primary/secondary comparison family and any required multiplicity adjustment.",
+  "selected_profile_id": "full_pilot",
+  "statistical_plan_ready_for_review": false
+}

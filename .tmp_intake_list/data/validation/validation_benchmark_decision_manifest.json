@@ -1,0 +1,55 @@
+{
+  "alternative_benchmark_decision_recorded": false,
+  "blocking_decision_count": 3,
+  "can_mark_complete": false,
+  "claim_boundary": "Validation benchmark decision packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence. It cannot create data/manifests/validation_acceptance.json.",
+  "decision_ids": [
+    "fallback_benchmark_scope_option",
+    "cached_osrm_snapshot_scope_option",
+    "alternative_benchmark_engine_option",
+    "validation_summary_scope_boundary",
+    "road_evidence_dependency",
+    "formal_validation_acceptance_boundary"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_validation_acceptance_record": 1,
+    "blocked_scaffold_validation_scope": 1,
+    "blocked_weak_route_road_evidence_dependency": 1,
+    "needs_human_review_alternative_benchmark_scope": 1,
+    "needs_human_review_cached_osrm_scope_policy": 1,
+    "needs_human_review_fallback_warn_or_fail_policy": 1
+  },
+  "human_review_decision_count": 3,
+  "inputs": {
+    "osrm_benchmark_manifest": "data/validation/osrm_route_benchmark_manifest.json",
+    "road_evidence_priority_manifest": "data/road/road_evidence_priority_manifest.json",
+    "road_evidence_priority_packet": "data/road/road_evidence_priority_packet.csv",
+    "route_road_evidence_exposure": "data/validation/canonical_route_road_evidence_exposure.csv",
+    "route_road_evidence_exposure_manifest": "data/validation/canonical_route_road_evidence_exposure_manifest.json",
+    "validation_benchmark_readiness_manifest": "data/validation/validation_benchmark_readiness_manifest.json",
+    "validation_review_manifest": "data/validation/validation_review_manifest.json",
+    "validation_strategy_readiness_manifest": "data/validation/validation_strategy_readiness_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/validation/validation_benchmark_decision_packet.csv",
+    "doc": "docs/validation_benchmark_decision_packet.md",
+    "manifest": "data/validation/validation_benchmark_decision_manifest.json"
+  },
+  "publication_ready": false,
+  "remaining_blockers": [
+    "validation summary still declares scaffold or sanity scope",
+    "route-level road evidence exposure remains weak until road evidence gates close",
+    "data/manifests/validation_acceptance.json is absent"
+  ],
+  "result_scope": "Validation benchmark decision packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence.",
+  "review_items": [
+    "choose whether fallback rows are retained, replaced, or excluded",
+    "choose whether cached OSRM is sufficient as a plausibility snapshot",
+    "choose whether alternative route-engine or agency evidence is required",
+    "resolve route-level road evidence dependency before final validation claims",
+    "record final benchmark strategy only in data/manifests/validation_acceptance.json"
+  ],
+  "row_count": 6,
+  "schema_version": 1,
+  "validation_gate_closure_candidate_count": 0
+}

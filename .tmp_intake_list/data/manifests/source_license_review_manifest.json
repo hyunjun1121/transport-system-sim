@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "claim_boundary": "Source/license review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/provenance_acceptance.json from source-backed decisions before the provenance gate can close.",
+  "result_scope": "Source/license review packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+  "row_count": 11,
+  "source_type_counts": {
+    "operator_page": 1,
+    "public_api": 3,
+    "public_data": 1,
+    "public_map": 1,
+    "public_router": 1,
+    "repository_input": 4
+  },
+  "review_status_counts": {
+    "cached_snapshot_pending_review": 5,
+    "context_only_not_cached": 2,
+    "repository_input_pending_review": 4
+  },
+  "snapshot_status_counts": {
+    "context_only_not_cached": 2,
+    "local_artifacts_present": 9
+  },
+  "review_required_count": 11,
+  "missing_snapshot_or_context_only_count": 2,
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/manifests/source_license_review_packet.csv",
+    "manifest": "data/manifests/source_license_review_manifest.json",
+    "doc": "docs/source_license_review_packet.md"
+  },
+  "review_items": [
+    "verify each source URL, license, attribution requirement, and derivative-use constraint",
+    "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
+    "confirm local artifact paths and snapshot dates for every cached source",
+    "review project-owned synthetic/privacy abstraction before provenance acceptance",
+    "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed"
+  ],
+  "remaining_blockers": [
+    "formal provenance acceptance record is absent",
+    "source/license packet rows are review aids and do not certify license compatibility",
+    "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims"
+  ]
+}

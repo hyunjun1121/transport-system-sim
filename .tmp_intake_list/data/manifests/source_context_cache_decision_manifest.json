@@ -1,0 +1,48 @@
+{
+  "blocking_decision_count": 3,
+  "cache_retention_or_exclusion_decision_recorded": false,
+  "can_mark_complete": false,
+  "claim_boundary": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval. It cannot create data/manifests/provenance_acceptance.json.",
+  "decision_ids": [
+    "ktdb_public_transport_gtfs_context",
+    "seoul_shortest_path_api_context",
+    "seoul_timetable_api_context"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_context_source_cache_retention_or_exclusion_decision": 3
+  },
+  "human_review_decision_count": 0,
+  "inputs": {
+    "source_context_cache_request_manifest": "data/manifests/source_context_cache_request_manifest.json",
+    "source_context_cache_request_packet": "data/manifests/source_context_cache_request_packet.csv",
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json",
+    "source_provenance_priority_packet": "data/manifests/source_provenance_priority_packet.csv",
+    "source_url_remediation_packet": "data/manifests/source_url_remediation_packet.csv"
+  },
+  "missing_target_cache_artifact_count": 3,
+  "outputs": {
+    "csv": "data/manifests/source_context_cache_decision_packet.csv",
+    "doc": "docs/source_context_cache_decision_packet.md",
+    "manifest": "data/manifests/source_context_cache_decision_manifest.json"
+  },
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "remaining_blockers": [
+    "formal provenance acceptance record is absent",
+    "target cache/retention/exclusion decisions are pending for context-source rows",
+    "retained context sources still require license, attribution, snapshot, and reproducibility review",
+    "ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present"
+  ],
+  "result_scope": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
+  "review_items": [
+    "choose cache, sensitivity/context-only retention, or exclusion treatment for each context source",
+    "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
+    "retain raw responses and SHA256 evidence when a source is cached",
+    "derive downstream rail evidence only after retained source extracts are reviewed",
+    "record final provenance only in data/manifests/provenance_acceptance.json"
+  ],
+  "row_count": 3,
+  "schema_version": 1
+}

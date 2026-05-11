@@ -1,0 +1,109 @@
+{
+  "build_manifest": {
+    "path": "data/manifests/review_package_build_manifest.json",
+    "present": true,
+    "selected_file_count": 813,
+    "zip_sha256": "07668c32ae0d1be057e5801d8073496173fd3b67886e7d8755be000257b94356"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "This handoff note identifies the external review ZIP and sidecar files. It does not validate evidence quality, approve formal acceptance records, certify calibration, or close final-study gates.",
+  "file_identities": [
+    {
+      "path": "required_deliverables.zip",
+      "present": true,
+      "sha256": "07668c32ae0d1be057e5801d8073496173fd3b67886e7d8755be000257b94356",
+      "size_bytes": 6461279
+    },
+    {
+      "path": "docs/review_package_build.md",
+      "present": true,
+      "sha256": "3caedfec98d7dd2097147a94d5d6c9788613a273e3b0aa16d14f50be1c40e565",
+      "size_bytes": 1190
+    },
+    {
+      "path": "docs/review_package_path_audit.md",
+      "present": true,
+      "sha256": "7c2447a2f5395bea34cd34f90ecaa615cbeda465e330980e8d8e49b6fba3dd8f",
+      "size_bytes": 7477
+    },
+    {
+      "path": "docs/expert_consultation_request.md",
+      "present": true,
+      "sha256": "2d4cb4ff1c63f3e60abfd64e197503c4c7f4f9adb09e21407ab97d56311dfb8b",
+      "size_bytes": 14944
+    },
+    {
+      "path": "docs/expert_consultation_request_reply.md",
+      "present": true,
+      "sha256": "53fbc48544ffb38eeb0154060a4292426fb77d3600a60176823e2c69a2e705f8",
+      "size_bytes": 9422
+    },
+    {
+      "path": "docs/expert_consultation_followup_plan.md",
+      "present": true,
+      "sha256": "6d073b479181965af70e69f53793783a4815e1ee1fed0213ad8b3e10c73d713d",
+      "size_bytes": 26082
+    },
+    {
+      "path": "review_packages/expert_review_handoff_20260510.md",
+      "present": true,
+      "sha256": "738480b882d2a0186cc44ccda3061673ae31c7776ff67af4ec7994139c35bff6",
+      "size_bytes": 2707
+    },
+    {
+      "path": "review_packages/expert_review_handoff_20260510.json",
+      "present": true,
+      "sha256": "7890210bbf38465aeef2687fc02df2e9b33aacc688267d727ffc932acc26c408",
+      "size_bytes": 2988
+    }
+  ],
+  "files_to_send": [
+    "required_deliverables.zip",
+    "docs/review_package_build.md",
+    "docs/review_package_path_audit.md",
+    "docs/expert_consultation_request.md",
+    "docs/expert_consultation_request_reply.md",
+    "docs/expert_consultation_followup_plan.md",
+    "review_packages/expert_review_handoff_20260510.md",
+    "review_packages/expert_review_handoff_20260510.json"
+  ],
+  "formal_status": {
+    "final_study_gates_ready": "3 / 15",
+    "final_study_ready": false,
+    "final_study_ready_text": "false",
+    "formal_acceptance_ready": false,
+    "formal_acceptance_ready_count": "0 / 12",
+    "formal_target_count": 12,
+    "missing_formal_target_count": 12,
+    "template_or_placeholder_count": 0
+  },
+  "handoff_date": "2026-05-11",
+  "mirror_zip": {
+    "matches_zip": true,
+    "path": "review_packages/expert_review_package.zip",
+    "present": true,
+    "sha256": "07668c32ae0d1be057e5801d8073496173fd3b67886e7d8755be000257b94356"
+  },
+  "outputs": {
+    "doc": "review_packages/expert_review_handoff_20260510.md",
+    "manifest": "review_packages/expert_review_handoff_20260510.json"
+  },
+  "previous_incomplete_zip": {
+    "path": "review_packages/original_required_deliverables_incomplete_20260510.zip",
+    "present": true,
+    "sha256": "e973185a0fd91ff77b25b476e5c4ac67967a2f72bb3bbda410bcc18e9aa2cbc1"
+  },
+  "review_items": [
+    "send the handoff note outside the ZIP so the ZIP checksum remains stable",
+    "treat the ZIP as primary evidence for review, not as formal acceptance",
+    "keep formal acceptance targets absent until real reviewer decisions exist"
+  ],
+  "schema_version": 1,
+  "zip": {
+    "file_count": 813,
+    "path": "required_deliverables.zip",
+    "present": true,
+    "sha256": "07668c32ae0d1be057e5801d8073496173fd3b67886e7d8755be000257b94356",
+    "size_bytes": 6461279
+  }
+}

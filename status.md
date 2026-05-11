@@ -2,7 +2,7 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-05-09
+- Date: 2026-05-11
 - Workspace: `C:\project\transport-system-sim`
 - Platform in use: Windows PowerShell
 - Git branch: `main`
@@ -29,18 +29,83 @@
   - `manuscript_report_alignment`
   - `reproducibility`
   - `final_audit`
-- Formal acceptance readiness: 0/12. The required formal acceptance artifacts
-  are intentionally absent until reviewers supply real, source-backed
-  decisions.
-- Latest blocker/readiness packets are implemented for
+- Formal acceptance readiness: 0/12. Formal artifacts are intentionally absent
+  until reviewer-approved records are created.
+- Readiness packets remain blocker-positive and pre-acceptance only:
   `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-  `sensitivity_strategy_readiness`, and `experiment_strategy_readiness`, with
-  a focused `validation_benchmark_decision` worksheet for route-benchmark
-  scope choices and a focused `experiment_design_decision` worksheet for
-  run-profile/design choices, plus a focused `figure_table_review` worksheet
-  for scaffold figure/table review. They make the remaining review work
-  explicit but do not close acceptance gates.
-- There is still no calibrated real-world result and no operational route plan.
+  `sensitivity_strategy_readiness`, `experiment_strategy_readiness`,
+  `reproducibility_decision`, and `final_audit` packets.
+- The study remains non-operational and within decision-support scope.
+
+## Expert Consultation Follow-Up Status
+
+`docs/expert_consultation_request_reply.md` has been reviewed and translated
+into the active follow-up plan at
+`docs/expert_consultation_followup_plan.md`. Current status is now a
+review-ready but acceptance-incomplete snapshot.
+
+Status implications:
+
+ - Final gates are mixed: 3 ready, 12 blocked.
+ - The package inventory and path-integrity handoff constraints are usable for
+   review, while final completion remains blocked.
+ - Formal targets are intentionally absent and not treated as accepted artifacts.
+ - CRN, sensitivity, experiment, and reproducibility records are pre-acceptance
+   controls, not final proof.
+ - Claim language remains non-operational and decision-support only.
+
+Reply-critical blocker map (for status tracking):
+
+1. **Final gates**: 3 ready and 12 blocked; blocked gates remain unresolved.
+2. **Formal artifacts**: all 12 formal acceptance records remain intentionally
+   absent.
+3. **Package hygiene**: path-integrity and packet hygiene trackers are review
+   controls only and do not close blocked gates.
+4. **Boundary control**: claim boundary remains non-operational.
+
+Implementation support added for this follow-up now includes
+`scripts/write_review_package_inventory.py` for complete-package inventory and
+`scripts/build_review_package.py` for building a separate inventory-based ZIP,
+`scripts/write_seed_stream_manifest.py` plus `scripts/audit_crn_pairing.py`
+for seed-stream and structural CRN pairing review, and
+`scripts/audit_replication_adequacy.py` for paired-statistics replication and
+multiple-comparison review. These are pre-review controls only: they make
+package gaps, scenario-policy-seed pairing, and experiment-statistics blockers
+visible, but they do not turn any formal acceptance target into an approval.
+
+The immediate status target is therefore to preserve this review snapshot and
+prepare the next acceptance-completion package.
+
+Reply-driven status checks now require:
+
+- Keep all planning text files in the renewal package:
+  `plan.md`, `status.md`, `IMPLEMENTATION_PLAN.md`, `README.md`,
+  `agents.md`, and `docs/expert_consultation_followup_plan.md`.
+- Rerun `scripts/audit_formal_acceptance_artifacts.py`,
+  `scripts/audit_formal_evidence_paths.py`, and
+  `scripts/validate_formal_acceptance_package.py` immediately after any
+  formal artifact change.
+- Treat `required_deliverables.zip` as a review handoff snapshot and keep the
+  non-operational decision-support boundary in all outputs.
+
+Current package state:
+
+- `required_deliverables.zip` is the current expert-review handoff package.
+- The ZIP contains the inventory-selected review files; the file count and SHA256
+  are recorded in `docs/review_package_build.md` after each package build.
+- The previous 12-file acceptance-artifact-only ZIP was preserved as
+  `review_packages/original_required_deliverables_incomplete_20260510.zip`.
+- This resolves the package-completeness handoff blocker for review while the
+  project remains `final_study_ready=false` and `formal acceptance=0/12`.
+- `scripts/audit_review_package_paths.py` now checks that agent-review records
+  inside the ZIP do not cite missing non-formal local paths.
+- `scripts/write_expert_review_handoff.py` now writes
+  `review_packages/expert_review_handoff_20260510.md` and
+  `review_packages/expert_review_handoff_20260510.json`, ZIP-external sidecars
+  with the current package checksum, send-list, and non-acceptance cover note.
+- The latest handoff sidecars and package build manifests are now part of the
+  project audit trail; this ensures any reviewer can check what evidence was in
+  the package without interpreting placeholder filenames as acceptance.
 
 ## Project Goal
 
@@ -91,6 +156,11 @@ The codebase currently includes:
   - adapter from normalized OSM-like graphs to simulator-compatible DiGraphs
   - graph-readiness validation and synthetic end-to-end smoke tests
 - Real-world evidence and scenario scaffolding:
+  - Current formal-target note: placeholder copies that had occupied formal
+    target paths were moved to
+    `data/manifests/draft_acceptance/formal_target_placeholders_20260510/`,
+    `data/parameters/draft_acceptance/`, and `docs/draft_acceptance/`.
+    Formal paths are absent again until real reviewer decisions are supplied.
   - `data/parameters/parameter_sources.csv`
   - optional weak-parameter acceptance validation in
     `src/realworld/parameter_acceptance.py` and
@@ -246,9 +316,10 @@ The codebase currently includes:
     outputs so repeated audit runs do not create self-blockers
   - formal evidence-path hygiene auditing in
     `src/realworld/formal_evidence_path_audit.py` and
-    `scripts/audit_formal_evidence_paths.py`; the current manifest records no
-    formal reviewer artifacts in the acceptance paths, checks 11 structured
-    formal paths, and keeps `can_mark_complete: false`
+    `scripts/audit_formal_evidence_paths.py`; the current manifest records 11
+    present structured formal paths, 239 local evidence path entries, no
+    missing local evidence, one empty road-override evidence record, and keeps
+    `can_mark_complete: false`
   - explicit independent final-audit acceptance validation in
     `src/realworld/final_audit_acceptance.py` and
     `docs/final_audit_acceptance_schema.md`; the actual
@@ -1249,6 +1320,8 @@ Maintained real-world MVP validation and helper-command inventory:
 - `.\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py`
 - `.\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_experiment_package_review_packet.py`
+- `.\.venv\Scripts\python scripts\write_experiment_statistical_plan.py`
+- `.\.venv\Scripts\python scripts\audit_deterministic_rerun.py`
 - `.\.venv\Scripts\python scripts\write_figure_table_review_packet.py`
 - `.\.venv\Scripts\python scripts\write_manuscript_report_decision_packet.py`
 - `.\.venv\Scripts\python scripts\write_reproducibility_review_packet.py`
@@ -1269,6 +1342,8 @@ Maintained real-world MVP validation and helper-command inventory:
 - `.\.venv\Scripts\python scripts\write_final_audit_decision_packet.py`
 - `.\.venv\Scripts\python scripts\audit_tracked_artifacts.py`
 - `.\.venv\Scripts\python scripts\write_goal_completion_audit.py`
+- `.\.venv\Scripts\python scripts\write_experiment_statistical_plan.py`
+- `.\.venv\Scripts\python scripts\audit_deterministic_rerun.py`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor`
 - `.\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full`

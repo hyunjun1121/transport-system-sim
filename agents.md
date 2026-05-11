@@ -22,11 +22,18 @@ local virtual environment, then run project commands through
 
 ## Current Audit Snapshot
 
-As of 2026-05-09, `final_study_ready=false`. The current final-study audit has
+As of 2026-05-10, `final_study_ready=false`. The current final-study audit has
 15 gates: 3 ready (`real_input_smoke`, `structured_disruptions`,
 `policy_alternatives`) and 12 blocked. Formal acceptance is 0/12 ready, and
-the required formal acceptance artifacts are intentionally absent until
-source-backed human review supplies them.
+formal target files must be absent or backed by source-backed human review
+before any gate can close. In the current local worktree, placeholder copies
+were moved out of final target paths into draft storage; the formal guard
+reports 0 target files present and 12 missing, with no template copies in
+formal paths.
+The expert consultation reply on the previous package bundle remains the primary
+guide for pre-acceptance process: the package must first pass package
+inventory, path-integrity, and formal acceptance-file hygiene checks before any
+gate is reinterpreted as complete.
 
 The latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
 `sensitivity_strategy_readiness`, `experiment_strategy_readiness`,
@@ -80,6 +87,8 @@ src/
     formal_acceptance_guard.py # Detect placeholder/template misuse
     formal_evidence_path_audit.py # Check formal evidence/source paths
     formal_acceptance_package.py # Aggregate formal acceptance intake audit
+    review_package_path_audit.py # ZIP-internal review-package path audit
+    review_package_handoff.py # ZIP-external expert-review handoff sidecar
     manuscript_acceptance.py # Explicit manuscript/report acceptance validation
     types.py                # RegionSpec, BoundarySpec, ZoneSpec, RailSpec
     regions.py              # Region registry loading and validation
@@ -224,6 +233,12 @@ tests/
   test_realworld_acceptance_task_assignments.py
   test_realworld_formal_acceptance_evidence_matrix.py
   test_realworld_formal_evidence_path_audit.py
+  test_realworld_seed_stream_manifest.py
+  test_realworld_crn_pairing_audit.py
+  test_realworld_replication_adequacy_audit.py
+  test_realworld_review_package_inventory.py
+  test_realworld_review_package_builder.py
+  test_realworld_review_package_handoff.py
   test_realworld_plan_audit.py
 data/
   regions/pilot_region.yaml
@@ -269,6 +284,7 @@ data/
   manifests/formal_evidence_path_audit.json # formal evidence-path hygiene summary
 scripts/
   audit_agent_review_paths.py
+  audit_review_package_paths.py
   audit_final_study_readiness.py
   audit_formal_acceptance_artifacts.py
   audit_formal_evidence_paths.py
@@ -298,6 +314,7 @@ scripts/
   make_pilot_statistics.py
   run_acceptance_audit.py
   run_accessibility_loss_analysis.py
+  audit_deterministic_rerun.py
   run_clean_checkout_smoke.py
   run_full_graph_smoke.py
   run_graph_scale_diagnostics.py
@@ -308,12 +325,18 @@ scripts/
   run_reproducibility_smoke.py
   run_sensitivity.py
   validate_formal_acceptance_package.py
+  build_review_package.py
+  write_expert_review_handoff.py
+  write_seed_stream_manifest.py
+  audit_crn_pairing.py
+  audit_replication_adequacy.py
   write_acceptance_blocker_queue.py
   write_acceptance_decision_templates.py
   write_acceptance_task_assignments.py
   write_claim_alignment_review_packet.py
   write_experiment_design_decision_packet.py
   write_experiment_package_review_packet.py
+  write_experiment_statistical_plan.py
   write_experiment_strategy_readiness_packet.py
   write_figure_table_review_packet.py
   write_final_audit_decision_packet.py
@@ -344,6 +367,7 @@ scripts/
   write_rail_timing_source_request_packet.py
   write_reproducibility_decision_packet.py
   write_reproducibility_review_packet.py
+  write_review_package_inventory.py
   write_road_capacity_evidence.py
   write_road_class_override_template.py
   write_road_evidence_priority_packet.py
@@ -467,6 +491,12 @@ Direct test commands:
 .\.venv\Scripts\python tests\test_realworld_route_road_evidence_exposure.py
 .\.venv\Scripts\python tests\test_realworld_pilot_figures.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
+.\.venv\Scripts\python tests\test_realworld_seed_stream_manifest.py
+.\.venv\Scripts\python tests\test_realworld_crn_pairing_audit.py
+.\.venv\Scripts\python tests\test_realworld_replication_adequacy_audit.py
+.\.venv\Scripts\python tests\test_realworld_review_package_inventory.py
+.\.venv\Scripts\python tests\test_realworld_review_package_builder.py
+.\.venv\Scripts\python tests\test_realworld_review_package_handoff.py
 .\.venv\Scripts\python tests\test_realworld_plan_audit.py
 ```
 
@@ -605,9 +635,9 @@ Implemented behavior:
 - `src/realworld/formal_acceptance_guard.py` and
   `scripts/audit_formal_acceptance_artifacts.py` guard the formal acceptance
   paths against copied templates, unresolved `REVIEW_REQUIRED` placeholders,
-  and draft-only weak road override rows. The current guard reports all 12
-  required formal acceptance artifacts as missing and cannot mark the final
-  study complete.
+  and draft-only weak road override rows. The current local guard reports 0
+  formal target files present, 12 missing, and 0 template/placeholder copies in
+  formal paths; it cannot mark the final study complete.
 - `src/realworld/formal_acceptance_package.py` and
   `scripts/validate_formal_acceptance_package.py` aggregate reviewer-supplied
   formal acceptance artifacts into one intake audit. The generated

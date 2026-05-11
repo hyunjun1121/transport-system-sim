@@ -1,0 +1,171 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "current_status": "blocked",
+  "evidence_checked": [
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/regions/pilot_region.yaml"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/pilot_region_data_card.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_privacy_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_privacy_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_region_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/pilot_region_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Formal target required for pilot_region_accepted",
+      "exists": false,
+      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "path": "data/manifests/pilot_acceptance.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/pilot_region_accepted.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/current_goal_completion_audit.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/pilot_privacy_review_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/pilot_region_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for pilot_region_accepted",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_pilot_region_decision_packet.py"
+    }
+  ],
+  "files_to_create_or_update_after_human_decision": [
+    "data/manifests/pilot_acceptance.json"
+  ],
+  "final_study_ready": false,
+  "formal_approval": false,
+  "formal_ready": false,
+  "formal_record_present": false,
+  "formal_target": "data/manifests/pilot_acceptance.json",
+  "gate": "pilot_region_accepted",
+  "generated_at": "2026-05-09T00:29:30+00:00",
+  "human_decision_required": true,
+  "human_reviewer_action_required": [
+    "Inspect the listed review packets and evidence paths.",
+    "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
+    "Approve, reject, or keep blocked based on the existing review packet evidence.",
+    "Resolve each missing-evidence item listed in this record.",
+    "After a real decision, create or update data/manifests/pilot_acceptance.json.",
+    "Rerun scripts/validate_formal_acceptance_package.py."
+  ],
+  "label": "Pilot Region Acceptance",
+  "missing_evidence": [
+    "create an explicit pilot acceptance record after privacy and case-scope review",
+    "resolve pilot-region decision blockers before pilot acceptance",
+    "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
+    "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
+    "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
+    "review pilot-region decision human-decision items before pilot acceptance",
+    "data/manifests/pilot_acceptance.json is absent"
+  ],
+  "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/regions/pilot_region.yaml",
+    "docs/pilot_region_data_card.md",
+    "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_privacy_review_manifest.json",
+    "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "docs/pilot_region_decision_packet.md",
+    "scripts/write_pilot_region_decision_packet.py",
+    "data/manifests/pilot_acceptance.json"
+  ],
+  "recommendation": "blocked_requires_human_decision",
+  "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
+  "related_plan_gate_ids": [
+    "pilot_region_accepted"
+  ],
+  "residual_risks": [
+    "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.",
+    "create an explicit pilot acceptance record after privacy and case-scope review",
+    "resolve pilot-region decision blockers before pilot acceptance",
+    "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
+    "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
+    "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
+    "review pilot-region decision human-decision items before pilot acceptance",
+    "data/manifests/pilot_acceptance.json is absent",
+    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
+    "Final-study readiness remains false until formal validators accept source-backed records."
+  ],
+  "review_packets": [
+    "docs/review_packets/pilot_region_accepted.md",
+    "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_region_decision_packet.csv"
+  ],
+  "reviewed_inputs": [
+    "data/regions/pilot_region.yaml",
+    "docs/pilot_region_data_card.md",
+    "docs/current_goal_completion_audit.md",
+    "data/manifests/current_goal_completion_audit.json",
+    "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_privacy_review_manifest.json",
+    "docs/pilot_privacy_review_packet.md",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "docs/pilot_region_decision_packet.md"
+  ],
+  "schema_version": 1,
+  "source_paths": [
+    "data/regions/pilot_region.yaml",
+    "docs/pilot_region_data_card.md",
+    "data/manifests/pilot_privacy_review_packet.csv",
+    "data/manifests/pilot_privacy_review_manifest.json",
+    "data/manifests/pilot_region_decision_packet.csv",
+    "data/manifests/pilot_region_decision_manifest.json",
+    "data/manifests/pilot_acceptance.json"
+  ],
+  "status": "draft_pre_review"
+}

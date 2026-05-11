@@ -23,8 +23,9 @@ calibrated real-world study state.
 Current plan-gate status is `final_study_ready: false`: 3 / 15 gates are ready
 (`real_input_smoke`, `structured_disruptions`, and `policy_alternatives`) and
 12 / 15 gates remain blocked. Formal acceptance is not ready: 0 / 12 formal
-gates are ready, all required formal acceptance artifacts are absent, and no
-final approval has been recorded.
+gates are ready, the current formal guard reports 0 target files present and
+12 missing after placeholder copies were moved to draft storage, and no final
+approval has been recorded.
 
 The current implementation now supports a cached OSM-derived pilot road graph,
 bus-practical road filtering, region specs, connector creation, structured
@@ -40,6 +41,55 @@ operational route plan. The remaining blockers are evidence and acceptance
 gates: reviewed pilot input acceptance, stronger rail/timetable evidence,
 parameter calibration or source strengthening, publication-level route
 validation, and final manuscript/report acceptance against those inputs.
+
+## 2026-05-10 Consultation Addendum
+
+The expert consultation reply in
+`docs/expert_consultation_request_reply.md` has been incorporated as a
+follow-up planning constraint, not as acceptance evidence. The reply reports
+that the submitted `required_deliverables.zip` exposed acceptance/audit
+artifacts but did not include enough implementation, data, script, result,
+test, and documentation material to verify model mechanics or experiment
+execution. The active remediation plan is now recorded in
+`docs/expert_consultation_followup_plan.md`.
+
+This addendum does not change the gate verdict above. It sharpens the
+remaining work:
+
+- package completeness and path integrity must be proven before the next
+  external review;
+- acceptance-looking files must be absent from formal target paths unless they
+  are real reviewed decisions; blocker-state placeholder copies now live in
+  draft storage rather than final target paths;
+- draft road overrides, weak parameter rows, rail assumptions, validation
+plausibility checks, Morris outputs, current-worktree smoke evidence, and
+manuscript/report text remain scaffold evidence until reviewed;
+- graph-scale method, CRN pairing, paired statistical reporting,
+multiple-comparison handling, and clean-checkout artifact regeneration are
+now explicit acceptance blockers;
+- claim language must remain decision-support-only until all evidence gates and
+formal acceptance records pass.
+
+Reply implementation updates to this static audit are limited to review control and
+do not alter gate facts above:
+
+- `required_deliverables.zip` was rebuilt from `write_review_package_inventory.py`
+  output and now includes implementation, tests, data, cache, result, docs, and
+  planning artifacts.
+- `review_packages/original_required_deliverables_incomplete_20260510.zip` is
+  retained for provenance only and is not used for acceptance.
+- Formal acceptance target paths remain empty unless a human-signed acceptance
+  artifact exists; the new rule set is now enforced in `plan.md` and
+  `status.md`.
+
+Reply control impact on static gate tracking:
+
+- Any future static gate snapshot must continue to show: 3/15 ready, 12/15 blocked,
+  `final_study_ready=false`, 0/12 formal targets present.
+- The active `final_study_ready: false` condition is non-negotiable until each
+  reviewer-controlled blocker queue row is accepted in its formal target path.
+- Track non-functional acceptance blockers (path-integrity and naming-risk prevention)
+  separately from evidence blockers in `docs/current_goal_completion_audit.md`.
 
 ## Gate Status
 

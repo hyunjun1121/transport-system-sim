@@ -1,0 +1,38 @@
+{
+  "blocking_request_count": 3,
+  "cache_request_status_counts": {
+    "blocked_missing_context_source_cache": 3
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "This packet converts context-source target artifacts into cache, sensitivity/context-only, or exclusion requests. Cached source metadata is review support only; it does not replace a reviewed source payload. This packet does not fetch data, certify terms, create source snapshots, or close data-provenance, rail-evidence, validation, reproducibility, or final-study gates.",
+  "context_source_count": 3,
+  "inputs": {
+    "source_provenance_manifest": "data/manifests/source_provenance_manifest.json",
+    "source_provenance_priority_packet": "data/manifests/source_provenance_priority_packet.csv"
+  },
+  "missing_target_cache_artifact_count": 3,
+  "outputs": {
+    "csv": "data/manifests/source_context_cache_request_packet.csv",
+    "doc": "docs/source_context_cache_request_packet.md",
+    "manifest": "data/manifests/source_context_cache_request_manifest.json"
+  },
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "remaining_blockers": [
+    "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
+    "license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "formal provenance acceptance record is absent"
+  ],
+  "result_scope": "Source context-cache request packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
+  "review_items": [
+    "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from final claims",
+    "retain raw API/page responses when a source is cached for reproducibility",
+    "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
+    "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed"
+  ],
+  "review_priority_counts": {
+    "high": 3
+  },
+  "row_count": 3,
+  "schema_version": 1
+}

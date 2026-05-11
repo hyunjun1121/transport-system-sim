@@ -1,0 +1,64 @@
+{
+  "analysis_graph_edge_counts": [
+    174,
+    246
+  ],
+  "analysis_graph_node_counts": [
+    118,
+    164
+  ],
+  "artifact_family_counts": {
+    "deterministic_sensitivity": 1,
+    "figure_table_pilot": 1,
+    "figure_table_sensitivity": 1,
+    "morris_sensitivity": 1,
+    "pilot_experiment": 6,
+    "pilot_statistics": 3
+  },
+  "audited_manifest_count": 12,
+  "can_mark_complete": false,
+  "claim_boundary": "This audit checks whether generated scaffold manifests expose source and analysis graph-scale fields. It does not accept a graph-scale method, validate route sufficiency, calibrate inputs, or close final-study gates.",
+  "complete_graph_scale_row_count": 13,
+  "coverage_status_counts": {
+    "complete_reduced_analysis_graph_recorded": 13
+  },
+  "inputs": {
+    "audited_manifests": [
+      "results/realworld_pilot/pilot_result_manifest.json",
+      "results/realworld_pilot/pilot_sample_manifest.json",
+      "results/realworld_pilot/pilot_staged_manifest.json",
+      "results/realworld_pilot/pilot_full_manifest.json",
+      "results/realworld_pilot/pilot_multi_corridor_manifest.json",
+      "results/realworld_pilot/pilot_multi_corridor_full_manifest.json",
+      "results/realworld_pilot/sensitivity_manifest.json",
+      "results/realworld_pilot/morris_manifest.json",
+      "results/realworld_pilot/tables/pilot_full_statistics_manifest.json",
+      "results/realworld_pilot/tables/pilot_multi_corridor_statistics_manifest.json",
+      "results/realworld_pilot/tables/pilot_multi_corridor_full_statistics_manifest.json",
+      "results/realworld_pilot/tables/figure_table_manifest.json"
+    ]
+  },
+  "missing_or_incomplete_row_count": 0,
+  "outputs": {
+    "csv": "data/validation/graph_scale_manifest_audit.csv",
+    "doc": "docs/graph_scale_manifest_audit.md",
+    "manifest": "data/validation/graph_scale_manifest_audit_manifest.json"
+  },
+  "publication_ready": false,
+  "reduced_analysis_graph_row_count": 13,
+  "result_scope": "graph_scale_manifest_audit_review_aid_only_not_graph_scale_acceptance",
+  "review_items": [
+    "confirm the source graph count is stable across pilot, sensitivity, statistics, and figure/table manifests",
+    "review whether each reduced analysis graph is a final method or only a scaffold shortcut",
+    "regenerate downstream manifests if a different graph-scale method is accepted",
+    "record any accepted graph-scale decision only in data/manifests/graph_scale_acceptance.json"
+  ],
+  "row_count": 13,
+  "schema_version": 1,
+  "source_graph_edge_counts": [
+    9148
+  ],
+  "source_graph_node_counts": [
+    4608
+  ]
+}

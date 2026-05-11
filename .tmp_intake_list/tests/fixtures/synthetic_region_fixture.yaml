@@ -1,0 +1,49 @@
+region_id: synthetic_region_fixture
+name: Synthetic Region Fixture
+boundary:
+  type: bbox
+  north: 37.035
+  south: 37.000
+  east: 127.040
+  west: 127.000
+assembly_zones:
+  - id: A
+    name: Synthetic assembly centroid
+    lat: 37.005
+    lon: 127.005
+    metadata:
+      coordinate_class: synthetic
+      fixture_only: true
+destination_zones:
+  - id: D
+    name: Synthetic destination centroid
+    lat: 37.030
+    lon: 127.035
+    metadata:
+      coordinate_class: synthetic
+      fixture_only: true
+rail:
+  access:
+    id: S
+    name: Synthetic access station
+    lat: 37.010
+    lon: 127.015
+    metadata:
+      coordinate_class: synthetic
+      fixture_only: true
+  egress:
+    id: R
+    name: Synthetic egress station
+    lat: 37.020
+    lon: 127.025
+    metadata:
+      coordinate_class: synthetic
+      fixture_only: true
+  travel_time_min: 18
+  headway_min: 9
+  capacity_pax_per_train: 240
+  metadata:
+    source_class: test_fixture
+metadata:
+  coordinate_policy: synthetic_fixture_only
+  claim_boundary: schema_and_adapter_reusability_test_only

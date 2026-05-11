@@ -1,0 +1,33 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "final_study_ready": false,
+  "formal_acceptance_path_warning": "Draft records live under data/manifests/draft_acceptance and must not be copied into formal acceptance paths without replacing them with real source-backed reviewer decisions.",
+  "formal_acceptance_ready": false,
+  "formal_approval": false,
+  "generated_at": "2026-05-09T00:29:30+00:00",
+  "human_decision_required_count": 12,
+  "must_not_be_used_as_final_acceptance": true,
+  "recommendation_counts": {
+    "blocked_missing_evidence": 8,
+    "blocked_requires_human_decision": 4
+  },
+  "record_count": 12,
+  "record_dir": "data/manifests/draft_acceptance",
+  "record_paths": [
+    "data/manifests/draft_acceptance/pilot_region_accepted_pre_review.json",
+    "data/manifests/draft_acceptance/graph_scale_strategy_pre_review.json",
+    "data/manifests/draft_acceptance/data_provenance_pre_review.json",
+    "data/manifests/draft_acceptance/parameter_acceptance_pre_review.json",
+    "data/manifests/draft_acceptance/road_class_overrides_pre_review.json",
+    "data/manifests/draft_acceptance/validation_package_pre_review.json",
+    "data/manifests/draft_acceptance/sensitivity_analysis_pre_review.json",
+    "data/manifests/draft_acceptance/full_experiment_output_pre_review.json",
+    "data/manifests/draft_acceptance/manuscript_report_alignment_pre_review.json",
+    "data/manifests/draft_acceptance/reproducibility_pre_review.json",
+    "data/manifests/draft_acceptance/final_audit_document_pre_review.json",
+    "data/manifests/draft_acceptance/final_audit_pre_review.json"
+  ],
+  "report_path": "docs/formal_acceptance_pre_review.md",
+  "schema_version": 1
+}

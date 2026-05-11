@@ -1,0 +1,72 @@
+{
+  "acceptance_ready": false,
+  "benchmark_artifact_present": true,
+  "benchmark_method_counts": {
+    "osrm_route_v1_driving": 3
+  },
+  "claim_boundary": "This manifest records an optional OSRM route benchmark snapshot for plausibility review only. It is not validation acceptance, not calibrated traffic evidence, not benchmark ground truth, and not operational routing guidance.",
+  "csv_sha256": "a28781a36381f4d6706d2ad9b55b94f8dc3d426c9aba23afbac8d5bb1d557b86",
+  "distance_status_counts": {
+    "pass": 3
+  },
+  "inputs": {
+    "benchmark_csv": "data/validation/external_route_benchmarks_osrm.csv",
+    "raw_response_dir": "data/validation/osrm_route_raw",
+    "summary_markdown": "data/validation/osrm_route_benchmark_summary.md"
+  },
+  "publication_ready": false,
+  "query_url_count": 3,
+  "query_urls": [
+    "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+    "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+    "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false"
+  ],
+  "raw_response_file_count": 3,
+  "raw_response_files": [
+    {
+      "path": "data/validation/osrm_route_raw/route_bus_direct.json",
+      "sha256": "6d5b9fce9e430a00e5cb7c0ba50e9477745040ed742de238e2b1657b72ada2ca"
+    },
+    {
+      "path": "data/validation/osrm_route_raw/route_last_mile.json",
+      "sha256": "3db683773e06e55e64213869a8635a64e1caa80c4d28c465334c44f24b86a25d"
+    },
+    {
+      "path": "data/validation/osrm_route_raw/route_rail_access.json",
+      "sha256": "7c94324c1c628adaee266bf01fd95862d6fbfa8b3a1e7e5592b4390883630da5"
+    }
+  ],
+  "reference_source_counts": {
+    "https://router.project-osrm.org": 3
+  },
+  "reference_version_counts": {
+    "cached_osrm_snapshot_20260508T081049Z": 3
+  },
+  "result_scope": "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance",
+  "review_items": [
+    "review OSRM service terms, attribution, access date, and row-level query URLs before publication use",
+    "keep OSRM as a plausibility comparator only; it is not calibrated local traffic evidence",
+    "record any final benchmark strategy only in data/manifests/validation_acceptance.json after review"
+  ],
+  "review_required": true,
+  "route_check_ids": [
+    "route_bus_direct",
+    "route_last_mile",
+    "route_rail_access"
+  ],
+  "row_count": 3,
+  "schema_version": 1,
+  "source_class_counts": {
+    "cached_external_router_snapshot": 3
+  },
+  "status_counts": {
+    "pass": 3
+  },
+  "summary_artifact_present": true,
+  "summary_sha256": "61b72a6353d5bc7fd69de6c3e1a7e4809d719602600635dd313dc966457b9d75",
+  "time_status_counts": {
+    "pass": 3
+  },
+  "unpinned_reference_versions": [],
+  "unpinned_row_count": 0
+}

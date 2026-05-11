@@ -1,0 +1,40 @@
+{
+  "claim_boundary": "This packet identifies required rail timing sources and commands. It does not contain cached source observations, derived rail-service evidence, accepted capacity evidence, or emergency rail availability evidence.",
+  "evidence_field_counts": {
+    "availability": 1,
+    "capacity": 1,
+    "delay": 1,
+    "headway": 2,
+    "partial_unavailability": 1,
+    "travel_time": 2
+  },
+  "inputs": {
+    "rail_assumptions": "data\\parameters\\rail_assumptions.csv",
+    "rail_station_bindings": "data\\parameters\\rail_station_bindings.csv"
+  },
+  "outputs": {
+    "manifest": "data\\rail\\rail_timing_source_request_manifest.json",
+    "rail_timing_source_request_packet": "data\\rail\\rail_timing_source_request_packet.csv"
+  },
+  "publication_ready": false,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
+  "requires_private_or_reviewed_input_count": 3,
+  "result_scope": "Rail timing source-request packet; not cached rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
+  "review_items": [
+    "obtain DATA_GO_KR_KEY or a reviewed static GTFS feed before running timing-source fetches",
+    "retain raw payloads or reviewed source files with SHA256 digests",
+    "derive headway and travel time into rail_service_evidence.csv only after source review",
+    "rerun rail evidence, rail review packet, publication-readiness, and final-study-readiness audits after timing evidence changes"
+  ],
+  "row_count": 5,
+  "schema_version": 1,
+  "source_type_counts": {
+    "operator_or_literature_or_sensitivity_decision": 1,
+    "public_api_key_required": 2,
+    "reviewed_static_gtfs_file_required": 1,
+    "scenario_or_public_disruption_source_required": 1
+  },
+  "timing_closure_candidate_count": 1
+}

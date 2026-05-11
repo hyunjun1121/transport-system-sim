@@ -1,6 +1,6 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-05-10
+Audit date: 2026-05-11
 
 ## Objective
 
@@ -24,9 +24,9 @@ The active objective is complete only when every final-study gate below is ready
 | Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
 | --- | --- | --- | --- |
 | Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+6 more | create an explicit pilot acceptance record after privacy and case-scope review<br>resolve pilot-region decision blockers before pilot acceptance<br>pilot-region decision: data/manifests/graph_scale_acceptance.json is absent<br>+3 more |
-| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+25 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+12 more |
+| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+25 more | road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+13 more |
 | Real Input Smoke | ready | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
-| Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>graph-scale strategy readiness: graph_scale_acceptance.json is absent<br>+9 more |
+| Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>graph-scale strategy readiness: full bus-practical graph has smoke evidence only<br>+10 more |
 | Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+30 more | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>source provenance priority: formal provenance acceptance record is absent<br>+18 more |
 | Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/transfer_evidence_review_packet.csv<br>+20 more | justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+15 more |
 | Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+24 more | rail service evidence: cache timetable, shortest-path, or GTFS-derived records<br>rail service evidence: derive headway and travel time from the cached records<br>rail fetch readiness: rail timing cache files are absent unless source_cache_present is true<br>+11 more |
@@ -152,6 +152,36 @@ This audit checks whether sub-agent records cite existing local review inputs or
 - Agent review paths ready: `true`
 - Can mark complete: `false`
 
+## Review Package Path Hygiene
+
+This audit opens `required_deliverables.zip` and checks that packaged sub-agent review records do not cite missing non-formal local paths. It is package hygiene only and cannot approve any gate.
+
+- ZIP present: `true`
+- ZIP valid: `true`
+- ZIP file count: 813
+- Review records in ZIP: 12
+- Path references in ZIP records: 831
+- Missing package paths: 0
+- Missing formal targets: 36
+- Review package paths ready: `true`
+- Can mark complete: `false`
+
+This audit checks path references inside the external review ZIP. It does not validate evidence quality, approve formal acceptance records, certify calibration, or close final-study gates.
+
+## Expert Review Handoff
+
+The handoff sidecar records the final ZIP checksum and send-list outside the ZIP so checksum reporting does not mutate the reviewed package. It is review logistics only and cannot approve any gate.
+
+- ZIP path: `required_deliverables.zip`
+- ZIP file count: 813
+- ZIP SHA256: recorded in `review_packages/expert_review_handoff_20260510.md` and `review_packages/expert_review_handoff_20260510.json` outside the ZIP
+- Mirror ZIP matches: `true`
+- Formal acceptance ready: `false`
+- Missing formal targets: 12 / 12
+- Can mark complete: `false`
+
+This handoff note identifies the external review ZIP and sidecar files. It does not validate evidence quality, approve formal acceptance records, certify calibration, or close final-study gates.
+
 ## Formal Acceptance Artifact Guard
 
 The guard checks that formal acceptance paths do not contain copied templates, placeholders, draft overrides, or current-state audit text masquerading as final approval.
@@ -193,6 +223,38 @@ The package intake validates reviewer-supplied formal acceptance artifacts as a 
 
 This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.
 
+## Experiment Statistical Analysis Plan
+
+The statistical-analysis plan records the current scenario-policy-seed design, candidate primary metrics, candidate primary policy contrast, CRN review dependencies, replication adequacy review items, and multiple-comparison boundary. It is planning evidence only and cannot accept experiment outputs.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/experiment_statistical_analysis_plan.json`
+- Selected profile: `full_pilot`
+- Statistical plan ready for review: `false`
+- Blocking checks: 1
+- Human-review checks: 4
+- Acceptance ready: `false`
+- Can mark complete: `false`
+
+This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment acceptance, prove replication adequacy, validate common-random-number design, certify a multiple-comparison procedure, or close final-study gates.
+
+## Deterministic Rerun Audit
+
+The deterministic rerun audit executes a bounded pilot profile twice with identical inputs and compares canonical result and summary hashes. It is repeatability support only and cannot accept CRN design or experiment outputs.
+
+- Manifest present: `true`
+- Manifest path: `data/manifests/deterministic_rerun_audit_manifest.json`
+- Deterministic rerun structurally ready: `true`
+- Row hashes match: `true`
+- Summary hashes match: `true`
+- Blocking checks: 1
+- Deterministic blocking checks: 0
+- Human-review checks: 1
+- Acceptance ready: `false`
+- Can mark complete: `false`
+
+This deterministic rerun audit checks whether a bounded pilot profile produces identical rows across two local executions with the same inputs. It does not approve CRN design, prove replication adequacy, certify full experiment reproducibility, or close final-study gates.
+
 ## Current-Worktree Reproducibility Smoke
 
 The smoke manifest records bounded validation commands run in the current worktree. It is useful execution evidence, but it is not clean-checkout reproduction and cannot close the reproducibility gate.
@@ -224,10 +286,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 12
-- Blocking changed artifacts: 12
-- Untracked artifacts: 0
-- Modified or staged artifacts: 12
+- Changed reproducibility artifacts: 122
+- Blocking changed artifacts: 122
+- Untracked artifacts: 47
+- Modified or staged artifacts: 75
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 
@@ -313,6 +375,8 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_experiment_package_review_packet.py
 .\.venv\Scripts\python scripts\write_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python scripts\write_experiment_design_decision_packet.py
+.\.venv\Scripts\python scripts\write_experiment_statistical_plan.py
+.\.venv\Scripts\python scripts\audit_deterministic_rerun.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
@@ -329,6 +393,8 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 .\.venv\Scripts\python scripts\write_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python scripts\write_formal_acceptance_pre_review.py
 .\.venv\Scripts\python scripts\audit_agent_review_paths.py
+.\.venv\Scripts\python scripts\audit_review_package_paths.py --fail-on-missing
+.\.venv\Scripts\python scripts\write_expert_review_handoff.py --fail-on-zip-mismatch
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
 .\.venv\Scripts\python scripts\audit_formal_acceptance_artifacts.py
 .\.venv\Scripts\python scripts\audit_formal_evidence_paths.py

@@ -21,14 +21,17 @@ forecasts.
 
 ## Current Audit Snapshot
 
-As of 2026-05-09, the final-study audit reports
+As of 2026-05-10, the final-study audit reports
 `final_study_ready=false`. Three of 15 final gates are ready:
 `real_input_smoke`, `structured_disruptions`, and `policy_alternatives`.
 The remaining 12 gates are blocked.
 
 Formal acceptance is also not ready: 0 of 12 required formal acceptance targets
-are ready, and the corresponding formal acceptance artifacts are intentionally
-absent until source-backed human review supplies them. The current
+are ready. Formal target paths must be absent or backed by real,
+source-backed human review before any gate can close. In the current local
+worktree, placeholder copies were moved out of formal paths into draft storage;
+the formal guard reports 0 target files present, 12 missing, and 0
+template/placeholder copies in formal paths. The current
 `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
 `sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
 are implemented blocker/readiness aids, and focused
@@ -36,7 +39,66 @@ are implemented blocker/readiness aids, and focused
 `figure_table_review` worksheets keep benchmark scope, run-profile design, and
 figure/table claim boundaries reviewable. These artifacts are not acceptance
 records. No generated output in this repository is a calibrated real-world
-result or an operational route plan.
+result or an operational route plan until formal acceptance artifacts close.
+
+## Expert Consultation Follow-Up
+
+`docs/expert_consultation_request_reply.md` records an external review of the
+submitted `required_deliverables.zip`. The reply found that the review package
+was not sufficient for technical acceptance because it exposed acceptance/audit
+artifacts without the full implementation, scripts, tests, data/cache files,
+results, and documentation tree needed to verify the simulator and experiment
+pipeline.
+
+The active follow-up plan is
+`docs/expert_consultation_followup_plan.md`. Before requesting another expert
+acceptance review, build a complete inventory-checked review package and keep
+formal acceptance target paths absent unless they contain real source-backed
+reviewer decisions. Templates, copied draft records, generated review packets,
+path-hygiene checks, and smoke runs remain non-acceptance evidence.
+
+The renewed consultation handoff ZIP is now `required_deliverables.zip`,
+rebuilt from the package inventory. The current file count and SHA256
+is recorded in `docs/review_package_build.md` after each package build instead
+of being hard-coded here. Send the ZIP with
+`review_packages/expert_review_handoff_20260510.md` and
+`review_packages/expert_review_handoff_20260510.json`, which record the final
+checksum and send-list outside the ZIP. The previous 12-file package was
+preserved at
+`review_packages/original_required_deliverables_incomplete_20260510.zip`.
+This package is complete enough for renewed technical review, but it is still
+not a formal acceptance package.
+
+Review-sidecar bundle rules from the consultation response are:
+
+- Send `docs/review_package_build.md` and
+  `docs/review_package_path_audit.md` with every expert review ZIP.
+- Keep `AGENTS.md`, `plan.md`, `status.md`, `IMPLEMENTATION_PLAN.md`, and
+  `README.md` in the package so plan-text and acceptance-boundary drift can be
+  audited across handoffs.
+- After any formal artifact change, rerun:
+  - `scripts/audit_formal_acceptance_artifacts.py`
+  - `scripts/audit_formal_evidence_paths.py`
+  - `scripts/validate_formal_acceptance_package.py`
+  - `scripts/audit_review_package_paths.py --fail-on-missing`
+  - `scripts/write_expert_review_handoff.py --fail-on-zip-mismatch`
+
+### Consultation-Reply Acceptance Controls
+
+From the reply review, the repository now enforces these non-negotiables:
+
+- **No acceptance by packaging completeness alone**: file presence in a ZIP is
+  only a prerequisite for independent review.
+- **No acceptance by naming**: final acceptance paths are still blocked unless
+  each has a reviewer-signed decision and complete evidence evidence-path
+  mapping.
+- **Road/rail/parameter evidence remains provisional** until source-backed
+  evidence or accepted sensitivity-bound assumptions are attached.
+- **Validation and experiment claims remain provisional** until CRN pairing, scope,
+  and multiple-comparison handling are accepted.
+
+If these controls are not all true, expert requests should remain in a
+pre-acceptance package state even when all review packets are generated.
 
 ## Windows Setup
 
@@ -231,6 +293,7 @@ src/
     reproducibility_smoke.py # Current-worktree smoke evidence runner
     clean_checkout_smoke.py # Bounded clean-checkout smoke helper
     agent_review_path_audit.py # Review-agent path hygiene audit
+    review_package_path_audit.py # ZIP-internal review-package path audit
     tracked_artifact_audit.py # Changed-artifact clean-checkout packaging audit
     sensitivity.py         # Deterministic and SALib Morris sensitivity scaffold
     sensitivity_acceptance.py # Explicit sensitivity acceptance validation
@@ -323,13 +386,20 @@ scripts/
   write_validation_benchmark_readiness_packet.py # Write benchmark readiness packet
   write_validation_benchmark_decision_packet.py # Write benchmark decision packet
   write_integrated_evidence_review_packet.py # Write E2/E3/E5 integrated review packet
+  write_seed_stream_manifest.py # Write pilot seed-stream review manifest
+  audit_crn_pairing.py # Audit structural CRN scenario-policy-seed pairing
+  audit_replication_adequacy.py # Audit paired-statistics replication adequacy
+  audit_deterministic_rerun.py # Audit bounded deterministic rerun equality
   write_osm_graph_snapshot_review_packet.py # Write OSM graph snapshot review packet
   write_reproducibility_review_packet.py # Write clean-checkout review packet
   write_reproducibility_decision_packet.py # Write reproducibility decision packet
   run_reproducibility_smoke.py # Run bounded current-worktree reproducibility smoke
   run_clean_checkout_smoke.py # Run bounded clean-checkout smoke
   audit_agent_review_paths.py # Check review-agent path references
+  audit_review_package_paths.py # Check review-agent path references inside ZIP
   audit_tracked_artifacts.py # List changed artifacts missing from clean checkout
+  write_review_package_inventory.py # Write external-review package inventory
+  build_review_package.py # Build inventory-based external-review ZIP
   write_acceptance_decision_templates.py # Write non-approval formal acceptance templates
   write_formal_acceptance_blocker_queue.py # Explicit formal blocker queue command
   write_acceptance_blocker_queue.py # Compatibility implementation for blocker queue
@@ -356,6 +426,7 @@ scripts/
   write_graph_scale_result_comparison.py # Compare current vs candidate graph-scale results
   write_experiment_strategy_readiness_packet.py # Write experiment strategy readiness packet
   write_experiment_design_decision_packet.py # Write experiment design decision packet
+  write_experiment_statistical_plan.py # Write non-acceptance statistical analysis plan
   write_figure_table_review_packet.py # Write figure/table review packet
   write_manuscript_report_decision_packet.py # Write manuscript/report decision packet
   write_final_audit_decision_packet.py # Write final-audit decision packet
@@ -399,6 +470,9 @@ The current research context is distributed across these Markdown files:
 | `docs/source_url_review_packet.md` | URL-level source review worksheet; not provenance acceptance |
 | `docs/source_url_remediation_packet.md` | URL-level source remediation queue; not provenance acceptance |
 | `docs/experiment_package_review_packet.md` | Full experiment output worksheet; not experiment acceptance |
+| `docs/seed_stream_manifest.md` | Scenario-runner seed-stream manifest; not CRN or experiment acceptance |
+| `docs/crn_pairing_audit.md` | Structural CRN scenario-policy-seed pairing audit; not experiment acceptance |
+| `docs/replication_adequacy_audit.md` | Paired-statistics replication and multiple-comparison review audit; not experiment acceptance |
 | `docs/experiment_strategy_readiness_packet.md` | Experiment blocker/readiness worksheet; not experiment acceptance |
 | `docs/pilot_privacy_review_packet.md` | Pilot privacy/sensitivity review worksheet; not pilot acceptance |
 | `docs/claim_alignment_review_packet.md` | Paper/report/figure claim worksheet; not manuscript acceptance |
@@ -407,6 +481,9 @@ The current research context is distributed across these Markdown files:
 | `docs/reproducibility_package.md` | Reproduction commands, artifact manifests, and claim boundaries |
 | `docs/reproducibility_smoke.md` | Current-worktree reproducibility smoke summary; not clean-checkout acceptance |
 | `docs/tracked_artifact_audit.md` | Changed-artifact packaging audit for clean-checkout reproducibility |
+| `docs/review_package_inventory.md` | Inventory of files to include in the next complete expert-review package; not acceptance evidence |
+| `docs/review_package_build.md` | ZIP build summary for the next complete expert-review package; not acceptance evidence |
+| `docs/review_package_path_audit.md` | ZIP-internal review-record path audit; not acceptance evidence |
 | `docs/acceptance_decision_templates.md` | Non-approval formal acceptance template guide for human reviewers |
 | `docs/formal_acceptance_blocker_queue.md` | Gate-by-gate formal acceptance blocker queue generated for reviewers |
 | `docs/acceptance_task_assignments.md` | Sub-agent role assignments for each unresolved formal acceptance blocker |
@@ -417,6 +494,7 @@ The current research context is distributed across these Markdown files:
 | `docs/formal_acceptance_package_audit.md` | One-shot intake report for formal acceptance artifacts after human review |
 | `docs/plan_completion_audit.md` | Static plan-gate snapshot, scaffold status, and remaining blockers |
 | `docs/current_goal_completion_audit.md` | Active-goal prompt-to-artifact completion gap audit; not final acceptance |
+| `docs/expert_consultation_followup_plan.md` | Post-consultation remediation plan for package completeness, evidence closure, formal artifact hygiene, and renewed expert review |
 | `docs/agents/acceptance_review_agents.md` | Sub-agent review role definitions and non-fabrication rules |
 | `docs/review_packets/acceptance_review_index.md` | Aggregated gate review packet index generated by `scripts/run_acceptance_audit.py` |
 | `docs/third_party_adaptations.md` | Third-party reference and adaptation provenance records |
@@ -463,6 +541,11 @@ Implemented pieces:
   `data/regions/pilot_region.yaml`, `data/cache/pilot_region_road.graphml`,
   `data/cache/pilot_region_road_manifest.json`,
   `scripts/build_pilot_cache.py`, and `scripts/run_pilot_smoke.py`.
+- Formal target note: placeholder copies that had occupied final target paths
+  were moved to
+  `data/manifests/draft_acceptance/formal_target_placeholders_20260510/`,
+  `data/parameters/draft_acceptance/`, and `docs/draft_acceptance/`. The final
+  target paths remain absent until real reviewer decisions are supplied.
 - `data/parameters/` records parameter, rail, and fleet source classes and is
   validated by `src.realworld.parameters`.
 - `src.realworld.parameter_acceptance` validates optional
@@ -760,6 +843,21 @@ Implemented pieces:
 - `scripts/write_experiment_package_review_packet.py` checks the full pilot
   manifest, result CSV, summary CSV, design counts, CRN declaration, graph
   scope, input dependencies, and checksums without accepting the experiment.
+- `scripts/write_seed_stream_manifest.py` documents the current demand,
+  disruption, and deterministic dispatch/fleet/rail/transfer/traffic streams
+  from source markers. It is a review manifest only, not CRN acceptance.
+- `scripts/audit_crn_pairing.py` checks result rows against the manifest's
+  region, graph source, policy, scenario, and seed dimensions, and records the
+  source-level seed split markers for human CRN review. It is structural review
+  support only, not experiment acceptance.
+- `scripts/audit_replication_adequacy.py` checks metric CI and paired-delta
+  tables against the statistics manifest, seed count, baseline policy, CI
+  method, and multiple-comparison documentation. It keeps replication
+  adequacy and secondary-comparison handling as review decisions.
+- `scripts/build_review_package.py` creates an inventory-based external-review
+  ZIP under `review_packages/` by default. It excludes unreviewed formal
+  acceptance target files unless `--include-formal-targets` is passed, and it
+  writes a build manifest and Markdown summary.
 - `scripts/write_claim_alignment_review_packet.py` scans the paper draft,
   report source, and figure/table manifest for claim language that needs
   revision or formal acceptance before manuscript approval.
@@ -877,6 +975,9 @@ Frequently used direct commands are listed below for targeted reruns:
 .\.venv\Scripts\python tests\test_realworld_pilot_experiments.py
 .\.venv\Scripts\python tests\test_realworld_experiment_acceptance.py
 .\.venv\Scripts\python tests\test_realworld_experiment_package_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_seed_stream_manifest.py
+.\.venv\Scripts\python tests\test_realworld_crn_pairing_audit.py
+.\.venv\Scripts\python tests\test_realworld_replication_adequacy_audit.py
 .\.venv\Scripts\python tests\test_realworld_experiment_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity.py
 .\.venv\Scripts\python tests\test_realworld_sensitivity_acceptance.py
@@ -891,6 +992,9 @@ Frequently used direct commands are listed below for targeted reruns:
 .\.venv\Scripts\python tests\test_realworld_acceptance_task_assignments.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python tests\test_realworld_formal_evidence_path_audit.py
+.\.venv\Scripts\python tests\test_realworld_review_package_inventory.py
+.\.venv\Scripts\python tests\test_realworld_review_package_builder.py
+.\.venv\Scripts\python tests\test_realworld_review_package_path_audit.py
 ```
 
 Pilot scaffold commands below are offline except for the explicitly optional
@@ -944,12 +1048,21 @@ OSRM benchmark command:
 .\.venv\Scripts\python scripts\audit_sensitivity_diagnostics.py
 .\.venv\Scripts\python scripts\write_sensitivity_review_packet.py
 .\.venv\Scripts\python scripts\write_sensitivity_strategy_readiness_packet.py
+.\.venv\Scripts\python scripts\write_seed_stream_manifest.py
+.\.venv\Scripts\python scripts\audit_crn_pairing.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py
+.\.venv\Scripts\python scripts\audit_replication_adequacy.py
+.\.venv\Scripts\python scripts\write_experiment_statistical_plan.py
+.\.venv\Scripts\python scripts\audit_deterministic_rerun.py
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_manifest.json --output-prefix pilot_multi_corridor
 .\.venv\Scripts\python scripts\make_pilot_statistics.py --input results\realworld_pilot\pilot_multi_corridor_full_results.csv --source-manifest results\realworld_pilot\pilot_multi_corridor_full_manifest.json --output-prefix pilot_multi_corridor_full
 .\.venv\Scripts\python scripts\make_pilot_figures.py
 .\.venv\Scripts\python scripts\audit_plan_artifacts.py
 .\.venv\Scripts\python scripts\write_goal_completion_audit.py
+.\.venv\Scripts\python scripts\write_review_package_inventory.py
+.\.venv\Scripts\python scripts\build_review_package.py --output required_deliverables.zip --fail-on-missing
+.\.venv\Scripts\python scripts\audit_review_package_paths.py --fail-on-missing
+.\.venv\Scripts\python scripts\write_expert_review_handoff.py --fail-on-zip-mismatch
 ```
 
 Optional live external-router snapshot:

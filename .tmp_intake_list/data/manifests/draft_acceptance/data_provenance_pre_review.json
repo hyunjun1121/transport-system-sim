@@ -1,0 +1,390 @@
+{
+  "can_mark_complete": false,
+  "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
+  "current_status": "blocked",
+  "evidence_checked": [
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_license_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_review_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_remediation_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_priority_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_request_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_decision_packet.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/reproducibility_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/cache/pilot_region_road_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "cloned_repo_manifest.md"
+    },
+    {
+      "claim_supported": "Formal target required for data_provenance",
+      "exists": false,
+      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "path": "data/manifests/provenance_acceptance.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/data_provenance.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_license_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_review_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_url_remediation_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_priority_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_request_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_context_cache_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/source_provenance_decision_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_provenance_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/manifests/current_goal_completion_audit.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/reproducibility_package.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_license_review_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_url_review_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_url_remediation_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_provenance_priority_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_context_cache_request_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/source_context_cache_decision_packet.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/pilot_region_data_card.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/audit_source_provenance.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_license_review_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_url_review_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_url_remediation_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_provenance_priority_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_context_cache_request_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_context_cache_decision_packet.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for data_provenance",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_source_provenance_decision_packet.py"
+    }
+  ],
+  "files_to_create_or_update_after_human_decision": [
+    "data/manifests/provenance_acceptance.json"
+  ],
+  "final_study_ready": false,
+  "formal_approval": false,
+  "formal_ready": false,
+  "formal_record_present": false,
+  "formal_target": "data/manifests/provenance_acceptance.json",
+  "gate": "data_provenance",
+  "generated_at": "2026-05-09T04:31:33+00:00",
+  "human_decision_required": true,
+  "human_reviewer_action_required": [
+    "Inspect the listed review packets and evidence paths.",
+    "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
+    "Approve, reject, or keep blocked based on the existing review packet evidence.",
+    "Resolve each missing-evidence item listed in this record.",
+    "After a real decision, create or update data/manifests/provenance_acceptance.json.",
+    "Rerun scripts/validate_formal_acceptance_package.py."
+  ],
+  "label": "Source/License/Provenance Acceptance",
+  "missing_evidence": [
+    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+    "source provenance priority: formal provenance acceptance record is absent",
+    "source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
+    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent",
+    "source context cache decision: formal provenance acceptance record is absent",
+    "source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
+    "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
+    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "resolve source-provenance decision blockers before provenance acceptance",
+    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
+    "source provenance decision: reproducibility manifest remains scaffold-only",
+    "source provenance decision: data/manifests/provenance_acceptance.json is absent",
+    "review source-provenance decision human-decision items before provenance acceptance",
+    "data/manifests/provenance_acceptance.json is absent"
+  ],
+  "must_not_be_used_as_final_acceptance": true,
+  "plan_evidence_paths": [
+    "data/manifests/provenance_acceptance.json",
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_license_review_manifest.json",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_review_manifest.json",
+    "data/manifests/source_url_remediation_packet.csv",
+    "data/manifests/source_url_remediation_manifest.json",
+    "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_packet.csv",
+    "data/manifests/source_context_cache_request_manifest.json",
+    "data/manifests/source_context_cache_decision_packet.csv",
+    "data/manifests/source_context_cache_decision_manifest.json",
+    "data/manifests/source_provenance_decision_packet.csv",
+    "data/manifests/source_provenance_decision_manifest.json",
+    "data/manifests/reproducibility_manifest.json",
+    "docs/source_license_review_packet.md",
+    "docs/source_url_review_packet.md",
+    "docs/source_url_remediation_packet.md",
+    "docs/source_provenance_priority_packet.md",
+    "docs/source_context_cache_request_packet.md",
+    "docs/source_context_cache_decision_packet.md",
+    "docs/source_provenance_decision_packet.md",
+    "docs/reproducibility_package.md",
+    "docs/pilot_region_data_card.md",
+    "scripts/audit_source_provenance.py",
+    "scripts/write_source_license_review_packet.py",
+    "scripts/write_source_url_review_packet.py",
+    "scripts/write_source_url_remediation_packet.py",
+    "scripts/write_source_provenance_priority_packet.py",
+    "scripts/write_source_context_cache_request_packet.py",
+    "scripts/write_source_context_cache_decision_packet.py",
+    "scripts/write_source_provenance_decision_packet.py"
+  ],
+  "recommendation": "blocked_requires_human_decision",
+  "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
+  "related_plan_gate_ids": [
+    "data_provenance"
+  ],
+  "residual_risks": [
+    "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
+    "Create data/manifests/provenance_acceptance.json only after source-backed review.",
+    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
+    "source provenance priority: formal provenance acceptance record is absent",
+    "source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
+    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
+    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
+    "source provenance priority: URL remediation rows still require reviewer confirmation",
+    "source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
+    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
+    "source context cache request: formal provenance acceptance record is absent",
+    "source context cache decision: formal provenance acceptance record is absent",
+    "source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
+    "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
+    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
+    "resolve source-provenance decision blockers before provenance acceptance",
+    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
+    "source provenance decision: reproducibility manifest remains scaffold-only",
+    "source provenance decision: data/manifests/provenance_acceptance.json is absent",
+    "review source-provenance decision human-decision items before provenance acceptance",
+    "data/manifests/provenance_acceptance.json is absent",
+    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
+    "Final-study readiness remains false until formal validators accept source-backed records."
+  ],
+  "review_packets": [
+    "docs/review_packets/data_provenance.md",
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_remediation_packet.csv",
+    "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
+    "data/manifests/source_context_cache_decision_packet.csv",
+    "data/manifests/source_provenance_decision_packet.csv"
+  ],
+  "reviewed_inputs": [
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/source_license_review_manifest.json",
+    "data/manifests/source_url_review_manifest.json",
+    "data/manifests/source_url_remediation_manifest.json",
+    "data/manifests/source_provenance_priority_manifest.json",
+    "data/manifests/source_context_cache_request_manifest.json",
+    "data/manifests/source_context_cache_decision_manifest.json",
+    "data/manifests/source_provenance_decision_manifest.json",
+    "docs/source_provenance_decision_packet.md",
+    "data/manifests/reproducibility_manifest.json",
+    "data/manifests/current_goal_completion_audit.json",
+    "docs/reproducibility_package.md",
+    "cloned_repo_manifest.md"
+  ],
+  "schema_version": 1,
+  "source_paths": [
+    "data/manifests/source_provenance_manifest.json",
+    "data/manifests/source_license_review_packet.csv",
+    "data/manifests/source_url_review_packet.csv",
+    "data/manifests/source_url_remediation_packet.csv",
+    "data/manifests/source_provenance_priority_packet.csv",
+    "data/manifests/source_context_cache_request_packet.csv",
+    "data/manifests/source_context_cache_decision_packet.csv",
+    "data/manifests/source_provenance_decision_packet.csv",
+    "data/manifests/reproducibility_manifest.json",
+    "data/cache/pilot_region_road_manifest.json",
+    "cloned_repo_manifest.md",
+    "data/manifests/provenance_acceptance.json"
+  ],
+  "status": "draft_pre_review"
+}

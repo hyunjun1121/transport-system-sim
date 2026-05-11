@@ -5,17 +5,92 @@ record, not a worker launch schedule.
 
 ## Current Audit Snapshot
 
-As of 2026-05-06, the implementation supports the quasi-real scaffold but does
+As of 2026-05-10, the implementation supports the quasi-real scaffold but does
 not complete the final study. The final-study audit reports
 `final_study_ready=false`: 3 of 15 gates are ready
 (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and 12
-are blocked. Formal acceptance is 0/12 ready, with the required formal
-acceptance artifacts intentionally absent until source-backed human review.
+are blocked. Formal acceptance is 0/12 ready. Formal target files must be
+absent or backed by source-backed human review before any gate can close. In
+the current local worktree, placeholder copies were moved out of final target
+paths into draft storage; the formal guard reports 0 target files present and
+12 missing, with no template copies in formal paths.
 
 The current `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
 `sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
 are implemented review aids. They do not create calibrated real-world results,
 operational route plans, or formal acceptance.
+
+## Expert Consultation Implementation Implications
+
+The external consultation reply in
+`docs/expert_consultation_request_reply.md` does not change the implemented
+simulator semantics below. It changes the implementation work order around
+packaging, evidence closure, and acceptance hygiene.
+
+### Reply-Derived Boundary Controls (2026-05-10)
+
+- The latest reply confirmed that the renewal package now includes implementation,
+  code, scripts, tests, data/cache, results, manifests, and auditable evidence
+  paths. The current active rule is: technical acceptance review remains blocked
+  until evidence-formal gates are closed, even with complete package contents.
+- The reply also confirmed the artifact-naming risk. Any file named like an
+  acceptance target is treated as **only a blocker** unless a reviewer has issued
+  a real, source-backed acceptance decision for that specific path.
+- Formal acceptance remains blocked even when templates are complete. The implementation
+  workstream remains support-oriented until the following all become true:
+  - `scripts/audit_formal_acceptance_artifacts.py` reports no template/placeholder
+    leakage into formal targets.
+  - `scripts/audit_formal_evidence_paths.py` reports no unresolved local-evidence path
+    gaps.
+  - `scripts/validate_formal_acceptance_package.py` reports all required formal targets
+    either accepted or explicitly blocked with no ambiguity.
+
+### Consolidated Reply Blocker Map
+
+| Category | Impact | Immediate Owner |
+| --- | --- | --- |
+| Package completeness | Cannot review implementation, experiments, or claims if artifacts are missing from handoff | Packaging + reproducibility lead |
+| Evidence path-integrity | Existing local citations in acceptance/audit records must resolve | Audit scripts + repository owner |
+| Road/rail/parameter assumptions | Current assumption tables remain unaccepted; final claims blocked | Domain/data lead |
+| Graph-scale decision | Corridor reduction remains an unresolved abstraction policy | Network/scenario lead |
+| Validation scope | OSRM/benchmark checks remain plausibility-only unless upgraded | Validation lead |
+| Experiment integrity | CRN pairing and seed policy must be accepted as designed | Experiment lead |
+| Manuscript/report language | Forecast/operational overclaim risk until gates close | Reporting lead |
+
+Implementation-adjacent follow-up:
+
+- Add no new policy-result claim until a complete review package includes the
+  implementation, scripts, tests, data/cache records, generated results, docs,
+  report sources, and planning files.
+- Keep formal acceptance targets absent unless they contain source-backed
+  human review decisions. Drafts and templates belong in template or draft
+  paths, not final target paths.
+- Treat road overrides, rail service values, and weak parameters as scenario
+  assumptions or sensitivity inputs until reviewed evidence replaces or accepts
+  them.
+- Treat a renewed technical review package as a non-acceptance entrypoint; formal
+  acceptance claims still require guard/audit completion and reviewed formal
+  decisions.
+- Treat current pilot and sensitivity outputs as dependent on unresolved graph
+  scope, input evidence, CRN review, and validation-scope decisions.
+- Prioritize implementation support for path-integrity checks, seed/CRN
+  auditing, result manifests, cache freeze rules, and artifact regeneration
+  before adding new modeling features.
+- After any code change or formal artifact change, rerun:
+    - `scripts/audit_formal_acceptance_artifacts.py`
+    - `scripts/audit_formal_evidence_paths.py`
+    - `scripts/validate_formal_acceptance_package.py`
+    - `scripts/audit_review_package_paths.py --fail-on-missing`
+    - `scripts/write_expert_review_handoff.py --fail-on-zip-mismatch`
+- Use `scripts/write_review_package_inventory.py`,
+  `scripts/build_review_package.py`, `scripts/write_seed_stream_manifest.py`,
+  `scripts/audit_crn_pairing.py`, and
+  `scripts/audit_replication_adequacy.py` as pre-review controls for the next
+  expert package. They support package completeness, ZIP handoff, CRN
+  structure, and paired-statistics review, but they are not acceptance records.
+
+The detailed post-consultation execution plan is maintained in
+`docs/expert_consultation_followup_plan.md`.
 
 ## Implemented Scope
 

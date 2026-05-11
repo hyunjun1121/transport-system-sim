@@ -1,5 +1,5 @@
 {
-  "audit_date": "2026-05-10",
+  "audit_date": "2026-05-11",
   "blocked_gate_count": 12,
   "blocked_gate_ids": [
     "pilot_region_accepted",
@@ -17,6 +17,38 @@
   ],
   "can_mark_complete": false,
   "claim_boundary": "This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.",
+  "deterministic_rerun_audit": {
+    "acceptance_ready": false,
+    "blocking_check_count": 1,
+    "can_mark_complete": false,
+    "deterministic_blocking_check_count": 0,
+    "deterministic_rerun_structurally_ready": true,
+    "manifest_present": true,
+    "needs_human_review_count": 1,
+    "path": "data/manifests/deterministic_rerun_audit_manifest.json",
+    "row_hashes_match": true,
+    "summary_hashes_match": true
+  },
+  "experiment_statistical_analysis_plan": {
+    "acceptance_ready": false,
+    "blocking_check_count": 1,
+    "can_mark_complete": false,
+    "manifest_present": true,
+    "needs_human_review_count": 4,
+    "path": "data/manifests/experiment_statistical_analysis_plan.json",
+    "selected_profile_id": "full_pilot",
+    "statistical_plan_ready_for_review": false
+  },
+  "expert_review_handoff": {
+    "can_mark_complete": false,
+    "formal_target_count": 12,
+    "handoff_manifest_location": "review_packages/expert_review_handoff_20260510.json",
+    "mirror_zip_matches": true,
+    "missing_formal_target_count": 12,
+    "zip_file_count": 813,
+    "zip_path": "required_deliverables.zip",
+    "zip_sha256_location": "review_packages/expert_review_handoff_20260510.md"
+  },
   "final_study_ready": false,
   "gate_count": 15,
   "missing_acceptance_artifact_count": 12,
@@ -161,7 +193,8 @@
         "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
         "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
         "road override application: reviewed road-class override table is absent",
-        "road source readiness: reviewed road_class_overrides.csv is absent unless target_output_present is true",
+        "road source readiness: cached lane-count evidence has no parseable observed lane rows",
+        "road source readiness: data/parameters/road_class_overrides.csv is absent",
         "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
         "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
         "road source decision: reviewed road_class_overrides.csv is absent",
@@ -232,7 +265,8 @@
       "missing_or_weak_requirements": [
         "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
         "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-        "graph-scale strategy readiness: graph_scale_acceptance.json is absent",
+        "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
+        "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
         "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
         "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
         "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
@@ -597,7 +631,7 @@
         "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims",
         "resolve manuscript/report decision blockers before manuscript acceptance",
         "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-        "manuscript/report decision: claim-alignment packet has 86 rows requiring revision or acceptance",
+        "manuscript/report decision: claim-alignment packet has 91 rows requiring revision or acceptance",
         "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
         "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
         "review manuscript/report human-decision rows before manuscript acceptance"
@@ -671,6 +705,17 @@
     "policy_alternatives"
   ],
   "result_scope": "current_goal_completion_gap_audit_not_final_acceptance",
+  "review_package_path_audit": {
+    "can_mark_complete": false,
+    "missing_formal_target_count": 36,
+    "missing_package_path_count": 0,
+    "path_reference_count": 831,
+    "record_count": 12,
+    "review_package_paths_ready": true,
+    "zip_file_count": 813,
+    "zip_present": true,
+    "zip_valid": true
+  },
   "schema_version": 1,
   "status_counts": {
     "blocked": 12,

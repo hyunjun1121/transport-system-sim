@@ -1,0 +1,70 @@
+{
+  "acceptance_gate_closure_candidate_count": 0,
+  "blocking_decision_count": 3,
+  "can_mark_complete": false,
+  "claim_boundary": "Rail source-decision packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, not sensitivity-only rail acceptance, and not rail evidence gate closure. It cannot create data/parameters/rail_service_evidence.csv.",
+  "decision_ids": [
+    "rail_shortest_path_travel_time_request",
+    "rail_static_gtfs_timing_request",
+    "rail_timetable_headway_request",
+    "rail_availability_scenario_request",
+    "rail_capacity_treatment_request"
+  ],
+  "decision_status_counts": {
+    "blocked_missing_rail_source_decision": 3,
+    "needs_human_review_rail_source_decision": 2
+  },
+  "human_review_decision_count": 2,
+  "inputs": {
+    "rail_evidence_priority_manifest": "data/rail/rail_evidence_priority_manifest.json",
+    "rail_evidence_priority_packet": "data/rail/rail_evidence_priority_packet.csv",
+    "rail_evidence_review_packet": "data/parameters/rail_evidence_review_packet.csv",
+    "rail_fetch_readiness_manifest": "data/rail/rail_fetch_readiness_manifest.json",
+    "rail_fetch_readiness_packet": "data/rail/rail_fetch_readiness_packet.csv",
+    "rail_timing_source_request_packet": "data/rail/rail_timing_source_request_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/rail/rail_source_decision_packet.csv",
+    "doc": "docs/rail_source_decision_packet.md",
+    "manifest": "data/rail/rail_source_decision_manifest.json"
+  },
+  "publication_ready": false,
+  "rail_service_evidence_gate_closure_candidate_count": 0,
+  "rail_service_evidence_present": true,
+  "rail_source_decision_recorded": false,
+  "readiness_status_counts": {
+    "blocked_missing_data_go_kr_key": 2,
+    "blocked_missing_reviewed_gtfs_file": 1,
+    "needs_human_review_availability_scenario": 1,
+    "needs_human_review_capacity_treatment": 1
+  },
+  "region_ids": [
+    "songpa_public_demo"
+  ],
+  "remaining_blockers": [
+    "rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+    "rail timing cache or reviewed GTFS source files are absent for timing requests",
+    "retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or explicit acceptance",
+    "rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail_static_gtfs_timing_request: reviewed GTFS file is absent",
+    "rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present"
+  ],
+  "result_scope": "Rail source-decision packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, not sensitivity-only rail acceptance, and not rail evidence gate closure.",
+  "review_items": [
+    "choose GTFS, timetable plus shortest-path, another reviewed rail timing source, sensitivity-only treatment, or exclusion for timing claims",
+    "choose source-backed capacity evidence, explicit sensitivity-only capacity bounds, or exclusion for capacity-dependent claims",
+    "choose source-backed rail availability evidence, accepted scenario-only treatment, or exclusion for availability-dependent claims",
+    "preserve raw payloads, cache files, extraction date, source/license review, station binding, and not-operational claim boundaries before deriving evidence",
+    "rerun rail, parameter, provenance, publication-readiness, and final-study audits after decisions are recorded"
+  ],
+  "row_count": 5,
+  "schema_version": 1,
+  "source_cache_present_count": 2,
+  "source_type_counts": {
+    "operator_or_literature_or_sensitivity_decision": 1,
+    "public_api_key_required": 2,
+    "reviewed_static_gtfs_file_required": 1,
+    "scenario_or_public_disruption_source_required": 1
+  },
+  "timing_source_decision_count": 3
+}

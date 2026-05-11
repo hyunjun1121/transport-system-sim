@@ -1,0 +1,50 @@
+{
+  "claim_boundary": "This packet identifies required road-evidence sources and review commands. It does not contain reviewed speed observations, traffic counts, capacity calibration, accepted disruption probabilities, or proof that overrides were applied to final outputs.",
+  "evidence_field_counts": {
+    "background_traffic": 1,
+    "base_disruption": 1,
+    "base_disruption_probability": 1,
+    "blockage_rule": 1,
+    "capacity": 2,
+    "capacity_reduction": 1,
+    "free_flow_speed": 1,
+    "free_flow_time": 1,
+    "lanes": 1,
+    "override_application": 1,
+    "road_class_capacity": 1,
+    "route_time_plausibility": 1,
+    "speed": 1,
+    "speed_limit": 1
+  },
+  "inputs": {
+    "road_class_overrides_draft": "data/parameters/road_class_overrides_draft.csv",
+    "road_evidence_review_packet": "data/parameters/road_evidence_review_packet.csv"
+  },
+  "outputs": {
+    "manifest": "data/road/road_evidence_source_request_manifest.json",
+    "road_evidence_source_request_packet": "data/road/road_evidence_source_request_packet.csv"
+  },
+  "publication_ready": false,
+  "region_ids": [
+    "songpa_public_demo"
+  ],
+  "requires_reviewed_external_input_count": 5,
+  "result_scope": "Road evidence source-request packet; not reviewed speed evidence, not calibrated capacity evidence, not accepted disruption evidence, not applied road-class overrides, and not operational routing evidence.",
+  "review_items": [
+    "collect source-backed or explicitly accepted sensitivity evidence for speed, capacity, background traffic, and disruption rules",
+    "move reviewed values into data/parameters/road_class_overrides.csv only after source review",
+    "rerun pilot experiments with the reviewed override table and verify manifest SHA256 application",
+    "rerun road, publication-readiness, and final-study-readiness audits after road evidence changes"
+  ],
+  "road_application_closure_candidate_count": 1,
+  "road_evidence_closure_candidate_count": 1,
+  "row_count": 5,
+  "schema_version": 1,
+  "source_type_counts": {
+    "hazard_incident_or_reviewed_scenario_source_required": 1,
+    "public_speed_limit_or_benchmark_source_required": 1,
+    "reviewed_override_table_and_manifest_application_required": 1,
+    "routing_or_observed_traffic_benchmark_required": 1,
+    "traffic_count_or_capacity_reference_required": 1
+  }
+}
