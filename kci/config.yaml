@@ -1,0 +1,93 @@
+# KCI Transport System Simulation Configuration — Songpa to 부곡리 Corridor
+# Major-arterial virtual network. Builds simulator graph from cached OSM extract.
+
+# --- KCI path defaults (consumed by main.py / scripts when --config is used) ---
+region_path: data/regions/songpa_yangju_corridor.yaml
+cache_path: data/cache/songpa_yangju_corridor.graphml
+origin_candidates_path: data/regions/origin_candidates.json
+scenarios_path: data/scenarios/disruption_scenarios.csv
+policies_path: data/scenarios/policy_alternatives.csv
+design_path: data/scenarios/sensitivity_design.csv
+output_dir: results
+
+network:
+  use_realworld: true
+  variant: baseline
+  variant_levels: [baseline]
+  nodes: [A, S, R, D]
+  # Stub road_links/rail_link present so resolve_network_spec() succeeds.
+  # Actual routing uses the OSM-extracted DiGraph passed via main.py.
+  road_links:
+    - [A, D, 30, 500, 0.05]
+    - [A, S, 15, 200, 0.02]
+    - [R, D, 10, 300, 0.02]
+  rail_link:
+    - [S, R, 60, 15, 500]
+
+personnel:
+  total: 1000
+  group_size: 45
+  assembly_time: 480
+
+bpr:
+  alpha: 0.15
+  beta: 4.0
+
+bus:
+  first_departure_min: 480.0
+  dispatch_interval_min: 5.0
+  fleet_size: 23
+  turnaround_min: 5.0
+
+multimodal:
+  shuttle_first_departure_min: 480.0
+  shuttle_dispatch_interval_min: 5.0
+  shuttle_fleet_size: 23
+  transfer_time_min: 5.0
+  transfer_per_passenger_min: 0.0
+  rail_first_departure_min:
+  lastmile_dispatch_interval_min: 5.0
+  lastmile_fleet_size: 23
+  lastmile_turnaround_min: 5.0
+  lastmile_vehicle_capacity: 45
+  lastmile_first_departure_min:
+
+traffic:
+  volume_window_min: 60.0
+  background_volume: 100.0
+
+failure:
+  mode: blocked
+  capacity_reduction_factor: 0.5
+  mode_levels: [blocked]
+  capacity_reduction_factor_levels: [0.5]
+
+metrics:
+  late_penalty_min: 1440.0
+
+# Phase 1 sweeps. Keep modest for KCI virtual corridor.
+congestion_scale:
+  levels: [0.8, 1.0, 1.2, 1.5, 2.0]
+
+failure_rate:
+  parameter: p_fail_scale
+  semantics: multiplier
+  levels: [0.0, 0.25, 0.50, 1.00, 1.50, 2.00, 3.00]
+
+lateness:
+  distribution: lognormal
+  mu: 2.0
+  sigma_levels: [0.3, 0.5, 0.7, 1.0]
+
+policies:
+  STRICT:
+    type: strict
+  GRACE:
+    type: grace
+    W: [15, 30, 60]
+    theta: [0.8, 0.9]
+
+experiment:
+  R: 30
+  seed_base: 1
+  time_limit: 1440

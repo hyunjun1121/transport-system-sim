@@ -14,3 +14,13 @@ data/manifests/review_package_path_audit.json
 docs/review_package_build.md
 docs/review_package_inventory.md
 docs/review_package_path_audit.md
+
+# Claude Code session data
+.claude/
+
+# KCI runtime artifacts (regenerable)
+kci/cache/
+kci/logs/
+kci/data/cache/
+kci/results/*.png
+
