@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Sidebar } from './components/layout/Sidebar';
 import { TopBar } from './components/layout/TopBar';
-import { JulesWorkspace } from './components/jules/JulesWorkspace';
+import { EvidenceReviewWorkspace } from './components/review/EvidenceReviewWorkspace';
 import { DataWorkspace } from './components/panels/DataWorkspace';
 import { OperationalMap } from './components/map/OperationalMap';
 import { CommandDashboard } from './components/panels/CommandDashboard';
@@ -17,8 +17,8 @@ function App() {
         return <OperationalMap />;
       case 'data':
         return <DataWorkspace />;
-      case 'jules':
-        return <JulesWorkspace />;
+      case 'review':
+        return <EvidenceReviewWorkspace />;
       default:
         return <CommandDashboard setActiveTab={setActiveTab} />;
     }

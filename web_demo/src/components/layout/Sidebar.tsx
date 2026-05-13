@@ -45,14 +45,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         </nav>
 
         <div className="px-3 mt-8 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-widest hidden md:block">
-          AI Context
+          Review
         </div>
         <nav className="space-y-1 px-2">
           <SidebarItem
             icon={<Code size={18} />}
-            label="Jules Workspace"
-            active={activeTab === 'jules'}
-            onClick={() => setActiveTab('jules')}
+            label="Evidence Review"
+            active={activeTab === 'review'}
+            onClick={() => setActiveTab('review')}
           />
         </nav>
       </div>

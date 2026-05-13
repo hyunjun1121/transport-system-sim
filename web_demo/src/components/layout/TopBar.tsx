@@ -26,9 +26,9 @@ export const TopBar = () => {
         <NavbarDivider />
         <div className="flex items-center ml-2 cursor-pointer">
           <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-xs font-bold mr-2 border border-indigo-400">
-            JL
+            RV
           </div>
-          <span className="text-sm font-medium text-gray-300">Jules AI</span>
+          <span className="text-sm font-medium text-gray-300">Review Mode</span>
         </div>
       </NavbarGroup>
     </Navbar>

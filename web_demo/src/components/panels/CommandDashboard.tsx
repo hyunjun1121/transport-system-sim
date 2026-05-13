@@ -92,7 +92,7 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
                 <h3 className="text-sm font-bold text-gray-200 mb-1">Alert: Formal Acceptance Blocked</h3>
                 <p className="text-xs text-gray-400 mb-2">Audit snapshot indicates `final_study_ready=false`. 12 gates remain blocked awaiting source-backed human review of evidence paths.</p>
-                <Button small minimal intent="warning" onClick={() => setActiveTab('jules')}>Open Review Workspace</Button>
+                <Button small minimal intent="warning" onClick={() => setActiveTab('review')}>Open Review Workspace</Button>
              </div>
           </div>
         </Card>
