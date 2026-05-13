@@ -23,7 +23,7 @@ export const EvidenceReviewWorkspace: React.FC = () => {
             <FileText className="mr-3 text-palantir-blue" size={28} />
             Evidence Review Workspace
           </h1>
-          <p className="text-gray-400 mt-1">Formal acceptance blocker triage and evidence review context</p>
+          <p className="text-gray-400 mt-1">Non-operational review context for the Suseo-Pyeongtaek sample scenario</p>
         </div>
         <div className="flex space-x-3">
           <Tag intent="warning" large round>Review Status: IN PROGRESS</Tag>
@@ -42,13 +42,13 @@ export const EvidenceReviewWorkspace: React.FC = () => {
           </div>
           <div className="flex-1 overflow-y-auto p-2 space-y-2">
             <ReviewItem
-              title="Road capacity and disruption evidence"
+              title="Public corridor and area-label evidence"
               status="running"
               progress={78}
               time="P1"
             />
             <ReviewItem
-              title="Rail timing and headway evidence"
+              title="Suseo and Pyeongtaek-Jije source notes"
               status="pending"
               progress={0}
             />
@@ -84,9 +84,9 @@ export const EvidenceReviewWorkspace: React.FC = () => {
             </div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 bg-[#111418] font-mono text-sm space-y-4">
-            <AuditEntry time="14:02:11" type="info" message="Loaded review intake snapshot for transport simulation demo." />
+            <AuditEntry time="14:02:11" type="info" message="Loaded Seoul/Suseo to Pyeongtaek-Jije support-zone demo context." />
             <AuditEntry time="14:02:12" type="note" message="Formal acceptance remains blocked until source-backed human review closes the required gates." />
-            <AuditEntry time="14:02:14" type="action" message="Checking evidence packets for road, rail, parameter, and provenance readiness." />
+            <AuditEntry time="14:02:14" type="action" message="Checking public source notes, area labels, and scenario assumptions." />
             <AuditEntry time="14:02:18" type="note" message="Simulation outputs are shown as scaffold evidence and cannot be promoted to final operational claims." />
             <AuditEntry time="14:02:22" type="action" message="Queueing follow-up review for reproducibility and graph-scale acceptance." />
             <AuditEntry time="14:02:25" type="note" message="Manuscript language must stay aligned with the accepted evidence boundary." />
@@ -118,10 +118,10 @@ export const EvidenceReviewWorkspace: React.FC = () => {
                 Active Package
               </h3>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-palantir-blue">expert_review_intake.zip</span>
+                <span className="font-mono text-palantir-blue">Suseo-Pyeongtaek demo</span>
                 <Tag intent="warning">Review only</Tag>
               </div>
-              <p className="text-sm text-gray-400 mb-4">Final acceptance artifacts are absent by design.</p>
+              <p className="text-sm text-gray-400 mb-4">Area markers are generalized for report screenshots.</p>
 
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
@@ -131,8 +131,8 @@ export const EvidenceReviewWorkspace: React.FC = () => {
                 </div>
                 <div className="flex items-center text-sm">
                   <GitCommit size={14} className="text-gray-500 mr-2" />
-                  <span className="font-mono text-xs text-gray-500 w-16">3/15</span>
-                  <span className="text-gray-300 truncate">Final-study gates currently ready</span>
+                  <span className="font-mono text-xs text-gray-500 w-16">1</span>
+                  <span className="text-gray-300 truncate">Fixed scenario for the competition demo</span>
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@ export const EvidenceReviewWorkspace: React.FC = () => {
 
               <div className="border border-dark-600 rounded p-3 bg-dark-800 hover:bg-dark-700 cursor-pointer transition-colors">
                 <div className="flex justify-between items-start mb-1">
-                  <span className="text-sm font-semibold text-gray-200">Close source-backed evidence gaps</span>
+                  <span className="text-sm font-semibold text-gray-200">Keep demo claims within public-data scope</span>
                   <span className="text-xs font-mono text-gray-500">P1</span>
                 </div>
                 <div className="flex justify-between items-center mt-2">

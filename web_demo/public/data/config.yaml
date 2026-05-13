@@ -2,7 +2,9 @@
 # Legacy keys remain in place for the current CLI and scenario code.
 
 network:
-  nodes: [H, A, S, R, D]
+  # Web-demo node labels are generalized public-area markers for the
+  # Seoul/Suseo to Pyeongtaek-Jije support scenario.
+  nodes: [A, S, R, D, D1, D2]
   variant: baseline
   # Phase 1 sweeps these variants; other named variants can be selected here
   # without changing code.

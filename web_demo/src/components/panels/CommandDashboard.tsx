@@ -11,10 +11,10 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
             <Activity className="mr-3 text-palantir-blue" size={28} />
             Decision Support Center
           </h1>
-          <p className="text-gray-400 mt-1">AI Emergency Transport Decision-Support Demo Overview</p>
+          <p className="text-gray-400 mt-1">Seoul/Suseo to Pyeongtaek-Jije support-zone demo overview</p>
         </div>
         <div className="flex space-x-3">
-          <Tag intent="warning" large round icon="warning-sign">SCENARIO: DISRUPTION SAMPLE</Tag>
+          <Tag intent="warning" large round icon="warning-sign">SCENARIO: SUSEO-PTJ SAMPLE</Tag>
           <Button icon="document" text="Open Evidence View" />
         </div>
       </div>
@@ -28,9 +28,9 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard title="Study Status" value="SCOPED DEMO" sub="Not operational routing" intent="warning" icon={<CheckCircle />} />
-        <MetricCard title="Active Scenario" value="MULTIMODAL" sub="Rail-bus comparison view" intent="primary" icon={<Zap />} />
+        <MetricCard title="Active Scenario" value="RAIL-BUS" sub="Suseo to Pyeongtaek-Jije sample" intent="primary" icon={<Zap />} />
         <MetricCard title="Completion Rate" value="100.0%" sub="Sample rows only" intent="success" icon={<ShieldAlert />} />
-        <MetricCard title="Makespan Delta" value="+30m" sub="multimodal vs bus sample" intent="warning" icon={<Clock />} />
+        <MetricCard title="Road Service Delta" value="-573m" sub="sample road-min reduction" intent="warning" icon={<Clock />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-[400px]">
@@ -45,24 +45,24 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
           </div>
           <div className="p-6 flex-1 flex flex-col justify-center space-y-8">
             <PipelineStage
-              name="1. Quasi-Real Data Ingestion"
+              name="1. Public Corridor Framing"
               status="complete"
-              details="Parsed region manifests and constraints"
+              details="Fixed the Seoul/Suseo to Pyeongtaek-Jije support-zone scenario"
             />
             <PipelineStage
-              name="2. Route & Parameter Generation"
+              name="2. Area-Level Route Abstraction"
               status="complete"
-              details="Generated baseline scenarios (Bus Only vs Multimodal)"
+              details="Prepared bus-only and rail-bus comparison paths without operational routing"
             />
             <PipelineStage
-              name="3. Microsimulation Execution"
+              name="3. Sample Microsimulation Review"
               status="complete"
-              details="Loaded sample phase 1 rows for visual comparison"
+              details="Loaded phase 1 sample rows for scaffold comparison only"
             />
             <PipelineStage
-              name="4. Analysis & Evidence Generation"
+              name="4. Evidence Boundary Review"
               status="running"
-              details="Displaying scaffold evidence with final-gate caveats"
+              details="Displaying non-final evidence caveats for report screenshots"
               progress={78}
             />
           </div>
@@ -73,15 +73,15 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <FileText className="mr-2" size={16} />
-              Recent Intelligence
+              Scenario Evidence
             </h2>
             <Button small rightIcon="arrow-right" onClick={() => setActiveTab('data')} minimal>View Data</Button>
           </div>
           <div className="p-4 flex-1 space-y-4">
              <div className="border border-dark-600 p-3 rounded bg-dark-900 relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-palantir-cyan"></div>
-                <h3 className="text-sm font-bold text-gray-200 mb-1">Sample: Multimodal Tradeoff</h3>
-                <p className="text-xs text-gray-400 mb-2">The sample rows show multimodal routing reducing road vehicle service minutes while adding rail and transfer time. Final claims remain blocked until evidence review closes.</p>
+                <h3 className="text-sm font-bold text-gray-200 mb-1">Sample: Rail-Bus Tradeoff</h3>
+                <p className="text-xs text-gray-400 mb-2">The sample rows show the rail-bus option reducing road vehicle service minutes while adding rail and transfer time. This is not a final recommendation.</p>
                 <div className="flex space-x-2">
                   <Tag minimal intent="primary" className="text-[10px]">demo-derived</Tag>
                   <Tag minimal className="text-[10px]">phase1_results</Tag>
@@ -90,8 +90,8 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
 
              <div className="border border-dark-600 p-3 rounded bg-dark-900 relative overflow-hidden mt-4">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
-                <h3 className="text-sm font-bold text-gray-200 mb-1">Alert: Formal Acceptance Blocked</h3>
-                <p className="text-xs text-gray-400 mb-2">Audit snapshot indicates `final_study_ready=false`. 12 gates remain blocked awaiting source-backed human review of evidence paths.</p>
+                <h3 className="text-sm font-bold text-gray-200 mb-1">Boundary: Non-Operational Demo</h3>
+                <p className="text-xs text-gray-400 mb-2">The displayed corridor is a public-data, area-level example. It is not a dispatch order, route instruction, or final acceptance record.</p>
                 <Button small minimal intent="warning" onClick={() => setActiveTab('review')}>Open Review Workspace</Button>
              </div>
           </div>

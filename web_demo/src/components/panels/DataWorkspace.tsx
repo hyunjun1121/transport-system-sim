@@ -98,9 +98,9 @@ export const DataWorkspace: React.FC = () => {
         <div>
           <h1 className="text-2xl font-semibold text-gray-100 flex items-center">
             <FileText className="mr-3 text-palantir-blue" size={28} />
-            Simulation Data Intelligence
+            Scenario Data Review
           </h1>
-          <p className="text-gray-400 mt-1">Phase 1 Results: Bus vs. Multimodal Resilience</p>
+          <p className="text-gray-400 mt-1">Phase 1 sample rows: Bus-only vs. rail-bus support corridor</p>
         </div>
         <div className="flex space-x-3">
           <Button icon="export" text="Export Selection" disabled={loading} />
@@ -122,7 +122,7 @@ export const DataWorkspace: React.FC = () => {
               trend="Baseline"
             />
             <MetricCard
-              title="Avg Multimodal Makespan"
+              title="Avg Rail-Bus Makespan"
               value={`${averages?.avgMultiM.toFixed(1)}m`}
               icon={<TrendingDown className={averages && averages.avgMultiM < averages.avgBusM ? "text-green-400" : "text-red-400"} size={20} />}
               trend={averages ? `${((averages.avgMultiM - averages.avgBusM)/averages.avgBusM * 100).toFixed(1)}%` : ""}
@@ -134,7 +134,7 @@ export const DataWorkspace: React.FC = () => {
               trend="Baseline"
             />
             <MetricCard
-              title="Avg Multimodal Success Rate"
+              title="Avg Rail-Bus Success Rate"
               value={`${((averages?.avgMultiS || 0) * 100).toFixed(1)}%`}
               icon={<TrendingUp className={averages && averages.avgMultiS > averages.avgBusS ? "text-green-400" : (averages && averages.avgMultiS === averages.avgBusS ? "text-gray-400" : "text-red-400")} size={20} />}
               trend={averages ? `${((averages.avgMultiS - averages.avgBusS) * 100).toFixed(1)}%` : ""}
@@ -145,7 +145,7 @@ export const DataWorkspace: React.FC = () => {
             <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center flex-shrink-0">
               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
                 <BarChart2 className="mr-2" size={16} />
-                Detailed Telemetry (Top 100 rows)
+                Detailed Sample Telemetry (Top 100 rows)
               </h2>
               <Tag minimal intent="primary">{data.length} Records</Tag>
             </div>
@@ -160,11 +160,11 @@ export const DataWorkspace: React.FC = () => {
                 <Column name="Network" cellRenderer={cellRenderer('network_variant')} />
                 <Column name="Failure Mode" cellRenderer={cellRenderer('failure_mode')} />
                 <Column name="Bus Time" cellRenderer={cellRenderer('bus_makespan')} />
-                <Column name="Multi Time" cellRenderer={cellRenderer('multi_makespan')} />
-                <Column name="Bus-Multi Time" cellRenderer={cellRenderer('delta_makespan')} />
+                <Column name="Rail-Bus Time" cellRenderer={cellRenderer('multi_makespan')} />
+                <Column name="Bus - Rail-Bus" cellRenderer={cellRenderer('delta_makespan')} />
                 <Column name="Bus Success" cellRenderer={cellRenderer('bus_success_rate')} />
-                <Column name="Multi Success" cellRenderer={cellRenderer('multi_success_rate')} />
-                <Column name="Bus-Multi Success" cellRenderer={cellRenderer('delta_success_rate')} />
+                <Column name="Rail-Bus Success" cellRenderer={cellRenderer('multi_success_rate')} />
+                <Column name="Bus - Rail-Bus Success" cellRenderer={cellRenderer('delta_success_rate')} />
               </Table2>
             </div>
           </Card>

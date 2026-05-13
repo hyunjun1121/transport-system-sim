@@ -3,9 +3,10 @@
 React, TypeScript, Vite, BlueprintJS, TailwindCSS, Leaflet, and Papa Parse demo
 for the disrupted regional transport simulation project.
 
-This is a visual decision-support demo for explaining the existing simulation
-scaffold. It is not an operational route plan, real-world forecast, automated
-command system, or final acceptance record.
+This is a visual decision-support demo for the single Seoul/Suseo to
+Pyeongtaek-Jije/Pyeongtaek support-zone sample scenario. It is not an
+operational route plan, real-world forecast, automated command system, or final
+acceptance record.
 
 ## Run Locally
 
@@ -32,5 +33,7 @@ npm run build
   boundaries.
 - The project status remains `final_study_ready=false` until formal acceptance
   gates are closed by source-backed human review.
-- The web app should present bus-only and multimodal outputs as comparative
+- The web app should present bus-only and rail-bus outputs as comparative
   simulation samples, not accepted operational recommendations.
+- Map markers are generalized area-level labels for report screenshots; they
+  must not be treated as actual pickup, dispatch, or facility locations.
