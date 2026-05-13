@@ -289,10 +289,10 @@ URL rename and i18n affect report-side assets. After implementation:
 3. Capture screenshots in Korean default mode:
 
    ```powershell
-   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=공개자료 기반 비작전 샘플" --wait-for-timeout 1000 "<new-url>/#map" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_desktop_map_ko.png"
-   npx playwright screenshot --browser chromium --viewport-size "390,844" --wait-for-selector "text=공개자료 기반 비작전 샘플" --wait-for-timeout 1000 "<new-url>/#map" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_mobile_map_ko.png"
-   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=시뮬레이션 데이터" --wait-for-timeout 1000 "<new-url>/#data" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_data_review_ko.png"
-   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=비작전 검토" --wait-for-timeout 1000 "<new-url>/#review" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_evidence_review_ko.png"
+   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=공개자료 기반 비작전 샘플" --wait-for-timeout 1000 "https://defense-ai-mobility-demo.vercel.app/#map" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_desktop_map_ko.png"
+   npx playwright screenshot --browser chromium --viewport-size "390,844" --wait-for-selector "text=공개자료 기반 비작전 샘플" --wait-for-timeout 1000 "https://defense-ai-mobility-demo.vercel.app/#map" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_mobile_map_ko.png"
+   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=평균 철도-버스 완료시간" --wait-for-timeout 1000 "https://defense-ai-mobility-demo.vercel.app/#data" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_data_review_ko.png"
+   npx playwright screenshot --browser chromium --viewport-size "1440,1000" --wait-for-selector "text=근거 검토 작업공간" --wait-for-timeout 1000 "https://defense-ai-mobility-demo.vercel.app/#review" "국방AI_활용_아이디어_경연대회\demo_screenshots\demo_evidence_review_ko.png"
    ```
 
 4. Optional: capture English mode screenshots only if the final report wants to
@@ -444,12 +444,12 @@ cd web_demo
 npm run lint
 npm run build
 npx vercel deploy --prod --yes
-npx vercel inspect <new-url>
+npx vercel inspect https://defense-ai-mobility-demo.vercel.app
 ```
 
 Browser checks:
 
-- Default load at `<new-url>/#map` is Korean.
+- Default load at `https://defense-ai-mobility-demo.vercel.app/#map` is Korean.
 - Toggle to English changes visible text without losing route/hash state.
 - Toggle back to Korean restores Korean text.
 - Refresh after selecting English preserves English only if user manually chose
