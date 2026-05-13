@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker, Tooltip } from 'react-leaflet';
 import { Card, Elevation, Button, ButtonGroup, Tag } from '@blueprintjs/core';
 import { Map as MapIcon, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import L from 'leaflet';
 import yaml from 'js-yaml';
 
@@ -16,14 +17,9 @@ L.Icon.Default.mergeOptions({
 
 type ScenarioNode = {
   coords: [number, number];
-  label: string;
-  role: string;
   color: string;
-  note: string;
   labelDirection: 'top' | 'right' | 'bottom' | 'left';
 };
-
-const scenarioTitle = 'Seoul/Suseo - Pyeongtaek-Jije Support Scenario';
 
 // Public, generalized example coordinates for the competition demo. These are
 // not operational pickup/drop-off points and must be presented as area-level
@@ -31,50 +27,32 @@ const scenarioTitle = 'Seoul/Suseo - Pyeongtaek-Jije Support Scenario';
 const scenarioNodes: Record<string, ScenarioNode> = {
   A: {
     coords: [37.5300, 127.0300],
-    label: 'Suseo Area Assembly Zone',
-    role: 'Assembly',
     color: '#3b82f6',
-    note: 'Generalized Seoul/Suseo-area staging marker for the demo.',
     labelDirection: 'left',
   },
   S: {
     coords: [37.4875, 127.1010],
-    label: 'Suseo Rail Access Hub',
-    role: 'Rail access',
     color: '#f59e0b',
-    note: 'Public SRT/urban rail access area; not an operational instruction point.',
     labelDirection: 'right',
   },
   R: {
     coords: [37.0188, 127.0707],
-    label: 'Pyeongtaek-Jije Transfer Area',
-    role: 'Rail transfer',
     color: '#f59e0b',
-    note: 'Generalized Pyeongtaek-Jije rail transfer area for the sample scenario.',
     labelDirection: 'left',
   },
   D: {
     coords: [36.9550, 127.1350],
-    label: 'Pyeongtaek Support Zone',
-    role: 'Destination zone',
     color: '#10b981',
-    note: 'Area-level support-zone marker; not a sensitive facility location.',
     labelDirection: 'right',
   },
   D1: {
     coords: [37.3050, 127.1420],
-    label: 'Road Contingency Waypoint A',
-    role: 'Road waypoint',
     color: '#8b5cf6',
-    note: 'Abstract waypoint used only to show corridor redundancy.',
     labelDirection: 'right',
   },
   D2: {
     coords: [37.2050, 126.9850],
-    label: 'Road Contingency Waypoint B',
-    role: 'Road waypoint',
     color: '#8b5cf6',
-    note: 'Abstract waypoint used only to show corridor disruption sensitivity.',
     labelDirection: 'left',
   },
 };
@@ -91,6 +69,7 @@ const customMarkerIcon = (color: string) => L.divIcon({
 });
 
 export const OperationalMap: React.FC = () => {
+  const { t } = useTranslation();
   const [activeRoute, setActiveRoute] = useState<'bus' | 'multi'>('multi');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [config, setConfig] = useState<any>(null);
@@ -119,8 +98,8 @@ export const OperationalMap: React.FC = () => {
           <div className="flex items-center min-w-0">
             <MapIcon className="mr-2 text-palantir-blue flex-shrink-0" size={20} />
             <div className="min-w-0">
-              <div className="font-bold text-sm text-gray-200 tracking-wider truncate">SCENARIO MAP</div>
-              <div className="text-[11px] text-gray-400 truncate">{scenarioTitle}</div>
+              <div className="font-bold text-sm text-gray-200 tracking-wider truncate">{t('map.title')}</div>
+              <div className="text-[11px] text-gray-400 truncate">{t('map.scenarioTitle')}</div>
             </div>
           </div>
           <div className="hidden md:block h-8 w-px bg-dark-600"></div>
@@ -128,14 +107,14 @@ export const OperationalMap: React.FC = () => {
             <Button
               active={activeRoute === 'bus'}
               onClick={() => setActiveRoute('bus')}
-              text="Bus Only"
+              text={t('map.busOnly')}
               small
               intent={activeRoute === 'bus' ? 'primary' : 'none'}
             />
             <Button
               active={activeRoute === 'multi'}
               onClick={() => setActiveRoute('multi')}
-              text="Rail-Bus"
+              text={t('map.railBus')}
               small
               intent={activeRoute === 'multi' ? 'primary' : 'none'}
             />
@@ -146,19 +125,18 @@ export const OperationalMap: React.FC = () => {
           <div className="flex items-start gap-2 mb-2">
             <ShieldAlert size={14} className="text-yellow-400 mt-0.5 flex-shrink-0" />
             <p className="text-[11px] text-yellow-100 leading-snug">
-              Public-data, non-operational sample. Markers are generalized area labels,
-              not pickup orders, dispatch guidance, or accepted field evidence.
+              {t('map.notice')}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-            <LegendDot color="#3b82f6" label="Assembly area" />
-            <LegendDot color="#f59e0b" label="Rail hubs" />
-            <LegendDot color="#10b981" label="Support zone" />
-            <LegendDot color="#8b5cf6" label="Road waypoints" />
+            <LegendDot color="#3b82f6" label={t('map.legend.assembly')} />
+            <LegendDot color="#f59e0b" label={t('map.legend.rail')} />
+            <LegendDot color="#10b981" label={t('map.legend.support')} />
+            <LegendDot color="#8b5cf6" label={t('map.legend.waypoint')} />
             {activeRoute === 'bus' && (
               <div className="col-span-2 flex items-center text-xs text-red-400 mt-1 border-t border-dark-600 pt-1">
                 <AlertTriangle size={12} className="mr-1" />
-                Sample road-disruption corridor
+                {t('map.disruption')}
               </div>
             )}
           </div>
@@ -239,18 +217,21 @@ export const OperationalMap: React.FC = () => {
           {config.network.nodes.map((nodeId: string) => {
             const node = scenarioNodes[nodeId];
             if (!node) return null;
+            const label = t(`map.nodes.${nodeId}.label`);
+            const role = t(`map.nodes.${nodeId}.role`);
+            const note = t(`map.nodes.${nodeId}.note`);
             return (
               <Marker key={nodeId} position={node.coords} icon={customMarkerIcon(node.color)}>
                 <Tooltip direction={node.labelDirection} offset={[0, 0]} opacity={0.92} permanent={!isCompact}>
-                  <span className="font-sans text-[11px]">{node.label}</span>
+                  <span className="font-sans text-[11px]">{label}</span>
                 </Tooltip>
                 <Popup className="dark-popup">
                   <div className="p-1 font-sans">
-                    <div className="font-bold text-sm mb-1">{node.label}</div>
-                    <div className="text-xs text-gray-500 mb-1">{node.role}</div>
-                    <div className="text-xs text-gray-500">{node.note}</div>
+                    <div className="font-bold text-sm mb-1">{label}</div>
+                    <div className="text-xs text-gray-500 mb-1">{role}</div>
+                    <div className="text-xs text-gray-500">{note}</div>
                     <div className="text-[11px] text-gray-500 font-mono mt-1">
-                      Example coords: {node.coords[0]}, {node.coords[1]}
+                      {t('map.popupCoords')}: {node.coords[0]}, {node.coords[1]}
                     </div>
                   </div>
                 </Popup>
@@ -272,26 +253,26 @@ export const OperationalMap: React.FC = () => {
         <Card className="pointer-events-auto bg-dark-900 border border-dark-600 bg-opacity-95 p-0 overflow-hidden" elevation={Elevation.TWO}>
           <div className="grid grid-cols-1 md:grid-cols-4 text-xs font-mono">
             <TelemetryCell
-              label="ACTIVE SCENARIO"
-              value={activeRoute === 'multi' ? 'Rail-Bus public sample' : 'Bus-only road sample'}
+              label={t('map.telemetry.activeScenario')}
+              value={activeRoute === 'multi' ? t('map.telemetry.railBusSample') : t('map.telemetry.busSample')}
               valueClass="text-palantir-blue"
             />
             <TelemetryCell
-              label="SAMPLE MAKESPAN"
-              value={activeRoute === 'multi' ? '675.0m demo' : '645.0m demo'}
+              label={t('map.telemetry.makespan')}
+              value={activeRoute === 'multi' ? t('map.telemetry.multiMakespan') : t('map.telemetry.busMakespan')}
               valueClass="text-gray-200"
             />
             <TelemetryCell
-              label="ROAD SERVICE MINUTES"
-              value={activeRoute === 'multi' ? '577.1m demo' : '1150.3m demo'}
+              label={t('map.telemetry.roadService')}
+              value={activeRoute === 'multi' ? t('map.telemetry.multiRoadService') : t('map.telemetry.busRoadService')}
               valueClass={activeRoute === 'multi' ? 'text-green-400' : 'text-orange-400'}
             />
             <div className="p-3 flex justify-between items-center min-w-0">
               <div className="min-w-0">
-                <div className="text-gray-500 mb-1">EVIDENCE BOUNDARY</div>
-                <div className="text-yellow-100 truncate">non-operational scaffold</div>
+                <div className="text-gray-500 mb-1">{t('map.telemetry.boundary')}</div>
+                <div className="text-yellow-100 truncate">{t('map.telemetry.boundaryValue')}</div>
               </div>
-              <Tag minimal intent="warning">sample</Tag>
+              <Tag minimal intent="warning">{t('common.sample')}</Tag>
             </div>
           </div>
         </Card>

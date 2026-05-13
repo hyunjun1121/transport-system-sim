@@ -28,7 +28,7 @@ AI는 결과 설명과 취약 변수 요약을 보조한다. 핵심 판단은 �
 
 셋째, 분석 계층은 대안별 완료시간, 미수송 위험, 도로 서비스 시간, 병목 링크, 민감 변수를 요약한다. 이 결과는 단일 정답을 강요하는 것이 아니라, 참모가 어떤 조건에서 어떤 대안이 취약한지 검토할 수 있도록 돕는다.
 
-넷째, 웹 데모 계층은 결과를 지도와 표로 보여준다. 현재 데모는 서울/수서-평택지제 축의 단일 비작전 예시를 표시하며, 모든 수치는 최종 승인 결과가 아닌 샘플 결과로 구분한다.
+넷째, 웹 데모 계층은 결과를 지도와 표로 보여준다. 현재 데모는 서울/수서-평택지제 축의 단일 비작전 예시를 표시하며, 기본 언어는 한국어이고 필요 시 영어로 전환할 수 있다. 모든 수치는 최종 승인 결과가 아닌 샘플 결과로 구분한다.
 
 ## 5. 차별성
 
@@ -64,14 +64,14 @@ AI는 결과 설명과 취약 변수 요약을 보조한다. 핵심 판단은 �
 
 데모에서 표시되는 경로와 수치는 실제 작전 경로, 실제 배차표, 실제 소요시간 예측이 아니다. 모든 화면은 공개자료 기반 비작전 모의 예시이며, 대안별 위험 비교와 의사결정 지원 흐름을 보여주기 위한 것이다.
 
-데모 URL: `https://webdemo-fawn.vercel.app`
+데모 URL: `https://defense-ai-mobility-demo.vercel.app`
 
 스크린샷:
 
-- `demo_screenshots/demo_desktop_map.png`
-- `demo_screenshots/demo_mobile_map.png`
-- `demo_screenshots/demo_data_review.png`
-- `demo_screenshots/demo_evidence_review.png`
+- `demo_screenshots/demo_desktop_map_ko.png`
+- `demo_screenshots/demo_mobile_map_ko.png`
+- `demo_screenshots/demo_data_review_ko.png`
+- `demo_screenshots/demo_evidence_review_ko.png`
 
 ## 10. 한계 및 안전장치
 

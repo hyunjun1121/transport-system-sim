@@ -76,16 +76,16 @@ AI 분석 계층은 다음 기능을 담당한다.
 
 웹 데모는 다음 URL에서 확인할 수 있다.
 
-`https://webdemo-fawn.vercel.app`
+`https://defense-ai-mobility-demo.vercel.app`
 
-데모 화면은 서울/수서-평택지제 축의 공개자료 기반 비작전 예시를 표시한다. 지도와 수치는 실제 작전 경로, 실제 배차표, 실제 소요시간 예측이 아니라, 대안별 위험 비교와 의사결정 지원 흐름을 보여주기 위한 샘플이다.
+데모 화면은 서울/수서-평택지제 축의 공개자료 기반 비작전 예시를 표시한다. 기본 언어는 한국어이며, 상단 토글로 영어 화면을 확인할 수 있다. 지도와 수치는 실제 작전 경로, 실제 배차표, 실제 소요시간 예측이 아니라, 대안별 위험 비교와 의사결정 지원 흐름을 보여주기 위한 샘플이다.
 
 보고서 삽입용 스크린샷 파일은 다음과 같다.
 
-- `demo_screenshots/demo_desktop_map.png`: 대표 지도 화면
-- `demo_screenshots/demo_mobile_map.png`: 모바일 반응형 확인 화면
-- `demo_screenshots/demo_data_review.png`: KPI/샘플 데이터 화면
-- `demo_screenshots/demo_evidence_review.png`: evidence boundary와 formal acceptance 미완료 상태 검토 화면
+- `demo_screenshots/demo_desktop_map_ko.png`: 한국어 기본 대표 지도 화면
+- `demo_screenshots/demo_mobile_map_ko.png`: 한국어 모바일 반응형 확인 화면
+- `demo_screenshots/demo_data_review_ko.png`: 한국어 KPI/샘플 데이터 화면
+- `demo_screenshots/demo_evidence_review_ko.png`: 한국어 evidence boundary와 formal acceptance 미완료 상태 검토 화면
 
 ## 2) 차별성
 
@@ -137,7 +137,7 @@ AI 분석 계층은 다음 기능을 담당한다.
 
 웹 데모는 본 아이디어의 구현 가능성을 보여주는 시각 자료이다. 화면은 서울/수서권 집결 및 철도 접근, 평택지제 환승, 평택 지원 권역 이동을 하나의 공개자료 기반 예시로 구성한다. 버스 단독 수송과 철도-버스 복합 수송을 비교하고, 완료시간·성공률·도로 차량 서비스 시간 등 샘플 KPI를 표시한다.
 
-데모 URL: `https://webdemo-fawn.vercel.app`
+데모 URL: `https://defense-ai-mobility-demo.vercel.app`
 
 이 URL은 심사자가 화면 구조와 의사결정 지원 흐름을 확인하기 위한 시연 링크이며, 실제 운용 체계 또는 최종 승인 산출물이 아니다.
 

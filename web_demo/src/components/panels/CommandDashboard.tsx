@@ -1,36 +1,38 @@
 import React from 'react';
 import { Card, Elevation, Tag, Button, Intent, ProgressBar } from '@blueprintjs/core';
 import { Activity, ShieldAlert, FileText, CheckCircle, Clock, Zap, Map as MapIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }> = ({ setActiveTab }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="p-6 h-full flex flex-col space-y-6 overflow-y-auto">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-semibold text-gray-100 flex items-center">
             <Activity className="mr-3 text-palantir-blue" size={28} />
-            Decision Support Center
+            {t('dashboard.title')}
           </h1>
-          <p className="text-gray-400 mt-1">Seoul/Suseo to Pyeongtaek-Jije support-zone demo overview</p>
+          <p className="text-gray-400 mt-1">{t('dashboard.subtitle')}</p>
         </div>
         <div className="flex space-x-3">
-          <Tag intent="warning" large round icon="warning-sign">SCENARIO: SUSEO-PTJ SAMPLE</Tag>
-          <Button icon="document" text="Open Evidence View" />
+          <Tag intent="warning" large round icon="warning-sign">{t('dashboard.tag')}</Tag>
+          <Button icon="document" text={t('dashboard.openEvidence')} />
         </div>
       </div>
 
       <Card className="bg-dark-800 border border-yellow-700/60 p-3" elevation={Elevation.ONE}>
         <p className="text-xs text-yellow-100">
-          Research prototype view. This demo is not an operational route plan, real-world forecast,
-          automated command system, or final acceptance record.
+          {t('dashboard.boundaryNotice')}
         </p>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Study Status" value="SCOPED DEMO" sub="Not operational routing" intent="warning" icon={<CheckCircle />} />
-        <MetricCard title="Active Scenario" value="RAIL-BUS" sub="Suseo to Pyeongtaek-Jije sample" intent="primary" icon={<Zap />} />
-        <MetricCard title="Completion Rate" value="100.0%" sub="Sample rows only" intent="success" icon={<ShieldAlert />} />
-        <MetricCard title="Road Service Delta" value="-573m" sub="sample road-min reduction" intent="warning" icon={<Clock />} />
+        <MetricCard title={t('dashboard.metrics.studyStatusTitle')} value={t('dashboard.metrics.studyStatusValue')} sub={t('dashboard.metrics.studyStatusSub')} intent="warning" icon={<CheckCircle />} />
+        <MetricCard title={t('dashboard.metrics.scenarioTitle')} value={t('dashboard.metrics.scenarioValue')} sub={t('dashboard.metrics.scenarioSub')} intent="primary" icon={<Zap />} />
+        <MetricCard title={t('dashboard.metrics.completionTitle')} value="100.0%" sub={t('dashboard.metrics.completionSub')} intent="success" icon={<ShieldAlert />} />
+        <MetricCard title={t('dashboard.metrics.roadDeltaTitle')} value={t('dashboard.metrics.roadDeltaValue')} sub={t('dashboard.metrics.roadDeltaSub')} intent="warning" icon={<Clock />} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-[400px]">
@@ -39,30 +41,30 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <MapIcon className="mr-2" size={16} />
-              Simulation Pipeline Status
+              {t('dashboard.pipelineTitle')}
             </h2>
-            <Button small rightIcon="arrow-right" onClick={() => setActiveTab('map')} minimal>View Map</Button>
+            <Button small rightIcon="arrow-right" onClick={() => setActiveTab('map')} minimal>{t('dashboard.viewMap')}</Button>
           </div>
           <div className="p-6 flex-1 flex flex-col justify-center space-y-8">
             <PipelineStage
-              name="1. Public Corridor Framing"
+              name={t('dashboard.stages.publicFramingName')}
               status="complete"
-              details="Fixed the Seoul/Suseo to Pyeongtaek-Jije support-zone scenario"
+              details={t('dashboard.stages.publicFramingDetails')}
             />
             <PipelineStage
-              name="2. Area-Level Route Abstraction"
+              name={t('dashboard.stages.routeAbstractionName')}
               status="complete"
-              details="Prepared bus-only and rail-bus comparison paths without operational routing"
+              details={t('dashboard.stages.routeAbstractionDetails')}
             />
             <PipelineStage
-              name="3. Sample Microsimulation Review"
+              name={t('dashboard.stages.microsimName')}
               status="complete"
-              details="Loaded phase 1 sample rows for scaffold comparison only"
+              details={t('dashboard.stages.microsimDetails')}
             />
             <PipelineStage
-              name="4. Evidence Boundary Review"
+              name={t('dashboard.stages.boundaryName')}
               status="running"
-              details="Displaying non-final evidence caveats for report screenshots"
+              details={t('dashboard.stages.boundaryDetails')}
               progress={78}
             />
           </div>
@@ -73,26 +75,26 @@ export const CommandDashboard: React.FC<{ setActiveTab: (tab: string) => void }>
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <FileText className="mr-2" size={16} />
-              Scenario Evidence
+              {t('dashboard.evidenceTitle')}
             </h2>
-            <Button small rightIcon="arrow-right" onClick={() => setActiveTab('data')} minimal>View Data</Button>
+            <Button small rightIcon="arrow-right" onClick={() => setActiveTab('data')} minimal>{t('dashboard.viewData')}</Button>
           </div>
           <div className="p-4 flex-1 space-y-4">
              <div className="border border-dark-600 p-3 rounded bg-dark-900 relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-palantir-cyan"></div>
-                <h3 className="text-sm font-bold text-gray-200 mb-1">Sample: Rail-Bus Tradeoff</h3>
-                <p className="text-xs text-gray-400 mb-2">The sample rows show the rail-bus option reducing road vehicle service minutes while adding rail and transfer time. This is not a final recommendation.</p>
+                <h3 className="text-sm font-bold text-gray-200 mb-1">{t('dashboard.sampleTradeoffTitle')}</h3>
+                <p className="text-xs text-gray-400 mb-2">{t('dashboard.sampleTradeoffBody')}</p>
                 <div className="flex space-x-2">
-                  <Tag minimal intent="primary" className="text-[10px]">demo-derived</Tag>
-                  <Tag minimal className="text-[10px]">phase1_results</Tag>
+                  <Tag minimal intent="primary" className="text-[10px]">{t('dashboard.demoDerived')}</Tag>
+                  <Tag minimal className="text-[10px]">{t('dashboard.phase1')}</Tag>
                 </div>
              </div>
 
              <div className="border border-dark-600 p-3 rounded bg-dark-900 relative overflow-hidden mt-4">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
-                <h3 className="text-sm font-bold text-gray-200 mb-1">Boundary: Non-Operational Demo</h3>
-                <p className="text-xs text-gray-400 mb-2">The displayed corridor is a public-data, area-level example. It is not a dispatch order, route instruction, or final acceptance record.</p>
-                <Button small minimal intent="warning" onClick={() => setActiveTab('review')}>Open Review Workspace</Button>
+                <h3 className="text-sm font-bold text-gray-200 mb-1">{t('dashboard.nonOperationalTitle')}</h3>
+                <p className="text-xs text-gray-400 mb-2">{t('dashboard.nonOperationalBody')}</p>
+                <Button small minimal intent="warning" onClick={() => setActiveTab('review')}>{t('dashboard.openReview')}</Button>
              </div>
           </div>
         </Card>

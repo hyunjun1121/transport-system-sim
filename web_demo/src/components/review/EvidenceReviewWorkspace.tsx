@@ -13,21 +13,24 @@ import {
   Play,
   ShieldAlert,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const EvidenceReviewWorkspace: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="p-6 h-full flex flex-col space-y-6 overflow-y-auto">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-semibold text-gray-100 flex items-center">
             <FileText className="mr-3 text-palantir-blue" size={28} />
-            Evidence Review Workspace
+            {t('review.title')}
           </h1>
-          <p className="text-gray-400 mt-1">Non-operational review context for the Suseo-Pyeongtaek sample scenario</p>
+          <p className="text-gray-400 mt-1">{t('review.subtitle')}</p>
         </div>
         <div className="flex space-x-3">
-          <Tag intent="warning" large round>Review Status: IN PROGRESS</Tag>
-          <Button icon={<Play size={14} />} intent="primary" text="Open Audit View" />
+          <Tag intent="warning" large round>{t('review.status')}</Tag>
+          <Button icon={<Play size={14} />} intent="primary" text={t('review.openAudit')} />
         </div>
       </div>
 
@@ -36,38 +39,38 @@ export const EvidenceReviewWorkspace: React.FC = () => {
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <Clock className="mr-2" size={16} />
-              Review Queue
+              {t('review.queueTitle')}
             </h2>
-            <Tag minimal>4 Blockers</Tag>
+            <Tag minimal>{t('review.blockers')}</Tag>
           </div>
           <div className="flex-1 overflow-y-auto p-2 space-y-2">
             <ReviewItem
-              title="Public corridor and area-label evidence"
+              title={t('review.queue.publicEvidence')}
               status="running"
               progress={78}
               time="P1"
             />
             <ReviewItem
-              title="Suseo and Pyeongtaek-Jije source notes"
+              title={t('review.queue.sourceNotes')}
               status="pending"
               progress={0}
             />
             <ReviewItem
-              title="Parameter acceptance worksheet"
+              title={t('review.queue.parameterWorksheet')}
               status="pending"
               progress={0}
             />
             <ReviewItem
-              title="Graph-scale decision packet"
+              title={t('review.queue.graphPacket')}
               status="completed"
               progress={100}
-              time="drafted"
+              time={t('review.drafted')}
             />
             <ReviewItem
-              title="Formal target file hygiene"
+              title={t('review.queue.hygiene')}
               status="completed"
               progress={100}
-              time="clean"
+              time={t('review.clean')}
             />
           </div>
         </Card>
@@ -76,26 +79,26 @@ export const EvidenceReviewWorkspace: React.FC = () => {
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <ShieldAlert className="mr-2" size={16} />
-              Audit Notes
+              {t('review.auditTitle')}
             </h2>
             <div className="flex space-x-2">
-              <Tag minimal intent="warning" className="font-mono text-xs">MODE: EVIDENCE REVIEW</Tag>
-              <Button minimal icon="clipboard" title="Copy Notes" />
+              <Tag minimal intent="warning" className="font-mono text-xs">{t('review.mode')}</Tag>
+              <Button minimal icon="clipboard" title={t('review.copyNotes')} />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 bg-[#111418] font-mono text-sm space-y-4">
-            <AuditEntry time="14:02:11" type="info" message="Loaded Seoul/Suseo to Pyeongtaek-Jije support-zone demo context." />
-            <AuditEntry time="14:02:12" type="note" message="Formal acceptance remains blocked until source-backed human review closes the required gates." />
-            <AuditEntry time="14:02:14" type="action" message="Checking public source notes, area labels, and scenario assumptions." />
-            <AuditEntry time="14:02:18" type="note" message="Simulation outputs are shown as scaffold evidence and cannot be promoted to final operational claims." />
-            <AuditEntry time="14:02:22" type="action" message="Queueing follow-up review for reproducibility and graph-scale acceptance." />
-            <AuditEntry time="14:02:25" type="note" message="Manuscript language must stay aligned with the accepted evidence boundary." />
+            <AuditEntry time="14:02:11" type="info" message={t('review.audit.loaded')} />
+            <AuditEntry time="14:02:12" type="note" message={t('review.audit.formalBlocked')} />
+            <AuditEntry time="14:02:14" type="action" message={t('review.audit.checking')} />
+            <AuditEntry time="14:02:18" type="note" message={t('review.audit.scaffold')} />
+            <AuditEntry time="14:02:22" type="action" message={t('review.audit.queueFollowup')} />
+            <AuditEntry time="14:02:25" type="note" message={t('review.audit.manuscript')} />
             <div className="flex items-start">
               <span className="text-gray-500 mr-3 w-20 flex-shrink-0">14:02:26</span>
               <span className="text-palantir-blue font-bold mr-2">[REVIEW]</span>
               <span className="text-gray-300 flex items-center">
                 <Loader2 size={14} className="animate-spin mr-2 text-gray-400" />
-                Reviewing blocker traceability...
+                {t('review.audit.reviewing')}
               </span>
             </div>
           </div>
@@ -107,32 +110,32 @@ export const EvidenceReviewWorkspace: React.FC = () => {
           <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
               <GitMerge className="mr-2" size={16} />
-              Review Package Context
+              {t('review.packageTitle')}
             </h2>
-            <Button small rightIcon="refresh">Refresh Snapshot</Button>
+            <Button small rightIcon="refresh">{t('review.refresh')}</Button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 flex flex-row gap-6">
             <div className="flex-1 border border-dark-600 rounded-md p-4 bg-[#1c2127]">
               <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase flex items-center">
                 <GitBranch size={14} className="mr-2" />
-                Active Package
+                {t('review.activePackage')}
               </h3>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-palantir-blue">Suseo-Pyeongtaek demo</span>
-                <Tag intent="warning">Review only</Tag>
+                <span className="font-mono text-palantir-blue">{t('review.packageName')}</span>
+                <Tag intent="warning">{t('review.reviewOnly')}</Tag>
               </div>
-              <p className="text-sm text-gray-400 mb-4">Area markers are generalized for report screenshots.</p>
+              <p className="text-sm text-gray-400 mb-4">{t('review.packageBody')}</p>
 
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
                   <GitCommit size={14} className="text-gray-500 mr-2" />
                   <span className="font-mono text-xs text-gray-500 w-16">0/12</span>
-                  <span className="text-gray-300 truncate">Formal acceptance gates ready</span>
+                  <span className="text-gray-300 truncate">{t('review.gatesReady')}</span>
                 </div>
                 <div className="flex items-center text-sm">
                   <GitCommit size={14} className="text-gray-500 mr-2" />
                   <span className="font-mono text-xs text-gray-500 w-16">1</span>
-                  <span className="text-gray-300 truncate">Fixed scenario for the competition demo</span>
+                  <span className="text-gray-300 truncate">{t('review.fixedScenario')}</span>
                 </div>
               </div>
             </div>
@@ -140,22 +143,22 @@ export const EvidenceReviewWorkspace: React.FC = () => {
             <div className="flex-1 border border-dark-600 rounded-md p-4 bg-[#1c2127]">
               <h3 className="text-xs font-semibold text-gray-400 mb-3 uppercase flex items-center">
                 <GitPullRequest size={14} className="mr-2" />
-                Next Reviewer Decisions
+                {t('review.nextDecisions')}
               </h3>
 
               <div className="border border-dark-600 rounded p-3 bg-dark-800 hover:bg-dark-700 cursor-pointer transition-colors">
                 <div className="flex justify-between items-start mb-1">
-                  <span className="text-sm font-semibold text-gray-200">Keep demo claims within public-data scope</span>
+                  <span className="text-sm font-semibold text-gray-200">{t('review.keepClaims')}</span>
                   <span className="text-xs font-mono text-gray-500">P1</span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <div className="flex space-x-2">
-                    <Tag minimal intent="primary" className="text-[10px]">review-needed</Tag>
-                    <Tag minimal intent="warning" className="text-[10px]">not-accepted</Tag>
+                    <Tag minimal intent="primary" className="text-[10px]">{t('review.reviewNeeded')}</Tag>
+                    <Tag minimal intent="warning" className="text-[10px]">{t('review.notAccepted')}</Tag>
                   </div>
                   <div className="flex items-center text-xs text-gray-400">
                     <CheckCircle2 size={12} className="text-green-500 mr-1" />
-                    Hygiene check passed
+                    {t('review.hygienePassed')}
                   </div>
                 </div>
               </div>

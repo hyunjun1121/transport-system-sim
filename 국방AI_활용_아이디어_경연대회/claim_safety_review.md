@@ -41,7 +41,8 @@
 - 보고서 계획은 Vercel URL과 스크린샷 확정 전 데모 문단을 최종화하지 않도록 지정했다.
 - 제출 양식 TXT는 실제 작전 명령, 자동 배차, 최종 승인, 현장 성능 보장 표현을 부정문 또는 한계 문구로만 사용하도록 작성했다.
 - 출처 행렬은 공식 출처, 내부 샘플, 가정값을 분리했다.
-- Vercel production alias는 `https://webdemo-fawn.vercel.app`로 확정했고, 스크린샷 매니페스트와 제출 양식에 같은 URL을 반영했다.
+- Vercel production alias는 `https://defense-ai-mobility-demo.vercel.app`로 갱신했고, 스크린샷 매니페스트와 제출 양식에 같은 URL을 반영했다.
+- 웹 데모 기본 언어는 한국어로 설정했으며, 한/영 전환은 화면 문구 전환용이다. 양쪽 언어 모두 비작전·비승인 경계를 유지한다.
 
 ## 5. 최종 확인 항목
 

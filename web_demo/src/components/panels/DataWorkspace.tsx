@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Elevation, Tag, Button, Spinner, Intent } from '@blueprintjs/core';
 import { Table2, Column, Cell, SelectionModes } from '@blueprintjs/table';
 import { FileText, TrendingUp, TrendingDown, Clock, ShieldAlert, BarChart2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Papa from 'papaparse';
 
 interface SimulationData {
@@ -20,6 +21,7 @@ interface SimulationData {
 }
 
 export const DataWorkspace: React.FC = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState<SimulationData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,13 +100,13 @@ export const DataWorkspace: React.FC = () => {
         <div>
           <h1 className="text-2xl font-semibold text-gray-100 flex items-center">
             <FileText className="mr-3 text-palantir-blue" size={28} />
-            Scenario Data Review
+            {t('data.title')}
           </h1>
-          <p className="text-gray-400 mt-1">Phase 1 sample rows: Bus-only vs. rail-bus support corridor</p>
+          <p className="text-gray-400 mt-1">{t('data.subtitle')}</p>
         </div>
         <div className="flex space-x-3">
-          <Button icon="export" text="Export Selection" disabled={loading} />
-          <Button icon="refresh" intent="primary" text="Reload Data" disabled={loading} />
+          <Button icon="export" text={t('data.export')} disabled={loading} />
+          <Button icon="refresh" intent="primary" text={t('data.reload')} disabled={loading} />
         </div>
       </div>
 
@@ -116,25 +118,25 @@ export const DataWorkspace: React.FC = () => {
         <>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-shrink-0">
             <MetricCard
-              title="Avg Bus Makespan"
+              title={t('data.avgBusMakespan')}
               value={`${averages?.avgBusM.toFixed(1)}m`}
               icon={<Clock className="text-orange-400" size={20} />}
-              trend="Baseline"
+              trend={t('common.baseline')}
             />
             <MetricCard
-              title="Avg Rail-Bus Makespan"
+              title={t('data.avgRailBusMakespan')}
               value={`${averages?.avgMultiM.toFixed(1)}m`}
               icon={<TrendingDown className={averages && averages.avgMultiM < averages.avgBusM ? "text-green-400" : "text-red-400"} size={20} />}
               trend={averages ? `${((averages.avgMultiM - averages.avgBusM)/averages.avgBusM * 100).toFixed(1)}%` : ""}
             />
             <MetricCard
-              title="Avg Bus Success Rate"
+              title={t('data.avgBusSuccess')}
               value={`${((averages?.avgBusS || 0) * 100).toFixed(1)}%`}
               icon={<ShieldAlert className="text-orange-400" size={20} />}
-              trend="Baseline"
+              trend={t('common.baseline')}
             />
             <MetricCard
-              title="Avg Rail-Bus Success Rate"
+              title={t('data.avgRailBusSuccess')}
               value={`${((averages?.avgMultiS || 0) * 100).toFixed(1)}%`}
               icon={<TrendingUp className={averages && averages.avgMultiS > averages.avgBusS ? "text-green-400" : (averages && averages.avgMultiS === averages.avgBusS ? "text-gray-400" : "text-red-400")} size={20} />}
               trend={averages ? `${((averages.avgMultiS - averages.avgBusS) * 100).toFixed(1)}%` : ""}
@@ -145,9 +147,9 @@ export const DataWorkspace: React.FC = () => {
             <div className="p-4 border-b border-dark-600 bg-dark-900 flex justify-between items-center flex-shrink-0">
               <h2 className="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center">
                 <BarChart2 className="mr-2" size={16} />
-                Detailed Sample Telemetry (Top 100 rows)
+                {t('data.tableTitle')}
               </h2>
-              <Tag minimal intent="primary">{data.length} Records</Tag>
+              <Tag minimal intent="primary">{data.length} {t('common.records')}</Tag>
             </div>
             <div className="flex-1 bg-[#1c2127]">
               <Table2
@@ -155,16 +157,16 @@ export const DataWorkspace: React.FC = () => {
                 selectionModes={SelectionModes.ROWS_AND_CELLS}
                 className="w-full h-full custom-bp-table"
               >
-                <Column name="Congestion (s)" cellRenderer={cellRenderer('s')} />
-                <Column name="Fail Scale (p)" cellRenderer={cellRenderer('p_fail_scale')} />
-                <Column name="Network" cellRenderer={cellRenderer('network_variant')} />
-                <Column name="Failure Mode" cellRenderer={cellRenderer('failure_mode')} />
-                <Column name="Bus Time" cellRenderer={cellRenderer('bus_makespan')} />
-                <Column name="Rail-Bus Time" cellRenderer={cellRenderer('multi_makespan')} />
-                <Column name="Bus - Rail-Bus" cellRenderer={cellRenderer('delta_makespan')} />
-                <Column name="Bus Success" cellRenderer={cellRenderer('bus_success_rate')} />
-                <Column name="Rail-Bus Success" cellRenderer={cellRenderer('multi_success_rate')} />
-                <Column name="Bus - Rail-Bus Success" cellRenderer={cellRenderer('delta_success_rate')} />
+                <Column name={t('data.columns.congestion')} cellRenderer={cellRenderer('s')} />
+                <Column name={t('data.columns.failScale')} cellRenderer={cellRenderer('p_fail_scale')} />
+                <Column name={t('data.columns.network')} cellRenderer={cellRenderer('network_variant')} />
+                <Column name={t('data.columns.failureMode')} cellRenderer={cellRenderer('failure_mode')} />
+                <Column name={t('data.columns.busTime')} cellRenderer={cellRenderer('bus_makespan')} />
+                <Column name={t('data.columns.railBusTime')} cellRenderer={cellRenderer('multi_makespan')} />
+                <Column name={t('data.columns.deltaTime')} cellRenderer={cellRenderer('delta_makespan')} />
+                <Column name={t('data.columns.busSuccess')} cellRenderer={cellRenderer('bus_success_rate')} />
+                <Column name={t('data.columns.railBusSuccess')} cellRenderer={cellRenderer('multi_success_rate')} />
+                <Column name={t('data.columns.deltaSuccess')} cellRenderer={cellRenderer('delta_success_rate')} />
               </Table2>
             </div>
           </Card>

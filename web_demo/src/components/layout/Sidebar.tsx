@@ -1,5 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Map as MapIcon, Settings, Code, FileText } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SidebarProps {
   activeTab: string;
@@ -7,6 +8,8 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="w-16 md:w-64 bg-dark-800 border-r border-dark-600 flex flex-col h-full overflow-hidden transition-all duration-300 z-10">
       <div className="p-4 border-b border-dark-600 flex items-center justify-center md:justify-start">
@@ -14,43 +17,43 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
           TS
         </div>
         <div className="ml-3 hidden md:block">
-          <div className="text-sm font-bold tracking-wider">TRANSPORT</div>
-          <div className="text-xs text-gray-400">SIMULATION OS</div>
+          <div className="text-sm font-bold tracking-wider">{t('app.brand')}</div>
+          <div className="text-xs text-gray-400">{t('app.brandSub')}</div>
         </div>
       </div>
 
       <div className="flex-1 py-4 overflow-y-auto">
         <div className="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-widest hidden md:block">
-          Workspace
+          {t('nav.workspace')}
         </div>
         <nav className="space-y-1 px-2">
           <SidebarItem
             icon={<LayoutDashboard size={18} />}
-            label="Decision Center"
+            label={t('nav.dashboard')}
             active={activeTab === 'dashboard'}
             onClick={() => setActiveTab('dashboard')}
           />
           <SidebarItem
             icon={<MapIcon size={18} />}
-            label="Scenario Map"
+            label={t('nav.map')}
             active={activeTab === 'map'}
             onClick={() => setActiveTab('map')}
           />
           <SidebarItem
             icon={<FileText size={18} />}
-            label="Simulation Data"
+            label={t('nav.data')}
             active={activeTab === 'data'}
             onClick={() => setActiveTab('data')}
           />
         </nav>
 
         <div className="px-3 mt-8 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-widest hidden md:block">
-          Review
+          {t('nav.review')}
         </div>
         <nav className="space-y-1 px-2">
           <SidebarItem
             icon={<Code size={18} />}
-            label="Evidence Review"
+            label={t('nav.evidence')}
             active={activeTab === 'review'}
             onClick={() => setActiveTab('review')}
           />
@@ -60,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       <div className="p-4 border-t border-dark-600">
         <SidebarItem
           icon={<Settings size={18} />}
-          label="Settings"
+          label={t('nav.settings')}
           active={activeTab === 'settings'}
           onClick={() => setActiveTab('settings')}
         />

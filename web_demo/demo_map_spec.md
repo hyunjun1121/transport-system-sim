@@ -10,14 +10,23 @@ The web demo uses exactly one scenario:
 
 This is a public-data, non-operational, non-final decision-support sample. It must not be described as an actual dispatch plan, operational route order, real travel-time forecast, or accepted field evidence.
 
+Production URL:
+
+```text
+https://defense-ai-mobility-demo.vercel.app
+```
+
+The default UI language is Korean. English is available through the top-bar
+language toggle.
+
 ## Map Markers
 
 | Node | UI label | Role | Example coordinate | Evidence status | Display rule |
 |---|---|---|---|---|---|
-| A | Suseo Area Assembly Zone | Assembly | 37.5030, 127.0870 | Generalized example | Area-level marker only |
+| A | 수서권 집결 권역 / Suseo Area Assembly Zone | Assembly | 37.5300, 127.0300 | Generalized example | Area-level marker only |
 | S | Suseo Rail Access Hub | Rail access | 37.4875, 127.1010 | Public station-area anchor | Do not describe as exact pickup point |
 | R | Pyeongtaek-Jije Transfer Area | Rail transfer | 37.0188, 127.0707 | Public station-area anchor | Do not describe as exact drop-off point |
-| D | Pyeongtaek Support Zone | Destination zone | 36.9920, 127.1120 | Generalized support-area marker | Do not name sensitive facilities |
+| D | 평택 지원 권역 / Pyeongtaek Support Zone | Destination zone | 36.9550, 127.1350 | Generalized support-area marker | Do not name sensitive facilities |
 | D1 | Road Contingency Waypoint A | Road waypoint | 37.3050, 127.1420 | Abstract waypoint | Show corridor redundancy only |
 | D2 | Road Contingency Waypoint B | Road waypoint | 37.2050, 126.9850 | Abstract waypoint | Show disruption sensitivity only |
 
@@ -43,4 +52,6 @@ The map must show or imply all of the following:
 - [ ] No turn-by-turn route instruction appears.
 - [ ] Map renders markers and route lines at desktop width.
 - [ ] Map renders without label overlap severe enough to hide the scenario at mobile width.
+- [ ] Korean is the default language on a fresh load.
+- [ ] English toggle preserves the same non-operational boundary.
 - [ ] Screenshot captions use "sample", "non-operational", and "decision-support" language.
