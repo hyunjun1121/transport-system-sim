@@ -1,0 +1,65 @@
+@import "normalize.css";
+@import "@blueprintjs/core/lib/css/blueprint.css";
+@import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "@blueprintjs/table/lib/css/table.css";
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1c2127; /* Dark theme background */
+  color: #f6f7f9;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Custom tweaks to BlueprintJS dark theme for Palantir style */
+.bp5-dark {
+  --bp5-intent-primary: #137cbd;
+}
+
+.bp5-dark .bp5-card {
+  background-color: #252a31;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 2px 4px rgba(16, 22, 26, 0.4), 0 8px 24px rgba(16, 22, 26, 0.4);
+}
+/* Custom Table Overrides */
+.custom-bp-table .bp5-table-header {
+  background-color: #252a31 !important;
+  color: #aeb7c2 !important;
+  border-bottom: 1px solid #3a4048 !important;
+}
+.custom-bp-table .bp5-table-cell {
+  background-color: #1c2127 !important;
+  color: #f6f7f9 !important;
+  border-right: 1px solid #3a4048 !important;
+  border-bottom: 1px solid #3a4048 !important;
+}
+.custom-bp-table .bp5-table-quadrant-main {
+  background-color: #1c2127 !important;
+}
+
+/* Leaflet Dark Theme Overrides */
+.leaflet-container {
+  background-color: #1c2127 !important;
+}
+
+.dark-popup .leaflet-popup-content-wrapper,
+.dark-popup .leaflet-popup-tip {
+  background-color: #252a31;
+  color: #f6f7f9;
+  border: 1px solid #3a4048;
+}
+
+.leaflet-bar a {
+  background-color: #252a31 !important;
+  color: #aeb7c2 !important;
+  border-bottom: 1px solid #3a4048 !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #2f343c !important;
+  color: #f6f7f9 !important;
+}
