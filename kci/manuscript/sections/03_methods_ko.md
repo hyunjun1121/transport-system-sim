@@ -120,71 +120,59 @@ $$
 
 `evidence_class` 필드는 모든 행에서 `scenario_based`이며 `observed_disaster_data`는 `false`이다. 즉 어떤 시나리오도 실제 관측 재해 데이터를 표현하지 않는다.
 
-## 3.5 두 단계 DoE 설계
+## 3.5 DoE 설계
 
-### 반복 횟수에 대한 정직한 보고
+v0.7 실험 설계는 네 개의 DoE 스트림(Phase 1a/1b/2/3)과 한 개의 민감도 스트림(§3.7 Morris)으로 구성되며, 모든 스트림은 §3.6의 paired CRN을 공유한다. cell 정의·반복 횟수·grid 크기는 `kci/config.yaml`이 단일 출처로 보유한다.
 
-본 연구의 계획 단계(`kci/research_plan.md` §7)는 cell당 $R = 30$ paired CRN 반복을 명시하였다. 그러나 §3.2에서 보인 바와 같이 실제 어댑터 결과 회랑은 18,213 노드 / 29,542 엣지로 본 시뮬레이터의 종전 추상 베이스라인(약 8개 노드)에 비해 현저히 크다. 단일 BPR 정적 셋업의 30회 반복 비용이 본 회랑에서는 분당 수~수십 회 디스패치 사건과 결합하여 cell당 수십 분에 달하므로, 본 연구의 주 스트림은 $R = 30$ 대신 **$R = 10$**으로 축소하여 실험 시간을 budget 내에 수렴시켰다. Morris 민감도 또한 계획상 200 trajectories 대신 **50 trajectories**로 축소하였다(§3.7). origin robustness 보조 스트림은 더 작은 grid에 대해 $R = 5$를 사용한다. 이 축소는 본 회랑의 계산 비용에 의해 강제되었으며, paired CRN의 페어링 구조 자체는 보존되므로 단일 cell 내 분산 추정은 비파괴적으로 영향을 받는다.
+### 3.5.1 Phase 1a — 기저 강건성
 
-### Phase 1 — Disruption 격자
+origin A(송파구청 일자리센터)에서 장애 강도만 변화시키는 1차원 sweep으로 기저 강건성 곡선을 산출한다. 요인 $p_{\mathrm{fail,scale}}$ 8수준 $\{0.0, 0.10, 0.25, 0.50, 0.75, 1.0, 1.5, 2.0\}$, 혼잡 스케일 $s = 1.2$ 고정(§3.5.5), 장애 모드 blocked, 네트워크 변형 baseline, **cell당 $R = 30$**; **격자 8 cell × R = 240 paired = 480 실행**. 출력 `results/phase1a_origin_A.csv`.
 
-- **요인 1: 혼잡 스케일 $s$** (배경 교통량 배수): $s \in \{0.8, 1.0, 1.2, 1.5, 2.0\}$, 5수준.
-- **요인 2: 장애 강도 $p_{\mathrm{fail,scale}}$**: $\{0.0, 0.25, 0.50, 1.00, 1.50, 2.00, 3.00\}$, 7수준.
-- 격자 크기: $5 \times 7 = 35$ cell.
-- cell당 반복: $R = 10$ paired CRN seed (origin A 주 스트림).
-- 페어링: 각 seed는 동일한 도로 장애 추첨·승객 도착시각·BPR 배경 교통량 프로파일에 대해 단일수단과 복합수단을 모두 시뮬레이션한다.
+### 3.5.2 Phase 1b — 원점 강건성
 
-### Phase 2 — Policy 격자
+origin A의 강건성 곡선이 다른 송파구 집결지 후보에 대해 부호·크기가 유지되는지 확인한다. 원점 B(삼전동 구민회관), C(장지역 4번 출구), D(잠실종합운동장; *출처 미확인 가정 변형*); $p_{\mathrm{fail,scale}}$ 4수준 $\{0.0, 0.5, 1.0, 1.5\}$; **cell당 $R = 20$**; **3 × 4 × R = 240 paired = 480 실행**. Origin D는 §3.9에 따라 모든 표·그림에서 별도 표기.
 
-- **요인 1: 집결 지연 스케일 $\sigma$** (lognormal $\sigma$, $\mu = 2.0$ 고정): $\sigma \in \{0.3, 0.5, 0.7, 1.0\}$, 4수준.
-- **요인 2: 출발 정책**: STRICT(엄격), GRACE($W \in \{15, 30, 60\}$ 분 × $\theta \in \{0.8, 0.9\}$ 점유율 임계값) → 총 7개 policy.
-- 격자 크기: $4 \times 7 = 28$ cell.
-- cell당 반복: $R = 10$ paired CRN.
+### 3.5.3 Phase 2 — 단일수단 매개변수 스윕
 
-### Robustness — Origins B/C/D
+baseline 단일수단 구성에서 fleet·dispatch·장애 강도의 1차 효과를 분리해 *단일수단 회복력의 매개변수 조정 한계*를 평가한다. `bus.fleet_size` 5수준 $\{15, 23, 35, 50, 80\}$ (23 baseline) × `bus.dispatch_interval_min` 3수준 $\{3, 5, 10\}$ × $p_{\mathrm{fail,scale}}$ 3수준 $\{0.5, 1.0, 2.0\}$; **cell당 $R = 20$**; **45 cell × R = 900 paired = 1{,}800 실행**.
 
-집결지 효과의 강건성을 확인하기 위해, B·C·D 각 origin에 대해 Phase 1 격자를 $2 \times 3$ focused subset($s \in \{1.0, 1.5\}$, $p_{\mathrm{fail,scale}} \in \{0.0, 1.0, 2.0\}$)으로 축소하고 cell당 $R = 5$로 실행한다. **Origin D(잠실종합운동장)의 결과는 출처 미확인 가정 변형으로 표기되며 §3.9의 한계와 함께 보고한다.**
+### 3.5.4 Phase 3 — 반사실 레버 스윕 (헤드라인)
 
-## 3.6 Paired CRN과 신뢰구간
+baseline에서 복합수단이 단일수단에 의해 지배되는 결과를 *어떤 인프라 개입이 역전시킬 수 있는가*를 식별하는 헤드라인 격자. `multimodal.rail_headway_min` $\{15, 7.5, 3\}$ (15 baseline) × `multimodal.lastmile_fleet_size` $\{23, 50, 100\}$ (23 baseline) × `multimodal.rail_capacity_pax_per_train` $\{500, 1000, 2000\}$ (500 baseline) × 외생 $p_{\mathrm{fail,scale}}$ $\{0.0, 0.5, 1.5\}$; **cell당 $R = 15$**; **$3^4 = 81$ cell × R = 1{,}215 paired = 2{,}430 실행**.
 
-각 cell의 paired 비교 통계량은 다음과 같이 정의된다. seed $r \in \{1, \ldots, R\}$에 대하여
+격자 정의는 `src/experiment/doe.py::Phase3Point`/`phase3_grid(config)`가 단일 출처로 보유한다. cell 단위 레버 주입은 `src/experiment/phase3_runner.py::run_phase3`가 `src/kci_runtime.py::apply_phase3_lever_override(config, point)`를 호출해 수행하며, 후자는 입력 config를 **deepcopy** 한 뒤 `multimodal` 블록과 `network.rail_link[0]`을 함께 재기록하여 cell 간 레버 누출을 코드 계약 수준에서 차단한다.
 
-$$
-\delta_r = \mathrm{pm}^{\mathrm{bus}}_r - \mathrm{pm}^{\mathrm{multi}}_r
-$$
+### 3.5.5 s축 제거 사유
 
-여기서 $\mathrm{pm}_r$은 seed $r$에서의 penalized_makespan이다. $\delta_r$의 표본평균과 표본분산을 각각 $\bar{\delta}$, $s_\delta^2$이라 할 때, paired $t$-기반 95% 신뢰구간은
+선행 버전(v0.6)은 혼잡 스케일 $s \in \{0.8, 1.0, 1.2, 1.5, 2.0\}$ 5수준을 Phase 1의 두 번째 요인으로 포함했으나 실행 결과 s축은 통계적으로 *불활성(inert)* 으로 판명되었다: 본 회랑에서 BPR 혼잡 효과는 수 분 규모인 반면 censoring 페널티(1{,}440분 × 수백 명)는 약 *세 자릿수* 큰 페널티로 penalized_makespan을 지배한다. 5개 s 수준 간 paired delta가 모두 CI 폭 내에 머물러 s축은 어떠한 신호도 운반하지 못하였고, v0.7은 이를 반영해 s를 단일 대표값 $s = 1.2$로 고정하고 절약된 budget을 §3.5.4의 반사실 격자에 재배분한다.
 
-$$
-\bar{\delta} \pm t_{0.975, R-1} \cdot \frac{s_\delta}{\sqrt{R}}
-$$
+### 3.5.6 R 정직성 (R-honesty)
 
-이다. $\bar{\delta} > 0$이면 복합수단이 단일수단 대비 빠르다고 해석한다. $R = 10$에서 $t_{0.975, 9} = 2.262$로 좁아진 CI를 산출하므로, 본 연구는 모든 표·그림에 *paired delta CI*와 함께 두 모드의 *raw mean* 및 *miss-rate*를 동시에 보고한다.
+주(main) 분석은 cell당 $R = 30$ paired CRN을 Phase 1a에 적용한다. Phase 1b·Phase 2는 $R = 20$, Phase 3은 $R = 15$로 비대칭 배정한다 — Phase 3 격자는 Phase 1a의 약 10배 cell 수를 가지므로 wall-clock 관리상 R 축소가 불가피하며, cell 내 paired CRN 페어링이 보존되므로 cell당 분산 추정은 비파괴적이다. 본 trade-off는 §4의 모든 표가 cell당 CI 폭을 함께 보고하여 투명하게 노출된다 — 더 좁은 R은 더 넓은 CI로 직접 가시화된다.
 
-Censoring 페널티는 모든 seed·모드에 동일하게 $\pi = 1440$분이 적용되어 페어링을 깨지 않는다. paired CRN의 핵심은 매 seed가 두 모드에 *동일한* 도로 장애 추첨, 승객 도착시각, BPR 배경 교통량 시계열을 부여하여 구조적 차이를 모드 간 외생 노이즈로부터 분리하는 데 있다 [Kelton & Law 2014 — 본 연구는 표준 IE 교과서 관행을 따른다].
+## 3.6 Censoring-aware 지표·분위수 KPI·Paired CRN 신뢰구간
+
+§3.1의 `penalized_makespan`은 1차 비교 지표로 유지된다. v0.7은 censoring 페널티에 가려진 분포 형태 정보를 복원하기 위해 분위수 기반 KPI를 추가한다.
+
+**분위수 도착시각 (population-padded).** 각 실행에서 인원 총수 $N$ = `personnel.total` 의 모집단 벡터는 (i) $D$에 도착한 $N - n_c$명의 실제 도착시각 + (ii) censored된 $n_c$명에 대한 sentinel `time_limit` = 1{,}440분으로 구성된다. 이 길이-$N$ 벡터에 선형 보간 q-분위수를 적용해 `arrival_q50_min`, `arrival_q90_min`, `arrival_q95_min`을 정의한다. 본 규칙은 *성공자 분위수*가 아니라 *모집단 분위수* 이므로 censored 인원이 sentinel 값으로 꼬리에 보존되어 censoring 신호가 사라지지 않는다. 구현은 `src/metrics.py::MetricsCollector._quantile_over_population`.
+
+**마감 시한 내 완료 확률.** $\mathrm{prob\_completion\_within\_window} = \#\{i : t_i \le \text{deadline\_min}\} / N$, `deadline_min` = `config.quantile_kpi.deadline_min` = **1{,}500분** ($\approx$ 25시간, 동원훈련 1일차 집결 cutoff 부합). [0, 1] 범위의 페널티 스케일 무관 완료율 지표.
+
+**Paired delta 컬럼.** 위 KPI는 `src/scenario.py::run_scenario` 출력에 포함되고, `src/experiment/runner.py::_paired_result_row(base, bus, multi)`가 모든 단계 결과 행에 `delta_arrival_q{50,90,95}_min`, `delta_prob_completion_within_window` 컬럼을 자동 추가한다(양수 = 복합수단 우월).
+
+**Paired CRN 신뢰구간.** seed $r \in \{1, \ldots, R\}$에 대하여 $\delta_r = \mathrm{pm}^{\mathrm{bus}}_r - \mathrm{pm}^{\mathrm{multi}}_r$, 표본평균 $\bar{\delta}$, 표본분산 $s_\delta^2$의 paired $t$-기반 95% CI는 $\bar{\delta} \pm t_{0.975, R-1} \cdot s_\delta/\sqrt{R}$. censoring 페널티 $\pi = 1{,}440$분이 모든 seed·모드에 동일 적용되어 페어링을 보존하며, paired CRN은 매 seed가 두 모드에 동일한 도로 장애 추첨·승객 도착시각·BPR 시계열을 부여해 구조적 차이를 외생 노이즈로부터 분리한다 [Kelton & Law 2014].
 
 ## 3.7 Morris elementary-effects 민감도 분석
 
-매개변수의 1차 효과와 비선형성을 선별하기 위해 Morris elementary-effects 방법 [3]을 SALib [4]의 `morris.sample` / `morris.analyze`로 적용하였다. 본 연구의 설계는 `data/scenarios/sensitivity_design.csv`에 명시되며, 다음 9개의 핵심 매개변수를 포함한다(전체 14개 중 본 회랑 시나리오에 적용 가능한 부분집합).
+매개변수의 1차 효과와 비선형성을 선별하기 위해 Morris elementary-effects 방법 [3]을 SALib [4]의 `morris.sample` / `morris.analyze`로 적용하였다. 설계 매트릭스 `data/scenarios/sensitivity_design.csv`는 다음 **14개** 매개변수를 보유한다(괄호 안은 베이스라인 / 하한 / 상한): passenger_volume (24 / 16 / 32 pax), passenger_arrival_variability (0.25 / 0.15 / 0.50), direct_bus_fleet_size (3 / 1 / 5), feeder_fleet_size (3 / 1 / 5), last_mile_fleet_size (2 / 1 / 4), dispatch_interval (5 / 2.5 / 10 min), road_background_traffic_multiplier (1.0 / 0.8 / 2.0), capacity_reduction_factor (0.50 / 0.25 / 0.75), rail_headway (10 / 5 / 20 min), rail_capacity (16 / 8 / 32 pax/train), transfer_fixed_delay (3 / 0 / 10 min), transfer_per_passenger_delay (0.02 / 0 / 0.10 min/pax), turnaround_time (8 / 4 / 20 min), last_mile_access_disruption_probability (1.0 / 0.0 / 1.0).
 
-| 매개변수 | 베이스라인 | 하한 | 상한 |
-|---------|-----------|-----|------|
-| passenger_arrival_variability ($\sigma$) | 0.25 | 0.15 | 0.50 |
-| direct_bus_fleet_size | 3 | 1 | 5 |
-| feeder_fleet_size | 3 | 1 | 5 |
-| last_mile_fleet_size | 2 | 1 | 4 |
-| dispatch_interval | 5 | 2.5 | 10 |
-| road_background_traffic_multiplier | 1.0 | 0.8 | 2.0 |
-| capacity_reduction_factor | 0.50 | 0.25 | 0.75 |
-| rail_headway | 10 | 5 | 20 |
-| transfer_fixed_delay | 3 | 0 | 10 |
+이 14개 매개변수는 **Phase 3 레버 네 가지(rail_headway, last_mile_fleet_size, rail_capacity, dispatch_interval)를 이미 포함**하므로 v0.7 reframing은 Morris 설계 확장을 요구하지 않았고, 본 설계는 그대로 재사용되었다.
 
-설계 파라미터는 `num_trajectories = 50`(계획상 200에서 축소; §3.5 참조), `num_levels = 4`, paired CRN seed=1로 고정한다. Morris 평가지표는 매개변수 $i$의
+설계 파라미터는 $k = 14$, $T = 100$ trajectories, `num_levels = 4`, paired CRN seed=1로 고정하며, 총 모델 평가 수는 $(k + 1) \times T = 1{,}500$ 회이다. Morris 지표는 $\mu^*_i = T^{-1}\sum_t |EE_{i,t}|$ (절대 평균 효과, 영향력 순위)와 $\sigma_i$ (EE 표준편차, 비선형·상호작용 진단)이며 $(\mu^*, \sigma)$ 산점도로 선별한다.
 
-- $\mu^*_i = \frac{1}{T}\sum_{t=1}^{T} |EE_{i,t}|$: 절대 평균 효과(영향력 순위),
-- $\sigma_i$: elementary effect의 표준편차(비선형·상호작용 진단)
+### 표준 집계 규칙 (canonical aggregation rule)
 
-이며, $(\mu^*, \sigma)$ 산점도로 선별한다. $\mu^*$ 상위 매개변수만 본문 해석에 사용하고 나머지는 보충 자료에 표시한다.
+원시 `results/sensitivity/morris_results.csv`는 (policy × scenario × metric) 다중 블록을 포함하므로 본문이 인용하는 *μ\* 상위 매개변수* 는 다음 단일 규칙으로만 도출된다 — **각 매개변수에 대해 μ\* 는 (policy × scenario × metric) 블록에 걸쳐 산술 평균하며 metric 차원은 Table 5 build pipeline의 *multi-metric mean* 으로 통합되고, 본 평균은 `scripts/build_kci_tables.py::build_table5_morris_mu_star`(또는 동등 진입점)가 단독 산출한다.** 본 규칙은 §4·§5·초록의 Morris 인용에 대해 *유일한 권한 출처(single source of truth)* 로 작동하며, 다운스트림 작성·검증에서 raw 블록 재집계로 다른 순위를 산출하는 것은 허용되지 않는다(v0.6에서 관측된 fabrication 방지를 위한 통제).
 
 ## 3.8 재현성
 

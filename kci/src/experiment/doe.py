@@ -29,6 +29,18 @@ class Phase2Point(NamedTuple):
     capacity_reduction_factor: float | None
 
 
+class Phase3Point(NamedTuple):
+    """One Phase 3 counterfactual lever point."""
+
+    rail_headway_min: float
+    lastmile_fleet_size: int
+    rail_capacity_pax_per_train: int
+    p_fail_scale: float
+    network_variant: str
+    failure_mode: str
+    capacity_reduction_factor: float | None
+
+
 def phase1_grid(config: dict) -> list[Phase1Point]:
     """Phase 1: congestion x failure x network/failure-semantics grid."""
     s_levels = config["congestion_scale"]["levels"]
@@ -73,6 +85,36 @@ def phase2_grid(config: dict) -> list[Phase2Point]:
         )
         for sigma, policy in product(sigma_levels, policies)
     ]
+
+
+def phase3_grid(config: dict) -> list[Phase3Point]:
+    """Phase 3: counterfactual lever sweep.
+
+    Levels from config['phase3_levers'] block which has the shape:
+      rail_headway_min: [15, 7.5, 3]
+      lastmile_fleet_size: [23, 50, 100]
+      rail_capacity_pax_per_train: [500, 1000, 2000]
+      p_fail_scale: [0.0, 0.5, 1.5]
+    """
+    levers = config["phase3_levers"]
+    h_levels = [float(x) for x in levers["rail_headway_min"]]
+    f_levels = [int(x) for x in levers["lastmile_fleet_size"]]
+    c_levels = [int(x) for x in levers["rail_capacity_pax_per_train"]]
+    p_levels = [float(x) for x in levers["p_fail_scale"]]
+    variant = active_network_variant(config)
+    failure_mode, capacity_reduction_factor = active_failure_point(config)
+    rows: list[Phase3Point] = []
+    for h, f, c, p in product(h_levels, f_levels, c_levels, p_levels):
+        rows.append(Phase3Point(
+            rail_headway_min=h,
+            lastmile_fleet_size=f,
+            rail_capacity_pax_per_train=c,
+            p_fail_scale=p,
+            network_variant=variant,
+            failure_mode=failure_mode,
+            capacity_reduction_factor=capacity_reduction_factor,
+        ))
+    return rows
 
 
 def active_network_variant(config: dict) -> str:

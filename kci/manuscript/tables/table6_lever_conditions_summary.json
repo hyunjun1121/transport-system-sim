@@ -1,0 +1,26 @@
+{
+  "n_cells_total": 81,
+  "n_bus_dominant": 54,
+  "n_inconclusive": 27,
+  "n_multi_dominant": 0,
+  "multi_dominant_cells": [],
+  "narrowest_gap_cell": {
+    "rail_headway_min": 3.0,
+    "lastmile_fleet_size": 23,
+    "rail_capacity_pax_per_train": 500,
+    "p_fail_scale": 0.5,
+    "classification": "bus_dominant",
+    "delta_penalized_makespan_mean": -39.33173224870143,
+    "delta_penalized_makespan_ci_lower": -50.6773138817795,
+    "delta_penalized_makespan_ci_upper": -27.98615061562336,
+    "delta_arrival_q90_min_mean": -39.33173224870143,
+    "delta_arrival_q90_min_ci_lower": -50.6773138817795,
+    "delta_arrival_q90_min_ci_upper": -27.98615061562336,
+    "delta_prob_completion_within_window_mean": 0.0,
+    "delta_prob_completion_within_window_ci_lower": 0.0,
+    "delta_prob_completion_within_window_ci_upper": 0.0,
+    "n_reps": 15
+  },
+  "fallback_used": true,
+  "input_csv": "C:\\Users\\User\\Downloads\\transport-system-sim\\kci\\results\\phase3_lever_sweep.csv"
+}

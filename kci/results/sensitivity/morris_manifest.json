@@ -29,10 +29,10 @@
     "sensitivity_design_path": "data/scenarios/sensitivity_design.csv"
   },
   "method": "salib_morris",
-  "morris_sample_count": 750,
+  "morris_sample_count": 1500,
   "morris_summary_schema_version": 2,
   "num_levels": 4,
-  "num_trajectories": 50,
+  "num_trajectories": 100,
   "parameter_ids": [
     "passenger_volume",
     "passenger_arrival_variability",
@@ -64,7 +64,7 @@
   ],
   "region_id": "songpa_yangju_corridor",
   "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
-  "row_count": 3000,
+  "row_count": 6000,
   "salib_available": true,
   "salib_problem": {
     "bounds": [

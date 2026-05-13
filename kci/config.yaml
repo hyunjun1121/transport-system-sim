@@ -1,4 +1,5 @@
 # KCI Transport System Simulation Configuration — Songpa to 부곡리 Corridor
+# v0.7: s-axis pinned (inert per v0.6), p-axis refined, Phase 3 levers + quantile KPIs added.
 # Major-arterial virtual network. Builds simulator graph from cached OSM extract.
 
 # --- KCI path defaults (consumed by main.py / scripts when --config is used) ---
@@ -65,14 +66,15 @@ failure:
 metrics:
   late_penalty_min: 1440.0
 
-# Phase 1 sweeps. Keep modest for KCI virtual corridor.
+# Phase 1 sweeps. v0.7: s-axis pinned (v0.6 showed it inert; see methods §3.5.5).
 congestion_scale:
-  levels: [0.8, 1.0, 1.2, 1.5, 2.0]
+  levels: [1.2]   # v0.7 pins s=1.2 (v0.6 found the s-axis to be inert; see methods §3.5.5)
 
+# Phase 1a p-axis sweep (8 levels including the dense low-p region).
 failure_rate:
   parameter: p_fail_scale
   semantics: multiplier
-  levels: [0.0, 0.25, 0.50, 1.00, 1.50, 2.00, 3.00]
+  levels: [0.0, 0.10, 0.25, 0.50, 0.75, 1.0, 1.5, 2.0]
 
 lateness:
   distribution: lognormal
@@ -87,7 +89,21 @@ policies:
     W: [15, 30, 60]
     theta: [0.8, 0.9]
 
+# Phase 3 counterfactual sweep dimensions (consumed by experiment.doe.phase3_grid()).
+phase3_levers:
+  rail_headway_min: [15, 7.5, 3]
+  lastmile_fleet_size: [23, 50, 100]
+  rail_capacity_pax_per_train: [500, 1000, 2000]
+  p_fail_scale: [0.0, 0.5, 1.5]
+
+# Quantile-based deadline KPI configuration (used by metrics aggregation).
+quantile_kpi:
+  q: [0.5, 0.9, 0.95]
+  deadline_min: 1500
+
 experiment:
   R: 30
+  R_phase3: 15
+  R_origin_b_c_d: 20
   seed_base: 1
   time_limit: 1440

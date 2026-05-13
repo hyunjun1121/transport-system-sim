@@ -36,6 +36,7 @@ class MetricsCollector:
     total_personnel: int = 0
     time_limit: float = 1440.0
     late_penalty_min: float | None = None
+    deadline_min: float | None = None
 
     # Arrival records: (person_id, arrival_time_at_D)
     arrivals: list[tuple[int, float]] = field(default_factory=list)
@@ -121,6 +122,32 @@ class MetricsCollector:
         return self._arrival_quantile(0.95)
 
     @property
+    def arrival_q50_min(self) -> float:
+        """Population-padded q50 arrival time (censored people carry time_limit sentinel)."""
+        return self._quantile_over_population(0.50)
+
+    @property
+    def arrival_q90_min(self) -> float:
+        """Population-padded q90 arrival time (censored people carry time_limit sentinel)."""
+        return self._quantile_over_population(0.90)
+
+    @property
+    def arrival_q95_min(self) -> float:
+        """Population-padded q95 arrival time (censored people carry time_limit sentinel)."""
+        return self._quantile_over_population(0.95)
+
+    @property
+    def prob_completion_within_window(self) -> float:
+        """Fraction of population delivered within the effective deadline."""
+        if self.total_personnel == 0:
+            return 0.0
+        deadline = self._effective_deadline_min()
+        delivered_in_time = sum(
+            1 for _, t in self.arrivals if t <= deadline
+        )
+        return delivered_in_time / self.total_personnel
+
+    @property
     def penalized_makespan(self) -> float:
         """Makespan with an added penalty for censored personnel.
 
@@ -188,6 +215,44 @@ class MetricsCollector:
             return float(penalty)
         return max(0.0, float(penalty))
 
+    def _effective_deadline_min(self) -> float:
+        """Effective deadline for completion-within-window calculations."""
+        if self.deadline_min is None:
+            return float(self.time_limit)
+        return float(self.deadline_min)
+
+    def _quantile_over_population(self, q: float) -> float:
+        """Population-padded linear-interpolation quantile.
+
+        Builds a list of length ``total_personnel`` with actual arrival times
+        for delivered people and ``time_limit`` as a sentinel for each
+        censored person, then returns the interpolated q-th percentile.
+        """
+        if self.total_personnel == 0:
+            return float("inf")
+
+        delivered = sorted(t for _, t in self.arrivals)
+        censored = max(0, int(self.censored_count))
+        sentinel = float(self.time_limit)
+        values = delivered + [sentinel] * censored
+
+        # Guard: if record-keeping is inconsistent, fall back to what we have.
+        if not values:
+            return float("inf")
+        if len(values) == 1:
+            return values[0]
+
+        q = max(0.0, min(1.0, float(q)))
+        position = q * (len(values) - 1)
+        lower_index = int(math.floor(position))
+        upper_index = int(math.ceil(position))
+        if lower_index == upper_index:
+            return values[lower_index]
+        fraction = position - lower_index
+        return values[lower_index] + fraction * (
+            values[upper_index] - values[lower_index]
+        )
+
     def _successful_arrival_times(self) -> list[float]:
         """Return sorted arrival times within the configured time limit."""
         return sorted(t for _, t in self.arrivals if t <= self.time_limit)
@@ -248,4 +313,8 @@ class MetricsCollector:
             "median_arrival_time": self.median_arrival_time,
             "p80_arrival_time": self.p80_arrival_time,
             "p95_arrival_time": self.p95_arrival_time,
+            "arrival_q50_min": self.arrival_q50_min,
+            "arrival_q90_min": self.arrival_q90_min,
+            "arrival_q95_min": self.arrival_q95_min,
+            "prob_completion_within_window": self.prob_completion_within_window,
         }

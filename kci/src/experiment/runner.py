@@ -39,6 +39,10 @@ SCENARIO_KPI_COLUMNS = {
     "passenger_travel_minutes": "passenger_travel_minutes",
     "passengers_per_vehicle_minute": "passengers_per_vehicle_minute",
     "passengers_per_total_service_minute": "passengers_per_total_service_minute",
+    "arrival_q50_min": "arrival_q50_min",
+    "arrival_q90_min": "arrival_q90_min",
+    "arrival_q95_min": "arrival_q95_min",
+    "prob_completion_within_window": "prob_completion_within_window",
 }
 
 DELTA_KPIS = {
@@ -55,6 +59,10 @@ DELTA_KPIS = {
     "passengers_per_total_service_minute": (
         "delta_passengers_per_total_service_minute"
     ),
+    "arrival_q50_min": "delta_arrival_q50_min",
+    "arrival_q90_min": "delta_arrival_q90_min",
+    "arrival_q95_min": "delta_arrival_q95_min",
+    "prob_completion_within_window": "delta_prob_completion_within_window",
 }
 
 

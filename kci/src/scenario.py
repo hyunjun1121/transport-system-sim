@@ -73,6 +73,7 @@ def run_scenario(
         total_personnel=n_personnel,
         time_limit=time_limit,
         late_penalty_min=config.get("metrics", {}).get("late_penalty_min"),
+        deadline_min=config.get("quantile_kpi", {}).get("deadline_min"),
     )
     traffic = DynamicRoadTraffic.from_config(
         G,

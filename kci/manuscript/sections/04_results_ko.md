@@ -1,75 +1,73 @@
 # 4. 결과
 
-본 장은 §3에서 기술한 두 단계 실험 설계와 Morris 민감도 분석의 결과를 차례로 제시한다. 모든 수치는 §3.6의 paired CRN 절차에 따라 cell당 동일 seed로 두 모드를 짝지어 산출한 paired delta와 그 95% 신뢰구간을 함께 보고하며, 본 절의 모든 정량적 비교는 §3.9에서 선언된 *조건도(condition map)*의 해석 경계 내에 한정된다. 특히 §3.3의 `HIGHWAY_DEFAULTS`가 미보정 계획 프록시라는 사실, §3.5의 반복 회수 축소($R=10$), 그리고 Origin D의 출처 미확인 가정 변형 지위는 본 절 전반에 걸쳐 반복적으로 환기된다.
+본 장은 §3의 4단계 실험 설계(Phase 1a 기준 강건성, Phase 1b 원점 강건성, Phase 2 단일수단 매개변수 스윕, Phase 3 반사실 레버 스윕)와 Morris 전역 민감도 분석의 결과를 차례로 제시한다. 모든 정량값은 §3.6의 paired-CRN 절차에 따라 cell당 동일 seed로 두 모드를 페어드한 결과의 평균과 paired-t 95% 신뢰구간(이하 CI)을 함께 보고하며, 본 절의 모든 비교는 §3.9에서 선언된 *조건도(condition map)*의 해석 경계 내에 한정된다. Δ는 일관되게 `Δ = bus_only − multimodal`로 정의되어 음수는 직행버스 우위, 양수는 multimodal 우위를 의미한다(코드 `_safe_delta(left=bus, right=multi)`).
 
-## 4.1 Phase 1 break-even 분석 (Origin A)
+## 4.1 Phase 1a 기준 강건성 (Origin A, R = 30)
 
-Phase 1 격자는 혼잡 스케일 $s \in \{0.8, 1.0, 1.2, 1.5, 2.0\}$ × 장애 강도 $p_{\mathrm{fail,scale}} \in \{0.0, 0.25, 0.50, 1.0, 1.5, 2.0, 3.0\}$의 5×7 = 35 cell, cell당 $R = 10$ paired CRN seed로 구성된다. 〈그림 3〉은 paired delta penalized makespan $\bar{\delta}_{\mathrm{pm}} = \bar{M}^{\mathrm{bus}}_{\mathrm{pen}} - \bar{M}^{\mathrm{multi}}_{\mathrm{pen}}$의 (s, p) 격자 위 히트맵이며, 〈표 2〉는 동일 데이터의 paired $t$ 기반 95% CI를 셀별로 정리한다.
+Phase 1a는 송파구청 일자리센터(Origin A)에서 출발하여 `p_fail_scale ∈ {0.0, 0.10, 0.25, 0.50, 0.75, 1.0, 1.5, 2.0}`의 8개 수준에 대해 cell당 R = 30회 페어드 CRN 반복을 수행하였다(〈표 2〉, 〈그림 3〉, 〈그림 4〉).
 
-**무장애 영역 (장애 없음).** $p_{\mathrm{fail,scale}} = 0$의 모든 $s$ 수준에서 단일수단(버스)이 복합수단(철도-버스)보다 약 58분 빠르게 완수된다. $s = 1.0$, $p = 0.0$ cell에서 $\bar{\delta}_{\mathrm{pm}} = -58.5$분이며 paired delta 표본분산이 0에 가깝다(모든 seed에서 결정론적 BPR 자유 통행 + 환승 손실 약 60분이 그대로 페어 차로 잡힌다). 이 값은 §3.3의 환승 고정지연($t_{\mathrm{transfer}} = 3$분/인) + 복합수단 경로의 추가 거리 비용을 반영하는 *구조적 환승 페널티*로 해석된다.
+**무장애 영역에서의 구조적 페널티.** `p_fail_scale = 0.0`에서 Δ penalized_makespan = **−58.5분** (95% CI [−58.5, −58.5])이며 CRN 하 30회 반복이 결정적 동일 출력으로 수렴하여 CI 폭이 0이다. 즉 어떤 장애도 발생하지 않은 조건에서도 직행버스가 약 58분 빠르게 완수되며, 이는 multimodal 경로의 환승 고정지연과 추가 거리에 기인하는 *구조적 환승 페널티*로 해석된다.
 
-**중간 압박 영역 ($p \in \{0.25, 0.50\}$).** 양 모드 모두에서 censored_count가 점진적으로 증가하나(버스 100 → 300명, 복합수단 100 → 300명) 두 모드의 censoring이 동일 수준으로 페어드되어 paired delta는 여전히 음의 부호를 유지한다. $s = 1.0$, $p = 0.25$에서 $\bar{\delta}_{\mathrm{pm}} = -54.0$분, 95% CI $[-65.8, -42.1]$; $p = 0.50$에서 $\bar{\delta}_{\mathrm{pm}} = -41.7$분, 95% CI $[-59.6, -23.9]$로 단일수단 우위가 통계적으로 유의하다.
+**Disruption 강도에 따른 단조 악화.** `p_fail_scale`이 증가함에 따라 Δ q90 도착시간은 −58.5분(p=0.0)에서 −124.8분(p=0.5), −263.5분(p=1.5)을 거쳐 **−358.1분** (95% CI [−508.9, −207.3], p=2.0)으로 단조적으로 음의 방향으로 깊어진다. Δ P(완료 ≤ 1500분)는 0.000(p=0.0)에서 +0.133(p=1.0), +0.300(p=1.5)을 거쳐 **+0.433** (95% CI [+0.245, +0.622], p=2.0)으로 증가하여, 고압박 영역에서 직행버스가 마감 내 완료 확률 측면에서 약 43.3 포인트 우위를 확보한다.
 
-**고압박 영역 ($p \geq 1.0$): censoring-driven break-even.** $p_{\mathrm{fail,scale}} \geq 1.0$ 영역에서는 두 모드의 미도착률이 비대칭적으로 갈리면서 paired delta가 대규모 음의 값으로 떨어진다. $s = 1.0$, $p = 1.0$ cell에서 버스 censored 평균 400명·복합수단 censored 평균 500명, $\bar{\delta}_{\mathrm{pm}} \approx -1.44 \times 10^5$분, paired 95% CI $[-4.70 \times 10^5, +1.82 \times 10^5]$분으로 신뢰구간이 0을 포함한다. 즉 페널티 $\pi = 1440$분이 100명 차이에 곱해진 결과($100 \times 1440 = 144{,}000$분)가 delta의 평균을 지배하지만, seed 간 압박 실현의 변동성이 커서 통계적 유의성은 R = 10에서 확보되지 않는다. $p = 2.0$, $s = 1.0$에서는 censoring 격차가 200명으로 확대되어 $\bar{\delta}_{\mathrm{pm}} \approx -2.88 \times 10^5$분, 95% CI $[-7.23 \times 10^5, +1.46 \times 10^5]$분이다. 종합하면 본 회랑의 *실용적 break-even*은 paired makespan 부호가 아니라 **censoring 격차의 부호** 위에서 정의되며, 이 격차는 $p_{\mathrm{fail,scale}} \approx 1.0$ 부근에서 처음 0.1 이상의 양의 값을 띤다(즉 multimodal이 더 많이 미도착, §4.2 참조).
+**통계적 분리.** `p_fail_scale ≥ 0.75`의 모든 cell에서 Δ penalized_makespan의 95% CI가 0을 제외하여(〈표 2〉) paired-CRN 기준 두 모드가 통계적으로 유의하게 분리된다. 〈그림 3〉의 강건성 곡선은 8개 관측 점 모두에서 Δ < 0의 부호를 유지하며 어떤 disruption 강도에서도 break-even 교차가 관측되지 않는다.
 
-**혼잡 축의 둔감성.** 동일 $p$에 대한 다섯 개 $s$ 수준의 paired delta 차이는 1분 미만으로 본 회랑에서는 BPR 자유 통행시간 항이 도로 차단 페널티에 비해 1차적으로 무시할 수 있는 규모임을 시사한다. 이는 §3.3의 미보정 capacity 가정 하에서 본 회랑 거리(약 40-50 km) × BPR 곡선이 $s \in [0.8, 2.0]$ 범위에서 자유 통행시간을 수십 분 단위로만 변동시키는 반면, censoring 페널티는 인당 1440분이라는 두 자릿수 큰 단위라는 점에서 기인한다. 따라서 〈그림 3〉의 히트맵은 본질적으로 $p$축에 평행한 줄무늬 패턴을 보인다.
+## 4.2 Phase 1b 원점 강건성
 
-## 4.2 Phase 1 완수율 곡선
+Origin A의 결론이 집결지 선택에 강건한지 확인하기 위해 검증된 후보 B(삼전동), C(장지역), 그리고 비검증 후보 D†(비검증, 부록 보충자료)를 `p_fail_scale ∈ {0.0, 0.5, 1.0, 1.5}`의 4개 수준 × cell당 R = 20 (Origin A는 R = 30의 부분집합)으로 비교하였다(〈표 4〉; 시각화는 보충자료 〈그림 S1〉).
 
-페널티 합산 지표만으로는 censoring 규모가 makespan을 압도하므로, 본 절은 §3.1에서 정의한 *raw completion rate*를 별도로 보고한다. 〈그림 4〉는 $s \in \{0.8, 1.2, 2.0\}$의 세 단면을 $p_{\mathrm{fail,scale}}$의 함수로 표시한 모드별 완수율 곡선이다.
+**부호 강건성.** 4개 원점 × 4개 `p_fail_scale` 수준 = 16 cell 모두에서 Δ penalized_makespan의 평균이 음의 부호를 유지한다. 무장애 영역에서 A는 −58.5분, B는 −57.2분, C는 −60.9분, D†는 −66.7분으로 4개 원점 간 격차는 약 10분 이내이다. 고압박 영역(`p_fail_scale = 1.5`)에서는 B = −720,413분, D† = −720,410분, A = −432,259분, C = −504,291분으로 절대 크기는 원점 위치에 따라 변동하나 모든 셀의 95% CI가 0 미만에 머문다.
 
-**완수율 단조 감소.** 두 모드 모두 $p$가 0에서 3.0으로 증가함에 따라 완수율이 단조적으로 감소한다. 단일수단의 경우 1.00 → 0.90 → 0.70 → 0.60 → 0.40 → 0.30 → 0.20, 복합수단의 경우 1.00 → 0.90 → 0.70 → 0.50 → 0.30 → 0.10 → 0.10이다. $p \leq 0.50$에서 두 모드의 완수율은 격자상 0.01의 분해능 내에서 동일하다(*"낮은 압박 평형 영역"*).
+**원점 간 격차 폭.** `p_fail_scale = 1.5`에서 4개 원점의 평균 Δ 분포 폭은 약 **288,154분**으로(보충자료 〈그림 S1〉) `p_fail_scale ≤ 1.0` 구간에서는 95% CI가 서로 크게 겹쳐 본문 결론이 출발지 선택에 robust함을 시사한다.
 
-**Bus advantage 발현 구간.** $p_{\mathrm{fail,scale}} \geq 1.0$ 영역에서 단일수단이 복합수단을 0.1-0.2 포인트 차이로 일관되게 앞선다. 격차의 정점은 $p = 2.0$에서 발생하며 모든 $s$ 수준에서 $\bar{\Delta}_{\mathrm{cr}} = +0.20$, paired 95% CI $[-0.10, +0.50]$이다(R = 10에서 분산이 큰 이항형 지표라 CI는 0을 포함하나 점추정의 일관된 부호는 5개 $s$ 수준 모두에서 동일하다).
+**Origin D 비검증 caveat (caveat 박스).** Origin D(잠실종합운동장)는 공개 자료에서 출처 검증을 통과하지 못한 비검증(unverified) 후보이므로(〈표 4〉 D† 각주, 보충자료 〈그림 S1〉 빗금/링 표시) 본 절의 결론 문장은 검증된 Origin A·B·C에 한정하며 D는 robustness 점검용 참고 자료로만 보고한다. 이 caveat은 §1.1, §3.5.2, §3.9 항목 2, §5.3에서 일관되게 명시된다.
 
-**해석: 환승 노드 의존성.** 본 회랑에서 복합수단이 더 빨리 무너지는 메커니즘은 §3.4의 `rail_station_access` 시나리오 패밀리에서 명시적으로 모형화되어 있다. 잠실역·의정부역 진출입로의 capacity 감소는 셔틀 leg(A→S)와 last-mile leg(R→D)를 동시에 압박하므로, 단일수단의 단일 경로 차단보다 시스템 차원의 손실이 누적되기 쉽다. 즉 본 결과는 *철도 leg의 추상 프록시 가정* 하에서도 환승 노드의 도로 접근성이 복합수단 회복력의 1차적 병목임을 시사하며, §5.2의 의사결정 논의에서 더 자세히 다룬다.
+## 4.3 Phase 2 단일수단 매개변수 스윕 (R = 20)
 
-## 4.3 Phase 2 정책 trade-off
+단일수단 튜닝만으로 §4.1의 격차를 해소할 수 있는지 검정하기 위해 `bus_fleet_size ∈ {15, 23, 35, 50, 80}` × `dispatch_min ∈ {3, 5, 10}` × `p_fail_scale ∈ {0.5, 1.0, 2.0}`의 5 × 3 × 3 = 45 cell, cell당 R = 20 페어드 CRN 반복을 수행하였다(〈표 3〉).
 
-Phase 2 격자는 집결 지연 $\sigma \in \{0.3, 0.5, 0.7, 1.0\}$ × 7개 출발 정책(STRICT 1개 + GRACE $W \in \{15, 30, 60\}$분 × $\theta \in \{0.8, 0.9\}$의 6개 조합)의 4 × 7 = 28 cell, cell당 $R = 10$ paired CRN seed로 구성된다(고정 압박점 $s = 1.2$, $p_{\mathrm{fail,scale}} = 1.0$). 〈표 3〉은 sigma × policy 격자의 paired delta penalized makespan과 두 모드 raw 완수율을 정리한다.
+**격차 해소 부재 (헤드라인).** 가장 공격적인 단일수단 튜닝(`bus_fleet_size = 80`, `dispatch_min = 3`)에서도 `p_fail_scale = 2.0`의 Δ penalized_makespan = **−576,347.8분** (95% CI [−915,281.0, −237,414.5])으로 95% CI가 0을 제외한 채 강한 음의 부호를 유지한다. 즉 본 회랑에서 단일수단 fleet 증설·배차 단축의 한계 효과는 §4.1·§4.2의 multimodal 대비 격차를 부호 단위에서 변동시키지 못한다.
 
-**정책 무차별성 영역.** $\sigma \in \{0.3, 0.5, 0.7\}$ 세 수준에서 7개 정책 간 paired delta penalized makespan은 0.5분 이내로 사실상 구별되지 않는다($\bar{\delta}_{\mathrm{pm}} \approx -1.44 \times 10^5$분이 7개 정책 모두에서 일치). 이는 본 시뮬레이터의 lognormal($\mu = 2.0$, $\sigma \leq 0.7$) 집결 분포 하에서 99분위 도착이 GRACE의 가장 좁은 유예 윈도 $W = 15$분 안에 모두 흡수되므로 정책 간 행동이 동일해지기 때문이다. STRICT와 GRACE의 makespan 차는 0.5분 수준에 머문다.
+**중간 신뢰성 영역의 불확정성.** `p_fail_scale = 0.5` 및 `1.0`의 모든 튜닝셀에서 Δ의 95% CI가 0을 포함한다(예: `p_fail = 0.5`, fleet=80, dispatch=3에서 Δ = −72,118.8분 [−222,896.6, +78,659.0]). 이는 R = 20의 검정력 한계 하에서 단일수단과 multimodal이 중간 신뢰성 영역에서는 통계적으로 구별되지 않음을 의미하며, 부호 점추정은 여전히 일관되게 음이다.
 
-**고분산 영역 ($\sigma = 1.0$).** 집결 분포의 꼬리가 더 두꺼워지면 GRACE의 유예 종료시각과 STRICT의 정시 출발이 비로소 분기한다. $\sigma = 1.0$에서 GRACE 정책군의 $\bar{\delta}_{\mathrm{pm}} \approx -1.4410 \times 10^5$분, STRICT의 $\bar{\delta}_{\mathrm{pm}} \approx -1.4410 \times 10^5$분으로 두 군의 차이는 약 0.9분에 불과하다. 즉 본 회랑·본 압박점에서 *정책 효과는 1차 censoring 페널티에 비해 두 자릿수 작은 규모이며*, Pareto 전선 위 정책 선택은 makespan보다 운용·승객 편의 관점에서 결정되어야 한다.
+**실용적 함의.** 단일수단 fleet/dispatch 튜닝은 §4.4의 multimodal 인프라 보강이 본 회랑에서 가용한 대안일 경우에만 비교 의의를 가진다. 그러나 §4.4가 보이듯 검토된 multimodal 인프라 공간 내에서도 부호 반전 cell은 발견되지 않아, 본 회랑의 결정 변수는 *모드 선택*이 아닌 *공급측 자원 모수*(passenger_volume, direct_bus_fleet_size, dispatch_interval; §4.5 참조)임이 시사된다.
 
-**Pareto 비지배 정책.** paired delta penalized makespan 단일 축에서 모든 7개 정책은 사실상 동일점에 위치하므로 일차 Pareto 비교는 사실상 의미가 없다. 보조 축으로 raw 완수율(7개 정책 모두 버스 0.60, 복합수단 0.50)을 함께 고려해도 모든 정책이 비지배 집합에 속한다. 본 격자에서 정책 trade-off가 출현하지 않는다는 결과 자체가 §5의 논의에서 *"본 회랑·본 압박점에서는 출발 정책 미세 조정의 효용이 도로 신뢰성 개선 대비 매우 작다"*라는 함의로 해석된다.
+## 4.4 Phase 3 반사실 레버 스윕 (헤드라인)
 
-## 4.4 Origin 강건성
+multimodal 인프라 보강 공간 내에서 mode-switch가 가능한 cell이 존재하는지 확인하기 위해 `rail_headway_min ∈ {3, 7.5, 15}` × `lastmile_fleet_size ∈ {23, 50, 100}` × `rail_capacity_pax_per_train ∈ {500, 1000, 2000}` × `p_fail_scale ∈ {0.5, 1.0, 1.5}`의 3⁴ = **81 cell**, cell당 R = 15 페어드 CRN 반복으로 반사실 레버 스윕을 실행하였다(〈그림 6〉, 〈표 6〉, `table6_lever_conditions_summary.json`).
 
-Phase 1의 주 스트림을 Origin A로 고정한 결과가 집결지 선택에 얼마나 강건한지를 확인하기 위해, B(삼전동 구민회관), C(장지역 4번 출구), D(잠실종합운동장)에 대해 $s \in \{1.0, 1.5\}$ × $p_{\mathrm{fail,scale}} \in \{0.0, 1.0, 2.0\}$의 focused 2 × 3 격자, cell당 $R = 5$로 robustness 보조 스트림을 실행하였다(§3.5). 〈그림 5〉는 네 origin의 paired delta penalized makespan을 동일 cell 위에서 비교한 box plot이며, 〈표 4〉는 cell별 평균과 origin A 대비 절대 격차를 정리한다.
+**헤드라인 — multi_dominant cell의 부재.** 81 cell 중 **0 cell**이 `multi_dominant` (Δ의 95% CI 하한 > 0)로 분류된다. 분류 분포는 `bus_dominant` 54 cell, `inconclusive` 27 cell, `multi_dominant` 0 cell이다. 즉 본 연구가 검토한 인프라 레버 공간 내에서 multimodal을 직행버스보다 통계적으로 유의하게 우월하게 만드는 조건은 발견되지 않는다.
 
-**Origin A vs. B (검증된 인근 집결지).** $s = 1.0$, $p = 1.0$의 대표 cell에서 Origin A의 $\bar{\delta}_{\mathrm{pm}} \approx -1.44 \times 10^5$분 대비 Origin B는 $\bar{\delta}_{\mathrm{pm}} \approx -2.88 \times 10^5$분으로 약 1.4 × $10^5$분 더 음의 방향이다. 다만 B의 raw 완수율은 버스 1.00·복합수단 0.80으로 A보다 모두 높아, 절대 페널티 합산 차이의 부호 변동은 censoring 분포의 비대칭에서 기인한다. B는 송파구 조례 2023-09-14 및 한국경제 2024-02-29 보도에 명시된 *검증된 예비군 수송버스 집결지*이며, A 대비 약 1 km 서쪽에 위치한 지리적 변형이 결과를 *부호 단위에서는* 변동시키지 않음을 시사한다.
+**부호 반전에 가장 근접한 cell.** 평균 Δ의 절대값이 가장 작은 cell은 `rail_headway = 3분, lastmile_fleet = 23, rail_capacity = 500, p_fail_scale = 0.5`로 Δ penalized_makespan = **−39.3분** (95% CI [−50.7, −28.0])이며, 분류는 여전히 `bus_dominant`이다(`narrowest_gap_cell`, R = 15). 본 cell은 검토된 가장 공격적인 철도 배차(3분 headway)와 함께 가장 낮은 disruption 수준(p_fail = 0.5)을 결합하였음에도 직행버스 우위가 유지됨을 보인다.
 
-**Origin A vs. C (검증된 남단 집결지).** Origin C(장지역)는 회랑의 남단·동측에 위치한 검증된 집결지로, $s = 1.0$, $p = 1.0$ cell에서 $\bar{\delta}_{\mathrm{pm}} \approx -38.1$분, raw 완수율 버스 0.60·복합수단 0.60이다. 흥미롭게도 C에서는 $p = 1.0$에서 두 모드의 censoring이 정확히 같아 paired delta가 무장애 영역과 유사한 -38 ~ -60분 범위에 머문다. C의 잠실역 진입 경로가 A·B보다 짧아 환승 노드 의존성이 약화되는 점이 본 격차의 원인으로 해석된다.
+**`p_fail = 1.5`에서의 inconclusive 영역.** 〈표 6〉이 보고하는 5개 inconclusive cell은 모두 `rail_headway = 3분, p_fail_scale = 1.5`에 위치하며 평균 Δ = −192,127.9분 (95% CI [−472,873.2, +88,617.4])로 95% CI가 0을 포함한다. 점추정 부호는 여전히 음이며, R = 15의 검정력 한계가 통계적 비유의의 직접 원인으로 추정된다.
 
-**Origin D (출처 미확인 가정 변형).** Origin D(잠실종합운동장)는 §3.2·§3.9에서 명시한 바와 같이 **출처 미확인 가정 변형으로 본 결과는 robustness 시험용에 한정한다**. D는 $s = 1.0$, $p = 1.0$ cell에서 $\bar{\delta}_{\mathrm{pm}} \approx -5.76 \times 10^5$분, raw 완수율 버스 1.00·복합수단 0.60이다. 즉 D의 단일수단 0.60→1.00 향상은 잠실역에서 매우 가까운 D의 지리적 위치가 셔틀 leg(A→S)의 도로 차단 노출을 *증가*시키는 반면(복합수단 완수율 하락), 직행 버스 경로의 회랑 진입을 *단축*시켜(버스 완수율 향상) 두 효과의 합으로 paired delta가 강한 음의 방향으로 이동한 것이다. 본 D의 결과는 *공식 집결지 지정 여부가 공개 자료에서 확인되지 않은 가상 변형*이므로 본 절은 단지 *결과 부호의 안정성*만을 시사 수준에서 보고하고, 운용 함의는 §5에서 도출하지 않는다.
+**v0.7의 핵심 기여.** 〈그림 6〉의 3 패널 발산형 히트맵은 (rail_headway × lastmile_fleet) 단면을 rail_capacity 수준별로 보임으로써, 검토된 가장 공격적인 인프라 개입(3분 headway × 4배 last-mile fleet × 4배 철도 용량)에서도 multimodal 우위 cell이 발견되지 않는다는 *조건부 부재(conditional null)* 를 명시한다.
 
-**종합.** 네 origin 모두에서 paired delta penalized makespan의 부호는 음(단일수단 우위)을 유지하며, 평균 격차의 절대값은 origin 위치에 따라 약 $4 \times 10^4$분 ~ $6 \times 10^5$분 범위로 변동한다. 본 부호 강건성은 §4.1·§4.2의 일차 결론(*"고압박 영역에서 단일수단이 censoring 측면에서 우위"*)이 origin 선택에 1차적으로 의존하지 않음을 보인다.
+## 4.5 Morris 전역 민감도 분석
 
-## 4.5 Morris 민감도 분석
+Morris elementary-effects 분석은 §3.7의 14개 매개변수에 대해 T = 100 궤적, L = 4 수준 설계로 (k + 1) × T = **1,500 모델 평가**를 수행하였다. 본 절의 인용 수치는 `manuscript/sections/canonical_morris_top3.md` (단일 출처)와 〈표 5〉에서 그대로 가져왔으며, `morris_summary.csv`의 독립 재집계를 수행하지 않는다.
 
-Morris elementary-effects 분석은 §3.7의 9개 핵심 매개변수(passenger_volume·direct_bus_fleet_size·dispatch_interval·turnaround_time·last_mile_fleet_size·rail_headway·rail_capacity·feeder_fleet_size·transfer_fixed_delay 등 총 14개 SALib 인자)에 대해 trajectory 수 50, level 수 4의 설계로 실행되었다(`results/sensitivity/morris_summary.csv`). 본 절은 두 핵심 지표 *penalized_makespan*과 *completion_rate*에 대한 $\mu^*$ 순위를 보고한다. 〈표 5〉는 두 정책(`baseline_multimodal`, `bus_only`)과 두 시나리오(`songpa_random_capacity_reduction`, `songpa_last_mile_station_to_destination`) 평균의 매개변수 순위를 정리한다.
+**정전 평균 μ* 상위 3개.** 7개 metric × 2 policy × 2 scenario = 28 블록을 평균한 정전(canonical) μ* 순위는 다음과 같다.
 
-**Penalized makespan 영향력 순위 (상위 3개).**
+1. `passenger_volume` — μ* = **44.5**
+2. `direct_bus_fleet_size` — μ* = **27.4**
+3. `dispatch_interval` — μ* = **20.8**
 
-1. **passenger_volume** ($\mu^* = 1.46 \times 10^2$분, $\sigma = 3.88 \times 10^2$분). 본 모형의 입력 인원 $N$이 가장 큰 1차 효과를 보인다. censoring 페널티가 $n_c \cdot \pi$의 곱 형태이므로 $N$의 변동이 미도착자 수의 절대값을 직접 변동시키는 구조적 결과이다.
-2. **direct_bus_fleet_size** ($\mu^* = 9.71 \times 10$분, $\sigma = 2.65 \times 10^2$분). 단일수단 회로의 차량 수는 일정 시한 내 사이클 회수를 결정하므로 makespan에 강한 비선형 영향을 미친다. $\sigma$가 $\mu^*$를 상회하므로 상호작용·임계점 효과가 있음을 시사한다.
-3. **dispatch_interval** ($\mu^* = 7.54 \times 10$분, $\sigma = 2.56 \times 10^2$분). 배차 간격이 좁아질수록 차량 회전이 가속되어 makespan이 단조 감소하나, 차량 가용성 제약과의 상호작용에 따라 비선형 효과가 강하다.
+(전 14개 파라미터 순위는 〈표 5〉 참조.)
 
-**Completion rate 영향력 순위 (상위 3개).** 완수율(0 ~ 1 스케일) 기준으로는 (1) passenger_volume ($\mu^* = 1.10 \times 10^{-2}$), (2) dispatch_interval ($\mu^* = 6.06 \times 10^{-3}$), (3) direct_bus_fleet_size ($\mu^* = 3.75 \times 10^{-3}$) 순으로 동일한 3개 매개변수가 상위를 점유한다. 즉 본 회랑에서 censoring과 makespan은 사실상 동일한 1차 매개변수 집합에 의해 구동된다.
+**해석.** 상위 3개 매개변수는 모두 *공급측 자원 모수*(승객 인원·직행버스 차량 수·배차 간격)이며, 도로 신뢰성 매개변수(capacity_reduction_factor μ* = 1.73, road_background_traffic_multiplier μ* = 1.65)와 환승 매개변수(transfer_fixed_delay μ* = 3.10, transfer_per_passenger_delay μ* = 0.475)는 1–2 자릿수 작다. 이는 §4.3의 단일수단 fleet/dispatch 튜닝이 본 회랑에서 1차적 결정 변수임을 정량적으로 뒷받침한다. 다만 본 Morris 결과는 파일럿 스케일 fixture demand 위에서 산출되었으므로 μ* 절대값보다는 *상대 순위*만 일관되게 해석한다(`morris_summary.csv::claim_scope`).
 
-**해석 시드.** 상위 3개 매개변수는 모두 *공급측 자원 모수*(인원·차량 수·배차)이며, 도로 신뢰성 매개변수(capacity_reduction_factor, road_background_traffic_multiplier)는 $\mu^* < 1.0$분으로 1-2 자릿수 작다. 이는 §4.1의 *혼잡 축 둔감성* 관찰과 정합적이며, §5.3의 의사결정 시사점(*"자원 보강이 회랑 신뢰성 보강보다 비용 효율적 가능성이 크다"*)의 정량적 근거를 제공한다. 다만 본 Morris 결과는 §3.5에 명시된 50 trajectory 축소 설계 위에서 산출되었으므로 $\mu^*$ 절대값의 외부 타당성보다는 *상대 순위*만 일관되게 해석한다.
+## 4.6 종합: 적용 조건 진술
 
-## 4.6 결과 종합
+§4.1–§4.5의 결과는 다음의 단일 적용 조건 진술로 종합된다.
 
-본 장의 네 갈래 결과는 다음과 같이 종합된다.
+> **본 회랑(송파 ↔ 양주 부곡리)에서 본 연구가 검토한 인프라·매개변수 공간 내에서는 multimodal 적용 조건이 발견되지 않는다.** 직행버스는 (1) Phase 1a의 8개 관측 disruption 강도 전 구간(`p_fail_scale = 0.0 ~ 2.0`, Δ q90 = −58.5 ~ −358.1분), (2) Phase 1b의 4개 후보 원점(A 검증, B/C 검증, D 비검증), (3) Phase 2의 단일수단 fleet × dispatch × p_fail 5×3×3 = 45 cell, (4) Phase 3의 반사실 인프라 레버 81 cell 모두에서 paired-CRN 기준 통계적으로 더 우수하거나 (R = 15/20의 검정력 한계 하에서) 동등하다.
 
-첫째, **무장애 영역에서 단일수단이 약 58분 우위**이며 이는 본 회랑의 환승 고정지연·추가 거리에 기인하는 *구조적 환승 페널티*이다. 둘째, **고압박 영역($p_{\mathrm{fail,scale}} \geq 1.0$)에서 복합수단의 미도착률이 단일수단보다 0.1-0.2 포인트 높아** 단일수단의 우위가 censoring 측면에서 확장된다. 본 분기는 paired makespan의 부호가 아니라 *censoring 격차의 부호* 위에서 정의되는 *실용적 break-even*이다. 셋째, **출발 정책(STRICT/GRACE) 미세 조정의 효용은 censoring 페널티에 비해 두 자릿수 작아** 본 회랑·본 압박점에서는 정책 trade-off가 사실상 평탄하다. 넷째, **origin 선택은 paired delta의 부호를 변동시키지 않으나** 절대 격차의 규모는 $4 \times 10^4$분 ~ $6 \times 10^5$분 범위로 변동하며, Origin D는 출처 미확인 가정 변형으로서 robustness 시험용에만 한정 해석된다. 다섯째, **Morris 분석은 makespan·완수율의 1차 변동이 인원·차량·배차의 공급측 자원에 집중됨을 시사**하며, 도로 신뢰성 매개변수의 효과는 1-2 자릿수 작다.
-
-이상의 다섯 결과는 §3.9에서 선언한 미보정 capacity·미보정 p_fail·추상 철도 leg·검증 부재의 조건도 경계 내에서만 유효하며, 본 연구는 단일 정책 권고가 아닌 *조건부 비교 지도*로 위치한다. 본 결과의 군사적·운용적 함의와 후속 보정 연구의 방향은 §5에서 논의한다.
+이 진술은 §3.9에 명시된 미보정 capacity 가정·미보정 p_fail 사다리·추상 철도 leg·Origin D 비검증의 조건도 경계 내에서만 유효하다. §4.5의 Morris 결과는 본 결론의 메커니즘 근거를 제공한다 — 본 회랑의 makespan과 censoring을 지배하는 1차 매개변수는 *공급측 자원 모수*(passenger_volume·direct_bus_fleet_size·dispatch_interval)이며, 모드 선택은 이 자원 모수의 직행버스 측 최적화가 multimodal의 환승·last-mile 손실을 흡수하기에 충분한 구조이다. §5는 본 적용 조건 진술의 군사·운용적 함의와 후속 보정 연구의 방향을 논의한다.
 
 ---
 
 ### 인용
 
-(본 절은 §3에서 도입된 인용 [1]-[4]를 이어 사용하며, 본 절에서 새로 도입한 인용은 없다.)
+(본 절은 §3에서 도입된 인용 [1]–[4]를 이어 사용하며, 본 절에서 새로 도입한 인용은 없다.)

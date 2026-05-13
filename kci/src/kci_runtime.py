@@ -84,6 +84,37 @@ def apply_seeds_override(config: dict[str, Any], seeds: int | None) -> dict[str,
     return config
 
 
+def apply_phase3_lever_override(config: dict, point: object) -> dict:
+    """Return a deepcopy of `config` with Phase 3 lever values injected.
+
+    `point` is a Phase3Point NamedTuple (from src.experiment.doe). The fields
+    used are: rail_headway_min, lastmile_fleet_size, rail_capacity_pax_per_train.
+
+    Mutations applied:
+      - config['multimodal']['rail_headway_min'] = point.rail_headway_min
+      - config['multimodal']['lastmile_fleet_size'] = int(point.lastmile_fleet_size)
+      - config['multimodal']['rail_capacity_pax_per_train'] = int(point.rail_capacity_pax_per_train)
+      - config['network']['rail_link'][0] tuple-list rewritten with positions
+        (3 -> headway_min, 4 -> capacity_pax_per_train) preserved.
+    """
+    cfg = deepcopy(config)
+    multi = cfg.setdefault("multimodal", {})
+    multi["rail_headway_min"] = float(point.rail_headway_min)
+    multi["lastmile_fleet_size"] = int(point.lastmile_fleet_size)
+    multi["rail_capacity_pax_per_train"] = int(point.rail_capacity_pax_per_train)
+    network = cfg.setdefault("network", {})
+    rail_links = network.get("rail_link")
+    if rail_links:
+        first = list(rail_links[0])
+        # Expected layout: (S, R, travel_time_min, headway_min, capacity_pax_per_train)
+        if len(first) >= 5:
+            first[3] = float(point.rail_headway_min)
+            first[4] = int(point.rail_capacity_pax_per_train)
+            rail_links[0] = type(rail_links[0])(first) if not isinstance(rail_links[0], list) else first
+            network["rail_link"] = rail_links
+    return cfg
+
+
 def apply_grid_preset(config: dict[str, Any], grid: str | None) -> dict[str, Any]:
     """Apply DoE grid density preset.
 

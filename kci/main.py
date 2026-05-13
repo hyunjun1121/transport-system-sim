@@ -24,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.network import build_network, print_network
 from src.experiment.runner import run_phase1, run_phase2, save_results
+from src.experiment.phase3_runner import run_phase3
 from src.experiment.analysis import compute_ci, find_breakeven, summarize_phase1
 from src.visualize.plots import (
     plot_delta_heatmap,
@@ -88,8 +89,11 @@ def run_phase(config: dict, phase: int, quick: bool = False, *,
     if phase == 1:
         run_phase1_pipeline(config, G, out_dir,
                             primary_output=output_path if output_path else None)
-    else:
+    elif phase == 2:
         run_phase2_pipeline(config, G, out_dir,
+                            primary_output=output_path if output_path else None)
+    else:
+        run_phase3_pipeline(config, G, out_dir,
                             primary_output=output_path if output_path else None)
 
 
@@ -173,6 +177,21 @@ def run_phase2_pipeline(config: dict, G, output_dir: Path, *,
     plot_policy_pareto(df2, output_dir=output_dir)
     print(f"  Phase 2 plots saved to {output_dir}")
     return df2
+
+
+def run_phase3_pipeline(config: dict, G, output_dir: Path, *,
+                        primary_output: Path | None = None) -> pd.DataFrame:
+    """Run Phase 3 counterfactual lever sweep."""
+    print("\n--- Phase 3: Counterfactual Lever Sweep ---")
+    t0 = time.time()
+    df3 = run_phase3(config, G)
+    print(f"Phase 3 complete: {time.time() - t0:.1f}s, {len(df3)} rows")
+
+    save_results(
+        df3,
+        primary_output if primary_output else output_dir / "phase3_lever_sweep.csv",
+    )
+    return df3
 
 
 def run_single_test(config: dict) -> None:
@@ -295,7 +314,7 @@ def load_config(path: Path = CONFIG_PATH) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description="Transport System Simulation")
-    parser.add_argument("--phase", type=int, choices=[1, 2], help="Run specific phase only")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3], help="Run specific phase only")
     parser.add_argument("--quick", action="store_true", help="Quick smoke test (R=3)")
     parser.add_argument("--test", action="store_true", help="Single scenario test")
     parser.add_argument("--config", type=Path, default=None,
