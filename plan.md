@@ -103,6 +103,9 @@ Useful recovery evidence:
   `docs/recovery/recovery_baseline_bundle_manifest_20260602.md` preserve the
   recovery plan, recovery evidence, and rail schema fixes as a small baseline
   archive.
+- `docs/recovery/active_recovery_scope_20260602.md` records that the active
+  recovery scope is the reusable simulation repository, not rebuilding the
+  already-finished event contest package unless explicitly requested again.
 
 Immediate next step:
 
@@ -125,6 +128,8 @@ Current execution queue:
      unavailable and do not rebuild them;
    - if they are still needed, rebuild the event pipeline from verified scripts
      and rerun compact/audit/figure steps before using any result claims.
+   - current decision: event-transport contest rebuild is out of scope unless
+     explicitly requested again.
 3. For reusable simulation work, keep the repository root as the source of
    truth and only recreate missing non-equivalent compact non-arrival
    scripts/tests if that research scope remains required.
