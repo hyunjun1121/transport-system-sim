@@ -122,7 +122,9 @@ Current execution queue:
    - reviewed and committed `plan.md`, the rail schema text fixes, and
      `docs/recovery/` evidence artifacts.
    - baseline archive has been created under `docs/recovery/`.
-   - preservation commits:
+   - recovery preservation commits have been created and pushed to
+     `origin/main`. Use `git log` for exact current commit hashes. Initial
+     preservation commits included:
      - `1b9faba0 chore: preserve recovery baseline after workspace restore`
      - `5f1641fc docs: record active recovery scope`
 2. Decide active recovery scope:
@@ -144,10 +146,10 @@ Current execution queue:
 
 Current branch status:
 
-- `main` is ahead of `origin/main` by 2 recovery commits.
-- No tracked working-tree diff remains after the recovery baseline commits.
-- Remote push is the remaining optional preservation step if remote backup is
-  desired.
+- recovery preservation work has been pushed to `origin/main`;
+- no tracked working-tree diff should remain after the recovery status updates;
+- use `git status --short --branch -uno` as the authoritative current branch
+  check before any new work.
 
 ## Non-Negotiable Safety Rules
 

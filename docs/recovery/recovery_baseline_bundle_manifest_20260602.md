@@ -1,9 +1,9 @@
 # Recovery Baseline Bundle Manifest - 2026-06-02
 
 Bundle: `docs/recovery/recovery_baseline_bundle_20260602.zip`
-SHA256: `5A82D85A7904AA2E0005ED9DFD05A1FAB33F79DB7C808B55335BB601EC35932D`
-Bytes: `39061`
-Created: `2026-06-02 16:26:39 +09:00`
+SHA256: `14DF8B8999B7BFB6D046736CB5081A2B67EB6A7F2A478DB082257EC2DF8B6DE0`
+Bytes: `39110`
+Created: `2026-06-02 16:38:35 +09:00`
 
 Manifest note: this manifest is intentionally not included in the ZIP to avoid a self-referential hash.
 

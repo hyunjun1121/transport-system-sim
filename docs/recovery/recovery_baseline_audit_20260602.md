@@ -147,10 +147,11 @@ Recovery preservation commits:
 - `1b9faba0 chore: preserve recovery baseline after workspace restore`
 - `5f1641fc docs: record active recovery scope`
 
-Current branch status after those commits:
+The recovery preservation sequence has been pushed to `origin/main`. Use
+`git log` and `git status --short --branch -uno` for exact current commit and
+branch state before continuing new work.
 
-- `main` is ahead of `origin/main` by 2 commits.
-- No tracked working-tree diff was present before this audit status update.
+Current branch state should remain clean after the final recovery status update.
 
 ## Completion Status
 
@@ -159,7 +160,6 @@ preservation, and local Git preservation are now substantially complete. Full
 artifact recovery is not complete because missing untracked event-transport and
 generated experiment artifacts have not been recovered or regenerated.
 
-The next safe action is optional remote push of the recovery commits if remote
-backup is desired. Future simulation work should continue from the repository
-root and should not cite missing generated outputs unless they are regenerated
-from verified scripts and inputs.
+Future simulation work should continue from the repository root and should not
+cite missing generated outputs unless they are regenerated from verified scripts
+and inputs.
