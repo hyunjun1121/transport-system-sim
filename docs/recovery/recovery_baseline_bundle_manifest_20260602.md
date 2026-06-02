@@ -1,9 +1,9 @@
 # Recovery Baseline Bundle Manifest - 2026-06-02
 
 Bundle: `docs/recovery/recovery_baseline_bundle_20260602.zip`
-SHA256: `A07BBFB6286E2101F04EADE0DF687392357891D5C2DA59E3DEF482104B407B81`
-Bytes: `37745`
-Created: `2026-06-02 16:06:04 +09:00`
+SHA256: `5A82D85A7904AA2E0005ED9DFD05A1FAB33F79DB7C808B55335BB601EC35932D`
+Bytes: `39061`
+Created: `2026-06-02 16:26:39 +09:00`
 
 Manifest note: this manifest is intentionally not included in the ZIP to avoid a self-referential hash.
 
@@ -14,6 +14,7 @@ Manifest note: this manifest is intentionally not included in the ZIP to avoid a
 - `docs\schemas\rail_timetable_cache_schema.md`
 - `.tmp_intake_list\docs\rail_shortest_path_cache_schema.md`
 - `.tmp_intake_list\docs\rail_timetable_cache_schema.md`
+- `C:\project\transport-system-sim\docs\recovery\active_recovery_scope_20260602.md`
 - `C:\project\transport-system-sim\docs\recovery\additional_candidate_check_20260602.md`
 - `C:\project\transport-system-sim\docs\recovery\current_git_state_20260602.md`
 - `C:\project\transport-system-sim\docs\recovery\current_path_inventory_20260602.csv`

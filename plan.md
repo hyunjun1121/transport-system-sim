@@ -119,10 +119,12 @@ verified scripts and fresh outputs rather than claiming old missing results.
 Current execution queue:
 
 1. Preserve the recovery baseline:
-   - review and commit `plan.md`, the rail schema text fixes, and
+   - reviewed and committed `plan.md`, the rail schema text fixes, and
      `docs/recovery/` evidence artifacts.
-   - baseline archive has been created under `docs/recovery/`; version-control
-     commit remains the next preservation step.
+   - baseline archive has been created under `docs/recovery/`.
+   - preservation commits:
+     - `1b9faba0 chore: preserve recovery baseline after workspace restore`
+     - `5f1641fc docs: record active recovery scope`
 2. Decide active recovery scope:
    - if event-transport contest artifacts are no longer needed, mark them as
      unavailable and do not rebuild them;
@@ -139,6 +141,13 @@ Current execution queue:
    - compact profile passes;
    - audit script passes;
    - command logs and row counts are recorded.
+
+Current branch status:
+
+- `main` is ahead of `origin/main` by 2 recovery commits.
+- No tracked working-tree diff remains after the recovery baseline commits.
+- Remote push is the remaining optional preservation step if remote backup is
+  desired.
 
 ## Non-Negotiable Safety Rules
 

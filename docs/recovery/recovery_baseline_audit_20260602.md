@@ -116,7 +116,7 @@ Immediate rules:
 
 ## Current Worktree Preservation Set
 
-Tracked modified files expected in this recovery baseline:
+Tracked modified files that were included in the recovery baseline commit:
 
 - `plan.md`
 - `docs/schemas/rail_shortest_path_cache_schema.md`
@@ -124,7 +124,7 @@ Tracked modified files expected in this recovery baseline:
 - `.tmp_intake_list/docs/rail_shortest_path_cache_schema.md`
 - `.tmp_intake_list/docs/rail_timetable_cache_schema.md`
 
-Untracked recovery artifacts expected:
+Recovery artifacts that were included in the recovery baseline commit:
 
 - all files under `docs/recovery/`
 
@@ -140,12 +140,26 @@ Verification:
 - ZIP open check: `zip_entries=24`
 - SHA256 manifest check: `sha256_match=true`
 
+## Version-Control Preservation
+
+Recovery preservation commits:
+
+- `1b9faba0 chore: preserve recovery baseline after workspace restore`
+- `5f1641fc docs: record active recovery scope`
+
+Current branch status after those commits:
+
+- `main` is ahead of `origin/main` by 2 commits.
+- No tracked working-tree diff was present before this audit status update.
+
 ## Completion Status
 
-Recovery planning and baseline classification are now substantially complete.
-Full recovery is not complete because missing untracked event-transport and
+Recovery planning, baseline classification, active-scope decision, local archive
+preservation, and local Git preservation are now substantially complete. Full
+artifact recovery is not complete because missing untracked event-transport and
 generated experiment artifacts have not been recovered or regenerated.
 
-The next safe action is to preserve this recovery baseline in version control or
-an archive, then decide whether to rebuild the event-transport pipeline or leave
-it unavailable.
+The next safe action is optional remote push of the recovery commits if remote
+backup is desired. Future simulation work should continue from the repository
+root and should not cite missing generated outputs unless they are regenerated
+from verified scripts and inputs.
