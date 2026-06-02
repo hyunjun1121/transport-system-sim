@@ -70,12 +70,12 @@ reviewed data.go.kr shortest-path API request:
 
 ```powershell
 .\.venv\Scripts\python scripts\fetch_rail_shortest_path_cache.py `
-  --departure-station-name ?�림?�공??`
-  --arrival-station-name ?�실 `
+  --departure-station-name 올림픽공원 `
+  --arrival-station-name 잠실 `
   --search-dt "2026-05-04 09:00:00" `
-  --access-station-name ?�림?�공??`
+  --access-station-name 올림픽공원 `
   --access-station-code 936 `
-  --egress-station-name ?�실 `
+  --egress-station-name 잠실 `
   --egress-station-code 814 `
   --output data\rail\pilot_rail_shortest_path_cache.csv `
   --raw-output data\rail\pilot_rail_shortest_path_raw.json

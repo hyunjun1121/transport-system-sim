@@ -1,0 +1,3 @@
+path,category,note
+web_demo\tsconfig.app.json,jsonc_parse,valid TypeScript JSONC config; strict JSON parse skipped because comments are expected
+web_demo\tsconfig.node.json,jsonc_parse,valid TypeScript JSONC config; strict JSON parse skipped because comments are expected

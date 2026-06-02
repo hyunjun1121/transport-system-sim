@@ -66,8 +66,8 @@ but does not provide a matched access-to-egress travel time, derive headway only
   --travel-time-min-proxy 20 `
   --capacity-pax-per-train 500 `
   --service-window "weekday selected service window" `
-  --direction "?�행" `
-  --service-day "?�일" `
+  --direction "상행" `
+  --service-day "평일" `
   --station-bindings data\parameters\rail_station_bindings.csv
 ```
 
@@ -84,12 +84,12 @@ cache from a reviewed data.go.kr train-schedule API request:
 
 ```powershell
 .\.venv\Scripts\python scripts\fetch_rail_timetable_cache.py `
-  --line-name "9?�선" `
-  --upbdnb-se "?�행" `
-  --wknd-se "?�일" `
-  --station-name "?�림?�공?? `
+  --line-name "9호선" `
+  --upbdnb-se "상행" `
+  --wknd-se "평일" `
+  --station-name "올림픽공원" `
   --station-code 936 `
-  --access-station-name "?�림?�공?? `
+  --access-station-name "올림픽공원" `
   --access-station-code 936 `
   --output data\rail\pilot_rail_timetable_cache.csv `
   --raw-output data\rail\pilot_rail_timetable_raw.json
