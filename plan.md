@@ -106,6 +106,9 @@ Useful recovery evidence:
 - `docs/recovery/active_recovery_scope_20260602.md` records that the active
   recovery scope is the reusable simulation repository, not rebuilding the
   already-finished event contest package unless explicitly requested again.
+- `docs/recovery/goal_completion_audit_20260602.md` records the
+  requirement-by-requirement completion audit for the recovery planning
+  objective.
 
 Immediate next step:
 
