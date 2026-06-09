@@ -12,7 +12,7 @@ Source/license review packet only; not source acceptance, not license certificat
 
 ## Source Review Rows
 
-| Source | Status | Snapshot | Required Decision | Final Gate Support |
+| Source | Status | Snapshot | Required Decision | Provenance Gate Support |
 | --- | --- | --- | --- | --- |
 | osm_overpass_road_snapshot | cached_snapshot_pending_review | local_artifacts_present | review source terms, attribution, snapshot date, and retained local artifacts | `false` |
 | pilot_region_spec | repository_input_pending_review | local_artifacts_present | review project-owned assumptions, privacy abstraction, and claim boundary | `false` |
@@ -29,6 +29,6 @@ Source/license review packet only; not source acceptance, not license certificat
 ## Required Reviewer Actions
 
 - Review official source terms and attribution requirements for every retained public source.
-- Provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or exclude them before final claims.
-- Confirm project-owned synthetic/privacy abstractions before accepting the pilot package.
+- Provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or exclude them before release-scope claims.
+- Confirm project-owned synthetic/privacy abstractions before retaining the pilot package.
 - Create `data/manifests/provenance_acceptance.json` only after source-backed review.

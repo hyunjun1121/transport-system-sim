@@ -31,10 +31,10 @@ routes before the OSRM comparison is built.
 ## Claim Boundary
 
 The OSRM public demo service is an external routing reference for route-distance
-and travel-time plausibility only. It is not a calibrated local traffic model,
-not a public-agency forecast, and not an operational route plan. Keep the
+and travel-time plausibility only. It is not a local traffic model,
+not a public-agency prediction source, and not a route-use plan. Keep the
 offline fallback benchmark as the default deterministic validation layer.
 
 Any warn or fail row should be treated as a reason to limit claims, inspect the
-adapted graph route, or revise the accepted analysis corridor before publishing
+adapted graph route, or revise the selected analysis corridor before publishing
 route-realism conclusions.

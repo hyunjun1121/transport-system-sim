@@ -46,6 +46,27 @@ def test_shipped_source_provenance_manifest_is_diagnosable() -> None:
     print("PASS: shipped source provenance manifest is diagnosable")
 
 
+def test_region_and_scenario_registries_have_review_aid_records() -> None:
+    """Active registry inputs should remain covered by provenance review rows."""
+
+    manifest = load_source_provenance_manifest()
+    by_id = {record.source_id: record for record in manifest.records}
+
+    region = by_id["pilot_region_spec"]
+    scenarios = by_id["structured_scenario_tables"]
+
+    assert region.review_status == "repository_input_pending_review"
+    assert "data/regions/pilot_region.yaml" in region.local_artifact_paths
+    assert "not an operational" in region.claim_boundary.lower()
+    assert scenarios.review_status == "repository_input_pending_review"
+    assert "data/scenarios/disruption_scenarios.csv" in scenarios.local_artifact_paths
+    assert "data/scenarios/policy_alternatives.csv" in scenarios.local_artifact_paths
+    assert "not observed disaster outcomes" in scenarios.claim_boundary.lower()
+    assert "operational recommendations" in scenarios.claim_boundary.lower()
+
+    print("PASS: region and scenario registries have provenance review rows")
+
+
 def test_source_provenance_rejects_missing_required_fields() -> None:
     """Manifest records should not silently omit required provenance fields."""
 
@@ -122,6 +143,7 @@ def _manifest_value() -> dict[str, object]:
 
 if __name__ == "__main__":
     test_shipped_source_provenance_manifest_is_diagnosable()
+    test_region_and_scenario_registries_have_review_aid_records()
     test_source_provenance_rejects_missing_required_fields()
     test_source_provenance_reports_missing_local_artifact()
     test_source_provenance_requires_not_operational_boundary()

@@ -1,0 +1,65 @@
+{
+  "acceptance_ready": false,
+  "actual_disposition_counts": {
+    "marked_non_evidence": 6
+  },
+  "audit_result_counts": {
+    "not_run": 6
+  },
+  "can_clear_invalidation_gate": false,
+  "can_mark_complete": false,
+  "claim_boundary": "Artifact invalidation matrix for Phase 9 preflight review only; not an artifact regeneration record, not evidence-quality validation, not publication readiness, not final-study approval, and not formal acceptance.",
+  "claim_boundary_effect_counts": {
+    "blocks_claim_support": 6
+  },
+  "closed_row_count": 0,
+  "closeout_status_counts": {
+    "pending": 6
+  },
+  "csv_sha256": "6437c2cf63724e7e84f5724ba807859256c6f3b2dcccd0dc4f22319b98eef2d5",
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T04:58:29+00:00",
+  "must_not_be_used_as_closeout_manifest": true,
+  "outputs": {
+    "csv": "data/validation/artifact_invalidation_quarantine_closeout_prefill.csv",
+    "doc": "docs/artifact_invalidation_quarantine_closeout_prefill.md",
+    "manifest": "data/validation/artifact_invalidation_quarantine_closeout_prefill_manifest.json"
+  },
+  "pending_or_invalid_row_count": 6,
+  "phase9_promotion_effect_counts": {
+    "blocks_phase9_promotion": 6
+  },
+  "phase9_promotion_ready": false,
+  "prefill_only": true,
+  "prefilled_candidate_artifact_count": 73,
+  "prefilled_row_count": 6,
+  "publication_ready": false,
+  "quarantine_batch_only": true,
+  "remaining_blockers": [
+    "prefill rows are reviewer input only and do not close invalidation rows",
+    "reviewer confirmation, citation-removal or exclusion audit, targeted test evidence, and non-acceptance signoff remain required"
+  ],
+  "rerun_result_counts": {
+    "not_run": 6
+  },
+  "reviewer_identity_status_counts": {
+    "missing_reviewer_id": 6
+  },
+  "reviewer_signoff_status_counts": {
+    "unsigned": 6
+  },
+  "row_count": 6,
+  "schema_version": 1,
+  "source_action_batch": "quarantine_non_evidence",
+  "source_transfer_packet_candidate_artifact_count": 73,
+  "source_transfer_packet_integrity_ready": true,
+  "source_transfer_packet_manifest": "data/validation/artifact_invalidation_quarantine_non_evidence_transfer_packet_manifest.json",
+  "source_transfer_packet_manifest_sha256": "fd6f666b561e535e1ed186a58d9026fca5fa2a1c0d7a78cc552a43ce0884e90f",
+  "source_transfer_packet_manifest_status": "loaded",
+  "source_transfer_packet_must_not_be_used_as_closeout_manifest": true,
+  "source_transfer_packet_row_count": 6,
+  "targeted_test_result_counts": {
+    "not_run": 6
+  }
+}

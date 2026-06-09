@@ -5,7 +5,7 @@ from __future__ import annotations
 import csv
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Any, Mapping, Sequence
 
 from src.realworld.attributes import HIGHWAY_DEFAULTS, RoadClassDefaults
 from src.realworld.parameters import ALLOWED_SOURCE_CLASSES
@@ -22,6 +22,18 @@ REQUIRED_COLUMNS: tuple[str, ...] = (
     "notes",
 )
 
+OPTIONAL_FIELD_SOURCE_COLUMNS: tuple[str, ...] = (
+    "speed_source_class",
+    "speed_source_name",
+    "speed_source_url_or_citation",
+    "capacity_source_class",
+    "capacity_source_name",
+    "capacity_source_url_or_citation",
+    "base_p_fail_source_class",
+    "base_p_fail_source_name",
+    "base_p_fail_source_url_or_citation",
+)
+
 
 @dataclass(frozen=True)
 class RoadClassOverride:
@@ -35,6 +47,15 @@ class RoadClassOverride:
     source_name: str
     source_url_or_citation: str
     notes: str
+    speed_source_class: str
+    speed_source_name: str
+    speed_source_url_or_citation: str
+    capacity_source_class: str
+    capacity_source_name: str
+    capacity_source_url_or_citation: str
+    base_p_fail_source_class: str
+    base_p_fail_source_name: str
+    base_p_fail_source_url_or_citation: str
 
     @property
     def defaults(self) -> RoadClassDefaults:
@@ -99,6 +120,44 @@ def build_highway_defaults_with_overrides(
     return merged
 
 
+def build_road_class_override_metadata(
+    overrides: Sequence[RoadClassOverride],
+) -> dict[str, dict[str, Any]]:
+    """Return source metadata keyed by highway class for downstream traceability."""
+
+    validate_road_class_overrides(overrides)
+    return {
+        override.highway: {
+            "highway": override.highway,
+            "speed_kph": override.speed_kph,
+            "capacity_veh_per_hr": override.capacity_veh_per_hr,
+            "base_p_fail": override.base_p_fail,
+            "source_class": override.source_class,
+            "source_name": override.source_name,
+            "source_url_or_citation": override.source_url_or_citation,
+            "field_sources": {
+                "speed_kph": {
+                    "source_class": override.speed_source_class,
+                    "source_name": override.speed_source_name,
+                    "source_url_or_citation": override.speed_source_url_or_citation,
+                },
+                "capacity_veh_per_hr": {
+                    "source_class": override.capacity_source_class,
+                    "source_name": override.capacity_source_name,
+                    "source_url_or_citation": override.capacity_source_url_or_citation,
+                },
+                "base_p_fail": {
+                    "source_class": override.base_p_fail_source_class,
+                    "source_name": override.base_p_fail_source_name,
+                    "source_url_or_citation": override.base_p_fail_source_url_or_citation,
+                },
+            },
+            "notes": override.notes,
+        }
+        for override in overrides
+    }
+
+
 def _validate_columns(fieldnames: Sequence[str] | None, path: Path) -> None:
     if not fieldnames:
         raise ValueError(f"{path} must have a CSV header")
@@ -123,6 +182,7 @@ def _override_from_row(
     source_class = values["source_class"].lower()
     if source_class not in ALLOWED_SOURCE_CLASSES:
         raise ValueError(f"{path}:{line_num} invalid source_class {source_class!r}")
+    field_sources = _field_sources_from_row(row, source_class, values, path, line_num)
 
     return RoadClassOverride(
         highway=highway,
@@ -137,7 +197,45 @@ def _override_from_row(
         source_name=values["source_name"],
         source_url_or_citation=values["source_url_or_citation"],
         notes=values["notes"],
+        **field_sources,
     )
+
+
+def _field_sources_from_row(
+    row: Mapping[str, str | None],
+    source_class: str,
+    values: Mapping[str, str],
+    path: Path,
+    line_num: int,
+) -> dict[str, str]:
+    field_sources: dict[str, str] = {}
+    for prefix in ("speed", "capacity", "base_p_fail"):
+        class_column = f"{prefix}_source_class"
+        name_column = f"{prefix}_source_name"
+        citation_column = f"{prefix}_source_url_or_citation"
+        class_value = _clean(row.get(class_column)).lower()
+        name_value = _clean(row.get(name_column))
+        citation_value = _clean(row.get(citation_column))
+
+        present = bool(class_value or name_value or citation_value)
+        if not present:
+            field_sources[class_column] = source_class
+            field_sources[name_column] = values["source_name"]
+            field_sources[citation_column] = values["source_url_or_citation"]
+            continue
+
+        if not class_value:
+            raise ValueError(f"{path}:{line_num} field {class_column!r} must be non-empty")
+        if class_value not in ALLOWED_SOURCE_CLASSES:
+            raise ValueError(f"{path}:{line_num} invalid {class_column} {class_value!r}")
+        if not name_value:
+            raise ValueError(f"{path}:{line_num} field {name_column!r} must be non-empty")
+        if not citation_value:
+            raise ValueError(f"{path}:{line_num} field {citation_column!r} must be non-empty")
+        field_sources[class_column] = class_value
+        field_sources[name_column] = name_value
+        field_sources[citation_column] = citation_value
+    return field_sources
 
 
 def _positive_number(value: str, path: Path, line_num: int) -> float:
@@ -166,8 +264,10 @@ def _clean(value: object) -> str:
 
 __all__ = [
     "REQUIRED_COLUMNS",
+    "OPTIONAL_FIELD_SOURCE_COLUMNS",
     "RoadClassOverride",
     "build_highway_defaults_with_overrides",
+    "build_road_class_override_metadata",
     "load_road_class_overrides",
     "validate_road_class_overrides",
 ]

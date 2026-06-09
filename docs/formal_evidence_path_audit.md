@@ -1,6 +1,6 @@
 # Formal Evidence Path Audit
 
-This audit checks whether formal acceptance artifacts point to concrete local evidence files or explicit external references. It does not approve the evidence, validate licenses, certify calibration, or close final-study gates.
+This audit checks whether formal target artifacts point to concrete local evidence files or explicit external references. It does not approve the evidence, check license sufficiency, certify calibration, or close final-study gates.
 
 ## Verdict
 

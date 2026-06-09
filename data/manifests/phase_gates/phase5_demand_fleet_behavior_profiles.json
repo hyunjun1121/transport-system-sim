@@ -1,0 +1,100 @@
+{
+  "artifact_hashes": {
+    "data/scenarios/behavior_profiles.csv": "sha256:0a44bf6d8ed735525c506d9d09e340b609d7f5d912886004025bc1c3b460b37f",
+    "data/scenarios/demand_fleet_behavior_profile_manifest.json": "sha256:20ae8a93612fcb0b42c1fafbb6ab17a2cef157dbb033b4bd9e4fba37f75b5a16",
+    "data/scenarios/demand_profiles.csv": "sha256:976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+    "data/scenarios/fleet_profiles.csv": "sha256:c358554d54c3b879e720bced56ee3325337f5f7f32a71954ddc99cc3ca722991",
+    "docs/demand_fleet_behavior_profiles.md": "sha256:f6764f337810c48da01ca5a72b0b325753ba0a7bbbee90cec310d0b42c898450",
+    "docs/recovery/agent_ledgers/phase5_profile_runtime_consumption_20260608.md": "sha256:6b1c1f5b79c2a70e914717abea2eb06f2e917dbd10e9b763b54ddb6bebac70ad"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python -m py_compile src\\realworld\\pilot_experiments.py src\\realworld\\demand_fleet_behavior_profiles.py tests\\test_realworld_pilot_experiments.py tests\\test_realworld_demand_fleet_behavior_profiles.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python scripts\\write_demand_fleet_behavior_profiles.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_demand_fleet_behavior_profiles.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_pilot_experiments.py",
+      "exit_code": 0,
+      "status": "passed"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_runtime_profile_consumption_only",
+    "parallelism_mode": "single_thread_main_thread",
+    "synthesis_barrier": "profile_runtime_consumption_verified_but_source_and_parameter_acceptance_gates_still_blocked",
+    "write_locks": [
+      "data/manifests/phase_gates/phase5_demand_fleet_behavior_profiles.json",
+      "data/scenarios/demand_profiles.csv",
+      "data/scenarios/fleet_profiles.csv",
+      "data/scenarios/behavior_profiles.csv",
+      "data/scenarios/demand_fleet_behavior_profile_manifest.json",
+      "docs/demand_fleet_behavior_profiles.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Phase 5 demand, fleet, and behavior profile packet exists with row counts demand=2, fleet=6, behavior=6",
+    "The profile manifest records pilot_experiments_consumes_profiles=true for bounded runtime inputs",
+    "Pilot runtime tests verify Phase 5 profile rows apply to runtime config without gate claims",
+    "Demand profiles are not calibrated OD demand and fleet profiles are not agency rosters or operating timetables",
+    "Partial non-arrival semantics remain not implemented in the scenario engine",
+    "This ledger is ready for review as bounded profile runtime-consumption evidence only; it does not close parameter, publication, formal acceptance, or final-study gates"
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/scenarios/demand_profiles.csv",
+    "data/scenarios/fleet_profiles.csv",
+    "data/scenarios/behavior_profiles.csv",
+    "data/scenarios/demand_fleet_behavior_profile_manifest.json",
+    "docs/demand_fleet_behavior_profiles.md",
+    "docs/recovery/agent_ledgers/phase5_profile_runtime_consumption_20260608.md"
+  ],
+  "objective": "Review and bound demand-arrival, fleet, transfer, and traveler-behavior profiles with source-backed assumptions.",
+  "phase_id": "phase5_demand_fleet_behavior_profiles",
+  "prerequisites": [
+    "phase1_region_scenario_demand_registry closed"
+  ],
+  "reviewer_evidence": {
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "bounded ready_for_review evidence only; not closure"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "bounded profile runtime-consumption evidence was verified locally; source calibration and formal parameter acceptance blockers remain",
+    "performed": false,
+    "status": "bounded_review_recorded"
+  },
+  "source_inputs": [
+    "plan.md",
+    "config.yaml",
+    "src/realworld/pilot_experiments.py",
+    "src/realworld/demand_fleet_behavior_profiles.py",
+    "data/manifests/pilot_experiment_design.json",
+    "data/parameters/fleet_assumptions.csv",
+    "data/scenarios/policy_alternatives.csv",
+    "data/scenarios/sensitivity_design.csv"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "main-thread-verification:no-subagent-used-for-this-narrow-ledger-update"
+  ],
+  "tests": [
+    "tests/test_realworld_demand_fleet_behavior_profiles.py",
+    "tests/test_realworld_pilot_experiments.py"
+  ]
+}

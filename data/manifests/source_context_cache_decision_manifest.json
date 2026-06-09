@@ -41,7 +41,7 @@
     "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
     "retain raw responses and SHA256 evidence when a source is cached",
     "derive downstream rail evidence only after retained source extracts are reviewed",
-    "record final provenance only in data/manifests/provenance_acceptance.json"
+    "record release-scope provenance only in data/manifests/provenance_acceptance.json"
   ],
   "row_count": 3,
   "schema_version": 1

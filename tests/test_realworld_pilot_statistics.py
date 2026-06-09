@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import os
 import sys
@@ -90,6 +91,8 @@ def test_write_statistics_outputs_records_manifest() -> None:
     ]
     with TemporaryDirectory() as directory:
         manifest_path = Path(directory) / "source_manifest.json"
+        results_path = Path(directory) / "fixture_results.csv"
+        results_path.write_text("fixture results\n", encoding="utf-8")
         manifest_path.write_text(
             json.dumps({"run_profile": "fixture", "row_count": 2}),
             encoding="utf-8",
@@ -98,7 +101,7 @@ def test_write_statistics_outputs_records_manifest() -> None:
             rows=rows,
             output_dir=directory,
             output_prefix="fixture",
-            source_results_path=Path(directory) / "fixture_results.csv",
+            source_results_path=results_path,
             source_manifest_path=manifest_path,
         )
 
@@ -112,6 +115,12 @@ def test_write_statistics_outputs_records_manifest() -> None:
         assert metric_rows
         assert paired_rows
         assert manifest["source_run_profile"] == "fixture"
+        assert manifest["source_results_sha256"] == hashlib.sha256(
+            results_path.read_bytes()
+        ).hexdigest()
+        assert manifest["source_manifest_sha256"] == hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
         assert manifest["metric_ci_row_count"] == len(result["metric_rows"])
         assert manifest["paired_delta_ci_row_count"] == len(result["paired_delta_rows"])
         assert "not calibrated real-world" in manifest["result_scope"]

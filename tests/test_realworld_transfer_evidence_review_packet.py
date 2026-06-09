@@ -28,10 +28,12 @@ def test_transfer_evidence_review_rows_expose_current_transfer_gap() -> None:
     rows = build_transfer_evidence_review_rows()
     by_id = {row["review_item_id"]: row for row in rows}
 
-    assert len(rows) == 5
+    assert len(rows) == 7
     assert set(by_id) == {
         "transfer_delay_parameter_trace",
         "transfer_sensitivity_bounds",
+        "transfer_component_fixed_transfer_delay",
+        "transfer_component_per_passenger_transfer_delay",
         "transfer_access_station_context",
         "transfer_egress_station_context",
         "transfer_station_layout_or_observation_gap",
@@ -40,6 +42,17 @@ def test_transfer_evidence_review_rows_expose_current_transfer_gap() -> None:
         "fixed=5 min; per_passenger=0 min/pax"
     )
     assert "fixed_range=0-10" in by_id["transfer_sensitivity_bounds"]["current_value"]
+    assert by_id["transfer_component_fixed_transfer_delay"]["current_value"] == (
+        "base=5 min; per_passenger=0 min/pax; "
+        "source_class=config_or_parameter_source"
+    )
+    assert by_id["transfer_component_per_passenger_transfer_delay"]["current_value"] == (
+        "base=0 min; per_passenger=0 min/pax; "
+        "source_class=config_or_parameter_source"
+    )
+    assert by_id["transfer_component_fixed_transfer_delay"]["evidence_status"] == (
+        "documented_component_accounting"
+    )
     assert "station_code=936" in by_id["transfer_access_station_context"]["current_value"]
     assert "station_code=814" in by_id["transfer_egress_station_context"]["current_value"]
     assert by_id["transfer_station_layout_or_observation_gap"]["evidence_status"] == (
@@ -77,8 +90,8 @@ def test_transfer_evidence_review_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert manifest["blocking_review_count"] == 1
-    assert manifest["human_review_count"] == 4
-    assert written_manifest["row_count"] == 5
+    assert manifest["human_review_count"] == 6
+    assert written_manifest["row_count"] == 7
     assert "Transfer Evidence Review Packet" in doc_text
 
     print("PASS: transfer evidence review writer emits artifacts")

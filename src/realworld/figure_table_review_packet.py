@@ -4,7 +4,7 @@ The figure/table manifest already labels current outputs as scaffold-only.
 This module turns that status into explicit reviewer rows for artifact
 inventory, table lineage, caption boundaries, graph scope, sensitivity-index
 handling, proxy-result interpretation, upstream evidence dependencies, and
-formal manuscript acceptance. It does not create
+formal manuscript decision. It does not create
 ``data/manifests/manuscript_acceptance.json`` or approve any figure/table.
 """
 
@@ -36,7 +36,7 @@ DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH = (
     PROJECT_ROOT / "docs" / "figure_table_review_packet.md"
 )
 FIGURE_TABLE_REVIEW_SCOPE = (
-    "Figure/table review packet only; not manuscript acceptance, not "
+    "Figure/table review packet only; not manuscript decision, not "
     "calibrated real-world results, and not operational routing evidence."
 )
 FIGURE_TABLE_REVIEW_COLUMNS: tuple[str, ...] = (
@@ -231,7 +231,7 @@ def build_figure_table_review_rows(
             required_reviewer_action=(
                 "Treat bottleneck attribution and policy-regime rows as proxy "
                 "interpretation aids, not causal bottleneck evidence, until "
-                "validated and accepted."
+                "benchmark-reviewed and decision-reviewed."
             ),
             followup_artifacts=(
                 "results/realworld_pilot/tables/bottleneck_attribution_table.csv; "
@@ -257,9 +257,9 @@ def build_figure_table_review_rows(
                 else ""
             ),
             required_reviewer_action=(
-                "Do not promote current figures/tables into final manuscript "
+                "Do not promote current figures/tables into release-scope manuscript "
                 "claims until pilot inputs, validation, experiments, and "
-                "sensitivity outputs are accepted or regenerated."
+                "sensitivity outputs are decision-reviewed or regenerated."
             ),
             followup_artifacts=(
                 "data/manifests/experiment_acceptance.json; "
@@ -270,7 +270,7 @@ def build_figure_table_review_rows(
         ),
         _row(
             review_id="formal_manuscript_acceptance_boundary",
-            review_topic="Formal manuscript acceptance boundary",
+            review_topic="Formal manuscript decision boundary",
             current_evidence=(
                 f"manuscript_acceptance_present={str(acceptance_path.exists()).lower()}"
             ),
@@ -382,9 +382,9 @@ def build_figure_table_review_manifest(
         },
         "review_items": [
             "verify figure/table artifacts exist and were regenerated from current outputs",
-            "review caption and claim-boundary language before manuscript acceptance",
-            "resolve graph-scale, experiment, validation, and sensitivity acceptance dependencies before final figure claims",
-            "record accepted figure/table review only in data/manifests/manuscript_acceptance.json",
+            "review caption and claim-boundary language before the manuscript decision",
+            "resolve graph-scale, experiment, benchmark, and sensitivity decision dependencies before release-scope figure claims",
+            "record reviewer-selected figure/table review only in data/manifests/manuscript_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -430,9 +430,9 @@ def build_figure_table_review_markdown(
             "",
             "## Boundary",
             "",
-            "- This packet does not approve figure/table use in final manuscript claims.",
-            "- It does not replace graph-scale, experiment, sensitivity, validation, or manuscript acceptance.",
-            "- Keep figures/tables in scaffold scope until formal manuscript acceptance is reviewed.",
+            "- This packet does not approve figure/table use in release-scope manuscript claims.",
+            "- It does not replace graph-scale, experiment, sensitivity, benchmark, or manuscript decision records.",
+            "- Keep figures/tables in scaffold scope until the formal manuscript decision is reviewed.",
             "",
         ]
     )

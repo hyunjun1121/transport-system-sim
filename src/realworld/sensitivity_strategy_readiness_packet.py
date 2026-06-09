@@ -1,7 +1,7 @@
-"""Sensitivity strategy-readiness packet generation.
+"""Sensitivity strategy review packet generation.
 
 The sensitivity review packet summarizes Morris diagnostics. This module turns
-those diagnostics into explicit pre-review readiness states without accepting
+those diagnostics into explicit pre-review states without accepting
 sensitivity outputs, waiving Sobol analysis, or treating scaffold results as
 calibrated real-world evidence.
 """
@@ -33,7 +33,7 @@ DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH = (
     PROJECT_ROOT / "docs" / "sensitivity_strategy_readiness_packet.md"
 )
 SENSITIVITY_STRATEGY_READINESS_SCOPE = (
-    "Sensitivity strategy-readiness packet only; not sensitivity acceptance, "
+    "Sensitivity strategy review packet only; not sensitivity acceptance, "
     "not calibrated real-world sensitivity evidence, not a Sobol waiver, not "
     "operational routing evidence, and not publication-readiness approval."
 )
@@ -59,7 +59,7 @@ def build_sensitivity_strategy_readiness_rows(
     review_packet_path: str | Path = DEFAULT_SENSITIVITY_REVIEW_PACKET_PATH,
     acceptance_path: str | Path = DEFAULT_SENSITIVITY_ACCEPTANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return strategy-readiness rows for current sensitivity diagnostics."""
+    """Return strategy review rows for current sensitivity diagnostics."""
 
     rows = (
         list(review_rows)
@@ -79,7 +79,7 @@ def write_sensitivity_strategy_readiness_packet(
     doc_path: str | Path = DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH,
     review_packet_path: str | Path = DEFAULT_SENSITIVITY_REVIEW_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Write sensitivity strategy-readiness CSV, manifest, and Markdown."""
+    """Write sensitivity strategy review CSV, manifest, and Markdown."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -128,7 +128,7 @@ def build_sensitivity_strategy_readiness_manifest(
     doc_path: str | Path = DEFAULT_SENSITIVITY_STRATEGY_READINESS_DOC_PATH,
     review_packet_path: str | Path = DEFAULT_SENSITIVITY_REVIEW_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for sensitivity readiness rows."""
+    """Return a conservative manifest for sensitivity review rows."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     blocking_count = sum(
@@ -164,9 +164,9 @@ def build_sensitivity_strategy_readiness_manifest(
         "review_items": [
             "review unavailable or unexplained missing Morris indices before manuscript use",
             "interpret zero mu_star rows before claiming parameter dominance or no-effect behavior",
-            "resolve graph-scale scope before using reduced-graph sensitivity outputs for final claims",
+            "resolve graph-scale scope before using reduced-graph sensitivity outputs for release-scope claims",
             "decide whether Morris screening is sufficient or Sobol analysis is required",
-            "record the final sensitivity decision only in data/manifests/sensitivity_acceptance.json",
+            "record the sensitivity decision only in data/manifests/sensitivity_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -177,10 +177,10 @@ def build_sensitivity_strategy_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable sensitivity strategy-readiness packet."""
+    """Return a human-readable sensitivity strategy review packet."""
 
     lines = [
-        "# Sensitivity Strategy Readiness Packet",
+        "# Sensitivity Strategy Review Packet",
         "",
         str(manifest.get("claim_boundary", SENSITIVITY_STRATEGY_READINESS_SCOPE)),
         "",
@@ -193,7 +193,7 @@ def build_sensitivity_strategy_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Review Rows",
         "",
         "| Category | Status | Affected Rows | Required Action |",
         "| --- | --- | --- | --- |",
@@ -212,11 +212,11 @@ def build_sensitivity_strategy_readiness_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Decide whether current Morris screening is enough for the accepted claim boundary or whether Sobol analysis must be run.",
+            "- Decide whether current Morris screening is enough for the reviewer-selected claim boundary or whether Sobol analysis must be run.",
             "- Resolve unavailable, missing, or non-finite Morris index handling before using sensitivity rankings in the manuscript.",
             "- Review zero `mu_star` rows as diagnostics, not as calibrated no-effect findings.",
-            "- Keep sensitivity outputs in scaffold scope until graph-scale, parameter, and sensitivity acceptance records exist.",
-            "- Do not create formal acceptance artifacts from this readiness packet alone.",
+            "- Keep sensitivity outputs in scaffold scope until graph-scale, parameter, and sensitivity decision records exist.",
+            "- Do not create formal acceptance artifacts from this review packet alone.",
             "",
         ]
     )
@@ -275,15 +275,15 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
     affected = _int(row.get("affected_row_count"))
 
     if category_id == "structural_readiness":
-        if diagnostic_status == "ready_for_review":
+        if diagnostic_status in {"ready_for_review", "available_for_review"}:
             return (
                 "needs_human_review_morris_artifact_selection",
                 "",
-                "confirm these Morris artifacts correspond to the selected final-study sensitivity run",
+                "confirm these Morris artifacts correspond to the selected study-closeout sensitivity run",
             )
         return (
             "blocked_structural_sensitivity_diagnostics",
-            "Morris sensitivity artifacts are not structurally ready",
+            "Morris sensitivity artifacts do not pass structural diagnostics",
             "repair or regenerate Morris artifacts before strategy review",
         )
     if category_id == "missing_or_nonfinite_morris_indices":
@@ -321,7 +321,7 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             return (
                 "blocked_reduced_graph_scope_for_sensitivity_claims",
                 "sensitivity outputs use a reduced analysis graph",
-                "close graph-scale acceptance or regenerate sensitivity outputs on the accepted graph method",
+                "close graph-scale decision review or regenerate sensitivity outputs on the reviewer-selected graph method",
             )
         return (
             "needs_human_review_sensitivity_graph_scope",
@@ -333,7 +333,7 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             return (
                 "blocked_scaffold_or_not_calibrated_result_scope",
                 "current sensitivity result scope is scaffold or not calibrated",
-                "keep final claims bounded until sensitivity results are accepted on final evidence scope",
+                "keep release-scope claims bounded until sensitivity results are reviewer-cleared on release evidence scope",
             )
         return (
             "needs_human_review_sensitivity_result_scope",

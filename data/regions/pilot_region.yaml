@@ -1,5 +1,6 @@
 region_id: songpa_public_demo
 name: Songpa Public Demonstration Region
+sensitivity_level: non_sensitive
 boundary:
   type: bbox
   north: 37.5300
@@ -54,3 +55,12 @@ metadata:
   data_sensitivity: non_sensitive
   coordinate_policy: public_or_synthetic_points_only
   cache_path: data/cache/pilot_region_road.graphml
+source_refs:
+  - source_id: pilot_region_spec
+    role: region_registry
+    local_artifact_path: data/regions/pilot_region.yaml
+    review_status: repository_input_pending_review
+  - source_id: osm_overpass_road_snapshot
+    role: road_network_snapshot
+    local_artifact_path: data/cache/pilot_region_road.graphml
+    review_status: cached_snapshot_pending_review

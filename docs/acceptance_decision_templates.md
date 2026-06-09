@@ -1,4 +1,4 @@
-# Acceptance Decision Templates
+# Formal Review Templates
 
 TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.
 

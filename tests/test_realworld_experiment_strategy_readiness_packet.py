@@ -1,4 +1,4 @@
-"""Tests for experiment strategy-readiness packet generation."""
+"""Tests for experiment strategy review packet generation."""
 
 from __future__ import annotations
 
@@ -63,7 +63,7 @@ def test_experiment_strategy_readiness_rows_classify_current_package() -> None:
     }
     assert all(row["can_support_experiment_gate"] == "false" for row in rows)
 
-    print("PASS: experiment strategy-readiness rows classify current package")
+    print("PASS: experiment strategy review rows classify current package")
 
 
 def test_experiment_strategy_readiness_rows_handle_fixture_review_rows() -> None:
@@ -96,7 +96,7 @@ def test_experiment_strategy_readiness_rows_handle_fixture_review_rows() -> None
         "readiness_status"
     ] == "blocked_missing_experiment_acceptance_record"
 
-    print("PASS: experiment strategy-readiness rows handle fixture rows")
+    print("PASS: experiment strategy review rows handle fixture rows")
 
 
 def test_write_experiment_strategy_readiness_packet_outputs_artifacts() -> None:
@@ -107,9 +107,9 @@ def test_write_experiment_strategy_readiness_packet_outputs_artifacts() -> None:
     )
 
     with TemporaryDirectory() as directory:
-        output = Path(directory) / "experiment_strategy_readiness.csv"
-        manifest = Path(directory) / "experiment_strategy_readiness_manifest.json"
-        doc = Path(directory) / "experiment_strategy_readiness.md"
+        output = Path(directory) / "experiment_strategy_review.csv"
+        manifest = Path(directory) / "experiment_strategy_review_manifest.json"
+        doc = Path(directory) / "experiment_strategy_review.md"
         value = write_experiment_strategy_readiness_packet(
             rows=rows,
             output_path=output,
@@ -131,14 +131,14 @@ def test_write_experiment_strategy_readiness_packet_outputs_artifacts() -> None:
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert written_manifest["experiment_gate_closure_candidate_count"] == 0
-        assert "Experiment Strategy Readiness Packet" in text
+        assert "Experiment Strategy Review Packet" in text
         assert "cannot close data/manifests/experiment_acceptance.json" in text
 
-    print("PASS: experiment strategy-readiness writer emits artifacts")
+    print("PASS: experiment strategy review writer emits artifacts")
 
 
 def test_shipped_experiment_strategy_readiness_packet_matches_current_review() -> None:
-    """Current shipped readiness packet should stay non-accepting."""
+    """Current shipped strategy review packet should stay non-accepting."""
 
     rows = build_experiment_strategy_readiness_rows()
 
@@ -165,7 +165,7 @@ def test_shipped_experiment_strategy_readiness_packet_matches_current_review() -
     assert manifest["result_scope"] == EXPERIMENT_STRATEGY_READINESS_SCOPE
     assert manifest["experiment_gate_closure_candidate_count"] == 0
 
-    print("PASS: shipped experiment strategy-readiness packet matches current review")
+    print("PASS: shipped experiment strategy review packet matches current review")
 
 
 def _row(category_id: str, review_status: str) -> dict[str, str]:
@@ -186,4 +186,4 @@ if __name__ == "__main__":
     test_experiment_strategy_readiness_rows_handle_fixture_review_rows()
     test_write_experiment_strategy_readiness_packet_outputs_artifacts()
     test_shipped_experiment_strategy_readiness_packet_matches_current_review()
-    print("\n=== REALWORLD EXPERIMENT STRATEGY READINESS TESTS PASSED ===")
+    print("\n=== REALWORLD EXPERIMENT STRATEGY REVIEW TESTS PASSED ===")

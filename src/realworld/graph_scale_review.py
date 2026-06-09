@@ -74,7 +74,7 @@ GRAPH_SCALE_REVIEW_COLUMNS: tuple[str, ...] = (
     "experiment_row_count",
     "experiment_summary_row_count",
     "available_evidence",
-    "required_before_final_use",
+    "required_before_release_scope_use",
     "publication_use_status",
     "claim_boundary",
 )
@@ -143,11 +143,11 @@ def write_graph_scale_review_packet(
         "claim_boundary": (
             "This packet compares graph-scale method options for review. It "
             "does not accept a graph-scale method, validate regional traffic "
-            "behavior, or authorize final-study claims."
+            "behavior, or authorize release-scope claims."
         ),
         "review_items": [
-            "decide whether the 118-node reduced corridor is an acceptable final method or only a smoke shortcut",
-            "if the 164-node multi-corridor candidate is selected, review the full-profile candidate output and regenerate sensitivity/figure/table outputs on the accepted graph",
+            "decide whether the 118-node reduced corridor is suitable for release-scope use or only a smoke shortcut",
+            "if the 164-node multi-corridor candidate is selected, review the full-profile candidate output and regenerate sensitivity/figure/table outputs on the selected graph",
             "review the full-scale multi-corridor candidate output before treating it as sufficient graph-scale evidence",
             "review the current-vs-candidate result comparison before interpreting graph-choice-sensitive scenarios",
             "if the full bus-practical graph is selected, generate full experiment runtime and result evidence",
@@ -198,11 +198,11 @@ def _current_reduced_row(
             "baseline route parity passes; alternate-route diagnostic has "
             "warning rows; full pilot scaffold outputs exist"
         ),
-        "required_before_final_use": (
+        "required_before_release_scope_use": (
             "review whether omitted alternate paths are immaterial, or replace "
             "with multi-corridor/full-graph method"
         ),
-        "publication_use_status": "blocked_until_graph_scale_acceptance",
+        "publication_use_status": "blocked_until_graph_scale_decision",
         "claim_boundary": GRAPH_SCALE_REVIEW_SCOPE,
     }
 
@@ -244,11 +244,11 @@ def _multi_corridor_row(
             "top-3 route candidates are preserved; small separated candidate "
             "experiment output exists"
         ),
-        "required_before_final_use": (
+        "required_before_release_scope_use": (
             "regenerate full pilot, sensitivity, figures, tables, and "
             "manuscript interpretation on this graph if selected"
         ),
-        "publication_use_status": "candidate_blocked_until_regeneration_and_acceptance",
+        "publication_use_status": "candidate_blocked_until_regeneration_and_decision",
         "claim_boundary": GRAPH_SCALE_REVIEW_SCOPE,
     }
 
@@ -290,13 +290,13 @@ def _multi_corridor_full_row(
             "top-3 route candidates are preserved; full scenario-policy-seed "
             "candidate output exists on the multi-corridor graph"
         ),
-        "required_before_final_use": (
+        "required_before_release_scope_use": (
             "review result differences against the current full pilot, decide "
             "whether this graph-scale abstraction is acceptable, then "
             "regenerate sensitivity, figures, tables, and manuscript "
-            "interpretation on the accepted method"
+            "interpretation on the selected method"
         ),
-        "publication_use_status": "candidate_blocked_until_review_and_acceptance",
+        "publication_use_status": "candidate_blocked_until_review_and_decision",
         "claim_boundary": GRAPH_SCALE_REVIEW_SCOPE,
     }
 
@@ -341,8 +341,8 @@ def _full_graph_row(
             f"{smoke_evidence}; full scenario-policy-seed outputs have not "
             "been generated on the full graph"
         ),
-        "required_before_final_use": (
-            "establish runtime budget, generate full outputs or accepted sample "
+        "required_before_release_scope_use": (
+            "establish runtime budget, generate full outputs or reviewed sample "
             "strategy, then review validation and sensitivity on full graph"
         ),
         "publication_use_status": "blocked_until_full_graph_experiment_evidence",

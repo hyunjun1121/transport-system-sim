@@ -362,7 +362,7 @@ def build_acceptance_decision_template_markdown(manifest: Mapping[str, Any]) -> 
     """Render a concise human guide for the generated templates."""
 
     lines = [
-        "# Acceptance Decision Templates",
+        "# Formal Review Templates",
         "",
         TEMPLATE_CLAIM_BOUNDARY,
         "",

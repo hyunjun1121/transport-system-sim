@@ -1,5 +1,145 @@
 ﻿# AGENTS.md - Transport System Simulation
 
+## Current Continuation Context - 2026-06-09
+
+The active thread goal is to **proceed with `plan.md`** for the autonomous
+real-world simulation completion workflow. The current `plan.md` is intentionally
+workflow-level, not a command-by-command checklist. It authorizes GPT-5.5 xhigh
+reviewer/sub-agent evidence as the replacement review mechanism for historical
+human-review gates, but it does **not** permit unsupported closure claims.
+
+Before continuing, a new agent must re-read the current worktree. Do not rely on
+this section alone for final claims. It is a handoff summary of the state last
+observed in this thread.
+
+### Active Claim Boundary
+
+Do not claim any of the following unless the current audits independently prove
+them:
+
+- operational route-command capability (not claimed);
+- real-world forecasting accuracy (not claimed);
+- calibrated field validation (not claimed);
+- publication readiness (not claimed);
+- final-study readiness (not claimed);
+- formal acceptance (not claimed).
+
+Allowed framing remains: decision-support simulation, real-world-oriented or
+quasi-real input pipeline, stochastic scenario comparison, resilience/sensitivity
+analysis, and ML-assisted post-simulation risk classification only when runtime
+evidence supports that specific claim.
+
+### Current Worktree And Audit State
+
+Observed current state from local inspection on 2026-06-09:
+
+- `plan.md` exists and defines the autonomous review workflow.
+- `data/validation/dirty_worktree_classification_manifest.json` reported
+  `dirty_path_count=837`, `classified_path_count=837`,
+  `unclassified_path_count=0`, `new_generated_output_allowed=false`,
+  `destructive_cleanup_allowed=false`, and `can_mark_complete=false`.
+- `data/validation/artifact_invalidation_closeout_manifest.json` reported
+  `row_count=51`, `closed_row_count=31`, `pending_or_invalid_row_count=20`,
+  `phase9_promotion_ready=false`, `publication_ready=false`,
+  `final_study_ready=false`, and `formal_acceptance_evidence=false`.
+- `data/validation/claim_language_guard_manifest.json` reported
+  `blocking_finding_count=0` and `claim_language_guard_ready=true`, but also
+  `claims_approved=false`, `publication_ready=false`, and
+  `final_study_ready=false`.
+- `data/manifests/phase_gate_ledger_audit.json` reported all 13 phase ledgers
+  present and valid, with 11 `ready_for_review`, 2 `blocked`, and 0 closed
+  phases. Phase ledgers are control records only; they do not approve final
+  study claims.
+- `data/manifests/current_goal_completion_audit.json` reported
+  `final_study_ready=false`, 3 ready/scaffold-level gates, and 12 blocked gates.
+- `data/manifests/publication_readiness_audit.json` reported
+  `publication_ready=false`, 1 ready gate, and 9 blocked gates.
+
+Two current tests were run in the main thread and passed:
+
+```powershell
+.\.venv\Scripts\python tests\test_realworld_phase_gate_ledger.py
+.\.venv\Scripts\python tests\test_realworld_claim_language_guard.py
+```
+
+The parallel `scripts\audit_claim_language.py --fail-on-blockers` invocation was
+interrupted during the previous turn and must not be treated as completed unless
+rerun and inspected.
+
+### GPT-5.5 xhigh Reviewer Triage
+
+Three read-only GPT-5.5 xhigh reviewers were used for triage. Treat their
+outputs as review guidance, not as final acceptance. Re-inspect files before
+acting on any specific claim.
+
+1. Simulation/data/provenance reviewer:
+   - Found a real-world-oriented input path in `src/realworld/`, including OSM
+     cache loading, adapter logic, graph-checks, disruption scenarios, policy
+     alternatives, and pilot experiments.
+   - Reported local pilot inputs are traceable but bounded. The OSM/road
+     snapshot and pilot experiment outputs support decision-support/scaffold
+     work, not calibrated operational claims.
+   - Reported blockers remain in road calibration evidence, rail service
+     evidence, validation acceptance, reproducibility, and formal closeout.
+   - Recommended the next dependency-safe technical task: perform a graph-scale
+     decision review comparing the reduced graph, multi-corridor candidate, and
+     full-graph evidence before regenerating or interpreting more outputs.
+
+2. Report/claim/package reviewer:
+   - Confirmed `plan.md` does not allow operational, forecasting, publication-ready,
+     final-study-ready, or formal-acceptance claims unless audits prove them.
+   - Reported claim-language guard is not the active lexical blocker, but it is
+     not approval.
+   - Reported the review package path surface looked internally path-valid, but
+     package handoff identity may be stale and should be reconciled before
+     external review or closeout.
+   - Recommended reconciling package identity and rerunning package
+     path/handoff audits before any package closeout claim.
+
+3. Test/audit reviewer:
+   - Recommended starting with targeted tests rather than broad write-producing
+     audits because the worktree is very dirty.
+   - Suggested this first safe test batch:
+
+```powershell
+.\.venv\Scripts\python tests\test_realworld_formal_acceptance_guard.py
+.\.venv\Scripts\python tests\test_realworld_formal_acceptance_package.py
+.\.venv\Scripts\python tests\test_realworld_formal_evidence_path_audit.py
+.\.venv\Scripts\python tests\test_realworld_review_package_inventory.py
+.\.venv\Scripts\python tests\test_realworld_review_package_path_audit.py
+.\.venv\Scripts\python tests\test_realworld_review_package_builder.py
+.\.venv\Scripts\python tests\test_realworld_plan_audit.py
+```
+
+   - Recommended default, non-fail-flag audit checks next:
+
+```powershell
+.\.venv\Scripts\python scripts\audit_formal_acceptance_artifacts.py
+.\.venv\Scripts\python scripts\audit_final_study_readiness.py
+```
+
+Avoid broad clean-checkout, full-graph, OSRM, or generated-output refreshes until
+the worktree/lineage state and write scope are deliberately chosen.
+
+### Immediate Continuation Priority
+
+The next agent should not try to close every phase at once. Continue in this
+order unless fresh evidence changes the dependency graph:
+
+1. Re-read `plan.md`, this `agents.md`, dirty-worktree classification,
+   phase-gate ledger audit, closeout manifest, current-goal audit, publication
+   audit, and claim-language guard.
+2. Run the targeted non-destructive tests listed above.
+3. Inspect package identity and handoff sidecars before rebuilding packages.
+4. Inspect graph-scale artifacts and decide the next safe graph-scope task.
+5. Only then regenerate or update ledgers with tightly scoped write locks.
+6. Use GPT-5.5 xhigh sub-agents for bounded review, but do not treat their
+   output as formal acceptance by itself.
+
+Keep `final_study_ready=false`, `publication_ready=false`, and
+`formal_acceptance_evidence=false` unless current repository audits prove
+otherwise.
+
 ## Project Overview
 
 Disrupted regional personnel-transport resilience simulation. The implemented
@@ -13,8 +153,7 @@ framing:
 > pipeline for emergency personnel movement, disrupted regional mobility, and
 > public-sector contingency transport planning.
 
-Do not present the current model as an operational route plan or real-world
-forecast. It is a decision-support and resilience-evaluation framework.
+Do not present the current model as an operational route plan or real-world forecast; it is a decision-support and resilience-evaluation framework.
 
 **Environment**: Windows PowerShell. Use the Python Launcher (`py`) to create a
 local virtual environment, then run project commands through
@@ -22,32 +161,39 @@ local virtual environment, then run project commands through
 
 ## Current Audit Snapshot
 
-As of 2026-05-10, `final_study_ready=false`. The current final-study audit has
-15 gates: 3 ready (`real_input_smoke`, `structured_disruptions`,
-`policy_alternatives`) and 12 blocked. Formal acceptance is 0/12 ready, and
-formal target files must be absent or backed by source-backed human review
-before any gate can close. In the current local worktree, placeholder copies
-were moved out of final target paths into draft storage; the formal guard
-reports 0 target files present and 12 missing, with no template copies in
+As of 2026-05-10, the study-closeout audit reports the machine flag
+`final_study_ready=false`. The audit has 15 gates: 3 currently unblocked for
+scaffold-level checks (`real_input_smoke`, `structured_disruptions`,
+`policy_alternatives`) and 12 blocked. Source-backed human-review closure is
+0/12, and reviewer target files must be absent or backed by source-backed human
+review before any gate can close. In the current local worktree, placeholder
+copies were moved out of reviewer target paths into draft storage; the formal
+guard reports 0 target files present and 12 missing, with no template copies in
 formal paths.
 The expert consultation reply on the previous package bundle remains the primary
-guide for pre-acceptance process: the package must first pass package
-inventory, path-integrity, and formal acceptance-file hygiene checks before any
-gate is reinterpreted as complete.
+guide for the pre-review process: the package must first pass package
+inventory, path-integrity, and reviewer-file hygiene checks before any gate is
+reinterpreted as complete.
 
-The latest `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-`sensitivity_strategy_readiness`, `experiment_strategy_readiness`,
-`validation_benchmark_decision`, `experiment_design_decision`, and
-`figure_table_review` packets are implemented, but they are blocker/readiness
-or decision-review aids only. Do not treat them as acceptance records,
-calibration evidence, operational route plans, or final-study approval.
+Artifact identifiers only: `validation_strategy_readiness`,
+`graph_scale_strategy_readiness`, `sensitivity_strategy_readiness`,
+`experiment_strategy_readiness`, `validation_benchmark_decision`,
+`experiment_design_decision`, and `figure_table_review` exist as blocker or
+decision-review aids only. They are not reviewer decision records and cannot
+support fit-to-observed-data evidence, route-command guidance, or study
+sign-off.
 
 ## Repository Structure
+
+The repository map below lists literal paths and identifiers only. Names in this
+listing are not gate-status claims, evidence-quality claims, route-use
+authority, or study sign-off.
 
 ```text
 main.py                    # CLI entry: --quick, --test, --phase 1|2
 config.yaml                # Network, BPR, stochastic, dispatch, DoE config
 requirements.txt           # Python dependencies for Windows/venv setup
+requirements-ml.txt        # Optional Phase 10 post-simulation ML/GPU deps
 generate_report.py         # Generates report.docx from report_draft.md
 report_draft.md            # Korean narrative report source
 report.docx                # Generated Word document
@@ -112,6 +258,7 @@ src/
     source_license_review_packet.py # Source/license review worksheet generation
     source_url_review_packet.py # Source URL review worksheet generation
     claim_alignment_review_packet.py # Manuscript/report claim review worksheet
+    claim_language_guard.py # Fail-closed lexical claim-language release guard
     road_evidence.py        # Cached road-input evidence audit
     road_evidence_diagnostics.py # Road-class evidence gap diagnostics
     road_capacity_evidence.py # Cached OSM lanes capacity candidate evidence
@@ -125,10 +272,11 @@ src/
     validation_review_packet.py # Validation-strategy review worksheet generator
     validation_strategy_readiness_packet.py # Validation blocker/readiness worksheet
     route_road_evidence_exposure.py # Route-level road evidence exposure review aid
+    upstream_lineage_review_packet.py # Phase 9 upstream artifact lineage review aid
     graph_scale_diagnostics.py # Full-vs-reduced route parity and alternate-route diagnostics
     graph_scale_review.py   # Graph-scale method option review worksheet
     graph_scale_strategy_readiness_packet.py # Graph-scale blocker/readiness worksheet
-    disruption_scenarios.py # Structured disruption scenario definitions
+    disruption_scenarios.py # Structured disruption definitions and manifest support
     policy_alternatives.py  # Policy alternative config variants
     pilot_experiments.py    # Cached pilot scaffold experiment runner
     experiment_acceptance.py # Explicit pilot experiment-output acceptance validation
@@ -227,6 +375,7 @@ tests/
   test_realworld_validation_review_packet.py
   test_realworld_validation_strategy_readiness_packet.py
   test_realworld_route_road_evidence_exposure.py
+  test_realworld_upstream_lineage_review_packet.py
   test_realworld_acceptance_records.py
   test_realworld_acceptance_orchestration.py
   test_realworld_acceptance_blocker_queue.py
@@ -256,7 +405,7 @@ data/
   road/
     road_evidence_source_request_packet.csv # 5-row road source-request aid
     road_evidence_source_request_manifest.json
-    rail_evidence_review_packet.csv # 10-row consolidated rail review aid
+    rail_evidence_review_packet.csv # 12-row consolidated rail review aid
     rail_evidence_review_manifest.json
     rail_timing_source_request_packet.csv # 5-row rail source request aid
     rail_timing_source_request_manifest.json
@@ -284,6 +433,9 @@ data/
   manifests/formal_evidence_path_audit.json # formal evidence-path hygiene summary
 scripts/
   audit_agent_review_paths.py
+  audit_analysis_outputs.py
+  audit_claim_language.py
+  audit_compact_scoped_outputs.py
   audit_review_package_paths.py
   audit_final_study_readiness.py
   audit_formal_acceptance_artifacts.py
@@ -292,17 +444,21 @@ scripts/
   audit_parameter_evidence.py
   audit_plan_artifacts.py
   audit_publication_readiness.py
+  audit_rail_bounded_treatments.py
   audit_rail_evidence.py
   audit_rail_station_bindings.py
   audit_road_evidence.py
   audit_road_evidence_diagnostics.py
   audit_road_overrides.py
   audit_sensitivity_diagnostics.py
+  audit_source_context_hashes.py
   audit_source_provenance.py
   audit_tracked_artifacts.py
   build_pilot_cache.py       # Preserves cache by default; explicit fixture/Overpass refresh
   cache_ktdb_gtfs_source.py  # Optional source-cache helper; not default acceptance evidence
   cache_metro9_capacity_source.py # Optional source-cache helper; not default acceptance evidence
+  check_gpu_ml_runtime.py    # Optional GPU ML runtime preflight; not simulation acceleration evidence
+  write_runtime_preflight_manifest.py # Phase-scoped runtime/dependency preflight manifest
   derive_rail_gtfs_evidence.py
   derive_rail_headway_evidence.py
   derive_rail_service_evidence.py
@@ -310,15 +466,20 @@ scripts/
   derive_rail_station_bindings.py
   fetch_rail_shortest_path_cache.py
   fetch_rail_timetable_cache.py
+  normalize_rail_timetable_cache.py
   make_pilot_figures.py
   make_pilot_statistics.py
   run_acceptance_audit.py
   run_accessibility_loss_analysis.py
   audit_deterministic_rerun.py
+  write_dirty_worktree_classification.py
+  write_phase_gate_ledgers.py
   run_clean_checkout_smoke.py
   run_full_graph_smoke.py
   run_graph_scale_diagnostics.py
+  run_ml_analysis.py
   run_osrm_route_benchmark.py
+  run_phase8_micro_probe.py
   run_pilot_experiments.py
   run_pilot_smoke.py
   run_plausibility_validation.py
@@ -334,6 +495,8 @@ scripts/
   write_acceptance_decision_templates.py
   write_acceptance_task_assignments.py
   write_claim_alignment_review_packet.py
+  write_demand_fleet_behavior_profiles.py
+  write_disruption_scenario_manifest.py
   write_experiment_design_decision_packet.py
   write_experiment_package_review_packet.py
   write_experiment_statistical_plan.py
@@ -349,9 +512,12 @@ scripts/
   write_graph_scale_result_comparison.py
   write_graph_scale_review_packet.py
   write_graph_scale_strategy_readiness_packet.py
+  write_artifact_invalidation_matrix.py
   write_integrated_evidence_review_packet.py
   write_manuscript_report_decision_packet.py
   write_osm_graph_snapshot_review_packet.py
+  write_phase8_precompact_tables.py
+  write_road_snapshot.py
   write_osrm_snapshot_manifest.py
   write_parameter_evidence_priority_packet.py
   write_parameter_evidence_source_request_packet.py
@@ -363,12 +529,19 @@ scripts/
   write_rail_evidence_priority_packet.py
   write_rail_evidence_review_packet.py
   write_rail_fetch_readiness_packet.py
+  write_rail_service_static_candidate.py
+  write_rail_source_decision_action_ledger_template.py
   write_rail_source_decision_packet.py
+  write_rail_source_decision_recommendation_packet.py
+  write_rail_static_timetable_segment_pair_diagnostic.py
   write_rail_timing_source_request_packet.py
+  write_rail_transit_stress_profile_packet.py
   write_reproducibility_decision_packet.py
   write_reproducibility_review_packet.py
   write_review_package_inventory.py
+  write_road_attribute_evidence.py
   write_road_capacity_evidence.py
+  write_road_class_override_source_candidate.py
   write_road_class_override_template.py
   write_road_evidence_priority_packet.py
   write_road_evidence_review_packet.py
@@ -389,6 +562,7 @@ scripts/
   write_source_url_remediation_packet.py
   write_source_url_review_packet.py
   write_transfer_evidence_review_packet.py
+  write_upstream_lineage_review_packet.py
   write_validation_benchmark_decision_packet.py
   write_validation_benchmark_readiness_packet.py
   write_validation_review_packet.py
@@ -414,6 +588,16 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python -m pip install --upgrade pip
 .\.venv\Scripts\python -m pip install -r requirements.txt
 ```
+
+Optional Phase 10 ML/GPU runtime checks:
+
+```powershell
+.\.venv\Scripts\python -m pip install -r requirements-ml.txt
+.\.venv\Scripts\python scripts\check_gpu_ml_runtime.py --package xgboost --requested-device cuda --requirements requirements-ml.txt --require-gpu
+```
+
+This optional check can support only a bounded post-simulation ML runtime claim.
+It is not simulation acceleration evidence.
 
 If `py -3.11` is unavailable, install Python 3.11+ for Windows and enable the
 Python Launcher.
@@ -489,6 +673,7 @@ Direct test commands:
 .\.venv\Scripts\python tests\test_realworld_validation_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_validation_strategy_readiness_packet.py
 .\.venv\Scripts\python tests\test_realworld_route_road_evidence_exposure.py
+.\.venv\Scripts\python tests\test_realworld_upstream_lineage_review_packet.py
 .\.venv\Scripts\python tests\test_realworld_pilot_figures.py
 .\.venv\Scripts\python tests\test_realworld_formal_acceptance_evidence_matrix.py
 .\.venv\Scripts\python tests\test_realworld_seed_stream_manifest.py
@@ -529,7 +714,7 @@ Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullN
 
 ## Config Schema Notes
 
-`config.yaml` keeps legacy experiment keys and includes operational namespaces
+`config.yaml` keeps legacy experiment keys and includes scenario-runner namespaces
 used by the current scenario runner:
 
 - `bus.first_departure_min`, `bus.dispatch_interval_min`,
@@ -553,7 +738,7 @@ used by the current scenario runner:
 Keep `failure_rate.parameter` and `failure_rate.semantics` aligned with that
 behavior unless the model code is deliberately changed.
 
-Config validation guidance:
+Config check guidance:
 
 - Run `.\.venv\Scripts\python tests\test_config.py` after schema edits.
 - Keep minute fields non-negative and fleet sizes at least 1.
@@ -633,17 +818,17 @@ Implemented behavior:
   blockers, source paths, and validation command. The matrix is reviewer
   intake only and cannot approve evidence.
 - `src/realworld/formal_acceptance_guard.py` and
-  `scripts/audit_formal_acceptance_artifacts.py` guard the formal acceptance
+  `scripts/audit_formal_acceptance_artifacts.py` guard the formal target
   paths against copied templates, unresolved `REVIEW_REQUIRED` placeholders,
   and draft-only weak road override rows. The current local guard reports 0
   formal target files present, 12 missing, and 0 template/placeholder copies in
-  formal paths; it cannot mark the final study complete.
+  formal paths; it cannot mark study closeout complete.
 - `src/realworld/formal_acceptance_package.py` and
   `scripts/validate_formal_acceptance_package.py` aggregate reviewer-supplied
-  formal acceptance artifacts into one intake audit. The generated
+  formal target artifacts into one intake audit. The generated
   `data/manifests/formal_acceptance_package_audit.json` and
-  `docs/formal_acceptance_package_audit.md` are validation outputs only; they
-  do not create approvals or bypass the final-study readiness audit.
+  `docs/formal_acceptance_package_audit.md` are intake-check outputs only; they
+  do not create approvals or bypass the study-closeout preflight audit.
 - `src/realworld/formal_evidence_path_audit.py` and
   `scripts/audit_formal_evidence_paths.py` inspect reviewer-supplied formal
   artifacts for missing local evidence paths, unresolved placeholders, empty
@@ -651,7 +836,7 @@ Implemented behavior:
   review. The generated `data/manifests/formal_evidence_path_audit.json` and
   `docs/formal_evidence_path_audit.md` are path-hygiene checks only, not
   evidence sufficiency or acceptance.
-- Region records validate bbox boundaries, assembly/destination zones, rail
+- Region records check bbox boundaries, assembly/destination zones, rail
   access and egress points, fixed rail travel time, headway, and train
   capacity.
 - OSM-style edge attributes are mapped deterministically to simulator fields:
@@ -669,10 +854,10 @@ Implemented behavior:
   4,608 bus-practical simulator nodes / 9,148 simulator edges after filtering,
   and 118 analysis-corridor nodes / 174 edges in the current sample/staged/full
   pilot experiment outputs.
-- `src/realworld/graph_scale_acceptance.py` validates the optional
+- `src/realworld/graph_scale_acceptance.py` checks the optional
   `data/manifests/graph_scale_acceptance.json` review record required before a
   reduced corridor, full-graph runtime, or multi-corridor ensemble can close
-  the final graph-scale strategy gate. This file is absent in the current
+  the study-closeout graph-scale strategy gate. This file is absent in the current
   scaffold.
 - `src/realworld/graph_scale_diagnostics.py` and
   `scripts/run_graph_scale_diagnostics.py` compare the canonical baseline road
@@ -702,10 +887,10 @@ Implemented behavior:
   `scripts/write_graph_scale_result_comparison.py` compare the current full
   pilot summary with the full-profile multi-corridor candidate summary. Treat
   the 819-row delta table as graph-scale review support only, not acceptance.
-- `src/realworld/validation_acceptance.py` validates the optional
+- `src/realworld/validation_acceptance.py` checks the optional
   `data/manifests/validation_acceptance.json` review record required before
-  route plausibility and external benchmark evidence can close the final
-  validation-package gate. This file is absent in the current scaffold.
+  route plausibility and external benchmark evidence can close the study-closeout
+  evidence-check package gate. This file is absent in the current scaffold.
 - `validate_graph_readiness(...)` and `assert_graph_ready(...)` check required
   nodes, edge fields, numeric values, and road-mode routes.
 - A first offline pilot scaffold exists for `songpa_public_demo`:
@@ -720,46 +905,46 @@ Implemented behavior:
   validators in `src/realworld/`.
 - `src/realworld/parameter_audit.py` and
   `scripts/audit_parameter_evidence.py` keep valid source tables separate from
-  final-study readiness. The current audit has no missing core parameters but
-  still reports weak expert/sensitivity-only evidence for final claims.
+  study-closeout preflight status. The current audit has no missing core parameters but
+  still reports weak expert/sensitivity-only evidence for closeout claims.
 - `src/realworld/parameter_review_packet.py` and
   `scripts/write_parameter_review_packet.py` turn the audit into a generated
   29-row review worksheet. The current packet marks 25 core parameters as weak
-  for final-study claims and remains review support only.
+  for study-level claims and remains review support only.
 - `src/realworld/parameter_evidence_request_packet.py` and
   `scripts/write_parameter_evidence_source_request_packet.py` produce a 7-row
   source-request worksheet for cross-cutting demand, fleet, dispatch,
   transfer, rail, disruption, and traffic/BPR evidence. It is request support
   only and does not accept weak parameters.
-- `src/realworld/parameter_acceptance.py` validates optional
+- `src/realworld/parameter_acceptance.py` checks optional
   `data/parameters/parameter_acceptance.csv` review records for weak
-  assumptions that are explicitly retained inside final claim boundaries. This
+  assumptions that are explicitly retained inside closeout claim boundaries. This
   file is absent in the current scaffold.
-- `src/realworld/pilot_acceptance.py` validates the optional
+- `src/realworld/pilot_acceptance.py` checks the optional
   `data/manifests/pilot_acceptance.json` review record. The file is absent in
-  the current scaffold so the final-study gate remains blocked until a real
-  acceptance decision is recorded.
-- `src/realworld/provenance_acceptance.py` validates the optional
+  the current scaffold so the study-closeout gate remains blocked until a real
+  signoff decision is recorded.
+- `src/realworld/provenance_acceptance.py` checks the optional
   `data/manifests/provenance_acceptance.json` review record required before
   source snapshot, license/attribution, privacy abstraction, cache manifest,
   reproducibility manifest, and not-operational claim-boundary review can close
-  the final data-provenance gate. This file is absent in the current scaffold.
-- `src/realworld/manuscript_acceptance.py` validates the optional
+  the study-closeout data-provenance gate. This file is absent in the current scaffold.
+- `src/realworld/manuscript_acceptance.py` checks the optional
   `data/manifests/manuscript_acceptance.json` review record required before
   English manuscript, Korean report, regenerated docx, figure/table manifest,
   evidence-gate, result-claim, and not-operational claim-boundary review can
-  close the final manuscript/report gate. This file is absent in the current
+  close the study-closeout manuscript/report gate. This file is absent in the current
   scaffold.
 - `src/realworld/claim_alignment_review_packet.py` and
   `scripts/write_claim_alignment_review_packet.py` generate a claim-level
   review worksheet for `paper/paper_draft.md`, `report_draft.md`, and the
   figure/table manifest. It is review support only and does not create
   `manuscript_acceptance.json`.
-- `src/realworld/reproducibility_acceptance.py` validates the optional
+- `src/realworld/reproducibility_acceptance.py` checks the optional
   `data/manifests/reproducibility_acceptance.json` review record required
-  before clean-checkout validation, validation ladder, artifact regeneration,
+  before clean-checkout reproduction checks, evidence-check ladder, artifact regeneration,
   manifest paths, cloned-repo import-boundary, command count, and
-  not-operational claim-boundary review can close the final reproducibility
+  not-operational claim-boundary review can close the study-closeout reproducibility
   gate. This file is absent in the current scaffold.
 - `src/realworld/reproducibility_smoke.py` and
   `scripts/run_reproducibility_smoke.py` run a bounded current-worktree smoke
@@ -767,11 +952,11 @@ Implemented behavior:
   `data/validation/reproducibility_smoke_manifest.json` and a JSONL command
   log, but `clean_checkout_test_performed` and `can_mark_complete` remain
   false.
-- `src/realworld/final_audit_acceptance.py` validates the optional
+- `src/realworld/final_audit_acceptance.py` checks the optional
   `data/manifests/final_audit_acceptance.json` review record required before
   independent prompt-to-artifact completion review, gate evidence review,
   no-proxy completion review, gate-list/count matching, and not-operational
-  claim-boundary review can close the final audit gate. This file is absent in
+  claim-boundary review can close the closeout audit gate. This file is absent in
   the current scaffold.
 - `src/realworld/road_evidence.py` and `scripts/audit_road_evidence.py` audit
   the cached OSM/GraphML road input. Current lengths are parseable, but speed,
@@ -788,17 +973,24 @@ Implemented behavior:
   `scripts/write_road_capacity_evidence.py` summarize cached OSM `lanes` tags
   by routeable road class. The current table has 10 candidate rows and 0 rows
   with observed lane tags; it documents the remaining capacity evidence gap.
+- `src/realworld/road_attribute_evidence.py` and
+  `scripts/write_road_attribute_evidence.py` write an edge-level
+  road-attribute evidence table and manifest. The table separates OSM-derived
+  values, mapper fallbacks, lane-derived capacity candidates, optional routing
+  benchmark fields, and sensitivity-only disruption probabilities. It is
+  review support only and does not create source-tuned road overrides or formal
+  signoff.
 - `src/realworld/road_evidence_review_packet.py` and
   `scripts/write_road_evidence_review_packet.py` consolidate the road-class
   diagnostics, sparse speed evidence, lane-count evidence, and draft override
   rows into a 10-row review worksheet. All current rows remain weak for
-  final-study road claims and are review support only.
+  study-level road claims and are review support only.
 - `src/realworld/road_evidence_request_packet.py` and
   `scripts/write_road_evidence_source_request_packet.py` write a 5-row
   source-request worksheet for the missing speed, capacity, benchmark,
   disruption, and override-application source inputs. It is request support
   only and does not create reviewed road overrides.
-- `src/realworld/road_overrides.py` validates optional road-class override
+- `src/realworld/road_overrides.py` checks optional road-class override
   tables so future source-backed speed, capacity, and disruption inputs can
   replace mapper fallbacks without changing simulation internals.
 - `src/realworld/road_override_template.py` and
@@ -816,6 +1008,10 @@ Implemented behavior:
 - `scripts/write_osrm_snapshot_manifest.py` records the cached OSRM CSV and
   summary checksums, row-level query URLs, live/unpinned status, and
   non-acceptance claim boundary.
+- `src/realworld/road_snapshot.py` and `scripts/write_road_snapshot.py` write
+  a road-network snapshot summary for the cached graph so later audits can
+  compare node/edge counts, routeable edge counts, highway classes, and graph
+  metadata without treating the cache as calibrated road evidence.
 - `scripts/run_full_graph_smoke.py` runs a tiny bus-only and baseline
   multimodal smoke on the full bus-practical graph without corridor reduction;
   this is feasibility evidence only.
@@ -829,7 +1025,7 @@ Implemented behavior:
   multi-corridor, and full-graph methods but does not close the graph-scale
   gate.
 - `scripts/write_graph_scale_strategy_readiness_packet.py` writes a 5-row
-  graph-scale strategy-readiness packet and manifest under `data/validation/`;
+  graph-scale strategy-blocker-review packet and manifest under `data/validation/`;
   this makes graph-method blockers concrete but does not close the graph-scale
   gate.
 - `scripts/write_graph_scale_result_comparison.py` writes the 819-row
@@ -842,9 +1038,9 @@ Implemented behavior:
   This is not cached timetable or GTFS-derived timing evidence.
 - `src/realworld/rail_evidence_review_packet.py` and
   `scripts/write_rail_evidence_review_packet.py` consolidate station-binding
-  readiness, timing gaps, capacity treatment, service-window assumptions,
+  review status, timing gaps, capacity treatment, service-window assumptions,
   availability assumptions, and derivation paths into a 10-row review
-  worksheet. It is review support only and keeps service publication readiness
+  worksheet. It is review support only and keeps service publication status
   false.
 - `src/realworld/rail_timing_request_packet.py` and
   `scripts/write_rail_timing_source_request_packet.py` write a 5-row request
@@ -868,7 +1064,13 @@ Implemented behavior:
   evidence. `src/realworld/rail_timetable_api.py` and
   `scripts/fetch_rail_timetable_cache.py` provide an optional key-required
   data.go.kr train-schedule fetch path for creating the local cache. This is
-  not part of default offline validation.
+  not part of default offline checks.
+- `src/realworld/rail_timetable_static.py` and
+  `scripts/normalize_rail_timetable_cache.py` can normalize a reviewed static
+  timetable CSV into the local timetable cache schema only when exact source
+  column mappings are provided. This is a cache-preparation adapter only; it
+  does not create rail evidence, publication readiness, final-study readiness,
+  or formal acceptance.
 - `src/realworld/rail_gtfs.py` and `scripts/derive_rail_gtfs_evidence.py`
   can derive scheduled headway and access-to-egress travel-time evidence from
   a reviewed static GTFS zip or directory, preserving source artifact SHA256.
@@ -894,9 +1096,9 @@ Implemented behavior:
 - `scripts/run_pilot_experiments.py --multi-corridor-full` runs the same
   candidate graph on the full 7-policy, 9-scenario, 30-seed matrix and writes
   `pilot_multi_corridor_full_*` outputs for stronger graph-scale review only.
-- `src/realworld/experiment_acceptance.py` validates the optional
+- `src/realworld/experiment_acceptance.py` checks the optional
   `data/manifests/experiment_acceptance.json` review record required before
-  staged/full pilot outputs can close the final full-experiment-output gate.
+  staged/full pilot outputs can close the study-closeout full-experiment-output gate.
   This file is absent in the current scaffold.
 - `src/realworld/experiment_package_review_packet.py` and
   `scripts/write_experiment_package_review_packet.py` generate a full
@@ -906,7 +1108,7 @@ Implemented behavior:
   experiment package.
 - `src/realworld/experiment_strategy_readiness_packet.py` and
   `scripts/write_experiment_strategy_readiness_packet.py` convert that
-  worksheet into 9 pre-review readiness rows. The packet keeps scaffold result
+  worksheet into 9 pre-review status rows. The packet keeps scaffold result
   scope, graph-scale dependency, upstream input-evidence dependency,
   row-count/checksum/design/CRN review, and missing experiment acceptance
   visible without accepting full outputs.
@@ -917,7 +1119,7 @@ Implemented behavior:
   `morris_*` outputs.
 - `scripts/audit_sensitivity_diagnostics.py` reports Morris count consistency,
   blank/non-finite index values, zero `mu_star` rows, reduced graph scope, and
-  scaffold claim boundaries without accepting final-study sensitivity claims.
+  scaffold claim boundaries without accepting study-closeout sensitivity claims.
 - `src/realworld/sensitivity_review_packet.py` and
   `scripts/write_sensitivity_review_packet.py` convert those diagnostics into
   a 6-row review worksheet that keeps index handling, zero-effect
@@ -925,19 +1127,19 @@ Implemented behavior:
   visible without closing the sensitivity gate.
 - `src/realworld/sensitivity_strategy_readiness_packet.py` and
   `scripts/write_sensitivity_strategy_readiness_packet.py` convert that
-  6-row worksheet into 7 pre-review readiness rows. The packet keeps
+  6-row worksheet into 7 pre-review status rows. The packet keeps
   missing/non-finite indices, zero `mu_star` interpretation, reduced graph
   scope, scaffold result scope, Morris-vs-Sobol decision, and missing
-  sensitivity acceptance visible without accepting final sensitivity evidence.
+  sensitivity acceptance visible without accepting closeout sensitivity evidence.
 - `src/realworld/validation_review_packet.py` and
   `scripts/write_validation_review_packet.py` convert route plausibility,
   fallback/OSRM benchmark, OSRM snapshot manifest, accessibility-loss,
-  route-level road-evidence exposure, and validation-summary scope artifacts
+  route-level road-evidence exposure, and evidence-summary scope artifacts
   into a 7-row review
-  worksheet without closing the validation gate.
+  worksheet without closing the evidence-check gate.
 - `src/realworld/validation_strategy_readiness_packet.py` and
   `scripts/write_validation_strategy_readiness_packet.py` convert that 7-row
-  validation worksheet into pre-review readiness statuses. The packet keeps
+  evidence-check worksheet into pre-review statuses. The packet keeps
   internal warnings, fallback benchmark warnings, unpinned OSRM snapshot risk,
   accessibility diagnostics, weak route-road evidence exposure, summary scope,
   and missing validation acceptance visible without approving a benchmark
@@ -946,23 +1148,61 @@ Implemented behavior:
   `scripts/write_route_road_evidence_exposure.py` generate a 76-row
   route-level worksheet that links weak road speed, capacity, disruption, and
   connector assumptions to canonical route candidates. This is review support
-  only, not calibration or validation acceptance.
+  only, not source-tuning or evidence-check signoff.
 - `scripts/make_pilot_statistics.py` writes full-pilot metric confidence
   intervals and paired policy-delta confidence intervals from seed replications;
   these are uncertainty summaries for scaffold outputs, not calibration proof.
-- `src/realworld/sensitivity_acceptance.py` validates the optional
+- `src/realworld/sensitivity_acceptance.py` checks the optional
   `data/manifests/sensitivity_acceptance.json` review record required before
-  current Morris or future Sobol outputs can close the final sensitivity gate.
+  current Morris or future Sobol outputs can close the closeout sensitivity gate.
   This file is absent in the current scaffold.
 - `scripts/make_pilot_figures.py` generates scaffold-only figures, tables, and
   a claim-boundary table from current full pilot and Morris outputs, including
   bottleneck attribution proxy and policy regime-map artifacts.
+- `src/realworld/artifact_invalidation_matrix.py` and
+  `scripts/write_artifact_invalidation_matrix.py` write the Phase 9 stale
+  artifact disposition matrix for compact/full outputs, statistics, ML outputs,
+  figures, reports, and review packages. The matrix is preflight review support
+  only; unresolved rows block non-sample promotion but do not regenerate
+  artifacts, assess evidence quality, or create publication/study-closeout/formal
+  signoff. With `--write-closeout-template`, the same script also writes a
+  pending reviewer closeout worksheet that records disposition, affected
+  artifacts or exclusion scope, rerun/audit/test evidence, reviewer signoff,
+  and claim-boundary effects. The closeout worksheet is still non-acceptance
+  review support and defaults every row to pending. With
+  `--write-closeout-action-queue`, the script also writes dependency-ordered
+  closeout work guidance; that queue does not close rows, approve evidence, or
+  authorize Phase 9. With `--write-quarantine-closeout-template`, the script
+  writes a separate six-row reviewer input template for the immediate
+  `quarantine_non_evidence` batch. That quarantine template is not the main
+  closeout manifest and cannot clear Phase 9 by itself. With
+  `--write-quarantine-scope-audit`, the script writes finding-row support for
+  stale artifact candidates, ZIP candidates, and claim-text reference hits for
+  that same batch. The scope audit records
+  `must_not_be_used_as_closeout_manifest=true` and must not be used as closeout
+  evidence. With `--write-quarantine-non-evidence-index`, the script writes a
+  deduplicated stale full-output/review-package candidate index for reviewer
+  triage only. That index also records
+  `must_not_be_used_as_closeout_manifest=true`; it does not close rows,
+  approve citation removal, or authorize Phase 9.
+- `src/realworld/gpu_ml_runtime.py` and
+  `scripts/check_gpu_ml_runtime.py` write a Phase 10 optional GPU ML runtime
+  preflight manifest, JSONL log, and Markdown note. The guard records
+  `nvidia-smi`, Python, `pip check`, selected package versions, a
+  package-specific CUDA check where supported, and CPU fallback status. It is
+  runtime evidence for bounded post-simulation ML claims only; it does not
+  prove the SimPy/NetworkX simulator is GPU-accelerated, does not assess ML
+  model quality, and does not create publication/study-closeout/formal signoff.
 - `scripts/audit_plan_artifacts.py` checks current scaffold artifact row
-  counts, JSON manifests, docs, parameter evidence readiness, and the
+  counts, JSON manifests, docs, parameter evidence status, and the
   conservative claim boundary.
 - `scripts/audit_source_provenance.py` checks the non-acceptance source
   provenance review packet for source URLs, license/terms notes, local
   artifacts, review statuses, and claim boundaries.
+- `scripts/audit_source_context_hashes.py` writes a source-context raw-file
+  hash audit for cached KTDB GTFS and Metro9 review extracts. It checks hash
+  integrity only and does not assess GTFS, sign off rail capacity, certify
+  licenses, or close provenance gates.
 - `scripts/write_pilot_privacy_review_packet.py` writes a pilot-region
   privacy and sensitivity worksheet from the region YAML and data card. It is
   review support only and does not create pilot acceptance.
@@ -977,50 +1217,54 @@ Implemented behavior:
 - `scripts/write_claim_alignment_review_packet.py` writes manuscript/report
   claim-alignment rows for guarded language and overclaim candidates. It is
   review support only and does not create manuscript acceptance.
+- `scripts/audit_claim_language.py` writes a fail-closed lexical
+  claim-language guard for reports, docs, and manifests. It blocks release
+  when reserved claim terms are not formally supported or explicitly bounded.
 - `scripts/audit_publication_readiness.py` aggregates parameter, road, rail
-  service, and station-binding gates while preserving `publication_ready:
-  false` until evidence blockers are closed.
-- `scripts/audit_final_study_readiness.py` checks all `plan.md` final-study
-  gates and keeps scaffold artifact presence separate from final readiness for
-  pilot acceptance, graph scale, evidence, validation, experiment, sensitivity,
-  manuscript/report, reproducibility, and final audit requirements.
+  service, and station-binding gates while preserving a false publication-status
+  field until evidence blockers are closed.
+- `scripts/audit_final_study_readiness.py` checks all `plan.md` study-closeout
+  gates and keeps scaffold artifact presence separate from study-closeout
+  preflight status for pilot signoff, graph scale, evidence, evidence checks,
+  experiment, sensitivity, manuscript/report, reproducibility, and closeout
+  audit requirements.
 - `docs/schemas/graph_scale_acceptance_schema.md` defines the graph-scale acceptance
   record shape; do not create the actual acceptance JSON unless a real review
-  has accepted the source-vs-analysis graph decision and claim boundary.
+  has signed off the source-vs-analysis graph decision and claim boundary.
 - `docs/graph_scale_diagnostics.md` documents the route-parity and
   alternate-route diagnostics plus their claim boundaries; keep it distinct
-  from graph-scale acceptance.
+  from graph-scale signoff.
 - `docs/graph_scale_review_packet.md` documents the 4-option graph-scale
-  method review packet; keep it distinct from graph-scale acceptance.
+  method review packet; keep it distinct from graph-scale signoff.
 - `docs/graph_scale_result_comparison.md` documents the current-vs-candidate
   graph-scale result-delta table; keep it distinct from graph-scale
-  acceptance.
-- `docs/schemas/validation_acceptance_schema.md` defines the validation acceptance
-  record shape; do not create the actual acceptance JSON unless a real review
-  has accepted the benchmark strategy and its not-ground-truth limitation.
+  signoff.
+- `docs/schemas/validation_acceptance_schema.md` defines the evidence-check
+  signoff record shape; do not create the actual acceptance JSON unless a real review
+  has signed off the benchmark strategy and its not-ground-truth limitation.
 - `docs/schemas/experiment_acceptance_schema.md` defines the experiment-output
   acceptance record shape; do not create the actual acceptance JSON unless a
-  real review has accepted graph scope, input validation,
+  real review has signed off graph scope, input evidence checks,
   scenario-policy-seed design, CRN pairing, counts, and not-operational claim
   limits.
 - `docs/schemas/provenance_acceptance_schema.md` defines the data-provenance
   acceptance record shape; do not create the actual acceptance JSON unless a
-  real review has accepted source snapshots, license/attribution, privacy
+  real review has signed off source snapshots, license/attribution, privacy
   abstraction, cache manifests, reproducibility paths, and not-operational
   claim limits.
 - `docs/schemas/manuscript_acceptance_schema.md` defines the manuscript/report
   acceptance record shape; do not create the actual acceptance JSON unless a
-  real review has accepted paper/report text, regenerated docx, figures/tables,
+  real review has signed off paper/report text, regenerated docx, figures/tables,
   evidence gates, result claims, and not-operational claim limits.
 - `docs/schemas/reproducibility_acceptance_schema.md` defines the clean-checkout
   reproducibility acceptance record shape; do not create the actual acceptance
-  JSON unless a real clean-checkout reproduction review has accepted validation
+  JSON unless a real clean-checkout reproduction review has signed off reproduction
   commands, regenerated artifacts, manifest paths, import boundaries, and
   not-operational claim limits.
-- `docs/schemas/final_audit_acceptance_schema.md` defines the independent final-audit
-  acceptance record shape; do not create the actual acceptance JSON unless a
-  real final audit has reviewed every prompt-to-artifact requirement and all
-  pre-final gates are closed.
+- `docs/schemas/final_audit_acceptance_schema.md` defines the independent closeout-audit
+  signoff record shape; do not create the actual acceptance JSON unless a
+  real closeout audit has reviewed every prompt-to-artifact requirement and all
+  pre-closeout gates are closed.
 - `docs/reproducibility_package.md` and
   `data/manifests/reproducibility_manifest.json` record reproduction commands,
   artifact paths, and claim limits for the current scaffold-only package.
@@ -1028,14 +1272,14 @@ Implemented behavior:
   smoke run. It is execution evidence only and must not be treated as
   clean-checkout reproducibility acceptance.
 - `docs/plan_completion_audit.md` records a static gate-by-gate audit snapshot
-  and remaining final-study blockers.
+  and remaining study-closeout blockers.
 
 Treat outputs from this path as quasi-real decision-support experiments until
 pilot data, travel-time assumptions, capacity proxies, rail inputs, and
-disruption assumptions are validated. The current pilot scaffold, evidence
+disruption assumptions are source-checked. The current pilot scaffold, evidence
 tables, sample/staged/full outputs, sensitivity screening, and generated figure/table
 artifacts prove offline execution and study scaffolding only; do not claim
-calibrated real-world or operational accuracy.
+source-tuned real-world or field-use accuracy.
 
 ## Implemented Model Alignment
 
@@ -1057,9 +1301,9 @@ alternatives, sample/staged/full pilot experiment profiles and outputs,
 deterministic sensitivity screening, SALib Morris scaffold screening, and scaffold-only
 figures/tables, plus sparse OSM maxspeed, lane-count candidate evidence, and a
 consolidated road-input review packet for road-class review, now exist. The next major
-implementation goal is to review the current OSM-derived cache as an accepted
-pilot snapshot or replace it with a better snapshot, review staged/full pilot
-outputs, and document each input as
+implementation goal is to review the current OSM-derived cache as a
+reviewer-cleared pilot snapshot or replace it with a better snapshot, review
+staged/full pilot outputs, and document each input as
 public-data-derived, literature-supported, expert-assumption, benchmarked, or
 sensitivity-only.
 
@@ -1072,18 +1316,18 @@ Priority implementation layers:
    and zone abstraction such as H3/admin-grid cells.
 3. **Spatially structured disruptions** using critical-link scenarios and
    hazard/exposure overlays inspired by `snail` and `open-gira`.
-4. **Public transit and rail validation** using GTFS where available, or a
+4. **Public transit and rail source checks** using GTFS where available, or a
    documented rail-assumption table when GTFS is incomplete.
 5. **Plausibility benchmarking** with routing or multimodal tools such as
    OSRM, Valhalla, routingpy, r5py/R5, or UXsim as appropriate. The current
    optional OSRM snapshot has 3 pass rows after bus-practical road filtering,
    and its manifest records 3 live/unpinned rows plus query URLs and checksums;
-   it remains live-service plausibility evidence rather than calibration.
+   it remains live-service plausibility evidence rather than source tuning.
 6. **Policy alternatives** beyond baseline bus-only and baseline multimodal:
    redundant last-mile fleet, increased feeder capacity, staggered dispatch,
    adaptive rerouting, fleet shortage, and rail delay/unavailability.
 7. **Full pilot experiment package review** for the staged/full
-   scenario/seed/policy outputs after input validation.
+   scenario/seed/policy outputs after input evidence checks.
 8. **Formal sensitivity review** for the current SALib Morris scaffold outputs,
    with Sobol only if compute and interpretation justify it.
 
@@ -1126,29 +1370,29 @@ change, rerun full experiments before carrying result conclusions forward.
 - Dynamic traffic uses rolling-window BPR, not full traffic assignment or
   microscopic road simulation.
 - Rail is a single fixed-headway service and is failure-immune by default.
-- Operational parameters are uncalibrated scenario assumptions.
+- Field-use parameters are source-untuned scenario assumptions.
 - The real-world MVP can adapt OSM-like road graphs and now has an offline
-  pilot smoke scaffold, but it has not yet been calibrated with accepted
+  pilot smoke scaffold, but it has not yet been source-tuned with signed-off
   pilot-region traffic, capacity, rail, or disruption evidence.
 - The cached OSM maxspeed candidate table is a road-speed review aid only; it
-  is not a reviewed override table or calibrated traffic-speed input.
+  is not a reviewed override table or source-tuned traffic-speed input.
 - The cached OSM lane-count capacity table is a capacity evidence-gap review
-  aid only; it is not calibrated capacity input.
+  aid only; it is not source-tuned capacity input.
 - Parameter, plausibility, disruption, and policy tables are implemented
   scaffolds, and sample/staged/full, deterministic screening, SALib Morris
   scaffold outputs, and generated figures/tables exist; they have not yet
-  produced calibrated sensitivity evidence or reviewed publication-grade
-  acceptance.
+  produced source-tuned sensitivity evidence or reviewed publication-grade
+  signoff.
 - The public repository clone cache exists for reference only; production code
   must not import runtime modules from `cloned_repo/`.
 - The paper draft and real-world implementation blueprint define the next
-  research direction but do not by themselves create calibrated real-world
+  research direction but do not by themselves create source-tuned real-world
   results.
 - The default Phase 1 sweep covers `baseline` and `matched_redundancy`; the
   additional declared sensitivity variants require an explicit result
   regeneration before they are used in conclusions.
 - Report narrative and generated outputs should be reviewed together after a
-  new full experiment is accepted.
+  new full experiment is signed off.
 
 ## Git
 

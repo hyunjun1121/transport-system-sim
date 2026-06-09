@@ -28,12 +28,12 @@ def test_acceptance_orchestration_defines_required_review_agents() -> None:
     assert "OSM / Source / License / Provenance Review Agent" in names
     assert "Graph Scale Method Review Agent" in names
     assert "Road / Rail / Parameter Evidence Agent" in names
-    assert "Validation Benchmark Strategy Agent" in names
+    assert "Benchmark Strategy Review Agent" in names
     assert "Sensitivity Analysis Review Agent" in names
     assert "Full Experiment Package Agent" in names
     assert "Paper / Report Claim Alignment Agent" in names
     assert "Clean-Checkout Reproducibility Agent" in names
-    assert "Final Independent Audit Agent" in names
+    assert "Independent Audit Review Agent" in names
 
 
 def test_review_agents_point_at_current_readiness_packets() -> None:
@@ -856,13 +856,13 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         publication_snapshot_path.write_text(
             json.dumps(
                 {
-                    "gate_count": 7,
+                    "gate_count": 8,
                     "ready_gate_count": 1,
-                    "blocked_gate_count": 6,
+                    "blocked_gate_count": 7,
                     "publication_ready": False,
                     "can_mark_complete": False,
                     "status_counts": {
-                        "blocked": 6,
+                        "blocked": 7,
                         "ready": 1,
                     },
                     "remaining_blockers": [
@@ -894,12 +894,12 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 ),
                 (
                     "validation_benchmark_readiness",
-                    "Validation Benchmark Readiness",
+                    "Benchmark Evidence Review",
                     validation_snapshot_path,
                 ),
                 (
                     "validation_benchmark_decision",
-                    "Validation Benchmark Decision",
+                    "Benchmark Evidence Decision",
                     validation_decision_snapshot_path,
                 ),
                 (
@@ -929,7 +929,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 ),
                 (
                     "final_audit_decision",
-                    "Final Audit Decision",
+                    "Independent Audit Decision",
                     final_audit_decision_snapshot_path,
                 ),
                 (
@@ -994,7 +994,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 ),
                 (
                     "formal_acceptance_pre_review",
-                    "Formal Acceptance Pre-Review",
+                    "Formal Pre-Review",
                     pre_review_snapshot_path,
                 ),
                 (
@@ -1014,7 +1014,7 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 ),
                 (
                     "publication_readiness_audit",
-                    "Publication Readiness Audit",
+                    "Publication Blocker Audit",
                     publication_snapshot_path,
                 ),
             ),
@@ -1046,6 +1046,15 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert snapshots["source_provenance_priority"]["blocking_count"] == 2
         assert snapshots["pilot_region_decision"]["blocking_count"] == 3
         assert snapshots["pilot_region_decision"]["human_review_count"] == 3
+        assert all(
+            item.startswith("Blocked non-approval source note: ")
+            for item in snapshots["pilot_region_decision"]["remaining_blockers"]
+        )
+        assert all(
+            item.startswith("Blocked non-approval action: ")
+            or item.startswith("Blocked non-approval audit item: ")
+            for item in manifest["remaining_blockers"]
+        )
         assert (
             snapshots["pilot_region_decision"]["status_counts"][
                 "blocked_missing_pilot_acceptance_record"
@@ -1250,8 +1259,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
             ]
             == 12
         )
-        assert snapshots["publication_readiness_audit"]["row_count"] == 7
-        assert snapshots["publication_readiness_audit"]["blocking_count"] == 6
+        assert snapshots["publication_readiness_audit"]["row_count"] == 8
+        assert snapshots["publication_readiness_audit"]["blocking_count"] == 7
         assert snapshots["publication_readiness_audit"]["status_counts"]["ready"] == 1
         assert (root / "acceptance_orchestration_manifest.json").exists()
         index_path = root / "review_packets" / "acceptance_review_index.md"
@@ -1261,11 +1270,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "Blocking context-source target gaps: 3" in index_text
         assert "provide reviewed payloads or exclude context-source rows" in index_text
         assert "Review Packet Status Snapshots" in index_text
-        assert "`Validation Benchmark Readiness`" in index_text
-        assert "`Validation Benchmark Decision`" in index_text
+        assert "`Benchmark Evidence Review`" in index_text
+        assert "`Benchmark Evidence Decision`" in index_text
         assert "`Experiment Design Decision`" in index_text
         assert "`Manuscript/Report Decision`" in index_text
-        assert "`Final Audit Decision`" in index_text
+        assert "`Independent Audit Decision`" in index_text
         assert "`Pilot Region Decision`" in index_text
         assert "`Graph-Scale Result Comparison`" in index_text
         assert "`Graph-Scale Method Decision`" in index_text
@@ -1276,11 +1285,11 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
         assert "`Road Source Decisions`" in index_text
         assert "`Rail Source Decisions`" in index_text
         assert "`Formal Acceptance Blocker Queue`" in index_text
-        assert "`Formal Acceptance Pre-Review`" in index_text
+        assert "`Formal Pre-Review`" in index_text
         assert "`Agent Review Path Audit`" in index_text
         assert "`Tracked Artifact Audit`" in index_text
         assert "`Current Goal Completion Audit`" in index_text
-        assert "`Publication Readiness Audit`" in index_text
+        assert "`Publication Blocker Audit`" in index_text
         assert "candidate_worsens=24" in index_text
         assert "blocked_missing_pilot_acceptance_record=1" in index_text
         assert "needs_human_review_reduced_corridor_warning_policy=1" in index_text

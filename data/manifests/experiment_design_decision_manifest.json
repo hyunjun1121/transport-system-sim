@@ -41,8 +41,8 @@
   },
   "publication_ready": false,
   "remaining_blockers": [
-    "experiment outputs depend on a graph method that is not accepted",
-    "upstream input, road override, parameter, validation, or provenance gates are not accepted",
+    "experiment outputs depend on a graph method that is not selected by review",
+    "upstream input, road override, parameter, validation, or provenance gates are not closed",
     "current full-pilot result scope is scaffold or not calibrated",
     "data/manifests/experiment_acceptance.json is absent"
   ],
@@ -50,9 +50,9 @@
   "review_items": [
     "choose whether the current full_pilot or multi-corridor full candidate is the run profile to review",
     "review the 7-policy, 9-scenario, 30-seed design and excluded policy treatment",
-    "resolve graph-scale and upstream input-evidence dependencies before accepting outputs",
-    "decide whether outputs must be regenerated after graph/input acceptance",
-    "record final experiment decisions only in data/manifests/experiment_acceptance.json"
+    "resolve graph-scale and upstream input-evidence dependencies before output review",
+    "decide whether outputs must be regenerated after graph/input review",
+    "record experiment gate decisions only in data/manifests/experiment_acceptance.json"
   ],
   "row_count": 8,
   "scenario_policy_seed_decision_recorded": false,

@@ -25,7 +25,7 @@
   ],
   "result_scope": "Source context-cache request packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
   "review_items": [
-    "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from final claims",
+    "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from release-scope claims",
     "retain raw API/page responses when a source is cached for reproducibility",
     "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
     "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed"

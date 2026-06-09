@@ -10,7 +10,7 @@ worksheet for the current cached OSM/GraphML pilot road input. It consolidates
 the road-class diagnostics, sparse cached OSM `maxspeed` evidence, cached OSM
 `lanes` evidence, and the draft road-class override worksheet.
 
-The packet is not an accepted road-calibration table, not an applied
+The packet is not a road-calibration signoff table, not an applied
 road-class override table, not traffic assignment validation, and not
 operational routing evidence.
 
@@ -28,14 +28,14 @@ operational routing evidence.
 ## Current Status
 
 The current packet has 10 routeable road-class rows. All rows remain weak for
-final-study claims because cached lane-count evidence and base-disruption
+study-closeout claims because cached lane-count evidence and base-disruption
 probability evidence are absent, and the draft override worksheet still uses
 expert-assumption source classes.
 
 The strongest current use is prioritization. Reviewers should use the packet
 to decide which road classes should receive source-backed speed, capacity, and
 base-disruption evidence first, and which values can remain explicit
-sensitivity-only or accepted scenario assumptions.
+sensitivity-only or reviewer-scoped scenario assumptions.
 
 ## Regeneration
 
@@ -52,7 +52,7 @@ sensitivity-only or accepted scenario assumptions.
 ## Claim Boundary
 
 Do not cite the packet as calibrated road evidence. It documents road-input
-evidence gaps and review priorities. Final-study road claims remain blocked
+evidence gaps and review priorities. Study-closeout road claims remain blocked
 until weak values are replaced with reviewed evidence, moved into
-`data/parameters/road_class_overrides.csv`, applied to accepted pilot outputs,
-and recorded inside the relevant final-study acceptance gates.
+`data/parameters/road_class_overrides.csv`, applied to reviewer-selected pilot outputs,
+and recorded inside the relevant study-closeout decision records.

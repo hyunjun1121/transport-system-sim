@@ -95,6 +95,35 @@ def test_validation_strategy_readiness_rows_block_missing_osrm_raw_payloads() ->
     print("PASS: validation strategy-readiness rows block missing OSRM raw payloads")
 
 
+def test_validation_strategy_readiness_rows_flag_osrm_snap_distances() -> None:
+    """Cached OSRM rows with waypoint snap warnings should require review."""
+
+    rows = build_validation_strategy_readiness_rows(
+        review_rows=[
+            _row(
+                "optional_osrm_route_benchmarks",
+                "true",
+                "fail=0; pass=3; warn=0",
+                (
+                    "snapshot_manifest_raw_response_files=3; "
+                    "snapshot_manifest_raw_binding_mismatches=0; "
+                    "snapshot_manifest_raw_missing_rows=0; "
+                    "snapshot_manifest_unpinned_rows=0; "
+                    "snapshot_snap_status_pass=1; snapshot_snap_status_warn=2"
+                ),
+                "review_required_osrm_snap_distance_review",
+            ),
+        ]
+    )
+
+    assert rows[0]["readiness_status"] == (
+        "needs_human_review_external_route_snap_distances"
+    )
+    assert "snap distances" in rows[0]["required_reviewer_action"]
+
+    print("PASS: validation strategy-readiness rows flag OSRM snap distances")
+
+
 def test_validation_strategy_readiness_rows_classify_weak_route_exposure() -> None:
     """Weak route-road exposure should block stronger validation claims."""
 
@@ -124,7 +153,7 @@ def test_write_validation_strategy_readiness_packet_outputs_artifacts() -> None:
             _row(
                 "fallback_route_benchmarks",
                 "true",
-                "fail=0; pass=2; warn=1",
+                "fail=1; pass=1; warn=1",
                 "",
                 "review_required_fallback_warn_or_fail_rows",
             ),
@@ -161,7 +190,7 @@ def test_write_validation_strategy_readiness_packet_outputs_artifacts() -> None:
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert written_manifest["validation_gate_closure_candidate_count"] == 0
-        assert "Validation Strategy Readiness Packet" in text
+        assert "Benchmark Strategy Review Packet" in text
 
     print("PASS: validation strategy-readiness writer emits artifacts")
 
@@ -220,6 +249,7 @@ def _row(
 if __name__ == "__main__":
     test_validation_strategy_readiness_rows_classify_blockers()
     test_validation_strategy_readiness_rows_block_missing_osrm_raw_payloads()
+    test_validation_strategy_readiness_rows_flag_osrm_snap_distances()
     test_validation_strategy_readiness_rows_classify_weak_route_exposure()
     test_write_validation_strategy_readiness_packet_outputs_artifacts()
     test_shipped_validation_strategy_readiness_packet_matches_current_review()

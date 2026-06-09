@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "claim_boundary": "Figure/table review packet only; not manuscript acceptance, not calibrated real-world results, and not operational routing evidence. It cannot create or replace data/manifests/manuscript_acceptance.json.",
-  "result_scope": "Figure/table review packet only; not manuscript acceptance, not calibrated real-world results, and not operational routing evidence.",
+  "claim_boundary": "Figure/table review packet only; not manuscript decision, not calibrated real-world results, and not operational routing evidence. It cannot create or replace data/manifests/manuscript_acceptance.json.",
+  "result_scope": "Figure/table review packet only; not manuscript decision, not calibrated real-world results, and not operational routing evidence.",
   "row_count": 8,
   "review_status_counts": {
     "blocked_missing_manuscript_acceptance_record": 1,
@@ -28,9 +28,9 @@
   },
   "review_items": [
     "verify figure/table artifacts exist and were regenerated from current outputs",
-    "review caption and claim-boundary language before manuscript acceptance",
-    "resolve graph-scale, experiment, validation, and sensitivity acceptance dependencies before final figure claims",
-    "record accepted figure/table review only in data/manifests/manuscript_acceptance.json"
+    "review caption and claim-boundary language before the manuscript decision",
+    "resolve graph-scale, experiment, benchmark, and sensitivity decision dependencies before release-scope figure claims",
+    "record reviewer-selected figure/table review only in data/manifests/manuscript_acceptance.json"
   ],
   "remaining_blockers": [
     "figure/table outputs depend on reduced analysis graph scope",

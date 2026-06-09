@@ -33,9 +33,8 @@ DEFAULT_SOURCE_URL_REMEDIATION_DOC_PATH = (
     PROJECT_ROOT / "docs" / "source_url_remediation_packet.md"
 )
 SOURCE_URL_REMEDIATION_SCOPE = (
-    "Source URL remediation packet only; not source acceptance, not license "
-    "certification, not calibrated real-world validation, and not operational "
-    "routing approval."
+    "Source URL remediation packet only; it does not certify sources, licenses, "
+    "field-fit benchmark evidence, or deployment routing evidence."
 )
 SOURCE_URL_REMEDIATION_COLUMNS: tuple[str, ...] = (
     "source_id",
@@ -253,7 +252,7 @@ def build_source_url_remediation_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Replace stale or unreachable public URLs with verified official sources, retain them as sensitivity/context-only evidence, or exclude them from final claims.",
+            "- Replace stale or unreachable public URLs with verified official sources, retain them as sensitivity/context-only evidence, or exclude them from release-scope claims.",
             "- Confirm that local repository citations are acceptable for project-owned inputs.",
             "- Treat `reachable` as connectivity evidence only; license and source suitability still need review.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
@@ -317,7 +316,7 @@ def _classify(
             "reachable_needs_license_review",
             "medium",
             "connectivity is observed but official source identity, license, attribution, and snapshot suitability are unreviewed",
-            "verify source identity, terms, attribution, and retained-snapshot policy before acceptance",
+            "verify source identity, terms, attribution, and retained-snapshot policy before provenance decision record",
         )
     if url_status == "not_checked":
         return (
@@ -346,21 +345,21 @@ def _classify(
                 "alternate_reachable_url_needs_review",
                 "medium",
                 "one cited URL failed, but the same source has at least one reachable URL row and retained local artifact paths",
-                "verify whether the reachable URL and retained local artifacts are sufficient, then replace or remove the failed alternate citation before acceptance",
+                "verify whether the reachable URL and retained local artifacts are sufficient, then replace or remove the failed alternate citation before provenance decision record",
             )
         if source_has_reachable_url:
             return (
                 "alternate_reachable_url_needs_review",
                 "medium",
                 "one cited URL failed, but the same source has at least one reachable URL row",
-                "verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before acceptance",
+                "verify whether the reachable URL is sufficient, then replace or remove the failed alternate citation before provenance decision record",
             )
         if source_has_local_artifacts:
             return (
                 "cached_snapshot_url_needs_review",
                 "medium",
                 "live check could not reach the cited public URL, but retained local artifact paths exist for reviewer inspection",
-                "manually verify the URL and decide whether retained local artifacts are sufficient, need replacement, or should be excluded before acceptance",
+                "manually verify the URL and decide whether retained local artifacts are sufficient, need replacement, or should be excluded before provenance decision record",
             )
         return (
             "blocked_unreachable_or_http_error",
@@ -372,7 +371,7 @@ def _classify(
         "blocked_unclassified_url_status",
         "high",
         f"unrecognized URL status: {url_status}",
-        "inspect the URL-review row and classify the evidence gap before acceptance",
+        "inspect the URL-review row and classify the evidence gap before provenance decision record",
     )
 
 
@@ -463,7 +462,7 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
         0,
     ):
         items.append(
-            "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance"
+            "verify license, attribution, derivative-use, source identity, and snapshot records before provenance decision record"
         )
     if remediation_counts.get("alternate_reachable_url_needs_review", 0):
         items.append(
@@ -475,7 +474,7 @@ def _review_items(remediation_counts: Mapping[str, int]) -> list[str]:
         )
     items.extend(
         [
-            "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
+            "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims",
             "create data/manifests/provenance_acceptance.json only after source-backed review",
         ]
     )

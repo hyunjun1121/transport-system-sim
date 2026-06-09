@@ -91,7 +91,7 @@ def build_source_provenance_decision_rows(
     reproducibility_manifest_path: str | Path = DEFAULT_REPRODUCIBILITY_MANIFEST_PATH,
     provenance_acceptance_path: str | Path = DEFAULT_PROVENANCE_ACCEPTANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return reviewer rows for final source-provenance decisions."""
+    """Return reviewer rows for source-provenance review decisions."""
 
     source_manifest = _read_json_object(source_provenance_manifest_path)
     license_manifest = _read_json_object(source_license_manifest_path)
@@ -129,7 +129,7 @@ def build_source_provenance_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Confirm the retained source inventory and any excluded sources "
-                "before provenance acceptance."
+                "before the provenance review record is created."
             ),
             followup_artifacts="data/manifests/provenance_acceptance.json",
             evidence_input_paths=evidence_paths,
@@ -138,14 +138,14 @@ def build_source_provenance_decision_rows(
             decision_id="license_attribution_decision",
             decision_topic="License and attribution review",
             candidate_decision=(
-                "Accept source license, attribution, derivative-use, snapshot, "
+                "Confirm source license, attribution, derivative-use, snapshot, "
                 "and privacy abstraction treatment only after row-level review"
             ),
             current_evidence=_license_evidence(license_manifest),
             decision_status="needs_human_review_license_attribution",
             blocking_reason="",
             required_reviewer_action=(
-                "Review every source/license row and record accepted license "
+                "Review every source/license row and record reviewed license "
                 "scope in provenance_acceptance.json."
             ),
             followup_artifacts=(
@@ -160,7 +160,7 @@ def build_source_provenance_decision_rows(
             candidate_decision=(
                 "Cache retained context-source target artifacts or explicitly "
                 "retain the source as sensitivity/context-only evidence, or "
-                "exclude the source from final claims"
+                "exclude the source from release-scope claims"
             ),
             current_evidence=_context_evidence(
                 context_request_manifest,
@@ -178,7 +178,7 @@ def build_source_provenance_decision_rows(
             ),
             required_reviewer_action=(
                 "Resolve cache, sensitivity/context-only retention, or exclusion treatment for "
-                "each context source before final provenance claims."
+                "each context source before release-scope provenance claims."
             ),
             followup_artifacts=(
                 "data/manifests/source_context_cache_decision_packet.csv; "
@@ -198,7 +198,7 @@ def build_source_provenance_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Confirm URL identity, local-citation rows, and alternate URL "
-                "candidates before provenance acceptance."
+                "candidates before the provenance review record is created."
             ),
             followup_artifacts=(
                 "data/manifests/source_url_remediation_packet.csv; "
@@ -210,7 +210,7 @@ def build_source_provenance_decision_rows(
             decision_id="cached_snapshot_repository_scope_decision",
             decision_topic="Cached snapshot and repository-input scope",
             candidate_decision=(
-                "Accept cached public snapshots and repository-owned inputs only "
+                "Retain cached public snapshots and repository-owned inputs only "
                 "inside a not-operational, non-calibrated claim boundary"
             ),
             current_evidence=_priority_evidence(priority_manifest),
@@ -220,7 +220,7 @@ def build_source_provenance_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Review cached snapshots, repository-owned inputs, and privacy "
-                "abstraction before retaining them for final claims."
+                "abstraction before retaining them for release-scope claims."
             ),
             followup_artifacts=(
                 "data/manifests/source_provenance_priority_packet.csv; "
@@ -251,7 +251,7 @@ def build_source_provenance_decision_rows(
             ),
             required_reviewer_action=(
                 "Confirm retained source snapshots and cache reproduction "
-                "evidence before provenance acceptance."
+                "evidence before the provenance review record is created."
             ),
             followup_artifacts=(
                 "data/manifests/reproducibility_manifest.json; "
@@ -263,7 +263,7 @@ def build_source_provenance_decision_rows(
             decision_id="formal_provenance_acceptance_boundary",
             decision_topic="Formal provenance acceptance",
             candidate_decision=(
-                "Record accepted sources, reviewer, date, license scope, "
+                "Record reviewed sources, reviewer, date, license scope, "
                 "cache/retention/exclusion decisions, evidence paths, and "
                 "claim boundary only in the formal provenance acceptance path"
             ),
@@ -442,7 +442,7 @@ def build_source_provenance_decision_manifest(
             "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
             "resolve context-source target cache, sensitivity/context-only retention, or exclusion decisions",
             "confirm reachable URLs, local citations, and alternate URL candidates",
-            "record final provenance only in data/manifests/provenance_acceptance.json",
+            "record reviewed provenance only in data/manifests/provenance_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }

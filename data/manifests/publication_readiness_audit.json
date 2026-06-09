@@ -1,18 +1,21 @@
 {
-  "blocked_gate_count": 6,
+  "blocked_gate_count": 9,
   "can_mark_complete": false,
-  "claim_boundary": "This audit aggregates evidence-readiness gates. It does not validate operational routing or certify real emergency operations.",
-  "gate_count": 7,
+  "claim_boundary": "This audit aggregates evidence gates. It does not validate operational routing or certify real emergency operations.",
+  "gate_count": 10,
   "gates": {
     "parameter_evidence_ready": false,
+    "rail_bounded_treatment_integrity_ready": false,
     "rail_evidence_ready": false,
     "rail_service_evidence_ready": false,
+    "rail_source_decision_ready": false,
     "rail_station_binding_ready": true,
+    "rail_transit_stress_profile_ready": false,
     "road_input_evidence_ready": false,
     "road_override_application_ready": false,
     "road_override_evidence_ready": false
   },
-  "generated_at": "2026-05-10T08:28:22+00:00",
+  "generated_at": "2026-06-04T12:04:39+00:00",
   "outputs": {
     "doc": "docs/publication_readiness_audit.md",
     "manifest": "data/manifests/publication_readiness_audit.json"
@@ -34,17 +37,43 @@
     "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
     "road override application: reviewed road-class override table is absent",
     "rail service evidence: cache timetable, shortest-path, or GTFS-derived records",
-    "rail service evidence: derive headway and travel time from the cached records"
+    "rail service evidence: derive headway and travel time from the cached records",
+    "rail source decision: rail source decisions are not recorded as reviewed decisions",
+    "rail source decision: rail source decisions are not complete for every rail source-decision row",
+    "rail source decision: 3 rail timing source decision rows are blocked",
+    "rail source decision: 3 rail capacity or availability source decisions need human review",
+    "rail source decision: rail source-decision manifest is not publication-ready evidence",
+    "rail source decision: rail source-decision manifest cannot mark complete",
+    "rail source decision: rail source-decision manifest cannot support publication gate",
+    "rail source decision: rail source-decision manifest cannot support rail evidence gate",
+    "rail source decision: rail source-decision manifest does not accept source-backed rail service evidence",
+    "rail source decision: rail source-decision manifest has zero rail-service evidence gate closure candidates",
+    "rail source decision: non-formal rail source-decision action ledger cannot close rail evidence gate",
+    "rail source decision: rail source-decision action ledger is not formal acceptance evidence",
+    "rail transit stress profile: rail transit stress-profile manifest is not publication-ready evidence",
+    "rail transit stress profile: rail transit stress-profile manifest cannot mark complete",
+    "rail transit stress profile: rail transit stress-profile manifest cannot support rail evidence gate",
+    "rail transit stress profile: rail transit stress profiles are scenario/sensitivity review support only",
+    "rail transit stress profile: capacity and availability profiles require reviewer decisions before release-scope rail claims",
+    "rail transit stress profile: rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
+    "rail transit stress profile: rail source decision: rail timing cache or reviewed GTFS source files remain required for source-backed timing claims",
+    "rail transit stress profile: rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment",
+    "rail transit stress profile: rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates",
+    "rail transit stress profile: rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail transit stress profile: rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file or GTFS Validator report is absent",
+    "rail transit stress profile: rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present",
+    "rail bounded treatment: 4 rail bounded-treatment warnings remain",
+    "rail bounded treatment: 2 rail bounded-treatment source decisions remain pending"
   ],
   "result_scope": "publication_readiness_audit_not_formal_acceptance",
   "review_items": [
-    "resolve blocked parameter, road, and rail evidence gates before final publication claims",
-    "treat this audit as claim-readiness triage only, not formal acceptance",
-    "rerun final-study readiness after any formal acceptance or evidence artifact changes"
+    "resolve blocked parameter, road, and rail evidence gates before release-scope publication claims",
+    "treat this audit as claim-scope triage only, not formal acceptance",
+    "rerun closeout publication-gate audit after any formal acceptance or evidence artifact changes"
   ],
   "schema_version": 1,
   "status_counts": {
-    "blocked": 6,
+    "blocked": 9,
     "ready": 1
   },
   "verdict": "final_study_claims_blocked"

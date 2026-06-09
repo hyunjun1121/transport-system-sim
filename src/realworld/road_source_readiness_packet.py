@@ -1,10 +1,10 @@
-"""Road source-readiness packet generation.
+"""Road source review packet generation.
 
 The road evidence source-request worksheet names the source packages needed for
 speed, capacity, background-traffic, disruption, and override-application
 claims. This module adds a deterministic preflight layer that classifies which
-requests are blocked by missing source evidence and which are merely ready for
-human review. It does not create reviewed road overrides or calibrate the road
+requests are blocked by missing source evidence and which require
+human review. It does not create reviewed road overrides or tune the road
 network.
 """
 
@@ -44,8 +44,8 @@ DEFAULT_PILOT_FULL_MANIFEST_PATH = (
     PROJECT_ROOT / "results" / "realworld_pilot" / "pilot_full_manifest.json"
 )
 ROAD_SOURCE_READINESS_SCOPE = (
-    "Road source-readiness packet only; not reviewed road-class overrides, "
-    "not calibrated speed or capacity evidence, not accepted disruption "
+    "Road source review packet only; not reviewed road-class overrides, "
+    "not source-backed speed or capacity evidence, not reviewer-recorded disruption "
     "evidence, not proof that overrides were applied, and not operational "
     "routing evidence."
 )
@@ -84,7 +84,7 @@ def build_road_source_readiness_rows(
     validation_manifest_path: str | Path = DEFAULT_VALIDATION_REVIEW_MANIFEST_PATH,
     pilot_manifest_path: str | Path = DEFAULT_PILOT_FULL_MANIFEST_PATH,
 ) -> list[dict[str, str]]:
-    """Return source-readiness rows for road evidence source requests."""
+    """Return source-review rows for road evidence source requests."""
 
     rows = (
         list(request_rows)
@@ -108,7 +108,7 @@ def write_road_source_readiness_packet(
     doc_path: str | Path = DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     request_packet_path: str | Path = DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Write road source-readiness CSV, manifest, and Markdown artifacts."""
+    """Write road source-review CSV, manifest, and Markdown artifacts."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -151,7 +151,7 @@ def build_road_source_readiness_manifest(
     doc_path: str | Path = DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     request_packet_path: str | Path = DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for road source-readiness rows."""
+    """Return a conservative manifest for road source-review rows."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     source_type_counts = _counts(row.get("source_type", "") for row in rows)
@@ -201,17 +201,17 @@ def build_road_source_readiness_manifest(
             "doc": _display_path(Path(doc_path)),
         },
         "review_items": [
-            "replace sparse speed candidates with reviewed speed evidence or accepted assumptions",
+            "replace sparse speed candidates with reviewed speed evidence or recorded assumptions",
             "provide traffic counts, agency capacity references, or reviewed capacity assumptions",
-            "review benchmark and disruption scenario treatment before final claims",
+            "review benchmark and disruption scenario treatment before release-scope claims",
             "create data/parameters/road_class_overrides.csv only after source-backed review",
-            "rerun pilot outputs with reviewed overrides before road calibration claims",
+            "rerun pilot outputs with reviewed overrides before bounded road-input claims",
         ],
         "remaining_blockers": _remaining_blockers(
             rows,
             extra=[
                 "capacity and disruption evidence still require external source or formal assumption decisions",
-                "this packet is readiness evidence only and cannot create road-class overrides",
+                "this packet is source-review triage only and cannot create road-class overrides",
             ],
         ),
     }
@@ -222,10 +222,10 @@ def build_road_source_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable road source-readiness packet."""
+    """Return a human-readable road source-review packet."""
 
     lines = [
-        "# Road Source Readiness Packet",
+        "# Road Source Review Packet",
         "",
         str(manifest.get("claim_boundary", ROAD_SOURCE_READINESS_SCOPE)),
         "",
@@ -239,7 +239,7 @@ def build_road_source_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Review Rows",
         "",
         "| Request | Source | Source Type | Status | Source Cache | Target | Required Input | Required Action |",
         "| --- | --- | --- | --- | --- | --- | --- | --- |",
@@ -267,9 +267,9 @@ def build_road_source_readiness_markdown(
             "## Required Reviewer Actions",
             "",
             "- Supply reviewed speed, capacity, disruption, and benchmark evidence or bounded assumptions.",
-            "- Move accepted road-class values into `data/parameters/road_class_overrides.csv` only after review.",
-            "- Re-run pilot outputs with the reviewed override table before road-calibration claims.",
-            "- Do not create formal acceptance artifacts from this readiness packet alone.",
+            "- Move reviewed road-class values into `data/parameters/road_class_overrides.csv` only after review.",
+            "- Re-run pilot outputs with the reviewed override table before bounded road-input claims.",
+            "- Do not create formal decision artifacts from this review packet alone.",
             "",
         ]
     )
@@ -372,7 +372,7 @@ def _classify(
             return (
                 "needs_human_review_disruption_scenario",
                 "",
-                "accept scenario-only disruption treatment or replace it with hazard, incident, or literature evidence",
+                "record scenario-only disruption treatment or replace it with hazard, incident, or literature evidence",
             )
         return (
             "blocked_missing_disruption_source",

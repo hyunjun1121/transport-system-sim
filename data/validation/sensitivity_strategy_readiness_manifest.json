@@ -1,7 +1,7 @@
 {
   "blocking_request_count": 4,
   "can_mark_complete": false,
-  "claim_boundary": "Sensitivity strategy-readiness packet only; not sensitivity acceptance, not calibrated real-world sensitivity evidence, not a Sobol waiver, not operational routing evidence, and not publication-readiness approval. This packet cannot close data/manifests/sensitivity_acceptance.json.",
+  "claim_boundary": "Sensitivity strategy review packet only; not sensitivity acceptance, not calibrated real-world sensitivity evidence, not a Sobol waiver, not operational routing evidence, and not publication-readiness approval. This packet cannot close data/manifests/sensitivity_acceptance.json.",
   "human_review_request_count": 3,
   "inputs": {
     "sensitivity_review_packet": "data/validation/sensitivity_review_packet.csv"
@@ -27,13 +27,13 @@
     "Morris-vs-Sobol method decision is not recorded in formal acceptance",
     "data/manifests/sensitivity_acceptance.json is absent"
   ],
-  "result_scope": "Sensitivity strategy-readiness packet only; not sensitivity acceptance, not calibrated real-world sensitivity evidence, not a Sobol waiver, not operational routing evidence, and not publication-readiness approval.",
+  "result_scope": "Sensitivity strategy review packet only; not sensitivity acceptance, not calibrated real-world sensitivity evidence, not a Sobol waiver, not operational routing evidence, and not publication-readiness approval.",
   "review_items": [
     "review unavailable or unexplained missing Morris indices before manuscript use",
     "interpret zero mu_star rows before claiming parameter dominance or no-effect behavior",
-    "resolve graph-scale scope before using reduced-graph sensitivity outputs for final claims",
+    "resolve graph-scale scope before using reduced-graph sensitivity outputs for release-scope claims",
     "decide whether Morris screening is sufficient or Sobol analysis is required",
-    "record the final sensitivity decision only in data/manifests/sensitivity_acceptance.json"
+    "record the sensitivity decision only in data/manifests/sensitivity_acceptance.json"
   ],
   "row_count": 7,
   "schema_version": 1,

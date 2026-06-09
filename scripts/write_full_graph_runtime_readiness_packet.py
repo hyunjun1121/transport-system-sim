@@ -1,4 +1,4 @@
-"""Write the current full-graph runtime-readiness packet."""
+"""Write the current full-graph runtime review packet."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write full-graph runtime-readiness rows from current smoke and "
+            "Write full-graph runtime review rows from current smoke and "
             "pilot full manifests. The output is a reviewer packet and does "
             "not create full-graph experiment outputs."
         )
@@ -75,19 +75,19 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--output",
         type=Path,
         default=DEFAULT_FULL_GRAPH_RUNTIME_READINESS_PACKET_PATH,
-        help="Full-graph runtime-readiness CSV path.",
+        help="Full-graph runtime review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
-        help="Full-graph runtime-readiness manifest JSON path.",
+        help="Full-graph runtime review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
-        help="Full-graph runtime-readiness Markdown path.",
+        help="Full-graph runtime review Markdown path.",
     )
     return parser.parse_args(argv)
 

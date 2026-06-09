@@ -97,6 +97,12 @@ def build_rail_evidence_priority_rows(
             review_priority="high",
         ),
         _request_priority_row(
+            request_by_id["rail_static_timetable_csv_headway_request"],
+            readiness_by_request.get("rail_static_timetable_csv_headway_request", {}),
+            related_review_item_ids=("rail_headway", "rail_timetable_derivation_path"),
+            review_priority="high",
+        ),
+        _request_priority_row(
             request_by_id["rail_shortest_path_travel_time_request"],
             readiness_by_request.get("rail_shortest_path_travel_time_request", {}),
             related_review_item_ids=(
@@ -247,8 +253,8 @@ def build_rail_evidence_priority_manifest(
             "rerun rail evidence, parameter evidence, publication-readiness, and final-study audits after rail evidence changes",
         ],
         "remaining_blockers": [
-            "rail timing cache files are absent",
-            "DATA_GO_KR_KEY or reviewed GTFS input is absent",
+            "source-backed rail timing evidence remains incomplete until API/GTFS/travel-time source paths are reviewed and retained",
+            "DATA_GO_KR_KEY, reviewed GTFS input, or reviewed shortest-path cache is absent",
             "capacity and availability treatment still require human/source-backed decisions",
         ],
     }

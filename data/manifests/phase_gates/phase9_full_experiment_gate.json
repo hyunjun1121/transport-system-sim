@@ -1,0 +1,89 @@
+{
+  "artifact_hashes": {
+    "data/validation/artifact_invalidation_closeout_manifest.json": "sha256:dec5df833359af7f36d4c3bb74041401054fa400f8c466f87291f8ca85e75b86",
+    "data/validation/artifact_invalidation_closeout_readiness_audit_manifest.json": "sha256:78e2dc532818fd57fde686773c90e028f91f41742879ad520bdab66954a7e4aa",
+    "docs/recovery/agent_ledgers/phase9_upstream_evidence_benchmark_regeneration_20260605.md": "sha256:06efc38e1ad4e4bcb9dc69ca239718dcb294759a21709bad77206b7e42b5e5f9",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "results/realworld_pilot/phase8_micro_probe/phase8_micro_probe_manifest.json": "sha256:7663100c19eebd004e40f10635cc7eb37618dda18c29537cec4d656b3221719f",
+    "tests/test_realworld_crn_pairing_audit.py": "sha256:cb5d8be5c27d06a6f615ea6060fa1a6f69efdad4e6d679389fce25fac6baf43e",
+    "tests/test_realworld_full_graph_smoke.py": "sha256:78749e52e50b251ea21877bb490da379d0a7542cc943c04240f822c3c3775963",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a",
+    "tests/test_realworld_replication_adequacy_audit.py": "sha256:99af1f78e43affd9df86d4bfc1da2cdcd0c7e0b1f6c259a3a9e69b1662397641"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": "artifact invalidation closeout manifests inspected in current session",
+      "exit_code": 0,
+      "status": "inspected_current_session_phase9_promotion_ready_false"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "blocked_full_experiment_missing",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "blocked_for_phase9_promotion",
+    "write_locks": [
+      "data/manifests/phase_gates/phase9_full_experiment_gate.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Artifact invalidation closeout rows are closed_invalidation_only, but phase9_promotion_ready=false is explicitly recorded.",
+    "Phase8 remains ready_for_review only and no full experiment run/output manifest evidence is present.",
+    "Phase9 must remain blocked; obsolete human-review wording is not the sole blocker."
+  ],
+  "gate_decision": "blocked",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/validation/artifact_invalidation_closeout_manifest.json",
+    "data/validation/artifact_invalidation_closeout_readiness_audit_manifest.json",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Run full experiments only after upstream source evidence, parameter evidence, benchmark review, artifact review, and compact gates pass.",
+  "phase_id": "phase9_full_experiment_gate",
+  "prerequisites": [
+    "phase8_compact_experiment_gate closed",
+    "artifact invalidation closeout verified"
+  ],
+  "remaining_blockers": [
+    "No full experiment run/output manifest, row-count/hash evidence, full deterministic rerun, full CRN/replication adequacy evidence, or full runtime manifest is present.",
+    "Phase8 is not closed and artifact invalidation manifests do not authorize Phase9 promotion."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_blocked_scope"
+  },
+  "source_inputs": [
+    "plan.md",
+    "data/validation/artifact_invalidation_closeout_manifest.json",
+    "data/validation/artifact_invalidation_closeout_readiness_audit_manifest.json",
+    "results/realworld_pilot/phase8_micro_probe/phase8_micro_probe_manifest.json",
+    "docs/recovery/agent_ledgers/phase9_upstream_evidence_benchmark_regeneration_20260605.md"
+  ],
+  "status": "blocked",
+  "sub_agents": [
+    "gpt-5.5-xhigh-readiness-scout:019ea504-c582-7a51-850b-27571814ed82:phase6-7-9"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_full_graph_smoke.py",
+    "tests/test_realworld_replication_adequacy_audit.py",
+    "tests/test_realworld_crn_pairing_audit.py"
+  ]
+}

@@ -145,10 +145,33 @@ Implemented extension modules now also cover:
   generated from rail fetch-readiness rows. It records timing-source,
   capacity, and availability choices without deriving rail service evidence or
   closing the rail evidence gate.
+- `rail_transit_stress_profile_packet.py`: rail/transit scenario and
+  sensitivity stress-coverage worksheet. It documents current stress hooks for
+  headway, capacity, station access, station processing, and partial
+  unavailability without certifying rail timing, capacity, availability, or
+  operations.
+- `rail_bounded_treatment_audit.py`: bounded consistency audit that maps
+  capacity and availability source-decision rows to stress-profile rows. It is
+  a mismatch detector only and cannot support publication readiness, rail
+  evidence, final-study readiness, or formal acceptance.
+- `demand_fleet_behavior_profiles.py`: Phase 5 demand, fleet, and behavior
+  profile packet generator. It documents bounded scenario assumptions and
+  unresolved non-arrival semantics without calibrating OD demand, certifying an
+  agency fleet roster, changing runtime experiment semantics, or creating
+  formal acceptance evidence.
+- `disruption_scenarios.py`: deterministic structured disruption scenario
+  library plus Phase 6 manifest writer. It records scenario-table SHA256,
+  per-family checksums, selected-edge checksums, and static temporal metadata
+  while keeping duration/recovery treatment as non-calibrated review support.
 - `road_source_readiness_packet.py`: preflight worksheet generated from road
   evidence source requests. It separates sparse speed candidates, missing
   capacity sources, benchmark/disruption human-review decisions, and missing
   reviewed override application without approving road evidence.
+- `road_attribute_evidence.py`: edge-level road-attribute evidence table
+  generator. It separates OSM-derived fields, explicit source-marked fields,
+  mapper fallback proxies, lane-based capacity candidates, optional benchmark
+  fields, and sensitivity-only disruption probabilities without creating
+  reviewed road overrides or formal acceptance artifacts.
 - `osm_graph_snapshot_review_packet.py`: consolidated reviewer worksheet for
   the cached Overpass/OSM GraphML manifest, OSM source-provenance row,
   route-exposed road-evidence priority rows, road-source decisions, and
@@ -301,7 +324,8 @@ Implemented extension modules now also cover:
 - `rail_evidence_review_packet.py`: consolidated rail review worksheet for
   station-binding status, current rail-service evidence, rail assumptions, and
   available cached-derivation paths. The current generated table has 10 rows
-  and keeps service timing weak until reviewed cached evidence derives headway
+  plus 2 retained-static-cache diagnostic rows, and keeps service timing weak
+  until reviewed cached evidence derives headway
   and travel time.
 - `rail_timing_request_packet.py`: rail timing source-request worksheet for
   the exact API-key, GTFS, capacity, and availability inputs needed before

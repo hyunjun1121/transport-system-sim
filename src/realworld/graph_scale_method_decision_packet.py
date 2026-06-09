@@ -100,8 +100,8 @@ def build_graph_scale_method_decision_rows(
             decision_id="current_reduced_corridor_method_option",
             decision_topic="Current reduced-corridor method",
             candidate_decision=(
-                "Accept the current 118-node reduced corridor only if omitted "
-                "alternate paths are immaterial under a documented "
+                "Retain the current 118-node reduced corridor only if omitted "
+                "alternate paths are judged immaterial under a documented "
                 "corridor-selection rule"
             ),
             current_evidence=_option_evidence(
@@ -113,7 +113,7 @@ def build_graph_scale_method_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Decide whether the six alternate-route warning rows are "
-                "acceptable or require a broader graph method."
+                "review-scoped tolerances or require a broader graph method."
             ),
             followup_artifacts="data/manifests/graph_scale_acceptance.json",
             evidence_input_paths=evidence_paths,
@@ -143,7 +143,7 @@ def build_graph_scale_method_decision_rows(
             required_reviewer_action=(
                 "Keep the separated candidate in review-support scope and "
                 "review the existing full-profile candidate, regenerate the "
-                "accepted output package on the selected graph, or exclude "
+                "review-selected output package on the selected graph, or exclude "
                 "this option."
             ),
             followup_artifacts=(
@@ -234,18 +234,18 @@ def build_graph_scale_method_decision_rows(
             candidate_decision=(
                 "Regenerate or explicitly retain sensitivity, figures, tables, "
                 "experiment summaries, and manuscript interpretation after the "
-                "accepted graph method is selected"
+                "selected graph method is recorded"
             ),
             current_evidence=_strategy_evidence(strategy_manifest),
             decision_status="blocked_missing_downstream_regeneration_decision",
             blocking_reason=(
-                "accepted graph choice still requires downstream regeneration "
+                "selected graph choice still requires downstream regeneration "
                 "decisions for sensitivity, figures, tables, and manuscript "
                 "interpretation"
             ),
             required_reviewer_action=(
                 "Record which downstream artifacts will be regenerated, retained "
-                "as review evidence, or excluded from final claims."
+                "as review evidence, or excluded from release-scope claims."
             ),
             followup_artifacts=(
                 "results/realworld_pilot/morris_manifest.json; "
@@ -410,12 +410,12 @@ def build_graph_scale_method_decision_manifest(
             "doc": _display_path(Path(doc_path)),
         },
         "review_items": [
-            "decide whether current reduced-corridor alternate-route warnings are acceptable",
+            "decide whether current reduced-corridor alternate-route warnings are review-scoped tolerances",
             "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
             "decide whether full-graph execution must be generated or formally scoped out",
             "review graph-sensitive result deltas before interpreting policy outcomes",
             "record downstream regeneration requirements after method selection",
-            "record final graph-scale decisions only in data/manifests/graph_scale_acceptance.json",
+            "record release-scope graph-scale decisions only in data/manifests/graph_scale_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }

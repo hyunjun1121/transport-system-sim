@@ -33,9 +33,24 @@ def test_validation_benchmark_readiness_rows_classify_current_snapshot() -> None
         "needs_human_review_fallback_warn_rows"
     )
     assert by_id["cached_osrm_route_snapshot"]["readiness_status"] == (
-        "needs_human_review_cached_osrm_snapshot"
+        "needs_human_review_osrm_snap_distance"
     )
     assert by_id["cached_osrm_route_snapshot"]["raw_response_file_count"] == "3"
+    assert by_id["cached_osrm_route_snapshot"][
+        "raw_response_binding_mismatch_count"
+    ] == "0"
+    assert by_id["cached_osrm_route_snapshot"][
+        "raw_response_missing_for_row_count"
+    ] == "0"
+    assert by_id["cached_osrm_route_snapshot"]["snap_status_counts"] == (
+        "pass=1; warn=2"
+    )
+    assert by_id["cached_osrm_route_snapshot"][
+        "max_waypoint_snap_distance_m"
+    ] == "265.494619"
+    assert by_id["cached_osrm_route_snapshot"]["source_pinning_status"] == (
+        "pinned_cached_payloads"
+    )
     assert by_id["cached_osrm_route_snapshot"]["unpinned_row_count"] == "0"
     assert by_id["alternative_route_engine_decision"]["readiness_status"] == (
         "needs_human_review_alternative_benchmark_decision"
@@ -116,7 +131,7 @@ def test_write_validation_benchmark_readiness_packet_outputs_artifacts() -> None
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["benchmark_gate_closure_candidate_count"] == 0
-    assert "Validation Benchmark Readiness Packet" in text
+    assert "Benchmark Strategy Review Packet" in text
 
     print("PASS: validation benchmark readiness writer emits artifacts")
 
@@ -148,6 +163,9 @@ def test_shipped_validation_benchmark_readiness_packet_matches_current_artifacts
     assert manifest["blocking_request_count"] == 1
     assert manifest["human_review_request_count"] == 3
     assert manifest["osrm_raw_response_file_count"] == 3
+    assert manifest["osrm_raw_response_binding_mismatch_count"] == 0
+    assert manifest["osrm_raw_response_missing_for_row_count"] == 0
+    assert manifest["osrm_snap_status_counts"] == "pass=1; warn=2"
     assert manifest["osrm_unpinned_row_count"] == 0
     assert manifest["publication_ready"] is False
 

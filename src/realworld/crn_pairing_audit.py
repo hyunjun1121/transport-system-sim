@@ -3,7 +3,7 @@
 The audit checks whether the result table follows the manifest's
 scenario-policy-seed design and whether the scenario runner still exposes the
 documented seed split. It is structural review support only; it cannot prove
-statistical sufficiency or approve experiment acceptance.
+statistical sufficiency or approve an experiment decision.
 """
 
 from __future__ import annotations
@@ -40,8 +40,8 @@ DEFAULT_CRN_PAIRING_AUDIT_DOC = PROJECT_ROOT / "docs" / "crn_pairing_audit.md"
 CRN_PAIRING_CLAIM_BOUNDARY = (
     "This audit checks structural common-random-number pairing in result files "
     "and seed-splitting source markers. It does not prove statistical power, "
-    "validate stochastic model adequacy, approve experiment acceptance, or "
-    "close final-study gates."
+    "prove stochastic model adequacy, approve an experiment decision, or "
+    "close study-closeout gates."
 )
 CRN_PAIRING_COLUMNS: tuple[str, ...] = (
     "check_id",
@@ -110,7 +110,7 @@ def build_crn_pairing_audit_rows(
             manifest_file.exists(),
             observed=_display_path(manifest_file) if manifest_file.exists() else "missing",
             expected="pilot full manifest exists",
-            review_action="Include the manifest in the experiment acceptance evidence.",
+            review_action="Include the manifest in the experiment decision-review packet.",
             evidence_paths=_display_path(manifest_file),
         ),
         _check_row(
@@ -118,7 +118,7 @@ def build_crn_pairing_audit_rows(
             results_file.exists(),
             observed=_display_path(results_file) if results_file.exists() else "missing",
             expected="pilot full results CSV exists",
-            review_action="Include result CSV and checksum in the experiment acceptance evidence.",
+            review_action="Include result CSV and checksum in the experiment decision-review packet.",
             evidence_paths=_display_path(results_file),
         ),
         _check_row(
@@ -129,7 +129,7 @@ def build_crn_pairing_audit_rows(
             expected="scenario_policy_seed_design.common_random_numbers=true",
             review_action=(
                 "Confirm the declared same-seed design is retained in the formal "
-                "experiment acceptance record."
+                "experiment decision record."
             ),
             evidence_paths=_display_path(manifest_file),
         ),
@@ -184,7 +184,7 @@ def build_crn_pairing_audit_rows(
             set(_values(rows, "policy_id")) == set(policy_ids),
             observed=", ".join(sorted(set(_values(rows, "policy_id")))),
             expected=", ".join(policy_ids),
-            review_action="Resolve policy inclusion/exclusion before experiment acceptance.",
+            review_action="Resolve policy inclusion/exclusion before the experiment decision.",
             evidence_paths=evidence,
         ),
         _check_row(
@@ -192,7 +192,7 @@ def build_crn_pairing_audit_rows(
             set(_values(rows, "scenario_id")) == set(scenario_ids),
             observed=", ".join(sorted(set(_values(rows, "scenario_id")))),
             expected=", ".join(scenario_ids),
-            review_action="Resolve scenario inclusion/exclusion before experiment acceptance.",
+            review_action="Resolve scenario inclusion/exclusion before the experiment decision.",
             evidence_paths=evidence,
         ),
         _check_row(
@@ -224,7 +224,7 @@ def build_crn_pairing_audit_rows(
             not duplicate_keys,
             observed=_limited_join(["|".join(key) for key in duplicate_keys]),
             expected="no duplicate region/graph/policy/scenario/seed rows",
-            review_action="Remove or explain duplicate result rows before acceptance.",
+            review_action="Remove or explain duplicate result rows before the experiment decision.",
             evidence_paths=evidence,
         ),
     ]
@@ -322,9 +322,9 @@ def build_crn_pairing_audit_manifest(
             for row in blocking
         ],
         "review_items": [
-            "confirm source-level seed stream use before common-random-number acceptance",
+            "confirm source-level seed stream use before the common-random-number decision",
             "retain this audit with experiment_package_review_packet evidence",
-            "do not treat structural pairing as statistical power or validation acceptance",
+            "do not treat structural pairing as statistical power or benchmark approval",
         ],
     }
 
@@ -371,7 +371,7 @@ def build_crn_pairing_audit_markdown(
             "Use this audit with the experiment package review before drafting "
             "`data/manifests/experiment_acceptance.json`. A passing structural "
             "audit is necessary review support, but it is not formal CRN "
-            "acceptance and does not prove replication adequacy.",
+            "decision evidence and does not prove replication adequacy.",
             "",
         ]
     )

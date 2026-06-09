@@ -34,10 +34,10 @@
   "repository_input_source_count": 4,
   "result_scope": "Source provenance priority packet only; not source acceptance, not license certification, not calibrated real-world validation, not provenance gate closure, and not operational routing approval.",
   "review_items": [
-    "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
+    "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before release-scope claims",
     "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
     "confirm project-owned local citations and privacy abstraction for repository inputs",
-    "resolve alternate URL issues before provenance acceptance",
+    "resolve alternate URL issues before the provenance review record is created",
     "create data/manifests/provenance_acceptance.json only after source-backed review"
   ],
   "review_priority_counts": {

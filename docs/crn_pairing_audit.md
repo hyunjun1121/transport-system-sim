@@ -1,6 +1,6 @@
 # CRN Pairing Audit
 
-This audit checks structural common-random-number pairing in result files and seed-splitting source markers. It does not prove statistical power, validate stochastic model adequacy, approve experiment acceptance, or close final-study gates.
+This audit checks structural common-random-number pairing in result files and seed-splitting source markers. It does not prove statistical power, prove stochastic model adequacy, approve an experiment decision, or close study-closeout gates.
 
 ## Verdict
 
@@ -14,20 +14,20 @@ This audit checks structural common-random-number pairing in result files and se
 
 | Check | Status | Observed | Expected | Review Action |
 | --- | --- | --- | --- | --- |
-| manifest_present | pass | results/realworld_pilot/pilot_full_manifest.json | pilot full manifest exists | Include the manifest in the experiment acceptance evidence. |
-| results_present | pass | results/realworld_pilot/pilot_full_results.csv | pilot full results CSV exists | Include result CSV and checksum in the experiment acceptance evidence. |
-| crn_declared_in_manifest | pass | True | scenario_policy_seed_design.common_random_numbers=true | Confirm the declared same-seed design is retained in the formal experiment acceptance record. |
+| manifest_present | pass | results/realworld_pilot/pilot_full_manifest.json | pilot full manifest exists | Include the manifest in the experiment decision-review packet. |
+| results_present | pass | results/realworld_pilot/pilot_full_results.csv | pilot full results CSV exists | Include result CSV and checksum in the experiment decision-review packet. |
+| crn_declared_in_manifest | pass | True | scenario_policy_seed_design.common_random_numbers=true | Confirm the declared same-seed design is retained in the formal experiment decision record. |
 | seed_stream_source_markers | needs_human_review | arrival=default_rng(seed); failure=default_rng(seed + 10_000) | separate arrival and failure RNG streams derived from same seed | Review source code to confirm all compared policies use the same seed-derived demand and disruption streams. |
 | region_set_matches_manifest | pass | songpa_public_demo | songpa_public_demo | Resolve region mismatch before treating the result table as the manifested experiment package. |
 | graph_source_set_matches_manifest | pass | cached_graphml:data/cache/pilot_region_road.graphml | cached_graphml:data/cache/pilot_region_road.graphml | Resolve graph-source mismatch before paired policy or graph-scope claims. |
 | row_count_matches_design | pass | 1890 | 1890 | Regenerate results or revise manifest if row counts differ. |
-| policy_set_matches_manifest | pass | baseline_multimodal, bus_only, fleet_shortage_stress, multimodal_increased_feeder_capacity, multimodal_lastmile_redundancy, rail_delay_or_partial_unavailability, staggered_or_adaptive_dispatch | bus_only, baseline_multimodal, multimodal_lastmile_redundancy, staggered_or_adaptive_dispatch, multimodal_increased_feeder_capacity, rail_delay_or_partial_unavailability, fleet_shortage_stress | Resolve policy inclusion/exclusion before experiment acceptance. |
-| scenario_set_matches_manifest | pass | no_disruption, songpa_access_origin_to_destination, songpa_access_origin_to_station, songpa_critical_link_blockage, songpa_last_mile_station_to_destination, songpa_rail_station_access, songpa_random_blockage, songpa_random_capacity_reduction, songpa_spatial_tancheon_corridor | no_disruption, songpa_random_capacity_reduction, songpa_random_blockage, songpa_critical_link_blockage, songpa_access_origin_to_station, songpa_access_origin_to_destination, songpa_last_mile_station_to_destination, songpa_rail_station_access, songpa_spatial_tancheon_corridor | Resolve scenario inclusion/exclusion before experiment acceptance. |
+| policy_set_matches_manifest | pass | baseline_multimodal, bus_only, fleet_shortage_stress, multimodal_increased_feeder_capacity, multimodal_lastmile_redundancy, rail_delay_or_partial_unavailability, staggered_or_adaptive_dispatch | bus_only, baseline_multimodal, multimodal_lastmile_redundancy, staggered_or_adaptive_dispatch, multimodal_increased_feeder_capacity, rail_delay_or_partial_unavailability, fleet_shortage_stress | Resolve policy inclusion/exclusion before the experiment decision. |
+| scenario_set_matches_manifest | pass | no_disruption, songpa_access_origin_to_destination, songpa_access_origin_to_station, songpa_critical_link_blockage, songpa_last_mile_station_to_destination, songpa_rail_station_access, songpa_random_blockage, songpa_random_capacity_reduction, songpa_spatial_tancheon_corridor | no_disruption, songpa_random_capacity_reduction, songpa_random_blockage, songpa_critical_link_blockage, songpa_access_origin_to_station, songpa_access_origin_to_destination, songpa_last_mile_station_to_destination, songpa_rail_station_access, songpa_spatial_tancheon_corridor | Resolve scenario inclusion/exclusion before the experiment decision. |
 | seed_set_matches_manifest | pass | 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120, 3121, 3122, 3123, 3124, 3125, 3126, 3127, 3128, 3129, 3130 | 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120, 3121, 3122, 3123, 3124, 3125, 3126, 3127, 3128, 3129, 3130 | Resolve seed-set mismatch before paired policy claims. |
 | scenario_seed_policy_completeness | pass | none | every scenario/seed group has every expected policy exactly once | Regenerate missing policy rows before paired policy claims. |
 | policy_scenario_seed_completeness | pass | none | every policy/scenario group has every expected seed exactly once | Regenerate missing seed rows before confidence intervals. |
-| duplicate_policy_scenario_seed_rows | pass | none | no duplicate region/graph/policy/scenario/seed rows | Remove or explain duplicate result rows before acceptance. |
+| duplicate_policy_scenario_seed_rows | pass | none | no duplicate region/graph/policy/scenario/seed rows | Remove or explain duplicate result rows before the experiment decision. |
 
 ## Use
 
-Use this audit with the experiment package review before drafting `data/manifests/experiment_acceptance.json`. A passing structural audit is necessary review support, but it is not formal CRN acceptance and does not prove replication adequacy.
+Use this audit with the experiment package review before drafting `data/manifests/experiment_acceptance.json`. A passing structural audit is necessary review support, but it is not formal CRN decision evidence and does not prove replication adequacy.

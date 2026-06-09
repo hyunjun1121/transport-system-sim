@@ -41,6 +41,10 @@ KTDB_GTFS_SOURCE_METADATA_PATHS = (
     "data/rail/ktdb_gtfs_notice_raw.html; "
     "data/rail/ktdb_gtfs_dataset_list_raw.html"
 )
+STATIC_TIMETABLE_SOURCE_NAME = "Seoul Open Data Plaza Seoul Metro train timetable file"
+STATIC_TIMETABLE_SOURCE_CITATION = (
+    "https://data.seoul.go.kr/dataList/OA-22522/F/1/datasetView.do"
+)
 METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
 METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
 METRO9_CAPACITY_SOURCE_CITATION = (
@@ -103,8 +107,19 @@ def build_rail_timing_source_request_rows(
     egress_code = egress.station_code if egress else ""
     capacity = assumptions.get("rail_capacity", {}).get("value", "500")
     station_binding_command_path = _ps_path(_display_path(station_binding_path))
-    timetable_cache_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_cache.csv"
-    timetable_raw_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_raw.json"
+    timetable_cache_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_timetable_api_cache.csv"
+    )
+    timetable_raw_path = f"data/rail/{resolved_cache_prefix}_rail_timetable_api_raw.json"
+    static_timetable_source_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_timetable_static_source.csv"
+    )
+    static_timetable_cache_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_static_timetable_cache.csv"
+    )
+    static_timetable_manifest_path = (
+        f"data/rail/{resolved_cache_prefix}_rail_static_timetable_cache_manifest.json"
+    )
     shortest_path_cache_path = (
         f"data/rail/{resolved_cache_prefix}_rail_shortest_path_cache.csv"
     )
@@ -112,6 +127,9 @@ def build_rail_timing_source_request_rows(
         f"data/rail/{resolved_cache_prefix}_rail_shortest_path_raw.json"
     )
     gtfs_path = f"data/rail/{resolved_cache_prefix}_gtfs.zip"
+    gtfs_validator_report_path = (
+        f"data/rail/{resolved_cache_prefix}_gtfs_validator_report.json"
+    )
 
     rows = [
         _row(
@@ -149,6 +167,57 @@ def build_rail_timing_source_request_rows(
             ),
             notes=(
                 "This request can create headway evidence after source review. It cannot close travel-time evidence alone."
+            ),
+        ),
+        _row(
+            request_id="rail_static_timetable_csv_headway_request",
+            region_id=region_id,
+            evidence_fields="headway",
+            source_type="reviewed_static_timetable_csv_required",
+            source_name=STATIC_TIMETABLE_SOURCE_NAME,
+            source_url_or_citation=STATIC_TIMETABLE_SOURCE_CITATION,
+            required_external_input=(
+                "reviewed static timetable CSV; explicit source-column mappings; "
+                "reviewed line, direction, service-day, station-selector, and "
+                "service-window choices; normalization manifest"
+            ),
+            access_station_name=access_name,
+            access_station_code=access_code,
+            egress_station_name=egress_name,
+            egress_station_code=egress_code,
+            source_cache_path=static_timetable_cache_path,
+            raw_payload_path=(
+                f"{static_timetable_source_path}; {static_timetable_manifest_path}"
+            ),
+            fetch_command=_static_timetable_normalize_command(
+                access_name,
+                access_code,
+                egress_name,
+                egress_code,
+                input_path=static_timetable_source_path,
+                output_path=static_timetable_cache_path,
+                manifest_path=static_timetable_manifest_path,
+            ),
+            derive_command=_headway_derive_command(
+                region_id,
+                egress_name,
+                capacity,
+                cache_path=static_timetable_cache_path,
+                station_binding_path=station_binding_command_path,
+                source_name=STATIC_TIMETABLE_SOURCE_NAME,
+                source_url_or_citation=STATIC_TIMETABLE_SOURCE_CITATION,
+            ),
+            expected_source_status="normalized_static_timetable_cache_derived",
+            expected_derived_fields="headway",
+            can_close_rail_timing_gate=False,
+            publication_use_status=(
+                "headway_only; pair with shortest-path, GTFS, or matched timetable travel-time evidence"
+            ),
+            notes=(
+                "This request normalizes a reviewed static timetable CSV into the existing cache schema. "
+                "The static source uses its own station identifier namespace, so station names and the "
+                "normalization manifest must be reviewed before use. It cannot infer source columns and "
+                "cannot close travel-time evidence alone."
             ),
         ),
         _row(
@@ -198,13 +267,13 @@ def build_rail_timing_source_request_rows(
             source_url_or_citation=KTDB_GTFS_SOURCE_CITATION,
             required_external_input=(
                 "reviewed KTDB or equivalent GTFS zip or directory; access_stop_id; "
-                "egress_stop_id; route_id; service window"
+                "egress_stop_id; route_id; service window; reviewed GTFS Validator report"
             ),
             access_station_name=access_name,
             access_station_code=access_code,
             egress_station_name=egress_name,
             egress_station_code=egress_code,
-            source_cache_path=gtfs_path,
+            source_cache_path=f"{gtfs_path}; {gtfs_validator_report_path}",
             raw_payload_path=KTDB_GTFS_SOURCE_METADATA_PATHS,
             fetch_command=(
                 "review cached KTDB source metadata, then perform manual KTDB data "
@@ -214,13 +283,14 @@ def build_rail_timing_source_request_rows(
                 region_id,
                 capacity,
                 gtfs_path=gtfs_path,
+                gtfs_validator_report_path=gtfs_validator_report_path,
             ),
             expected_source_status="cached_gtfs_derived",
             expected_derived_fields="headway;travel_time",
             can_close_rail_timing_gate=station_ready,
             publication_use_status="candidate full timing source after reviewed feed acquisition",
             notes=(
-                "GTFS can close both timing fields if a reviewed feed covers the selected access and egress stops."
+                "GTFS can close both timing fields if a reviewed feed covers the selected access and egress stops and a reviewed GTFS Validator report is retained."
             ),
         ),
         _row(
@@ -235,7 +305,7 @@ def build_rail_timing_source_request_rows(
             required_external_input=(
                 "review Metro9 capacity extract, source terms, and current rail "
                 "assumptions; then record a source-backed capacity update or "
-                "explicit final sensitivity-only acceptance"
+                "reviewer-scoped sensitivity-only treatment"
             ),
             access_station_name=access_name,
             access_station_code=access_code,
@@ -256,7 +326,7 @@ def build_rail_timing_source_request_rows(
             notes=(
                 "Metro9 capacity context is cached for review only. The current "
                 "model remains a de-rated sensitivity-only capacity proxy until "
-                "a reviewer accepts a source-backed update or explicit bounds."
+                "a reviewer records a source-backed update or scoped bounds."
             ),
         ),
         _row(
@@ -339,7 +409,11 @@ def write_rail_timing_source_request_packet(
             1
             for row in rows
             if row["source_type"]
-            in {"public_api_key_required", "reviewed_static_gtfs_file_required"}
+            in {
+                "public_api_key_required",
+                "reviewed_static_gtfs_file_required",
+                "reviewed_static_timetable_csv_required",
+            }
         ),
         "publication_ready": False,
         "claim_boundary": (
@@ -349,7 +423,7 @@ def write_rail_timing_source_request_packet(
             "evidence."
         ),
         "review_items": [
-            "obtain DATA_GO_KR_KEY or a reviewed static GTFS feed before running timing-source fetches",
+            "obtain DATA_GO_KR_KEY, a reviewed static timetable CSV, or a reviewed static GTFS feed before running timing-source fetches",
             "retain raw payloads or reviewed source files with SHA256 digests",
             "derive headway and travel time into rail_service_evidence.csv only after source review",
             "rerun rail evidence, rail review packet, publication-readiness, and final-study-readiness audits after timing evidence changes",
@@ -471,6 +545,8 @@ def _headway_derive_command(
     *,
     cache_path: str,
     station_binding_path: str,
+    source_name: str = "Cached Seoul subway train schedule extract",
+    source_url_or_citation: str = "https://www.data.go.kr/en/data/15143847/openapi.do",
 ) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_headway_evidence.py "
@@ -479,13 +555,45 @@ def _headway_derive_command(
         f"--evidence-id {region_id}_rail_headway_v1 "
         f"--region-id {region_id} --access-point S --egress-point R "
         f"--egress-station-name \"{egress_name}\" "
-        "--source-name \"Cached Seoul subway train schedule extract\" "
-        "--source-url-or-citation \"https://www.data.go.kr/en/data/15143847/openapi.do\" "
+        f"--source-name \"{source_name}\" "
+        f"--source-url-or-citation \"{source_url_or_citation}\" "
         "--extraction-date REVIEW_DATE --travel-time-min-proxy 20 "
         f"--capacity-pax-per-train {capacity} "
         "--service-window \"reviewed weekday service window\" "
         "--direction \"%EC%83%81%ED%96%89\" --service-day \"%ED%8F%89%EC%9D%BC\" "
         f"--station-bindings {station_binding_path}"
+    )
+
+
+def _static_timetable_normalize_command(
+    access_name: str,
+    access_code: str,
+    egress_name: str,
+    egress_code: str,
+    *,
+    input_path: str,
+    output_path: str,
+    manifest_path: str,
+) -> str:
+    return (
+        ".\\.venv\\Scripts\\python scripts\\normalize_rail_timetable_cache.py "
+        f"--input {_ps_path(input_path)} "
+        f"--output {_ps_path(output_path)} "
+        f"--manifest-output {_ps_path(manifest_path)} "
+        "--trip-id-column REVIEWED_TRIP_ID_COLUMN "
+        "--station-name-column REVIEWED_STATION_NAME_COLUMN "
+        "--station-code-column REVIEWED_STATION_CODE_COLUMN "
+        "--arrival-time-column REVIEWED_ARRIVAL_TIME_COLUMN "
+        "--departure-time-column REVIEWED_DEPARTURE_TIME_COLUMN "
+        "--direction-column REVIEWED_DIRECTION_COLUMN "
+        "--service-day-column REVIEWED_SERVICE_DAY_COLUMN "
+        f"--access-station-name \"{access_name}\" "
+        f"--access-station-code {access_code} "
+        f"--egress-station-name \"{egress_name}\" "
+        f"--egress-station-code {egress_code} "
+        "--filter REVIEWED_LINE_COLUMN=REVIEWED_LINE_VALUE "
+        "--filter REVIEWED_DIRECTION_COLUMN=REVIEWED_DIRECTION_VALUE "
+        "--filter REVIEWED_SERVICE_DAY_COLUMN=REVIEWED_SERVICE_DAY_VALUE"
     )
 
 
@@ -538,6 +646,7 @@ def _gtfs_derive_command(
     capacity: str,
     *,
     gtfs_path: str,
+    gtfs_validator_report_path: str,
 ) -> str:
     return (
         ".\\.venv\\Scripts\\python scripts\\derive_rail_gtfs_evidence.py "
@@ -552,7 +661,8 @@ def _gtfs_derive_command(
         "--extraction-date REVIEW_DATE "
         f"--capacity-pax-per-train {capacity} "
         "--service-window \"reviewed weekday service window\" "
-        "--route-id REVIEWED_ROUTE_ID"
+        "--route-id REVIEWED_ROUTE_ID "
+        f"--gtfs-validator-report {_ps_path(gtfs_validator_report_path)}"
     )
 
 
@@ -604,6 +714,8 @@ __all__ = [
     "METRO9_CAPACITY_RAW_PATH",
     "METRO9_CAPACITY_SOURCE_CITATION",
     "RAIL_CAPACITY_REVIEW_INPUT_PATHS",
+    "STATIC_TIMETABLE_SOURCE_CITATION",
+    "STATIC_TIMETABLE_SOURCE_NAME",
     "build_rail_timing_source_request_rows",
     "write_rail_timing_source_request_packet",
 ]

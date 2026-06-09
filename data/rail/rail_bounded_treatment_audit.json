@@ -1,0 +1,105 @@
+{
+  "audit_scope": "Rail bounded-treatment consistency audit only; cross-artifact mismatch check between rail source-decision rows and stress-profile rows, not rail capacity evidence, not rail availability evidence, not rail-service calibration, not operational service planning, and not formal acceptance.",
+  "audit_verdict": "bounded_review_support_only",
+  "can_mark_complete": false,
+  "can_support_acceptance_gate": false,
+  "can_support_rail_evidence_gate": false,
+  "claim_boundary": "Rail bounded-treatment consistency audit only; cross-artifact mismatch check between rail source-decision rows and stress-profile rows, not rail capacity evidence, not rail availability evidence, not rail-service calibration, not operational service planning, and not formal acceptance. It can identify internal consistency gaps but cannot turn scenario-only or sensitivity-only rows into accepted evidence.",
+  "mismatch_count": 0,
+  "publication_ready": false,
+  "remaining_blockers": [
+    "rail bounded-treatment audit is consistency review support only",
+    "capacity and availability still require reviewer source decisions before final claims",
+    "stress-profile coverage does not certify rail service, emergency availability, or capacity evidence"
+  ],
+  "results": [
+    {
+      "allowed_bounded_fallback": "retain capacity as sensitivity-only with explicit bounds, or exclude capacity-dependent release-scope claims",
+      "blockers": [],
+      "can_mark_complete": false,
+      "can_support_acceptance_gate": false,
+      "can_support_rail_evidence_gate": false,
+      "candidate_decision_options": "replace_with_operator_or_literature_capacity_source; retain_capacity_as_sensitivity_only_with_bounds; exclude_capacity_dependent_release_scope_claims",
+      "decision_choice": "pending_reviewer_decision",
+      "decision_scope": "non_formal_source_review",
+      "decision_status": "needs_human_review_rail_source_decision",
+      "evidence_fields": "capacity",
+      "matched_evidence_statuses": [
+        "sensitivity_only_not_capacity_evidence"
+      ],
+      "matched_linked_artifacts": [
+        "data/scenarios/policy_alternatives.csv#rail_delay_or_partial_unavailability"
+      ],
+      "matched_runtime_hooks": [
+        "policy_multiplier"
+      ],
+      "matched_source_treatments": [
+        "sensitivity_only"
+      ],
+      "matched_stress_classes": [
+        "partial_capacity_reduction"
+      ],
+      "publication_ready": false,
+      "request_id": "rail_capacity_treatment_request",
+      "source_type": "operator_or_literature_or_sensitivity_decision",
+      "status": "coverage_documented_not_evidence",
+      "treatment_type": "capacity_sensitivity_only",
+      "warnings": [
+        "source decision is still pending reviewer decision",
+        "source decision still needs human review"
+      ]
+    },
+    {
+      "allowed_bounded_fallback": "retain availability as scenario-only or sensitivity-only, or exclude availability-dependent release-scope claims",
+      "blockers": [],
+      "can_mark_complete": false,
+      "can_support_acceptance_gate": false,
+      "can_support_rail_evidence_gate": false,
+      "candidate_decision_options": "replace_with_public_disruption_or_incident_source; record_scenario_only_availability_scope; retain_availability_as_sensitivity_only; exclude_availability_dependent_release_scope_claims",
+      "decision_choice": "pending_reviewer_decision",
+      "decision_scope": "non_formal_source_review",
+      "decision_status": "needs_human_review_rail_source_decision",
+      "evidence_fields": "availability;delay;partial_unavailability",
+      "matched_evidence_statuses": [
+        "scenario_stress_not_availability_evidence",
+        "scenario_stress_not_disruption_evidence",
+        "scenario_only_station_access_road_stress"
+      ],
+      "matched_linked_artifacts": [
+        "data/scenarios/policy_alternatives.csv#rail_delay_or_partial_unavailability",
+        "data/scenarios/policy_alternatives.csv#rail_delay_or_partial_unavailability",
+        "data/scenarios/disruption_scenarios.csv#songpa_rail_station_access"
+      ],
+      "matched_runtime_hooks": [
+        "policy_multiplier",
+        "policy_multiplier",
+        "road_connector_degradation"
+      ],
+      "matched_source_treatments": [
+        "scenario_only",
+        "scenario_only",
+        "scenario_only"
+      ],
+      "matched_stress_classes": [
+        "increased_headway",
+        "partial_unavailability_or_delay",
+        "rail_access_egress_degradation"
+      ],
+      "publication_ready": false,
+      "request_id": "rail_availability_scenario_request",
+      "source_type": "scenario_or_public_disruption_source_required",
+      "status": "coverage_documented_not_evidence",
+      "treatment_type": "availability_scenario_only",
+      "warnings": [
+        "source decision is still pending reviewer decision",
+        "source decision still needs human review"
+      ]
+    }
+  ],
+  "row_count": 2,
+  "schema_version": 1,
+  "source_decision_input": "data/rail/rail_source_decision_packet.csv",
+  "stress_profile_input": "data/rail/rail_transit_stress_profile_packet.csv",
+  "unchecked_pending_decision_count": 2,
+  "warning_count": 4
+}

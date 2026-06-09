@@ -44,15 +44,15 @@ Not allowed:
 
 - claiming that the 118-node corridor represents all relevant regional route
   choice, traffic assignment, spillback, or disruption exposure;
-- treating corridor outputs as calibrated real-world performance estimates;
-- using corridor results as operational routing advice.
+- treating corridor outputs as field-fit real-world performance estimates;
+- using corridor results as deployment routing advice.
 
-## Final-Study Decision Options
+## Graph-Scale Decision Options
 
-Before the project can make final real-world or quasi-real study claims, one of
-the following decisions is required.
+Before the project can make release-scope real-world or quasi-real study
+claims, one of the following decisions is required.
 
-### Option A: Accept Corridor Abstraction
+### Option A: Retain Corridor Abstraction
 
 Use the reduced corridor as an intentional zone-corridor study design.
 
@@ -76,7 +76,7 @@ Required evidence:
 - performance-safe shortest-path or precomputed-path strategy;
 - successful staged/full runs on the 4,608-node / 9,148-edge graph;
 - updated manifests and figures generated from the full graph;
-- validation that route choice remains stable and runtime is reproducible.
+- route-choice stability check and reproducible runtime evidence.
 
 ### Option C: Use Multi-Corridor Ensemble
 
@@ -86,7 +86,7 @@ Required evidence:
 
 - deterministic generation of alternate corridor sets;
 - policy and disruption scenarios repeated across corridor variants;
-- result tables that separate corridor uncertainty from operational parameter
+- result tables that separate corridor uncertainty from service-parameter
   uncertainty;
 - conservative claims about strategy robustness across corridor definitions.
 
@@ -121,26 +121,24 @@ Current feasibility evidence:
   `pilot_multi_corridor_summary.csv`, and
   `pilot_multi_corridor_manifest.json` as review evidence only.
 - The separated `multi_corridor_full_candidate` profile runs the same
-  164-node / 246-edge candidate graph with the current full pilot matrix and
-  writes `pilot_multi_corridor_full_results.csv`,
-  `pilot_multi_corridor_full_summary.csv`, and
-  `pilot_multi_corridor_full_manifest.json` as stronger graph-scale review
-  evidence only.
+  164-node / 246-edge candidate graph with the current complete-profile pilot
+  matrix and writes the corresponding result, summary, and manifest files as
+  stronger graph-scale review evidence only.
 - `data/validation/graph_scale_result_comparison.csv` compares the current
-  full pilot summary against that full-profile candidate in 819 metric-level
-  rows so graph-choice effects are visible before any acceptance decision.
+  complete-profile pilot summary against that candidate in 819 metric-level
+  rows so graph-choice effects are visible before any graph-scale decision.
 - The companion summary still reports that not all full shortest-distance
   paths are preserved, so the diagnostic is route-parity scaffold evidence
-  rather than final graph-scale acceptance.
+  rather than graph-scale decision evidence.
 
 This proves that the full graph can execute at smoke scale. It does not prove
 that the full staged/full policy-scenario-seed experiment is runtime-safe or
-methodologically accepted. The alternate-route warning rows make
+methodologically settled. The alternate-route warning rows make
 corridor-abstraction uncertainty explicit, and the multi-corridor candidate is
 a concrete upgrade path with both smoke-scale and full-profile candidate
 outputs. Neither option reviews traffic assignment, spillback, hazard routing,
-or operational detours without a separate graph-scale acceptance decision and
-downstream regeneration under the accepted graph-scale method.
+or deployment detours without a separate graph-scale decision and downstream
+regeneration under the selected graph-scale method.
 
-The next accepted-study step is to choose Option A, B, or C and regenerate the
+The next study-scope step is to choose Option A, B, or C and regenerate the
 pilot outputs under that decision.

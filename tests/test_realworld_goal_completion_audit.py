@@ -122,7 +122,7 @@ def test_goal_completion_manifest_blocks_current_scaffold() -> None:
         row["gate_id"]: row
         for row in manifest["prompt_to_artifact_checklist"]
     }
-    assert checklist["real_input_smoke"]["current_status"] == "ready"
+    assert checklist["real_input_smoke"]["current_status"] == "scaffold_unblocked"
     assert checklist["final_audit"]["current_status"] == "blocked"
     assert checklist["final_audit"]["missing_or_weak_requirements"]
     assert "not_final_acceptance" in manifest["result_scope"]

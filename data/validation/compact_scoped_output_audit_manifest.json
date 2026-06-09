@@ -1,0 +1,18 @@
+{
+  "audit_passed": true,
+  "blocking_finding_count": 0,
+  "claim_boundary": "Scoped compact-output audit only; not publication evidence, not final-study evidence, not formal acceptance evidence, and not operational evidence.",
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+  "outputs": {
+    "csv": "data/validation/compact_scoped_output_audit.csv",
+    "doc": "docs/compact_scoped_output_audit.md",
+    "manifest": "data/validation/compact_scoped_output_audit_manifest.json"
+  },
+  "phase9_promotion_ready": false,
+  "publication_ready": false,
+  "remaining_blockers": [],
+  "row_count": 19,
+  "schema_version": 1
+}

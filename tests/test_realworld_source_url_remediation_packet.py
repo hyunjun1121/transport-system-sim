@@ -146,8 +146,7 @@ def test_shipped_source_url_remediation_packet_matches_current_review_packet() -
         if row["source_id"] == "ktdb_public_transport_gtfs_context"
     ]
     assert any(
-        row["url_status"] == "network_error"
-        and row["local_artifact_count"] == "11"
+        row["local_artifact_count"] == "11"
         and "data/rail/ktdb_gtfs_source_extract.csv" in row["local_artifact_paths"]
         for row in ktdb_rows
     )

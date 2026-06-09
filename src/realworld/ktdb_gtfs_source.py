@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import csv
 from datetime import datetime, timezone
+import hashlib
 from html import unescape
 from pathlib import Path
 import re
@@ -46,7 +47,9 @@ KTDB_GTFS_COLUMNS: tuple[str, ...] = (
     "list_url",
     "fetched_at_utc",
     "notice_raw_html_sha256",
+    "notice_raw_file_sha256",
     "list_raw_html_sha256",
+    "list_raw_file_sha256",
     "notice_title",
     "notice_posted_date",
     "baseline_date",
@@ -101,7 +104,9 @@ def build_ktdb_gtfs_extract(
         "list_url": list_url,
         "fetched_at_utc": fetched,
         "notice_raw_html_sha256": _sha256_text(notice_html),
+        "notice_raw_file_sha256": _sha256_bytes(notice_html.encode("utf-8")),
         "list_raw_html_sha256": _sha256_text(list_html),
+        "list_raw_file_sha256": _sha256_bytes(list_html.encode("utf-8")),
         "notice_title": _extract_notice_title(notice_text),
         "notice_posted_date": _match_text(notice_text, r"작성일\s*:\s*([0-9.]+)"),
         "baseline_date": _match_text(notice_text, r"①\s*기준시점\s*:\s*(.*?)\s*②"),
@@ -171,6 +176,8 @@ def write_ktdb_gtfs_cache(
         list_url=list_url,
         fetched_at_utc=fetched_at_utc,
     )
+    row["notice_raw_file_sha256"] = _hash_file(notice_path)
+    row["list_raw_file_sha256"] = _hash_file(list_path)
     write_ktdb_gtfs_extract([row], extract_path)
     load_ktdb_gtfs_extract(extract_path)
     return row
@@ -212,6 +219,57 @@ def load_ktdb_gtfs_extract(
     return rows
 
 
+def audit_ktdb_gtfs_raw_hashes(
+    *,
+    extract_path: str | Path = DEFAULT_KTDB_GTFS_EXTRACT_PATH,
+    notice_raw_path: str | Path = DEFAULT_KTDB_GTFS_NOTICE_RAW_PATH,
+    list_raw_path: str | Path = DEFAULT_KTDB_GTFS_LIST_RAW_PATH,
+) -> dict[str, object]:
+    """Check that extract raw-file hashes match the cached HTML byte payloads."""
+
+    rows = load_ktdb_gtfs_extract(extract_path)
+    row = rows[0]
+    notice_path = Path(notice_raw_path)
+    list_path = Path(list_raw_path)
+    notice_hash = _hash_file(notice_path)
+    list_hash = _hash_file(list_path)
+    notice_match = bool(
+        notice_hash
+        and row.get("notice_raw_file_sha256", "").lower() == notice_hash
+    )
+    list_match = bool(
+        list_hash and row.get("list_raw_file_sha256", "").lower() == list_hash
+    )
+    blockers: list[str] = []
+    if not notice_match:
+        blockers.append("KTDB notice raw-file SHA256 mismatch or missing raw file")
+    if not list_match:
+        blockers.append("KTDB dataset-list raw-file SHA256 mismatch or missing raw file")
+    return {
+        "source_id": row["source_id"],
+        "result_scope": KTDB_GTFS_SOURCE_SCOPE,
+        "extract_path": str(Path(extract_path)),
+        "notice_raw_path": str(notice_path),
+        "list_raw_path": str(list_path),
+        "row_count": len(rows),
+        "notice_recorded_raw_file_sha256": row.get("notice_raw_file_sha256", ""),
+        "notice_raw_file_sha256": notice_hash,
+        "notice_raw_file_sha256_matches": notice_match,
+        "list_recorded_raw_file_sha256": row.get("list_raw_file_sha256", ""),
+        "list_raw_file_sha256": list_hash,
+        "list_raw_file_sha256_matches": list_match,
+        "raw_file_integrity_ready": notice_match and list_match,
+        "publication_ready": False,
+        "can_mark_complete": False,
+        "remaining_blockers": blockers,
+        "claim_boundary": (
+            "Raw-file hash match is source-context integrity only; it is not "
+            "a reviewed GTFS feed, rail timing evidence, provenance "
+            "acceptance, or rail-service calibration."
+        ),
+    }
+
+
 def _validate_row(row: Mapping[str, str], *, row_number: int, path: Path) -> None:
     required = (
         "source_id",
@@ -219,7 +277,9 @@ def _validate_row(row: Mapping[str, str], *, row_number: int, path: Path) -> Non
         "list_url",
         "fetched_at_utc",
         "notice_raw_html_sha256",
+        "notice_raw_file_sha256",
         "list_raw_html_sha256",
+        "list_raw_file_sha256",
         "notice_title",
         "dataset_code",
         "years_available",
@@ -277,9 +337,15 @@ def _extract_notice_title(text: str) -> str:
 
 
 def _sha256_text(value: str) -> str:
-    import hashlib
+    return _sha256_bytes(value.encode("utf-8"))
 
-    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def _hash_file(path: Path) -> str:
+    return _sha256_bytes(path.read_bytes()) if path.exists() else ""
 
 
 __all__ = [
@@ -290,6 +356,7 @@ __all__ = [
     "DEFAULT_KTDB_GTFS_NOTICE_URL",
     "KTDB_GTFS_COLUMNS",
     "KTDB_GTFS_SOURCE_SCOPE",
+    "audit_ktdb_gtfs_raw_hashes",
     "build_ktdb_gtfs_extract",
     "fetch_ktdb_gtfs_html",
     "load_ktdb_gtfs_extract",

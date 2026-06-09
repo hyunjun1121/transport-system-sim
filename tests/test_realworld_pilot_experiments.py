@@ -12,10 +12,17 @@ from tempfile import TemporaryDirectory
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.realworld.disruption_scenarios import load_disruption_scenarios
+from src.realworld.disruption_scenarios import (
+    DEFAULT_SCENARIO_PATH,
+    DisruptionScenario,
+    load_disruption_scenarios,
+)
+from src.realworld.artifact_invalidation_matrix import write_artifact_invalidation_matrix
 from src.realworld.pilot_experiments import (
     CLAIM_SCOPE,
     DEFAULT_CACHE_PATH,
+    DEFAULT_DEMAND_PROFILES_PATH,
+    DEFAULT_FLEET_PROFILES_PATH,
     DEFAULT_FULL_PROFILE_ID,
     DEFAULT_MULTI_CORRIDOR_FULL_PROFILE_ID,
     DEFAULT_MULTI_CORRIDOR_PROFILE_ID,
@@ -25,14 +32,18 @@ from src.realworld.pilot_experiments import (
     DEFAULT_SAMPLE_SCENARIO_IDS,
     DEFAULT_SAMPLE_SEEDS,
     DEFAULT_STAGED_PROFILE_ID,
+    ENGINEERING_ONLY_CLAIM_SCOPE,
     GRAPH_REDUCTION_MULTI_CORRIDOR,
     GRAPH_REDUCTION_SINGLE_CORRIDOR,
     PILOT_MULTI_CORRIDOR_CANDIDATE_CLAIM_SCOPE,
     PILOT_MULTI_CORRIDOR_FULL_CANDIDATE_CLAIM_SCOPE,
+    PilotExperimentPreflightError,
     RESULT_COLUMNS,
+    apply_pilot_demand_fleet_profiles,
     graph_with_forced_disruption_probabilities,
     load_pilot_inputs,
     load_pilot_experiment_design,
+    make_pilot_base_config,
     run_pilot_experiments,
     select_disruption_cases,
     summarize_pilot_rows,
@@ -68,6 +79,39 @@ def test_forced_disruption_probabilities_are_deterministic_and_non_mutating() ->
             assert data["base_p_fail"] == 0.0
 
     print("PASS: deterministic disruption graph preparation is non-mutating")
+
+
+def test_disruption_case_preserves_scenario_p_fail_scale() -> None:
+    """Scenario p_fail_scale should survive registry conversion into runs."""
+
+    _assert_cached_inputs_exist()
+    inputs = load_pilot_inputs()
+    scenario = DisruptionScenario(
+        scenario_id="scaled_access_test",
+        region_id=inputs.region_id,
+        family="access_road",
+        label="Scaled access road scenario",
+        selection_method="shortest_path",
+        target_segment="A->S",
+        disruption_mode="capacity_reduction",
+        capacity_factor=0.5,
+        p_fail_scale=0.25,
+        max_edges=1,
+        evidence_class="scenario_based",
+        observed_disaster_data=False,
+    )
+
+    case = select_disruption_cases(
+        inputs.graph,
+        (scenario,),
+        scenario_ids=("scaled_access_test",),
+    )[0]
+
+    assert case.p_fail_scale == 0.25
+    assert case.failure_mode == "capacity_reduction"
+    assert case.selected_edges
+
+    print("PASS: scenario p_fail_scale survives disruption-case conversion")
 
 
 def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
@@ -108,17 +152,363 @@ def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
         assert manifest["summary_row_count"] == expected_summary_rows
         assert manifest["run_profile"] == DEFAULT_SAMPLE_PROFILE_ID
         assert manifest["sample_scaffold"] is True
+        assert manifest["engineering_only"] is False
+        assert manifest["publication_ready"] is False
+        assert manifest["final_study_ready"] is False
+        assert manifest["operational_use_allowed"] is False
+        assert manifest["formal_acceptance_evidence"] is False
+        assert manifest["design_status_is_approval"] is False
+        assert manifest["phase8_preflight"]["status"] == "sample_skipped"
+        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
         assert manifest["outputs"]["results"].endswith("pilot_sample_results.csv")
         assert manifest["region_id"] == "songpa_public_demo"
+        disruption_path = manifest["inputs"]["disruption_scenarios_path"].replace(
+            "/",
+            "\\",
+        )
+        assert disruption_path.endswith(
+            "data\\scenarios\\disruption_scenarios.csv"
+        )
+        assert manifest["inputs"]["disruption_scenarios_sha256"] == _file_sha256(
+            DEFAULT_SCENARIO_PATH
+        )
+        assert manifest["inputs"]["demand_profiles_path"].endswith(
+            "data/scenarios/demand_profiles.csv"
+        )
+        assert manifest["inputs"]["demand_profiles_sha256"] == _file_sha256(
+            DEFAULT_DEMAND_PROFILES_PATH
+        )
+        assert manifest["inputs"]["fleet_profiles_path"].endswith(
+            "data/scenarios/fleet_profiles.csv"
+        )
+        assert manifest["inputs"]["fleet_profiles_sha256"] == _file_sha256(
+            DEFAULT_FLEET_PROFILES_PATH
+        )
         assert manifest["result_scope"] == CLAIM_SCOPE
+        assert manifest["profile_refs"] == {
+            "demand_profile_id": "pilot_default_demand",
+            "fleet_profile_id": "pilot_default_fleet",
+            "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+            "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+            "road_network_profile_id": "pilot_cached_osm_graph",
+        }
+        profile_application = manifest["profile_application"]
+        assert profile_application["runtime_profile_inputs_consumed"] is True
+        assert profile_application["demand_profile_id"] == "pilot_default_demand"
+        assert profile_application["fleet_profile_id"] == "pilot_default_fleet"
+        assert profile_application["demand_row_count"] == 1
+        assert profile_application["fleet_row_count"] == 3
+        assert profile_application["can_support_final_study_gate"] is False
+        assert "personnel.total" in profile_application["applied_fields"]
+        assert "multimodal.lastmile_vehicle_capacity" in profile_application[
+            "applied_fields"
+        ]
         assert "not calibrated real-world results" in CLAIM_SCOPE
         assert {row["scenario_id"] for row in written_rows} == set(DEFAULT_SAMPLE_SCENARIO_IDS)
         assert {row["policy_id"] for row in written_rows} == set(DEFAULT_SAMPLE_POLICY_IDS)
         assert {int(row["seed"]) for row in written_rows} == set(DEFAULT_SAMPLE_SEEDS)
+        assert {row["disruption_mode"] for row in written_rows} >= {"none", "capacity_reduction"}
         assert all(row["claim_scope"] == CLAIM_SCOPE for row in written_rows)
         assert legacy_manifest_path is not None and legacy_manifest_path.exists()
 
     print("PASS: sample pilot experiment writes conservative CSVs and manifest")
+
+
+def test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims() -> None:
+    """Phase 5 profile rows should be consumed as runtime inputs, not evidence gates."""
+
+    _assert_cached_inputs_exist()
+    inputs = load_pilot_inputs()
+    config, metadata = apply_pilot_demand_fleet_profiles(
+        make_pilot_base_config(inputs.region),
+        demand_profile_id="pilot_default_demand",
+        fleet_profile_id="pilot_default_fleet",
+    )
+
+    assert config["personnel"]["total"] == 24
+    assert config["personnel"]["group_size"] == 8
+    assert config["personnel"]["assembly_time"] == 0.0
+    assert config["lateness"]["distribution"] == "lognormal_sample_fixture"
+    assert config["lateness"]["mu"] == 1.2
+    assert config["lateness"]["sigma_levels"] == [0.25]
+    assert config["bus"]["fleet_size"] == 3
+    assert config["bus"]["dispatch_interval_min"] == 5.0
+    assert config["multimodal"]["shuttle_fleet_size"] == 3
+    assert config["multimodal"]["shuttle_turnaround_min"] == 8.0
+    assert config["multimodal"]["lastmile_fleet_size"] == 2
+    assert config["multimodal"]["lastmile_vehicle_capacity"] == 8
+
+    assert metadata["runtime_profile_inputs_consumed"] is True
+    assert metadata["demand_profiles_sha256"] == _file_sha256(
+        DEFAULT_DEMAND_PROFILES_PATH
+    )
+    assert metadata["fleet_profiles_sha256"] == _file_sha256(
+        DEFAULT_FLEET_PROFILES_PATH
+    )
+    assert metadata["can_support_parameter_evidence_gate"] is False
+    assert metadata["can_support_acceptance_gate"] is False
+    assert metadata["can_support_publication_gate"] is False
+    assert metadata["can_support_final_study_gate"] is False
+    assert "profile rows are bounded scenario assumptions" in (
+        "; ".join(metadata["remaining_blockers"])
+    )
+
+    print("PASS: Phase 5 profile rows apply to runtime config without gate claims")
+
+
+def test_pending_rail_source_decisions_block_non_sample_profiles() -> None:
+    """Staged/full profiles should not run as evidence while rail decisions are pending."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "pending_rail_source_decision_manifest.json"
+        _write_pending_rail_source_decision_manifest(rail_manifest_path)
+
+        try:
+            run_pilot_experiments(
+                output_dir=directory_path / "outputs",
+                run_profile=DEFAULT_STAGED_PROFILE_ID,
+                rail_source_decision_manifest_path=rail_manifest_path,
+                seeds=(2101,),
+                policy_ids=("bus_only",),
+                scenario_ids=("no_disruption",),
+            )
+        except PilotExperimentPreflightError as exc:
+            assert "rail source decisions remain pending" in str(exc)
+        else:
+            raise AssertionError("pending rail decisions should block staged runs")
+
+        output_dir = directory_path / "outputs"
+        assert not output_dir.exists() or not any(output_dir.iterdir())
+
+    print("PASS: pending rail source decisions block non-sample profiles")
+
+
+def test_completed_non_formal_rail_decisions_without_support_flags_block_profiles() -> None:
+    """Completed non-formal rail decisions are not enough for evidence runs."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "completed_non_formal_rail_source_decision_manifest.json"
+        _write_completed_rail_source_decision_manifest(rail_manifest_path)
+
+        try:
+            run_pilot_experiments(
+                output_dir=directory_path / "outputs",
+                run_profile=DEFAULT_STAGED_PROFILE_ID,
+                rail_source_decision_manifest_path=rail_manifest_path,
+                seeds=(2101,),
+                policy_ids=("bus_only",),
+                scenario_ids=("no_disruption",),
+            )
+        except PilotExperimentPreflightError as exc:
+            message = str(exc)
+            assert "rail source decisions remain pending" in message
+            assert "publication_ready is false" in message
+            assert "can_support_rail_evidence_gate is false" in message
+            assert "can_support_acceptance_gate is false" in message
+        else:
+            raise AssertionError("completed non-formal rail decisions should still block")
+
+        output_dir = directory_path / "outputs"
+        assert not output_dir.exists() or not any(output_dir.iterdir())
+
+    print("PASS: non-formal rail decisions without support flags block profiles")
+
+
+def test_unresolved_artifact_invalidation_blocks_non_sample_profiles() -> None:
+    """Staged/full profiles should not run as evidence with stale downstream artifacts."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "completed_rail_source_decision_manifest.json"
+        invalidation_manifest_path = directory_path / "artifact_invalidation_matrix.json"
+        _write_phase8_ready_rail_source_decision_manifest(rail_manifest_path)
+        write_artifact_invalidation_matrix(
+            output_path=directory_path / "artifact_invalidation_matrix.csv",
+            manifest_path=invalidation_manifest_path,
+            doc_path=directory_path / "artifact_invalidation_matrix.md",
+        )
+
+        try:
+            run_pilot_experiments(
+                output_dir=directory_path / "outputs",
+                run_profile=DEFAULT_STAGED_PROFILE_ID,
+                rail_source_decision_manifest_path=rail_manifest_path,
+                artifact_invalidation_manifest_path=invalidation_manifest_path,
+                seeds=(2101,),
+                policy_ids=("bus_only",),
+                scenario_ids=("no_disruption",),
+            )
+        except PilotExperimentPreflightError as exc:
+            assert "artifact invalidation blockers remain unresolved" in str(exc)
+        else:
+            raise AssertionError("unresolved artifact invalidation should block staged runs")
+
+        output_dir = directory_path / "outputs"
+        assert not output_dir.exists() or not any(output_dir.iterdir())
+
+    print("PASS: unresolved artifact invalidation blocks non-sample profiles")
+
+
+def test_engineering_only_bypass_labels_rows_and_manifest() -> None:
+    """Explicit engineering-only runs must remain non-publication and non-acceptance."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "pending_rail_source_decision_manifest.json"
+        _write_pending_rail_source_decision_manifest(rail_manifest_path)
+        result = run_pilot_experiments(
+            output_dir=directory_path / "outputs",
+            run_profile=DEFAULT_STAGED_PROFILE_ID,
+            rail_source_decision_manifest_path=rail_manifest_path,
+            engineering_only=True,
+            seeds=(2101,),
+            policy_ids=("bus_only",),
+            scenario_ids=("no_disruption",),
+        )
+
+        with result["manifest_path"].open("r", encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        with result["results_path"].open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        with result["summary_path"].open("r", encoding="utf-8", newline="") as handle:
+            summary_rows = list(csv.DictReader(handle))
+
+        assert manifest["engineering_only"] is True
+        assert manifest["phase8_preflight"]["status"] == "engineering_only_bypass"
+        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
+        assert manifest["phase8_preflight"]["artifact_invalidation_blocks_phase9"] is True
+        assert manifest["publication_ready"] is False
+        assert manifest["final_study_ready"] is False
+        assert manifest["operational_use_allowed"] is False
+        assert manifest["formal_acceptance_evidence"] is False
+        assert manifest["rail_source_decision_manifest_sha256"] == _file_sha256(
+            rail_manifest_path
+        )
+        assert "not publication evidence" in manifest["result_scope"]
+        assert "not final-study evidence" in manifest["result_scope"]
+        assert "not formal acceptance evidence" in manifest["result_scope"]
+        assert "non-publication" in manifest["result_scope"]
+        assert "non-acceptance" in manifest["result_scope"]
+        assert "non-operational" in manifest["result_scope"]
+        assert rows
+        assert summary_rows
+        assert all(row["claim_scope"] == manifest["result_scope"] for row in rows)
+        assert all(row["claim_scope"] == manifest["result_scope"] for row in summary_rows)
+        assert all(ENGINEERING_ONLY_CLAIM_SCOPE in row["claim_scope"] for row in rows)
+
+    print("PASS: engineering-only bypass labels rows and manifest")
+
+
+def test_scoped_compact_regeneration_runs_after_prerequisite_closeout() -> None:
+    """Scoped compact regeneration should not require global Phase 9 readiness."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "pending_rail_source_decision_manifest.json"
+        invalidation_manifest_path = directory_path / "artifact_invalidation_matrix.json"
+        closeout_manifest_path = directory_path / "artifact_invalidation_closeout.json"
+        closeout_csv_path = directory_path / "artifact_invalidation_closeout.csv"
+        action_queue_path = directory_path / "artifact_invalidation_action_queue.csv"
+        _write_pending_rail_source_decision_manifest(rail_manifest_path)
+        write_artifact_invalidation_matrix(
+            output_path=directory_path / "artifact_invalidation_matrix.csv",
+            manifest_path=invalidation_manifest_path,
+            doc_path=directory_path / "artifact_invalidation_matrix.md",
+        )
+        _write_compact_scope_action_queue(action_queue_path)
+        _write_compact_scope_closeout(
+            csv_path=closeout_csv_path,
+            manifest_path=closeout_manifest_path,
+            prerequisite_closed=True,
+        )
+
+        result = run_pilot_experiments(
+            output_dir=directory_path / "outputs",
+            run_profile=DEFAULT_STAGED_PROFILE_ID,
+            rail_source_decision_manifest_path=rail_manifest_path,
+            artifact_invalidation_manifest_path=invalidation_manifest_path,
+            artifact_invalidation_closeout_manifest_path=closeout_manifest_path,
+            closeout_action_queue_path=action_queue_path,
+            closeout_regeneration_scope="compact_outputs",
+            seeds=(2101,),
+            policy_ids=("bus_only",),
+            scenario_ids=("no_disruption",),
+        )
+
+        with result["manifest_path"].open("r", encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        with result["results_path"].open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+
+    assert manifest["engineering_only"] is False
+    assert manifest["closeout_regeneration_scope"] == "compact_outputs"
+    assert manifest["closeout_regeneration_scope_status"] == "passed"
+    assert manifest["clean_checkout_status"] == "not_required_for_current_closeout"
+    assert manifest["phase8_preflight"]["status"] == "scoped_closeout_regeneration"
+    assert manifest["artifact_invalidation_blocks_phase9"] is True
+    assert manifest["scope_invalidation_blocks"] is False
+    assert manifest["rail_source_decisions_pending"] is True
+    assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
+    assert manifest["publication_ready"] is False
+    assert manifest["final_study_ready"] is False
+    assert manifest["formal_acceptance_evidence"] is False
+    assert "--closeout-regeneration-scope compact_outputs" in manifest["executed_command"]
+    assert rows
+    assert all("Scoped compact-output" in row["claim_scope"] for row in rows)
+
+    print("PASS: scoped compact regeneration runs after prerequisite closeout")
+
+
+def test_scoped_compact_regeneration_blocks_until_prerequisites_close() -> None:
+    """Scoped regeneration must fail if earlier invalidation batches are still open."""
+
+    _assert_cached_inputs_exist()
+    with TemporaryDirectory() as directory:
+        directory_path = Path(directory)
+        rail_manifest_path = directory_path / "ready_rail_source_decision_manifest.json"
+        invalidation_manifest_path = directory_path / "artifact_invalidation_matrix.json"
+        closeout_manifest_path = directory_path / "artifact_invalidation_closeout.json"
+        closeout_csv_path = directory_path / "artifact_invalidation_closeout.csv"
+        action_queue_path = directory_path / "artifact_invalidation_action_queue.csv"
+        _write_phase8_ready_rail_source_decision_manifest(rail_manifest_path)
+        write_artifact_invalidation_matrix(
+            output_path=directory_path / "artifact_invalidation_matrix.csv",
+            manifest_path=invalidation_manifest_path,
+            doc_path=directory_path / "artifact_invalidation_matrix.md",
+        )
+        _write_compact_scope_action_queue(action_queue_path)
+        _write_compact_scope_closeout(
+            csv_path=closeout_csv_path,
+            manifest_path=closeout_manifest_path,
+            prerequisite_closed=False,
+        )
+
+        try:
+            run_pilot_experiments(
+                output_dir=directory_path / "outputs",
+                run_profile=DEFAULT_STAGED_PROFILE_ID,
+                rail_source_decision_manifest_path=rail_manifest_path,
+                artifact_invalidation_manifest_path=invalidation_manifest_path,
+                artifact_invalidation_closeout_manifest_path=closeout_manifest_path,
+                closeout_action_queue_path=action_queue_path,
+                closeout_regeneration_scope="compact_outputs",
+                seeds=(2101,),
+                policy_ids=("bus_only",),
+                scenario_ids=("no_disruption",),
+            )
+        except PilotExperimentPreflightError as exc:
+            assert "prerequisite closeout rows are not closed" in str(exc)
+        else:
+            raise AssertionError("open prerequisite rows should block scoped regeneration")
+
+    print("PASS: scoped compact regeneration blocks until prerequisites close")
 
 
 def test_design_profiles_separate_sample_staged_and_full_runs() -> None:
@@ -155,6 +545,11 @@ def test_design_profiles_separate_sample_staged_and_full_runs() -> None:
     assert multi_corridor_full.seeds == full.seeds
     assert multi_corridor_full.policy_ids == full.policy_ids
     assert multi_corridor_full.scenario_ids == full.scenario_ids
+    assert sample.demand_profile_id == "pilot_default_demand"
+    assert sample.fleet_profile_id == "pilot_default_fleet"
+    assert sample.rail_service_profile_id == "pilot_fixed_headway_rail_proxy"
+    assert sample.validation_profile_id == "pilot_graph_ready_and_plausibility_review"
+    assert sample.road_network_profile_id == "pilot_cached_osm_graph"
     assert "bus_corridor_redundancy" in design.excluded_policy_ids
     assert "not calibrated" in staged.result_scope.lower()
     assert multi_corridor.result_scope == PILOT_MULTI_CORRIDOR_CANDIDATE_CLAIM_SCOPE
@@ -191,6 +586,7 @@ def test_multi_corridor_candidate_uses_distinct_graph_and_outputs() -> None:
         result = run_pilot_experiments(
             output_dir=directory,
             run_profile=DEFAULT_MULTI_CORRIDOR_PROFILE_ID,
+            engineering_only=True,
             seeds=(4101,),
             policy_ids=("bus_only",),
             scenario_ids=("no_disruption",),
@@ -218,6 +614,8 @@ def test_multi_corridor_candidate_uses_distinct_graph_and_outputs() -> None:
             == GRAPH_REDUCTION_MULTI_CORRIDOR
         )
         assert manifest["graph_scale"]["analysis"]["graph_corridor_path_count"] == 3
+        assert manifest["engineering_only"] is True
+        assert manifest["profile_design_complete"] is False
         assert "not calibrated real-world" in manifest["result_scope"]
 
     print("PASS: multi-corridor candidate profile writes separated outputs")
@@ -239,6 +637,7 @@ def test_multi_corridor_full_candidate_uses_full_matrix_and_distinct_outputs() -
         result = run_pilot_experiments(
             output_dir=directory,
             run_profile=DEFAULT_MULTI_CORRIDOR_FULL_PROFILE_ID,
+            engineering_only=True,
             seeds=(3101,),
             policy_ids=("bus_only", "baseline_multimodal"),
             scenario_ids=("no_disruption", "songpa_critical_link_blockage"),
@@ -255,6 +654,14 @@ def test_multi_corridor_full_candidate_uses_full_matrix_and_distinct_outputs() -
         assert manifest["output_prefix"] == "pilot_multi_corridor_full"
         assert manifest["row_count"] == 4
         assert manifest["expected_row_count"] == 4
+        assert manifest["profile_design_row_count"] == 1890
+        assert manifest["executed_row_count"] == 4
+        assert manifest["profile_design_complete"] is False
+        assert manifest["engineering_override_run"] is True
+        assert manifest["engineering_only"] is True
+        assert manifest["publication_ready"] is False
+        assert manifest["final_study_ready"] is False
+        assert manifest["formal_acceptance_evidence"] is False
         assert manifest["graph_nodes"] == 164
         assert manifest["graph_edges"] == 246
         assert manifest["graph_reduction_strategy"] == GRAPH_REDUCTION_MULTI_CORRIDOR
@@ -272,6 +679,7 @@ def test_staged_pilot_outputs_use_distinct_names_and_manifest_fields() -> None:
         result = run_pilot_experiments(
             output_dir=directory,
             run_profile=DEFAULT_STAGED_PROFILE_ID,
+            engineering_only=True,
             seeds=(2101,),
             policy_ids=("bus_only", "baseline_multimodal"),
             scenario_ids=("no_disruption", "songpa_access_origin_to_station"),
@@ -283,14 +691,29 @@ def test_staged_pilot_outputs_use_distinct_names_and_manifest_fields() -> None:
         assert result["results_path"].name == "pilot_staged_results.csv"
         assert result["summary_path"].name == "pilot_staged_summary.csv"
         assert result["manifest_path"].name == "pilot_staged_manifest.json"
+        assert result["output_lock_receipt_path"].name == (
+            "pilot_staged_output_lock_receipt.json"
+        )
+        assert result["output_lock_receipt_path"].exists()
         assert "legacy_manifest_path" not in result
         assert manifest["run_profile"] == DEFAULT_STAGED_PROFILE_ID
         assert manifest["run_stage"] == "staged"
         assert manifest["sample_scaffold"] is False
         assert manifest["output_prefix"] == "pilot_staged"
+        assert manifest["output_dir"].endswith(directory.replace("\\", "/"))
+        assert "--engineering-only" in manifest["executed_command"]
+        assert "--seeds 2101" in manifest["executed_command"]
+        assert "--policy-ids bus_only,baseline_multimodal" in manifest["executed_command"]
+        assert (
+            "--scenario-ids no_disruption,songpa_access_origin_to_station"
+            in manifest["executed_command"]
+        )
         assert manifest["row_count"] == 4
         assert manifest["summary_row_count"] == 4
         assert manifest["expected_row_count"] == 4
+        assert manifest["engineering_only"] is True
+        assert manifest["profile_design_complete"] is False
+        assert manifest["engineering_override_run"] is True
         assert manifest["design_overrides"] == {
             "policy_ids": True,
             "scenario_ids": True,
@@ -298,8 +721,48 @@ def test_staged_pilot_outputs_use_distinct_names_and_manifest_fields() -> None:
         }
         assert manifest["outputs"]["results"].endswith("pilot_staged_results.csv")
         assert manifest["outputs"]["manifest"].endswith("pilot_staged_manifest.json")
+        assert manifest["outputs"]["output_lock_receipt"].endswith(
+            "pilot_staged_output_lock_receipt.json"
+        )
+        assert manifest["output_lock"]["acquired"] is True
+        assert manifest["output_lock"]["lock_mechanism"] == "atomic_create_x_mode"
+        assert manifest["output_lock_release"]["release_status"] == "released"
+        assert manifest["runtime"]["actual_worker_count"] == 1
+        assert manifest["runtime"]["worker_count_control"] == "none_serial_current_runner"
+        assert manifest["runtime"]["gpu_used_for_simulation"] is False
+        assert manifest["runtime"]["wall_time_seconds"] >= 0.0
+        assert manifest["runtime"]["memory_before"]["method"] in {
+            "GlobalMemoryStatusEx",
+            "unsupported_non_windows_stdlib",
+        }
+        assert manifest["inputs"]["region_sha256"] == _file_sha256(DEFAULT_REGION_PATH)
+        assert manifest["inputs"]["cache_sha256"] == _file_sha256(DEFAULT_CACHE_PATH)
+        assert manifest["inputs"]["policy_alternatives_sha256"]
+        assert manifest["inputs"]["pilot_experiment_design_sha256"]
+        assert manifest["config_hashes"]["base_config_sha256"]
+        assert set(manifest["config_hashes"]["policy_config_sha256s"]) == {
+            "bus_only",
+            "baseline_multimodal",
+        }
+        assert len(
+            manifest["config_hashes"]["effective_policy_scenario_config_sha256s"]
+        ) == 4
+        inventory = manifest["output_inventory"]["files"]
+        assert inventory["results"]["exists"] is True
+        assert inventory["results"]["csv_data_row_count"] == manifest["row_count"]
+        assert inventory["summary"]["csv_data_row_count"] == manifest["summary_row_count"]
+        assert inventory["manifest"]["sha256_record_location"] == (
+            "output_lock_receipt.outputs.manifest_sha256"
+        )
+        with result["output_lock_receipt_path"].open("r", encoding="utf-8") as handle:
+            receipt = json.load(handle)
+        assert receipt["release"]["release_status"] == "released"
+        assert receipt["outputs"]["manifest_sha256"] == _file_sha256(result["manifest_path"])
         assert manifest["analysis_graph_reduced"] is True
         assert "graph_scale" in manifest
+        assert manifest["profile_refs"]["validation_profile_id"] == (
+            "pilot_graph_ready_and_plausibility_review"
+        )
         assert "not calibrated real-world" in manifest["result_scope"]
 
     print("PASS: staged pilot outputs use separated names and manifest metadata")
@@ -348,6 +811,7 @@ def test_summary_groups_policy_scenario_mode_means() -> None:
             "scenario_id": "s",
             "scenario_family": "no_disruption",
             "scenario_type": "none",
+            "disruption_mode": "none",
             "mode": "bus_only",
             "completion_rate": 0.5,
             "censored_count": 1,
@@ -366,6 +830,7 @@ def test_summary_groups_policy_scenario_mode_means() -> None:
             "scenario_id": "s",
             "scenario_family": "no_disruption",
             "scenario_type": "none",
+            "disruption_mode": "none",
             "mode": "bus_only",
             "completion_rate": 1.0,
             "censored_count": 0,
@@ -414,6 +879,199 @@ def _write_road_override_csv(path: Path) -> None:
         writer.writerow(row)
 
 
+def _write_pending_rail_source_decision_manifest(path: Path) -> None:
+    payload = {
+        "schema_version": 1,
+        "row_count": 2,
+        "completed_source_decision_count": 0,
+        "rail_source_decision_recorded": False,
+        "can_support_rail_evidence_gate": False,
+        "can_support_acceptance_gate": False,
+        "can_mark_complete": False,
+        "publication_ready": False,
+        "rail_service_evidence_present": True,
+        "rail_service_evidence_gate_closure_candidate_count": 0,
+        "action_decision_status_counts": {"pending_action_decision": 2},
+        "decision_status_counts": {
+            "blocked_missing_rail_source_decision": 1,
+            "needs_human_review_rail_source_decision": 1,
+        },
+        "claim_boundary": "fixture rail source-decision packet only",
+        "result_scope": "fixture rail source-decision packet only",
+        "remaining_blockers": ["fixture pending rail source decision"],
+    }
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
+def _write_completed_rail_source_decision_manifest(path: Path) -> None:
+    payload = {
+        "schema_version": 1,
+        "row_count": 2,
+        "completed_source_decision_count": 2,
+        "rail_source_decision_recorded": True,
+        "can_support_rail_evidence_gate": False,
+        "can_support_acceptance_gate": False,
+        "can_mark_complete": False,
+        "publication_ready": False,
+        "rail_service_evidence_present": True,
+        "rail_service_evidence_gate_closure_candidate_count": 0,
+        "action_decision_status_counts": {"completed_non_formal_source_decision": 2},
+        "decision_status_counts": {
+            "source_backed_acquisition_complete_non_formal": 1,
+            "excluded_non_formal": 1,
+        },
+        "claim_boundary": "fixture completed rail source-decision packet only",
+        "result_scope": "fixture completed rail source-decision packet only",
+        "remaining_blockers": [],
+    }
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
+def _write_phase8_ready_rail_source_decision_manifest(path: Path) -> None:
+    payload = {
+        "schema_version": 1,
+        "row_count": 2,
+        "completed_source_decision_count": 2,
+        "rail_source_decision_recorded": True,
+        "can_support_rail_evidence_gate": True,
+        "can_support_acceptance_gate": True,
+        "can_mark_complete": True,
+        "publication_ready": True,
+        "rail_service_evidence_present": True,
+        "rail_service_evidence_gate_closure_candidate_count": 1,
+        "action_decision_status_counts": {"completed_non_formal_source_decision": 2},
+        "decision_status_counts": {
+            "source_backed_acquisition_complete_non_formal": 1,
+            "excluded_non_formal": 1,
+        },
+        "claim_boundary": "fixture rail source-decision support gate ready",
+        "result_scope": "fixture rail source-decision support gate ready",
+        "remaining_blockers": [],
+    }
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
+def _write_compact_scope_action_queue(path: Path) -> None:
+    fieldnames = [
+        "action_order",
+        "action_batch",
+        "dependency_stage",
+        "invalidation_row_id",
+    ]
+    rows = [
+        {
+            "action_order": "10",
+            "action_batch": "upstream_evidence_and_benchmarks",
+            "dependency_stage": "before_phase9_promotion",
+            "invalidation_row_id": "region_boundary->road_snapshots",
+        },
+        {
+            "action_order": "30",
+            "action_batch": "compact_outputs",
+            "dependency_stage": "before_phase9_promotion",
+            "invalidation_row_id": "region_boundary->compact_outputs",
+        },
+    ]
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_compact_scope_closeout(
+    *,
+    csv_path: Path,
+    manifest_path: Path,
+    prerequisite_closed: bool,
+) -> None:
+    fieldnames = list(_compact_scope_closeout_row("fixture", True))
+    rows = [
+        _compact_scope_closeout_row(
+            "region_boundary->road_snapshots",
+            prerequisite_closed,
+        ),
+        _compact_scope_closeout_row(
+            "region_boundary->compact_outputs",
+            False,
+        ),
+    ]
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+    closed_count = sum(
+        1 for row in rows if row["can_clear_invalidation_gate"] == "true"
+    )
+    manifest = {
+        "schema_version": 1,
+        "row_count": len(rows),
+        "closed_row_count": closed_count,
+        "pending_or_invalid_row_count": len(rows) - closed_count,
+        "phase9_promotion_ready": False,
+        "publication_ready": False,
+        "final_study_ready": False,
+        "formal_acceptance_evidence": False,
+        "can_mark_complete": False,
+        "outputs": {"csv": str(csv_path)},
+    }
+    with manifest_path.open("w", encoding="utf-8") as handle:
+        json.dump(manifest, handle, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
+def _compact_scope_closeout_row(row_id: str, closed: bool) -> dict[str, str]:
+    artifact = json.dumps(
+        [{"path": f"results/{row_id.replace('->', '_')}.json", "sha256": "a" * 64}]
+    )
+    return {
+        "closeout_schema_version": "1",
+        "invalidation_row_id": row_id,
+        "upstream_change_group": row_id.split("->", 1)[0],
+        "stale_downstream_group": row_id.split("->", 1)[1] if "->" in row_id else "",
+        "required_disposition": "regenerate",
+        "actual_disposition": "regenerated" if closed else "pending",
+        "closeout_status": "closed_invalidation_only" if closed else "pending",
+        "affected_artifacts_json": artifact if closed else "[]",
+        "upstream_artifacts_json": artifact if closed else "[]",
+        "downstream_before_artifacts_json": artifact if closed else "[]",
+        "downstream_after_artifacts_json": artifact if closed else "[]",
+        "exclusion_scope": "",
+        "rerun_command": "fixture rerun command" if closed else "",
+        "rerun_exit_code": "0" if closed else "",
+        "rerun_result": "pass" if closed else "not_run",
+        "audit_command": "fixture audit command" if closed else "",
+        "audit_exit_code": "0" if closed else "",
+        "audit_result": "pass" if closed else "not_run",
+        "targeted_test_command": "fixture targeted test" if closed else "",
+        "targeted_test_exit_code": "0" if closed else "",
+        "targeted_test_result": "pass" if closed else "not_run",
+        "reviewer_signoff_status": (
+            "signed_off_for_invalidation_closeout_only" if closed else "unsigned"
+        ),
+        "reviewer_id": "fixture-reviewer" if closed else "",
+        "reviewed_at_utc": "2026-06-05T00:00:00+00:00" if closed else "",
+        "claim_boundary_effect": (
+            "claim_eligible_after_reaudit" if closed else "blocks_claim_support"
+        ),
+        "claim_boundary_review_result": "pass" if closed else "pending",
+        "phase9_promotion_effect": (
+            "review_only_after_reaudit" if closed else "blocks_phase9_promotion"
+        ),
+        "can_clear_invalidation_gate": "true" if closed else "false",
+        "publication_ready": "false",
+        "final_study_ready": "false",
+        "formal_acceptance_evidence": "false",
+        "claim_boundary": "fixture invalidation closeout only",
+        "review_notes": "fixture",
+    }
+
+
 def _file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -424,7 +1082,15 @@ def _file_sha256(path: Path) -> str:
 
 if __name__ == "__main__":
     test_forced_disruption_probabilities_are_deterministic_and_non_mutating()
+    test_disruption_case_preserves_scenario_p_fail_scale()
     test_sample_pilot_experiment_writes_csvs_and_manifest()
+    test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims()
+    test_pending_rail_source_decisions_block_non_sample_profiles()
+    test_completed_non_formal_rail_decisions_without_support_flags_block_profiles()
+    test_unresolved_artifact_invalidation_blocks_non_sample_profiles()
+    test_engineering_only_bypass_labels_rows_and_manifest()
+    test_scoped_compact_regeneration_runs_after_prerequisite_closeout()
+    test_scoped_compact_regeneration_blocks_until_prerequisites_close()
     test_design_profiles_separate_sample_staged_and_full_runs()
     test_multi_corridor_candidate_uses_distinct_graph_and_outputs()
     test_multi_corridor_full_candidate_uses_full_matrix_and_distinct_outputs()

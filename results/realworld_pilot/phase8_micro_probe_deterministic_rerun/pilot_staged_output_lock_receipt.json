@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-08T01:18:55+00:00",
+    "lock_file_sha256": "d4c40c94bd880e2c63ef1328706a1f9916dc18e31d3f494f3f2dd4ef007f07c3",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged.output.lock",
+    "output_prefix": "pilot_staged",
+    "pid": 30716,
+    "receipt_path": "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_manifest.json",
+    "manifest_sha256": "4c8e133cdef7ccc19a4ab586a4fba7b63144d55a4d77047c6d7fd3cc04e5647c",
+    "results": "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_results.csv",
+    "results_sha256": "6275e1cda9981d30b1083d33b476f603e539045222781bed007df29770035eba",
+    "summary": "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_summary.csv",
+    "summary_sha256": "c7725973bb2d8424c1d55b7ab5ee51c94f6f5cc3d580e6f21613e0c6dc79a4f3"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-08T01:18:57+00:00"
+  },
+  "schema_version": 1
+}

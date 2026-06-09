@@ -31,7 +31,15 @@ The derivation writes:
 - configured train capacity from the command line;
 - `source_status=cached_gtfs_derived`;
 - `derived_fields=headway;travel_time`;
-- `source_artifact_path` and `source_artifact_sha256`.
+- `source_artifact_path` and `source_artifact_sha256`;
+- `gtfs_validator_report_path` and `gtfs_validator_report_sha256`.
+
+The GTFS Validator report must be generated for the same reviewed feed and
+retained as a reproducible artifact. The report must record the validated feed
+SHA256, and that digest must match the retained GTFS source artifact. The
+project records the report path and SHA256 so a GTFS-derived timing row cannot
+become publication-ready from a feed file alone or from an unrelated
+zero-error report.
 
 Capacity is not inferred from GTFS. It remains a supplied capacity value and
 should be source-backed or explicitly retained as sensitivity-only before final
@@ -58,7 +66,8 @@ Prefer a reviewed GTFS zip for reproducibility:
   --service-window "weekday selected service window" `
   --route-id ROUTE_ID `
   --service-id SERVICE_ID `
-  --direction-id 0
+  --direction-id 0 `
+  --gtfs-validator-report data\rail\pilot_gtfs_validator_report.json
 ```
 
 Directory inputs are accepted for local review, but a zip file should be used
@@ -73,6 +82,8 @@ operations, disruption response, or train capacity. The row can close the rail
 timing evidence blocker only when the GTFS artifact is reviewed, the source
 path resolves, the SHA256 matches, and the final claim boundary keeps rail
 operations as a planning scenario rather than an operational guarantee.
+For GTFS-derived rows, also verify that a GTFS Validator report for the same
+feed is retained and that its SHA256 matches the evidence row.
 
 Before final claims, also verify:
 

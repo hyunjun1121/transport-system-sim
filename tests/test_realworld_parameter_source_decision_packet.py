@@ -42,15 +42,11 @@ def test_parameter_source_decision_rows_classify_current_requests() -> None:
         "needs_human_review_parameter_source_decision"
     )
     assert by_id["rail_service_parameter_source_request"]["decision_status"] == (
-        "blocked_missing_parameter_source_decision"
+        "needs_human_review_parameter_source_decision"
     )
-    assert {
-        row["decision_status"]
-        for row in rows
-        if row["request_id"] not in {
-            "rail_service_parameter_source_request",
-        }
-    } == {"needs_human_review_parameter_source_decision"}
+    assert {row["decision_status"] for row in rows} == {
+        "needs_human_review_parameter_source_decision"
+    }
     assert {row["provisional_decision"] for row in rows} == {
         "pending_reviewer_decision"
     }
@@ -106,8 +102,8 @@ def test_parameter_source_decision_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 7
-    assert written_manifest["blocking_decision_count"] == 1
-    assert written_manifest["human_review_decision_count"] == 6
+    assert written_manifest["blocking_decision_count"] == 0
+    assert written_manifest["human_review_decision_count"] == 7
     assert written_manifest["weak_parameter_count"] == 23
     assert written_manifest["parameter_acceptance_present"] is False
     assert "Parameter Source Decision Packet" in doc_text
@@ -134,8 +130,8 @@ def test_shipped_parameter_source_decision_packet_matches_current_outputs() -> N
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 1
-    assert manifest["human_review_decision_count"] == 6
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 7
     assert manifest["parameter_source_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

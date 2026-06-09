@@ -1,27 +1,27 @@
-﻿# Human Acceptance Runbook
+﻿# Human Gate-Decision Runbook
 
 This runbook explains how a reviewer should close final-study gates without
 fabricating approval, source evidence, calibration, validation, or operational
 routing claims. The repository can generate review packets, templates, guards,
 and package audits, but only source-backed reviewer decisions can create formal
-acceptance artifacts.
+decision artifacts.
 
 ## Current Boundary
 
 - Current final-study status: `final_study_ready=false`.
 - Current plan gates: 3 / 15 ready (`real_input_smoke`,
   `structured_disruptions`, and `policy_alternatives`) and 12 / 15 blocked.
-- Current formal acceptance status: 0 / 12 formal gates ready; all required
-  formal acceptance artifacts are absent.
+- Current formal decision status: 0 / 12 formal gates have reviewer decisions;
+  all required formal decision artifacts are absent.
 - `docs/current_goal_completion_audit.md` and
   `data/manifests/current_goal_completion_audit.json` are the current-state
   gap audit outputs.
-- `docs/final_study_audit.md` must not be created until every pre-final gate is
-  accepted with evidence.
+- `docs/final_study_audit.md` must not be created until every prerequisite gate
+  has a source-backed reviewer decision.
 - `data/manifests/agent_reviews/*.json` are sub-agent review records, not
-  formal acceptance records.
+  formal decision records.
 - `data/manifests/formal_acceptance_evidence_matrix.csv` is a reviewer intake
-  index, not a formal acceptance record.
+  index, not a formal decision record.
 - `docs/formal_acceptance_pre_review.md` and
   `data/manifests/draft_acceptance/*_pre_review.json` are AI-generated
   pre-review recommendations. They classify gates for human review but are not
@@ -32,10 +32,10 @@ acceptance artifacts.
 - A copied template, unresolved `REVIEW_REQUIRED` value, draft road override,
   or current-state audit text cannot close a gate.
 - `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` adds an explicit package
-  completeness requirement before renewed expert acceptance review. The expert
+  completeness requirement before renewed expert decision review. The expert
   reply reported that the submitted ZIP lacked the implementation, scripts,
   tests, data, results, and full documentation needed for technical review, so
-  the next reviewer package must be inventory-checked before any acceptance
+  the next reviewer package must be inventory-checked before any formal
   decision is requested.
 
 ## Consultation-Driven Preflight
@@ -45,7 +45,7 @@ policy-comparison claims again, perform this preflight:
 
 1. Build a complete review package containing the implementation tree,
    configuration, scripts, tests, data/cache manifests, results, docs, paper
-   draft, report sources, planning files, and acceptance materials.
+   draft, report sources, planning files, and decision materials.
 2. Produce a package inventory with path, byte size, checksum, source category,
    and artifact role.
 3. Run formal artifact and evidence-path hygiene checks.
@@ -126,6 +126,8 @@ claim.
 .\.venv\Scripts\python scripts\write_final_audit_decision_packet.py
 .\.venv\Scripts\python scripts\run_reproducibility_smoke.py
 .\.venv\Scripts\python scripts\audit_tracked_artifacts.py
+.\.venv\Scripts\python scripts\write_dirty_worktree_classification.py
+.\.venv\Scripts\python scripts\write_phase_gate_ledgers.py
 .\.venv\Scripts\python scripts\write_review_package_inventory.py
 .\.venv\Scripts\python scripts\build_review_package.py --fail-on-missing
 .\.venv\Scripts\python scripts\write_acceptance_decision_templates.py
@@ -145,14 +147,14 @@ packet, source URL review packet, remediation packet, provenance-priority
 packet, and source-provenance decision packet are reviewer aids only. They
 record citation reachability, source-specific actions, source-level priorities,
 and pending source decisions; they do not certify licenses, attribution, source
-suitability, or provenance acceptance.
+suitability, or provenance closure.
 
 The source context-cache request and decision packets identify context-source
 target payload blockers such as the KTDB GTFS zip or directory, Seoul
 shortest-path API cache/raw JSON, and Seoul timetable API cache/raw JSON. They
 are cache, sensitivity/context-only retention, or exclusion review aids only.
 Cached KTDB metadata is review support, not a GTFS payload cache or provenance
-acceptance.
+decision.
 
 Optional live source-cache refresh commands are separate from the default
 packet refresh and should only be run when a reviewer intentionally updates
@@ -165,7 +167,7 @@ source snapshots:
 
 The KTDB command writes public source metadata only, not a reviewed GTFS feed.
 The Metro 9 command writes a rolling-stock source-review extract only, not
-accepted rail capacity. After either command, rerun the rail and
+reviewed rail capacity. After either command, rerun the rail and
 source-provenance review packets before considering any formal source decision.
 
 The rail fetch-readiness and source-decision packets do not fetch or approve
@@ -182,9 +184,9 @@ treatment.
 The parameter source-readiness and source-decision packets do not accept weak
 assumptions. They record whether demand, fleet, dispatch, transfer,
 disruption, and traffic/BPR source requests are blocked or require human
-review before final parameter claims.
+review before release-scope parameter claims.
 
-The graph-scale strategy-readiness packet does not choose the final
+The graph-scale strategy-readiness packet does not choose the selected
 source-vs-analysis graph. It records whether the current reduced corridor,
 multi-corridor candidates, full graph, result deltas, and missing
 `graph_scale_acceptance.json` are blockers or human-review items. Current
@@ -192,7 +194,7 @@ cross-references are `docs/graph_scale_strategy_readiness_packet.md`,
 `data/validation/graph_scale_strategy_readiness_packet.csv`, and
 `data/validation/graph_scale_strategy_readiness_manifest.json`.
 
-The validation strategy-readiness packet does not choose the final benchmark
+The validation strategy-readiness packet does not choose the selected benchmark
 strategy. It records whether internal checks, fallback benchmarks, optional
 OSRM snapshots, accessibility diagnostics, route-road exposure, validation
 summary scope, and the missing validation acceptance record are blockers or
@@ -201,16 +203,16 @@ human-review items. Current cross-references are
 `data/validation/validation_strategy_readiness_packet.csv`, and
 `data/validation/validation_strategy_readiness_manifest.json`.
 
-The validation benchmark-readiness and benchmark-decision packets isolate
+The benchmark-precheck and benchmark-decision packets isolate
 whether fallback, OSRM, or other route benchmarks are sufficient for the
 validation claim boundary. They do not convert plausibility checks into ground
 truth or create `validation_acceptance.json`.
 
 The integrated evidence review packet consolidates the rail-source,
-validation-benchmark, validation-strategy, experiment-design, context-cache,
+benchmark, benchmark-strategy, experiment-design, context-cache,
 and source-provenance decision manifests into a cross-gate worksheet. It is a
 review aid only; it does not accept rail timing, validation benchmarks,
-experiment outputs, or integrated final claims.
+experiment outputs, or integrated release-scope claims.
 
 The sensitivity review, index-review, strategy-readiness, and method-decision
 packets do not accept Morris output, waive Sobol analysis, or approve final
@@ -223,7 +225,7 @@ blockers or human-review items. Current cross-references are
 `data/validation/sensitivity_strategy_readiness_manifest.json`.
 
 The experiment package, strategy-readiness, and design-decision packets do not
-accept full pilot outputs or approve calibrated experiment claims. They record
+accept full pilot outputs or approve field-fit experiment claims. They record
 whether scaffold result scope, graph-scale dependency, upstream input-evidence
 dependency, row-count and checksum review, scenario-policy-seed design, CRN
 pairing, and the missing experiment acceptance record are blockers or
@@ -274,29 +276,30 @@ Get-Content docs\formal_acceptance_pre_review.md
 .\.venv\Scripts\python scripts\audit_plan_artifacts.py
 ```
 
-7. If all pre-final gates are accepted, create `docs/final_study_audit.md` as
-   an independent prompt-to-artifact review. Then create
-   `data/manifests/final_audit_acceptance.json` only if the final audit confirms
-   the gate list, evidence, and non-operational claim boundary.
+7. After every prerequisite gate has a source-backed reviewer decision, create
+   `docs/final_study_audit.md` as an independent prompt-to-artifact review.
+   Then create `data/manifests/final_audit_acceptance.json` only if the
+   closeout audit confirms the gate list, evidence, and non-operational claim
+   boundary.
 
 ## Gate Worklist
 
 | Gate | Review Packet | Formal Target | Reviewer Decision Needed |
 | --- | --- | --- | --- |
-| `pilot_region_accepted` | `docs/review_packets/pilot_region_accepted.md`; `docs/pilot_privacy_review_packet.md`; `docs/pilot_region_decision_packet.md` | `data/manifests/pilot_acceptance.json` | Privacy, sensitivity, region scope, upstream graph/provenance dependencies, and not-operational boundary acceptance |
+| `pilot_region_accepted` | `docs/review_packets/pilot_region_accepted.md`; `docs/pilot_privacy_review_packet.md`; `docs/pilot_region_decision_packet.md` | `data/manifests/pilot_acceptance.json` | Privacy, sensitivity, region scope, upstream graph/provenance dependencies, and not-operational boundary decision |
 | `data_provenance` | `docs/review_packets/data_provenance.md`; `docs/source_license_review_packet.md`; `docs/source_url_review_packet.md`; `docs/source_url_remediation_packet.md`; `docs/source_provenance_priority_packet.md`; `docs/source_context_cache_request_packet.md`; `docs/source_context_cache_decision_packet.md`; `docs/source_provenance_decision_packet.md` | `data/manifests/provenance_acceptance.json` | Source URLs, OSM/license/attribution, snapshot, reproducibility, privacy abstraction, and target payload cache/retention/exclusion decisions |
 | `graph_scale_strategy` | `docs/review_packets/graph_scale_strategy.md`; `docs/graph_scale_review_packet.md`; `docs/full_graph_runtime_readiness_packet.md`; `docs/graph_scale_strategy_readiness_packet.md`; `docs/graph_scale_method_decision_packet.md` | `data/manifests/graph_scale_acceptance.json` | Reduced-corridor, multi-corridor, or full-graph method choice with matching graph counts and downstream regeneration decision |
 | `cached_osm_input` | `docs/review_packets/cached_osm_input.md`; `docs/road_evidence_review_packet.md`; `docs/road_evidence_priority_packet.md`; `docs/road_source_readiness_packet.md`; `docs/road_source_decision_packet.md` | `data/parameters/road_class_overrides.csv` | Reviewed road speed, capacity, base-disruption evidence, benchmark limits, or bounded override decision |
-| `parameter_evidence` | `docs/review_packets/parameter_evidence.md`; `docs/parameter_evidence_review_packet.md`; `docs/parameter_evidence_priority_packet.md`; `docs/parameter_source_readiness_packet.md`; `docs/parameter_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Acceptance or replacement of weak demand, fleet, transfer, disruption, traffic, censoring, and rail-dependent parameters |
+| `parameter_evidence` | `docs/review_packets/parameter_evidence.md`; `docs/parameter_evidence_review_packet.md`; `docs/parameter_evidence_priority_packet.md`; `docs/parameter_source_readiness_packet.md`; `docs/parameter_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Reviewer decision or replacement of weak demand, fleet, transfer, disruption, traffic, censoring, and rail-dependent parameters |
 | `rail_evidence` | `docs/review_packets/rail_evidence.md`; `docs/rail_evidence_review_packet.md`; `docs/rail_evidence_priority_packet.md`; `docs/rail_fetch_readiness_packet.md`; `docs/rail_source_decision_packet.md` | `data/parameters/parameter_acceptance.csv` | Rail headway, travel time, station, GTFS/API cache, capacity, availability, or sensitivity-only boundary |
 | `validation_package` | `docs/review_packets/validation_package.md`; `docs/validation_review_packet.md`; `docs/validation_strategy_readiness_packet.md`; `docs/validation_benchmark_readiness_packet.md`; `docs/validation_benchmark_decision_packet.md`; `docs/integrated_evidence_review_packet.md` | `data/manifests/validation_acceptance.json` | Benchmark strategy, thresholds, sample scope, failure cases, weak road-evidence dependency, cross-gate evidence dependencies, and benchmark-not-ground-truth acknowledgement |
 | `sensitivity_analysis` | `docs/review_packets/sensitivity_analysis.md`; `docs/sensitivity_review_packet.md`; `docs/sensitivity_index_review_packet.md`; `docs/sensitivity_strategy_readiness_packet.md`; `docs/sensitivity_method_decision_packet.md` | `data/manifests/sensitivity_acceptance.json` | Parameter ranges, Morris diagnostics, missing/non-finite indices, Sobol decision, graph scope, and interpretation caveats |
 | `full_experiment_output` | `docs/review_packets/full_experiment_output.md`; `docs/experiment_package_review_packet.md`; `docs/seed_stream_manifest.md`; `docs/crn_pairing_audit.md`; `docs/replication_adequacy_audit.md`; `docs/experiment_strategy_readiness_packet.md`; `docs/experiment_design_decision_packet.md` | `data/manifests/experiment_acceptance.json` | Scenario-policy-seed package, seed streams, structural CRN pairing, paired-delta statistics, replication adequacy, multiple-comparison handling, row counts, manifests, checksums where available, graph/input dependencies, and rerun requirement after upstream changes |
-| `manuscript_report_alignment` | `docs/review_packets/manuscript_report_alignment.md`; `docs/figure_table_review_packet.md`; `docs/claim_alignment_review_packet.md`; `docs/manuscript_report_decision_packet.md` | `data/manifests/manuscript_acceptance.json` | Claim-by-claim alignment of paper/report/figures against accepted evidence, graph scope, proxy interpretation, and upstream gate dependencies |
+| `manuscript_report_alignment` | `docs/review_packets/manuscript_report_alignment.md`; `docs/figure_table_review_packet.md`; `docs/claim_alignment_review_packet.md`; `docs/manuscript_report_decision_packet.md` | `data/manifests/manuscript_acceptance.json` | Claim-by-claim alignment of paper/report/figures against reviewer-decided evidence, graph scope, proxy interpretation, and upstream gate dependencies |
 | `reproducibility` | `docs/review_packets/reproducibility.md`; `docs/reproducibility_review_packet.md`; `docs/reproducibility_decision_packet.md` | `data/manifests/reproducibility_acceptance.json` | Clean-checkout reproduction, artifact regeneration, package state, import-boundary review, and command log; current-worktree smoke is supporting evidence only |
-| `final_audit` | `docs/review_packets/final_audit.md`; `docs/final_audit_decision_packet.md` | `docs/final_study_audit.md` and `data/manifests/final_audit_acceptance.json` | Independent final review after every pre-final gate closes and all formal artifacts exist |
+| `final_audit` | `docs/review_packets/final_audit.md`; `docs/final_audit_decision_packet.md` | `docs/final_study_audit.md` and `data/manifests/final_audit_acceptance.json` | Independent closeout review after every prerequisite gate closes and all formal artifacts exist |
 
-## Acceptance Package Checks
+## Decision Package Checks
 
 The formal package should stay blocked until all required evidence is present.
 These commands are expected to fail with blockers until the human/source-backed

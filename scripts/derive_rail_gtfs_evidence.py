@@ -26,6 +26,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     feed = load_cached_gtfs_feed(args.input)
     input_path = Path(args.input)
+    validator_report_path = Path(args.gtfs_validator_report)
     record = derive_rail_service_evidence_from_gtfs(
         feed,
         GtfsEvidenceDerivationConfig(
@@ -47,6 +48,8 @@ def main(argv: list[str] | None = None) -> int:
             source_artifact_sha256=file_sha256(input_path)
             if input_path.is_file()
             else args.source_artifact_sha256,
+            gtfs_validator_report_path=_display_path(validator_report_path),
+            gtfs_validator_report_sha256=file_sha256(validator_report_path),
         ),
     )
     write_rail_service_evidence([record], args.output)
@@ -60,6 +63,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     if input_path.is_file():
         print(f"source_artifact_sha256: {file_sha256(input_path)}")
+    print(f"gtfs_validator_report_sha256: {file_sha256(validator_report_path)}")
     return 0
 
 
@@ -87,6 +91,14 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--service-id", action="append", default=[])
     parser.add_argument("--direction-id", default="")
     parser.add_argument(
+        "--gtfs-validator-report",
+        required=True,
+        help=(
+            "Reviewed GTFS Validator report artifact for the same feed. "
+            "This command records its path and SHA256 but does not run the validator."
+        ),
+    )
+    parser.add_argument(
         "--source-artifact-sha256",
         default="",
         help=(
@@ -101,6 +113,9 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
             "--source-artifact-sha256 is required when --input is a directory; "
             "prefer a reviewed GTFS zip for final evidence"
         )
+    validator_report = Path(args.gtfs_validator_report)
+    if not validator_report.is_file():
+        parser.error("--gtfs-validator-report must point to an existing report file")
     return args
 
 

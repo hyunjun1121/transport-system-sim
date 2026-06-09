@@ -35,9 +35,9 @@ DEFAULT_PARAMETER_SOURCE_DECISION_DOC_PATH = (
     PROJECT_ROOT / "docs" / "parameter_source_decision_packet.md"
 )
 PARAMETER_SOURCE_DECISION_SCOPE = (
-    "Parameter source-decision packet only; not source evidence, not accepted "
-    "parameter calibration, not weak-parameter acceptance, not parameter "
-    "evidence gate closure, and not publication-readiness approval."
+    "Parameter source-decision packet only; not source evidence, not approved "
+    "parameter fitting, not weak-parameter decision evidence, not parameter "
+    "evidence gate closure, and not publication gate approval."
 )
 PARAMETER_SOURCE_DECISION_COLUMNS: tuple[str, ...] = (
     "request_id",
@@ -216,8 +216,8 @@ def build_parameter_source_decision_manifest(
             "choose source-backed update, bounded scenario assumption, sensitivity-only treatment, or exclusion for every weak parameter group",
             "record reviewer, decision date, evidence paths, sensitivity treatment, and not-operational claim limits outside this packet",
             "update parameter source tables only after source review",
-            "create data/parameters/parameter_acceptance.csv only if retained weak assumptions are explicitly accepted",
-            "rerun parameter, publication-readiness, and final-study audits after decisions are recorded",
+            "create data/parameters/parameter_acceptance.csv only if retained weak assumptions receive explicit reviewer decisions",
+            "rerun parameter, publication, and study-closeout audits after decisions are recorded",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -267,7 +267,7 @@ def build_parameter_source_decision_markdown(
             "",
             "- This packet is a reviewer worksheet, not a formal decision record.",
             "- It does not update parameter tables or accept weak assumptions.",
-            "- Keep final parameter claims blocked until source-backed changes or formal weak-parameter acceptance exist.",
+            "- Keep release-scope parameter claims blocked until source-backed changes or formal weak-parameter decisions exist.",
             "",
         ]
     )
@@ -311,7 +311,7 @@ def _decision_row(
         "required_reviewer_action": (
             "Choose whether to replace with source-backed values, retain as a "
             "bounded scenario assumption, retain as sensitivity-only, or exclude "
-            "the affected claim from final-study interpretation."
+            "the affected claim from release-scope interpretation."
         ),
         "required_evidence_fields": (
             "reviewer; decision_date; decision_basis; evidence_paths; "
@@ -332,7 +332,7 @@ def _candidate_options(row: Mapping[str, str]) -> str:
         "replace_with_source_backed_parameter_values",
         "retain_as_bounded_scenario_assumption",
         "retain_as_sensitivity_only",
-        "exclude_from_final_claims",
+        "exclude_from_release_scope_claims",
     ]
     group = str(row.get("parameter_groups", ""))
     if group == "transfer":

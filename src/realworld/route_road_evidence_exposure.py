@@ -257,12 +257,16 @@ def _exposure_rows_for_route(
             length_m = 0.0
             time_min = 0.0
             edge_id = f"{u}->{v}"
+            override_source_class = ""
         else:
             data = graph.edges[u, v]
             highway = str(data.get("highway", "unknown") or "unknown")
             length_m = _finite_float(data.get("length_m")) or 0.0
             time_min = _finite_float(data.get("t0")) or 0.0
             edge_id = str(data.get("realworld_edge_id", f"{u}->{v}"))
+            override_source_class = str(
+                data.get("road_class_override_source_class", "")
+            ).strip()
         total_distance += length_m
         total_time += time_min
         bucket = aggregates.setdefault(
@@ -272,17 +276,24 @@ def _exposure_rows_for_route(
                 "distance_m": 0.0,
                 "time_min": 0.0,
                 "edge_ids": [],
+                "override_source_classes": set(),
             },
         )
         bucket["edge_count"] += 1
         bucket["distance_m"] += length_m
         bucket["time_min"] += time_min
         bucket["edge_ids"].append(edge_id)
+        if override_source_class:
+            bucket["override_source_classes"].add(override_source_class)
 
     rows: list[dict[str, str]] = []
     for highway, aggregate in aggregates.items():
         evidence = _evidence_for_highway(highway, evidence_by_highway)
         weak = _weak_for_final_claim(highway, evidence)
+        edge_override_source_class = _edge_override_source_class(aggregate)
+        override_source_class = edge_override_source_class or str(
+            evidence.get("override_source_class", "")
+        )
         rows.append(
             {
                 "region_id": str(route_row.get("region_id", "")),
@@ -309,7 +320,7 @@ def _exposure_rows_for_route(
                 "base_disruption_evidence_status": evidence.get(
                     "base_disruption_evidence_status", ""
                 ),
-                "override_source_class": evidence.get("override_source_class", ""),
+                "override_source_class": override_source_class,
                 "review_priority": evidence.get("review_priority", "route_only"),
                 "weak_for_final_claim": str(weak).lower(),
                 "candidate_artifacts": evidence.get("candidate_artifacts", ""),
@@ -317,7 +328,12 @@ def _exposure_rows_for_route(
                     "route_exposure_review_support_only_not_acceptance"
                 ),
                 "claim_scope": ROUTE_ROAD_EVIDENCE_EXPOSURE_SCOPE,
-                "notes": _notes(highway, aggregate["edge_ids"], weak),
+                "notes": _notes(
+                    highway,
+                    aggregate["edge_ids"],
+                    weak,
+                    edge_override_source_class=edge_override_source_class,
+                ),
             }
         )
     return rows
@@ -394,6 +410,17 @@ def _weak_for_final_claim(
     return str(evidence.get("weak_for_final_claim", "true")).strip().lower() == "true"
 
 
+def _edge_override_source_class(
+    aggregate: Mapping[str, Any],
+) -> str:
+    edge_classes = {
+        str(item).strip()
+        for item in aggregate.get("override_source_classes", set())
+        if str(item).strip()
+    }
+    return ";".join(sorted(edge_classes))
+
+
 def _load_road_evidence_by_highway(
     path: str | Path,
 ) -> dict[str, dict[str, str]]:
@@ -423,7 +450,13 @@ def _path_nodes(value: str) -> tuple[str, ...]:
     return tuple(part for part in str(value or "").split(">") if part)
 
 
-def _notes(highway: str, edge_ids: Sequence[str], weak: bool) -> str:
+def _notes(
+    highway: str,
+    edge_ids: Sequence[str],
+    weak: bool,
+    *,
+    edge_override_source_class: str = "",
+) -> str:
     sample = ";".join(edge_ids[:3])
     suffix = "" if len(edge_ids) <= 3 else f"; plus {len(edge_ids) - 3} more"
     if highway == "connector":
@@ -432,7 +465,12 @@ def _notes(highway: str, edge_ids: Sequence[str], weak: bool) -> str:
         prefix = "weak road-evidence exposure on this route class"
     else:
         prefix = "route class has stronger review-packet evidence status"
-    return f"{prefix}; sample_edges={sample}{suffix}"
+    override_note = (
+        ""
+        if not edge_override_source_class
+        else f"; edge_override_source_class={edge_override_source_class}"
+    )
+    return f"{prefix}; sample_edges={sample}{suffix}{override_note}"
 
 
 def _summary_text(value: Mapping[str, Any]) -> str:

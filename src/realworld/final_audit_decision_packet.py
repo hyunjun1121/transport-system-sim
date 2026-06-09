@@ -425,7 +425,7 @@ def build_final_audit_decision_markdown(
     """Return a human-readable final-audit decision packet."""
 
     lines = [
-        "# Final Audit Decision Packet",
+        "# Study Closeout Review Packet",
         "",
         str(manifest.get("claim_boundary", FINAL_AUDIT_DECISION_SCOPE)),
         "",

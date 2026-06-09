@@ -90,7 +90,7 @@
     {
       "claim_supported": "Formal target required for road_class_overrides",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "data/parameters/road_class_overrides.csv"
     },
     {
@@ -319,6 +319,30 @@
       "claim_supported": "Repository evidence cited for road_class_overrides",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/road_attribute_evidence_table.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "data/parameters/road_attribute_evidence_manifest.json"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "scripts/write_road_attribute_evidence.py"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/road_attribute_evidence.md"
+    },
+    {
+      "claim_supported": "Repository evidence cited for road_class_overrides",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "scripts/write_road_class_override_template.py"
     },
     {
@@ -340,7 +364,7 @@
   "formal_record_present": false,
   "formal_target": "data/parameters/road_class_overrides.csv",
   "gate": "road_class_overrides",
-  "generated_at": "2026-05-10T08:28:03+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -350,7 +374,7 @@
     "After a real decision, create or update data/parameters/road_class_overrides.csv.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Road-Class Override Acceptance",
+  "label": "Road-Class Override Decision",
   "missing_evidence": [
     "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
@@ -401,12 +425,16 @@
     "scripts/write_road_source_readiness_packet.py",
     "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
+    "data/parameters/road_attribute_evidence_table.csv",
+    "data/parameters/road_attribute_evidence_manifest.json",
+    "scripts/write_road_attribute_evidence.py",
+    "docs/road_attribute_evidence.md",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
     "scripts/audit_road_overrides.py"
   ],
   "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
   "related_plan_gate_ids": [
     "cached_osm_input"
   ],
@@ -416,25 +444,8 @@
     "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
     "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
     "reviewed road-class override table is absent",
-    "road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration",
-    "road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
-    "road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
-    "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
-    "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-    "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent",
-    "road source readiness: cached lane-count evidence has no parseable observed lane rows",
-    "road source readiness: data/parameters/road_class_overrides.csv is absent",
-    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
-    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
-    "road source decision: reviewed road_class_overrides.csv is absent",
-    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
-    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows",
-    "data/parameters/road_class_overrides.csv is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/cached_osm_input.md",

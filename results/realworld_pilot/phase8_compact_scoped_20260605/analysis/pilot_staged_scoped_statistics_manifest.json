@@ -1,0 +1,55 @@
+{
+  "baseline_policy_id": "bus_only",
+  "ci_method": "normal_approximation_mean_plus_minus_1_96_standard_errors",
+  "claim_boundary": "Confidence intervals summarize seed-replication variability in the current scaffold outputs. They do not certify calibrated real-world accuracy, field validation, or operational routing readiness.",
+  "metric_ci_row_count": 819,
+  "metric_columns": [
+    "completion_rate",
+    "censored_count",
+    "penalized_makespan",
+    "makespan",
+    "road_vehicle_service_minutes",
+    "train_service_minutes",
+    "total_service_minutes",
+    "passenger_travel_minutes",
+    "passengers_per_total_service_minute",
+    "first_arrival_time",
+    "median_arrival_time",
+    "p80_arrival_time",
+    "p95_arrival_time"
+  ],
+  "multiple_comparison_method": "No formal multiple-comparison correction is accepted for the current scaffold outputs. Primary comparisons must be selected before formal experiment acceptance; all other scenario, policy, and metric comparisons are exploratory.",
+  "output_prefix": "pilot_staged_scoped",
+  "outputs": {
+    "manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_statistics_manifest.json",
+    "metric_ci": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_metric_ci.csv",
+    "paired_delta_ci": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_paired_delta_ci.csv"
+  },
+  "paired_delta_ci_row_count": 702,
+  "pairing": "Policy deltas are paired by region, graph source, scenario, and seed against bus_only when both rows are present.",
+  "result_scope": "Pilot scaffold uncertainty summary; not calibrated real-world confidence evidence or an operational forecast.",
+  "schema_version": 1,
+  "source_graph_scale": {
+    "analysis": {
+      "corridor_path_count": 1,
+      "edges": 174,
+      "graph_corridor_path_count": 1,
+      "graph_corridor_strategy": "single_shortest_time_route_corridor",
+      "graph_reduction_strategy": "single_corridor",
+      "nodes": 118,
+      "reduced": true,
+      "strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded"
+    },
+    "source": {
+      "edges": 9148,
+      "nodes": 4608
+    }
+  },
+  "source_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+  "source_manifest_sha256": "07cd065794a546f33df7ffa0493a993715131efed7148d0d19a1a1c3a098e288",
+  "source_results_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+  "source_results_sha256": "6f311a3d659fa9d7b2b6494fa7bfebd5235d3301f65c41b54b537a99707228a7",
+  "source_row_count": 315,
+  "source_run_profile": "staged_pilot",
+  "source_summary_row_count": 63
+}

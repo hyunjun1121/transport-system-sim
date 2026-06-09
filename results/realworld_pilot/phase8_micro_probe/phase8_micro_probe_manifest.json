@@ -1,0 +1,177 @@
+{
+  "actual_row_count": 2,
+  "actual_summary_row_count": 2,
+  "can_mark_complete": false,
+  "checks": {
+    "deterministic_results_hash_match": true,
+    "deterministic_summary_hash_match": true,
+    "engineering_only_boundary": true,
+    "non_publication_boundary": true,
+    "policy_ids_frozen": true,
+    "profile_id_frozen": true,
+    "profile_ids_match_design": true,
+    "profile_input_hashes_match": true,
+    "profile_inputs_consumed": true,
+    "row_count_matches": true,
+    "runtime_preflight_ready_for_micro_probe": true,
+    "scenario_ids_frozen": true,
+    "seeds_frozen": true,
+    "summary_row_count_matches": true,
+    "worker_count_is_one": true
+  },
+  "claim_boundary": "Phase 8 executable micro-probe only; not compact evidence, not calibrated real-world results, not publication readiness, not final-study approval, and not formal acceptance.",
+  "common_random_number_pair_count": 1,
+  "deterministic_comparison": {
+    "primary_results_sha256": "6275e1cda9981d30b1083d33b476f603e539045222781bed007df29770035eba",
+    "primary_summary_sha256": "c7725973bb2d8424c1d55b7ab5ee51c94f6f5cc3d580e6f21613e0c6dc79a4f3",
+    "rerun_results_sha256": "6275e1cda9981d30b1083d33b476f603e539045222781bed007df29770035eba",
+    "rerun_summary_sha256": "c7725973bb2d8424c1d55b7ab5ee51c94f6f5cc3d580e6f21613e0c6dc79a4f3"
+  },
+  "deterministic_rerun_outputs": {
+    "output_dir": "results\\realworld_pilot\\phase8_micro_probe_deterministic_rerun",
+    "output_lock_receipt": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe_deterministic_rerun\\pilot_staged_output_lock_receipt.json",
+      "sha256": "8001e57031da4a359a1cfae80a868b28b4c710dc9cebfca79e080e7184549470"
+    },
+    "pilot_manifest": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe_deterministic_rerun\\pilot_staged_manifest.json",
+      "sha256": "4c8e133cdef7ccc19a4ab586a4fba7b63144d55a4d77047c6d7fd3cc04e5647c"
+    },
+    "results": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe_deterministic_rerun\\pilot_staged_results.csv",
+      "sha256": "6275e1cda9981d30b1083d33b476f603e539045222781bed007df29770035eba"
+    },
+    "summary": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe_deterministic_rerun\\pilot_staged_summary.csv",
+      "sha256": "c7725973bb2d8424c1d55b7ab5ee51c94f6f5cc3d580e6f21613e0c6dc79a4f3"
+    }
+  },
+  "execution_blockers": [],
+  "expected_row_count": 2,
+  "expected_summary_row_count": 2,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-08T01:18:57+00:00",
+  "manifest_path": "results\\realworld_pilot\\phase8_micro_probe\\phase8_micro_probe_manifest.json",
+  "manifest_self_hash_policy": "The wrapper manifest SHA256 is reported by the caller after write; it is not embedded in the manifest to avoid self-referential hashing.",
+  "micro_probe_execution_ready": true,
+  "operational_use_allowed": false,
+  "pass_fail_rules": {
+    "claim_boundary": "outputs must remain non-publication, non-final-study, non-formal-acceptance, and non-operational",
+    "deterministic_rerun": "primary and rerun result/summary CSV SHA256 values must match",
+    "profile_inputs": "primary and rerun pilot manifests must prove Phase 5 demand/fleet profile CSVs were consumed with matching hashes",
+    "row_count": "must equal 2 rows: two policies x one scenario x one seed",
+    "runtime_preflight": "runtime preflight manifest must exist, be ready, and use execution_scope=micro_probe",
+    "summary_row_count": "must equal 2 rows: two policies x one scenario",
+    "worker_count": "primary and deterministic rerun must both report one worker"
+  },
+  "phase_id": "phase8_micro_probe",
+  "policy_ids": [
+    "bus_only",
+    "baseline_multimodal"
+  ],
+  "primary_outputs": {
+    "output_dir": "results\\realworld_pilot\\phase8_micro_probe",
+    "output_lock_receipt": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe\\pilot_staged_output_lock_receipt.json",
+      "sha256": "cc40d4669dba68bed68bb06b4125f9a0dc46a8f52680ec43fc43d5a0940be752"
+    },
+    "pilot_manifest": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe\\pilot_staged_manifest.json",
+      "sha256": "c41f069bf6da93b8dae52b3b4a66ddaaf3fb3ecef4f29d57749d0494bd4c00ff"
+    },
+    "results": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe\\pilot_staged_results.csv",
+      "sha256": "6275e1cda9981d30b1083d33b476f603e539045222781bed007df29770035eba"
+    },
+    "summary": {
+      "exists": true,
+      "path": "results\\realworld_pilot\\phase8_micro_probe\\pilot_staged_summary.csv",
+      "sha256": "c7725973bb2d8424c1d55b7ab5ee51c94f6f5cc3d580e6f21613e0c6dc79a4f3"
+    }
+  },
+  "profile_id": "staged_pilot",
+  "profile_runtime_inputs": {
+    "deterministic_rerun": {
+      "applied_field_count": 19,
+      "can_support_final_study_gate": false,
+      "demand_profile_id": "pilot_default_demand",
+      "demand_profiles_path": "data/scenarios/demand_profiles.csv",
+      "demand_profiles_sha256": "976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+      "fleet_profile_id": "pilot_default_fleet",
+      "fleet_profiles_path": "data/scenarios/fleet_profiles.csv",
+      "fleet_profiles_sha256": "c358554d54c3b879e720bced56ee3325337f5f7f32a71954ddc99cc3ca722991",
+      "remaining_blockers": [
+        "profile rows are bounded scenario assumptions, not calibration evidence",
+        "agency fleet roster and operating timetable evidence remain absent",
+        "no-show and partial non-arrival semantics are still not implemented"
+      ],
+      "runtime_profile_inputs_consumed": true
+    },
+    "primary": {
+      "applied_field_count": 19,
+      "can_support_final_study_gate": false,
+      "demand_profile_id": "pilot_default_demand",
+      "demand_profiles_path": "data/scenarios/demand_profiles.csv",
+      "demand_profiles_sha256": "976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+      "fleet_profile_id": "pilot_default_fleet",
+      "fleet_profiles_path": "data/scenarios/fleet_profiles.csv",
+      "fleet_profiles_sha256": "c358554d54c3b879e720bced56ee3325337f5f7f32a71954ddc99cc3ca722991",
+      "remaining_blockers": [
+        "profile rows are bounded scenario assumptions, not calibration evidence",
+        "agency fleet roster and operating timetable evidence remain absent",
+        "no-show and partial non-arrival semantics are still not implemented"
+      ],
+      "runtime_profile_inputs_consumed": true
+    }
+  },
+  "promotion_blockers": [
+    "micro-probe is execution evidence only and cannot promote compact/full outputs",
+    "formal acceptance evidence is not created by this wrapper",
+    "final study readiness remains outside this wrapper",
+    "rail source decisions remain pending",
+    "artifact invalidation still blocks Phase 9 promotion",
+    "profile ran under engineering-only bypass"
+  ],
+  "promotion_ready": false,
+  "publication_ready": false,
+  "r_equivalent": 1,
+  "result_scope": "Phase 8 executable micro-probe only; not compact evidence, not calibrated real-world results, not publication readiness, not final-study approval, and not formal acceptance.",
+  "route_scope": {
+    "disruption_target_segment": "R->D",
+    "graph_reduction_strategy": "single_corridor",
+    "rail_or_transit_paths": [
+      "S->R"
+    ],
+    "road_paths": [
+      "A->D",
+      "A->S",
+      "R->D"
+    ]
+  },
+  "run_stage": "staged",
+  "runtime_preflight": {
+    "execution_scope": "micro_probe",
+    "exists": true,
+    "path": "data\\validation\\runtime_preflight\\phase8_micro_probe_runtime_preflight_manifest.json",
+    "remaining_blockers": [],
+    "runtime_preflight_ready": true,
+    "runtime_preflight_ready_for_micro_probe": true,
+    "sha256": "8990e593e60ba09e73a0e806173213b70b0160d8b3230eb804d17e5e094bb3b6"
+  },
+  "scenario_ids": [
+    "songpa_last_mile_station_to_destination"
+  ],
+  "schema_version": 1,
+  "seeds": [
+    2101
+  ],
+  "worker_count": 1
+}

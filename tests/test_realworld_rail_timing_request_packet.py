@@ -21,6 +21,8 @@ from src.realworld.rail_timing_request_packet import (  # noqa: E402
     RAIL_CAPACITY_REVIEW_INPUT_PATHS,
     RAIL_TIMING_SOURCE_REQUEST_COLUMNS,
     RAIL_TIMING_SOURCE_REQUEST_SCOPE,
+    STATIC_TIMETABLE_SOURCE_CITATION,
+    STATIC_TIMETABLE_SOURCE_NAME,
     build_rail_timing_source_request_rows,
     write_rail_timing_source_request_packet,
 )
@@ -32,14 +34,49 @@ def test_rail_timing_source_request_rows_are_actionable() -> None:
     rows = build_rail_timing_source_request_rows()
     by_id = {row["request_id"]: row for row in rows}
 
-    assert len(rows) == 5
+    assert len(rows) == 6
     assert by_id["rail_timetable_headway_request"]["expected_derived_fields"] == "headway"
     assert "DATA_GO_KR_KEY" in by_id["rail_timetable_headway_request"]["required_external_input"]
     assert "fetch_rail_timetable_cache.py" in by_id["rail_timetable_headway_request"]["fetch_command"]
+    static_csv = by_id["rail_static_timetable_csv_headway_request"]
+    assert static_csv["source_type"] == "reviewed_static_timetable_csv_required"
+    assert static_csv["source_name"] == STATIC_TIMETABLE_SOURCE_NAME
+    assert static_csv["source_url_or_citation"] == STATIC_TIMETABLE_SOURCE_CITATION
+    assert static_csv["expected_derived_fields"] == "headway"
+    assert static_csv["can_close_rail_timing_gate"] == "false"
+    assert "explicit source-column mappings" in static_csv["required_external_input"]
+    assert "normalize_rail_timetable_cache.py" in static_csv["fetch_command"]
+    assert "REVIEWED_TRIP_ID_COLUMN" in static_csv["fetch_command"]
+    assert static_csv["source_cache_path"] == (
+        "data/rail/pilot_rail_static_timetable_cache.csv"
+    )
+    assert "pilot_rail_timetable_static_source.csv" in static_csv["raw_payload_path"]
+    assert "pilot_rail_static_timetable_cache_manifest.json" in static_csv[
+        "raw_payload_path"
+    ]
+    assert "own station identifier namespace" in static_csv["notes"]
+    assert by_id["rail_timetable_headway_request"]["source_cache_path"] == (
+        "data/rail/pilot_rail_timetable_api_cache.csv"
+    )
+    assert by_id["rail_timetable_headway_request"]["source_cache_path"] != static_csv[
+        "source_cache_path"
+    ]
+    assert STATIC_TIMETABLE_SOURCE_CITATION in static_csv[
+        "derive_command"
+    ]
     assert by_id["rail_shortest_path_travel_time_request"]["expected_derived_fields"] == "travel_time"
     assert "derive_rail_shortest_path_evidence.py" in by_id["rail_shortest_path_travel_time_request"]["derive_command"]
     assert by_id["rail_static_gtfs_timing_request"]["can_close_rail_timing_gate"] == "true"
     assert by_id["rail_static_gtfs_timing_request"]["expected_derived_fields"] == "headway;travel_time"
+    assert "GTFS Validator report" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["required_external_input"]
+    assert "pilot_gtfs_validator_report.json" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["source_cache_path"]
+    assert "--gtfs-validator-report" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["derive_command"]
     assert by_id["rail_static_gtfs_timing_request"]["raw_payload_path"] == (
         KTDB_GTFS_SOURCE_METADATA_PATHS
     )
@@ -74,8 +111,17 @@ def test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix() -
 
     assert {row["region_id"] for row in rows} == {"synthetic_region_fixture"}
     assert by_id["rail_timetable_headway_request"]["source_cache_path"] == (
-        "data/rail/synthetic_region_fixture_rail_timetable_cache.csv"
+        "data/rail/synthetic_region_fixture_rail_timetable_api_cache.csv"
     )
+    assert by_id["rail_static_timetable_csv_headway_request"]["source_cache_path"] == (
+        "data/rail/synthetic_region_fixture_rail_static_timetable_cache.csv"
+    )
+    assert "synthetic_region_fixture_rail_timetable_static_source.csv" in by_id[
+        "rail_static_timetable_csv_headway_request"
+    ]["fetch_command"]
+    assert "synthetic_region_fixture_rail_static_timetable_cache_manifest.json" in by_id[
+        "rail_static_timetable_csv_headway_request"
+    ]["fetch_command"]
     assert "--region-id synthetic_region_fixture" in by_id[
         "rail_timetable_headway_request"
     ]["derive_command"]
@@ -92,6 +138,9 @@ def test_rail_timing_source_request_rows_use_binding_region_and_cache_prefix() -
         "rail_shortest_path_travel_time_request"
     ]["derive_command"]
     assert "synthetic_region_fixture_rail_gtfs_v1" in by_id[
+        "rail_static_gtfs_timing_request"
+    ]["derive_command"]
+    assert "synthetic_region_fixture_gtfs_validator_report.json" in by_id[
         "rail_static_gtfs_timing_request"
     ]["derive_command"]
 
@@ -119,12 +168,12 @@ def test_write_rail_timing_source_request_packet_outputs_csv_and_manifest() -> N
         with manifest.open("r", encoding="utf-8") as handle:
             written_manifest = json.load(handle)
 
-        assert len(written_rows) == 5
+        assert len(written_rows) == 6
         assert value["publication_ready"] is False
         assert value["region_ids"] == ["songpa_public_demo"]
         assert value["timing_closure_candidate_count"] == 1
-        assert value["requires_private_or_reviewed_input_count"] == 3
-        assert written_manifest["row_count"] == 5
+        assert value["requires_private_or_reviewed_input_count"] == 4
+        assert written_manifest["row_count"] == 6
         assert "does not contain cached source observations" in written_manifest["claim_boundary"]
 
     print("PASS: rail timing source-request writer emits CSV and manifest")

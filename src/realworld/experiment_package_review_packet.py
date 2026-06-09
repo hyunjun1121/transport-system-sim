@@ -83,7 +83,7 @@ def build_experiment_package_review_rows(
             expected_row_count=expected_rows,
             review_action=(
                 "Verify full result rows match the manifest and were regenerated "
-                "after the accepted graph/input scope was selected."
+                "after the reviewer-selected graph/input scope was documented."
             ),
         ),
         _csv_count_row(
@@ -92,7 +92,7 @@ def build_experiment_package_review_rows(
             expected_row_count=expected_summary_rows,
             review_action=(
                 "Verify summary rows match the manifest and summarize only the "
-                "accepted run profile."
+                "review-selected run profile."
             ),
         ),
         _scenario_policy_seed_row(manifest, design),
@@ -182,7 +182,7 @@ def build_experiment_package_review_manifest(
         "claim_boundary": (
             EXPERIMENT_PACKAGE_REVIEW_SCOPE
             + " A reviewer must still create data/manifests/experiment_acceptance.json "
-            "after graph scope, input validation, scenario-policy-seed design, "
+            "after graph scope, input checks, scenario-policy-seed design, "
             "CRN pairing, counts, and claim boundaries are reviewed."
         ),
         "result_scope": EXPERIMENT_PACKAGE_REVIEW_SCOPE,
@@ -206,9 +206,9 @@ def build_experiment_package_review_manifest(
         },
         "review_items": [
             "verify result and summary row counts against pilot_full_manifest.json",
-            "verify artifact checksums and retain them in the final acceptance record",
-            "confirm graph scope and input validation are accepted before using full outputs",
-            "confirm scenario-policy-seed design and CRN pairing before acceptance",
+            "verify artifact checksums and retain them in the experiment decision record",
+            "confirm graph scope and input checks before using full outputs",
+            "confirm scenario-policy-seed design and CRN pairing before the experiment decision",
             "create data/manifests/experiment_acceptance.json only after a real review decision",
         ],
         "remaining_blockers": [
@@ -261,8 +261,8 @@ def build_experiment_package_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Review `results/realworld_pilot/pilot_full_manifest.json` with the full result and summary CSVs.",
-            "- Confirm graph-scale, input validation, scenario-policy-seed, and CRN decisions before acceptance.",
-            "- Retain artifact checksums in the formal acceptance evidence when the run package is accepted.",
+            "- Confirm graph-scale, input checks, scenario-policy-seed, and CRN decisions before the experiment decision.",
+            "- Retain artifact checksums in the experiment decision evidence when the run package is reviewer-selected.",
             "- Create `data/manifests/experiment_acceptance.json` only after a real review decision.",
             "",
         ]
@@ -386,7 +386,7 @@ def _graph_scope_row(manifest: Mapping[str, Any]) -> dict[str, str]:
         ),
         review_action=(
             "Close graph-scale method review or regenerate outputs on the "
-            "selected final graph method before accepting full experiment outputs."
+            "selected graph method before using full experiment outputs."
         ),
         publication_use_status="blocked_until_graph_scale_acceptance",
         evidence_detail=(
@@ -485,7 +485,7 @@ def _checksum_row(*, manifest_path: Path, results_path: Path, summary_path: Path
         ),
         review_action=(
             "Record these checksums or regenerated equivalents in the formal "
-            "experiment acceptance evidence."
+            "experiment decision evidence."
         ),
         publication_use_status="review_support_only_not_reproducibility_acceptance",
         evidence_detail=";".join(f"{key}_sha256_present={str(bool(value)).lower()}" for key, value in hashes.items()),
@@ -508,8 +508,8 @@ def _acceptance_record_requirement_row(path: Path) -> dict[str, str]:
         ),
         review_action=(
             "Create or review experiment_acceptance.json only after graph scope, "
-            "input validation, scenario-policy-seed design, CRN, counts, and "
-            "claim boundary are genuinely accepted."
+            "input checks, scenario-policy-seed design, CRN, counts, and "
+            "claim boundary are genuinely reviewed."
         ),
         publication_use_status="cannot_close_experiment_gate_without_formal_acceptance",
         evidence_detail="formal experiment acceptance record controls gate closure",

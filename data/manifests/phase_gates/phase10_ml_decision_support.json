@@ -1,0 +1,92 @@
+{
+  "artifact_hashes": {
+    "data/validation/gpu_ml_runtime_manifest.json": "sha256:c6308a5cc4923f0efbcfc3a812435f7b766110df9334faad3719e6318c56e63a",
+    "docs/recovery/agent_ledgers/phase10_gpu_ml_optional_requirements_20260604.md": "sha256:d96ddf404bf578c5b1aafbf2630aba5a65f7044cef7b834611f5cc4b43972d1c",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_feature_importance.csv": "sha256:76138f593d852608f132dd0b06232c9e659fd862456ce6d727be0a748a4288ca",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json": "sha256:d740e1fa84f7e87bd08a611706ee43837242c99d9bfcbfab9b007b19cd40e8fe",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_metrics.json": "sha256:073e36370cbbf9a4fb8ea7e9cfea79815f90ac333fbcffc59c894b62f4487608",
+    "scripts/check_gpu_ml_runtime.py": "sha256:0cb40bc78db00f04c64c14b8a3f95f001f1557b4fc324596a741c3aca161f1e1",
+    "scripts/run_ml_analysis.py": "sha256:6bf3afe34471bdb4c52dc22713f9da946db3455c03072bd9740f26ac19f66f39",
+    "tests/test_realworld_gpu_ml_runtime.py": "sha256:6e70d178f257d6cfa2665730ebc51959357470fd198a6114c7bc34e04fe5f262",
+    "tests/test_realworld_ml_analysis.py": "sha256:4caf0a2328e5f5c3303b18f645ecccf7470dcab138f80ceba5c21591b5f097ec",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": "commands listed in docs/recovery/agent_ledgers/phase10_gpu_ml_optional_requirements_20260604.md",
+      "exit_code": 0,
+      "status": "documented_previous_pass"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_review_only",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "passed_for_ready_for_review_not_closure",
+    "write_locks": [
+      "data/manifests/phase_gates/phase10_ml_decision_support.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Compact-scoped post-simulation ML analysis manifest exists with 315 rows and source input hashes.",
+    "GPU runtime manifest supports bounded XGBoost/CUDA runtime preflight only; current compact ML manifest records model_device=cpu.",
+    "Ready for review as compact-scoped ML decision-support evidence only."
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_metrics.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_feature_importance.csv",
+    "data/validation/gpu_ml_runtime_manifest.json",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Train and evaluate decision-support models using audited simulation outputs without confusing ML metrics with validation.",
+  "phase_id": "phase10_ml_decision_support",
+  "prerequisites": [
+    "phase9_full_experiment_gate closed"
+  ],
+  "remaining_blockers": [
+    "Phase9 is not closed, so Phase10 cannot close.",
+    "Claim-bearing GPU project workload wording still requires current --fail-on-blockers package/runtime evidence and project ML workload manifest showing CUDA use."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_bounded_promotion"
+  },
+  "source_inputs": [
+    "plan.md",
+    "scripts/run_ml_analysis.py",
+    "scripts/check_gpu_ml_runtime.py",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json",
+    "data/validation/gpu_ml_runtime_manifest.json",
+    "docs/recovery/agent_ledgers/phase10_gpu_ml_optional_requirements_20260604.md"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "gpt-5.5-xhigh-readiness-scout:019ea505-2d39-7092-98a2-fe7be2393a0c:phase10-11"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_ml_analysis.py",
+    "tests/test_realworld_gpu_ml_runtime.py"
+  ]
+}

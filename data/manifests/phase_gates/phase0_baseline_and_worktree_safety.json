@@ -1,0 +1,100 @@
+{
+  "artifact_hashes": {
+    "data/validation/dirty_worktree_classification.csv": "sha256:937c17dda2812169720ca5f287002afe3233c8afe0aaf702aca0e5b3651ca9aa",
+    "data/validation/dirty_worktree_classification_manifest.json": "sha256:c42c58b23a40f0f400167a28873ca7762dbab2c153a3c8d3ce586db8662c6fe4",
+    "data/validation/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight_log.jsonl": "sha256:83e53a81a675705d49874c9f9ccc9a79138f177a0e22e5b245607d50ac890fc0",
+    "data/validation/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight_manifest.json": "sha256:8724ee7d7a15875015149d10625c4c69c3468a0e6dd4c2d0bcc00b04fecefdde",
+    "docs/dirty_worktree_classification.md": "sha256:24d7dfc64154fc0ca83e43fea80f83ffdb087426ff435e63873ee394a4876866",
+    "docs/recovery/agent_ledgers/phase0_dirty_worktree_classification_20260603.md": "sha256:3579b24cc69c578f469c6a554ebc45101a382152ddfb57c0925990b9939050e4",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "docs/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight.md": "sha256:c176a9b60741536d854ecf4cfe927fd767337f3e710cdf093b83bc7515e4f324",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "scripts/write_dirty_worktree_classification.py": "sha256:1e3169909c03dfb49e63064c85cc9839707d0eb6a7848cf9d8a9a7bf3515262d",
+    "scripts/write_runtime_preflight_manifest.py": "sha256:c1d5fe5ccb3d3f08f2a7074690eef5cc16622afa265add2fcf375bb8f97afb6f",
+    "src/realworld/runtime_preflight.py": "sha256:d97f95b7b8749a79e8f8fd03d59c1d45732fa06a8fbf8d9e65a76a5f37d3978c",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a",
+    "tests/test_realworld_plan_audit.py": "sha256:6befec344abcf018fca060a9be74c82cc774358af96ec68a3db7388ed8e413f0",
+    "tests/test_realworld_runtime_preflight.py": "sha256:7b02cdbf1886f3503d21a9324c226dceff69110c4d5a279ea1b73a49256fa84f"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python scripts\\write_runtime_preflight_manifest.py --phase-id phase0_baseline_and_worktree_safety_20260608 --execution-scope cpu --analysis-command \"baseline preservation and worktree safety preflight before continued plan.md implementation\"",
+      "exit_code": 0,
+      "status": "manifest_inspected_current_session"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_review_only",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "passed_for_ready_for_review_not_closure",
+    "write_locks": [
+      "data/manifests/phase_gates/phase0_baseline_and_worktree_safety.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Runtime preflight manifest records runtime_preflight_ready=true for CPU scope, Python 3.12.10, and pip check passed.",
+    "Dirty worktree classification manifest records dirty_path_count=776 and unclassified_path_count=0.",
+    "Generated-output promotion remains blocked because new_generated_output_allowed=false.",
+    "Ready for review as Phase 0 baseline/worktree/runtime evidence only; not clean-checkout reproducibility, publication, formal acceptance, or final-study readiness."
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/validation/dirty_worktree_classification.csv",
+    "data/validation/dirty_worktree_classification_manifest.json",
+    "docs/dirty_worktree_classification.md",
+    "data/validation/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight_manifest.json",
+    "data/validation/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight_log.jsonl",
+    "docs/runtime_preflight/phase0_baseline_and_worktree_safety_20260608_runtime_preflight.md",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Freeze baseline context, classify dirty worktree paths, and record hardware/package state before new generated work.",
+  "phase_id": "phase0_baseline_and_worktree_safety",
+  "prerequisites": [
+    "current plan.md inspected",
+    "dirty worktree classification ledger refreshed"
+  ],
+  "remaining_blockers": [
+    "Dirty worktree remains large and generated-output promotion is not allowed by the dirty classification manifest.",
+    "No phase can be closed until source-backed/project-owned audits and required reviewer records support closure."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_bounded_promotion"
+  },
+  "source_inputs": [
+    "plan.md",
+    "data/validation/dirty_worktree_classification_manifest.json",
+    "scripts/write_dirty_worktree_classification.py",
+    "scripts/write_runtime_preflight_manifest.py",
+    "src/realworld/runtime_preflight.py",
+    "docs/recovery/agent_ledgers/phase0_dirty_worktree_classification_20260603.md"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "reviewer:gpt-5.5-xhigh:phase0_dirty_worktree_classification_20260603:no-blocker-high-medium-findings-documented",
+    "main-thread:phase0-runtime-preflight-refreshed-20260608"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_runtime_preflight.py",
+    "tests/test_realworld_plan_audit.py"
+  ]
+}

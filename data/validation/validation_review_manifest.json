@@ -23,8 +23,8 @@
   ],
   "claim_boundary": "This packet summarizes validation artifacts for human strategy review only. It does not create data/manifests/validation_acceptance.json, does not close the validation gate, does not treat benchmarks as ground truth, and does not support operational routing or real-world forecasts.",
   "fallback_benchmark_status_counts": {
-    "fail": 0,
-    "pass": 2,
+    "fail": 1,
+    "pass": 1,
     "warn": 1
   },
   "input_artifact_paths": {
@@ -45,7 +45,13 @@
   "optional_osrm_benchmark_manifest_present": true,
   "optional_osrm_benchmark_manifest_scope": "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance",
   "optional_osrm_benchmark_present": true,
+  "optional_osrm_benchmark_raw_response_binding_mismatch_count": 0,
   "optional_osrm_benchmark_raw_response_file_count": 3,
+  "optional_osrm_benchmark_raw_response_missing_for_row_count": 0,
+  "optional_osrm_benchmark_snap_status_counts": {
+    "pass": 1,
+    "warn": 2
+  },
   "optional_osrm_benchmark_unpinned_row_count": 0,
   "osrm_benchmark_status_counts": {
     "fail": 0,
@@ -64,14 +70,14 @@
     "if using OSRM or another route engine, review the cached manifest and convert live snapshots into reviewed cached evidence",
     "review accessibility-loss rows as route-fragility diagnostics, not outage probabilities",
     "review route-level road-evidence exposure before prioritizing road-class evidence collection",
-    "record any final benchmark strategy only in data/manifests/validation_acceptance.json after review"
+    "record any release-scope benchmark strategy only in data/manifests/validation_acceptance.json after review"
   ],
   "review_required": true,
   "review_status_counts": {
-    "ready_for_review_cached_external_snapshot": 1,
     "review_required_disconnected_accessibility_cases": 1,
     "review_required_fallback_warn_or_fail_rows": 1,
     "review_required_no_validation_acceptance_record": 1,
+    "review_required_osrm_snap_distance_review": 1,
     "review_required_warn_rows": 1,
     "review_required_weak_route_road_evidence_exposure": 1,
     "scope_boundary_present_review_required": 1
@@ -87,10 +93,10 @@
   "row_count": 7,
   "schema_version": 1,
   "status_counts": {
-    "ready_for_review_cached_external_snapshot": 1,
     "review_required_disconnected_accessibility_cases": 1,
     "review_required_fallback_warn_or_fail_rows": 1,
     "review_required_no_validation_acceptance_record": 1,
+    "review_required_osrm_snap_distance_review": 1,
     "review_required_warn_rows": 1,
     "review_required_weak_route_road_evidence_exposure": 1,
     "scope_boundary_present_review_required": 1

@@ -190,8 +190,8 @@ def build_full_graph_smoke_manifest(
         "required_actions": [
             "treat this as two-row full-graph smoke evidence only",
             "generate full scenario-policy-seed outputs if full-graph execution is selected",
-            "or record a reviewed graph-scale acceptance decision that bounds final claims away from full-graph execution",
-            "rerun downstream sensitivity, figures, tables, and manuscript interpretation on the accepted graph method",
+            "or record a reviewed graph-scale method decision that bounds release-scope claims away from full-graph execution",
+            "rerun downstream sensitivity, figures, tables, and manuscript interpretation on the reviewer-selected graph method",
         ],
     }
 

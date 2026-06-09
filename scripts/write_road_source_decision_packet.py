@@ -67,7 +67,7 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         description=(
             "Write a road source-decision packet. The output is review "
             "support only, not reviewed road evidence or road-class override "
-            "acceptance."
+            "decision evidence."
         )
     )
     parser.add_argument(

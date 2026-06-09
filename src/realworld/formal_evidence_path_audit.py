@@ -40,9 +40,9 @@ FORMAL_ARTIFACT_RELATIVE_PATHS = (
     "data/manifests/final_audit_acceptance.json",
 )
 CLAIM_BOUNDARY = (
-    "This audit checks whether formal acceptance artifacts point to concrete "
+    "This audit checks whether formal target artifacts point to concrete "
     "local evidence files or explicit external references. It does not approve "
-    "the evidence, validate licenses, certify calibration, or close final-study "
+    "the evidence, check license sufficiency, certify calibration, or close final-study "
     "gates."
 )
 
@@ -111,7 +111,7 @@ def audit_formal_evidence_paths(
         "remaining_blockers": blockers,
         "review_items": [
             "review all external references for source, license, and citation compatibility",
-            "replace REVIEW_REQUIRED placeholders before any formal acceptance package is considered",
+            "replace REVIEW_REQUIRED placeholders before any formal review package is considered",
             "ensure every local evidence path exists in the repository or generated package",
             "treat this as path hygiene only; scientific sufficiency still requires human review",
         ],

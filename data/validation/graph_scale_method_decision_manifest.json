@@ -38,17 +38,17 @@
   "publication_ready": false,
   "remaining_blockers": [
     "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "data/manifests/graph_scale_acceptance.json is absent"
   ],
   "result_scope": "Graph-scale method-decision packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, and not operational routing evidence.",
   "review_items": [
-    "decide whether current reduced-corridor alternate-route warnings are acceptable",
+    "decide whether current reduced-corridor alternate-route warnings are review-scoped tolerances",
     "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
     "decide whether full-graph execution must be generated or formally scoped out",
     "review graph-sensitive result deltas before interpreting policy outcomes",
     "record downstream regeneration requirements after method selection",
-    "record final graph-scale decisions only in data/manifests/graph_scale_acceptance.json"
+    "record release-scope graph-scale decisions only in data/manifests/graph_scale_acceptance.json"
   ],
   "row_count": 7,
   "schema_version": 1,

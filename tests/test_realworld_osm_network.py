@@ -89,6 +89,24 @@ def test_graphml_cache_helpers_work_offline_with_networkx():
     print("PASS: GraphML cache helpers")
 
 
+def test_graphml_save_handles_networkx_default_metadata():
+    """GraphML writer should ignore malformed default metadata from caches."""
+
+    graph = synthetic_osm_graph()
+    graph.graph["node_default"] = "malformed default from prior cache"
+    graph.graph["edge_default"] = {"lanes": ["not", "graphml-native"]}
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        path = os.path.join(temp_dir, "road_with_defaults.graphml")
+        osm_network.save_graphml(graph, path)
+        loaded = osm_network.load_graphml(path, node_type=int)
+
+    assert loaded.has_edge(1, 2, 0)
+    assert graph.graph["edge_default"] == {"lanes": ["not", "graphml-native"]}
+
+    print("PASS: GraphML default metadata is safe")
+
+
 def test_normalize_osm_graph_preserves_boundary_metadata():
     """Normalization should add metadata without simulator schema side effects."""
 
@@ -166,6 +184,7 @@ def test_invalid_bbox_fails_before_osmnx_import():
 if __name__ == "__main__":
     test_module_import_and_offline_helpers_do_not_require_osmnx()
     test_graphml_cache_helpers_work_offline_with_networkx()
+    test_graphml_save_handles_networkx_default_metadata()
     test_normalize_osm_graph_preserves_boundary_metadata()
     test_live_extraction_uses_lazy_osmnx_import_without_live_service()
     test_invalid_bbox_fails_before_osmnx_import()

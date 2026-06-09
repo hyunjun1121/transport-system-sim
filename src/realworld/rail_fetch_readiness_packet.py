@@ -1,9 +1,9 @@
-"""Rail timing fetch-readiness packet generation.
+"""Rail timing fetch review packet generation.
 
 The rail timing source-request worksheet names candidate data sources and
 commands. This module adds a deterministic preflight layer that separates
 requests that are blocked by missing API keys or reviewed files from requests
-that are ready for human review. It does not fetch live data and does not
+that can proceed to human review. It does not fetch live data and does not
 create rail-service evidence.
 """
 
@@ -32,7 +32,7 @@ DEFAULT_RAIL_FETCH_READINESS_DOC_PATH = (
     PROJECT_ROOT / "docs" / "rail_fetch_readiness_packet.md"
 )
 RAIL_FETCH_READINESS_SCOPE = (
-    "Rail fetch-readiness packet only; not rail timing evidence, not GTFS "
+    "Rail fetch review packet only; not rail timing evidence, not GTFS "
     "validation, not rail-service calibration, and not operational rail "
     "availability evidence."
 )
@@ -87,7 +87,7 @@ def write_rail_fetch_readiness_packet(
     doc_path: str | Path = DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
     request_packet_path: str | Path = DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Write rail fetch-readiness CSV, manifest, and Markdown artifacts."""
+    """Write rail fetch review CSV, manifest, and Markdown artifacts."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -130,7 +130,7 @@ def build_rail_fetch_readiness_manifest(
     doc_path: str | Path = DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
     request_packet_path: str | Path = DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for rail fetch-readiness rows."""
+    """Return a conservative manifest for rail fetch review rows."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     source_type_counts = _counts(row.get("source_type", "") for row in rows)
@@ -138,8 +138,14 @@ def build_rail_fetch_readiness_manifest(
     source_citation_count = sum(
         1 for row in rows if str(row.get("source_url_or_citation", "")).strip()
     )
-    external_input_count = sum(
+    external_input_text_count = sum(
         1 for row in rows if str(row.get("required_external_input", "")).strip()
+    )
+    external_input_present_count = sum(
+        1
+        for row in rows
+        if str(row.get("required_external_input", "")).strip()
+        and not str(row.get("readiness_status", "")).startswith("blocked_")
     )
     blocking_count = sum(
         1 for row in rows if row.get("readiness_status", "").startswith("blocked_")
@@ -153,6 +159,7 @@ def build_rail_fetch_readiness_manifest(
         if row.get("source_type") == "public_api_key_required"
         and _is_true(row.get("data_go_kr_key_present", "false"))
     )
+    remaining_blockers = _remaining_blockers(rows)
     return {
         "schema_version": 1,
         "claim_boundary": (
@@ -165,7 +172,9 @@ def build_rail_fetch_readiness_manifest(
         "readiness_status_counts": status_counts,
         "source_type_counts": source_type_counts,
         "source_url_or_citation_present_count": source_citation_count,
-        "required_external_input_present_count": external_input_count,
+        "required_external_input_specified_count": external_input_text_count,
+        "required_external_input_text_present_count": external_input_text_count,
+        "required_external_input_present_count": external_input_present_count,
         "blocking_request_count": blocking_count,
         "data_go_kr_key_required_count": key_required_count,
         "data_go_kr_key_present_request_count": key_present_count,
@@ -185,15 +194,12 @@ def build_rail_fetch_readiness_manifest(
         "review_items": [
             "supply DATA_GO_KR_KEY only for reviewed optional live fetches",
             "obtain reviewed static GTFS input before GTFS derivation",
+            "obtain reviewed static timetable CSV plus explicit column mappings before static timetable normalization",
             "retain raw payloads and cache files before deriving rail timing evidence",
-            "review capacity and availability rows as bounded assumptions or replace with source-backed evidence",
-            "create formal rail or parameter acceptance only after source-backed review",
+            "review capacity and availability rows as reviewer-scoped bounded treatments or replace with source-backed evidence",
+            "create formal rail or parameter decision records only after source-backed review",
         ],
-        "remaining_blockers": [
-            "rail timing cache files are absent unless source_cache_present is true",
-            "API-key and reviewed-GTFS rows require external reviewer-provided inputs",
-            "this packet is readiness evidence only and cannot create rail_service_evidence.csv",
-        ],
+        "remaining_blockers": remaining_blockers,
     }
 
 
@@ -202,10 +208,10 @@ def build_rail_fetch_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable rail fetch-readiness packet."""
+    """Return a human-readable rail fetch review packet."""
 
     lines = [
-        "# Rail Fetch Readiness Packet",
+        "# Rail Fetch Review Packet",
         "",
         str(manifest.get("claim_boundary", RAIL_FETCH_READINESS_SCOPE)),
         "",
@@ -218,7 +224,7 @@ def build_rail_fetch_readiness_markdown(
         f"- Blocking requests: {manifest.get('blocking_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Review Rows",
         "",
         "| Request | Source | Source Type | Status | Cache | Required Input | Required Action |",
         "| --- | --- | --- | --- | --- | --- | --- |",
@@ -243,7 +249,8 @@ def build_rail_fetch_readiness_markdown(
             "",
             "- Provide a reviewed API key, GTFS file, or explicit assumption decision where rows are blocked.",
             "- Preserve raw payloads and cache files before deriving rail timing evidence.",
-            "- Re-run rail evidence and final-study readiness audits after evidence changes.",
+            "- Re-run rail evidence and study-scope review audits after evidence changes.",
+            "- Capacity and availability bounded treatments are reviewer-scoped decisions, not formal acceptance.",
             "- Do not create formal acceptance artifacts from this readiness packet alone.",
             "",
         ]
@@ -322,24 +329,42 @@ def _classify(
             return (
                 "ready_reviewed_gtfs_file_for_derivation_review",
                 "",
-                "review GTFS stop, route, service-window, and run the listed derive command",
+                "review GTFS stop, route, service-window, validator report, and run the listed derive command",
             )
         return (
             "blocked_missing_reviewed_gtfs_file",
-            "reviewed GTFS file is absent",
-            "provide a reviewed GTFS zip or directory before derivation",
+            "reviewed GTFS file or GTFS Validator report is absent",
+            "provide a reviewed GTFS zip or directory and validator report before derivation",
+        )
+    if source_type == "reviewed_static_timetable_csv_required":
+        if cache_present and raw_present:
+            return (
+                "ready_reviewed_static_timetable_cache_for_derivation_review",
+                "",
+                "review static timetable source, normalization manifest, and run the listed derive command",
+            )
+        if raw_present:
+            return (
+                "ready_for_reviewed_static_timetable_normalization",
+                "",
+                "review source CSV and explicit column mappings, then run the listed normalizer command",
+            )
+        return (
+            "blocked_missing_reviewed_static_timetable_csv",
+            "reviewed static timetable CSV, explicit mapping, or normalization manifest is absent",
+            "provide a reviewed static timetable CSV and explicit mapping before derivation",
         )
     if source_type == "operator_or_literature_or_sensitivity_decision":
         return (
             "needs_human_review_capacity_treatment",
             "",
-            "accept sensitivity-only capacity bounds or replace them with source-backed capacity evidence",
+            "record reviewer-scoped sensitivity-only capacity bounds or replace them with source-backed capacity evidence",
         )
     if source_type == "scenario_or_public_disruption_source_required":
         return (
             "needs_human_review_availability_scenario",
             "",
-            "accept scenario-only rail availability bounds or replace them with source-backed disruption evidence",
+            "record reviewer-scoped scenario-only rail availability bounds or replace them with source-backed disruption evidence",
         )
     return (
         "blocked_unclassified_source_type",
@@ -406,6 +431,43 @@ def _source_summary(row: Mapping[str, str]) -> str:
     return name or citation
 
 
+def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
+    status_counts = _counts(row.get("readiness_status", "") for row in rows)
+    blockers = [
+        "source-backed rail timing evidence remains incomplete until every required timing source is reviewed and retained",
+    ]
+    if status_counts.get("blocked_missing_data_go_kr_key", 0):
+        blockers.append(
+            "API-key rows require DATA_GO_KR_KEY or reviewed cached API payloads"
+        )
+    if status_counts.get("blocked_missing_reviewed_gtfs_file", 0):
+        blockers.append(
+            "reviewed-GTFS row requires a reviewed GTFS input and validator report"
+        )
+    if status_counts.get("blocked_missing_reviewed_static_timetable_csv", 0):
+        blockers.append(
+            "reviewed-static-timetable row requires a reviewed source CSV, explicit mappings, and normalization manifest"
+        )
+    if status_counts.get(
+        "ready_reviewed_static_timetable_cache_for_derivation_review",
+        0,
+    ):
+        blockers.append(
+            "reviewed-static-timetable cache is retained for headway review only; it does not close rail travel-time evidence"
+        )
+    if status_counts.get("needs_human_review_capacity_treatment", 0) or status_counts.get(
+        "needs_human_review_availability_scenario",
+        0,
+    ):
+        blockers.append(
+            "capacity and availability rows still require reviewer-scoped bounded treatment or source-backed evidence"
+        )
+    blockers.append(
+        "this packet is readiness evidence only and cannot create rail_service_evidence.csv"
+    )
+    return blockers
+
+
 __all__ = [
     "DEFAULT_RAIL_FETCH_READINESS_DOC_PATH",
     "DEFAULT_RAIL_FETCH_READINESS_MANIFEST_PATH",
@@ -415,5 +477,6 @@ __all__ = [
     "build_rail_fetch_readiness_manifest",
     "build_rail_fetch_readiness_markdown",
     "build_rail_fetch_readiness_rows",
+    "_remaining_blockers",
     "write_rail_fetch_readiness_packet",
 ]

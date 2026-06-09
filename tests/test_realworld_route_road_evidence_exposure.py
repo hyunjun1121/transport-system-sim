@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import networkx as nx
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.realworld.pilot_experiments import load_pilot_inputs  # noqa: E402
@@ -92,6 +94,53 @@ def test_route_road_evidence_exposure_writer_outputs_manifest() -> None:
     print("PASS: route road-evidence exposure writer emits manifest")
 
 
+def test_route_road_evidence_exposure_reports_edge_override_source() -> None:
+    """Route exposure should surface applied road-class override source metadata."""
+
+    graph = nx.DiGraph()
+    graph.add_edge(
+        "A",
+        "B",
+        highway="primary",
+        length_m=1000.0,
+        t0=10.0,
+        realworld_edge_id="ab",
+        road_class_override_applied=True,
+        road_class_override_source_class="literature-derived",
+    )
+    graph.add_edge(
+        "B",
+        "D",
+        highway="primary",
+        length_m=1000.0,
+        t0=10.0,
+        realworld_edge_id="bd",
+        road_class_override_applied=True,
+        road_class_override_source_class="literature-derived",
+    )
+
+    with TemporaryDirectory() as directory:
+        route_path = Path(directory) / "routes.csv"
+        evidence_path = Path(directory) / "road_evidence.csv"
+        _write_route_fixture(route_path)
+        _write_road_evidence_fixture(evidence_path)
+
+        rows = build_route_road_evidence_exposure_rows(
+            graph,
+            road_evidence_review_path=evidence_path,
+            graph_variant_paths=(("fixture_graph", route_path),),
+        )
+
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["highway"] == "primary"
+    assert row["override_source_class"] == "literature-derived"
+    assert row["weak_for_final_claim"] == "true"
+    assert "edge_override_source_class=literature-derived" in row["notes"]
+
+    print("PASS: route road-evidence exposure reports edge override source")
+
+
 def test_shipped_route_road_evidence_exposure_matches_current_artifacts() -> None:
     """Shipped exposure artifacts should match deterministic inputs."""
 
@@ -126,8 +175,73 @@ def test_shipped_route_road_evidence_exposure_matches_current_artifacts() -> Non
     print("PASS: shipped route road-evidence exposure matches current artifacts")
 
 
+def _write_route_fixture(path: Path) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=(
+                "region_id",
+                "route_check_id",
+                "route_label",
+                "full_route_rank",
+                "full_path_nodes",
+                "source",
+                "target",
+                "full_path_available",
+                "exact_full_path_present_in_analysis",
+                "status",
+            ),
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "region_id": "fixture",
+                "route_check_id": "fixture_A_D",
+                "route_label": "fixture route",
+                "full_route_rank": "1",
+                "full_path_nodes": "A>B>D",
+                "source": "A",
+                "target": "D",
+                "full_path_available": "true",
+                "exact_full_path_present_in_analysis": "true",
+                "status": "available",
+            }
+        )
+
+
+def _write_road_evidence_fixture(path: Path) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=(
+                "highway",
+                "speed_evidence_status",
+                "capacity_evidence_status",
+                "base_disruption_evidence_status",
+                "override_source_class",
+                "review_priority",
+                "weak_for_final_claim",
+                "candidate_artifacts",
+            ),
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "highway": "primary",
+                "speed_evidence_status": "reviewed_source_candidate",
+                "capacity_evidence_status": "reviewed_source_candidate",
+                "base_disruption_evidence_status": "reviewed_source_candidate",
+                "override_source_class": "expert assumption",
+                "review_priority": "high",
+                "weak_for_final_claim": "true",
+                "candidate_artifacts": "fixture",
+            }
+        )
+
+
 if __name__ == "__main__":
     test_route_road_evidence_exposure_rows_cover_current_routes()
     test_route_road_evidence_exposure_writer_outputs_manifest()
+    test_route_road_evidence_exposure_reports_edge_override_source()
     test_shipped_route_road_evidence_exposure_matches_current_artifacts()
     print("\n=== REALWORLD ROUTE ROAD-EVIDENCE EXPOSURE TESTS PASSED ===")

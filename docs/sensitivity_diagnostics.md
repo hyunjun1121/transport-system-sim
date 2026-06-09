@@ -42,7 +42,7 @@ claims are written.
 - The figure/table manifest records this handling rule. The diagnostic audit
   currently reports 0 unexplained missing/non-finite index rows and 168
   explicitly unavailable index rows, keeping both categories visible before
-  any sensitivity acceptance decision.
+  any sensitivity review decision.
 
 ## What It Does Not Do
 
@@ -68,4 +68,4 @@ The strict flag fails only for missing files, schema/count mismatches, or other
 structural blockers. Review items such as unavailable Morris indices,
 unexplained blank indices, zero-effect rows, reduced-graph scope, or scaffold
 claim boundaries should remain visible for human review rather than being
-silently accepted.
+silently treated as evidence.

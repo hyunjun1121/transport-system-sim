@@ -173,7 +173,7 @@ def build_pilot_region_decision_rows(
             ),
             required_reviewer_action=(
                 "Confirm whether pilot acceptance is limited to case privacy "
-                "or also requires reviewed source/cache provenance before final claims."
+                "or also requires reviewed source/cache provenance before release-scope pilot claims."
             ),
             followup_artifacts=(
                 "data/cache/pilot_region_road_manifest.json; "
@@ -340,8 +340,8 @@ def build_pilot_region_decision_manifest(
             "decide whether the current public/synthetic Songpa demo is acceptable as the pilot case",
             "review all privacy packet rows before marking privacy_review_complete",
             "bind pilot acceptance to the accepted graph-scale method or keep the pilot blocked",
-            "confirm source/cache provenance dependency before final pilot claims",
-            "record final pilot decisions only in data/manifests/pilot_acceptance.json",
+            "confirm source/cache provenance dependency before release-scope pilot claims",
+            "record reviewed pilot decisions only in data/manifests/pilot_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from dataclasses import replace
 import os
 import sys
 from pathlib import Path
@@ -209,7 +210,7 @@ def test_missing_matched_egress_arrival_blocks_derivation() -> None:
                     service_window="weekday",
                     direction="eastbound",
                     service_day="weekday",
-                    source_artifact_path="fixture/timetable.csv",
+                    source_artifact_path=str(timetable_path),
                     source_artifact_sha256=source_digest,
                 ),
             ),
@@ -217,6 +218,82 @@ def test_missing_matched_egress_arrival_blocks_derivation() -> None:
         )
 
     print("PASS: missing matched egress arrival blocks derivation")
+
+
+def test_timetable_source_artifact_sha_mismatch_blocks_derivation() -> None:
+    """Timetable evidence should be bound to the retained source file hash."""
+
+    with TemporaryDirectory() as tmp:
+        timetable_path = Path(tmp) / "timetable.csv"
+        _write_timetable_fixture(timetable_path)
+        events = load_cached_timetable_events(timetable_path)
+        config = replace(
+            _derivation_config(timetable_path),
+            source_artifact_sha256="0" * 64,
+        )
+
+        assert_raises_value_error(
+            lambda: derive_rail_service_evidence_from_timetable(events, config),
+            "source artifact SHA256 does not match",
+        )
+
+    print("PASS: timetable source artifact SHA mismatch blocks derivation")
+
+
+def test_timetable_loaded_source_must_match_metadata_path() -> None:
+    """Loaded timetable events cannot be certified with another file's metadata."""
+
+    with TemporaryDirectory() as tmp:
+        loaded_path = Path(tmp) / "loaded.csv"
+        metadata_path = Path(tmp) / "metadata.csv"
+        _write_timetable_fixture(loaded_path)
+        _write_timetable_fixture(metadata_path, access_code="P550", egress_code="216")
+        events = load_cached_timetable_events(loaded_path)
+        config = replace(
+            _derivation_config(metadata_path),
+            source_artifact_path=str(metadata_path),
+            source_artifact_sha256=file_sha256(metadata_path),
+        )
+
+        assert_raises_value_error(
+            lambda: derive_rail_service_evidence_from_timetable(events, config),
+            "loaded source artifact path",
+        )
+
+    print("PASS: timetable loaded source must match metadata path")
+
+
+def test_headway_source_artifact_sha_mismatch_blocks_derivation() -> None:
+    """Headway-only evidence should also be bound to retained source hashes."""
+
+    with TemporaryDirectory() as tmp:
+        timetable_path = Path(tmp) / "headway.csv"
+        _write_timetable_fixture(timetable_path, include_egress=False)
+        events = load_cached_timetable_events(timetable_path)
+        config = RailHeadwayEvidenceConfig(
+            evidence_id="fixture_headway",
+            region_id="songpa_public_demo",
+            access_point="S",
+            egress_point="R",
+            egress_station_name="Jamsil Station",
+            source_name="fixture cached timetable",
+            source_url_or_citation="fixture",
+            extraction_date="2026-05-04",
+            travel_time_min_proxy=12.0,
+            capacity_pax_per_train=500,
+            service_window="weekday 08:00-08:30",
+            direction="eastbound",
+            service_day="weekday",
+            source_artifact_path=str(timetable_path),
+            source_artifact_sha256="0" * 64,
+        )
+
+        assert_raises_value_error(
+            lambda: derive_rail_headway_evidence_from_timetable(events, config),
+            "source artifact SHA256 does not match",
+        )
+
+    print("PASS: headway source artifact SHA mismatch blocks derivation")
 
 
 def _write_timetable_fixture(
@@ -325,4 +402,7 @@ if __name__ == "__main__":
     test_timetable_station_codes_must_match_official_bindings()
     test_timetable_station_code_mismatch_blocks_derivation()
     test_missing_matched_egress_arrival_blocks_derivation()
+    test_timetable_source_artifact_sha_mismatch_blocks_derivation()
+    test_timetable_loaded_source_must_match_metadata_path()
+    test_headway_source_artifact_sha_mismatch_blocks_derivation()
     print("\n=== REALWORLD RAIL TIMETABLE TESTS PASSED ===")

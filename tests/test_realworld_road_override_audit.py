@@ -16,7 +16,10 @@ from src.realworld.road_override_audit import (  # noqa: E402
     audit_road_class_override_application,
     audit_road_class_override_evidence,
 )
-from src.realworld.road_overrides import REQUIRED_COLUMNS  # noqa: E402
+from src.realworld.road_overrides import (  # noqa: E402
+    OPTIONAL_FIELD_SOURCE_COLUMNS,
+    REQUIRED_COLUMNS,
+)
 
 
 def test_missing_default_override_table_is_reported_not_failed() -> None:
@@ -28,6 +31,10 @@ def test_missing_default_override_table_is_reported_not_failed() -> None:
     assert summary["override_table_present"] is False
     assert summary["draft_table_present"] is True
     assert summary["draft_row_count"] == 10
+    assert summary["draft_weak_field_count"] == 30
+    assert summary["draft_field_source_class_counts"]["base_p_fail"] == {
+        "sensitivity-only": 10
+    }
     assert summary["remaining_blockers"]
 
     print("PASS: missing reviewed override table is reported with draft context")
@@ -62,6 +69,32 @@ def test_weak_override_fixture_blocks_publication_readiness() -> None:
         assert summary["weak_highway_classes"] == ["primary"]
 
     print("PASS: weak override fixture blocks publication readiness")
+
+
+def test_field_level_weak_source_blocks_publication_readiness() -> None:
+    """A strong row source should not hide a weak field-level source."""
+
+    with TemporaryDirectory() as tmp:
+        path = Path(tmp) / "road_class_overrides.csv"
+        _write_override_csv(
+            path,
+            source_class="literature-derived",
+            base_p_fail_source_class="sensitivity-only",
+        )
+        summary = audit_road_class_override_evidence(path)
+
+        assert summary["publication_ready"] is False
+        assert summary["weak_row_count"] == 0
+        assert summary["weak_field_count"] == 1
+        assert summary["weak_field_entries"] == [
+            {
+                "highway": "primary",
+                "field": "base_p_fail",
+                "source_class": "sensitivity-only",
+            }
+        ]
+
+    print("PASS: field-level weak source blocks publication readiness")
 
 
 def test_override_application_requires_matching_manifest_digest() -> None:
@@ -110,7 +143,12 @@ def test_override_application_blocks_missing_or_stale_manifest() -> None:
     print("PASS: override application blocks stale manifest digest")
 
 
-def _write_override_csv(path: Path, *, source_class: str) -> None:
+def _write_override_csv(
+    path: Path,
+    *,
+    source_class: str,
+    base_p_fail_source_class: str | None = None,
+) -> None:
     row = {
         "highway": "primary",
         "speed_kph": "42",
@@ -121,8 +159,27 @@ def _write_override_csv(path: Path, *, source_class: str) -> None:
         "source_url_or_citation": "fixture",
         "notes": "fixture row",
     }
+    if base_p_fail_source_class is not None:
+        row.update(
+            {
+                "speed_source_class": source_class,
+                "speed_source_name": "fixture",
+                "speed_source_url_or_citation": "fixture",
+                "capacity_source_class": source_class,
+                "capacity_source_name": "fixture",
+                "capacity_source_url_or_citation": "fixture",
+                "base_p_fail_source_class": base_p_fail_source_class,
+                "base_p_fail_source_name": "fixture",
+                "base_p_fail_source_url_or_citation": "fixture",
+            }
+        )
+    fieldnames = (
+        REQUIRED_COLUMNS
+        if base_p_fail_source_class is None
+        else REQUIRED_COLUMNS + OPTIONAL_FIELD_SOURCE_COLUMNS
+    )
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=REQUIRED_COLUMNS)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerow(row)
 
@@ -152,6 +209,7 @@ if __name__ == "__main__":
     test_missing_default_override_table_is_reported_not_failed()
     test_strong_override_fixture_can_pass_source_strength_gate()
     test_weak_override_fixture_blocks_publication_readiness()
+    test_field_level_weak_source_blocks_publication_readiness()
     test_override_application_requires_matching_manifest_digest()
     test_override_application_blocks_missing_or_stale_manifest()
     print("\n=== REALWORLD ROAD OVERRIDE AUDIT TESTS PASSED ===")

@@ -12,12 +12,12 @@
   },
   "deterministic_blocking_check_count": 0,
   "deterministic_rerun_structurally_ready": true,
-  "generated_at": "2026-05-10T10:19:26+00:00",
+  "generated_at": "2026-06-04T10:28:12+00:00",
   "hashes": {
-    "first_rows_sha256": "8ab63fd3c3d5ab796da024fc92061b356f9165189e6743b45634cc0379f74a07",
-    "first_summary_sha256": "384ef24844e8eec658ca0f258bda38355f1c8c5b5b18b688ac1567998ba99162",
-    "second_rows_sha256": "8ab63fd3c3d5ab796da024fc92061b356f9165189e6743b45634cc0379f74a07",
-    "second_summary_sha256": "384ef24844e8eec658ca0f258bda38355f1c8c5b5b18b688ac1567998ba99162"
+    "first_rows_sha256": "88b8533c94c090b02c4a7bcf9c6a4c167d39ac200cdb513eb4d5c2e29505949d",
+    "first_summary_sha256": "eb7768d4247ae01084f104b6c4a0476d485b29fd871f09af942b3ea4fc6c1275",
+    "second_rows_sha256": "88b8533c94c090b02c4a7bcf9c6a4c167d39ac200cdb513eb4d5c2e29505949d",
+    "second_summary_sha256": "eb7768d4247ae01084f104b6c4a0476d485b29fd871f09af942b3ea4fc6c1275"
   },
   "inputs": {
     "cache_path": "data/cache/pilot_region_road.graphml",

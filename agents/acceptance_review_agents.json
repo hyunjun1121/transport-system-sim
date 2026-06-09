@@ -13,7 +13,7 @@
         "pilot_region_accepted"
       ],
       "mission": "Review pilot-region choice, privacy risk, sensitive geography, re-identification risk, and whether region use is acceptable.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "needs_human_review",
       "required_actions": [
         "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary."
@@ -52,7 +52,7 @@
       "agent_id": "osm_source_license_provenance_review_agent",
       "decision_rules": [
         "Do not assume license compatibility without cited or source-backed evidence.",
-        "Block final claims while source records are pending review or target payloads are absent."
+        "Block release claims while source records are pending review or target payloads are absent."
       ],
       "final_acceptance_artifacts": [
         "data/manifests/provenance_acceptance.json"
@@ -61,7 +61,7 @@
         "data_provenance"
       ],
       "mission": "Review OpenStreetMap and other source provenance, license terms, attribution duties, derivative-use constraints, snapshots, and reproducibility.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -124,7 +124,7 @@
         "graph_scale_strategy"
       ],
       "mission": "Review graph-scale computation methodology, reproducible node/edge coverage metrics, route-parity diagnostics, and corridor/full-graph assumptions.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "needs_human_review",
       "required_actions": [
         "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
@@ -172,7 +172,7 @@
       "agent_id": "road_rail_parameter_evidence_agent",
       "decision_rules": [
         "Flag unsupported parameters; never accept weak defaults silently.",
-        "Use reviewed overrides or accepted weak-parameter records before final claims."
+        "Use reviewed overrides or reviewer-cleared weak-parameter records before release claims."
       ],
       "final_acceptance_artifacts": [
         "data/parameters/road_class_overrides.csv",
@@ -184,7 +184,7 @@
         "rail_evidence"
       ],
       "mission": "Review road overrides, rail assumptions, speeds, capacities, costs, weights, dispatch parameters, and parameter provenance.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -262,7 +262,7 @@
         "validation_package"
       ],
       "mission": "Review validation benchmark design, metrics, thresholds, sampling strategy, failure cases, and implemented-versus-proposed validation scope.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "needs_human_review",
       "required_actions": [
         "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
@@ -287,10 +287,10 @@
         "data/validation/validation_benchmark_decision_manifest.json"
       ],
       "risks": [
-        "Live or unpinned route benchmarks are not reproducible enough for final claims.",
+        "Live or unpinned route benchmarks are not reproducible enough for release claims.",
         "Plausibility checks cannot prove operational accuracy."
       ],
-      "role_name": "Validation Benchmark Strategy Agent",
+      "role_name": "Benchmark Strategy Review Agent",
       "source_paths": [
         "data/validation/validation_review_packet.csv",
         "data/validation/validation_strategy_readiness_packet.csv",
@@ -314,7 +314,7 @@
         "sensitivity_analysis"
       ],
       "mission": "Review sensitivity method, scenario ranges, outputs, interpretation, and whether Morris or Sobol evidence is sufficient for the target claim.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
@@ -364,7 +364,7 @@
         "full_experiment_output"
       ],
       "mission": "Review scripts, configs, manifests, outputs, checksums where available, scenario-policy-seed design, and run instructions for the experiment package.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Regenerate or accept full outputs after input, graph-scale, and validation gates close.",
@@ -412,7 +412,7 @@
         "manuscript_report_alignment"
       ],
       "mission": "Review paper/report claims against available evidence and flag unsupported, overstated, stale, or operationally risky claims.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Revise or hold claims until all supporting evidence gates are accepted.",
@@ -464,7 +464,7 @@
         "reproducibility"
       ],
       "mission": "Perform or script clean-checkout reproduction, smoke validation, import-boundary checks, and artifact regeneration without faking a successful full reproduction.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
@@ -518,8 +518,8 @@
       "gate_ids": [
         "final_audit"
       ],
-      "mission": "Aggregate all acceptance records, verify every gate is accepted or blocked, and produce the final audit summary only after pre-final gates close.",
-      "non_fabrication_rule": "Do not mark accepted unless the final-study readiness gate is already ready with evidence-backed acceptance records.",
+      "mission": "Aggregate all reviewer records, verify every gate is cleared or blocked, and produce the independent audit summary only after prerequisite gates close.",
+      "non_fabrication_rule": "Do not mark complete unless the study gate already has evidence-backed reviewer records.",
       "non_ready_status": "blocked",
       "required_actions": [
         "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
@@ -543,7 +543,7 @@
         "A final audit created before pre-final gate closure would launder incomplete evidence.",
         "Proxy signals such as tests or generated manifests are not enough for final completion."
       ],
-      "role_name": "Final Independent Audit Agent",
+      "role_name": "Independent Audit Review Agent",
       "source_paths": [
         "docs/current_goal_completion_audit.md",
         "data/manifests/current_goal_completion_audit.json",

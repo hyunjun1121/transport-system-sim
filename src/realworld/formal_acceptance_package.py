@@ -43,9 +43,9 @@ DEFAULT_FORMAL_ACCEPTANCE_PACKAGE_DOC_PATH = (
 )
 
 CLAIM_BOUNDARY = (
-    "This package validates formal acceptance artifacts supplied by reviewers. "
+    "This package checks reviewer-supplied formal decision artifacts. "
     "It does not create approvals, invent evidence, or convert scaffold outputs "
-    "into calibrated real-world findings."
+    "into field-fit findings."
 )
 
 
@@ -179,7 +179,7 @@ def build_formal_acceptance_package_markdown(summary: dict[str, Any]) -> str:
     """Return a human-readable package intake report."""
 
     lines = [
-        "# Formal Acceptance Package Audit",
+        "# Formal Decision Package Intake Audit",
         "",
         summary.get("claim_boundary", CLAIM_BOUNDARY),
         "",
@@ -229,15 +229,15 @@ def build_formal_acceptance_package_markdown(summary: dict[str, Any]) -> str:
             f"- Empty evidence records: {evidence_paths.get('empty_evidence_record_count', 0)}",
             f"- Evidence-path audit can mark complete: `{str(evidence_paths.get('can_mark_complete', False)).lower()}`",
             "",
-            "## Final Readiness Cross-Check",
+            "## Study-Closeout Cross-Check",
             "",
-            f"- Final-study verdict: `{readiness.get('verdict', '')}`",
+            f"- Study-closeout verdict: `{_display_verdict(readiness.get('verdict', ''))}`",
             f"- Ready plan gates: {len(readiness.get('ready_gate_ids', []))} / {readiness.get('gate_count', 0)}",
             f"- Blocked plan gates: {len(readiness.get('blocked_gate_ids', []))} / {readiness.get('gate_count', 0)}",
             "",
             "## Use",
             "",
-            "Run this audit after a reviewer adds or edits any formal acceptance artifact. A `ready` package only means the repository has reviewed acceptance evidence; it still must agree with the final-study readiness audit before the active goal can be marked complete.",
+            "Run this audit after a reviewer adds or edits any formal decision artifact. A `ready` package only means the repository has reviewer-checked decision evidence; it still must agree with the study-closeout readiness audit before the active goal can be marked complete.",
             "",
         ]
     )
@@ -248,73 +248,73 @@ def _formal_gate_specs(root: Path) -> list[FormalGateSpec]:
     return [
         FormalGateSpec(
             "pilot_region_accepted",
-            "Pilot Region Acceptance",
+            "Pilot Region Decision",
             root / "data" / "manifests" / "pilot_acceptance.json",
             summarize_pilot_acceptance,
         ),
         FormalGateSpec(
             "graph_scale_strategy",
-            "Graph-Scale Acceptance",
+            "Graph-Scale Decision",
             root / "data" / "manifests" / "graph_scale_acceptance.json",
             summarize_graph_scale_acceptance,
         ),
         FormalGateSpec(
             "data_provenance",
-            "Source/License/Provenance Acceptance",
+            "Source/License/Provenance Decision",
             root / "data" / "manifests" / "provenance_acceptance.json",
             summarize_provenance_acceptance,
         ),
         FormalGateSpec(
             "parameter_acceptance",
-            "Weak-Parameter Acceptance",
+            "Weak-Parameter Decision",
             root / "data" / "parameters" / "parameter_acceptance.csv",
             _summarize_parameter_acceptance_for_package,
         ),
         FormalGateSpec(
             "road_class_overrides",
-            "Road-Class Override Acceptance",
+            "Road-Class Override Decision",
             root / "data" / "parameters" / "road_class_overrides.csv",
             _summarize_road_overrides_for_package,
         ),
         FormalGateSpec(
             "validation_package",
-            "Validation Acceptance",
+            "Benchmark Decision",
             root / "data" / "manifests" / "validation_acceptance.json",
             summarize_validation_acceptance,
         ),
         FormalGateSpec(
             "sensitivity_analysis",
-            "Sensitivity Acceptance",
+            "Sensitivity Analysis Decision",
             root / "data" / "manifests" / "sensitivity_acceptance.json",
             summarize_sensitivity_acceptance,
         ),
         FormalGateSpec(
             "full_experiment_output",
-            "Experiment Acceptance",
+            "Experiment Output Decision",
             root / "data" / "manifests" / "experiment_acceptance.json",
             summarize_experiment_acceptance,
         ),
         FormalGateSpec(
             "manuscript_report_alignment",
-            "Manuscript/Report Acceptance",
+            "Manuscript/Report Alignment Decision",
             root / "data" / "manifests" / "manuscript_acceptance.json",
             summarize_manuscript_acceptance,
         ),
         FormalGateSpec(
             "reproducibility",
-            "Reproducibility Acceptance",
+            "Reproducibility Decision",
             root / "data" / "manifests" / "reproducibility_acceptance.json",
             summarize_reproducibility_acceptance,
         ),
         FormalGateSpec(
             "final_audit_document",
-            "Final Study Audit Document",
+            "Study-Closeout Audit Document",
             root / "docs" / "final_study_audit.md",
             _summarize_final_study_audit_document,
         ),
         FormalGateSpec(
             "final_audit",
-            "Final Audit Acceptance",
+            "Closeout Audit Decision",
             root / "data" / "manifests" / "final_audit_acceptance.json",
             summarize_final_audit_acceptance,
         ),
@@ -439,6 +439,15 @@ def _display_path(path: Path) -> str:
         return path.resolve().relative_to(PROJECT_ROOT).as_posix()
     except ValueError:
         return path.as_posix()
+
+
+def _display_verdict(value: Any) -> str:
+    return (
+        str(value)
+        .replace("final_real_world_study_blocked", "study_closeout_blocked")
+        .replace("final_study", "study_closeout")
+        .replace("final-study", "study-closeout")
+    )
 
 
 def _cell(value: str) -> str:

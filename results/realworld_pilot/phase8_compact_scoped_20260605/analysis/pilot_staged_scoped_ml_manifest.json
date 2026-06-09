@@ -1,0 +1,62 @@
+{
+  "class_labels": [
+    "failure",
+    "normal"
+  ],
+  "command": [
+    "scripts\\run_ml_analysis.py",
+    "--input",
+    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\pilot_staged_results.csv",
+    "--source-manifest",
+    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\pilot_staged_manifest.json",
+    "--output-dir",
+    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\analysis",
+    "--output-prefix",
+    "pilot_staged_scoped",
+    "--device",
+    "cuda"
+  ],
+  "feature_importance_row_count": 23,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T06:39:57+00:00",
+  "label_counts": {
+    "failure": 30,
+    "normal": 285
+  },
+  "label_row_count": 315,
+  "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
+  "model_device": "cuda",
+  "model_package": "xgboost",
+  "model_status": "xgboost_trained",
+  "output_prefix": "pilot_staged_scoped",
+  "outputs": {
+    "doc": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_analysis.md",
+    "feature_importance": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_feature_importance.csv",
+    "labels": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_labels.csv",
+    "manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json",
+    "metrics": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_metrics.json",
+    "predictions": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_predictions.csv"
+  },
+  "prediction_row_count": 315,
+  "publication_ready": false,
+  "result_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
+  "row_count": 315,
+  "schema_version": 1,
+  "source_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+  "source_manifest_sha256": "07cd065794a546f33df7ffa0493a993715131efed7148d0d19a1a1c3a098e288",
+  "source_results_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+  "source_results_sha256": "6f311a3d659fa9d7b2b6494fa7bfebd5235d3301f65c41b54b537a99707228a7",
+  "test_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 63
+  },
+  "test_row_count": 63,
+  "train_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 252
+  },
+  "train_row_count": 252
+}

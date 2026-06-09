@@ -1,0 +1,93 @@
+{
+  "artifact_hashes": {
+    "data/manifests/pilot_experiment_design.json": "sha256:29dc7c11491134e4703031847766b707fc3449783f4ba13e64e12f5e5cd4ac8a",
+    "data/regions/pilot_region.yaml": "sha256:c4353014d40b28a400bf0a326b178f13118a93dc54e81cd9c7d553093c531687",
+    "data/scenarios/behavior_profiles.csv": "sha256:0a44bf6d8ed735525c506d9d09e340b609d7f5d912886004025bc1c3b460b37f",
+    "data/scenarios/demand_fleet_behavior_profile_manifest.json": "sha256:20ae8a93612fcb0b42c1fafbb6ab17a2cef157dbb033b4bd9e4fba37f75b5a16",
+    "data/scenarios/demand_profiles.csv": "sha256:976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+    "data/scenarios/fleet_profiles.csv": "sha256:c358554d54c3b879e720bced56ee3325337f5f7f32a71954ddc99cc3ca722991",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "docs/recovery/phase1_registry_schema_results_20260602.md": "sha256:5bd5d8afe699e338bb34ecf8e1087273bc952db05e3e5d17c436a350a1803d0b",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a",
+    "tests/test_realworld_pilot_experiments.py": "sha256:8a5413997bbf98e17b307f0b6a1c0d6f10f1f0496cc7461fe94628bfe6bfdd4a",
+    "tests/test_realworld_source_provenance.py": "sha256:e353f08b44801fd6ff473f390525e2fd95714f829d57984a7b5e2d630c849371",
+    "tests/test_realworld_types.py": "sha256:ffe39901800bbe7fdcfdf126cd56fd2a521bbc28dc2be8a544fd7be716addf2e"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": "commands listed in docs/recovery/phase1_registry_schema_results_20260602.md",
+      "exit_code": 0,
+      "status": "documented_previous_pass"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_review_only",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "passed_for_ready_for_review_not_closure",
+    "write_locks": [
+      "data/manifests/phase_gates/phase1_region_scenario_demand_registry.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Region and profile registry evidence exists and is traceable for review.",
+    "Demand/fleet/behavior profile manifest records row counts and bounded runtime profile consumption.",
+    "Ready for review as registry/profile evidence only; not provenance acceptance, calibrated OD demand, or final-study readiness."
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/manifests/pilot_experiment_design.json",
+    "data/scenarios/demand_profiles.csv",
+    "data/scenarios/fleet_profiles.csv",
+    "data/scenarios/behavior_profiles.csv",
+    "data/scenarios/demand_fleet_behavior_profile_manifest.json",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Define reusable region, scenario, demand, fleet, and behavior registries before route or experiment generation.",
+  "phase_id": "phase1_region_scenario_demand_registry",
+  "prerequisites": [
+    "phase0_baseline_and_worktree_safety closed"
+  ],
+  "remaining_blockers": [
+    "Phase0 is not closed; pilot/provenance/formal acceptance records remain absent or blocked.",
+    "Demand profiles are not calibrated OD demand and profile evidence remains bounded."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_bounded_promotion"
+  },
+  "source_inputs": [
+    "plan.md",
+    "data/regions/pilot_region.yaml",
+    "data/scenarios/demand_fleet_behavior_profile_manifest.json",
+    "docs/recovery/phase1_registry_schema_results_20260602.md"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "gpt-5.5-xhigh-readiness-scout:019ea504-6aa7-7c80-b387-faca606d3424:phase1-4"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_types.py",
+    "tests/test_realworld_pilot_experiments.py",
+    "tests/test_realworld_source_provenance.py"
+  ]
+}

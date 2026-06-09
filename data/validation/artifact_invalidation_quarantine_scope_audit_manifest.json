@@ -1,0 +1,43 @@
+{
+  "acceptance_ready": false,
+  "can_clear_invalidation_gate": false,
+  "can_mark_complete": false,
+  "claim_boundary": "Artifact invalidation matrix for Phase 9 preflight review only; not an artifact regeneration record, not evidence-quality validation, not publication readiness, not final-study approval, and not formal acceptance.",
+  "covered_quarantine_row_count": 6,
+  "expected_quarantine_row_count": 6,
+  "final_study_ready": false,
+  "finding_type_counts": {
+    "reference_hit": 720,
+    "stale_artifact_candidate": 69,
+    "zip_candidate": 4
+  },
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T00:59:52+00:00",
+  "missing_expected_count": 0,
+  "missing_quarantine_row_ids": [],
+  "must_not_be_used_as_closeout_manifest": true,
+  "outputs": {
+    "csv": "data/validation/artifact_invalidation_quarantine_scope_audit.csv",
+    "doc": "docs/artifact_invalidation_quarantine_scope_audit.md",
+    "manifest": "data/validation/artifact_invalidation_quarantine_scope_audit_manifest.json"
+  },
+  "phase9_promotion_ready": false,
+  "publication_ready": false,
+  "quarantine_batch_only": true,
+  "reference_hit_count": 720,
+  "remaining_blockers": [
+    "copy reviewed scope evidence into main closeout record with non-acceptance reviewer signoff"
+  ],
+  "row_count": 793,
+  "schema_version": 1,
+  "scope_scan_error_count": 0,
+  "searched_scope_complete": true,
+  "source_action_batch": "quarantine_non_evidence",
+  "stale_candidate_count": 69,
+  "status_counts": {
+    "present": 73,
+    "referenced": 720
+  },
+  "unresolved_current_reference_count": 653,
+  "zip_candidate_count": 4
+}

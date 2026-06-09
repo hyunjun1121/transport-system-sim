@@ -1,0 +1,84 @@
+{
+  "can_mark_complete": false,
+  "can_support_gpu_ml_claim": true,
+  "claim_boundary": "GPU ML runtime preflight only; not simulation acceleration evidence, not ML model-quality evidence, not publication readiness, not final-study approval, and not formal acceptance.",
+  "command": [
+    "scripts\\check_gpu_ml_runtime.py",
+    "--package",
+    "xgboost",
+    "--requested-device",
+    "cuda",
+    "--requirements",
+    "requirements-ml.txt",
+    "--require-gpu"
+  ],
+  "cpu_fallback_recorded": true,
+  "cwd": "C:\\project\\transport-system-sim",
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T06:39:24+00:00",
+  "gpu_claim_supported_package_count": 1,
+  "gpu_claim_supported_packages": [
+    "xgboost"
+  ],
+  "gpu_ml_runtime_passed": true,
+  "nvidia_smi": {
+    "duration_sec": 0.098,
+    "returncode": 0,
+    "status": "available",
+    "stderr_tail": "",
+    "stdout_tail": "Tue Jun  9 15:39:20 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.47                 KMD Version: 610.47        CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3090      WDDM  |   00000000:06:00.0  On |                  N/A |\n| 33%   48C    P5             58W /  420W |    1380MiB /  24576MiB |     14%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A            1736    C+G   ...ms\\Microsoft VS Code\\Code.exe      N/A      |\n|    0   N/A  N/A            5924    C+G   C:\\Windows\\explorer.exe               N/A      |\n|    0   N/A  N/A            6016    C+G   ...2txyewy\\CrossDeviceResume.exe      N/A      |\n|    0   N/A  N/A            9328    C+G   ...indows\\System32\\ShellHost.exe      N/A      |\n|    0   N/A  N/A           10552    C+G   ..._cw5n1h2txyewy\\SearchHost.exe      N/A      |\n|    0   N/A  N/A           10560    C+G   ...y\\StartMenuExperienceHost.exe      N/A      |\n|    0   N/A  N/A           11368    C+G   ....0.3967.96\\msedgewebview2.exe      N/A      |\n|    0   N/A  N/A           12256    C+G   ...mba6cd70vzyy\\ArmouryCrate.exe      N/A      |\n|    0   N/A  N/A           12412    C+G   ...xyewy\\ShellExperienceHost.exe      N/A      |\n|    0   N/A  N/A           14436    C+G   ...crosoft OneDrive\\OneDrive.exe      N/A      |\n|    0   N/A  N/A           15836    C+G   ...c\\AdobeNotificationClient.exe      N/A      |\n|    0   N/A  N/A           15840    C+G   ...5n1h2txyewy\\TextInputHost.exe      N/A      |\n|    0   N/A  N/A           19300    C+G   ....0.3967.96\\msedgewebview2.exe      N/A      |\n|    0   N/A  N/A           23108    C+G   ...Chrome\\Application\\chrome.exe      N/A      |\n|    0   N/A  N/A           24752    C+G   ...t\\Edge\\Application\\msedge.exe      N/A      |\n|    0   N/A  N/A           29252    C+G   ...Chrome\\Application\\chrome.exe      N/A      |\n|    0   N/A  N/A           31144    C+G   ...yb3d8bbwe\\Notepad\\Notepad.exe      N/A      |\n+-----------------------------------------------------------------------------------------+"
+  },
+  "nvidia_smi_available": true,
+  "outputs": {
+    "doc": "docs/gpu_ml_runtime_check.md",
+    "log": "data/validation/gpu_ml_runtime_log.jsonl",
+    "manifest": "data/validation/gpu_ml_runtime_manifest.json"
+  },
+  "package_count": 1,
+  "package_results": [
+    {
+      "actual_device": "cuda",
+      "can_support_gpu_ml_claim": true,
+      "cpu_fallback_status": "passed",
+      "duration_sec": 1.929,
+      "gpu_check_status": "passed",
+      "import_status": "imported",
+      "message": "XGBoost small GPU fit and CPU fallback completed.",
+      "package_name": "xgboost",
+      "package_version": "3.2.0",
+      "requested_device": "cuda"
+    }
+  ],
+  "packages_requested": [
+    "xgboost"
+  ],
+  "pip_check": {
+    "command": [
+      "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "check"
+    ],
+    "duration_sec": 1.618,
+    "returncode": 0,
+    "status": "passed",
+    "stderr_tail": "",
+    "stdout_tail": "No broken requirements found."
+  },
+  "pip_check_passed": true,
+  "publication_ready": false,
+  "python_executable": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
+  "python_version": "3.12.10",
+  "remaining_blockers": [],
+  "requested_device": "cuda",
+  "requirements": {
+    "path": "requirements-ml.txt",
+    "sha256": "8eb1cd2c5917ad4d42861c4580ccd00f09b9e6d63dccbfb6300cba67a589da15",
+    "status": "present"
+  },
+  "result_scope": "gpu_ml_runtime_preflight_only_not_simulation_acceleration_not_acceptance",
+  "schema_version": 1,
+  "simulation_correctness_blocked": false,
+  "simulation_engine_gpu_accelerated": false
+}

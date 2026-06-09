@@ -4,7 +4,7 @@
     "availability": 1,
     "capacity": 1,
     "delay": 1,
-    "headway": 2,
+    "headway": 3,
     "partial_unavailability": 1,
     "travel_time": 2
   },
@@ -20,20 +20,21 @@
   "region_ids": [
     "songpa_public_demo"
   ],
-  "requires_private_or_reviewed_input_count": 3,
+  "requires_private_or_reviewed_input_count": 4,
   "result_scope": "Rail timing source-request packet; not cached rail timing evidence, not GTFS validation, not rail-service calibration, and not operational rail availability evidence.",
   "review_items": [
-    "obtain DATA_GO_KR_KEY or a reviewed static GTFS feed before running timing-source fetches",
+    "obtain DATA_GO_KR_KEY, a reviewed static timetable CSV, or a reviewed static GTFS feed before running timing-source fetches",
     "retain raw payloads or reviewed source files with SHA256 digests",
     "derive headway and travel time into rail_service_evidence.csv only after source review",
     "rerun rail evidence, rail review packet, publication-readiness, and final-study-readiness audits after timing evidence changes"
   ],
-  "row_count": 5,
+  "row_count": 6,
   "schema_version": 1,
   "source_type_counts": {
     "operator_or_literature_or_sensitivity_decision": 1,
     "public_api_key_required": 2,
     "reviewed_static_gtfs_file_required": 1,
+    "reviewed_static_timetable_csv_required": 1,
     "scenario_or_public_disruption_source_required": 1
   },
   "timing_closure_candidate_count": 1

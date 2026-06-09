@@ -38,14 +38,14 @@
   },
   "review_items": [
     "review paper and Korean report claims against evidence-gate status",
-    "resolve figure/table blocker rows before final manuscript claims",
-    "revise or explicitly accept non-guardrail claim-alignment rows",
-    "confirm report.docx is regenerated from the accepted report source",
+    "resolve figure/table blocker rows before release-scope manuscript claims",
+    "revise or explicitly retain non-guardrail claim-alignment rows",
+    "confirm report.docx is regenerated from the reviewed report source",
     "create data/manifests/manuscript_acceptance.json only after all manuscript/report decisions are source-backed"
   ],
   "remaining_blockers": [
     "figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "claim-alignment packet has 91 rows requiring revision or acceptance",
+    "claim-alignment packet has 44 rows requiring revision or explicit retention",
     "upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
     "data/manifests/manuscript_acceptance.json is absent"
   ]

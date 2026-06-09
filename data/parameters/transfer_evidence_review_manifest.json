@@ -3,12 +3,13 @@
   "can_mark_complete": false,
   "claim_boundary": "This packet traces transfer-delay assumptions, sensitivity bounds, and station context. It does not supply observed transfer timing, station-layout validation, pedestrian-flow calibration, or accepted weak-parameter decisions.",
   "evidence_status_counts": {
+    "documented_component_accounting": 2,
     "documented_parameter_proxy": 1,
     "missing_station_layout_or_observed_transfer_source": 1,
     "public_station_context_present": 2,
     "sensitivity_bounds_present": 1
   },
-  "human_review_count": 4,
+  "human_review_count": 6,
   "inputs": {
     "config": "config.yaml",
     "parameter_sources": "data/parameters/parameter_sources.csv",
@@ -31,22 +32,23 @@
   "result_scope": "Transfer evidence review packet only; not observed transfer timing, not station-layout validation, not accepted transfer calibration, not weak-parameter acceptance, and not operational routing evidence.",
   "review_items": [
     "review whether current fixed and per-passenger transfer delay values are bounded scenario assumptions or must be replaced",
-    "supply station-layout, observed transfer, pedestrian-flow literature, or field-review evidence before calibrated transfer claims",
+    "supply station-layout, observed transfer, pedestrian-flow literature, or field-review evidence before release-scope transfer claims",
     "keep station binding separate from station transfer timing evidence",
-    "rerun parameter source-readiness and final-study audits after transfer evidence changes"
+    "rerun parameter source-review and study-scope audits after transfer evidence changes"
   ],
   "review_priority_counts": {
     "high": 2,
-    "medium": 3
+    "medium": 5
   },
-  "row_count": 5,
+  "row_count": 7,
   "schema_version": 1,
   "source_artifact_status_counts": {
+    "component_accounting_code_present": 2,
     "no_station_layout_or_observed_transfer_artifact": 1,
     "review_inputs_present": 1,
     "sensitivity_design_present": 1,
     "station_binding_cache_committed": 2
   },
   "transfer_source_artifact_present": true,
-  "weak_for_final_claim_count": 5
+  "weak_for_final_claim_count": 7
 }

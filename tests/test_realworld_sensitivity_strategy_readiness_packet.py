@@ -148,7 +148,7 @@ def test_write_sensitivity_strategy_readiness_packet_outputs_artifacts() -> None
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert written_manifest["sensitivity_gate_closure_candidate_count"] == 0
-        assert "Sensitivity Strategy Readiness Packet" in text
+        assert "Sensitivity Strategy Review Packet" in text
         assert "cannot close data/manifests/sensitivity_acceptance.json" in text
 
     print("PASS: sensitivity strategy-readiness writer emits artifacts")

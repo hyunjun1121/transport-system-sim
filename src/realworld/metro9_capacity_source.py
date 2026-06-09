@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import csv
 from datetime import datetime, timezone
+import hashlib
 from html import unescape
 from pathlib import Path
 import re
@@ -35,6 +36,7 @@ METRO9_CAPACITY_COLUMNS: tuple[str, ...] = (
     "source_url",
     "fetched_at_utc",
     "raw_html_sha256",
+    "raw_file_sha256",
     "configuration",
     "max_running_speed_kmh_overview",
     "number_of_cars",
@@ -90,6 +92,7 @@ def build_metro9_capacity_extract(
         "source_url": source_url,
         "fetched_at_utc": fetched,
         "raw_html_sha256": _sha256_text(html_text),
+        "raw_file_sha256": _sha256_bytes(html_text.encode("utf-8")),
         "configuration": _match_text(
             text,
             r"Configuration\s+(.*?)\s+Max Running Speed",
@@ -150,6 +153,7 @@ def write_metro9_capacity_cache(
         source_url=source_url,
         fetched_at_utc=fetched_at_utc,
     )
+    row["raw_file_sha256"] = _hash_file(raw_path)
     write_metro9_capacity_extract([row], extract_path)
     load_metro9_capacity_extract(extract_path)
     return row
@@ -189,12 +193,50 @@ def load_metro9_capacity_extract(
     return rows
 
 
+def audit_metro9_capacity_raw_hash(
+    *,
+    extract_path: str | Path = DEFAULT_METRO9_CAPACITY_EXTRACT_PATH,
+    raw_path: str | Path = DEFAULT_METRO9_CAPACITY_RAW_PATH,
+) -> dict[str, object]:
+    """Check that the extract raw-file hash matches the cached HTML bytes."""
+
+    rows = load_metro9_capacity_extract(extract_path)
+    row = rows[0]
+    raw_file_path = Path(raw_path)
+    raw_hash = _hash_file(raw_file_path)
+    raw_match = bool(
+        raw_hash and row.get("raw_file_sha256", "").lower() == raw_hash
+    )
+    return {
+        "source_id": row["source_id"],
+        "result_scope": METRO9_CAPACITY_SOURCE_SCOPE,
+        "extract_path": str(Path(extract_path)),
+        "raw_path": str(raw_file_path),
+        "row_count": len(rows),
+        "recorded_raw_file_sha256": row.get("raw_file_sha256", ""),
+        "raw_file_sha256": raw_hash,
+        "raw_file_sha256_matches": raw_match,
+        "raw_file_integrity_ready": raw_match,
+        "publication_ready": False,
+        "can_mark_complete": False,
+        "remaining_blockers": []
+        if raw_match
+        else ["Metro 9 raw-file SHA256 mismatch or missing raw file"],
+        "claim_boundary": (
+            "Raw-file hash match is source-context integrity only; it is not "
+            "rail capacity acceptance, license certification, provenance "
+            "acceptance, or rail-service calibration."
+        ),
+    }
+
+
 def _validate_row(row: Mapping[str, str], *, row_number: int, path: Path) -> None:
     required = (
         "source_id",
         "source_url",
         "fetched_at_utc",
         "raw_html_sha256",
+        "raw_file_sha256",
         "configuration",
         "total_capacity_6_cars",
         "review_status",
@@ -234,9 +276,15 @@ def _match_number(text: str, pattern: str) -> str:
 
 
 def _sha256_text(value: str) -> str:
-    import hashlib
+    return _sha256_bytes(value.encode("utf-8"))
 
-    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+def _sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
+
+
+def _hash_file(path: Path) -> str:
+    return _sha256_bytes(path.read_bytes()) if path.exists() else ""
 
 
 __all__ = [
@@ -245,6 +293,7 @@ __all__ = [
     "DEFAULT_METRO9_CAPACITY_URL",
     "METRO9_CAPACITY_COLUMNS",
     "METRO9_CAPACITY_SOURCE_SCOPE",
+    "audit_metro9_capacity_raw_hash",
     "build_metro9_capacity_extract",
     "fetch_metro9_capacity_html",
     "load_metro9_capacity_extract",

@@ -393,7 +393,7 @@ def build_clean_checkout_smoke_manifest(
                 else " using the current Python environment"
             )
             + ", but it does not "
-            "execute the full validation ladder"
+            "execute the full command ladder"
             + (
                 ", and its artifact regeneration is limited to bounded review "
                 "and audit artifacts"
@@ -697,7 +697,7 @@ def _required_actions(
     artifact_regeneration_tested: bool,
 ) -> list[str]:
     actions = [
-        "review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope",
+        "review whether the bounded clean-checkout smoke is sufficient for the intended review scope",
     ]
     if not install_dependencies or not full_clean_environment_tested:
         actions.append(
@@ -709,8 +709,8 @@ def _required_actions(
         )
     actions.extend(
         [
-            "preserve full validation-ladder logs before formal acceptance",
-            "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope",
+            "preserve full command-ladder logs before formal acceptance",
+            "keep data/manifests/reproducibility_acceptance.json absent until a human reviewer records the reproduction scope",
         ]
     )
     return actions

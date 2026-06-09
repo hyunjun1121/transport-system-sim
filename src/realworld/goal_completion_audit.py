@@ -58,7 +58,7 @@ DEFAULT_GOAL_COMPLETION_MANIFEST_PATH = (
 )
 
 ACTIVE_OBJECTIVE = (
-    "Implement every requirement planned in plan.md for the final real-world or "
+    "Implement every requirement planned in plan.md for the closeout real-world or "
     "quasi-real regional transport-resilience study."
 )
 
@@ -150,9 +150,9 @@ def build_goal_completion_audit_markdown(
             "",
             "## Region-Scope Review Metadata",
             "",
-            "These rows copy region-scope metadata from final-study gate details. They help detect mixed-region review packets, but they do not approve a region, source, or acceptance gate.",
+            "These rows copy region-scope metadata from closeout gate details. They help detect mixed-region review packets, but they do not approve a region, source, or acceptance gate.",
             "",
-            "| Gate | Source-Readiness Region IDs |",
+            "| Gate | Source Review Region IDs |",
             "| --- | --- |",
             *region_scope_rows,
             "",
@@ -162,9 +162,9 @@ def build_goal_completion_audit_markdown(
     lines.extend(
         [
             "",
-            "## Named Acceptance Artifacts",
+            "## Non-Approval Named Acceptance Artifacts",
             "",
-            "These files are required before final completion can be claimed. Missing files are expected in the current scaffold unless a reviewed acceptance decision has been made.",
+            "These files are required before closeout completion can be claimed. Missing files are expected in the current scaffold unless a reviewed acceptance decision has been made.",
             "",
             "| Artifact | Current State |",
             "| --- | --- |",
@@ -178,7 +178,7 @@ def build_goal_completion_audit_markdown(
     lines.extend(
         [
             "",
-            "## Sub-Agent Acceptance Orchestration",
+            "## Non-Approval Sub-Agent Acceptance Orchestration",
             "",
             "The orchestration records below are review aids. They do not replace formal acceptance artifacts and cannot mark the final study complete by themselves.",
             "",
@@ -194,7 +194,7 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Formal Acceptance Decision Templates",
+            "## Non-Approval Formal Acceptance Decision Templates",
             "",
             "The generated templates are copy/edit worksheets for reviewers. They intentionally keep `accepted: false` and do not replace the formal acceptance artifacts listed above.",
             "",
@@ -210,7 +210,7 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Human Acceptance Runbook",
+            "## Non-Approval Human Acceptance Runbook",
             "",
             "`docs/human_acceptance_runbook.md` gives reviewers the gate-by-gate workflow for inspecting review packets, converting non-approval templates into formal artifacts only after source-backed decisions, and rerunning package audits. It is instructional only and does not close any gate.",
             "",
@@ -234,7 +234,7 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Acceptance Task Assignments",
+            "## Non-Approval Acceptance Task Assignments",
             "",
             "The task assignment table maps each unresolved formal blocker to a deterministic review-agent role. It is a work-assignment aid only and cannot approve evidence or close any gate.",
             "",
@@ -251,9 +251,9 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Formal Acceptance Evidence Matrix",
+            "## Non-Approval Formal Acceptance Evidence Matrix",
             "",
-            "The evidence matrix joins each required formal target with its assigned review agent, template or worksheet, review packets, current blockers, and validation command. It is an intake index only and cannot approve evidence or close any gate.",
+            "The evidence matrix joins each required formal target with its assigned review agent, template or worksheet, review packets, current blockers, and source-check command. It is an intake index only and cannot approve evidence or close any gate.",
             "",
             f"- Manifest present: `{str(evidence_matrix.get('manifest_present', False)).lower()}`",
             f"- Manifest path: `{evidence_matrix.get('path', '')}`",
@@ -268,7 +268,7 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Formal Acceptance Pre-Review",
+            "## Non-Approval Formal Acceptance Pre-Review",
             "",
             "The pre-review package classifies each remaining formal target as a draft recommendation for human reviewers. It is deliberately stored under `data/manifests/draft_acceptance/` and cannot approve evidence or close any gate.",
             "",
@@ -288,7 +288,7 @@ def build_goal_completion_audit_markdown(
         [
             "## Agent Review Path Hygiene",
             "",
-            "This audit checks whether sub-agent records cite existing local review inputs or explicit formal acceptance targets. It is path hygiene only and cannot approve any gate.",
+            "This audit checks whether sub-agent records cite existing local review inputs or explicit formal acceptance targets. It is path hygiene only, not formal acceptance, and cannot approve any gate.",
             "",
             f"- Review records: {agent_review_paths.get('record_count', 0)}",
             f"- Missing required paths: {agent_review_paths.get('missing_required_path_count', 0)}",
@@ -344,7 +344,7 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Formal Acceptance Artifact Guard",
+            "## Non-Approval Formal Acceptance Artifact Guard",
             "",
             "The guard checks that formal acceptance paths do not contain copied templates, placeholders, draft overrides, or current-state audit text masquerading as final approval.",
             "",
@@ -382,9 +382,9 @@ def build_goal_completion_audit_markdown(
 
     lines.extend(
         [
-            "## Formal Acceptance Package Intake",
+            "## Non-Approval Formal Acceptance Package Intake",
             "",
-            "The package intake validates reviewer-supplied formal acceptance artifacts as a group. It does not create approvals and cannot override missing source-backed evidence.",
+            "The package intake checks reviewer-supplied formal acceptance artifacts as a group. It does not create approvals and cannot override missing source-backed evidence.",
             "",
             f"- Formal package gates: {formal_package.get('gate_count', 0)}",
             f"- Ready formal package gates: {formal_package.get('ready_gate_count', 0)}",
@@ -426,7 +426,7 @@ def build_goal_completion_audit_markdown(
             "",
             f"- Manifest present: `{str(bool(deterministic_rerun)).lower()}`",
             f"- Manifest path: `{_display_path(DEFAULT_DETERMINISTIC_RERUN_AUDIT_MANIFEST)}`",
-            f"- Deterministic rerun structurally ready: `{str(deterministic_rerun.get('deterministic_rerun_structurally_ready', False)).lower()}`",
+            f"- Deterministic rerun structural check passed: `{str(deterministic_rerun.get('deterministic_rerun_structurally_ready', False)).lower()}`",
             f"- Row hashes match: `{str(deterministic_rerun.get('row_hashes_match', False)).lower()}`",
             f"- Summary hashes match: `{str(deterministic_rerun.get('summary_hashes_match', False)).lower()}`",
             f"- Blocking checks: {deterministic_rerun.get('blocking_check_count', 0)}",
@@ -444,7 +444,7 @@ def build_goal_completion_audit_markdown(
         [
             "## Current-Worktree Reproducibility Smoke",
             "",
-            "The smoke manifest records bounded validation commands run in the current worktree. It is useful execution evidence, but it is not clean-checkout reproduction and cannot close the reproducibility gate.",
+            "The smoke manifest records bounded source-check commands run in the current worktree. It is useful execution evidence, but it is not clean-checkout reproduction and cannot close the reproducibility gate.",
             "",
             f"- Manifest present: `{str(reproducibility_smoke.get('manifest_present', False)).lower()}`",
             f"- Manifest path: `{reproducibility_smoke.get('path', '')}`",
@@ -499,7 +499,7 @@ def build_goal_completion_audit_markdown(
             "- OSM-derived road data are not by themselves calibrated traffic, capacity, or disruption evidence.",
             "- The regenerated Korean report and English paper draft must stay in scaffold scope until manuscript acceptance is reviewed.",
             "",
-            "## Commands To Re-Run Before Final Completion",
+            "## Commands To Re-Run Before Closure Review",
             "",
             "```powershell",
             ".\\.venv\\Scripts\\python scripts\\audit_plan_artifacts.py",
@@ -609,7 +609,7 @@ def build_goal_completion_audit_markdown(
             "",
             "## Next Required Input",
             "",
-            "The remaining work cannot be honestly completed by code alone. It requires reviewed pilot, provenance, graph-scale, road, rail, parameter, validation, sensitivity, experiment, manuscript, reproducibility, and final-audit acceptance decisions.",
+            "The remaining work cannot be honestly completed by code alone. It requires reviewed pilot, provenance, graph-scale, road, rail, parameter, route-benchmarking, sensitivity, experiment, manuscript, reproducibility, and closing-audit decision records.",
             "",
         ]
     )
@@ -773,8 +773,8 @@ def build_goal_completion_audit_manifest(
         ],
         "next_required_input": (
             "reviewed pilot, provenance, graph-scale, road, rail, parameter, "
-            "validation, sensitivity, experiment, manuscript, reproducibility, "
-            "and final-audit acceptance decisions"
+            "route-benchmarking, sensitivity, experiment, manuscript, "
+            "reproducibility, and closing-audit decision records"
         ),
         "can_mark_complete": bool(audit.get("final_study_ready", False))
         and not blocked_gate_ids
@@ -827,23 +827,34 @@ def _gate_checklist_item(gate: dict[str, Any]) -> dict[str, Any]:
     return {
         "gate_id": gate_id,
         "label": str(gate.get("label", gate_id)),
-        "current_status": "ready" if ready else "blocked",
+        "current_status": "scaffold_unblocked" if ready else "blocked",
         "ready": ready,
         "evidence_inspected": evidence if isinstance(evidence, list) else [],
         "missing_or_weak_requirements": (
-            blockers if isinstance(blockers, list) else []
+            _blocked_requirement_items(blockers)
+            if isinstance(blockers, list)
+            else []
         ),
     }
 
 
 def _gate_table_row(gate: dict[str, Any]) -> str:
     label = _cell_text(str(gate.get("label", gate.get("gate_id", ""))))
-    status = "ready" if gate.get("ready") else "blocked"
+    status = "scaffold_unblocked" if gate.get("ready") else "blocked"
     evidence = _summarize_list(gate.get("evidence", []), max_items=4)
-    blockers = _summarize_list(gate.get("blockers", []), max_items=3)
+    blockers = _summarize_list(
+        _blocked_requirement_items(gate.get("blockers", [])),
+        max_items=3,
+    )
     if not blockers:
         blockers = "none for current gate scope"
     return f"| {label} | {status} | {evidence} | {blockers} |"
+
+
+def _blocked_requirement_items(items: object) -> list[str]:
+    if not isinstance(items, list):
+        return []
+    return [f"blocked requirement: {item}" for item in items]
 
 
 def _region_scope_rows(audit: dict[str, Any]) -> list[str]:

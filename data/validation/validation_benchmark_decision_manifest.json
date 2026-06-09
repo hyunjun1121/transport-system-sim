@@ -46,8 +46,8 @@
     "choose whether fallback rows are retained, replaced, or excluded",
     "choose whether cached OSRM is sufficient as a plausibility snapshot",
     "choose whether alternative route-engine or agency evidence is required",
-    "resolve route-level road evidence dependency before final validation claims",
-    "record final benchmark strategy only in data/manifests/validation_acceptance.json"
+    "resolve route-level road evidence dependency before release-scope benchmark claims",
+    "record release-scope benchmark strategy only in data/manifests/validation_acceptance.json"
   ],
   "row_count": 6,
   "schema_version": 1,

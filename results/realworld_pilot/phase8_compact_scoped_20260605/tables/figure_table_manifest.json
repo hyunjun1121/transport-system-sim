@@ -1,0 +1,97 @@
+{
+  "claim_boundary": "All generated artifacts are scaffold-only outputs and must not be described as calibrated real-world or operational outputs.",
+  "command": "scripts/make_pilot_figures.py",
+  "evidence_label": "scaffold-only",
+  "figures": {
+    "bottleneck_attribution": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/bottleneck_attribution.png"
+    },
+    "censored_by_disruption": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/censored_by_disruption.png"
+    },
+    "completion_by_disruption": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/completion_by_disruption.png"
+    },
+    "policy_regime_map": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/policy_regime_map.png"
+    },
+    "policy_resource_tradeoff": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/policy_resource_tradeoff.png"
+    },
+    "sensitivity_ranking": {
+      "caption_note": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+      "path": "results/realworld_pilot/phase8_compact_scoped_20260605/figures/sensitivity_ranking.png"
+    }
+  },
+  "graph_scale": {
+    "pilot": {
+      "analysis": {
+        "corridor_path_count": 1,
+        "edges": 174,
+        "graph_corridor_path_count": 1,
+        "graph_corridor_strategy": "single_shortest_time_route_corridor",
+        "graph_reduction_strategy": "single_corridor",
+        "nodes": 118,
+        "reduced": true,
+        "strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded"
+      },
+      "source": {
+        "edges": 9148,
+        "nodes": 4608
+      }
+    },
+    "sensitivity": {
+      "analysis": {
+        "edges": 174,
+        "nodes": 118,
+        "reduced": true,
+        "strategy": "route_corridor_reduced_for_sensitivity_scaffold_execution"
+      },
+      "source": {
+        "edges": 9148,
+        "nodes": 4608
+      }
+    }
+  },
+  "inputs": {
+    "pilot_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "pilot_summary_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_summary.csv",
+    "sensitivity_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_manifest.json",
+    "sensitivity_summary_path": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_summary.csv"
+  },
+  "morris_index_handling": {
+    "audit": "scripts/audit_sensitivity_diagnostics.py counts blank and non-finite index rows; it does not accept sensitivity claims.",
+    "figures": "Sensitivity ranking figures coerce index values to numeric and exclude non-finite rows from the plotted top rankings.",
+    "tables": "Blank, masked, NaN, or infinite Morris index values are kept in generated sensitivity tables for reviewer visibility."
+  },
+  "result_scope": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
+  "row_counts": {
+    "bottleneck_attribution_table": 63,
+    "claim_boundary_table": 3,
+    "main_result_table": 63,
+    "policy_regime_table": 27,
+    "sensitivity_result_table": 98
+  },
+  "schema_version": 1,
+  "selected_sensitivity_metric": "penalized_makespan",
+  "source_commands": {
+    "pilot": "scripts/run_pilot_experiments.py --staged",
+    "sensitivity": "scripts/run_sensitivity.py --all"
+  },
+  "source_result_scopes": {
+    "pilot": "Scoped compact-output invalidation-regeneration artifact only; not publication evidence, not final-study evidence, not formal acceptance evidence, and not operational evidence. Base profile scope: Pilot staged scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
+    "sensitivity": "Pilot scaffold sensitivity screening only; not calibrated real-world sensitivity indices or an operational forecast."
+  },
+  "tables": {
+    "bottleneck_attribution_table": "results/realworld_pilot/phase8_compact_scoped_20260605/tables/bottleneck_attribution_table.csv",
+    "claim_boundary_table": "results/realworld_pilot/phase8_compact_scoped_20260605/tables/claim_boundary_table.csv",
+    "main_result_table": "results/realworld_pilot/phase8_compact_scoped_20260605/tables/main_result_table.csv",
+    "policy_regime_table": "results/realworld_pilot/phase8_compact_scoped_20260605/tables/policy_regime_table.csv",
+    "sensitivity_result_table": "results/realworld_pilot/phase8_compact_scoped_20260605/tables/sensitivity_result_table.csv"
+  }
+}

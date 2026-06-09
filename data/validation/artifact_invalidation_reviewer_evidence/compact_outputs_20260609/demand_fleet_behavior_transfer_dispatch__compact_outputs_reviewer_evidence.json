@@ -1,0 +1,45 @@
+{
+  "broader_blockers": [
+    "publication readiness",
+    "study-closeout completion",
+    "formal acceptance",
+    "operational routing",
+    "calibrated validation",
+    "real-world forecasting",
+    "rail evidence gate closure",
+    "experiment acceptance",
+    "replication adequacy",
+    "downstream analysis outputs",
+    "figures/reports/review packages"
+  ],
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "evidence_paths": [
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_summary.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_output_lock_receipt.json",
+    "data/validation/compact_scoped_output_audit_manifest.json",
+    "data/validation/compact_scoped_output_audit.csv",
+    "data/manifests/deterministic_rerun_audit_manifest.json",
+    "data/manifests/crn_pairing_audit_manifest.json",
+    "data/manifests/replication_adequacy_audit_manifest.json",
+    "data/validation/claim_language_guard_manifest.json",
+    "data/validation/artifact_invalidation_reviewer_evidence/compact_outputs_20260609/support/compact_reviewer_decision_summary.json"
+  ],
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "invalidation_row_id": "demand_fleet_behavior_transfer_dispatch->compact_outputs",
+  "publication_ready": false,
+  "record_type": "artifact_invalidation_closeout_reviewer_evidence",
+  "reviewed_at_utc": "2026-06-09T15:40:00+09:00",
+  "reviewed_paths": [
+    "plan.md",
+    "data/validation/artifact_invalidation_action_batch_inspection.csv",
+    "data/validation/artifact_invalidation_closeout_template.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json"
+  ],
+  "reviewer_id": "gpt55_xhigh_compact_experiment_reviewer_019eab11_20260609",
+  "schema_version": 1,
+  "scope": "artifact_invalidation_closeout_only",
+  "scope_statement": "This reviewer evidence supports artifact-invalidation closeout only for the five compact_outputs rows. It supports setting those rows to closed_invalidation_only based on scoped compact-output regeneration and audit evidence only. It does not approve publication readiness, study-closeout completion, formal acceptance, calibrated validation, real-world forecasting, operational routing, rail evidence gate closure, statistical power or replication adequacy, CRN design acceptance, downstream analysis outputs, figures, reports, or review packages."
+}

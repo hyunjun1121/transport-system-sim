@@ -55,25 +55,25 @@ clearly labeled sensitivity-only assumptions.
 
 This pilot uses only public or synthetic points. It does not disclose private
 movement data, exact sensitive destinations, protected facility locations, or
-operational routing instructions.
+routing instructions for field use.
 
 Acceptable claims:
 
 - The pilot demonstrates an offline real-world-style input pathway.
-- The graph cache can be converted into a simulator-ready graph.
+- The graph cache can be converted into a simulator-compatible graph.
 - The scenario runner can execute both bus-only and multimodal smoke cases.
 
 Avoid:
 
-- claiming the cache is a calibrated OSM/Songpa transport model
+- claiming the cache is a fit-to-observed-data OSM/Songpa transport model
 - claiming the rail assumptions represent emergency operations
-- using the pilot as an operational route plan
+- using the pilot as a field-use route plan
 
 ## Reuse For Other Regions
 
 To add another region, create a new region spec, cache, data card, and parameter
 rows with a different `region_id`. Shared code should not require changes.
 Use `docs/region_reuse_checklist.md` for the current file checklist and
-validation commands. The synthetic fixture in
+review commands. The synthetic fixture in
 `tests/fixtures/synthetic_region_fixture.yaml` is test coverage only, not a
 second accepted case study.

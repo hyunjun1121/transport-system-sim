@@ -94,24 +94,86 @@ def test_parameter_acceptance_rejects_bad_boolean() -> None:
     print("PASS: parameter acceptance rejects bad booleans")
 
 
+def test_parameter_acceptance_placeholders_are_not_ready() -> None:
+    """Template placeholders should not become ready if accepted is flipped."""
+
+    with TemporaryDirectory() as tmp:
+        path = Path(tmp) / "parameter_acceptance.csv"
+        _write_acceptance(
+            path,
+            parameter="road_capacity_proxy",
+            accepted_by="REVIEW_REQUIRED",
+            accepted_date="REVIEW_REQUIRED",
+            acceptance_scope="REVIEW_REQUIRED",
+            notes="Template only. REVIEW_REQUIRED.",
+        )
+
+        summary = summarize_parameter_acceptance(path)
+
+        assert summary["ready_parameter_count"] == 0
+        assert summary["remaining_blockers"]
+
+    print("PASS: parameter acceptance placeholders are not ready")
+
+
+def test_parameter_acceptance_counts_only_accepted_rows() -> None:
+    """Rows with accepted=false should not inflate accepted counts."""
+
+    with TemporaryDirectory() as tmp:
+        path = Path(tmp) / "parameter_acceptance.csv"
+        _write_acceptance(path, parameter="road_capacity_proxy", accepted="false")
+
+        summary = summarize_parameter_acceptance(path)
+
+        assert summary["accepted_parameter_count"] == 0
+        assert summary["ready_parameter_count"] == 0
+
+    print("PASS: parameter acceptance counts only accepted rows")
+
+
+def test_parameter_acceptance_rejects_non_approval_evidence_only() -> None:
+    """Review/decision packets alone should not make acceptance ready."""
+
+    with TemporaryDirectory() as tmp:
+        path = Path(tmp) / "parameter_acceptance.csv"
+        _write_acceptance(
+            path,
+            parameter="road_capacity_proxy",
+            evidence_paths="data/parameters/parameter_source_decision_manifest.json",
+        )
+
+        summary = summarize_parameter_acceptance(path)
+
+        assert summary["accepted_parameter_count"] == 1
+        assert summary["ready_parameter_count"] == 0
+        assert summary["remaining_blockers"]
+
+    print("PASS: parameter acceptance rejects non-approval evidence only")
+
+
 def _write_acceptance(
     path: Path,
     *,
     parameter: str,
     accepted: str = "true",
     sensitivity_reviewed: str = "true",
+    accepted_by: str = "fixture reviewer",
+    accepted_date: str = "2026-05-04",
+    acceptance_scope: str = "fixture parameter acceptance",
     claim_boundary: str = "Accepted for bounded decision-support sensitivity use; not operational routing.",
+    evidence_paths: str = "data/parameters/parameter_sources.csv;docs/schemas/pilot_acceptance_schema.md",
+    notes: str = "fixture row",
 ) -> None:
     row = {
         "parameter": parameter,
         "accepted": accepted,
-        "accepted_by": "fixture reviewer",
-        "accepted_date": "2026-05-04",
-        "acceptance_scope": "fixture parameter acceptance",
+        "accepted_by": accepted_by,
+        "accepted_date": accepted_date,
+        "acceptance_scope": acceptance_scope,
         "claim_boundary": claim_boundary,
         "sensitivity_reviewed": sensitivity_reviewed,
-        "evidence_paths": "data/parameters/parameter_sources.csv;docs/schemas/pilot_acceptance_schema.md",
-        "notes": "fixture row",
+        "evidence_paths": evidence_paths,
+        "notes": notes,
     }
     with path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=REQUIRED_COLUMNS)
@@ -124,4 +186,7 @@ if __name__ == "__main__":
     test_parameter_acceptance_fixture_can_pass()
     test_parameter_acceptance_requires_not_operational_boundary()
     test_parameter_acceptance_rejects_bad_boolean()
+    test_parameter_acceptance_placeholders_are_not_ready()
+    test_parameter_acceptance_counts_only_accepted_rows()
+    test_parameter_acceptance_rejects_non_approval_evidence_only()
     print("\n=== REALWORLD PARAMETER ACCEPTANCE TESTS PASSED ===")

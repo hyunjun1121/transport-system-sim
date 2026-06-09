@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "claim_boundary": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval. Remediation rows identify review work only and cannot close data/manifests/provenance_acceptance.json.",
-  "result_scope": "Source URL remediation packet only; not source acceptance, not license certification, not calibrated real-world validation, and not operational routing approval.",
+  "claim_boundary": "Source URL remediation packet only; it does not certify sources, licenses, field-fit benchmark evidence, or deployment routing evidence. Remediation rows identify review work only and cannot close data/manifests/provenance_acceptance.json.",
+  "result_scope": "Source URL remediation packet only; it does not certify sources, licenses, field-fit benchmark evidence, or deployment routing evidence.",
   "row_count": 17,
   "remediation_status_counts": {
     "alternate_reachable_url_needs_review": 1,
@@ -29,9 +29,9 @@
   },
   "review_items": [
     "confirm project-owned local citations where no public URL is expected",
-    "verify license, attribution, derivative-use, source identity, and snapshot records before provenance acceptance",
+    "verify license, attribution, derivative-use, source identity, and snapshot records before provenance decision record",
     "review alternate URL candidates before replacing or removing failed citations",
-    "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
+    "provide reviewed target payloads for retained context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims",
     "create data/manifests/provenance_acceptance.json only after source-backed review"
   ],
   "remaining_blockers": [

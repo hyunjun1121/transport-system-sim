@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
-import hashlib
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
@@ -12,6 +11,10 @@ from src.realworld.rail_evidence import (
     OPTIONAL_COLUMNS,
     REQUIRED_COLUMNS,
     RailServiceEvidence,
+)
+from src.realworld.source_artifacts import (
+    file_sha256 as _source_file_sha256,
+    validate_loaded_source_matches_metadata,
 )
 from src.realworld.rail_station_binding import RailStationBinding
 
@@ -45,6 +48,23 @@ class RailShortestPathRecord:
 
 
 @dataclass(frozen=True)
+class CachedShortestPathRecords(Sequence[RailShortestPathRecord]):
+    """Shortest-path records with retained source path provenance."""
+
+    source_path: str
+    records: tuple[RailShortestPathRecord, ...]
+
+    def __len__(self) -> int:
+        return len(self.records)
+
+    def __getitem__(self, index):
+        return self.records[index]
+
+    def __iter__(self):
+        return iter(self.records)
+
+
+@dataclass(frozen=True)
 class RailShortestPathEvidenceConfig:
     """Metadata needed to write a travel-time evidence row."""
 
@@ -65,7 +85,7 @@ class RailShortestPathEvidenceConfig:
 
 def load_cached_shortest_path_records(
     path: str | Path,
-) -> list[RailShortestPathRecord]:
+) -> CachedShortestPathRecords:
     """Load and validate a cached shortest-path CSV extract."""
 
     shortest_path = Path(path)
@@ -81,7 +101,7 @@ def load_cached_shortest_path_records(
             records.append(_record_from_row(row, shortest_path, reader.line_num))
     if not records:
         raise ValueError(f"{shortest_path} must contain at least one shortest-path row")
-    return records
+    return CachedShortestPathRecords(source_path=str(shortest_path), records=tuple(records))
 
 
 def derive_rail_service_evidence_from_shortest_path(
@@ -103,6 +123,11 @@ def derive_rail_service_evidence_from_shortest_path(
             "source_artifact_path and source_artifact_sha256 are required for "
             "cached shortest-path-derived rail evidence"
         )
+    _validate_loaded_shortest_path_source(
+        records,
+        config.source_artifact_path,
+        expected_sha256=config.source_artifact_sha256,
+    )
 
     filtered = [
         record
@@ -170,11 +195,7 @@ def write_rail_shortest_path_evidence(
 def file_sha256(path: str | Path) -> str:
     """Return the SHA256 digest for a cached source artifact."""
 
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return _source_file_sha256(path)
 
 
 def _validate_shortest_path_station_bindings(
@@ -182,7 +203,7 @@ def _validate_shortest_path_station_bindings(
     config: RailShortestPathEvidenceConfig,
     *,
     station_bindings: Sequence[RailStationBinding],
-) -> None:
+    ) -> None:
     access_codes = {_station_token(record.access_station_code) for record in records}
     egress_codes = {_station_token(record.egress_station_code) for record in records}
     _validate_codes(
@@ -196,6 +217,27 @@ def _validate_shortest_path_station_bindings(
         point_id=config.egress_point,
         station_bindings=station_bindings,
         label="egress",
+    )
+
+
+def _validate_loaded_shortest_path_source(
+    records: Sequence[RailShortestPathRecord],
+    source_artifact_path: str,
+    *,
+    expected_sha256: str,
+) -> None:
+    source_path = getattr(records, "source_path", "")
+    if source_path:
+        validate_loaded_source_matches_metadata(
+            source_path,
+            source_artifact_path,
+            expected_sha256=expected_sha256,
+        )
+        return
+    validate_loaded_source_matches_metadata(
+        source_artifact_path,
+        source_artifact_path,
+        expected_sha256=expected_sha256,
     )
 
 
@@ -283,6 +325,8 @@ def _evidence_row(record: RailServiceEvidence) -> dict[str, object]:
         "derived_fields": record.derived_fields,
         "source_artifact_path": record.source_artifact_path,
         "source_artifact_sha256": record.source_artifact_sha256,
+        "gtfs_validator_report_path": record.gtfs_validator_report_path,
+        "gtfs_validator_report_sha256": record.gtfs_validator_report_sha256,
     }
 
 
@@ -322,6 +366,7 @@ def _clean(value: object) -> str:
 
 __all__ = [
     "REQUIRED_SHORTEST_PATH_COLUMNS",
+    "CachedShortestPathRecords",
     "RailShortestPathEvidenceConfig",
     "RailShortestPathRecord",
     "derive_rail_service_evidence_from_shortest_path",

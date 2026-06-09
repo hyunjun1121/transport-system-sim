@@ -1,7 +1,7 @@
 """Reviewer-facing packet for current Morris sensitivity diagnostics.
 
 This module converts the existing Morris diagnostic audit into a compact CSV
-worksheet and JSON manifest. It supports final-study review, but it is not a
+worksheet and JSON manifest. It supports study-closeout review, but it is not a
 sensitivity acceptance record and does not make calibrated result claims.
 """
 
@@ -148,7 +148,7 @@ def write_sensitivity_review_packet(
         "review_items": [
             "review unavailable or unexplained missing Morris indices before manuscript use",
             "interpret zero mu_star rows as diagnostic evidence, not calibrated no-effect proof",
-            "resolve graph-scale scope before using reduced-graph sensitivity outputs in final claims",
+            "resolve graph-scale scope before using reduced-graph sensitivity outputs in release-scope claims",
             "decide whether Morris screening is sufficient or a Sobol extension is required",
             "record any gate decision only in a separate sensitivity acceptance record",
         ],
@@ -172,10 +172,10 @@ def _structural_readiness_row(
             "expected_rows="
             f"{diagnostics.get('expected_summary_row_count_from_manifest_dimensions', '')}"
         )
-        status = "ready_for_review"
+        status = "available_for_review"
         action = (
             "Confirm the Morris summary and manifest correspond to the selected "
-            "final-study sensitivity run before any acceptance decision."
+            "study-closeout sensitivity run before any sensitivity decision."
         )
     else:
         detail = "blockers=" + "; ".join(blockers)
@@ -186,7 +186,7 @@ def _structural_readiness_row(
         )
     return _review_row(
         category_id="structural_readiness",
-        issue_category="Morris artifact structural readiness",
+        issue_category="Morris artifact structural review state",
         diagnostic_status=status,
         affected_row_count=str(len(blockers)),
         diagnostic_detail=detail,
@@ -224,7 +224,7 @@ def _index_issue_row(
             "whether they are excluded, recalculated, or retained as unavailable "
             "index evidence."
         )
-        publication_use_status = "blocked_from_final_claims_until_index_handling_review"
+        publication_use_status = "blocked_from_release_scope_claims_until_index_handling_review"
         row_count = affected
     elif unavailable:
         status = "review_required_unavailable_indices"
@@ -233,14 +233,14 @@ def _index_issue_row(
             "Morris indices and document how non-finite metric outputs are handled "
             "before manuscript use."
         )
-        publication_use_status = "review_required_for_unavailable_indices_before_final_claims"
+        publication_use_status = "review_required_for_unavailable_indices_before_release_scope_claims"
         row_count = unavailable
     else:
         status = "no_missing_or_nonfinite_indices_detected"
         action = (
             "Confirm index handling is complete before using sensitivity rankings."
         )
-        publication_use_status = "review_required_before_final_sensitivity_claims"
+        publication_use_status = "review_required_before_release_scope_sensitivity_claims"
         row_count = 0
     return _review_row(
         category_id="missing_or_nonfinite_morris_indices",
@@ -304,7 +304,7 @@ def _reduced_graph_scope_row(
         diagnostic_detail=_graph_scope_detail(morris_manifest, reduced=reduced),
         review_action=(
             "Close the graph-scale method review or regenerate sensitivity "
-            "outputs on the selected final graph method before final-study "
+            "outputs on the selected study graph method before study-closeout "
             "sensitivity claims."
         ),
         publication_use_status="blocked_until_graph_scale_and_sensitivity_acceptance",
@@ -357,7 +357,7 @@ def _sobol_decision_row(
         ),
         review_action=(
             "Reviewer must decide whether Morris screening is sufficient for "
-            "the final claim boundary or whether Sobol analysis is required; "
+            "the release-scope claim boundary or whether Sobol analysis is required; "
             "record that decision only in sensitivity_acceptance.json."
         ),
         publication_use_status="blocked_until_morris_vs_sobol_decision_is_recorded",

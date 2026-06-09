@@ -1,0 +1,44 @@
+{
+  "blocked_for_closeout_only": false,
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "evidence_paths": [
+    "data/road/snapshots/songpa_public_demo_phase9_upstream_20260605T000000Z/connector_audit.csv",
+    "data/road/snapshots/songpa_public_demo_phase9_upstream_20260605T000000Z/road_snapshot_manifest.json",
+    "data/validation/osm_graph_snapshot_review_packet.csv",
+    "data/validation/osm_graph_snapshot_review_manifest.json",
+    "docs/osm_graph_snapshot_review_packet.md",
+    "data/validation/artifact_invalidation_upstream_lineage_review_manifest.json",
+    "data/validation/artifact_invalidation_upstream_lineage_review_packet.csv",
+    "data/validation/claim_language_guard_manifest.json",
+    "data/validation/claim_language_guard.csv",
+    "docs/claim_language_guard.md",
+    "data/validation/artifact_invalidation_reviewer_evidence/upstream_evidence_and_benchmarks_20260609/support/batch_manifest.json"
+  ],
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "invalidation_row_id": "region_boundary->connector_audits",
+  "non_closeout_risks": [
+    "no publication readiness",
+    "no final-study readiness",
+    "no formal acceptance",
+    "no operational routing",
+    "no calibrated validation",
+    "graph-scale, validation, and rail-evidence blockers remain for broader gates"
+  ],
+  "publication_ready": false,
+  "record_type": "artifact_invalidation_closeout_reviewer_evidence",
+  "reviewed_at_utc": "2026-06-09T06:02:06+00:00",
+  "reviewed_paths": [
+    "data/road/snapshots/songpa_public_demo_phase9_upstream_20260605T000000Z/connector_audit.csv",
+    "data/road/snapshots/songpa_public_demo_phase9_upstream_20260605T000000Z/road_snapshot_manifest.json",
+    "data/validation/osm_graph_snapshot_review_packet.csv",
+    "data/validation/osm_graph_snapshot_review_manifest.json",
+    "docs/osm_graph_snapshot_review_packet.md"
+  ],
+  "reviewer_id": "gpt55_xhigh_source_output_lineage_reviewer_019eaaf2_20260609",
+  "reviewer_verdict": "approve_for_closed_invalidation_only",
+  "schema_version": 1,
+  "scope": "artifact_invalidation_closeout_only",
+  "source_agent_id": "019eaaf2-09eb-7df2-bea2-87f5641f47d4",
+  "source_agent_nickname": "Ramanujan"
+}

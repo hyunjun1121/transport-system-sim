@@ -10,14 +10,19 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
-import hashlib
 from io import TextIOWrapper
+import json
 from pathlib import Path
 from statistics import median
-from typing import Iterable, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 import zipfile
 
 from src.realworld.rail_evidence import RailServiceEvidence
+from src.realworld.source_artifacts import (
+    file_sha256 as _source_file_sha256,
+    validate_sha256,
+    validate_loaded_source_matches_metadata,
+)
 from src.realworld.rail_timetable import parse_service_time_min
 
 
@@ -92,6 +97,8 @@ class GtfsEvidenceDerivationConfig:
     direction_id: str = ""
     source_artifact_path: str = ""
     source_artifact_sha256: str = ""
+    gtfs_validator_report_path: str = ""
+    gtfs_validator_report_sha256: str = ""
 
 
 def load_cached_gtfs_feed(path: str | Path) -> CachedGtfsFeed:
@@ -118,6 +125,21 @@ def derive_rail_service_evidence_from_gtfs(
             "source_artifact_path and source_artifact_sha256 are required for "
             "cached GTFS-derived rail evidence"
         )
+    validate_loaded_source_matches_metadata(
+        feed.source_path,
+        config.source_artifact_path,
+        expected_sha256=config.source_artifact_sha256,
+    )
+    if not config.gtfs_validator_report_path or not config.gtfs_validator_report_sha256:
+        raise ValueError(
+            "gtfs_validator_report_path and gtfs_validator_report_sha256 are "
+            "required for cached GTFS-derived rail evidence"
+        )
+    validator_summary = validate_gtfs_validator_report(
+        config.gtfs_validator_report_path,
+        expected_sha256=config.gtfs_validator_report_sha256,
+        expected_feed_sha256=config.source_artifact_sha256,
+    )
     access_stop = feed.stops.get(config.access_stop_id)
     egress_stop = feed.stops.get(config.egress_stop_id)
     if access_stop is None:
@@ -179,22 +201,81 @@ def derive_rail_service_evidence_from_gtfs(
             f"service_ids={';'.join(config.service_ids) or 'any'}, "
             f"direction_id={config.direction_id or 'any'}. "
             f"source_artifact_path={config.source_artifact_path}; "
-            f"source_artifact_sha256={config.source_artifact_sha256}."
+            f"source_artifact_sha256={config.source_artifact_sha256}; "
+            f"gtfs_validator_report_path={config.gtfs_validator_report_path}; "
+            f"gtfs_validator_report_sha256={config.gtfs_validator_report_sha256}; "
+            f"gtfs_validator_feed_sha256={validator_summary['feed_sha256']}; "
+            f"gtfs_validator_error_count={validator_summary['error_count']}; "
+            f"gtfs_validator_warning_count={validator_summary['warning_count']}."
         ),
         derived_fields="headway;travel_time",
         source_artifact_path=config.source_artifact_path,
         source_artifact_sha256=config.source_artifact_sha256,
+        gtfs_validator_report_path=config.gtfs_validator_report_path,
+        gtfs_validator_report_sha256=config.gtfs_validator_report_sha256,
     )
 
 
 def file_sha256(path: str | Path) -> str:
     """Return the SHA256 digest for a cached GTFS artifact file."""
 
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return _source_file_sha256(path)
+
+
+def summarize_gtfs_validator_report(path: str | Path) -> dict[str, Any]:
+    """Return conservative counts from a retained GTFS Validator JSON report."""
+
+    report_path = Path(path)
+    with report_path.open("r", encoding="utf-8") as handle:
+        value = json.load(handle)
+    if not isinstance(value, dict):
+        raise ValueError("GTFS Validator report must be a JSON object")
+
+    counts = _validator_counts(value)
+    feed_sha256 = _validator_feed_sha256(value)
+    validator_version = (
+        _clean(value.get("validatorVersion"))
+        or _clean(value.get("validator"))
+        or _clean(_nested(value, ("summary", "validatorVersion")))
+    )
+    return {
+        "path": str(report_path),
+        "sha256": file_sha256(report_path),
+        "feed_sha256": feed_sha256,
+        "validator_version": validator_version,
+        "error_count": counts["errors"],
+        "warning_count": counts["warnings"],
+        "info_count": counts["infos"],
+        "total_notice_count": counts["total"],
+        "validation_report_ready": counts["errors"] == 0,
+    }
+
+
+def validate_gtfs_validator_report(
+    path: str | Path,
+    *,
+    expected_sha256: str = "",
+    expected_feed_sha256: str = "",
+) -> dict[str, Any]:
+    """Validate that a retained GTFS Validator report has zero errors."""
+
+    summary = summarize_gtfs_validator_report(path)
+    if expected_sha256 and summary["sha256"].lower() != expected_sha256.lower():
+        raise ValueError("GTFS Validator report SHA256 does not match metadata")
+    if expected_feed_sha256:
+        if not summary["feed_sha256"]:
+            raise ValueError(
+                "GTFS Validator report must record the validated GTFS feed SHA256"
+            )
+        if summary["feed_sha256"].lower() != expected_feed_sha256.lower():
+            raise ValueError(
+                "GTFS Validator report feed SHA256 does not match source artifact"
+            )
+    if summary["error_count"] > 0:
+        raise ValueError(
+            f"GTFS Validator report has {summary['error_count']} error notices"
+        )
+    return summary
 
 
 def _load_gtfs_directory(source: Path) -> CachedGtfsFeed:
@@ -393,6 +474,123 @@ def _clean(value: object) -> str:
     return "" if value is None else str(value).strip()
 
 
+def _validator_counts(value: Mapping[str, Any]) -> dict[str, int]:
+    summary_counts = _nested(value, ("summary", "counts"))
+    if isinstance(summary_counts, Mapping):
+        if "errors" not in summary_counts:
+            raise ValueError("GTFS Validator report counts must include errors")
+        errors = _int_value(summary_counts.get("errors"))
+        warnings = _int_value(summary_counts.get("warnings"))
+        infos = _first_int_value(summary_counts, "infos", "info")
+        return {
+            "errors": errors,
+            "warnings": warnings,
+            "infos": infos,
+            "total": _total_count(summary_counts, errors, warnings, infos),
+        }
+
+    if any(key in value for key in ("errors", "warnings", "infos", "info", "total")):
+        if "errors" not in value:
+            raise ValueError("GTFS Validator report counts must include errors")
+        errors = _int_value(value.get("errors"))
+        warnings = _int_value(value.get("warnings"))
+        infos = _first_int_value(value, "infos", "info")
+        return {
+            "errors": errors,
+            "warnings": warnings,
+            "infos": infos,
+            "total": _total_count(value, errors, warnings, infos),
+        }
+
+    notices = value.get("notices")
+    if isinstance(notices, list):
+        errors = warnings = infos = total = 0
+        for notice in notices:
+            if not isinstance(notice, Mapping):
+                raise ValueError("GTFS Validator notices must be JSON objects")
+            notice_total = _int_value(
+                notice.get("totalNotices", notice.get("total", 1))
+            )
+            severity = (
+                _clean(notice.get("severity"))
+                or _clean(notice.get("severityString"))
+            ).upper()
+            if severity == "ERROR":
+                errors += notice_total
+            elif severity == "WARNING":
+                warnings += notice_total
+            elif severity == "INFO":
+                infos += notice_total
+            else:
+                raise ValueError(
+                    "GTFS Validator notice severity must be ERROR, WARNING, or INFO"
+                )
+            total += notice_total
+        return {
+            "errors": errors,
+            "warnings": warnings,
+            "infos": infos,
+            "total": total,
+        }
+
+    raise ValueError(
+        "GTFS Validator report must include summary.counts, top-level counts, or notices"
+    )
+
+
+def _validator_feed_sha256(value: Mapping[str, Any]) -> str:
+    for candidate in (
+        value.get("source_artifact_sha256"),
+        value.get("gtfs_feed_sha256"),
+        value.get("feed_sha256"),
+        value.get("input_sha256"),
+        _nested(value, ("input", "sha256")),
+        _nested(value, ("source", "sha256")),
+        _nested(value, ("feed", "sha256")),
+        _nested(value, ("feedInfo", "sha256")),
+        _nested(value, ("metadata", "source_artifact_sha256")),
+        _nested(value, ("metadata", "gtfs_feed_sha256")),
+    ):
+        digest = _clean(candidate).lower()
+        if digest:
+            return validate_sha256(digest, "GTFS Validator feed SHA256")
+    return ""
+
+
+def _nested(value: Mapping[str, Any], keys: Sequence[str]) -> Any:
+    current: Any = value
+    for key in keys:
+        if not isinstance(current, Mapping):
+            return None
+        current = current.get(key)
+    return current
+
+
+def _int_value(value: object) -> int:
+    if value is None or value == "":
+        return 0
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"GTFS Validator count must be an integer: {value!r}") from exc
+    if parsed < 0:
+        raise ValueError(f"GTFS Validator count must be non-negative: {value!r}")
+    return parsed
+
+
+def _first_int_value(value: Mapping[str, Any], *keys: str) -> int:
+    for key in keys:
+        if key in value:
+            return _int_value(value.get(key))
+    return 0
+
+
+def _total_count(value: Mapping[str, Any], errors: int, warnings: int, infos: int) -> int:
+    if "total" in value:
+        return _int_value(value.get("total"))
+    return errors + warnings + infos
+
+
 __all__ = [
     "REQUIRED_GTFS_FILES",
     "REQUIRED_STOPS_COLUMNS",
@@ -406,4 +604,6 @@ __all__ = [
     "derive_rail_service_evidence_from_gtfs",
     "file_sha256",
     "load_cached_gtfs_feed",
+    "summarize_gtfs_validator_report",
+    "validate_gtfs_validator_report",
 ]

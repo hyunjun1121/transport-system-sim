@@ -13,8 +13,12 @@
   },
   "osrm_benchmark_present": true,
   "osrm_manifest_present": true,
+  "osrm_max_waypoint_snap_distance_m": "265.494619",
   "osrm_query_url_count": 3,
+  "osrm_raw_response_binding_mismatch_count": 0,
   "osrm_raw_response_file_count": 3,
+  "osrm_raw_response_missing_for_row_count": 0,
+  "osrm_snap_status_counts": "pass=1; warn=2",
   "osrm_unpinned_row_count": 0,
   "outputs": {
     "csv": "data/validation/validation_benchmark_readiness_packet.csv",
@@ -25,8 +29,8 @@
   "readiness_status_counts": {
     "blocked_missing_validation_acceptance_record": 1,
     "needs_human_review_alternative_benchmark_decision": 1,
-    "needs_human_review_cached_osrm_snapshot": 1,
-    "needs_human_review_fallback_warn_rows": 1
+    "needs_human_review_fallback_warn_rows": 1,
+    "needs_human_review_osrm_snap_distance": 1
   },
   "remaining_blockers": [
     "validation_acceptance_record: data/manifests/validation_acceptance.json is absent"

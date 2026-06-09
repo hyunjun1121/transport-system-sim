@@ -1,9 +1,9 @@
 {
-  "blocking_priority_count": 1,
+  "blocking_priority_count": 0,
   "can_mark_complete": false,
-  "claim_boundary": "This packet prioritizes existing parameter evidence gaps. It does not create accepted parameter values, does not certify source sufficiency, and does not close parameter, validation, provenance, or final-study gates.",
+  "claim_boundary": "This packet prioritizes existing parameter evidence gaps. It does not create accepted parameter values, does not certify source sufficiency, and does not close parameter, validation, provenance, or study-closeout gates.",
   "high_priority_parameter_count": 9,
-  "human_review_priority_count": 6,
+  "human_review_priority_count": 7,
   "inputs": {
     "parameter_evidence_review_packet": "data/parameters/parameter_evidence_review_packet.csv",
     "parameter_evidence_source_request_packet": "data/parameters/parameter_evidence_source_request_packet.csv",
@@ -24,17 +24,16 @@
     "transfer": 1
   },
   "priority_status_counts": {
-    "blocked_missing_parameter_source": 1,
-    "needs_human_review_high_priority_parameter_source": 2,
+    "needs_human_review_high_priority_parameter_source": 3,
     "needs_human_review_medium_priority_parameter_source": 4
   },
   "publication_ready": false,
   "readiness_status_counts": {
-    "blocked_missing_rail_timing_or_capacity_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
     "needs_human_review_disruption_parameter_scenario": 1,
     "needs_human_review_fleet_package": 1,
+    "needs_human_review_rail_service_parameter_source": 1,
     "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1,
     "needs_human_review_transfer_source": 1
   },
@@ -50,11 +49,11 @@
   ],
   "result_scope": "Parameter evidence priority packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not parameter evidence gate closure, and not publication-readiness approval.",
   "review_items": [
-    "review transfer evidence packet rows before transfer-delay final claims",
-    "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
-    "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
+    "review transfer evidence packet rows before release-scope transfer-delay claims",
+    "resolve blocked rail timing and capacity treatment before release-scope rail parameter claims",
+    "review high-priority disruption and traffic/BPR rows before parameter acceptance review",
     "review demand, fleet, dispatch, and transfer assumptions as bounded planning inputs",
-    "rerun parameter and final-study audits after source-backed parameter changes"
+    "rerun parameter and study-closeout audits after source-backed parameter changes"
   ],
   "row_count": 7,
   "schema_version": 1,

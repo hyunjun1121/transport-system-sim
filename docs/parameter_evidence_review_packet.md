@@ -30,13 +30,13 @@ the conservative claim boundary.
 ## Current Status
 
 The current packet has 29 core-parameter rows. It reports 25 rows as weak for
-final-study claims, grouped across road, disruption, fleet, rail, transfer, and
+release-scope claims, grouped across road, disruption, fleet, rail, transfer, and
 demand/time/censoring inputs.
 
 The strongest current use is prioritization. Reviewers should use the packet to
 decide which parameters should be replaced with public-data, literature,
 agency/timetable, or benchmark-supported values, and which parameters can remain
-as explicit sensitivity-only or accepted scenario assumptions.
+as explicit sensitivity-only or review-scoped scenario assumptions.
 
 ## Regeneration
 

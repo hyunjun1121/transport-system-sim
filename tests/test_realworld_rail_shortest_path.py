@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+from dataclasses import replace
 import os
 import sys
 from pathlib import Path
@@ -83,6 +84,49 @@ def test_shortest_path_station_code_mismatch_blocks_derivation() -> None:
         )
 
     print("PASS: shortest-path station-code mismatch blocks derivation")
+
+
+def test_shortest_path_source_artifact_sha_mismatch_blocks_derivation() -> None:
+    """Shortest-path evidence should be bound to the retained source file hash."""
+
+    with TemporaryDirectory() as tmp:
+        shortest_path = Path(tmp) / "shortest_path.csv"
+        _write_shortest_path_fixture(shortest_path)
+        records = load_cached_shortest_path_records(shortest_path)
+        config = replace(
+            _config(shortest_path),
+            source_artifact_sha256="0" * 64,
+        )
+
+        assert_raises_value_error(
+            lambda: derive_rail_service_evidence_from_shortest_path(records, config),
+            "source artifact SHA256 does not match",
+        )
+
+    print("PASS: shortest-path source artifact SHA mismatch blocks derivation")
+
+
+def test_shortest_path_loaded_source_must_match_metadata_path() -> None:
+    """Loaded shortest-path records cannot be certified with another file hash."""
+
+    with TemporaryDirectory() as tmp:
+        loaded_path = Path(tmp) / "loaded.csv"
+        metadata_path = Path(tmp) / "metadata.csv"
+        _write_shortest_path_fixture(loaded_path)
+        _write_shortest_path_fixture(metadata_path, access_code="P550", egress_code="216")
+        records = load_cached_shortest_path_records(loaded_path)
+        config = replace(
+            _config(metadata_path),
+            source_artifact_path=str(metadata_path),
+            source_artifact_sha256=file_sha256(metadata_path),
+        )
+
+        assert_raises_value_error(
+            lambda: derive_rail_service_evidence_from_shortest_path(records, config),
+            "loaded source artifact path",
+        )
+
+    print("PASS: shortest-path loaded source must match metadata path")
 
 
 def _write_shortest_path_fixture(
@@ -181,4 +225,6 @@ def _binding_fixture() -> tuple[RailStationBinding, ...]:
 if __name__ == "__main__":
     test_shortest_path_fixture_derives_travel_time_evidence()
     test_shortest_path_station_code_mismatch_blocks_derivation()
+    test_shortest_path_source_artifact_sha_mismatch_blocks_derivation()
+    test_shortest_path_loaded_source_must_match_metadata_path()
     print("\n=== REALWORLD RAIL SHORTEST PATH TESTS PASSED ===")

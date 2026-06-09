@@ -52,7 +52,7 @@
     "review license, attribution, derivative-use, snapshot, privacy, and reproducibility obligations",
     "resolve context-source target cache, sensitivity/context-only retention, or exclusion decisions",
     "confirm reachable URLs, local citations, and alternate URL candidates",
-    "record final provenance only in data/manifests/provenance_acceptance.json"
+    "record reviewed provenance only in data/manifests/provenance_acceptance.json"
   ],
   "row_count": 7,
   "schema_version": 1,

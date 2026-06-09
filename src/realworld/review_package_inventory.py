@@ -117,6 +117,12 @@ SELF_OUTPUT_PATHS: frozenset[str] = frozenset(
         "docs/review_package_path_audit.md",
     }
 )
+REVIEW_PACKAGE_ARCHIVE_PATHS: frozenset[str] = frozenset(
+    {
+        "review_packages/expert_review_package.zip",
+        "data/manifests/review_package_closeout_20260609.zip",
+    }
+)
 FORMAL_TARGET_PATHS: frozenset[str] = frozenset(
     set(FORMAL_ARTIFACT_RELATIVE_PATHS)
     | {
@@ -165,7 +171,7 @@ def build_review_package_inventory_rows(
     rows: list[ReviewPackageInventoryRow] = []
     for path in _iter_package_files(project_root):
         relative = _display_path(project_root, path)
-        if relative in SELF_OUTPUT_PATHS:
+        if relative in SELF_OUTPUT_PATHS or _is_review_package_archive(relative):
             continue
         role = _artifact_role(relative)
         stage = _artifact_stage(relative)
@@ -578,6 +584,14 @@ def _review_package_action(path: str, stage: str) -> str:
     return "Include in the next complete expert-review package when in scope."
 
 
+def _is_review_package_archive(path: str) -> bool:
+    """Return true for generated review-package ZIP archives."""
+
+    if path in REVIEW_PACKAGE_ARCHIVE_PATHS:
+        return True
+    return path.startswith("review_packages/") and path.endswith(".zip")
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -622,6 +636,7 @@ __all__ = [
     "REQUIRED_PATH_GROUPS",
     "REVIEW_PACKAGE_CLAIM_BOUNDARY",
     "REVIEW_PACKAGE_FIELDS",
+    "REVIEW_PACKAGE_ARCHIVE_PATHS",
     "SELF_OUTPUT_PATHS",
     "build_review_package_inventory_markdown",
     "build_review_package_inventory_rows",

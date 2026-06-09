@@ -21,10 +21,10 @@ The packet records five request rows:
   disruption probabilities and blockage/capacity-reduction behavior,
 - a reviewed override-table and manifest-application request.
 
-The final row names the closure path, but the packet itself does not close the
+The closure-path row names the required review path, but the packet itself does not close the
 road-evidence or road-application gate. Closure still requires a reviewed
 `data/parameters/road_class_overrides.csv` table, a rerun that records the
-table path and SHA256 in the result manifest, and explicit acceptance records.
+table path and SHA256 in the result manifest, and explicit review records.
 
 ## Regeneration
 

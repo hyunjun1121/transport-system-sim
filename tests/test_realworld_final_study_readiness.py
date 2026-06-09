@@ -20,6 +20,7 @@ from src.realworld.final_study_readiness import (  # noqa: E402
     _full_experiment_gate,
     _graph_scale_gate,
     _manuscript_report_gate,
+    _rail_gate,
     _reproducibility_count_blockers,
     _reproducibility_gate,
     _sensitivity_count_blockers,
@@ -107,6 +108,66 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert (
         gate_map["cached_osm_input"]["details"][
             "road_source_decision_recorded"
+        ]
+        is False
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_artifacts_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_manifest_present"
+        ]
+        is True
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_row_count"
+        ]
+        == gate_map["cached_osm_input"]["details"]["edge_count"]
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_weak_for_final_claim_count"
+        ]
+        == gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_row_count"
+        ]
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_capacity_class_counts"
+        ]["expert proxy"]
+        == gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_row_count"
+        ]
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_disruption_class_counts"
+        ]["sensitivity-only"]
+        == gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_row_count"
+        ]
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_publication_ready"
+        ]
+        is False
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_formal_acceptance_created"
+        ]
+        is False
+    )
+    assert (
+        gate_map["cached_osm_input"]["details"][
+            "road_attribute_evidence_can_mark_complete"
         ]
         is False
     )
@@ -301,7 +362,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_blocking_priority_count"
         ]
-        == 1
+        == 0
     )
     assert (
         gate_map["parameter_evidence"]["details"][
@@ -331,13 +392,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_blocking_decision_count"
         ]
-        == 1
+        == 0
     )
     assert (
         gate_map["parameter_evidence"]["details"][
             "parameter_source_decision_human_review_decision_count"
         ]
-        == 6
+        == 7
     )
     assert (
         gate_map["parameter_evidence"]["details"][
@@ -368,13 +429,25 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["rail_evidence"]["details"][
             "fetch_readiness_source_url_or_citation_present_count"
         ]
-        == 5
+        == 6
     )
     assert (
         gate_map["rail_evidence"]["details"][
             "fetch_readiness_required_external_input_present_count"
         ]
-        == 5
+        == 3
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "fetch_readiness_required_external_input_specified_count"
+        ]
+        == 6
+    )
+    assert (
+        gate_map["rail_evidence"]["details"][
+            "fetch_readiness_required_external_input_text_present_count"
+        ]
+        == 6
     )
     assert gate_map["rail_evidence"]["details"]["fetch_readiness_region_ids"] == [
         "songpa_public_demo"
@@ -386,7 +459,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         is True
     )
     assert (
-        gate_map["rail_evidence"]["details"]["rail_evidence_priority_row_count"] == 6
+        gate_map["rail_evidence"]["details"]["rail_evidence_priority_row_count"] == 7
     )
     assert (
         gate_map["rail_evidence"]["details"][
@@ -413,7 +486,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         is True
     )
     assert (
-        gate_map["rail_evidence"]["details"]["rail_source_decision_row_count"] == 5
+        gate_map["rail_evidence"]["details"]["rail_source_decision_row_count"] == 6
     )
     assert (
         gate_map["rail_evidence"]["details"][
@@ -425,13 +498,13 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["rail_evidence"]["details"][
             "rail_source_decision_human_review_decision_count"
         ]
-        == 2
+        == 3
     )
     assert (
         gate_map["rail_evidence"]["details"][
             "rail_source_decision_timing_source_decision_count"
         ]
-        == 3
+        == 4
     )
     assert gate_map["rail_evidence"]["details"][
         "rail_source_decision_region_ids"
@@ -441,17 +514,17 @@ def test_current_final_study_readiness_is_blocked() -> None:
         is False
     )
     assert any(
-        "reviewed-GTFS rows require external reviewer-provided inputs" in item
+        "reviewed-static-timetable cache is retained for headway review only" in item
         for item in gate_map["rail_evidence"]["details"][
             "fetch_readiness_remaining_blockers"
         ]
     )
     assert any(
-        "rail timing cache files are absent" in item
+        "source-backed rail timing evidence remains incomplete" in item
         for item in gate_map["rail_evidence"]["blockers"]
     )
     assert any(
-        "rail fetch readiness: API-key and reviewed-GTFS rows require external"
+        "rail fetch readiness: API-key rows require DATA_GO_KR_KEY"
         in item
         for item in gate_map["rail_evidence"]["blockers"]
     )
@@ -542,7 +615,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
     )
     assert gate_map["full_experiment_output"]["ready"] is False
     assert any(
-        "graph method that is not accepted" in item
+        "graph method that has no graph-scale decision" in item
         for item in gate_map["full_experiment_output"]["details"][
             "strategy_readiness_remaining_blockers"
         ]
@@ -601,7 +674,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert (
         gate_map["manuscript_report_alignment"]["details"][
             "claim_alignment_review_status_counts"
-        ]["requires_revision_or_acceptance"]
+        ]["requires_revision_or_review"]
         == expected_overclaim_count
     )
     assert any(
@@ -845,6 +918,526 @@ def test_validation_gate_requires_acceptance_and_final_summary_scope() -> None:
     assert any("validation summary" in item for item in gate["blockers"])
 
     print("PASS: validation gate requires final validation summary scope")
+
+
+def test_rail_gate_requires_recorded_source_decisions() -> None:
+    """Rail service evidence and station binding cannot bypass source decisions."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 1,
+            "rail_source_decision_recorded": False,
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": False,
+            "can_mark_complete": False,
+            "remaining_blockers": [
+                "rail transit stress profiles are scenario/sensitivity review support only"
+            ],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is False
+    assert gate["details"]["rail_source_decision_human_review_decision_count"] == 1
+    assert gate["details"][
+        "rail_transit_stress_profile_required_classes_present"
+    ] is True
+    assert any(
+        "record reviewed rail source decisions" in item
+        for item in gate["blockers"]
+    )
+
+    print("PASS: rail gate requires recorded source decisions")
+
+
+def test_rail_gate_requires_stress_profile_documentation() -> None:
+    """Source-backed rail evidence still needs documented stress-profile coverage."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "completed_source_decision_count": 6,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 0,
+            "required_stress_classes_present": False,
+            "publication_ready": False,
+            "can_mark_complete": False,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is True
+    assert gate["details"]["rail_transit_stress_profile_documented"] is False
+    assert any(
+        "complete required rail transit stress classes" in item
+        for item in gate["blockers"]
+    )
+
+    print("PASS: rail gate requires stress-profile documentation")
+
+
+def test_rail_gate_rejects_non_publication_source_decision_manifest() -> None:
+    """Complete source decisions still need explicit publication-ready flags."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "completed_source_decision_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "rail_source_decision_recorded": True,
+            "publication_ready": False,
+            "can_mark_complete": False,
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_complete"] is True
+    assert gate["details"]["rail_source_decision_ready"] is False
+    assert gate["details"]["rail_source_decision_publication_ready"] is False
+    assert gate["details"]["rail_source_decision_can_mark_complete"] is False
+    assert any(
+        "rail source-decision manifest is not publication-ready evidence" in item
+        for item in gate["blockers"]
+    )
+    assert any(
+        "rail source-decision manifest cannot mark complete" in item
+        for item in gate["blockers"]
+    )
+
+    print("PASS: rail gate rejects non-publication source-decision manifest")
+
+
+def test_rail_gate_rejects_optimistic_non_formal_source_decision_manifest() -> None:
+    """Non-formal source-decision ledgers cannot close the rail gate."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "completed_source_decision_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "action_ledger_completion_scope": "non_formal_source_review_only",
+            "completed_action_ledger_is_acceptance": False,
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is False
+    assert (
+        gate["details"]["rail_source_decision_non_formal_action_ledger_scope"]
+        is True
+    )
+    assert (
+        gate["details"]["rail_source_decision_completed_action_ledger_is_acceptance"]
+        is False
+    )
+    assert any("non-formal" in item for item in gate["blockers"])
+    assert any("not formal acceptance" in item for item in gate["blockers"])
+
+    print("PASS: rail gate rejects optimistic non-formal source-decision manifest")
+
+
+def test_rail_gate_rejects_non_supporting_stress_profile_manifest() -> None:
+    """Stress coverage rows must explicitly support the rail evidence gate."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "completed_source_decision_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": False,
+            "can_mark_complete": False,
+            "can_support_rail_evidence_gate": False,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is True
+    assert gate["details"]["rail_transit_stress_profile_documented"] is True
+    assert gate["details"]["rail_transit_stress_profile_supports_rail_gate"] is False
+    assert any(
+        "rail transit stress profile cannot support rail evidence gate" in item
+        for item in gate["blockers"]
+    )
+
+    print("PASS: rail gate rejects non-supporting stress profile manifest")
+
+
+def test_rail_gate_rejects_stress_profile_manifest_with_blockers() -> None:
+    """Optimistic stress-profile flags cannot hide stress-profile blockers."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "completed_source_decision_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "missing_runtime_hook_count": 1,
+            "unresolved_linked_artifact_count": 1,
+            "remaining_blockers": ["synthetic stress-profile blocker"],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_transit_stress_profile_documented"] is True
+    assert gate["details"]["rail_transit_stress_profile_supports_rail_gate"] is False
+    assert any("missing runtime hooks" in item for item in gate["blockers"])
+    assert any("linked artifacts are unresolved" in item for item in gate["blockers"])
+    assert any("synthetic stress-profile blocker" in item for item in gate["blockers"])
+
+    print("PASS: rail gate rejects stress-profile manifest with blockers")
+
+
+def test_rail_gate_requires_completed_source_decision_rows() -> None:
+    """Recorded rail-source decisions are insufficient if rows are incomplete."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "completed_source_decision_count": 5,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_recorded"] is True
+    assert gate["details"]["rail_source_decision_complete"] is False
+    assert gate["details"]["rail_source_decision_ready"] is False
+    assert (
+        gate["details"]["rail_source_decision_completed_source_decision_count"]
+        == 5
+    )
+    assert any(
+        "complete every recorded rail source-decision row" in item
+        for item in gate["blockers"]
+    )
+
+    print("PASS: rail gate requires completed source-decision rows")
+
+
+def test_rail_gate_keeps_stale_fetch_and_priority_blockers_visible() -> None:
+    """Aggregate source-decision readiness cannot hide stale rail source blockers."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "blocking_request_count": 1,
+            "remaining_blockers": [
+                "reviewed GTFS file or GTFS Validator report is absent"
+            ],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "blocking_priority_count": 1,
+            "human_review_priority_count": 0,
+            "remaining_blockers": [
+                "rail timing source request is still blocked"
+            ],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "completed_source_decision_count": 6,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "remaining_blockers": [],
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is True
+    assert gate["details"]["rail_transit_stress_profile_documented"] is True
+    assert any("rail fetch readiness" in item for item in gate["blockers"])
+    assert any("rail evidence priority" in item for item in gate["blockers"])
+
+    print("PASS: rail gate keeps stale fetch and priority blockers visible")
+
+
+def test_rail_gate_requires_bounded_treatment_integrity() -> None:
+    """Capacity and availability bounded-treatment audit must be clean."""
+
+    gate = _rail_gate(
+        {
+            "publication_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "binding_ready": True,
+            "remaining_blockers": [],
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "remaining_blockers": [],
+            "publication_ready": False,
+            "can_mark_complete": False,
+        },
+        {
+            "row_count": 6,
+            "blocking_decision_count": 0,
+            "human_review_decision_count": 0,
+            "completed_source_decision_count": 6,
+            "rail_source_decision_recorded": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            **_ready_rail_source_decision_flags(),
+            "remaining_blockers": [],
+        },
+        {
+            "row_count": 6,
+            "required_stress_classes_present": True,
+            "publication_ready": True,
+            "can_mark_complete": True,
+            "can_support_rail_evidence_gate": True,
+            "remaining_blockers": [],
+        },
+        {
+            "mismatch_count": 0,
+            "warning_count": 0,
+            "unchecked_pending_decision_count": 1,
+            "publication_ready": False,
+            "can_mark_complete": False,
+            "can_support_rail_evidence_gate": False,
+            "can_support_acceptance_gate": False,
+        },
+    )
+
+    assert gate["ready"] is False
+    assert gate["details"]["rail_source_decision_ready"] is True
+    assert gate["details"]["rail_transit_stress_profile_supports_rail_gate"] is True
+    assert gate["details"]["rail_bounded_treatment_integrity_ready"] is False
+    assert (
+        gate["details"]["rail_bounded_treatment_unchecked_pending_decision_count"]
+        == 1
+    )
+    assert any("rail bounded-treatment source decisions remain pending" in item for item in gate["blockers"])
+
+    print("PASS: rail gate requires bounded-treatment integrity")
 
 
 def test_sensitivity_scope_blocks_scaffold_language() -> None:
@@ -1257,6 +1850,17 @@ def _publication_audit(*, ready: bool) -> dict[str, object]:
     return {"publication_ready": ready}
 
 
+def _ready_rail_source_decision_flags() -> dict[str, object]:
+    return {
+        "can_support_publication_gate": True,
+        "can_support_rail_evidence_gate": True,
+        "accepted_source_backed_rail_service_evidence": True,
+        "rail_service_evidence_gate_closure_candidate_count": 1,
+        "action_ledger_completion_scope": "source_backed_rail_evidence_review",
+        "completed_action_ledger_is_acceptance": True,
+    }
+
+
 def _accepted_reproducibility_summary(
     *,
     expected_validation_command_count: int = 2,
@@ -1362,6 +1966,15 @@ if __name__ == "__main__":
     test_data_provenance_gate_requires_source_provenance_manifest()
     test_data_provenance_gate_reports_source_url_review_details()
     test_validation_gate_requires_acceptance_and_final_summary_scope()
+    test_rail_gate_requires_recorded_source_decisions()
+    test_rail_gate_requires_stress_profile_documentation()
+    test_rail_gate_rejects_non_publication_source_decision_manifest()
+    test_rail_gate_rejects_optimistic_non_formal_source_decision_manifest()
+    test_rail_gate_rejects_non_supporting_stress_profile_manifest()
+    test_rail_gate_rejects_stress_profile_manifest_with_blockers()
+    test_rail_gate_requires_completed_source_decision_rows()
+    test_rail_gate_keeps_stale_fetch_and_priority_blockers_visible()
+    test_rail_gate_requires_bounded_treatment_integrity()
     test_sensitivity_scope_blocks_scaffold_language()
     test_sensitivity_gate_requires_acceptance_and_final_scope()
     test_sensitivity_count_blockers_detect_stale_acceptance()

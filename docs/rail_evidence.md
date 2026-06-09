@@ -76,7 +76,7 @@ values used by the model and their source context, but it does not derive them
 from a cached GTFS feed, timetable extract, or station-to-station shortest-path
 result.
 
-Validation and audit helpers:
+Schema and audit helpers:
 
 ```powershell
 .\.venv\Scripts\python tests\test_realworld_rail_evidence.py
@@ -205,7 +205,7 @@ rows derived from the cached Seoul Open Data Plaza station-name search extract
 in `data/rail/pilot_station_binding_cache.csv`. The audit now reports
 `binding_ready: true` for station identifiers.
 
-For final-study rail claims, each required rail point must be replaced or
+For release-scope rail claims, each required rail point must be replaced or
 supplemented with `source_status=official_station_code_bound` and a
 non-placeholder station code or station ID from a documented public or agency
 source. This station-binding requirement is now satisfied for the pilot points,

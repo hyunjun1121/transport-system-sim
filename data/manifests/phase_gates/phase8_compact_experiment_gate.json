@@ -1,0 +1,120 @@
+{
+  "artifact_hashes": {
+    "data/validation/runtime_preflight/phase8_micro_probe_runtime_preflight_manifest.json": "sha256:8990e593e60ba09e73a0e806173213b70b0160d8b3230eb804d17e5e094bb3b6",
+    "docs/recovery/agent_ledgers/phase8_micro_probe_profile_input_verification_20260608.md": "sha256:9f765fec91b67323552452710945a7535cbd11093835f7cd3c28e94f89a2049c",
+    "results/realworld_pilot/phase8_micro_probe/phase8_micro_probe_manifest.json": "sha256:7663100c19eebd004e40f10635cc7eb37618dda18c29537cec4d656b3221719f"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase8_micro_probe.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_runtime_preflight.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_pilot_experiments.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_demand_fleet_behavior_profiles.py",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python scripts\\audit_claim_language.py --fail-on-blockers",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python scripts\\validate_formal_acceptance_package.py",
+      "exit_code": 0,
+      "status": "audit_passed_but_formal_acceptance_blocked"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python scripts\\audit_final_study_readiness.py",
+      "exit_code": 0,
+      "status": "audit_passed_but_final_study_blocked"
+    },
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_plan_audit.py",
+      "exit_code": 0,
+      "status": "passed_after_dirty_classification_refresh"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_micro_probe_only",
+    "parallelism_mode": "single_thread_main_thread",
+    "synthesis_barrier": "micro_probe_evidence_verified_but_upstream_phase_ledgers_still_blocked",
+    "write_locks": [
+      "data/manifests/phase_gates/phase8_compact_experiment_gate.json",
+      "results/realworld_pilot/phase8_micro_probe/",
+      "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Phase 8 executable micro-probe wrapper exists and records micro_probe_execution_ready=true",
+    "Primary and deterministic rerun result hashes match for the two-row frozen slice",
+    "Phase 5 demand and fleet profile inputs are consumed with matching hashes in primary and rerun manifests",
+    "Runtime preflight is present for execution_scope=micro_probe",
+    "This is ready for review as micro-probe execution evidence only; compact promotion remains blocked by upstream evidence, artifact invalidation, and formal acceptance gates",
+    "Do not treat this ledger as compact-output acceptance, publication readiness, final-study approval, or formal acceptance"
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "results/realworld_pilot/phase8_micro_probe/phase8_micro_probe_manifest.json",
+    "results/realworld_pilot/phase8_micro_probe/pilot_staged_results.csv",
+    "results/realworld_pilot/phase8_micro_probe/pilot_staged_summary.csv",
+    "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_results.csv",
+    "results/realworld_pilot/phase8_micro_probe_deterministic_rerun/pilot_staged_summary.csv",
+    "data/validation/runtime_preflight/phase8_micro_probe_runtime_preflight_manifest.json",
+    "docs/recovery/agent_ledgers/phase8_micro_probe_profile_input_verification_20260608.md"
+  ],
+  "objective": "Run compact experiments and review diagnostics before full stochastic experiment expansion.",
+  "phase_id": "phase8_compact_experiment_gate",
+  "prerequisites": [
+    "phase3_road_attribute_evidence closed",
+    "phase4_rail_transit_multimodal_evidence closed",
+    "phase5_demand_fleet_behavior_profiles closed"
+  ],
+  "reviewer_evidence": {
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "bounded ready_for_review evidence only; not closure"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "micro-probe evidence was verified locally; self-refine remains limited to stale dirty-worktree classification refresh and does not close the gate",
+    "performed": false,
+    "status": "bounded_review_recorded"
+  },
+  "source_inputs": [
+    "plan.md",
+    "src/realworld/phase8_micro_probe.py",
+    "scripts/run_phase8_micro_probe.py",
+    "src/realworld/pilot_experiments.py",
+    "src/realworld/demand_fleet_behavior_profiles.py",
+    "data/scenarios/demand_profiles.csv",
+    "data/scenarios/fleet_profiles.csv",
+    "results/realworld_pilot/phase8_micro_probe/phase8_micro_probe_manifest.json"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "main-thread-verification:no-subagent-used-for-this-narrow-ledger-update"
+  ],
+  "tests": [
+    "tests/test_realworld_phase8_micro_probe.py",
+    "tests/test_realworld_runtime_preflight.py",
+    "tests/test_realworld_pilot_experiments.py",
+    "tests/test_realworld_demand_fleet_behavior_profiles.py",
+    "tests/test_realworld_plan_audit.py"
+  ]
+}

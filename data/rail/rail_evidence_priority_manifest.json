@@ -19,11 +19,12 @@
     "blocked_missing_reviewed_gtfs_file": 1,
     "needs_human_review_availability_scenario": 1,
     "needs_human_review_capacity_treatment": 1,
-    "prerequisite_ready_not_timing_evidence": 1
+    "prerequisite_ready_not_timing_evidence": 1,
+    "ready_reviewed_static_timetable_cache_for_derivation_review": 1
   },
   "remaining_blockers": [
-    "rail timing cache files are absent",
-    "DATA_GO_KR_KEY or reviewed GTFS input is absent",
+    "source-backed rail timing evidence remains incomplete until API/GTFS/travel-time source paths are reviewed and retained",
+    "DATA_GO_KR_KEY, reviewed GTFS input, or reviewed shortest-path cache is absent",
     "capacity and availability treatment still require human/source-backed decisions"
   ],
   "result_scope": "Rail evidence priority packet only; not cached rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, and not operational routing evidence.",
@@ -33,7 +34,7 @@
     "keep capacity and availability as bounded assumptions unless source-backed evidence is added",
     "rerun rail evidence, parameter evidence, publication-readiness, and final-study audits after rail evidence changes"
   ],
-  "row_count": 6,
+  "row_count": 7,
   "schema_version": 1,
   "station_binding_prerequisite_ready": true,
   "timing_closure_candidate_count": 1

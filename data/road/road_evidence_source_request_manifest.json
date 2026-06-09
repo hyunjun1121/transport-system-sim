@@ -1,5 +1,5 @@
 {
-  "claim_boundary": "This packet identifies required road-evidence sources and review commands. It does not contain reviewed speed observations, traffic counts, capacity calibration, accepted disruption probabilities, or proof that overrides were applied to final outputs.",
+  "claim_boundary": "This packet identifies required road-evidence sources and review commands. It does not contain reviewed speed observations, traffic counts, capacity calibration, reviewed disruption probabilities, or proof that overrides were applied to release-scope outputs.",
   "evidence_field_counts": {
     "background_traffic": 1,
     "base_disruption": 1,
@@ -29,9 +29,9 @@
     "songpa_public_demo"
   ],
   "requires_reviewed_external_input_count": 5,
-  "result_scope": "Road evidence source-request packet; not reviewed speed evidence, not calibrated capacity evidence, not accepted disruption evidence, not applied road-class overrides, and not operational routing evidence.",
+  "result_scope": "Road evidence source-request packet; not reviewed speed evidence, not calibrated capacity evidence, not reviewed disruption evidence, not applied road-class overrides, and not operational routing evidence.",
   "review_items": [
-    "collect source-backed or explicitly accepted sensitivity evidence for speed, capacity, background traffic, and disruption rules",
+    "collect source-backed or explicitly bounded sensitivity evidence for speed, capacity, background traffic, and disruption rules",
     "move reviewed values into data/parameters/road_class_overrides.csv only after source review",
     "rerun pilot experiments with the reviewed override table and verify manifest SHA256 application",
     "rerun road, publication-readiness, and final-study-readiness audits after road evidence changes"

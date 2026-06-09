@@ -1,0 +1,29 @@
+Work in `C:\project\transport-system-sim`.
+
+Continue the active objective: proceed with `plan.md`.
+
+Start by reading, in this order:
+
+1. `agents.md`
+2. `plan.md`
+3. `data/validation/dirty_worktree_classification_manifest.json`
+4. `data/manifests/phase_gate_ledger_audit.json`
+5. `data/validation/artifact_invalidation_closeout_manifest.json`
+6. `data/manifests/current_goal_completion_audit.json`
+7. `data/manifests/publication_readiness_audit.json`
+8. `data/validation/claim_language_guard_manifest.json`
+
+Then continue from the current plan workflow, not from memory.
+
+Workflow focus:
+
+- Treat the current worktree as authoritative and inspect before making claims.
+- Do not create formal acceptance artifacts, publication-ready claims, final-study claims, operational route-command claims, or real-world forecast claims unless current audits prove them.
+- Use GPT-5.5 xhigh sub-agents as bounded reviewers, not as automatic formal acceptance.
+- Start with the dependency-safe verification sequence already identified in `agents.md`: targeted formal/package/plan tests first, then default non-failing formal/final-study audits.
+- After that, reconcile package identity and handoff sidecars before any review-package closeout.
+- Inspect graph-scale evidence next and decide whether the reduced graph, multi-corridor candidate, or full graph is the correct next simulation scope.
+- Only regenerate outputs after the dirty-worktree and lineage implications are understood and the write scope is narrow.
+- Keep self-refine checkpoints after each wave: summarize what was inspected, what passed, what remains blocked, and what claims are still prohibited.
+
+Use `.\.venv\Scripts\python` for project commands. Prefer `rg` for searches. Use `apply_patch` for manual file edits. Do not revert unrelated user or generated changes.

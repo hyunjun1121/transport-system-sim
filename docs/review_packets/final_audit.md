@@ -3,14 +3,14 @@
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
 - Gate ID: `final_audit`
-- Agent: `Final Independent Audit Agent`
+- Agent: `Independent Audit Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Generated at: `2026-06-03T17:37:32+00:00`
 
 ## Decision
 
-Final Independent Audit Agent cannot accept gate final_audit; the current final-study readiness audit reports blockers.
+Independent Audit Review Agent cannot accept gate final_audit; the current final-study readiness audit reports blockers.
 
 ## Reviewed Inputs
 

@@ -1,0 +1,7 @@
+request_id,decision_choice,reviewer,decision_date,decision_basis,artifact_sha256s,excluded_or_retained_claim_scope,not_operational_claim_boundary,bounded_treatment_or_exclusion_rationale
+rail_shortest_path_travel_time_request,pending_reviewer_decision,,,,,,,
+rail_static_gtfs_timing_request,pending_reviewer_decision,,,,,,,
+rail_timetable_headway_request,pending_reviewer_decision,,,,,,,
+rail_availability_scenario_request,pending_reviewer_decision,,,,,,,
+rail_capacity_treatment_request,pending_reviewer_decision,,,,,,,
+rail_static_timetable_csv_headway_request,pending_reviewer_decision,,,,,,,

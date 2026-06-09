@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "artifact_hashes": {
+      "additionalProperties": {
+        "pattern": "^sha256:[0-9a-fA-F]{64}$",
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "can_mark_complete": {
+      "type": "boolean"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "command_results": {
+      "items": {
+        "additionalProperties": true,
+        "properties": {
+          "command": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "exit_code": {
+            "type": "integer"
+          },
+          "status": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "command",
+          "status",
+          "exit_code"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "decision_authority": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "dependency_control": {
+      "additionalProperties": true,
+      "properties": {
+        "dependency_status": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "parallelism_mode": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "synthesis_barrier": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "write_locks": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "dependency_status",
+        "parallelism_mode",
+        "synthesis_barrier",
+        "write_locks"
+      ],
+      "type": "object"
+    },
+    "final_study_ready": {
+      "type": "boolean"
+    },
+    "findings": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "gate_decision": {
+      "enum": [
+        "blocked",
+        "closed",
+        "not_applicable",
+        "not_closed",
+        "ready_for_review"
+      ],
+      "type": "string"
+    },
+    "generated_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "generated_outputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "objective": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "phase_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "prerequisites": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "schema_version": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "self_refine": {
+      "additionalProperties": true,
+      "properties": {
+        "notes": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "performed": {
+          "type": "boolean"
+        },
+        "status": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "performed",
+        "status",
+        "notes"
+      ],
+      "type": "object"
+    },
+    "source_inputs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "blocked",
+        "closed",
+        "in_progress",
+        "not_started",
+        "ready_for_review"
+      ],
+      "type": "string"
+    },
+    "sub_agents": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "tests": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "phase_id",
+    "objective",
+    "status",
+    "prerequisites",
+    "source_inputs",
+    "generated_outputs",
+    "tests",
+    "sub_agents",
+    "command_results",
+    "artifact_hashes",
+    "self_refine",
+    "dependency_control",
+    "findings",
+    "claim_boundary",
+    "gate_decision",
+    "decision_authority",
+    "can_mark_complete",
+    "final_study_ready",
+    "generated_at"
+  ],
+  "title": "Transport Simulation Phase Gate Ledger",
+  "type": "object"
+}

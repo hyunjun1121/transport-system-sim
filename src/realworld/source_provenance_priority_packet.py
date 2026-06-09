@@ -234,10 +234,10 @@ def build_source_provenance_priority_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before final claims",
+            "provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or explicitly exclude them before release-scope claims",
             "review cached public snapshots for license, attribution, snapshot, and reproducibility suitability",
             "confirm project-owned local citations and privacy abstraction for repository inputs",
-            "resolve alternate URL issues before provenance acceptance",
+            "resolve alternate URL issues before the provenance review record is created",
             "create data/manifests/provenance_acceptance.json only after source-backed review",
         ],
         "remaining_blockers": [

@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "claim_boundary": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval. This packet cannot close parameter evidence or formal acceptance gates.",
-  "result_scope": "Parameter source-readiness packet only; not source evidence, not accepted parameter calibration, not weak-parameter acceptance, not evidence-gate closure, and not publication-readiness approval.",
+  "claim_boundary": "Parameter source review packet only; not source evidence, not parameter calibration approval, not weak-parameter approval, not evidence-gate closure, and not publication approval. This packet cannot close parameter evidence or formal acceptance gates.",
+  "result_scope": "Parameter source review packet only; not source evidence, not parameter calibration approval, not weak-parameter approval, not evidence-gate closure, and not publication approval.",
   "row_count": 7,
   "region_ids": [
     "songpa_public_demo"
   ],
   "weak_parameter_count": 23,
   "readiness_status_counts": {
-    "blocked_missing_rail_timing_or_capacity_source": 1,
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,
     "needs_human_review_disruption_parameter_scenario": 1,
     "needs_human_review_fleet_package": 1,
+    "needs_human_review_rail_service_parameter_source": 1,
     "needs_human_review_traffic_bpr_with_benchmark_snapshot": 1,
     "needs_human_review_transfer_source": 1
   },
@@ -26,8 +26,8 @@
   },
   "source_url_or_citation_present_count": 7,
   "required_external_input_present_count": 7,
-  "blocking_request_count": 1,
-  "human_review_request_count": 6,
+  "blocking_request_count": 0,
+  "human_review_request_count": 7,
   "parameter_evidence_gate_closure_candidate_count": 0,
   "acceptance_gate_closure_candidate_count": 0,
   "publication_ready": false,
@@ -44,11 +44,11 @@
     "replace weak demand, fleet, transfer, rail, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
     "update parameter_sources.csv or fleet_assumptions.csv only after source review",
     "use parameter_acceptance.csv separately for retained weak assumptions",
-    "rerun parameter, publication-readiness, and final-study-readiness audits after source changes"
+    "rerun parameter, publication-gate, and study-closeout audits after source changes"
   ],
   "remaining_blockers": [
-    "all rows require human review or external source decisions before final claims",
-    "this packet is readiness evidence only and cannot create accepted parameter values",
-    "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
+    "all rows require human review or external source decisions before release-scope claims",
+    "this packet is source-review evidence only and cannot create reviewed parameter values",
+    "parameter_acceptance.csv remains separate and absent unless reviewers explicitly retain weak assumptions"
   ]
 }

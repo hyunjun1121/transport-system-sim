@@ -1,7 +1,7 @@
-"""Focused validation benchmark strategy decision worksheet.
+"""Focused benchmark-strategy review worksheet.
 
 The benchmark-readiness packet records fallback and OSRM evidence plus the
-missing final benchmark strategy decision. This module turns that state into
+missing release-scope benchmark strategy decision. This module turns that state into
 explicit reviewer options without accepting OSRM, fallback rows, alternative
 route engines, or the validation gate.
 """
@@ -149,7 +149,7 @@ def build_validation_benchmark_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Decide whether fallback warning rows are retained, replaced, "
-                "or excluded before validation acceptance."
+                "or excluded before the formal benchmark-review record is written."
             ),
             followup_artifacts="data/manifests/validation_acceptance.json",
             evidence_input_paths=evidence_paths,
@@ -269,10 +269,10 @@ def build_validation_benchmark_decision_rows(
         ),
         _row(
             decision_id="formal_validation_acceptance_boundary",
-            decision_topic="Formal validation acceptance",
+            decision_topic="Formal benchmark-review boundary",
             candidate_decision=(
-                "Record final benchmark strategy only in the formal validation "
-                "acceptance artifact"
+                "Record release-scope benchmark strategy only in the formal "
+                "benchmark-review artifact"
             ),
             current_evidence=(
                 f"acceptance_path={_display_path(acceptance)}; "
@@ -445,8 +445,8 @@ def build_validation_benchmark_decision_manifest(
             "choose whether fallback rows are retained, replaced, or excluded",
             "choose whether cached OSRM is sufficient as a plausibility snapshot",
             "choose whether alternative route-engine or agency evidence is required",
-            "resolve route-level road evidence dependency before final validation claims",
-            "record final benchmark strategy only in data/manifests/validation_acceptance.json",
+            "resolve route-level road evidence dependency before release-scope benchmark claims",
+            "record release-scope benchmark strategy only in data/manifests/validation_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -460,7 +460,7 @@ def build_validation_benchmark_decision_markdown(
     """Return Markdown benchmark decision worksheet."""
 
     lines = [
-        "# Validation Benchmark Decision Packet",
+        "# Benchmark Strategy Decision Packet",
         "",
         str(manifest.get("claim_boundary", VALIDATION_BENCHMARK_DECISION_SCOPE)),
         "",

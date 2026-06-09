@@ -43,7 +43,7 @@ def test_context_cache_decision_rows_classify_current_context_sources() -> None:
     assert "cache_reviewed_extract" in by_id[
         "seoul_timetable_api_context"
     ]["candidate_decision_options"]
-    assert "exclude_from_final_claims" in by_id[
+    assert "exclude_from_release_scope_claims" in by_id[
         "ktdb_public_transport_gtfs_context"
     ]["candidate_decision_options"]
     assert "retain_as_sensitivity_or_context_only" in by_id[

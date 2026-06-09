@@ -52,6 +52,7 @@ from src.realworld.figure_table_review_packet import (
     DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH,
     DEFAULT_FIGURE_TABLE_REVIEW_PACKET_PATH,
 )
+from src.realworld.disruption_scenarios import DEFAULT_SCENARIO_MANIFEST_PATH
 from src.realworld.manuscript_acceptance import summarize_manuscript_acceptance
 from src.realworld.pilot_acceptance import summarize_pilot_acceptance
 from src.realworld.pilot_region_decision_packet import (
@@ -61,6 +62,7 @@ from src.realworld.pilot_region_decision_packet import (
 )
 from src.realworld.provenance_acceptance import summarize_provenance_acceptance
 from src.realworld.publication_readiness import audit_publication_readiness
+from src.realworld.source_artifacts import file_sha256
 from src.realworld.rail_evidence import (
     DEFAULT_RAIL_SERVICE_EVIDENCE_PATH,
     load_rail_service_evidence,
@@ -81,6 +83,15 @@ from src.realworld.rail_source_decision_packet import (
     DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH,
 )
+from src.realworld.rail_transit_stress_profile_packet import (
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_DOC_PATH,
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_MANIFEST_PATH,
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_PACKET_PATH,
+)
+from src.realworld.rail_bounded_treatment_audit import (
+    DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_DOC_PATH,
+    DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH,
+)
 from src.realworld.road_evidence import audit_cached_road_evidence
 from src.realworld.road_evidence_diagnostics import (
     audit_cached_road_evidence_diagnostics,
@@ -93,6 +104,10 @@ from src.realworld.road_evidence_priority_packet import (
     DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH,
     DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH,
     DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH,
+)
+from src.realworld.road_attribute_evidence import (
+    DEFAULT_ROAD_ATTRIBUTE_EVIDENCE_MANIFEST_PATH,
+    DEFAULT_ROAD_ATTRIBUTE_EVIDENCE_PATH,
 )
 from src.realworld.road_source_decision_packet import (
     DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH,
@@ -301,6 +316,12 @@ def audit_final_study_readiness() -> dict[str, Any]:
     rail_source_decision_manifest = _load_json(
         DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH
     )
+    rail_transit_stress_profile_manifest = _load_json(
+        DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_MANIFEST_PATH
+    )
+    rail_bounded_treatment_audit = _load_json(
+        DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH
+    )
     road_source_readiness_manifest = _load_json(
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH
     )
@@ -309,6 +330,9 @@ def audit_final_study_readiness() -> dict[str, Any]:
     )
     road_evidence_priority_manifest = _load_json(
         DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH
+    )
+    road_attribute_evidence_manifest = _load_json(
+        DEFAULT_ROAD_ATTRIBUTE_EVIDENCE_MANIFEST_PATH
     )
     parameter_source_readiness_manifest = _load_json(
         DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH
@@ -360,6 +384,7 @@ def audit_final_study_readiness() -> dict[str, Any]:
             road_source_readiness_manifest=road_source_readiness_manifest,
             road_source_decision_manifest=road_source_decision_manifest,
             road_evidence_priority_manifest=road_evidence_priority_manifest,
+            road_attribute_evidence_manifest=road_attribute_evidence_manifest,
         ),
         _real_input_smoke_gate(pilot_manifest),
         _graph_scale_gate(
@@ -391,6 +416,8 @@ def audit_final_study_readiness() -> dict[str, Any]:
             rail_fetch_readiness_manifest,
             rail_evidence_priority_manifest,
             rail_source_decision_manifest,
+            rail_transit_stress_profile_manifest,
+            rail_bounded_treatment_audit,
         ),
         _validation_gate(
             validation_acceptance,
@@ -584,6 +611,7 @@ def _cached_osm_gate(
     road_source_readiness_manifest: dict[str, Any] | None = None,
     road_source_decision_manifest: dict[str, Any] | None = None,
     road_evidence_priority_manifest: dict[str, Any] | None = None,
+    road_attribute_evidence_manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     road_diagnostics = road_diagnostics or {
         "diagnostics_ready": True,
@@ -593,6 +621,7 @@ def _cached_osm_gate(
     source_readiness = road_source_readiness_manifest or {}
     source_decision = road_source_decision_manifest or {}
     road_priority = road_evidence_priority_manifest or {}
+    road_attribute = road_attribute_evidence_manifest or {}
     source_decision_artifacts_present = (
         DEFAULT_ROAD_SOURCE_DECISION_PACKET_PATH.exists()
         and DEFAULT_ROAD_SOURCE_DECISION_MANIFEST_PATH.exists()
@@ -602,6 +631,10 @@ def _cached_osm_gate(
         DEFAULT_ROAD_EVIDENCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_ROAD_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
         and DEFAULT_ROAD_EVIDENCE_PRIORITY_DOC_PATH.exists()
+    )
+    road_attribute_evidence_artifacts_present = (
+        DEFAULT_ROAD_ATTRIBUTE_EVIDENCE_PATH.exists()
+        and DEFAULT_ROAD_ATTRIBUTE_EVIDENCE_MANIFEST_PATH.exists()
     )
     ready = bool(
         road_audit["publication_ready"]
@@ -663,6 +696,10 @@ def _cached_osm_gate(
             "scripts/write_road_source_readiness_packet.py",
             "scripts/write_road_source_decision_packet.py",
             "scripts/write_road_evidence_priority_packet.py",
+            "data/parameters/road_attribute_evidence_table.csv",
+            "data/parameters/road_attribute_evidence_manifest.json",
+            "scripts/write_road_attribute_evidence.py",
+            "docs/road_attribute_evidence.md",
             "data/parameters/road_class_overrides_draft.csv",
             "scripts/write_road_class_override_template.py",
             "scripts/audit_road_overrides.py",
@@ -767,6 +804,40 @@ def _cached_osm_gate(
                 "publication_ready", False
             ),
             "road_evidence_priority_can_mark_complete": road_priority.get(
+                "can_mark_complete", False
+            ),
+            "road_attribute_evidence_artifacts_present": (
+                road_attribute_evidence_artifacts_present
+            ),
+            "road_attribute_evidence_manifest_present": bool(
+                road_attribute_evidence_manifest
+            ),
+            "road_attribute_evidence_row_count": road_attribute.get("row_count", 0),
+            "road_attribute_evidence_routeable_edge_count": road_attribute.get(
+                "routeable_edge_count", 0
+            ),
+            "road_attribute_evidence_weak_for_final_claim_count": (
+                road_attribute.get("weak_for_final_claim_count", 0)
+            ),
+            "road_attribute_evidence_status_counts": road_attribute.get(
+                "evidence_status_counts", {}
+            ),
+            "road_attribute_evidence_speed_class_counts": road_attribute.get(
+                "speed_evidence_class_counts", {}
+            ),
+            "road_attribute_evidence_capacity_class_counts": road_attribute.get(
+                "capacity_evidence_class_counts", {}
+            ),
+            "road_attribute_evidence_disruption_class_counts": road_attribute.get(
+                "base_disruption_evidence_class_counts", {}
+            ),
+            "road_attribute_evidence_publication_ready": road_attribute.get(
+                "publication_ready", False
+            ),
+            "road_attribute_evidence_formal_acceptance_created": road_attribute.get(
+                "formal_acceptance_created", False
+            ),
+            "road_attribute_evidence_can_mark_complete": road_attribute.get(
                 "can_mark_complete", False
             ),
         },
@@ -1685,9 +1756,74 @@ def _rail_gate(
     rail_fetch_readiness_manifest: dict[str, Any] | None = None,
     rail_evidence_priority_manifest: dict[str, Any] | None = None,
     rail_source_decision_manifest: dict[str, Any] | None = None,
+    rail_transit_stress_profile_manifest: dict[str, Any] | None = None,
+    rail_bounded_treatment_audit: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    ready = bool(
-        rail_service_audit["publication_ready"] and rail_station_audit["binding_ready"]
+    rail_decisions = rail_source_decision_manifest or {}
+    rail_source_decision_recorded = bool(
+        rail_decisions.get("rail_source_decision_recorded", False)
+    )
+    rail_source_decision_blocking_count = _dict_int(
+        rail_source_decision_manifest,
+        "blocking_decision_count",
+    )
+    rail_source_decision_human_count = _dict_int(
+        rail_source_decision_manifest,
+        "human_review_decision_count",
+    )
+    rail_source_decision_row_count = _dict_int(
+        rail_source_decision_manifest,
+        "row_count",
+    )
+    rail_source_decision_completed_count = _dict_int(
+        rail_source_decision_manifest,
+        "completed_source_decision_count",
+    )
+    rail_source_decision_complete = bool(
+        rail_source_decision_row_count
+        and rail_source_decision_completed_count == rail_source_decision_row_count
+    )
+    rail_source_decision_publication_ready = bool(
+        rail_decisions.get("publication_ready", False)
+    )
+    rail_source_decision_can_mark_complete = bool(
+        rail_decisions.get("can_mark_complete", False)
+    )
+    rail_source_decision_can_support_publication_gate = bool(
+        rail_decisions.get("can_support_publication_gate", False)
+    )
+    rail_source_decision_can_support_rail_gate = bool(
+        rail_decisions.get("can_support_rail_evidence_gate", False)
+    )
+    rail_source_decision_accepted_source_backed = bool(
+        rail_decisions.get("accepted_source_backed_rail_service_evidence", False)
+    )
+    rail_source_decision_closure_candidate_count = _dict_int(
+        rail_source_decision_manifest,
+        "rail_service_evidence_gate_closure_candidate_count",
+    )
+    rail_source_decision_action_scope = str(
+        rail_decisions.get("action_ledger_completion_scope", "")
+    ).strip()
+    rail_source_decision_completed_action_is_acceptance = bool(
+        rail_decisions.get("completed_action_ledger_is_acceptance", False)
+    )
+    rail_source_decision_non_formal_scope = (
+        rail_source_decision_action_scope == "non_formal_source_review_only"
+    )
+    rail_source_decision_ready = (
+        rail_source_decision_recorded
+        and rail_source_decision_complete
+        and rail_source_decision_blocking_count == 0
+        and rail_source_decision_human_count == 0
+        and rail_source_decision_publication_ready
+        and rail_source_decision_can_mark_complete
+        and rail_source_decision_can_support_publication_gate
+        and rail_source_decision_can_support_rail_gate
+        and rail_source_decision_accepted_source_backed
+        and rail_source_decision_closure_candidate_count > 0
+        and not rail_source_decision_non_formal_scope
+        and rail_source_decision_completed_action_is_acceptance
     )
     blockers = [
         *[
@@ -1701,7 +1837,8 @@ def _rail_gate(
     ]
     fetch_readiness = rail_fetch_readiness_manifest or {}
     rail_priority = rail_evidence_priority_manifest or {}
-    rail_decisions = rail_source_decision_manifest or {}
+    rail_stress = rail_transit_stress_profile_manifest or {}
+    rail_bounded = rail_bounded_treatment_audit or {}
     rail_priority_artifacts_present = (
         DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH.exists()
         and DEFAULT_RAIL_EVIDENCE_PRIORITY_MANIFEST_PATH.exists()
@@ -1711,6 +1848,93 @@ def _rail_gate(
         DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH.exists()
         and DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH.exists()
         and DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH.exists()
+    )
+    rail_stress_profile_artifacts_present = (
+        DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_PACKET_PATH.exists()
+        and DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_MANIFEST_PATH.exists()
+        and DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_DOC_PATH.exists()
+    )
+    rail_stress_profile_required_classes_present = bool(
+        rail_stress.get("required_stress_classes_present", False)
+    )
+    rail_stress_profile_publication_ready = bool(
+        rail_stress.get("publication_ready", False)
+    )
+    rail_stress_profile_can_mark_complete = bool(
+        rail_stress.get("can_mark_complete", False)
+    )
+    rail_stress_profile_can_support_rail_gate = bool(
+        rail_stress.get("can_support_rail_evidence_gate", False)
+    )
+    rail_stress_profile_missing_runtime_hook_count = _dict_int(
+        rail_transit_stress_profile_manifest,
+        "missing_runtime_hook_count",
+    )
+    rail_stress_profile_unresolved_linked_artifact_count = _dict_int(
+        rail_transit_stress_profile_manifest,
+        "unresolved_linked_artifact_count",
+    )
+    rail_stress_profile_remaining_blockers = rail_stress.get(
+        "remaining_blockers",
+        [],
+    )
+    rail_stress_profile_documented = (
+        rail_stress_profile_artifacts_present
+        and rail_stress_profile_required_classes_present
+    )
+    rail_stress_profile_supports_rail_gate = (
+        rail_stress_profile_documented
+        and rail_stress_profile_publication_ready
+        and rail_stress_profile_can_mark_complete
+        and rail_stress_profile_can_support_rail_gate
+        and rail_stress_profile_missing_runtime_hook_count == 0
+        and rail_stress_profile_unresolved_linked_artifact_count == 0
+        and not rail_stress_profile_remaining_blockers
+    )
+    rail_bounded_treatment_artifacts_present = (
+        DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH.exists()
+        and DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_DOC_PATH.exists()
+    )
+    rail_bounded_treatment_mismatch_count = _dict_int(
+        rail_bounded_treatment_audit,
+        "mismatch_count",
+    )
+    rail_bounded_treatment_warning_count = _dict_int(
+        rail_bounded_treatment_audit,
+        "warning_count",
+    )
+    rail_bounded_treatment_pending_count = _dict_int(
+        rail_bounded_treatment_audit,
+        "unchecked_pending_decision_count",
+    )
+    rail_bounded_treatment_publication_ready = bool(
+        rail_bounded.get("publication_ready", False)
+    )
+    rail_bounded_treatment_can_mark_complete = bool(
+        rail_bounded.get("can_mark_complete", False)
+    )
+    rail_bounded_treatment_can_support_rail_gate = bool(
+        rail_bounded.get("can_support_rail_evidence_gate", False)
+    )
+    rail_bounded_treatment_can_support_acceptance_gate = bool(
+        rail_bounded.get("can_support_acceptance_gate", False)
+    )
+    rail_bounded_treatment_integrity_ready = bool(
+        rail_bounded_treatment_artifacts_present
+        and rail_bounded_treatment_mismatch_count == 0
+        and rail_bounded_treatment_warning_count == 0
+        and rail_bounded_treatment_pending_count == 0
+        and not rail_bounded_treatment_publication_ready
+        and not rail_bounded_treatment_can_mark_complete
+        and not rail_bounded_treatment_can_support_rail_gate
+        and not rail_bounded_treatment_can_support_acceptance_gate
+    )
+    rail_core_ready = bool(
+        rail_service_audit["publication_ready"]
+        and rail_station_audit["binding_ready"]
+        and rail_source_decision_ready
+        and rail_stress_profile_supports_rail_gate
+        and rail_bounded_treatment_integrity_ready
     )
     blockers.extend(
         f"rail fetch readiness: {item}"
@@ -1724,6 +1948,89 @@ def _rail_gate(
         f"rail source decision: {item}"
         for item in rail_decisions.get("remaining_blockers", [])
     )
+    if not rail_source_decision_ready:
+        blockers.append(
+            "record reviewed rail source decisions for every row with zero blocking and human-review rows"
+        )
+    if rail_source_decision_recorded and not rail_source_decision_complete:
+        blockers.append(
+            "complete every recorded rail source-decision row before rail evidence gate review"
+        )
+    if rail_source_decision_recorded and not rail_source_decision_publication_ready:
+        blockers.append(
+            "rail source-decision manifest is not publication-ready evidence"
+        )
+    if rail_source_decision_recorded and not rail_source_decision_can_mark_complete:
+        blockers.append("rail source-decision manifest cannot mark complete")
+    if rail_source_decision_recorded and not rail_source_decision_can_support_publication_gate:
+        blockers.append("rail source-decision manifest cannot support publication gate")
+    if rail_source_decision_recorded and not rail_source_decision_can_support_rail_gate:
+        blockers.append("rail source-decision manifest cannot support rail evidence gate")
+    if rail_source_decision_recorded and not rail_source_decision_accepted_source_backed:
+        blockers.append(
+            "rail source-decision manifest does not accept source-backed rail service evidence"
+        )
+    if rail_source_decision_recorded and rail_source_decision_closure_candidate_count <= 0:
+        blockers.append(
+            "rail source-decision manifest has zero rail-service evidence gate closure candidates"
+        )
+    if rail_source_decision_non_formal_scope:
+        blockers.append(
+            "non-formal rail source-decision action ledger cannot close rail evidence gate"
+        )
+    if not rail_source_decision_completed_action_is_acceptance:
+        blockers.append(
+            "rail source-decision action ledger is not formal acceptance evidence"
+        )
+    if not rail_stress_profile_artifacts_present:
+        blockers.append(
+            "create rail transit stress profile packet to bound scenario-only rail availability assumptions"
+        )
+    if rail_stress_profile_artifacts_present and not rail_stress_profile_required_classes_present:
+        blockers.append(
+            "complete required rail transit stress classes before rail evidence gate review"
+        )
+    if rail_stress_profile_documented and not rail_stress_profile_can_support_rail_gate:
+        blockers.append("rail transit stress profile cannot support rail evidence gate")
+    if rail_stress_profile_documented and not rail_stress_profile_publication_ready:
+        blockers.append("rail transit stress profile is not publication-ready evidence")
+    if rail_stress_profile_documented and not rail_stress_profile_can_mark_complete:
+        blockers.append("rail transit stress profile cannot mark complete")
+    if rail_stress_profile_missing_runtime_hook_count:
+        blockers.append(
+            f"{rail_stress_profile_missing_runtime_hook_count} rail transit stress profile rows have missing runtime hooks"
+        )
+    if rail_stress_profile_unresolved_linked_artifact_count:
+        blockers.append(
+            f"{rail_stress_profile_unresolved_linked_artifact_count} rail transit stress profile linked artifacts are unresolved"
+        )
+    blockers.extend(
+        f"rail transit stress profile: {item}"
+        for item in rail_stress_profile_remaining_blockers
+    )
+    if not rail_bounded_treatment_artifacts_present:
+        blockers.append("create rail bounded-treatment audit artifacts")
+    if rail_bounded_treatment_mismatch_count:
+        blockers.append(
+            f"{rail_bounded_treatment_mismatch_count} rail bounded-treatment mismatches remain"
+        )
+    if rail_bounded_treatment_warning_count:
+        blockers.append(
+            f"{rail_bounded_treatment_warning_count} rail bounded-treatment warnings remain"
+        )
+    if rail_bounded_treatment_pending_count:
+        blockers.append(
+            f"{rail_bounded_treatment_pending_count} rail bounded-treatment source decisions remain pending"
+        )
+    if rail_bounded_treatment_publication_ready:
+        blockers.append("rail bounded-treatment audit must not claim publication readiness")
+    if rail_bounded_treatment_can_mark_complete:
+        blockers.append("rail bounded-treatment audit must not mark complete")
+    if rail_bounded_treatment_can_support_rail_gate:
+        blockers.append("rail bounded-treatment audit must not support rail evidence gate")
+    if rail_bounded_treatment_can_support_acceptance_gate:
+        blockers.append("rail bounded-treatment audit must not support acceptance gate")
+    ready = bool(rail_core_ready and not blockers)
     return _gate(
         "rail_evidence",
         "Rail Evidence",
@@ -1758,6 +2065,13 @@ def _rail_gate(
             "docs/schemas/rail_gtfs_cache_schema.md",
             "scripts/fetch_rail_shortest_path_cache.py",
             "scripts/derive_rail_shortest_path_evidence.py",
+            "data/rail/rail_transit_stress_profile_packet.csv",
+            "data/rail/rail_transit_stress_profile_manifest.json",
+            "docs/rail_transit_stress_profile_packet.md",
+            "scripts/write_rail_transit_stress_profile_packet.py",
+            "data/rail/rail_bounded_treatment_audit.json",
+            "docs/rail_bounded_treatment_audit.md",
+            "scripts/audit_rail_bounded_treatments.py",
         ],
         blockers=[] if ready else blockers,
         details={
@@ -1778,6 +2092,12 @@ def _rail_gate(
             ),
             "fetch_readiness_required_external_input_present_count": fetch_readiness.get(
                 "required_external_input_present_count", 0
+            ),
+            "fetch_readiness_required_external_input_specified_count": fetch_readiness.get(
+                "required_external_input_specified_count", 0
+            ),
+            "fetch_readiness_required_external_input_text_present_count": (
+                fetch_readiness.get("required_external_input_text_present_count", 0)
             ),
             "fetch_readiness_remaining_blockers": fetch_readiness.get(
                 "remaining_blockers", []
@@ -1817,6 +2137,10 @@ def _rail_gate(
                 rail_source_decision_manifest
             ),
             "rail_source_decision_row_count": rail_decisions.get("row_count", 0),
+            "rail_source_decision_completed_source_decision_count": rail_decisions.get(
+                "completed_source_decision_count", 0
+            ),
+            "rail_source_decision_complete": rail_source_decision_complete,
             "rail_source_decision_blocking_decision_count": rail_decisions.get(
                 "blocking_decision_count", 0
             ),
@@ -1835,14 +2159,98 @@ def _rail_gate(
             "rail_source_decision_recorded": rail_decisions.get(
                 "rail_source_decision_recorded", False
             ),
-            "rail_source_decision_publication_ready": rail_decisions.get(
-                "publication_ready", False
+            "rail_source_decision_ready": rail_source_decision_ready,
+            "rail_source_decision_action_ledger_completion_scope": (
+                rail_source_decision_action_scope
             ),
-            "rail_source_decision_can_mark_complete": rail_decisions.get(
-                "can_mark_complete", False
+            "rail_source_decision_completed_action_ledger_is_acceptance": (
+                rail_source_decision_completed_action_is_acceptance
+            ),
+            "rail_source_decision_non_formal_action_ledger_scope": (
+                rail_source_decision_non_formal_scope
+            ),
+            "rail_source_decision_publication_ready": (
+                rail_source_decision_publication_ready
+            ),
+            "rail_source_decision_can_mark_complete": (
+                rail_source_decision_can_mark_complete
+            ),
+            "rail_source_decision_can_support_publication_gate": (
+                rail_source_decision_can_support_publication_gate
+            ),
+            "rail_source_decision_can_support_rail_gate": (
+                rail_source_decision_can_support_rail_gate
+            ),
+            "rail_source_decision_accepted_source_backed_rail_service_evidence": (
+                rail_source_decision_accepted_source_backed
+            ),
+            "rail_source_decision_rail_service_evidence_gate_closure_candidate_count": (
+                rail_source_decision_closure_candidate_count
             ),
             "rail_source_decision_remaining_blockers": rail_decisions.get(
                 "remaining_blockers", []
+            ),
+            "rail_transit_stress_profile_artifacts_present": (
+                rail_stress_profile_artifacts_present
+            ),
+            "rail_transit_stress_profile_manifest_present": bool(
+                rail_transit_stress_profile_manifest
+            ),
+            "rail_transit_stress_profile_row_count": rail_stress.get("row_count", 0),
+            "rail_transit_stress_profile_required_classes_present": rail_stress.get(
+                "required_stress_classes_present",
+                False,
+            ),
+            "rail_transit_stress_profile_documented": rail_stress_profile_documented,
+            "rail_transit_stress_profile_supports_rail_gate": (
+                rail_stress_profile_supports_rail_gate
+            ),
+            "rail_transit_stress_profile_can_support_rail_gate": (
+                rail_stress_profile_can_support_rail_gate
+            ),
+            "rail_transit_stress_profile_publication_ready": (
+                rail_stress_profile_publication_ready
+            ),
+            "rail_transit_stress_profile_can_mark_complete": (
+                rail_stress_profile_can_mark_complete
+            ),
+            "rail_transit_stress_profile_missing_runtime_hook_count": (
+                rail_stress_profile_missing_runtime_hook_count
+            ),
+            "rail_transit_stress_profile_unresolved_linked_artifact_count": (
+                rail_stress_profile_unresolved_linked_artifact_count
+            ),
+            "rail_transit_stress_profile_remaining_blockers": rail_stress.get(
+                "remaining_blockers",
+                [],
+            ),
+            "rail_bounded_treatment_audit_present": bool(rail_bounded_treatment_audit),
+            "rail_bounded_treatment_artifacts_present": (
+                rail_bounded_treatment_artifacts_present
+            ),
+            "rail_bounded_treatment_integrity_ready": (
+                rail_bounded_treatment_integrity_ready
+            ),
+            "rail_bounded_treatment_mismatch_count": (
+                rail_bounded_treatment_mismatch_count
+            ),
+            "rail_bounded_treatment_warning_count": (
+                rail_bounded_treatment_warning_count
+            ),
+            "rail_bounded_treatment_unchecked_pending_decision_count": (
+                rail_bounded_treatment_pending_count
+            ),
+            "rail_bounded_treatment_publication_ready": (
+                rail_bounded_treatment_publication_ready
+            ),
+            "rail_bounded_treatment_can_mark_complete": (
+                rail_bounded_treatment_can_mark_complete
+            ),
+            "rail_bounded_treatment_can_support_rail_gate": (
+                rail_bounded_treatment_can_support_rail_gate
+            ),
+            "rail_bounded_treatment_can_support_acceptance_gate": (
+                rail_bounded_treatment_can_support_acceptance_gate
             ),
         },
     )
@@ -2128,7 +2536,9 @@ def _validation_summary_scope_is_blocked(text: str) -> bool:
 
 def _structured_disruption_gate() -> dict[str, Any]:
     path = PROJECT_ROOT / "data" / "scenarios" / "disruption_scenarios.csv"
+    manifest_path = DEFAULT_SCENARIO_MANIFEST_PATH
     rows = _csv_rows(path)
+    manifest = _load_json(manifest_path)
     families = {row.get("family", "") for row in rows}
     required = {
         "random",
@@ -2138,17 +2548,43 @@ def _structured_disruption_gate() -> dict[str, Any]:
         "rail_station_access",
         "spatial_hazard_overlay",
     }
-    ready = bool(required <= families)
+    family_ready = bool(required <= families)
+    manifest_sha = manifest.get("scenario_table_sha256") if manifest else None
+    current_sha = file_sha256(path) if path.exists() else None
+    manifest_ready = bool(
+        manifest
+        and manifest.get("row_count") == len(rows)
+        and manifest_sha == current_sha
+        and manifest.get("publication_ready") is False
+        and manifest.get("final_study_ready") is False
+    )
+    ready = family_ready and manifest_ready
+    blockers = []
+    if not family_ready:
+        blockers.append(
+            "include random, critical-link, access/last-mile, station-access, and spatial disruption families"
+        )
+    if not manifest_ready:
+        blockers.append(
+            "write disruption_scenarios_manifest.json with matching CSV SHA256, row count, and bounded claim flags"
+        )
     return _gate(
         "structured_disruptions",
         "Structured Disruptions",
         ready=ready,
-        artifact_present=path.exists(),
-        evidence=["data/scenarios/disruption_scenarios.csv"],
-        blockers=[] if ready else [
-            "include random, critical-link, access/last-mile, station-access, and spatial disruption families"
+        artifact_present=path.exists() and manifest_path.exists(),
+        evidence=[
+            "data/scenarios/disruption_scenarios.csv",
+            "data/scenarios/disruption_scenarios_manifest.json",
         ],
-        details={"families": sorted(families)},
+        blockers=blockers,
+        details={
+            "families": sorted(families),
+            "manifest_present": manifest_path.exists(),
+            "manifest_sha_matches": manifest_sha == current_sha,
+            "manifest_row_count": manifest.get("row_count") if manifest else None,
+            "scenario_row_count": len(rows),
+        },
     )
 
 

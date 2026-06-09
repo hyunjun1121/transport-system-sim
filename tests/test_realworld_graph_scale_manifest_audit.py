@@ -118,7 +118,7 @@ def test_write_graph_scale_manifest_audit_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["complete_graph_scale_row_count"] == 1
-    assert "not accept a graph-scale method" in written_manifest["claim_boundary"]
+    assert "does not select a graph-scale method" in written_manifest["claim_boundary"]
     assert "Graph-Scale Manifest Audit" in doc_text
 
     print("PASS: graph-scale manifest audit writer emits artifacts")

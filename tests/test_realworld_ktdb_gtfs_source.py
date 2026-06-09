@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 from io import StringIO
 import os
 import sys
@@ -17,6 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.realworld.ktdb_gtfs_source import (  # noqa: E402
     KTDB_GTFS_COLUMNS,
     KTDB_GTFS_SOURCE_SCOPE,
+    audit_ktdb_gtfs_raw_hashes,
     build_ktdb_gtfs_extract,
     load_ktdb_gtfs_extract,
     write_ktdb_gtfs_cache,
@@ -90,14 +92,59 @@ def test_ktdb_gtfs_source_cache_writes_raw_pages_and_extract() -> None:
 
         assert notice_raw.read_text(encoding="utf-8") == NOTICE_HTML
         assert list_raw.read_text(encoding="utf-8") == LIST_HTML
+        assert row["notice_raw_file_sha256"] == hashlib.sha256(
+            notice_raw.read_bytes()
+        ).hexdigest()
+        assert row["list_raw_file_sha256"] == hashlib.sha256(
+            list_raw.read_bytes()
+        ).hexdigest()
         with extract.open("r", encoding="utf-8", newline="") as handle:
             reader = csv.DictReader(handle)
             assert tuple(reader.fieldnames or ()) == KTDB_GTFS_COLUMNS
         rows = load_ktdb_gtfs_extract(extract)
+        audit = audit_ktdb_gtfs_raw_hashes(
+            extract_path=extract,
+            notice_raw_path=notice_raw,
+            list_raw_path=list_raw,
+        )
 
     assert rows == [row]
+    assert audit["raw_file_integrity_ready"] is True
+    assert audit["publication_ready"] is False
+    assert audit["can_mark_complete"] is False
 
     print("PASS: KTDB GTFS source metadata cache writes raw pages and extract")
+
+
+def test_ktdb_gtfs_raw_hash_audit_detects_mismatch() -> None:
+    """Raw-file hash audit should fail if a cached page changes after writing."""
+
+    with TemporaryDirectory() as directory:
+        root = Path(directory)
+        notice_raw = root / "notice.html"
+        list_raw = root / "list.html"
+        extract = root / "extract.csv"
+        write_ktdb_gtfs_cache(
+            notice_html=NOTICE_HTML,
+            list_html=LIST_HTML,
+            notice_raw_output_path=notice_raw,
+            list_raw_output_path=list_raw,
+            extract_output_path=extract,
+            fetched_at_utc="2026-05-08T00:00:00+00:00",
+        )
+        notice_raw.write_text("changed after extract write", encoding="utf-8")
+        audit = audit_ktdb_gtfs_raw_hashes(
+            extract_path=extract,
+            notice_raw_path=notice_raw,
+            list_raw_path=list_raw,
+        )
+
+    assert audit["raw_file_integrity_ready"] is False
+    assert audit["notice_raw_file_sha256_matches"] is False
+    assert audit["list_raw_file_sha256_matches"] is True
+    assert audit["remaining_blockers"]
+
+    print("PASS: KTDB GTFS raw hash audit detects mismatch")
 
 
 def test_ktdb_gtfs_cache_script_reports_fetch_failures() -> None:
@@ -128,5 +175,6 @@ def test_ktdb_gtfs_cache_script_reports_fetch_failures() -> None:
 if __name__ == "__main__":
     test_ktdb_gtfs_source_fields_are_parsed()
     test_ktdb_gtfs_source_cache_writes_raw_pages_and_extract()
+    test_ktdb_gtfs_raw_hash_audit_detects_mismatch()
     test_ktdb_gtfs_cache_script_reports_fetch_failures()
     print("\n=== REALWORLD KTDB GTFS SOURCE TESTS PASSED ===")

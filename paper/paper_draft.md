@@ -1,6 +1,6 @@
 ﻿# A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
 
-> Current project status (2026-05-09): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-09): `final_study_ready=false`. Preflight-pass gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal signoff is `0/12` complete. This document is current-state or review support only; it does not create formal signoff, fit-to-observed-data real-world results, or field-use routing guidance.
 
 
 ## Draft Status
@@ -16,12 +16,13 @@ first real-world/quasi-real input pipeline. The current full result set remains
 based on a representative abstract network. A separate pilot scaffold now
 exists with an Overpass/OSM-derived cached road graph, but its outputs are
 explicitly scaffold-only and are not calibrated real-world findings. The formal
-evidence boundary is also explicit: final-study readiness is `false`, only
-`3/15` final-study gates are ready, `12/15` gates remain blocked, formal
-acceptance readiness is `0/12`. Formal approvals are absent, calibrated
-real-world result evidence is absent, and the validation, graph-scale,
-sensitivity, and experiment strategy-readiness packets are blocker/review aids only; they are
-not acceptance records. This draft therefore separates:
+evidence boundary is also explicit: study-closeout preflight status is `false`,
+only `3/15` study-closeout gates are preflight-pass, `12/15` gates remain
+blocked, and formal signoff status is `0/12`. Formal signoff records are
+absent, fit-to-observed-data real-world result evidence is absent, and the
+evidence-check, graph-scale, sensitivity, and experiment strategy-blocker-review
+packets are blocker/review aids only; they are not signoff records. This draft
+therefore separates:
 
 - what is already implemented,
 - what can be reported as preliminary baseline evidence,
@@ -47,24 +48,24 @@ real-world extension:
   cache whose manifest records `live_overpass_osm_snapshot` provenance.
 - `data/parameters/` records parameter, rail, fleet, and road-evidence review
   tables. The current `road_class_overrides_draft.csv` has 10 road-class rows,
-  all still labeled as expert-assumption review scaffolds rather than accepted
+  all still labeled as expert-assumption review scaffolds rather than signed-off
   road evidence. The current `road_speed_evidence_candidates.csv` also has 10
   routeable road-class rows and 5 rows with observed cached OSM `maxspeed`
-  tags, but this remains speed-review support rather than calibrated speed
+  tags, but this remains speed-review support rather than source-tuned speed
   evidence. The current `road_capacity_evidence_candidates.csv` has 10
   routeable road-class rows and 0 rows with observed cached OSM `lanes` tags,
   so it documents a capacity evidence gap rather than source-backed capacity
   evidence. The current `road_evidence_review_packet.csv` consolidates the
   road-class diagnostic, sparse speed-tag, lane-count, and draft-override
   evidence status into 10 routeable road-class review rows; all 10 remain weak
-  for final-study road claims. The current
+  for study-level road claims. The current
   `road_evidence_source_request_packet.csv` adds 5 request rows that identify
   the source-backed speed, capacity, benchmark, disruption, and
   override-application inputs needed before reviewed road overrides can be
   built; it is not road evidence. The current
   `parameter_evidence_review_packet.csv` has 29 core-parameter rows and marks
-  25 as weak for final-study claims; it is a prioritization worksheet and does
-  not accept or calibrate parameter values. The current
+  25 as weak for study-level claims; it is a prioritization worksheet and does
+  not sign off or tune parameter values. The current
   `parameter_evidence_source_request_packet.csv` adds 7 request rows covering
   25 demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR parameters;
   it names required source inputs but is not parameter evidence or acceptance.
@@ -95,13 +96,13 @@ real-world extension:
   route-level road-evidence exposure worksheet linking weak road speed,
   capacity, disruption, and connector assumptions to 18 canonical route
   candidates. It is prioritization support only, not road calibration.
-- `data/validation/validation_review_packet.csv` stores a 7-row validation
+- `data/validation/validation_review_packet.csv` stores a 7-row evidence-check
   review worksheet covering internal plausibility, fallback benchmark, optional
   OSRM snapshot/manifest status, accessibility-loss coverage, route-level
-  road-evidence exposure, validation-summary scope, and benchmark-strategy decision
-  requirements. It is not validation acceptance.
+  road-evidence exposure, evidence-summary scope, and benchmark-strategy decision
+  requirements. It is not evidence-check signoff.
 - `data/validation/validation_strategy_readiness_packet.csv` stores a 7-row
-  validation strategy-readiness worksheet with 3 blocking requests and 4
+  evidence-check strategy-blocker-review worksheet with 3 blocking requests and 4
   human-review requests. It is implemented preflight support only and cannot
   close `data/manifests/validation_acceptance.json`.
 - `data/scenarios/` stores deterministic disruption, policy, and sensitivity
@@ -135,9 +136,9 @@ real-world extension:
   164-node / 246-edge multi-corridor candidate, the full-profile 164-node /
   246-edge multi-corridor candidate, and the full 4,608-node / 9,148-edge
   bus-practical graph. This packet supports method selection but does not
-  replace a reviewed graph-scale acceptance record.
+  replace a reviewed graph-scale signoff record.
 - `data/validation/graph_scale_strategy_readiness_packet.csv` stores a 5-row
-  graph-scale strategy-readiness worksheet with 2 blocking requests and 3
+  graph-scale strategy-blocker-review worksheet with 2 blocking requests and 3
   human-review requests. It is implemented preflight support only and cannot
   close `data/manifests/graph_scale_acceptance.json`.
 - Current pilot scaffold outputs include 1,890 full pilot rows and 63 full
@@ -146,13 +147,13 @@ real-world extension:
   A separate 6-row sensitivity review packet summarizes Morris structural
   readiness, missing/non-finite index rows, zero `mu_star` rows, reduced graph
   scope, scaffold result scope, and the Morris-vs-Sobol decision; it is not a
-  sensitivity acceptance record and does not waive Sobol analysis.
+  sensitivity signoff record and does not waive Sobol analysis.
 - `data/validation/sensitivity_strategy_readiness_packet.csv` stores a 7-row
-  sensitivity strategy-readiness worksheet with 5 blocking requests and 2
+  sensitivity strategy-blocker-review worksheet with 5 blocking requests and 2
   human-review requests. It is implemented blocker support only and cannot
   close `data/manifests/sensitivity_acceptance.json`.
 - `data/manifests/experiment_strategy_readiness_packet.csv` stores a 9-row
-  experiment strategy-readiness worksheet with 4 blocking requests and 5
+  experiment strategy-blocker-review worksheet with 4 blocking requests and 5
   human-review requests. It is implemented blocker support only and cannot
   close `data/manifests/experiment_acceptance.json`.
 - Full pilot seed-replication uncertainty tables add 819 metric confidence
@@ -199,7 +200,7 @@ Recommended paper type:
 The paper should not be framed as:
 
 - a military operations report,
-- a one-region case study with operational predictions,
+- a one-region case study with field-use predictions,
 - a claim that the current abstract network proves real-world modal superiority.
 
 The strongest framing is a reusable methodology with a guarded regional case
@@ -220,14 +221,14 @@ service, transfer delays, dynamic road travel time, and disruption states
 including blockage and capacity reduction. Resilience is assessed using
 completion probability, censored personnel, penalized makespan,
 resource-efficiency measures, tail arrival times, and bottleneck attribution.
-The current full experiment is demonstrated on a representative abstract
-network, while a separate pilot scaffold demonstrates cached regional
+The current complete-profile experiment scaffold is demonstrated on a
+representative abstract network, while a separate pilot scaffold demonstrates cached regional
 graph ingestion, source tables, route plausibility checks, structured
 disruption scenarios, policy alternatives, sample/staged/full pilot runs,
 deterministic sensitivity screening, and SALib Morris screening on the current
 full policy/scenario scaffold. The proposed full research design still requires a
-reviewed OSM-derived regional snapshot or acceptance review of the current
-cache, GTFS or timetable validation, stronger benchmark checks, broader pilot
+reviewed OSM-derived regional snapshot or signoff review of the current
+cache, GTFS or timetable evidence checks, stronger benchmark checks, broader pilot
 experiments, and staged/full-profile sensitivity interpretation. The expected contribution
 is not a universal ranking of transport
 modes, but a decision framework that identifies the disruption and resource
@@ -253,7 +254,7 @@ fragile.
 
 Regional emergency, contingency, and public-sector personnel movement require moving a large
 number of people within a constrained time window. In normal conditions, direct
-road transport can appear operationally simple because passengers are loaded
+road transport can appear simple in field operations because passengers are loaded
 onto vehicles and moved from an assembly area to a destination. Under disrupted
 conditions, however, direct road transport becomes exposed to road congestion,
 blocked corridors, limited vehicle availability, driver constraints, and
@@ -265,7 +266,7 @@ shuttles provide feeder and last-mile movement. This apparent capacity
 advantage is conditional. It depends on station access, train availability,
 transfer handling, last-mile road resilience, and the coordination of several
 sequential services. A rail-bus system can therefore be resource-efficient but
-operationally fragile if any connector segment becomes a bottleneck.
+fragile in field execution if any connector segment becomes a bottleneck.
 
 This motivates a resilience question rather than a simple speed-comparison
 question.
@@ -290,7 +291,7 @@ Large traffic platforms can be powerful, but they can also obscure the specific
 policy logic of coordinated personnel transport. Conversely, small abstract simulations
 are easy to interpret but can be criticized as insufficiently realistic. This
 paper addresses that gap by proposing a staged framework: a transparent
-micro-simulation core, surrounded by open-data network input, validation,
+micro-simulation core, surrounded by open-data network input, plausibility-check,
 hazard-overlay, and sensitivity-analysis layers.
 
 ### 1.3 Research Questions
@@ -328,9 +329,9 @@ This paper aims to make four contributions:
    evaluates whether multimodal transport fails because of rail trunk capacity,
    station access, transfer processing, last-mile road service, or fleet
    shortage.
-4. **A path from abstract simulation to open-data validation.** The framework
+4. **A path from abstract simulation to open-data evidence checks.** The framework
    specifies how to move from a representative network to OSM-derived roads,
-   GTFS-based rail validation, hazard overlays, critical-link metrics, and
+   GTFS-based rail plausibility checks, hazard overlays, critical-link metrics, and
    formal sensitivity analysis.
 
 ## 2. Related Work Plan
@@ -417,8 +418,8 @@ Relevant themes:
 Expected connection:
 
 Open data improves reproducibility and regional reuse, but it must be combined
-with calibrated assumptions and validation checks. Public maps alone do not
-make a simulation operationally valid.
+with source-tuned assumptions and benchmark checks. Public maps alone do not
+make a simulation field-use valid.
 
 ## 3. Framework Overview
 
@@ -442,13 +443,13 @@ The proposed framework has seven layers:
    censored arrivals.
 6. **Evaluation layer.** Computes completion, censoring, tail-risk,
    resource-efficiency, accessibility-loss, and bottleneck metrics.
-7. **Validation and sensitivity layer.** Checks plausibility against public
+7. **Evidence-check and sensitivity layer.** Checks plausibility against public
    data, routing benchmarks, source tables, and global sensitivity analysis.
 
 ### 3.2 Core Design Principle
 
 The core simulator remains intentionally transparent. External tools are added
-around it for data ingestion, validation, benchmarking, optimization, and
+around it for data ingestion, plausibility checks, benchmarking, optimization, and
 reporting. This prevents the research from becoming a black-box integration of
 a large traffic simulator.
 
@@ -460,17 +461,17 @@ Core stack for the SCI-grade extension:
 - `OSMnx`: real regional road network extraction.
 - `GeoPandas` and `Shapely`: spatial clipping, joins, and zone abstraction.
 - `snail`: raster hazard or exposure overlay onto road and rail edges.
-- `gtfs-validator` and `gtfs_kit`: public transit feed validation and headway
+- `gtfs-validator` and `gtfs_kit`: public transit feed quality checks and headway
   extraction.
 - `SALib`: global sensitivity analysis.
-- `Frictionless`: result-schema and benchmark-package validation.
+- `Frictionless`: result-schema and benchmark-package checks.
 
 Benchmark or optional stack:
 
 - `r5py`, `R5`, `OpenTripPlanner`, `Valhalla`, and `OSRM` for travel-time and
   accessibility plausibility checks.
 - `UXsim` for Python-native mesoscopic congestion benchmarking.
-- `SUMO` and `MATSim` for high-cost external validation experiments.
+- `SUMO` and `MATSim` for high-cost external benchmark experiments.
 - `OR-Tools` or `PyVRP` for candidate fleet allocation and contingency routing
   policies.
 - `Papermill`, `Quarto`, and `Streamlit` for reproducible analysis and
@@ -504,7 +505,7 @@ by:
 - candidate rail access points,
 - candidate last-mile destination access points,
 - road graph source and snapshot metadata,
-- transit feed source and validation metadata,
+- transit feed source and quality-check metadata,
 - scenario parameter set.
 
 Changing the region should not require changing the simulation logic.
@@ -639,7 +640,7 @@ Rail service is modeled as a fixed-headway service with passenger capacity. The
 current model does not serialize later trains behind earlier train travel, which
 is appropriate for a scheduled headway abstraction.
 
-For the SCI-grade extension, rail assumptions must be validated or
+For the SCI-grade extension, rail assumptions must be source-checked or
 sensitivity-tested:
 
 - headway,
@@ -679,7 +680,7 @@ where:
 
 The rolling-window design gives the simulation congestion feedback without
 requiring a full microscopic traffic assignment model. For publication, this
-should be presented as a controlled approximation and validated against
+should be presented as a controlled approximation and compared against
 routing-engine or public-data ranges.
 
 ### 5.9 Disruption Model
@@ -762,7 +763,7 @@ The current project already includes:
 - CSV outputs and plots.
 
 These outputs are useful as baseline evidence, but they should be described as
-representative-network results rather than real-world calibrated findings.
+representative-network results rather than fit-to-observed-data real-world findings.
 
 ### 7.2 Required SCI-Grade Extension
 
@@ -770,7 +771,7 @@ The full paper should add or strengthen:
 
 1. Reviewed OSM-derived real or quasi-real road network for a pilot region.
 2. Zone-based origin and destination representation beyond scaffold points.
-3. GTFS-based rail schedule validation or a documented rail assumption set.
+3. GTFS-based rail schedule checks or a documented rail assumption set.
 4. Public-data, benchmark, or literature-supported parameter-source table.
 5. Spatially structured disruption scenarios beyond scaffold definitions.
 6. Critical-link and accessibility-loss analysis.
@@ -818,19 +819,19 @@ or Sobol sensitivity evidence. The generated sensitivity review packet should
 be used to document index handling and method-scope review before any
 manuscript claim is upgraded.
 
-The generated validation review packet should likewise be used to document
+The generated evidence-check review packet should likewise be used to document
 internal plausibility warnings, fallback benchmark limitations, optional OSRM
 snapshot/manifest provenance, accessibility-loss interpretation, and the
-final benchmark-strategy decision before any validation claim is upgraded.
-The validation, graph-scale, sensitivity, and experiment strategy-readiness
-packets are implemented, but all are blocker triage aids, not formal acceptance
+closeout benchmark-strategy decision before any evidence-check claim is upgraded.
+The evidence-check, graph-scale, sensitivity, and experiment strategy-blocker-review
+packets are implemented, but all are blocker triage aids, not formal signoff
 records.
 
 Recommended outputs:
 
 - first-order sensitivity indices,
 - total-order sensitivity indices,
-- Morris screening for the accepted staged/full pilot design if the full Sobol
+- Morris screening for the selected staged/full pilot design if the full Sobol
   design is too expensive,
 - ranked parameter influence on completion rate,
 - ranked parameter influence on censored passengers,
@@ -842,11 +843,11 @@ Expected high-impact insight:
 The most valuable result is not just which alternative wins, but which uncertain
 parameters determine the winning regime.
 
-## 8. Validation and Plausibility Checks
+## 8. Evidence And Plausibility Checks
 
-### 8.1 Internal Validation
+### 8.1 Internal Checks
 
-Internal validation checks:
+Internal checks:
 
 - identical seeds reproduce identical outputs,
 - more fleet capacity should not worsen completion under otherwise identical
@@ -1007,7 +1008,7 @@ This would strongly support the region-reusable claim.
 
 The expected discussion should emphasize regimes, thresholds, and bottlenecks.
 
-Potential final claims:
+Potential closeout claims:
 
 - Bus-only transport is attractive when direct road access is reliable and fleet
   availability is sufficient.
@@ -1029,7 +1030,7 @@ structure:
 - transparent micro-simulation,
 - disruption-aware policy comparison,
 - censoring-aware resilience metrics,
-- validation and sensitivity workflow.
+- evidence-check and sensitivity workflow.
 
 ### 11.3 Practical Contribution
 
@@ -1039,7 +1040,7 @@ The practical contribution is a way to ask better planning questions:
 - Which last-mile links create the largest multimodal fragility?
 - How many vehicles are needed before bus-only performance stabilizes?
 - When does rail reduce road-fleet burden?
-- Which assumptions must be validated before operational conclusions are made?
+- Which assumptions must be source-checked before deployment conclusions are made?
 
 ## 12. Limitations
 
@@ -1047,11 +1048,11 @@ The paper must be explicit about limitations.
 
 Current limitations:
 
-- The current full outputs are based on an abstract representative network.
-- Final-study readiness is currently `false`: `3/15` final-study gates are
-  ready and `12/15` remain blocked.
-- Formal acceptance readiness is `0/12`; no formal approval artifacts are
-  present, and templates or packets must not be treated as approvals.
+- The current complete-profile outputs are based on an abstract representative network.
+- Study-closeout preflight status is currently `false`: `3/15`
+  study-closeout gates are preflight-pass and `12/15` remain blocked.
+- Formal signoff status is `0/12`; no formal signoff artifacts are present,
+  and templates or packets must not be treated as signoffs.
 - The current pilot outputs use a scaffold-level cached OSM snapshot and
   reduced analysis corridor, not a reviewed or calibrated regional network.
 - Sparse OSM `maxspeed` tags have been summarized for road-class review, but
@@ -1064,8 +1065,8 @@ Current limitations:
   accepted calibration evidence.
 - The current route parity diagnostic preserves three baseline shortest-time
   paths, and the alternate-route diagnostic flags six omitted alternate
-  candidates; neither validates traffic assignment, spillback, hazard exposure,
-  or operational detours.
+  candidates; neither proves traffic assignment, spillback, hazard exposure,
+  or field-use detours.
 - The current multi-corridor candidate preserves those top alternate
   candidates and has separated 32-row smoke-scale and 1,890-row full-profile
   candidate outputs, but it has not been accepted as final pilot evidence.
@@ -1089,17 +1090,17 @@ Current limitations:
   formal acceptance records or calibrated real-world validation.
 - The external consultation reply in
   `docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` reviewed the submitted ZIP as an
-  acceptance package and reported that it lacked the full implementation,
+  external-review bundle and reported that it lacked the full implementation,
   scripts, tests, data/cache tree, results, and documentation needed for
   technical review. This paper must therefore treat package completeness and
-  path-integrity as prerequisites before renewed external acceptance review.
+  path-integrity as prerequisites before renewed external signoff review.
 
 For a strong paper, limitations should be framed as model boundaries rather
 than hidden weaknesses.
 
 ## 13. Reproducibility Plan
 
-The final paper should include a reproducibility package with:
+The closeout paper should include a reproducibility package with:
 
 - code version,
 - scenario table,
@@ -1110,14 +1111,14 @@ The final paper should include a reproducibility package with:
 - parameter-source table,
 - result schemas,
 - generated figures,
-- validation summaries,
+- plausibility-check summaries,
 - sensitivity design,
 - limitations and privacy handling notes.
 - package inventory and path-integrity outputs showing that every local
-  evidence path referenced by review or acceptance materials is present in the
-  review package or explicitly externalized.
+  evidence path referenced by review or signoff materials is present in the
+  external-review bundle or explicitly externalized.
 
-Use Frictionless-style schema validation for public CSV packages if result
+Use Frictionless-style schema checks for public CSV packages if result
 tables become part of the submission artifact.
 
 ## 14. Figure Plan
@@ -1125,7 +1126,7 @@ tables become part of the submission artifact.
 Recommended figures:
 
 1. **Framework pipeline.** Region input, network construction, disruption
-   overlay, simulation, metrics, validation, and decision output.
+   overlay, simulation, metrics, evidence checks, and decision output.
 2. **Transport alternatives.** Bus-only vs rail-bus multimodal structure.
 3. **Regional network representation.** OSM-derived road network with
    generalized zones and rail access points.
@@ -1151,7 +1152,7 @@ Recommended tables:
 3. **Scenario design table.** Experimental axes and tested ranges.
 4. **Policy alternatives table.** Bus-only, multimodal, redundant last-mile,
    staggered dispatch, adaptive routing, and fleet-shortage settings.
-5. **Validation table.** Internal checks, public-data checks, and benchmark
+5. **Evidence-check table.** Internal checks, public-data checks, and benchmark
    checks.
 6. **Main result table.** Completion, censoring, penalized makespan, resource
    efficiency.
@@ -1168,8 +1169,8 @@ Use this type of language:
 > The current representative-network baseline suggests that multimodal
 > performance is highly sensitive to access and last-mile bottlenecks.
 
-> Real-world operational claims require calibrated regional networks,
-> documented parameters, and validation checks.
+> Real-world field-use claims require source-tuned regional networks,
+> documented parameters, and benchmark checks.
 
 Avoid this type of language:
 
@@ -1177,9 +1178,9 @@ Avoid this type of language:
 
 > The model proves that rail-bus transport is superior.
 
-> The simulation is already a real-world operational forecast.
+> The simulation is already a real-world field-use prediction.
 
-> Public map data alone validates the model.
+> Public map data alone supports the model.
 
 ## 17. Draft Conclusion
 
@@ -1194,9 +1195,9 @@ probability, censored personnel, penalized makespan, resource efficiency, tail
 arrival time, and bottleneck attribution.
 
 The current implementation provides a meaningful baseline on a representative
-network, but it should not be interpreted as a calibrated operational forecast.
+network, but it should not be interpreted as a source-tuned field-use prediction.
 The proposed SCI-grade extension adds OSM-derived regional networks,
-GTFS-based transit validation, spatially structured disruption overlays,
+GTFS-based transit checks, spatially structured disruption overlays,
 critical-link and accessibility-loss metrics, and staged/full-profile formal
 sensitivity interpretation.
 Under this framing, the central finding is not that one mode is universally
@@ -1206,8 +1207,8 @@ competitive, or fragile.
 
 ## 18. Immediate Author TODOs
 
-1. Review the current pilot OSM-derived cache as an accepted snapshot or
-   replace it with a better accepted snapshot.
+1. Review the current pilot OSM-derived cache as a signed-off snapshot or
+   replace it with a better signed-off snapshot.
 2. Strengthen zone-based origin and destination inputs.
 3. Strengthen the parameter-source table with public, literature, benchmark,
    OSM speed-tag review, and timetable evidence.
@@ -1217,40 +1218,40 @@ competitive, or fragile.
 5. Expand spatially structured disruption scenarios beyond scaffold definitions.
 6. Review the current critical-link/accessibility-loss diagnostic and decide
    whether directed-edge, bidirectional-link, or corridor-level loss is the
-   accepted final-study representation.
+   signed-off study-closeout representation.
 7. Review the current graph-scale route parity, alternate-route, and
    multi-corridor candidate diagnostics. Decide whether the six
    alternate-route warning rows are acceptable under a documented
    corridor-selection rule, whether to use the existing 164-node / 246-edge
    full-profile candidate graph and regenerate downstream artifacts, or
-   whether full-graph runtime or a multi-corridor ensemble is the final study
-   method. Use the graph-scale review packet and graph-scale strategy-readiness
-   packet as method-selection worksheets before writing final result claims.
+   whether full-graph runtime or a multi-corridor ensemble is the study-closeout
+   method. Use the graph-scale review packet and graph-scale strategy-blocker-review
+   packet as method-selection worksheets before writing closeout result claims.
 8. Review the current SALib Morris outputs with the sensitivity review packet
-   for the accepted staged/full pilot profile, resolve missing/non-finite index
+   for the selected staged/full pilot profile, resolve missing/non-finite index
    handling and zero `mu_star` interpretation, and add Sobol only if compute
    budget and interpretation justify it. Use the sensitivity
-   strategy-readiness packet to keep blockers separate from acceptance.
+   strategy-blocker-review packet to keep blockers separate from signoff.
 9. Review the generated policy alternatives and seed/scenario coverage beyond
-   the current sample outputs. Use the experiment strategy-readiness packet to
+   the current sample outputs. Use the experiment strategy-blocker-review packet to
    track full-output scope, graph/input dependencies, CRN, row counts, and
    missing `experiment_acceptance.json` without treating it as approval.
-10. Review the validation review packet, OSRM snapshot manifest, and
+10. Review the evidence-check review packet, OSRM snapshot manifest, and
    route-level road-evidence exposure rows, then decide whether the current
    optional OSRM snapshot is enough or whether to add another external
-   benchmark using r5py, Valhalla, UXsim, or SUMO before creating a validation
-   acceptance record. Use the validation strategy-readiness packet to track
+   benchmark using r5py, Valhalla, UXsim, or SUMO before creating an evidence-check
+   signoff record. Use the evidence-check strategy-blocker-review packet to track
    blocker and human-review closure.
-11. Keep final-study readiness `false` until the 12 blocked gates and all
+11. Keep study-closeout preflight status `false` until the 12 blocked gates and all
     12 formal acceptance targets are resolved by reviewer-supplied evidence.
-12. Build the next expert-review package from the complete repository evidence
+12. Build the next expert-review bundle from the complete repository evidence
     profile, not only acceptance/audit artifacts. Include code, configs,
     scripts, tests, data/cache manifests, results, docs, paper/report sources,
     planning files, checksums, and the post-consultation follow-up plan.
-13. Keep acceptance-looking files out of formal target paths unless they are
+13. Keep signoff-looking files out of formal target paths unless they are
     real reviewed decisions; draft templates should remain clearly named and
-    outside final paths.
-14. Rewrite the results section after accepted quasi-real or calibrated
+    outside closeout paths.
+14. Rewrite the results section after signed-off quasi-real or source-tuned
     experiment outputs are generated.
 
 ## 19. Suggested Manuscript Outline
@@ -1261,7 +1262,7 @@ competitive, or fragile.
 4. Regional Network and Scenario Design
 5. Micro-Simulation Model
 6. Resilience Metrics and Experimental Design
-7. Validation and Sensitivity Analysis
+7. Evidence Checks and Sensitivity Analysis
 8. Results
 9. Discussion
 10. Limitations

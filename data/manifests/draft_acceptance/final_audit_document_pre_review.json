@@ -48,7 +48,7 @@
     {
       "claim_supported": "Formal target required for final_audit_document",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "docs/final_study_audit.md"
     },
     {
@@ -92,18 +92,18 @@
   "formal_record_present": false,
   "formal_target": "docs/final_study_audit.md",
   "gate": "final_audit_document",
-  "generated_at": "2026-05-09T00:29:30+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
     "Supply or regenerate the missing evidence items before deciding.",
-    "Wait until every pre-final formal gate is accepted before creating final-audit artifacts.",
+    "Wait until prerequisite formal gates have source-backed reviewer decisions before creating independent-audit artifacts.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update docs/final_study_audit.md.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Final Study Audit Document",
+  "label": "Study-Closeout Audit Document",
   "missing_evidence": [
     "create docs/final_study_audit.md after all other gates close",
     "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
@@ -125,7 +125,7 @@
     "docs/final_audit_decision_packet.md"
   ],
   "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
   "related_plan_gate_ids": [
     "final_audit"
   ],
@@ -133,17 +133,8 @@
     "After all pre-final gates are ready, write the independent prompt-to-artifact final audit.",
     "Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence.",
     "create docs/final_study_audit.md after all other gates close",
-    "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
-    "resolve final-audit decision blockers before final-audit acceptance",
-    "final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
-    "final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
-    "final-audit decision: docs/final_study_audit.md is absent",
-    "final-audit decision: data/manifests/final_audit_acceptance.json is absent",
-    "review final-audit human-decision rows before final-audit acceptance",
-    "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
-    "docs/final_study_audit.md is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/final_audit.md",

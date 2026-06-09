@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import json
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
@@ -18,6 +19,7 @@ from typing import Any
 
 import networkx as nx
 
+from src.realworld.source_artifacts import file_sha256
 from src.sim_types import EdgeDisruption
 
 
@@ -70,8 +72,13 @@ CSV_COLUMNS = (
     "hazard_bbox_north",
     "evidence_class",
     "observed_disaster_data",
+    "duration_min",
+    "recovery_profile",
+    "temporal_scope",
     "notes",
 )
+DEFAULT_RECOVERY_PROFILE = "static_full_horizon_no_recovery"
+DEFAULT_TEMPORAL_SCOPE = "metadata_only_not_dynamic_recovery"
 DEFAULT_REQUIRED_NODES = {
     "assembly": "A",
     "destination": "D",
@@ -92,6 +99,22 @@ DEFAULT_SCENARIO_PATH = (
     / "scenarios"
     / "disruption_scenarios.csv"
 )
+DEFAULT_SCENARIO_MANIFEST_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "data"
+    / "scenarios"
+    / "disruption_scenarios_manifest.json"
+)
+DEFAULT_SCENARIO_DOC_PATH = (
+    Path(__file__).resolve().parents[2] / "docs" / "disruption_scenarios.md"
+)
+DISRUPTION_SCENARIO_SCOPE = (
+    "Phase 6 disruption scenario library only; deterministic scenario-design "
+    "metadata for decision-support stress testing, not observed disaster data, "
+    "not calibrated disruption probabilities, not dynamic recovery modeling, "
+    "not an operational route plan, not publication readiness, not final-study "
+    "readiness, and not formal acceptance."
+)
 
 
 @dataclass(frozen=True)
@@ -111,6 +134,9 @@ class DisruptionScenario:
     hazard_bbox: HazardBbox | None = None
     evidence_class: str = "scenario_based"
     observed_disaster_data: bool = False
+    duration_min: float | None = None
+    recovery_profile: str = DEFAULT_RECOVERY_PROFILE
+    temporal_scope: str = DEFAULT_TEMPORAL_SCOPE
     notes: str = ""
 
     def __post_init__(self) -> None:
@@ -139,11 +165,26 @@ class DisruptionScenario:
             _clean_required_text(self.evidence_class, "evidence_class"),
         )
         object.__setattr__(self, "notes", "" if self.notes is None else str(self.notes).strip())
+        object.__setattr__(
+            self,
+            "recovery_profile",
+            _clean_required_text(self.recovery_profile, "recovery_profile"),
+        )
+        object.__setattr__(
+            self,
+            "temporal_scope",
+            _clean_required_text(self.temporal_scope, "temporal_scope"),
+        )
 
         capacity_factor = _finite_float(self.capacity_factor, "capacity_factor")
         p_fail_scale = _finite_float(self.p_fail_scale, "p_fail_scale")
         object.__setattr__(self, "capacity_factor", capacity_factor)
         object.__setattr__(self, "p_fail_scale", p_fail_scale)
+        if self.duration_min is not None:
+            duration_min = _finite_float(self.duration_min, "duration_min")
+            if duration_min <= 0.0:
+                raise ValueError("duration_min must be positive when provided")
+            object.__setattr__(self, "duration_min", duration_min)
         if self.max_edges is not None:
             object.__setattr__(self, "max_edges", _positive_int(self.max_edges, "max_edges"))
         if self.hazard_bbox is not None:
@@ -250,6 +291,138 @@ def scenario_family_coverage(
     """Return scenario counts by family."""
 
     return dict(Counter(scenario.family for scenario in scenarios))
+
+
+def build_disruption_scenario_manifest(
+    scenarios: Sequence[DisruptionScenario],
+    *,
+    scenario_path: str | Path = DEFAULT_SCENARIO_PATH,
+    manifest_path: str | Path = DEFAULT_SCENARIO_MANIFEST_PATH,
+    doc_path: str | Path = DEFAULT_SCENARIO_DOC_PATH,
+    selected_edges: Mapping[str, Sequence[ScenarioEdge]] | None = None,
+) -> dict[str, Any]:
+    """Return a conservative Phase 6 scenario-library manifest."""
+
+    validate_scenario_table(scenarios)
+    scenario_rows = [_scenario_manifest_row(scenario) for scenario in scenarios]
+    selected_edge_summary = _selected_edge_summary(selected_edges or {})
+    return {
+        "schema_version": 1,
+        "result_scope": DISRUPTION_SCENARIO_SCOPE,
+        "claim_boundary": DISRUPTION_SCENARIO_SCOPE,
+        "publication_ready": False,
+        "final_study_ready": False,
+        "formal_acceptance_evidence": False,
+        "can_mark_complete": False,
+        "can_support_parameter_evidence_gate": False,
+        "can_support_acceptance_gate": False,
+        "can_support_publication_gate": False,
+        "can_support_final_study_gate": False,
+        "row_count": len(scenario_rows),
+        "scenario_ids": sorted(row["scenario_id"] for row in scenario_rows),
+        "family_counts": _counts(row["family"] for row in scenario_rows),
+        "family_checksums": _family_checksums(scenario_rows),
+        "selection_method_counts": _counts(row["selection_method"] for row in scenario_rows),
+        "disruption_mode_counts": _counts(row["disruption_mode"] for row in scenario_rows),
+        "temporal_scope_counts": _counts(row["temporal_scope"] for row in scenario_rows),
+        "recovery_profile_counts": _counts(row["recovery_profile"] for row in scenario_rows),
+        "observed_disaster_data_count": sum(
+            1 for row in scenario_rows if row["observed_disaster_data"]
+        ),
+        "spatial_overlay_count": sum(
+            1 for row in scenario_rows if row["family"] == "spatial_hazard_overlay"
+        ),
+        "scenario_table_sha256": (
+            file_sha256(Path(scenario_path)) if Path(scenario_path).exists() else None
+        ),
+        "scenario_table_path": _display_path(scenario_path),
+        "outputs": {
+            "manifest": _display_path(manifest_path),
+            "doc": _display_path(doc_path),
+        },
+        "selected_edges": selected_edge_summary,
+        "review_items": [
+            "review whether scenario-only disruption treatment remains acceptable or must be replaced with public hazard or incident evidence",
+            "review temporal metadata before making any duration or recovery claim",
+            "keep rail-headway stress as policy/stress metadata until a first-class runtime disruption override is implemented",
+            "regenerate compact/full outputs after any scenario row, family, selected edge, or temporal metadata change",
+        ],
+        "remaining_blockers": [
+            "scenario rows are not observed disaster or incident data",
+            "duration and recovery columns are metadata only and are not dynamically applied by the scenario runner",
+            "rail-headway disruption and multi-hazard composition are not first-class runtime disruption components",
+            "formal parameter and final-study acceptance remain absent",
+        ],
+    }
+
+
+def write_disruption_scenario_manifest(
+    scenarios: Sequence[DisruptionScenario],
+    *,
+    scenario_path: str | Path = DEFAULT_SCENARIO_PATH,
+    manifest_path: str | Path = DEFAULT_SCENARIO_MANIFEST_PATH,
+    doc_path: str | Path = DEFAULT_SCENARIO_DOC_PATH,
+    selected_edges: Mapping[str, Sequence[ScenarioEdge]] | None = None,
+) -> dict[str, Any]:
+    """Write Phase 6 manifest and Markdown review document."""
+
+    manifest = build_disruption_scenario_manifest(
+        scenarios,
+        scenario_path=scenario_path,
+        manifest_path=manifest_path,
+        doc_path=doc_path,
+        selected_edges=selected_edges,
+    )
+    Path(manifest_path).parent.mkdir(parents=True, exist_ok=True)
+    Path(manifest_path).write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    Path(doc_path).parent.mkdir(parents=True, exist_ok=True)
+    Path(doc_path).write_text(
+        build_disruption_scenario_markdown(manifest),
+        encoding="utf-8",
+    )
+    return manifest
+
+
+def build_disruption_scenario_markdown(manifest: Mapping[str, Any]) -> str:
+    """Return a Markdown summary for the Phase 6 scenario library."""
+
+    lines = [
+        "# Disruption Scenario Library",
+        "",
+        str(manifest.get("claim_boundary", DISRUPTION_SCENARIO_SCOPE)),
+        "",
+        "## Verdict",
+        "",
+        f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
+        f"- Final-study ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
+        f"- Row count: `{manifest.get('row_count', 0)}`",
+        f"- Family counts: `{manifest.get('family_counts', {})}`",
+        f"- Temporal scope counts: `{manifest.get('temporal_scope_counts', {})}`",
+        "",
+        "## Family Checksums",
+        "",
+    ]
+    family_checksums = manifest.get("family_checksums", {})
+    if isinstance(family_checksums, Mapping):
+        for family, checksum in sorted(family_checksums.items()):
+            lines.append(f"- `{family}`: `{checksum}`")
+    lines.extend(["", "## Selected Edge Summary", ""])
+    selected_edges = manifest.get("selected_edges", {})
+    if isinstance(selected_edges, Mapping):
+        for scenario_id, summary in sorted(selected_edges.items()):
+            if not isinstance(summary, Mapping):
+                continue
+            lines.append(
+                f"- `{scenario_id}`: {summary.get('edge_count', 0)} selected edges; "
+                f"checksum `{summary.get('selected_edge_checksum', '')}`."
+            )
+    lines.extend(["", "## Remaining Blockers", ""])
+    lines.extend(f"- {item}" for item in manifest.get("remaining_blockers", []))
+    lines.append("")
+    return "\n".join(lines)
 
 
 def select_candidate_edges(
@@ -370,6 +543,17 @@ def _scenario_from_row(row: Mapping[str, str], row_number: int) -> DisruptionSce
         hazard_bbox=bbox,
         evidence_class=_required_row_text(row, "evidence_class", row_number),
         observed_disaster_data=_row_bool(row, "observed_disaster_data", row_number),
+        duration_min=_optional_row_float(row, "duration_min", row_number),
+        recovery_profile=_optional_row_text(
+            row,
+            "recovery_profile",
+            default=DEFAULT_RECOVERY_PROFILE,
+        ),
+        temporal_scope=_optional_row_text(
+            row,
+            "temporal_scope",
+            default=DEFAULT_TEMPORAL_SCOPE,
+        ),
         notes=str(row.get("notes", "") or "").strip(),
     )
 
@@ -414,6 +598,16 @@ def _optional_row_int(row: Mapping[str, str], field: str, row_number: int) -> in
     if not text:
         return None
     return _positive_int(text, f"row {row_number} field {field}")
+
+
+def _optional_row_text(
+    row: Mapping[str, str],
+    field: str,
+    *,
+    default: str,
+) -> str:
+    text = str(row.get(field, "") or "").strip()
+    return text or default
 
 
 def _row_bool(row: Mapping[str, str], field: str, row_number: int) -> bool:
@@ -726,6 +920,79 @@ def _point_in_bbox(point: tuple[float, float], bbox: HazardBbox) -> bool:
     return west <= lon <= east and south <= lat <= north
 
 
+def _scenario_manifest_row(scenario: DisruptionScenario) -> dict[str, Any]:
+    return {
+        "scenario_id": scenario.scenario_id,
+        "region_id": scenario.region_id,
+        "family": scenario.family,
+        "label": scenario.label,
+        "selection_method": scenario.selection_method,
+        "target_segment": scenario.target_segment,
+        "disruption_mode": scenario.disruption_mode,
+        "capacity_factor": scenario.capacity_factor,
+        "p_fail_scale": scenario.p_fail_scale,
+        "max_edges": scenario.max_edges,
+        "hazard_bbox": scenario.hazard_bbox,
+        "evidence_class": scenario.evidence_class,
+        "observed_disaster_data": scenario.observed_disaster_data,
+        "duration_min": scenario.duration_min,
+        "recovery_profile": scenario.recovery_profile,
+        "temporal_scope": scenario.temporal_scope,
+    }
+
+
+def _family_checksums(rows: Sequence[Mapping[str, Any]]) -> dict[str, str]:
+    grouped: dict[str, list[Mapping[str, Any]]] = {}
+    for row in rows:
+        grouped.setdefault(str(row["family"]), []).append(row)
+    return {
+        family: _json_digest(sorted(items, key=lambda item: str(item["scenario_id"])))
+        for family, items in sorted(grouped.items())
+    }
+
+
+def _selected_edge_summary(
+    selected_edges: Mapping[str, Sequence[ScenarioEdge]],
+) -> dict[str, dict[str, Any]]:
+    summary: dict[str, dict[str, Any]] = {}
+    for scenario_id, edges in selected_edges.items():
+        edge_rows = [
+            {
+                "edge": [str(selected.edge[0]), str(selected.edge[1])],
+                "family": selected.family,
+                "rank": selected.rank,
+                "realworld_edge_id": selected.realworld_edge_id,
+                "reason_category": selected.reason_category,
+            }
+            for selected in edges
+        ]
+        summary[scenario_id] = {
+            "edge_count": len(edge_rows),
+            "selected_edge_ids": [
+                str(row["realworld_edge_id"] or "->".join(row["edge"]))
+                for row in edge_rows
+            ],
+            "selected_edge_checksum": _json_digest(edge_rows),
+        }
+    return summary
+
+
+def _counts(values: Sequence[str] | Any) -> dict[str, int]:
+    return dict(sorted(Counter(str(value) for value in values).items()))
+
+
+def _json_digest(value: Any) -> str:
+    payload = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _display_path(path: str | Path) -> str:
+    try:
+        return str(Path(path).resolve().relative_to(Path(__file__).resolve().parents[2]))
+    except ValueError:
+        return str(path)
+
+
 def _bbox_center(bbox: HazardBbox) -> tuple[float, float]:
     west, south, east, north = bbox
     return ((west + east) / 2.0, (south + north) / 2.0)
@@ -818,8 +1085,13 @@ __all__ = [
     "ALLOWED_FAMILIES",
     "ALLOWED_SELECTION_METHODS",
     "CSV_COLUMNS",
+    "DEFAULT_RECOVERY_PROFILE",
     "DEFAULT_REQUIRED_NODES",
+    "DEFAULT_SCENARIO_DOC_PATH",
+    "DEFAULT_SCENARIO_MANIFEST_PATH",
     "DEFAULT_SCENARIO_PATH",
+    "DEFAULT_TEMPORAL_SCOPE",
+    "DISRUPTION_SCENARIO_SCOPE",
     "DisruptionScenario",
     "Edge",
     "HazardBbox",
@@ -827,6 +1099,8 @@ __all__ = [
     "SCENARIO_EDGE_ATTRS",
     "ScenarioEdge",
     "assert_required_family_coverage",
+    "build_disruption_scenario_manifest",
+    "build_disruption_scenario_markdown",
     "build_scenario_disruption_map",
     "build_scenario_edge_map",
     "load_disruption_scenarios",
@@ -837,4 +1111,5 @@ __all__ = [
     "scenario_to_edge_map",
     "select_candidate_edges",
     "validate_scenario_table",
+    "write_disruption_scenario_manifest",
 ]

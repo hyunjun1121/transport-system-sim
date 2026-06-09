@@ -333,7 +333,7 @@ def _review_items(status_counts: Mapping[str, int]) -> list[str]:
         items.append("review cached source snapshots, dates, licenses, and attribution")
     if status_counts.get("context_only_not_cached", 0):
         items.append(
-            "provide reviewed target payloads, sensitivity/context-only retention decisions, or exclusion decisions for context-source rows before final claims"
+            "provide reviewed target payloads, sensitivity/context-only retention decisions, or exclusion decisions for context-source rows before release-scope claims"
         )
     if status_counts.get("repository_input_pending_review", 0):
         items.append("review repository-defined assumptions and synthetic/privacy handling")

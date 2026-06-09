@@ -60,7 +60,7 @@
     {
       "claim_supported": "Formal target required for graph_scale_strategy",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "data/manifests/graph_scale_acceptance.json"
     },
     {
@@ -247,17 +247,17 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/graph_scale_acceptance.json",
   "gate": "graph_scale_strategy",
-  "generated_at": "2026-05-10T08:28:03+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Approve, reject, or keep blocked based on the existing review packet evidence.",
+    "Decide whether to clear, reject, or keep blocked based on the existing review packet evidence.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/graph_scale_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Graph-Scale Acceptance",
+  "label": "Graph-Scale Decision",
   "missing_evidence": [
     "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
     "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
@@ -324,21 +324,8 @@
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
     "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-    "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
-    "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
-    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
-    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
-    "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
-    "review graph-scale method-decision human-decision items before graph-scale acceptance",
-    "data/manifests/graph_scale_acceptance.json is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/graph_scale_strategy.md",

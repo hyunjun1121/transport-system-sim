@@ -69,7 +69,7 @@ Optional structural check:
 
 The strict flag fails only when the cached graph is missing, empty, or has no
 bus-practical routeable edges. Weak speed, capacity, and disruption evidence
-remain review items rather than being silently accepted.
+remain review items rather than being silently treated as evidence.
 
 Candidate speed-evidence table:
 

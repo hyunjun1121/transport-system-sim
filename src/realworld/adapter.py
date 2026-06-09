@@ -43,6 +43,7 @@ def build_simulator_graph(
         sorted(DEFAULT_ROUTEABLE_HIGHWAY_CLASSES)
     ),
     highway_defaults: Mapping[str, RoadClassDefaults] | None = None,
+    road_class_override_metadata: Mapping[str, Mapping[str, Any]] | None = None,
     validate_routes: bool = True,
 ) -> nx.DiGraph:
     """Convert an OSM-like road graph plus region spec to a simulator graph.
@@ -72,6 +73,15 @@ def build_simulator_graph(
         sorted(routeable_highway_classes or ())
     )
     simulator.graph["road_class_overrides_applied"] = highway_defaults is not None
+    simulator.graph["road_class_override_metadata_applied"] = (
+        road_class_override_metadata is not None
+    )
+    simulator.graph["road_class_override_highway_count"] = len(
+        road_class_override_metadata or {}
+    )
+    simulator.graph["road_class_override_highways"] = tuple(
+        sorted((road_class_override_metadata or {}).keys())
+    )
 
     for node, data in routeable_graph.nodes(data=True):
         if node in region_spec.canonical_ids:
@@ -83,6 +93,7 @@ def build_simulator_graph(
     for edge in _select_simulator_edges(
         routeable_graph,
         highway_defaults=highway_defaults,
+        road_class_override_metadata=road_class_override_metadata,
     ):
         u, v, attrs = edge
         simulator.add_edge(u, v, **attrs)
@@ -160,6 +171,7 @@ def _select_simulator_edges(
     road_graph: nx.Graph,
     *,
     highway_defaults: Mapping[str, RoadClassDefaults] | None = None,
+    road_class_override_metadata: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> list[tuple[Any, Any, dict[str, Any]]]:
     selected: dict[tuple[Any, Any], dict[str, Any]] = {}
     for u, v, key, data in _iter_directed_edges_with_keys(road_graph):
@@ -167,6 +179,10 @@ def _select_simulator_edges(
             data,
             edge_id=_edge_id(u, v, key, data),
             highway_defaults=highway_defaults,
+        )
+        _apply_road_class_override_metadata(
+            attrs,
+            road_class_override_metadata=road_class_override_metadata,
         )
         _validate_edge_attrs(attrs)
         edge = (u, v)
@@ -176,6 +192,38 @@ def _select_simulator_edges(
 
     edges = [(u, v, attrs) for (u, v), attrs in selected.items()]
     return sorted(edges, key=lambda item: (repr(item[0]), repr(item[1])))
+
+
+def _apply_road_class_override_metadata(
+    attrs: dict[str, Any],
+    *,
+    road_class_override_metadata: Mapping[str, Mapping[str, Any]] | None,
+) -> None:
+    if not road_class_override_metadata:
+        return
+    highway = str(attrs.get("highway", "")).strip().lower()
+    metadata = road_class_override_metadata.get(highway)
+    if not metadata:
+        return
+    assumptions = {
+        str(item)
+        for item in attrs.get("attribute_assumptions", ())
+        if str(item) in {"speed_kph", "capacity", "base_p_fail"}
+    }
+    if not assumptions:
+        return
+
+    attrs["road_class_override_applied"] = True
+    attrs["road_class_override_highway"] = highway
+    attrs["road_class_override_fields"] = tuple(sorted(assumptions))
+    attrs["road_class_override_source_class"] = str(
+        metadata.get("source_class", "")
+    )
+    attrs["road_class_override_source_name"] = str(metadata.get("source_name", ""))
+    attrs["road_class_override_source_url_or_citation"] = str(
+        metadata.get("source_url_or_citation", "")
+    )
+    attrs["road_class_override_notes"] = str(metadata.get("notes", ""))
 
 
 def _iter_directed_edges_with_keys(road_graph: nx.Graph) -> Iterable[tuple[Any, Any, Any, dict]]:

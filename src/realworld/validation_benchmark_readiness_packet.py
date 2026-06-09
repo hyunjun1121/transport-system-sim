@@ -53,8 +53,13 @@ VALIDATION_BENCHMARK_READINESS_COLUMNS: tuple[str, ...] = (
     "manifest_path",
     "manifest_present",
     "raw_response_file_count",
+    "raw_response_binding_mismatch_count",
+    "raw_response_missing_for_row_count",
+    "snap_status_counts",
+    "max_waypoint_snap_distance_m",
     "unpinned_row_count",
     "query_url_count",
+    "source_pinning_status",
     "readiness_status",
     "blocking_reason",
     "required_reviewer_action",
@@ -191,6 +196,19 @@ def build_validation_benchmark_readiness_manifest(
             osrm.get("raw_response_file_count", "")
         )
         or 0,
+        "osrm_raw_response_binding_mismatch_count": _int_value(
+            osrm.get("raw_response_binding_mismatch_count", "")
+        )
+        or 0,
+        "osrm_raw_response_missing_for_row_count": _int_value(
+            osrm.get("raw_response_missing_for_row_count", "")
+        )
+        or 0,
+        "osrm_snap_status_counts": osrm.get("snap_status_counts", ""),
+        "osrm_max_waypoint_snap_distance_m": osrm.get(
+            "max_waypoint_snap_distance_m",
+            "",
+        ),
         "osrm_unpinned_row_count": _int_value(osrm.get("unpinned_row_count", ""))
         or 0,
         "osrm_query_url_count": _int_value(osrm.get("query_url_count", "")) or 0,
@@ -232,7 +250,7 @@ def build_validation_benchmark_readiness_markdown(
     """Return Markdown benchmark readiness packet."""
 
     lines = [
-        "# Validation Benchmark Readiness Packet",
+        "# Benchmark Strategy Review Packet",
         "",
         str(manifest.get("claim_boundary", VALIDATION_BENCHMARK_READINESS_SCOPE)),
         "",
@@ -310,8 +328,13 @@ def _fallback_row(path: Path, rows: Sequence[Mapping[str, str]]) -> dict[str, st
         manifest_path=None,
         manifest_present=False,
         raw_response_file_count="",
+        raw_response_binding_mismatch_count="",
+        raw_response_missing_for_row_count="",
+        snap_status_counts="",
+        max_waypoint_snap_distance_m="",
         unpinned_row_count="",
         query_url_count="",
+        source_pinning_status="not_applicable_fallback",
         readiness_status=status,
         blocking_reason=reason,
         required_action=action,
@@ -327,8 +350,14 @@ def _osrm_row(
     status_counts = _status_counts(rows)
     manifest_present = manifest_path.exists() and manifest is not None
     raw_count = _manifest_int(manifest, "raw_response_file_count")
+    raw_mismatch_count = _manifest_int(manifest, "raw_response_binding_mismatch_count")
+    raw_missing_count = _manifest_int(manifest, "raw_response_missing_for_row_count")
     unpinned_count = _manifest_int(manifest, "unpinned_row_count")
     query_count = _manifest_int(manifest, "query_url_count")
+    snap_counts = _manifest_counts(manifest, "snap_status_counts")
+    max_snap_distance = "" if not manifest else str(
+        manifest.get("max_waypoint_snap_distance_m", "")
+    )
     if not path.exists():
         status, reason, action = (
             "needs_human_review_external_snapshot_absent",
@@ -341,6 +370,12 @@ def _osrm_row(
             "OSRM benchmark CSV is present but manifest is absent",
             "write the OSRM snapshot manifest before benchmark review",
         )
+    elif raw_mismatch_count > 0 or raw_missing_count > 0:
+        status, reason, action = (
+            "blocked_osrm_raw_payload_mismatch",
+            "OSRM manifest reports missing or mismatched raw payload bindings",
+            "regenerate or repair OSRM CSV/raw payloads before benchmark review",
+        )
     elif unpinned_count > 0:
         status, reason, action = (
             "blocked_unpinned_osrm_snapshot_rows",
@@ -352,6 +387,12 @@ def _osrm_row(
             "blocked_missing_osrm_raw_payloads",
             "OSRM manifest has no retained raw response payloads",
             "retain raw OSRM payloads and SHA256 values before publication use",
+        )
+    elif snap_counts.get("fail", 0) or snap_counts.get("warn", 0):
+        status, reason, action = (
+            "needs_human_review_osrm_snap_distance",
+            "",
+            "review OSRM waypoint snap distances before relying on route-comparison wording",
         )
     elif status_counts.get("fail", 0) or status_counts.get("warn", 0):
         status, reason, action = (
@@ -374,8 +415,15 @@ def _osrm_row(
         manifest_path=manifest_path,
         manifest_present=manifest_present,
         raw_response_file_count=str(raw_count),
+        raw_response_binding_mismatch_count=str(raw_mismatch_count),
+        raw_response_missing_for_row_count=str(raw_missing_count),
+        snap_status_counts=_format_counts(snap_counts),
+        max_waypoint_snap_distance_m=max_snap_distance,
         unpinned_row_count=str(unpinned_count),
         query_url_count=str(query_count),
+        source_pinning_status="pinned_cached_payloads"
+        if raw_count and not unpinned_count
+        else "unverified_or_unpinned_source",
         readiness_status=status,
         blocking_reason=reason,
         required_action=action,
@@ -395,8 +443,13 @@ def _alternative_engine_row() -> dict[str, str]:
         "manifest_path": "",
         "manifest_present": "false",
         "raw_response_file_count": "",
+        "raw_response_binding_mismatch_count": "",
+        "raw_response_missing_for_row_count": "",
+        "snap_status_counts": "",
+        "max_waypoint_snap_distance_m": "",
         "unpinned_row_count": "",
         "query_url_count": "",
+        "source_pinning_status": "not_reviewed",
         "readiness_status": "needs_human_review_alternative_benchmark_decision",
         "blocking_reason": "",
         "required_reviewer_action": (
@@ -423,8 +476,13 @@ def _validation_acceptance_row(path: Path) -> dict[str, str]:
         "manifest_path": "",
         "manifest_present": "false",
         "raw_response_file_count": "",
+        "raw_response_binding_mismatch_count": "",
+        "raw_response_missing_for_row_count": "",
+        "snap_status_counts": "",
+        "max_waypoint_snap_distance_m": "",
         "unpinned_row_count": "",
         "query_url_count": "",
+        "source_pinning_status": "not_applicable_acceptance_record",
         "readiness_status": (
             "needs_human_review_existing_validation_acceptance"
             if present
@@ -451,8 +509,13 @@ def _row(
     manifest_path: Path | None,
     manifest_present: bool,
     raw_response_file_count: str,
+    raw_response_binding_mismatch_count: str,
+    raw_response_missing_for_row_count: str,
+    snap_status_counts: str,
+    max_waypoint_snap_distance_m: str,
     unpinned_row_count: str,
     query_url_count: str,
+    source_pinning_status: str,
     readiness_status: str,
     blocking_reason: str,
     required_action: str,
@@ -473,8 +536,13 @@ def _row(
         "manifest_path": "" if manifest_path is None else _display_path(manifest_path),
         "manifest_present": str(manifest_present).lower(),
         "raw_response_file_count": raw_response_file_count,
+        "raw_response_binding_mismatch_count": raw_response_binding_mismatch_count,
+        "raw_response_missing_for_row_count": raw_response_missing_for_row_count,
+        "snap_status_counts": snap_status_counts,
+        "max_waypoint_snap_distance_m": max_waypoint_snap_distance_m,
         "unpinned_row_count": unpinned_row_count,
         "query_url_count": query_url_count,
+        "source_pinning_status": source_pinning_status,
         "readiness_status": readiness_status,
         "blocking_reason": blocking_reason,
         "required_reviewer_action": required_action,
@@ -535,6 +603,20 @@ def _manifest_int(manifest: Mapping[str, Any] | None, key: str) -> int:
     if not manifest:
         return 0
     return _int_value(manifest.get(key, "")) or 0
+
+
+def _manifest_counts(manifest: Mapping[str, Any] | None, key: str) -> dict[str, int]:
+    if not manifest:
+        return {}
+    value = manifest.get(key, {})
+    if not isinstance(value, Mapping):
+        return {}
+    counts: dict[str, int] = {}
+    for item_key, item_value in value.items():
+        parsed = _int_value(item_value)
+        if parsed is not None:
+            counts[str(item_key)] = parsed
+    return dict(sorted(counts.items()))
 
 
 def _int_value(value: Any) -> int | None:

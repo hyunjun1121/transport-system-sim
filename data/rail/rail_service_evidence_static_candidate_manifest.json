@@ -1,0 +1,52 @@
+{
+  "accepted_source_backed_rail_service_evidence": false,
+  "artifact_class": "non_formal_static_rail_service_candidate",
+  "can_mark_complete": false,
+  "can_support_acceptance_gate": false,
+  "can_support_final_study_gate": false,
+  "can_support_publication_gate": false,
+  "can_support_rail_evidence_gate": false,
+  "candidate_only": true,
+  "candidate_table_present": true,
+  "capacity_source_backed": false,
+  "capacity_value_status": "sensitivity_only_or_pending",
+  "claim_boundary": "Static timetable rail-service candidate only; not rail_service_evidence.csv, not rail evidence gate closure, not source/provenance acceptance, not observed transfer calibration, not publication readiness, not final-study readiness, and not formal acceptance. It can support reviewer triage only.",
+  "derived_field_counts": {
+    "capacity": 0,
+    "headway": 1,
+    "travel_time": 0
+  },
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "formal_target_path": "data/parameters/rail_service_evidence.csv",
+  "formal_target_written": false,
+  "gate_decision_authority": "none",
+  "inputs": {
+    "segment_pair_diagnostic_manifest": "data/rail/pilot_rail_static_timetable_segment_pair_diagnostic_manifest.json",
+    "timetable_cache_manifest": "data/rail/pilot_rail_static_timetable_cache_manifest.json"
+  },
+  "observed_transfer_calibration": false,
+  "outputs": {
+    "csv": "data/rail/rail_service_evidence_static_candidate.csv",
+    "doc": "docs/rail_service_evidence_static_candidate.md",
+    "manifest": "data/rail/rail_service_evidence_static_candidate_manifest.json"
+  },
+  "publication_ready": false,
+  "rail_service_evidence_written": false,
+  "rail_source_decision_recorded": false,
+  "remaining_blockers": [
+    "review static timetable source provenance, license, station identifier namespace, and filters",
+    "replace assumed transfer buffer with source-backed or reviewed bounded transfer treatment",
+    "record rail capacity as source-backed or explicitly retained sensitivity-only treatment",
+    "record formal rail source decisions before editing data/parameters/rail_service_evidence.csv",
+    "rerun rail, parameter, publication, and final-study audits after any formal rail evidence update"
+  ],
+  "replaces_data_parameters_rail_service_evidence": false,
+  "result_scope": "Static timetable rail-service candidate only; not rail_service_evidence.csv, not rail evidence gate closure, not source/provenance acceptance, not observed transfer calibration, not publication readiness, not final-study readiness, and not formal acceptance.",
+  "row_count": 1,
+  "schema_version": 1,
+  "source_license_or_provenance_review_status": "pending_or_not_recorded",
+  "source_provenance_accepted": false,
+  "travel_time_value_status": "proxy_not_derived",
+  "writes_default_rail_service_evidence_path": false
+}

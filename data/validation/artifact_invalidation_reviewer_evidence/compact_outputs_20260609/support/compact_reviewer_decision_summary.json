@@ -1,0 +1,38 @@
+{
+  "broader_blockers": [
+    "publication readiness",
+    "study-closeout completion",
+    "formal acceptance",
+    "operational routing",
+    "calibrated validation",
+    "real-world forecasting",
+    "rail evidence gate closure",
+    "experiment acceptance",
+    "replication adequacy",
+    "downstream analysis outputs",
+    "figures/reports/review packages"
+  ],
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "evidence_paths": [
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_summary.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_output_lock_receipt.json",
+    "data/validation/compact_scoped_output_audit_manifest.json",
+    "data/validation/compact_scoped_output_audit.csv",
+    "data/manifests/deterministic_rerun_audit_manifest.json",
+    "data/manifests/crn_pairing_audit_manifest.json",
+    "data/manifests/replication_adequacy_audit_manifest.json",
+    "data/validation/claim_language_guard_manifest.json"
+  ],
+  "reviewed_at_utc": "2026-06-09T15:40:00+09:00",
+  "reviewer_id": "gpt55_xhigh_compact_experiment_reviewer_019eab11_20260609",
+  "row_ids": [
+    "region_boundary->compact_outputs",
+    "road_snapshot_or_evidence->compact_outputs",
+    "rail_source_or_timing->compact_outputs",
+    "demand_fleet_behavior_transfer_dispatch->compact_outputs",
+    "disruption_library_or_exposure->compact_outputs"
+  ],
+  "scope_statement": "This reviewer evidence supports artifact-invalidation closeout only for the five compact_outputs rows. It supports setting those rows to closed_invalidation_only based on scoped compact-output regeneration and audit evidence only. It does not approve publication readiness, study-closeout completion, formal acceptance, calibrated validation, real-world forecasting, operational routing, rail evidence gate closure, statistical power or replication adequacy, CRN design acceptance, downstream analysis outputs, figures, reports, or review packages."
+}

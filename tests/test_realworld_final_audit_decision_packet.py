@@ -87,7 +87,7 @@ def test_final_audit_decision_writer_outputs_artifacts() -> None:
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 7
     assert written_manifest["final_audit_gate_closure_candidate_count"] == 0
-    assert "Final Audit Decision Packet" in doc_text
+    assert "Study Closeout Review Packet" in doc_text
 
     print("PASS: final-audit decision writer emits artifacts")
 

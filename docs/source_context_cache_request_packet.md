@@ -20,7 +20,7 @@ This packet converts context-source target artifacts into cache, sensitivity/con
 
 ## Required Reviewer Actions
 
-- Cache reviewed target source artifacts, retain each context-source row as sensitivity/context-only evidence, or explicitly exclude it from final claims.
+- Cache reviewed target source artifacts, retain each context-source row as sensitivity/context-only evidence, or explicitly exclude it from release-scope claims.
 - Review terms, attribution, extraction date, retained raw response, and reproducibility before using a cached source.
 - Treat helper scripts as derivation paths only; they do not prove source suitability or close acceptance gates.
 - Create `data/manifests/provenance_acceptance.json` only after source-backed review.

@@ -10,6 +10,18 @@ from typing import Any, Mapping
 
 MetadataValue = str | int | float | bool | None
 Metadata = dict[str, MetadataValue]
+ALLOWED_BOUNDARY_TYPES = frozenset({"bbox", "polygon"})
+ALLOWED_SENSITIVITY_LEVELS = frozenset(
+    {
+        "unspecified",
+        "non_sensitive",
+        "public",
+        "synthetic",
+        "privacy_review_required",
+        "sensitive_review_required",
+        "restricted",
+    }
+)
 
 
 def _require_mapping(value: Any, path: str) -> Mapping[str, Any]:
@@ -105,31 +117,41 @@ def validate_metadata(value: Any | None, path: str = "metadata") -> Metadata:
 
 @dataclass(frozen=True)
 class BoundarySpec:
-    """A rectangular extraction boundary in WGS84 coordinates."""
+    """An extraction boundary in WGS84 coordinates.
+
+    Polygon boundaries are represented by a polygon artifact path plus a bbox
+    envelope. The envelope keeps current fast point and graph checks stable
+    until polygon geometry validation is introduced.
+    """
 
     type: str
     north: float
     south: float
     east: float
     west: float
+    polygon_path: str | None = None
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any], path: str = "boundary") -> "BoundarySpec":
         mapping = _require_mapping(value, path)
         boundary_type = _require_string(mapping.get("type"), f"{path}.type")
-        if boundary_type != "bbox":
-            raise ValueError(f"{path}.type must be 'bbox'")
+        if boundary_type not in ALLOWED_BOUNDARY_TYPES:
+            raise ValueError(f"{path}.type must be 'bbox' or 'polygon'")
         return cls(
             type=boundary_type,
             north=_require_lat(mapping.get("north"), f"{path}.north"),
             south=_require_lat(mapping.get("south"), f"{path}.south"),
             east=_require_lon(mapping.get("east"), f"{path}.east"),
             west=_require_lon(mapping.get("west"), f"{path}.west"),
+            polygon_path=_require_optional_string(
+                mapping.get("polygon_path"),
+                f"{path}.polygon_path",
+            ),
         )
 
     def __post_init__(self) -> None:
-        if self.type != "bbox":
-            raise ValueError("boundary.type must be 'bbox'")
+        if self.type not in ALLOWED_BOUNDARY_TYPES:
+            raise ValueError("boundary.type must be 'bbox' or 'polygon'")
         north = _require_lat(self.north, "boundary.north")
         south = _require_lat(self.south, "boundary.south")
         east = _require_lon(self.east, "boundary.east")
@@ -142,6 +164,18 @@ class BoundarySpec:
         object.__setattr__(self, "south", south)
         object.__setattr__(self, "east", east)
         object.__setattr__(self, "west", west)
+        if self.type == "polygon":
+            object.__setattr__(
+                self,
+                "polygon_path",
+                _require_string(self.polygon_path, "boundary.polygon_path"),
+            )
+        else:
+            object.__setattr__(
+                self,
+                "polygon_path",
+                _require_optional_string(self.polygon_path, "boundary.polygon_path"),
+            )
 
     def contains(self, lat: float, lon: float) -> bool:
         """Return whether a coordinate falls inside or on the bbox."""
@@ -222,6 +256,56 @@ class RailPointSpec:
 
 
 @dataclass(frozen=True)
+class SourceRefSpec:
+    """A review-aid reference to one source provenance record."""
+
+    source_id: str
+    role: str
+    local_artifact_path: str | None = None
+    review_status: str | None = None
+
+    @classmethod
+    def from_mapping(cls, value: Mapping[str, Any], path: str) -> "SourceRefSpec":
+        mapping = _require_mapping(value, path)
+        return cls(
+            source_id=_require_string(mapping.get("source_id"), f"{path}.source_id"),
+            role=_require_string(mapping.get("role"), f"{path}.role"),
+            local_artifact_path=_require_optional_string(
+                mapping.get("local_artifact_path"),
+                f"{path}.local_artifact_path",
+            ),
+            review_status=_require_optional_string(
+                mapping.get("review_status"),
+                f"{path}.review_status",
+            ),
+        )
+
+    def __post_init__(self) -> None:
+        object.__setattr__(
+            self,
+            "source_id",
+            _require_string(self.source_id, "source_ref.source_id"),
+        )
+        object.__setattr__(self, "role", _require_string(self.role, "source_ref.role"))
+        object.__setattr__(
+            self,
+            "local_artifact_path",
+            _require_optional_string(
+                self.local_artifact_path,
+                f"source_ref {self.source_id}.local_artifact_path",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "review_status",
+            _require_optional_string(
+                self.review_status,
+                f"source_ref {self.source_id}.review_status",
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class RailSpec:
     """Fixed-headway rail service inputs for the regional pipeline."""
 
@@ -289,21 +373,29 @@ class RegionSpec:
     destination_zones: tuple[ZoneSpec, ...]
     rail: RailSpec
     metadata: Metadata | None = None
+    sensitivity_level: str = "unspecified"
+    source_refs: tuple[SourceRefSpec, ...] = ()
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any], path: str = "region") -> "RegionSpec":
         mapping = _require_mapping(value, path)
+        name_value = mapping.get("name", mapping.get("label"))
         return cls(
             region_id=_require_string(mapping.get("region_id"), f"{path}.region_id"),
-            name=_require_string(mapping.get("name"), f"{path}.name"),
+            name=_require_string(name_value, f"{path}.name"),
             boundary=BoundarySpec.from_mapping(mapping.get("boundary"), f"{path}.boundary"),
-            assembly_zones=_load_zones(mapping.get("assembly_zones"), f"{path}.assembly_zones"),
+            assembly_zones=_load_zones(
+                _zone_alias_value(mapping, "assembly_zones", "origin_zones"),
+                f"{path}.assembly_zones",
+            ),
             destination_zones=_load_zones(
                 mapping.get("destination_zones"),
                 f"{path}.destination_zones",
             ),
             rail=RailSpec.from_mapping(mapping.get("rail"), f"{path}.rail"),
             metadata=validate_metadata(mapping.get("metadata"), f"{path}.metadata"),
+            sensitivity_level=_region_sensitivity_level(mapping),
+            source_refs=_load_source_refs(mapping.get("source_refs"), f"{path}.source_refs"),
         )
 
     def __post_init__(self) -> None:
@@ -324,8 +416,33 @@ class RegionSpec:
         if not isinstance(self.rail, RailSpec):
             raise ValueError("region.rail must be a RailSpec")
         object.__setattr__(self, "metadata", validate_metadata(self.metadata, "region.metadata"))
+        object.__setattr__(
+            self,
+            "sensitivity_level",
+            _validate_sensitivity_level(
+                self.sensitivity_level,
+                "region.sensitivity_level",
+            ),
+        )
+        object.__setattr__(
+            self,
+            "source_refs",
+            _validate_source_ref_tuple(self.source_refs, "region.source_refs"),
+        )
         _validate_unique_ids(self)
         _validate_points_inside_boundary(self)
+
+    @property
+    def label(self) -> str:
+        """Return the human-readable region label."""
+
+        return self.name
+
+    @property
+    def origin_zones(self) -> tuple[ZoneSpec, ...]:
+        """Return assembly zones using the broader Phase 1 registry vocabulary."""
+
+        return self.assembly_zones
 
     @property
     def primary_assembly(self) -> ZoneSpec:
@@ -388,6 +505,12 @@ def _load_zones(value: Any, path: str) -> tuple[ZoneSpec, ...]:
     return tuple(ZoneSpec.from_mapping(item, f"{path}[{index}]") for index, item in enumerate(value))
 
 
+def _zone_alias_value(mapping: Mapping[str, Any], primary: str, alias: str) -> Any:
+    if primary in mapping:
+        return mapping.get(primary)
+    return mapping.get(alias)
+
+
 def _validate_zone_tuple(value: Any, path: str) -> tuple[ZoneSpec, ...]:
     if isinstance(value, ZoneSpec):
         zones = (value,)
@@ -404,6 +527,51 @@ def _validate_zone_tuple(value: Any, path: str) -> tuple[ZoneSpec, ...]:
         if not isinstance(zone, ZoneSpec):
             raise ValueError(f"{path}[{index}] must be a ZoneSpec")
     return zones
+
+
+def _load_source_refs(value: Any | None, path: str) -> tuple[SourceRefSpec, ...]:
+    if value is None:
+        return ()
+    if isinstance(value, Mapping):
+        return (SourceRefSpec.from_mapping(value, path),)
+    if isinstance(value, (str, bytes)) or not isinstance(value, list | tuple):
+        raise ValueError(f"{path} must be a list of source reference mappings")
+    return tuple(
+        SourceRefSpec.from_mapping(item, f"{path}[{index}]")
+        for index, item in enumerate(value)
+    )
+
+
+def _validate_source_ref_tuple(value: Any, path: str) -> tuple[SourceRefSpec, ...]:
+    if isinstance(value, SourceRefSpec):
+        refs = (value,)
+    elif isinstance(value, tuple):
+        refs = value
+    elif isinstance(value, list):
+        refs = tuple(value)
+    else:
+        raise ValueError(f"{path} must contain SourceRefSpec records")
+    for index, source_ref in enumerate(refs):
+        if not isinstance(source_ref, SourceRefSpec):
+            raise ValueError(f"{path}[{index}] must be a SourceRefSpec")
+    return refs
+
+
+def _region_sensitivity_level(mapping: Mapping[str, Any]) -> str:
+    if "sensitivity_level" in mapping:
+        return _require_string(mapping.get("sensitivity_level"), "region.sensitivity_level")
+    metadata = mapping.get("metadata")
+    if isinstance(metadata, Mapping) and "data_sensitivity" in metadata:
+        return _require_string(metadata.get("data_sensitivity"), "region.metadata.data_sensitivity")
+    return "unspecified"
+
+
+def _validate_sensitivity_level(value: Any, path: str) -> str:
+    level = _require_string(value, path)
+    if level not in ALLOWED_SENSITIVITY_LEVELS:
+        allowed = ", ".join(sorted(ALLOWED_SENSITIVITY_LEVELS))
+        raise ValueError(f"{path} must be one of: {allowed}")
+    return level
 
 
 def _validate_unique_ids(region: RegionSpec) -> None:
@@ -439,12 +607,15 @@ def _validate_points_inside_boundary(region: RegionSpec) -> None:
 
 
 __all__ = [
+    "ALLOWED_BOUNDARY_TYPES",
+    "ALLOWED_SENSITIVITY_LEVELS",
     "BoundarySpec",
     "Metadata",
     "MetadataValue",
     "RailPointSpec",
     "RailSpec",
     "RegionSpec",
+    "SourceRefSpec",
     "ZoneSpec",
     "validate_metadata",
 ]

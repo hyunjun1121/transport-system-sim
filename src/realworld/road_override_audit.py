@@ -65,21 +65,26 @@ def audit_road_class_override_evidence(
         for override in overrides
         if override.source_class not in STRONG_SOURCE_CLASSES
     ]
+    field_source_counts = _field_source_counts(overrides)
+    weak_field_entries = _weak_field_entries(overrides)
     return {
-        "publication_ready": not weak_rows,
+        "publication_ready": not weak_rows and not weak_field_entries,
         "path": _display_path(override_path),
         "override_table_present": True,
         "row_count": len(overrides),
         "highway_classes": sorted({override.highway for override in overrides}),
         "source_class_counts": dict(sorted(source_counts.items())),
+        "field_source_class_counts": field_source_counts,
         "weak_row_count": len(weak_rows),
         "weak_highway_classes": sorted({override.highway for override in weak_rows}),
+        "weak_field_count": len(weak_field_entries),
+        "weak_field_entries": weak_field_entries,
         "claim_boundary": (
             "This audit checks override-table source strength only. It does not "
             "prove the overrides were applied to a result graph or calibrated "
             "against observed traffic."
         ),
-        "remaining_blockers": _blockers(weak_rows),
+        "remaining_blockers": _blockers(weak_rows, weak_field_entries),
     }
 
 
@@ -165,16 +170,56 @@ def audit_road_class_override_application(
     }
 
 
-def _blockers(weak_rows: list[object]) -> list[str]:
+def _blockers(
+    weak_rows: list[object],
+    weak_field_entries: list[dict[str, str]] | None = None,
+) -> list[str]:
     blockers: list[str] = []
     if weak_rows:
         blockers.append(
             "replace expert-assumption or sensitivity-only road override rows with public, literature, agency, or benchmark-calibrated evidence"
         )
+    if weak_field_entries:
+        blockers.append(
+            "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed"
+        )
     blockers.append(
         "verify graph-adapter runs apply the reviewed override table before using road-calibration claims"
     )
     return blockers
+
+
+def _field_source_counts(overrides: list[object]) -> dict[str, dict[str, int]]:
+    counters: dict[str, Counter[str]] = {
+        "speed_kph": Counter(),
+        "capacity_veh_per_hr": Counter(),
+        "base_p_fail": Counter(),
+    }
+    for override in overrides:
+        counters["speed_kph"][override.speed_source_class] += 1
+        counters["capacity_veh_per_hr"][override.capacity_source_class] += 1
+        counters["base_p_fail"][override.base_p_fail_source_class] += 1
+    return {field: dict(sorted(counter.items())) for field, counter in counters.items()}
+
+
+def _weak_field_entries(overrides: list[object]) -> list[dict[str, str]]:
+    entries: list[dict[str, str]] = []
+    for override in overrides:
+        candidates = (
+            ("speed_kph", override.speed_source_class),
+            ("capacity_veh_per_hr", override.capacity_source_class),
+            ("base_p_fail", override.base_p_fail_source_class),
+        )
+        for field_name, source_class in candidates:
+            if source_class not in STRONG_SOURCE_CLASSES:
+                entries.append(
+                    {
+                        "highway": override.highway,
+                        "field": field_name,
+                        "source_class": source_class,
+                    }
+                )
+    return entries
 
 
 def _draft_summary(path: Path) -> dict[str, Any]:
@@ -190,12 +235,15 @@ def _draft_summary(path: Path) -> dict[str, Any]:
         }
     overrides = load_road_class_overrides(path)
     source_counts = Counter(override.source_class for override in overrides)
+    weak_field_entries = _weak_field_entries(overrides)
     return {
         "draft_table_present": True,
         "draft_path": _display_path(path),
         "draft_row_count": len(overrides),
         "draft_highway_classes": sorted({override.highway for override in overrides}),
         "draft_source_class_counts": dict(sorted(source_counts.items())),
+        "draft_field_source_class_counts": _field_source_counts(overrides),
+        "draft_weak_field_count": len(weak_field_entries),
         "draft_claim_boundary": (
             "The draft override table is a reviewer worksheet populated with "
             "current mapper defaults. It is not reviewed road evidence and "

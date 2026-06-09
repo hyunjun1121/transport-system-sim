@@ -49,6 +49,10 @@ def test_integrated_evidence_review_rows_classify_current_state() -> None:
         in by_id["e2_rail_timing_capacity_dependency"]["evidence_input_paths"]
     )
     assert (
+        "accepted_source_backed_rail_service_evidence=false"
+        in by_id["e2_rail_timing_capacity_dependency"]["current_evidence"]
+    )
+    assert (
         "data/manifests/source_provenance_decision_packet.csv"
         in by_id["integrated_claim_boundary"]["evidence_input_paths"]
     )

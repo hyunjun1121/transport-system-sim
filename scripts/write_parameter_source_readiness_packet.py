@@ -1,4 +1,4 @@
-"""Write the current parameter source-readiness packet."""
+"""Write the current parameter source review packet."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write parameter source-readiness rows from the current parameter "
+            "Write parameter source review rows from the current parameter "
             "evidence source-request packet. The output is a reviewer packet "
             "and does not accept weak parameters."
         )
@@ -59,19 +59,19 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--output",
         type=Path,
         default=DEFAULT_PARAMETER_SOURCE_READINESS_PACKET_PATH,
-        help="Parameter source-readiness CSV path.",
+        help="Parameter source review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_PARAMETER_SOURCE_READINESS_MANIFEST_PATH,
-        help="Parameter source-readiness manifest JSON path.",
+        help="Parameter source review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_PARAMETER_SOURCE_READINESS_DOC_PATH,
-        help="Parameter source-readiness Markdown path.",
+        help="Parameter source review Markdown path.",
     )
     return parser.parse_args(argv)
 

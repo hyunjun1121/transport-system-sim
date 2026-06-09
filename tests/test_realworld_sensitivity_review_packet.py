@@ -37,7 +37,7 @@ def test_sensitivity_review_rows_summarize_current_morris_diagnostics() -> None:
         "result_scope",
         "sobol_decision_requirement",
     }
-    assert by_category["structural_readiness"]["diagnostic_status"] == "ready_for_review"
+    assert by_category["structural_readiness"]["diagnostic_status"] == "available_for_review"
     assert by_category["missing_or_nonfinite_morris_indices"]["diagnostic_status"] == (
         "review_required_unavailable_indices"
     )
@@ -104,7 +104,7 @@ def test_sensitivity_review_rows_handle_temp_fixture_index_issues() -> None:
         )
         by_category = {row["category_id"]: row for row in rows}
 
-        assert by_category["structural_readiness"]["diagnostic_status"] == "ready_for_review"
+        assert by_category["structural_readiness"]["diagnostic_status"] == "available_for_review"
         assert by_category["missing_or_nonfinite_morris_indices"]["affected_row_count"] == "1"
         assert "sigma=1" in by_category["missing_or_nonfinite_morris_indices"]["diagnostic_detail"]
         assert by_category["zero_mu_star_rows"]["affected_row_count"] == "1"

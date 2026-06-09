@@ -35,7 +35,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
     assert by_id["reproducibility_manifest_scope_decision"]["decision_status"] == (
         "blocked_scaffold_reproducibility_manifest_scope"
     )
-    assert by_id["validation_command_ladder_decision"]["decision_status"] == (
+    assert by_id["command_ladder_scope_decision"]["decision_status"] == (
         "needs_human_review_command_ladder_scope"
     )
     assert by_id["clean_checkout_evidence_scope_decision"]["decision_status"] == (

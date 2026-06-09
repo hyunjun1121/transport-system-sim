@@ -4,7 +4,7 @@ This module consolidates rail station bindings, current rail-service evidence,
 rail assumptions, and available cached-derivation paths into one review
 worksheet. The packet supports rail-evidence review; it is not timetable
 calibration, GTFS validation, emergency rail availability evidence, or
-operational routing evidence.
+route-use evidence.
 """
 
 from __future__ import annotations
@@ -40,6 +40,25 @@ DEFAULT_RAIL_EVIDENCE_REVIEW_MANIFEST_PATH = (
 )
 METRO9_CAPACITY_EXTRACT_PATH = "data/rail/metro9_capacity_source_extract.csv"
 METRO9_CAPACITY_RAW_PATH = "data/rail/metro9_capacity_source_raw.html"
+STATIC_TIMETABLE_CACHE_PATH = PROJECT_ROOT / "data" / "rail" / "pilot_rail_static_timetable_cache.csv"
+STATIC_TIMETABLE_CACHE_MANIFEST_PATH = (
+    PROJECT_ROOT / "data" / "rail" / "pilot_rail_static_timetable_cache_manifest.json"
+)
+STATIC_TIMETABLE_DIAGNOSTIC_CSV_PATH = (
+    PROJECT_ROOT
+    / "data"
+    / "rail"
+    / "pilot_rail_static_timetable_segment_pair_diagnostic.csv"
+)
+STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH = (
+    PROJECT_ROOT
+    / "data"
+    / "rail"
+    / "pilot_rail_static_timetable_segment_pair_diagnostic_manifest.json"
+)
+STATIC_TIMETABLE_DIAGNOSTIC_DOC_PATH = (
+    PROJECT_ROOT / "docs" / "rail_static_timetable_segment_pair_diagnostic.md"
+)
 RAIL_CAPACITY_REVIEW_ARTIFACTS = (
     "data/parameters/rail_assumptions.csv; "
     f"{METRO9_CAPACITY_EXTRACT_PATH}; "
@@ -47,9 +66,9 @@ RAIL_CAPACITY_REVIEW_ARTIFACTS = (
     "data/parameters/parameter_sources.csv"
 )
 RAIL_EVIDENCE_REVIEW_PACKET_SCOPE = (
-    "Rail evidence review packet; not accepted rail-service calibration, "
-    "GTFS validation, emergency rail availability evidence, or operational "
-    "routing evidence."
+    "Rail evidence review packet; review support only, not rail-service "
+    "calibration, GTFS validation, emergency rail availability evidence, or "
+    "route-use evidence."
 )
 RAIL_EVIDENCE_REVIEW_COLUMNS: tuple[str, ...] = (
     "review_item_id",
@@ -125,6 +144,13 @@ def build_rail_evidence_review_rows(
             station_summary=station_summary,
         )
     )
+    rows.extend(
+        _static_timetable_review_rows(
+            service_record=service_record,
+            service_summary=service_summary,
+            station_summary=station_summary,
+        )
+    )
     return rows
 
 
@@ -165,6 +191,16 @@ def write_rail_evidence_review_packet(
             "rail_assumptions": _display_path(assumptions_path),
             "metro9_capacity_extract": METRO9_CAPACITY_EXTRACT_PATH,
             "metro9_capacity_raw": METRO9_CAPACITY_RAW_PATH,
+            "static_timetable_cache": _display_path(STATIC_TIMETABLE_CACHE_PATH),
+            "static_timetable_cache_manifest": _display_path(
+                STATIC_TIMETABLE_CACHE_MANIFEST_PATH
+            ),
+            "static_timetable_segment_pair_diagnostic": _display_path(
+                STATIC_TIMETABLE_DIAGNOSTIC_CSV_PATH
+            ),
+            "static_timetable_segment_pair_diagnostic_manifest": _display_path(
+                STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH
+            ),
         },
         "outputs": {
             "rail_evidence_review_packet": _display_path(output),
@@ -184,14 +220,15 @@ def write_rail_evidence_review_packet(
             "This packet organizes rail-evidence review. It does not derive "
             "headway or travel time from a cached timetable, GTFS feed, or "
             "shortest-path artifact, and it does not certify emergency rail "
-            "availability or operational route feasibility."
+            "availability or route-use feasibility."
         ),
         "review_items": [
             "cache and review timetable, GTFS, or shortest-path timing evidence",
             "derive headway and travel time into rail_service_evidence.csv with source artifact SHA256",
+            "review the retained static timetable cache and segment-pair diagnostic without treating them as evidence",
             "keep rail capacity source-backed or explicitly sensitivity-only",
             "add rail delay, unavailability, and station-access scenarios before stronger resilience claims",
-            "rerun rail, publication-readiness, and final-study-readiness audits after rail evidence changes",
+            "rerun rail, publication, and study-readiness audits after rail evidence changes",
         ],
     }
     with manifest.open("w", encoding="utf-8") as handle:
@@ -535,6 +572,125 @@ def _derivation_row(
     )
 
 
+def _static_timetable_review_rows(
+    *,
+    service_record: RailServiceEvidence,
+    service_summary: Mapping[str, object],
+    station_summary: Mapping[str, object],
+) -> list[dict[str, str]]:
+    cache_manifest = _load_optional_json(STATIC_TIMETABLE_CACHE_MANIFEST_PATH)
+    diagnostic_manifest = _load_optional_json(STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH)
+
+    cache_present = STATIC_TIMETABLE_CACHE_PATH.exists()
+    cache_manifest_present = STATIC_TIMETABLE_CACHE_MANIFEST_PATH.exists()
+    cache_guarded = (
+        cache_present
+        and cache_manifest_present
+        and cache_manifest is not None
+        and cache_manifest.get("publication_ready") is False
+        and cache_manifest.get("final_study_ready") is False
+        and cache_manifest.get("formal_acceptance_evidence") is False
+        and cache_manifest.get("can_support_rail_evidence_gate") is False
+    )
+
+    diagnostic_present = STATIC_TIMETABLE_DIAGNOSTIC_CSV_PATH.exists()
+    diagnostic_manifest_present = STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH.exists()
+    diagnostic_guarded = (
+        diagnostic_present
+        and diagnostic_manifest_present
+        and diagnostic_manifest is not None
+        and diagnostic_manifest.get("diagnostic_only") is True
+        and diagnostic_manifest.get("publication_ready") is False
+        and diagnostic_manifest.get("final_study_ready") is False
+        and diagnostic_manifest.get("formal_acceptance_evidence") is False
+        and diagnostic_manifest.get("can_support_rail_evidence_gate") is False
+        and diagnostic_manifest.get("can_support_transfer_evidence_gate") is False
+    )
+
+    return [
+        _row(
+            review_item_id="rail_static_timetable_cache_review",
+            region_id=service_record.region_id,
+            evidence_group="source_cache_review",
+            rail_component="static_timetable_cache",
+            current_value=_static_cache_current_value(cache_manifest, cache_present),
+            unit="cache",
+            evidence_status=(
+                "static_timetable_cache_retained_not_evidence"
+                if cache_guarded
+                else "static_timetable_cache_missing_or_unguarded"
+            ),
+            source_status="reviewed_static_source_candidate_not_accepted_evidence",
+            source_artifact_status=(
+                "static_cache_manifest_retained_non_evidence"
+                if cache_guarded
+                else "static_cache_manifest_missing_or_unguarded"
+            ),
+            station_binding_ready=bool(station_summary["binding_ready"]),
+            service_publication_ready=bool(service_summary["publication_ready"]),
+            weak_for_final_claim=True,
+            review_priority="medium",
+            current_source=_static_cache_source(cache_manifest),
+            candidate_artifacts=(
+                f"{_display_path(STATIC_TIMETABLE_CACHE_PATH)}; "
+                f"{_display_path(STATIC_TIMETABLE_CACHE_MANIFEST_PATH)}"
+            ),
+            recommended_upgrade=(
+                "Review the static cache source, column mapping, and station "
+                "identifier namespace before deriving rail evidence."
+            ),
+            publication_use_status="static_cache_review_only_not_evidence",
+            notes=(
+                "Static cache rows are retained for review only. They do not "
+                "derive rail_service_evidence.csv or close rail evidence gates."
+            ),
+        ),
+        _row(
+            review_item_id="rail_static_timetable_segment_pair_diagnostic",
+            region_id=service_record.region_id,
+            evidence_group="diagnostic_artifact",
+            rail_component="static_segment_pair_diagnostic",
+            current_value=_static_diagnostic_current_value(
+                diagnostic_manifest,
+                diagnostic_present,
+            ),
+            unit="diagnostic",
+            evidence_status=(
+                "static_segment_pair_diagnostic_retained_not_evidence"
+                if diagnostic_guarded
+                else "static_segment_pair_diagnostic_missing_or_unguarded"
+            ),
+            source_status="static_timetable_diagnostic_not_transfer_calibration",
+            source_artifact_status=(
+                "diagnostic_manifest_retained_non_evidence"
+                if diagnostic_guarded
+                else "diagnostic_manifest_missing_or_unguarded"
+            ),
+            station_binding_ready=bool(station_summary["binding_ready"]),
+            service_publication_ready=bool(service_summary["publication_ready"]),
+            weak_for_final_claim=True,
+            review_priority="medium",
+            current_source=_static_diagnostic_source(diagnostic_manifest),
+            candidate_artifacts=(
+                f"{_display_path(STATIC_TIMETABLE_DIAGNOSTIC_CSV_PATH)}; "
+                f"{_display_path(STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH)}; "
+                f"{_display_path(STATIC_TIMETABLE_DIAGNOSTIC_DOC_PATH)}"
+            ),
+            recommended_upgrade=(
+                "Use the diagnostic only to target reviewer questions; collect "
+                "source-backed transfer, shortest-path, GTFS, or timetable "
+                "evidence before any release-scope rail timing claim."
+            ),
+            publication_use_status="diagnostic_review_only_not_evidence",
+            notes=(
+                "Segment-pair diagnostic uses an explicit transfer buffer and "
+                "does not validate observed transfer walking, crowding, or "
+                "route-use rail movement."
+            ),
+        ),
+    ]
+
+
 def _row(
     *,
     review_item_id: str,
@@ -674,6 +830,75 @@ def _all_bool(rows: Sequence[Mapping[str, str]], column: str) -> bool:
     return all(str(row.get(column, "")).lower() == "true" for row in rows)
 
 
+def _load_optional_json(path: str | Path) -> dict[str, Any] | None:
+    json_path = Path(path)
+    if not json_path.exists():
+        return None
+    try:
+        with json_path.open("r", encoding="utf-8") as handle:
+            value = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(value, dict):
+        return None
+    return value
+
+
+def _static_cache_current_value(
+    manifest: Mapping[str, Any] | None,
+    cache_present: bool,
+) -> str:
+    if not cache_present:
+        return "missing"
+    if manifest is None:
+        return "present_without_readable_manifest"
+    return (
+        "present; "
+        f"normalized_event_count={manifest.get('normalized_event_count', '')}; "
+        f"access_event_count={manifest.get('access_event_count', '')}; "
+        f"egress_event_count={manifest.get('egress_event_count', '')}"
+    )
+
+
+def _static_diagnostic_current_value(
+    manifest: Mapping[str, Any] | None,
+    diagnostic_present: bool,
+) -> str:
+    if not diagnostic_present:
+        return "missing"
+    if manifest is None:
+        return "present_without_readable_manifest"
+    summary = manifest.get("connection_summary", {})
+    if not isinstance(summary, Mapping):
+        summary = {}
+    return (
+        "present; "
+        f"feasible_connection_count={manifest.get('feasible_connection_count', '')}; "
+        f"median_total_min={summary.get('median_total_min', '')}; "
+        f"p90_total_min={summary.get('p90_total_min', '')}"
+    )
+
+
+def _static_cache_source(manifest: Mapping[str, Any] | None) -> str:
+    if manifest is None:
+        return "static timetable cache manifest missing or unreadable"
+    return (
+        f"{manifest.get('input_path', '')}; "
+        f"input_sha256={manifest.get('input_sha256', '')}; "
+        f"review_status={manifest.get('source_license_or_provenance_review_status', '')}"
+    )
+
+
+def _static_diagnostic_source(manifest: Mapping[str, Any] | None) -> str:
+    if manifest is None:
+        return "static timetable diagnostic manifest missing or unreadable"
+    return (
+        f"{manifest.get('source_path', '')}; "
+        f"source_sha256={manifest.get('source_sha256', '')}; "
+        f"diagnostic_only={str(manifest.get('diagnostic_only', '')).lower()}"
+    )
+
+
 def _display_path(path: str | Path) -> str:
     value = Path(path)
     try:
@@ -691,6 +916,11 @@ __all__ = [
     "RAIL_CAPACITY_REVIEW_ARTIFACTS",
     "RAIL_EVIDENCE_REVIEW_COLUMNS",
     "RAIL_EVIDENCE_REVIEW_PACKET_SCOPE",
+    "STATIC_TIMETABLE_CACHE_MANIFEST_PATH",
+    "STATIC_TIMETABLE_CACHE_PATH",
+    "STATIC_TIMETABLE_DIAGNOSTIC_CSV_PATH",
+    "STATIC_TIMETABLE_DIAGNOSTIC_DOC_PATH",
+    "STATIC_TIMETABLE_DIAGNOSTIC_MANIFEST_PATH",
     "build_rail_evidence_review_rows",
     "write_rail_evidence_review_packet",
 ]

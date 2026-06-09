@@ -35,6 +35,6 @@ Source URL review packet only; not source acceptance, not license certification,
 ## Required Reviewer Actions
 
 - Verify the official source page, license, attribution, and derivative-use constraints.
-- Provide reviewed target payloads, retain context-source URLs as sensitivity/context-only evidence, or explicitly exclude them from final claims.
+- Provide reviewed target payloads, retain context-source URLs as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims.
 - Treat `reachable` as a transient connectivity observation, not acceptance evidence.
 - Create `data/manifests/provenance_acceptance.json` only after source-backed review.

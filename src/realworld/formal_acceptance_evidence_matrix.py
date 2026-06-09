@@ -48,8 +48,8 @@ DEFAULT_EVIDENCE_MATRIX_DOC_PATH = (
 )
 
 EVIDENCE_MATRIX_BOUNDARY = (
-    "Formal acceptance evidence matrix only. Rows connect each required formal "
-    "artifact to review packets, templates, agents, blockers, and validation "
+    "Formal review evidence matrix only. Rows connect each required review "
+    "artifact to review packets, templates, agents, blockers, and check "
     "commands. They do not approve evidence, certify sources, calibrate results, "
     "or close final-study gates."
 )
@@ -210,7 +210,7 @@ def build_formal_acceptance_evidence_matrix_markdown(
     """Render a concise human-readable evidence matrix."""
 
     lines = [
-        "# Formal Acceptance Evidence Matrix",
+        "# Formal Review Evidence Matrix",
         "",
         str(manifest.get("claim_boundary", EVIDENCE_MATRIX_BOUNDARY)),
         "",
@@ -228,7 +228,7 @@ def build_formal_acceptance_evidence_matrix_markdown(
         "",
         "## Matrix",
         "",
-        "| Gate | Agent | Formal Target | Status | Template Or Worksheet | Review Packets | Validation |",
+        "| Gate | Agent | Formal Target | Status | Template Or Worksheet | Review Packets | Check Commands |",
         "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:

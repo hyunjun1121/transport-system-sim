@@ -2,7 +2,7 @@
 
 This module documents the current stochastic streams used by the scenario
 runner. It is review support only; it does not prove statistical adequacy,
-approve common-random-number pairing, or close experiment acceptance.
+approve common-random-number pairing, or close experiment decision review.
 """
 
 from __future__ import annotations
@@ -119,7 +119,7 @@ def build_seed_stream_manifest(
             "confirm demand and disruption streams are intentionally shared across policies by seed",
             "confirm deterministic dispatch and fleet components do not need additional RNG streams",
             "extend this manifest before adding stochastic dispatch, routing tie-breaking, or future sampling logic",
-            "use with CRN pairing audit and paired-delta statistics before experiment acceptance",
+            "use with CRN pairing audit and paired-delta statistics before experiment decision review",
         ],
     }
 
@@ -195,7 +195,7 @@ def build_seed_stream_markdown(manifest: Mapping[str, Any]) -> str:
             "## Use",
             "",
             "Use this manifest with `docs/crn_pairing_audit.md` and the paired "
-            "delta statistics tables before any formal experiment acceptance. "
+            "delta statistics tables before any formal experiment decision review. "
             "If stochastic dispatch tie-breaking, random routing, or additional "
             "sampling is added, update this manifest before interpreting policy "
             "differences.",
@@ -294,13 +294,13 @@ def _marker_checks(source_text: Mapping[str, str]) -> list[dict[str, str]]:
             "arrival_rng_consumed_by_lognormal",
             "rng.lognormal" in source_text["models"],
             "src/models.py consumes the arrival RNG via lognormal sampling",
-            "Review demand sampling implementation before accepting CRN design.",
+            "Review demand sampling implementation before CRN design signoff.",
         ),
         _marker_check(
             "disruption_rng_consumed_by_edge_draws",
             "rng.random()" in source_text["disruptions"],
             "src/disruptions.py consumes the disruption RNG for edge draws",
-            "Review disruption sampling implementation before accepting CRN design.",
+            "Review disruption sampling implementation before CRN design signoff.",
         ),
         _marker_check(
             "dispatch_has_no_rng_marker",

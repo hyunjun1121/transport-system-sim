@@ -178,7 +178,7 @@ def build_claim_alignment_review_manifest(
     source_counts = _counts(row.get("source_path", "") for row in rows)
     gate_counts = _counts(row.get("gate_dependency", "") for row in rows)
     overclaim_candidate_count = sum(
-        1 for row in rows if row.get("review_status") == "requires_revision_or_acceptance"
+        1 for row in rows if row.get("review_status") == "requires_revision_or_review"
     )
     guardrail_count = sum(
         1 for row in rows if row.get("review_status") == "guardrail_language"
@@ -211,15 +211,15 @@ def build_claim_alignment_review_manifest(
             "doc": _display_path(Path(doc_path)),
         },
         "review_items": [
-            "review all non-guardrail real-world, calibrated, validated, accepted, operational, and superiority language",
-            "keep figure/table captions within scaffold-only claim boundaries until acceptance gates close",
-            "revise Korean report text after fixing encoding/readability issues before formal manuscript acceptance",
+            "review all non-guardrail real-world, calibration, benchmark, gate-closure, deployment, and superiority language",
+            "keep figure/table captions within scaffold-only claim boundaries until reviewer gates close",
+            "revise Korean report text after fixing encoding/readability issues before formal manuscript review",
             "create data/manifests/manuscript_acceptance.json only after claim-by-claim review",
         ],
         "remaining_blockers": [
-            "formal manuscript/report acceptance record is absent",
+            "formal manuscript/report review record is absent",
             "claim-alignment rows are review aids and do not approve manuscript claims",
-            "evidence gates remain blocked, so result claims cannot be accepted as final-study claims",
+            "evidence gates remain blocked, so result claims cannot be treated as target-study claims",
         ],
     }
 
@@ -255,8 +255,8 @@ def build_claim_alignment_review_markdown(
                 claim=_cell(row.get("claim_id", "")),
                 source=_cell(row.get("source_path", "")),
                 line=_cell(row.get("line_number", "")),
-                category=_cell(row.get("claim_category", "")),
-                status=_cell(row.get("review_status", "")),
+                category=_cell(_display_category(row.get("claim_category", ""))),
+                status=_cell(_display_status(row.get("review_status", ""))),
                 action=_cell(row.get("required_action", "")),
             )
         )
@@ -269,9 +269,9 @@ def build_claim_alignment_review_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Review every `requires_revision_or_acceptance` row before manuscript acceptance.",
+            "- Review every `requires_revision_or_review` row before manuscript gate review.",
             "- Keep guardrail rows if they correctly prevent overclaiming.",
-            "- Check figure/table manifest boundaries against accepted evidence gates.",
+            "- Check figure/table manifest boundaries against reviewer-cleared evidence gates.",
             "- Create `data/manifests/manuscript_acceptance.json` only after evidence gates and claims align.",
             "",
         ]
@@ -294,8 +294,8 @@ def _scan_text_file(
                 excerpt="",
                 gate_dependency="manuscript_report_alignment",
                 current_gate_status=gate_status.get("manuscript_report_alignment", "blocked"),
-                review_status="requires_revision_or_acceptance",
-                required_action="restore or explicitly remove missing manuscript artifact from acceptance scope",
+                review_status="requires_revision_or_review",
+                required_action="restore or explicitly remove missing manuscript artifact from review scope",
             )
         ]
     text = source_path.read_text(encoding="utf-8", errors="replace")
@@ -317,7 +317,7 @@ def _scan_text_file(
                 gate_dependency=gate_dependency,
                 current_gate_status=gate_status.get(gate_dependency, "blocked"),
                 review_status=(
-                    "guardrail_language" if guarded else "requires_revision_or_acceptance"
+                    "guardrail_language" if guarded else "requires_revision_or_review"
                 ),
                 required_action=_required_action(category, guarded),
             )
@@ -346,9 +346,9 @@ def _figure_manifest_rows(
                     excerpt=_excerpt(text),
                     gate_dependency="manuscript_report_alignment",
                     current_gate_status=gate_status.get("manuscript_report_alignment", "blocked"),
-                    review_status="guardrail_language" if _is_guardrail_line(text) else "requires_revision_or_acceptance",
+                    review_status="guardrail_language" if _is_guardrail_line(text) else "requires_revision_or_review",
                     required_action=(
-                        "verify figure/table boundary language before manuscript acceptance"
+                        "check figure/table boundary language before manuscript gate review"
                     ),
                 )
             )
@@ -369,7 +369,7 @@ def _figure_manifest_rows(
                     excerpt=_excerpt(caption),
                     gate_dependency="manuscript_report_alignment",
                     current_gate_status=gate_status.get("manuscript_report_alignment", "blocked"),
-                    review_status="guardrail_language" if _is_guardrail_line(caption) else "requires_revision_or_acceptance",
+                    review_status="guardrail_language" if _is_guardrail_line(caption) else "requires_revision_or_review",
                     required_action="verify figure caption remains scaffold-only until evidence gates close",
                 )
             )
@@ -449,18 +449,18 @@ def _gate_for_category(category: str) -> str:
 
 def _required_action(category: str, guarded: bool) -> str:
     if guarded:
-        return "verify this guardrail language remains accurate and does not imply acceptance"
+        return "check this guardrail language remains accurate and does not imply gate closure"
     if category == "calibration_claim":
-        return "revise or hold calibration language until parameter, road, rail, and validation gates close"
+        return "revise or hold parameter-fit wording until parameter, road, rail, and benchmark-review gates close"
     if category == "validation_claim":
-        return "revise or hold validation language until validation acceptance exists"
+        return "revise or hold benchmark-check language until the review artifact exists"
     if category == "acceptance_claim":
-        return "revise or hold acceptance/finality language until formal acceptance records exist"
+        return "revise or hold gate-closure language until formal reviewer records exist"
     if category == "operational_claim":
-        return "revise operational language to decision-support framing unless formal scope allows it"
+        return "revise deployment-control wording to decision-support framing unless formal scope allows it"
     if category == "causal_or_superiority_claim":
         return "replace proof/superiority language with conditional regime language"
-    return "review claim against current evidence gates before manuscript acceptance"
+    return "review claim against current evidence gates before manuscript gate review"
 
 
 def _is_guardrail_line(line: str) -> bool:
@@ -500,6 +500,31 @@ def _display_path(path: Path) -> str:
 
 def _cell(value: object) -> str:
     return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
+def _display_category(category: object) -> str:
+    mapping = {
+        "operational_claim": "deployment wording",
+        "calibration_claim": "parameter-fit wording",
+        "validation_claim": "benchmark-check wording",
+        "acceptance_claim": "gate-closure wording",
+        "real_world_claim": "real-world wording",
+        "causal_or_superiority_claim": "causal/superiority wording",
+        "readiness_claim": "closeout wording",
+        "publication_claim": "publication-scope wording",
+        "figure_table_boundary": "figure/table boundary",
+        "figure_caption_boundary": "figure caption boundary",
+        "missing_artifact": "missing artifact",
+    }
+    return mapping.get(str(category), str(category))
+
+
+def _display_status(status: object) -> str:
+    mapping = {
+        "requires_revision_or_review": "requires revision or review",
+        "guardrail_language": "guardrail language",
+    }
+    return mapping.get(str(status), str(status))
 
 
 __all__ = [

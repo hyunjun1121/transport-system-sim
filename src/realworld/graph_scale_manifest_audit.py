@@ -175,9 +175,9 @@ def build_graph_scale_manifest_audit_manifest(
         "result_scope": GRAPH_SCALE_MANIFEST_AUDIT_SCOPE,
         "claim_boundary": (
             "This audit checks whether generated scaffold manifests expose "
-            "source and analysis graph-scale fields. It does not accept a "
-            "graph-scale method, validate route sufficiency, calibrate inputs, "
-            "or close final-study gates."
+            "source and analysis graph-scale fields. It does not select a "
+            "graph-scale method, confirm route sufficiency, tune inputs, "
+            "or close study gates."
         ),
         "row_count": len(rows),
         "audited_manifest_count": len({_display_path(Path(path)) for path in audited_manifest_paths}),
@@ -212,9 +212,9 @@ def build_graph_scale_manifest_audit_manifest(
         },
         "review_items": [
             "confirm the source graph count is stable across pilot, sensitivity, statistics, and figure/table manifests",
-            "review whether each reduced analysis graph is a final method or only a scaffold shortcut",
-            "regenerate downstream manifests if a different graph-scale method is accepted",
-            "record any accepted graph-scale decision only in data/manifests/graph_scale_acceptance.json",
+            "review whether each reduced analysis graph is the selected method or only a scaffold shortcut",
+            "regenerate downstream manifests if a different graph-scale method is selected",
+            "record any selected graph-scale decision only in data/manifests/graph_scale_acceptance.json",
         ],
     }
 
@@ -266,7 +266,7 @@ def build_graph_scale_manifest_audit_markdown(
             "## Boundary",
             "",
             "- This packet is graph-scale visibility evidence only.",
-            "- It does not decide whether the reduced corridor, multi-corridor candidate, or full graph is the accepted final method.",
+            "- It does not decide whether the reduced corridor, multi-corridor candidate, or full graph is the selected method.",
             "- It cannot create or replace `data/manifests/graph_scale_acceptance.json`.",
             "",
         ]
@@ -453,10 +453,10 @@ def _complete_status(analysis_reduced: Any) -> str:
 def _required_action(status: str) -> str:
     if status == "complete_reduced_analysis_graph_recorded":
         return (
-            "review reduced/candidate graph method before graph-scale acceptance"
+            "review reduced/candidate graph method before graph-scale decision record"
         )
     if status == "complete_non_reduced_analysis_graph_recorded":
-        return "review full-graph runtime and result evidence before acceptance"
+        return "review full-graph runtime and result evidence before graph-scale decision record"
     if status == "complete_analysis_graph_recorded_reduction_unknown":
         return "review and record whether the analysis graph is reduced"
     return "regenerate manifest with complete source and analysis graph-scale fields"

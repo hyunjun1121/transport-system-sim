@@ -106,8 +106,9 @@ def build_reproducibility_decision_rows(
             decision_id="reproducibility_manifest_scope_decision",
             decision_topic="Reproducibility manifest scope",
             candidate_decision=(
-                "Replace scaffold-only reproduction scope with a reviewed final "
-                "package before accepting clean-checkout reproducibility"
+                "Replace scaffold-only reproduction scope with a reviewed "
+                "release-scope package before using clean-checkout "
+                "reproducibility evidence"
             ),
             current_evidence=_manifest_scope_evidence(
                 reproducibility_manifest,
@@ -134,17 +135,17 @@ def build_reproducibility_decision_rows(
             evidence_input_paths=evidence_paths,
         ),
         _row(
-            decision_id="validation_command_ladder_decision",
-            decision_topic="Validation command ladder",
+            decision_id="command_ladder_scope_decision",
+            decision_topic="Command ladder scope",
             candidate_decision=(
-                "Accept the command ladder only after reviewer confirms command "
+                "Retain the command ladder only after reviewer confirms command "
                 "coverage, command counts, and artifact regeneration scope"
             ),
             current_evidence=_command_ladder_evidence(review_manifest),
             decision_status="needs_human_review_command_ladder_scope",
             blocking_reason="",
             required_reviewer_action=(
-                "Compare manifest command counts with the planned validation "
+                "Compare manifest command counts with the planned command "
                 "ladder and decide whether additional clean-checkout commands "
                 "are required."
             ),
@@ -159,7 +160,7 @@ def build_reproducibility_decision_rows(
             decision_topic="Clean-checkout smoke scope",
             candidate_decision=(
                 "Use bounded clean-checkout smoke only as review evidence unless "
-                "the reviewer accepts its commit freshness and current-Python "
+                "the reviewer confirms its commit freshness and current-Python "
                 "environment limits"
             ),
             current_evidence=_clean_checkout_evidence(
@@ -170,7 +171,7 @@ def build_reproducibility_decision_rows(
             blocking_reason=clean_checkout_blocking_reason,
             required_reviewer_action=(
                 "Decide whether the clean-checkout smoke commit relation is "
-                "acceptable and whether a full dependency reinstall is required."
+                "review-bounded and whether a full dependency reinstall is required."
             ),
             followup_artifacts=(
                 "data/validation/clean_checkout_reproducibility_smoke_manifest.json; "
@@ -182,15 +183,15 @@ def build_reproducibility_decision_rows(
             decision_id="worktree_package_state_decision",
             decision_topic="Git worktree and package state",
             candidate_decision=(
-                "Accept package state only after reviewer confirms the committed "
-                "tree, untracked artifact scope, and tracked-artifact audit"
+                "Retain package-state evidence only after reviewer confirms the "
+                "committed tree, untracked artifact scope, and tracked-artifact audit"
             ),
             current_evidence=_worktree_evidence(review_manifest),
             decision_status="needs_human_review_committed_package_state",
             blocking_reason="",
             required_reviewer_action=(
-                "Confirm the final package is committed, clean, and contains or "
-                "explicitly excludes all required generated artifacts."
+                "Confirm the release-scope package is committed, clean, and "
+                "contains or explicitly excludes all required generated artifacts."
             ),
             followup_artifacts=(
                 "data/validation/tracked_artifact_audit_manifest.json; "
@@ -202,7 +203,7 @@ def build_reproducibility_decision_rows(
             decision_id="runtime_import_boundary_decision",
             decision_topic="Runtime cloned_repo import boundary",
             candidate_decision=(
-                "Accept the runtime import boundary only after reviewer confirms "
+                "Retain the runtime import boundary only after reviewer confirms "
                 "no production, script, or test runtime imports depend on cloned_repo"
             ),
             current_evidence=_import_boundary_evidence(review_manifest),
@@ -222,7 +223,7 @@ def build_reproducibility_decision_rows(
             decision_id="artifact_regeneration_decision",
             decision_topic="Artifact regeneration evidence",
             candidate_decision=(
-                "Accept artifact regeneration only after clean-checkout or "
+                "Use artifact regeneration evidence only after clean-checkout or "
                 "reviewed package commands regenerate required tables, figures, "
                 "manifests, and report outputs"
             ),
@@ -273,7 +274,7 @@ def build_reproducibility_decision_rows(
             ),
             required_reviewer_action=(
                 "Record formal reproducibility acceptance only after placeholders "
-                "are absent and the reviewer accepts the reproduction scope."
+                "are absent and the reviewer records the reproduction scope."
             ),
             followup_artifacts="data/manifests/reproducibility_acceptance.json",
             evidence_input_paths=evidence_paths,
@@ -457,9 +458,9 @@ def build_reproducibility_decision_markdown(
             "",
             "## Boundary",
             "",
-            "- This packet does not approve reproducibility or final-study completion.",
+            "- This packet does not approve reproducibility or study-closeout completion.",
             "- It does not replace clean-checkout, full clean-environment, artifact-regeneration, or formal acceptance review.",
-            "- Keep `data/manifests/reproducibility_acceptance.json` absent until a reviewer accepts the reproduction scope.",
+            "- Keep `data/manifests/reproducibility_acceptance.json` absent until a reviewer records the reproduction scope.",
             "",
         ]
     )

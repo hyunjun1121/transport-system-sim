@@ -25,11 +25,11 @@ This seed-stream manifest documents current scenario-runner stochastic streams a
 | --- | --- | --- |
 | arrival_rng_seed_rule | pass | Restore or document the demand-stream seed rule. |
 | failure_rng_seed_rule | pass | Restore or document the disruption-stream seed rule. |
-| arrival_rng_consumed_by_lognormal | pass | Review demand sampling implementation before accepting CRN design. |
-| disruption_rng_consumed_by_edge_draws | pass | Review disruption sampling implementation before accepting CRN design. |
+| arrival_rng_consumed_by_lognormal | pass | Review demand sampling implementation before CRN design signoff. |
+| disruption_rng_consumed_by_edge_draws | pass | Review disruption sampling implementation before CRN design signoff. |
 | dispatch_has_no_rng_marker | pass | Add a named dispatch stream before stochastic dispatch is introduced. |
 | fleet_rail_transfer_traffic_have_no_rng_marker | pass | Add named streams before stochastic fleet, rail, transfer, or traffic logic is introduced. |
 
 ## Use
 
-Use this manifest with `docs/crn_pairing_audit.md` and the paired delta statistics tables before any formal experiment acceptance. If stochastic dispatch tie-breaking, random routing, or additional sampling is added, update this manifest before interpreting policy differences.
+Use this manifest with `docs/crn_pairing_audit.md` and the paired delta statistics tables before any formal experiment decision review. If stochastic dispatch tie-breaking, random routing, or additional sampling is added, update this manifest before interpreting policy differences.

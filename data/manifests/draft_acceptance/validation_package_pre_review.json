@@ -48,7 +48,7 @@
     {
       "claim_supported": "Formal target required for validation_package",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "data/manifests/validation_acceptance.json"
     },
     {
@@ -205,17 +205,17 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/validation_acceptance.json",
   "gate": "validation_package",
-  "generated_at": "2026-05-09T00:29:30+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Approve, reject, or keep blocked based on the existing review packet evidence.",
+    "Decide whether to clear, reject, or keep blocked based on the existing review packet evidence.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/validation_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Validation Acceptance",
+  "label": "Benchmark Decision",
   "missing_evidence": [
     "create an explicit validation acceptance record after benchmark-strategy review",
     "resolve validation strategy-readiness blockers before validation acceptance",
@@ -271,19 +271,8 @@
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
     "Create validation_acceptance.json after benchmark-strategy review.",
     "create an explicit validation acceptance record after benchmark-strategy review",
-    "resolve validation strategy-readiness blockers before validation acceptance",
-    "validation strategy readiness: validation_acceptance.json is absent",
-    "validation strategy readiness: route-level road evidence exposure remains weak until road evidence gates close",
-    "review validation strategy-readiness human-decision items before validation acceptance",
-    "resolve validation benchmark-decision blockers before validation acceptance",
-    "validation benchmark decision: validation summary still declares scaffold or sanity scope",
-    "validation benchmark decision: route-level road evidence exposure remains weak until road evidence gates close",
-    "validation benchmark decision: data/manifests/validation_acceptance.json is absent",
-    "review validation benchmark-decision human-decision items before validation acceptance",
-    "revise validation summary from scaffold/sanity evidence to accepted publication-level validation scope after review",
-    "data/manifests/validation_acceptance.json is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/validation_package.md",

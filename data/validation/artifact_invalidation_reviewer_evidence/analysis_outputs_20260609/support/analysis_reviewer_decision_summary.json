@@ -1,0 +1,47 @@
+{
+  "broader_blockers": [
+    "publication readiness",
+    "study-closeout completion",
+    "formal acceptance",
+    "operational routing",
+    "calibrated validation",
+    "real-world forecasting",
+    "experiment acceptance",
+    "statistical power",
+    "simulation acceleration evidence"
+  ],
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "evidence_paths": [
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_statistics_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_metric_ci.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_paired_delta_ci.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_results.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_summary.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_labels.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_predictions.csv",
+    "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_feature_importance.csv",
+    "data/validation/analysis_outputs_audit_manifest.json",
+    "data/validation/analysis_outputs_audit.csv",
+    "data/validation/gpu_ml_runtime_manifest.json",
+    "data/validation/claim_language_guard_manifest.json"
+  ],
+  "reviewed_at_utc": "2026-06-09T15:45:00+09:00",
+  "reviewer_id": "gpt55_xhigh_stat_ml_analysis_reviewer_019eab1d_20260609",
+  "row_ids": [
+    "demand_fleet_behavior_transfer_dispatch->statistics",
+    "result_csv_or_manifest->statistics",
+    "demand_fleet_behavior_transfer_dispatch->sensitivity",
+    "disruption_library_or_exposure->sensitivity",
+    "result_csv_or_manifest->sensitivity",
+    "demand_fleet_behavior_transfer_dispatch->ml_labels",
+    "disruption_library_or_exposure->ml_labels",
+    "demand_fleet_behavior_transfer_dispatch->ml_outputs",
+    "disruption_library_or_exposure->ml_outputs",
+    "result_csv_or_manifest->ml_outputs"
+  ],
+  "scope_statement": "Artifact-invalidation closeout only for the ten analysis_outputs rows; approval is limited to closed_invalidation_only and does not support publication readiness, study-closeout completion, formal acceptance, operational routing, calibrated validation, real-world forecasting, experiment acceptance, statistical power, or simulation-acceleration evidence."
+}

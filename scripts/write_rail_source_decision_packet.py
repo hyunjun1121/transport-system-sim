@@ -45,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
         priority_manifest_path=args.priority_manifest,
         timing_request_packet_path=args.timing_request_packet,
         rail_review_packet_path=args.rail_review_packet,
+        action_ledger_path=args.action_ledger,
     )
     manifest = write_rail_source_decision_packet(
         rows=rows,
@@ -99,6 +100,16 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--rail-review-packet",
         type=Path,
         default=DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH,
+    )
+    parser.add_argument(
+        "--action-ledger",
+        type=Path,
+        default=None,
+        help=(
+            "Optional non-formal reviewer action CSV. Only reviewer/action "
+            "fields are merged by request_id; this does not create rail "
+            "evidence, publication gate evidence, or a formal decision record."
+        ),
     )
     parser.add_argument(
         "--output",

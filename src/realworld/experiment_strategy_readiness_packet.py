@@ -1,9 +1,9 @@
-"""Experiment strategy-readiness packet generation.
+"""Experiment strategy review packet generation.
 
 The experiment package review packet summarizes full-pilot outputs and run
-metadata. This module turns those rows into explicit pre-review readiness
-states without accepting the experiment package or treating scaffold outputs as
-calibrated real-world evidence.
+metadata. This module turns those rows into explicit pre-review states without
+treating scaffold outputs as field-fit real-world evidence or an experiment
+gate decision.
 """
 
 from __future__ import annotations
@@ -30,9 +30,9 @@ DEFAULT_EXPERIMENT_STRATEGY_READINESS_DOC_PATH = (
     PROJECT_ROOT / "docs" / "experiment_strategy_readiness_packet.md"
 )
 EXPERIMENT_STRATEGY_READINESS_SCOPE = (
-    "Experiment strategy-readiness packet only; not experiment acceptance, "
-    "not calibrated real-world validation, not operational routing evidence, "
-    "and not publication-readiness approval."
+    "Experiment strategy review packet only; not an experiment decision record, "
+    "not field-fit real-world evidence, not route-command evidence, and not "
+    "publication gate evidence."
 )
 EXPERIMENT_STRATEGY_READINESS_COLUMNS: tuple[str, ...] = (
     "category_id",
@@ -57,7 +57,7 @@ def build_experiment_strategy_readiness_rows(
     review_packet_path: str | Path = DEFAULT_EXPERIMENT_PACKAGE_REVIEW_PACKET_PATH,
     acceptance_path: str | Path = DEFAULT_EXPERIMENT_ACCEPTANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return experiment strategy-readiness rows for current review rows."""
+    """Return experiment strategy review rows for current review rows."""
 
     rows = (
         list(review_rows)
@@ -80,7 +80,7 @@ def write_experiment_strategy_readiness_packet(
     doc_path: str | Path = DEFAULT_EXPERIMENT_STRATEGY_READINESS_DOC_PATH,
     review_packet_path: str | Path = DEFAULT_EXPERIMENT_PACKAGE_REVIEW_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Write experiment strategy-readiness CSV, manifest, and Markdown."""
+    """Write experiment strategy review CSV, manifest, and Markdown."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -165,9 +165,9 @@ def build_experiment_strategy_readiness_manifest(
         "review_items": [
             "review scaffold result scope before manuscript or report use",
             "confirm full result and summary row counts against the manifest",
-            "close graph-scale and input-evidence dependencies before accepting full outputs",
+            "resolve graph-scale and input-evidence dependencies before promoting full outputs",
             "review scenario-policy-seed design, CRN pairing, and checksums",
-            "record the final experiment decision only in data/manifests/experiment_acceptance.json",
+            "record any release-scope experiment decision only in data/manifests/experiment_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -178,23 +178,23 @@ def build_experiment_strategy_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable experiment strategy-readiness packet."""
+    """Return a human-readable experiment strategy review packet."""
 
     lines = [
-        "# Experiment Strategy Readiness Packet",
+        "# Experiment Strategy Review Packet",
         "",
         str(manifest.get("claim_boundary", EXPERIMENT_STRATEGY_READINESS_SCOPE)),
         "",
         "## Verdict",
         "",
-        f"- Publication ready: `{str(manifest.get('publication_ready', False)).lower()}`",
+        f"- Publication gate supported: `{str(manifest.get('publication_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
         f"- Review rows: {manifest.get('row_count', 0)}",
         f"- Blocking requests: {manifest.get('blocking_request_count', 0)}",
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Strategy Review Rows",
         "",
         "| Category | Status | Rows | Required Action |",
         "| --- | --- | --- | --- |",
@@ -214,10 +214,10 @@ def build_experiment_strategy_readiness_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Keep full-pilot outputs in scaffold scope until graph-scale, input-evidence, validation, and experiment acceptance records exist.",
-            "- Decide whether the current full-profile run is accepted, regenerated on another graph method, or retained only as review evidence.",
-            "- Review row counts, checksums, scenario-policy-seed design, and CRN pairing before formal experiment acceptance.",
-            "- Do not create formal acceptance artifacts from this readiness packet alone.",
+            "- Keep full-pilot outputs in scaffold scope until graph-scale, input-evidence, benchmark, and experiment decision records exist.",
+            "- Decide whether the current full-profile run is promoted, regenerated on another graph method, or retained only as review evidence.",
+            "- Review row counts, checksums, scenario-policy-seed design, and CRN pairing before a formal experiment decision record.",
+            "- Do not create formal decision artifacts from this strategy review packet alone.",
             "",
         ]
     )
@@ -269,10 +269,10 @@ def _acceptance_requirement_row(acceptance_path: Path) -> dict[str, str]:
         "required_reviewer_action": (
             "validate the existing experiment acceptance record"
             if present
-            else "record the accepted run profile only after graph scope, input validation, design, CRN, counts, and claim-boundary review"
+            else "record the selected run profile only after graph scope, input evidence, design, CRN, counts, and claim-boundary review"
         ),
         "publication_use_status": "blocked_until_experiment_acceptance",
-        "evidence_detail": "formal experiment acceptance record controls gate closure",
+        "evidence_detail": "formal experiment decision record controls gate closure",
         "can_support_experiment_gate": "false",
         "claim_boundary": EXPERIMENT_STRATEGY_READINESS_SCOPE,
     }
@@ -287,55 +287,55 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             return (
                 "blocked_scaffold_or_not_calibrated_experiment_scope",
                 "current full-pilot result scope is scaffold or not calibrated",
-                "keep experiment claims bounded until formal acceptance chooses final result scope",
+                "keep experiment claims bounded until a formal experiment decision chooses the release-scope result set",
             )
         return (
             "needs_human_review_experiment_scope",
             "",
-            "review result scope and claim boundary before acceptance",
+            "review result scope and claim boundary before an experiment decision",
         )
     if category_id in {"results_row_count", "summary_row_count"}:
         if "mismatch" in review_status or "missing" in review_status:
             return (
                 "blocked_experiment_row_count_or_artifact",
                 f"{category_id} is missing or has a count mismatch",
-                "regenerate or repair the full-pilot output before acceptance",
+                "regenerate or repair the full-pilot output before an experiment decision",
             )
         return (
             "needs_human_review_experiment_row_counts",
             "",
-            "confirm row counts are generated from the selected accepted run profile",
+            "confirm row counts are generated from the selected run profile",
         )
     if category_id == "scenario_policy_seed_design":
         if "mismatch" in review_status:
             return (
                 "blocked_scenario_policy_seed_design_mismatch",
                 "scenario-policy-seed design count does not match result rows",
-                "repair the design manifest or regenerate outputs before acceptance",
+                "repair the design manifest or regenerate outputs before an experiment decision",
             )
         return (
             "needs_human_review_scenario_policy_seed_design",
             "",
-            "review scenario, policy, seed, and exclusion design before acceptance",
+            "review scenario, policy, seed, and exclusion design before an experiment decision",
         )
     if category_id == "graph_scope_dependency":
         return (
             "blocked_graph_scale_dependency",
-            "full-pilot outputs depend on a graph method that is not accepted",
-            "close graph-scale acceptance or regenerate outputs on the accepted graph method",
+            "full-pilot outputs depend on a graph method that has no graph-scale decision",
+            "resolve graph-scale decision or regenerate outputs on the selected graph method",
         )
     if category_id == "input_evidence_dependency":
         return (
             "blocked_input_evidence_dependency",
-            "upstream input, road override, parameter, validation, or provenance gates are not accepted",
-            "close upstream input-evidence gates before accepting full experiment outputs",
+            "upstream input, road override, parameter, benchmark, or provenance gates are unresolved",
+            "resolve upstream input-evidence gates before promoting full experiment outputs",
         )
     if category_id == "common_random_numbers":
         if "not_declared" in review_status:
             return (
                 "blocked_common_random_numbers_not_declared",
                 "common-random-number pairing is not declared",
-                "declare or remove paired-claim assumptions before acceptance",
+                "declare or remove paired-claim assumptions before an experiment decision",
             )
         return (
             "needs_human_review_common_random_numbers",
@@ -347,24 +347,24 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
             return (
                 "blocked_missing_experiment_checksums",
                 "manifest, results, or summary checksum evidence is missing",
-                "regenerate checksum evidence before acceptance",
+                "regenerate checksum evidence before an experiment decision",
             )
         return (
             "needs_human_review_experiment_checksums",
             "",
-            "record checksums or regenerated equivalents in formal experiment acceptance",
+            "record checksums or regenerated equivalents in the formal experiment decision record",
         )
     if category_id == "formal_experiment_acceptance_requirement":
         if "absent" in review_status:
             return (
                 "blocked_missing_experiment_acceptance_record",
                 "data/manifests/experiment_acceptance.json is absent",
-                "create a formal acceptance record only after reviewer decision",
+                "create a formal experiment decision record only after reviewer review",
             )
         return (
             "needs_human_review_experiment_acceptance_record",
             "",
-            "validate the existing experiment acceptance record",
+            "review the existing experiment decision record",
         )
     return (
         "blocked_unclassified_experiment_category",

@@ -125,7 +125,7 @@ def test_write_evidence_matrix_outputs_non_approval_artifacts() -> None:
 
         assert len(rows) == 12
         assert loaded["can_mark_complete"] is False
-        assert "Formal Acceptance Evidence Matrix" in text
+        assert "Formal Review Evidence Matrix" in text
         assert "do not approve evidence" in text
 
         compact = summarize_formal_acceptance_evidence_matrix(manifest)

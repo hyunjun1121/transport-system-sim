@@ -41,6 +41,24 @@ def test_current_osrm_snapshot_manifest_counts() -> None:
     assert manifest["query_url_count"] == 3
     assert manifest["unpinned_row_count"] == 0
     assert manifest["raw_response_file_count"] == 3
+    assert manifest["raw_response_binding_count"] == 3
+    assert manifest["raw_response_missing_for_row_count"] == 0
+    assert manifest["raw_response_binding_mismatch_count"] == 0
+    assert manifest["raw_response_unmatched_file_count"] == 0
+    assert manifest["snap_status_counts"] == {"pass": 1, "warn": 2}
+    assert manifest["max_waypoint_snap_distance_m"] == "265.494619"
+    assert all(
+        item["binding_status"] == "match"
+        for item in manifest["raw_response_bindings"]
+    )
+    assert {
+        item["route_check_id"]: item["snap_status"]
+        for item in manifest["raw_response_bindings"]
+    } == {
+        "route_bus_direct": "warn",
+        "route_last_mile": "pass",
+        "route_rail_access": "warn",
+    }
     assert {
         Path(item["path"]).name for item in manifest["raw_response_files"]
     } == {
@@ -97,6 +115,8 @@ def test_osrm_snapshot_manifest_writer_emits_json() -> None:
         assert written["row_count"] == 1
         assert written["unpinned_row_count"] == 0
         assert written["raw_response_file_count"] == 1
+        assert written["raw_response_binding_count"] == 1
+        assert written["raw_response_binding_mismatch_count"] == 1
         assert written["raw_response_files"][0]["path"].endswith(
             "route_bus_direct.json"
         )
@@ -134,6 +154,9 @@ def test_osrm_runner_writes_raw_payloads_into_manifest() -> None:
         distance_ratio = 1.0
         time_ratio = 1.0
 
+    captured_reference_version: list[str] = []
+    captured_url: list[str] = []
+
     def fake_load_graphml(path: Path, normalize: bool = True) -> object:
         assert normalize is True
         return {"path": str(path)}
@@ -156,11 +179,17 @@ def test_osrm_runner_writes_raw_payloads_into_manifest() -> None:
         assert source_class == "cached_external_router_snapshot"
         assert reference_version.startswith("cached_osrm_snapshot_")
         assert payload_callback is not None
+        captured_reference_version.append(reference_version)
         route = FakeRoute()
         payload = {"routes": [{"distance": 100.0, "duration": 60.0}]}
+        url = (
+            "https://router.project-osrm.org/route/v1/driving/a;b?"
+            "overview=false&alternatives=false&steps=false"
+        )
+        captured_url.append(url)
         payload_callback(
             route,
-            "https://router.project-osrm.org/route/v1/driving/a;b?overview=false",
+            url,
             payload,
         )
         return ("benchmark",)
@@ -191,14 +220,16 @@ def test_osrm_runner_writes_raw_payloads_into_manifest() -> None:
                 "benchmark_method": "osrm_route_v1_driving",
                 "source_class": "cached_external_router_snapshot",
                 "reference_source": "https://router.project-osrm.org",
-                "reference_version": "cached_osrm_snapshot_fixture",
+                "reference_version": captured_reference_version[0],
+                "benchmark_distance_m": "100.000000",
+                "benchmark_duration_min": "1.000000",
                 "distance_status": "pass",
                 "time_status": "pass",
                 "status": "pass",
                 "notes": (
                     "optional cached OSRM route API snapshot; "
-                    "reference_version=cached_osrm_snapshot_fixture; "
-                    "url=https://router.project-osrm.org/route/v1/driving/a;b"
+                    f"reference_version={captured_reference_version[0]}; "
+                    f"url={captured_url[0]}"
                 ),
             }
         )
@@ -251,6 +282,10 @@ def test_osrm_runner_writes_raw_payloads_into_manifest() -> None:
                 "cached_osrm_snapshot_"
             )
             assert manifest["raw_response_file_count"] == 1
+            assert manifest["raw_response_binding_count"] == 1
+            assert manifest["raw_response_binding_mismatch_count"] == 0
+            assert manifest["raw_response_bindings"][0]["binding_status"] == "match"
+            assert manifest["raw_response_bindings"][0]["snap_status"] == "missing"
             assert manifest["raw_response_files"][0]["path"].endswith(
                 "route_bus_direct.json"
             )

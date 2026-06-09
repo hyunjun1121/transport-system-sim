@@ -1,6 +1,6 @@
 # OSRM Route Benchmark Manifest
 
-> Current project status (2026-05-08): `final_study_ready=false`. Ready gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal acceptance is `0/12` ready. This document is current-state or review support only; it does not create formal approval, calibrated real-world results, or operational routing guidance.
+> Current project status (2026-05-08): study closeout is false. Three scaffold checks (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) have review-support outputs, twelve study gates remain blocked, and formal acceptance remains absent. This document is current-state or review support only; it does not create formal approval, real-world result calibration, or route-use guidance.
 
 
 `data/validation/osrm_route_benchmark_manifest.json` describes the optional
@@ -9,8 +9,7 @@ records the configured raw-response directory and any retained raw OSRM JSON
 payload files found there.
 
 This manifest is review support only. It is not validation acceptance, not
-ground truth, not calibrated local traffic evidence, and not operational
-routing guidance.
+ground truth, not local traffic evidence, and not route-use guidance.
 
 ## Artifacts
 
@@ -29,7 +28,7 @@ The current OSRM CSV has three pass rows after bus-practical road filtering.
 Those rows are marked as a cached external-router snapshot with retained raw
 response files. The manifest currently records `raw_response_file_count=3`
 and `unpinned_row_count=0`, but it still keeps OSRM in review-only scope rather
-than treating it as accepted benchmark evidence.
+than treating it as benchmark gate-closure evidence.
 
 If reviewers choose to refresh the OSRM snapshot again, keep using raw-payload
 capture so the manifest can list retained response files and SHA256 values.
@@ -67,7 +66,7 @@ Optional live refresh with raw payload retention:
 .\.venv\Scripts\python scripts\run_osrm_route_benchmark.py --raw-output-dir data\validation\osrm_route_raw
 ```
 
-Run the validation review packet again after either command:
+Run the benchmark review packet again after either command:
 
 ```powershell
 .\.venv\Scripts\python scripts\write_validation_review_packet.py

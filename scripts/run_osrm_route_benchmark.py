@@ -20,6 +20,8 @@ from src.realworld import build_simulator_graph, load_graphml
 from src.realworld.plausibility import (
     BENCHMARK_CSV_FIELDS,
     DEFAULT_OSRM_BASE_URL,
+    DEFAULT_ROUTE_CHECKS,
+    ExternalRouteBenchmark,
     benchmark_records_to_csv_rows,
     benchmark_status_counts,
     build_osrm_route_benchmarks,
@@ -50,6 +52,9 @@ def main(argv: list[str] | None = None) -> int:
         base_url=args.base_url,
         timeout_s=args.timeout,
         raw_output_dir=args.raw_output_dir,
+        from_raw_response_dir=None
+        if args.refresh_live
+        else args.from_raw_response_dir,
     )
     print(
         "Pilot OSRM benchmark outputs written: "
@@ -71,6 +76,7 @@ def run_osrm_route_benchmark(
     base_url: str = DEFAULT_OSRM_BASE_URL,
     timeout_s: float = 20.0,
     raw_output_dir: str | Path | None = None,
+    from_raw_response_dir: str | Path | None = None,
 ) -> dict[str, object]:
     """Call OSRM once per canonical route and store comparison rows."""
 
@@ -79,29 +85,35 @@ def run_osrm_route_benchmark(
     simulator_graph = build_simulator_graph(road_graph, region)
     captured_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     raw_dir = Path(raw_output_dir) if raw_output_dir else None
-    snapshot_reference_version = (
-        _snapshot_reference_version(captured_at)
-        if raw_dir is not None
-        else "live_snapshot_unpinned"
-    )
-    source_class = (
-        "cached_external_router_snapshot"
-        if raw_dir is not None
-        else "live_external_router_snapshot"
-    )
-    payload_callback = (
-        _raw_payload_writer(raw_dir, captured_at, snapshot_reference_version)
-        if raw_dir is not None
-        else None
-    )
-    benchmarks = build_osrm_route_benchmarks(
-        simulator_graph,
-        base_url=base_url,
-        timeout_s=timeout_s,
-        source_class=source_class,
-        reference_version=snapshot_reference_version,
-        payload_callback=payload_callback,
-    )
+    replay_raw_dir = Path(from_raw_response_dir) if from_raw_response_dir else None
+    if replay_raw_dir is not None:
+        benchmarks = _benchmarks_from_cached_raw_payloads(replay_raw_dir)
+        manifest_raw_dir = replay_raw_dir
+    else:
+        snapshot_reference_version = (
+            _snapshot_reference_version(captured_at)
+            if raw_dir is not None
+            else "live_snapshot_unpinned"
+        )
+        source_class = (
+            "cached_external_router_snapshot"
+            if raw_dir is not None
+            else "live_external_router_snapshot"
+        )
+        payload_callback = (
+            _raw_payload_writer(raw_dir, captured_at, snapshot_reference_version)
+            if raw_dir is not None
+            else None
+        )
+        benchmarks = build_osrm_route_benchmarks(
+            simulator_graph,
+            base_url=base_url,
+            timeout_s=timeout_s,
+            source_class=source_class,
+            reference_version=snapshot_reference_version,
+            payload_callback=payload_callback,
+        )
+        manifest_raw_dir = raw_dir if raw_dir is not None else DEFAULT_OSRM_RAW_RESPONSE_DIR
     records = evaluate_external_route_benchmarks(
         simulator_graph,
         benchmarks,
@@ -136,7 +148,7 @@ def run_osrm_route_benchmark(
         benchmark_path=output,
         summary_path=summary,
         manifest_path=manifest_path,
-        raw_response_dir=raw_dir if raw_dir is not None else DEFAULT_OSRM_RAW_RESPONSE_DIR,
+        raw_response_dir=manifest_raw_dir,
     )
     return {
         "row_count": len(records),
@@ -146,6 +158,7 @@ def run_osrm_route_benchmark(
         "manifest_path": str(manifest_path),
         "manifest_sha256": manifest["csv_sha256"],
         "raw_output_dir": "" if raw_dir is None else str(raw_dir),
+        "from_raw_response_dir": "" if replay_raw_dir is None else str(replay_raw_dir),
     }
 
 
@@ -207,12 +220,12 @@ routes before the OSRM comparison is built.
 ## Claim Boundary
 
 The OSRM public demo service is an external routing reference for route-distance
-and travel-time plausibility only. It is not a calibrated local traffic model,
-not a public-agency forecast, and not an operational route plan. Keep the
+and travel-time plausibility only. It is not a local traffic model,
+not a public-agency prediction source, and not a route-use plan. Keep the
 offline fallback benchmark as the default deterministic validation layer.
 
 Any warn or fail row should be treated as a reason to limit claims, inspect the
-adapted graph route, or revise the accepted analysis corridor before publishing
+adapted graph route, or revise the selected analysis corridor before publishing
 route-realism conclusions.
 """
 
@@ -238,6 +251,23 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
             "Optional directory for retained raw OSRM JSON responses. "
             "Supplying this improves reviewer traceability but does not "
             "create validation acceptance."
+        ),
+    )
+    parser.add_argument(
+        "--from-raw-response-dir",
+        type=Path,
+        default=DEFAULT_OSRM_RAW_RESPONSE_DIR,
+        help=(
+            "Replay retained raw OSRM JSON payloads instead of making a live "
+            "request. This is the deterministic default for review artifacts."
+        ),
+    )
+    parser.add_argument(
+        "--refresh-live",
+        action="store_true",
+        help=(
+            "Make live OSRM requests instead of replaying retained raw payloads. "
+            "Use with --raw-output-dir when a new cached snapshot is intended."
         ),
     )
     return parser.parse_args(argv)
@@ -287,8 +317,8 @@ def _raw_payload_writer(
             "snapshot_reference_version": snapshot_reference_version,
             "claim_boundary": (
                 "Raw OSRM payload retained for route-plausibility review only; "
-                "not validation acceptance, not calibrated traffic evidence, "
-                "and not operational routing guidance."
+                "not validation acceptance, not traffic evidence, "
+                "and not route-use guidance."
             ),
             "payload": payload,
         }
@@ -298,6 +328,51 @@ def _raw_payload_writer(
         )
 
     return write_payload
+
+
+def _benchmarks_from_cached_raw_payloads(
+    raw_dir: Path,
+) -> tuple[ExternalRouteBenchmark, ...]:
+    routes_by_id = {route.check_id: route for route in DEFAULT_ROUTE_CHECKS}
+    benchmarks: list[ExternalRouteBenchmark] = []
+    for route_id in sorted(routes_by_id):
+        raw_path = raw_dir / f"{route_id}.json"
+        value = json.loads(raw_path.read_text(encoding="utf-8"))
+        if not isinstance(value, Mapping):
+            raise ValueError(f"{raw_path} must contain a JSON object")
+        payload = value.get("payload", {})
+        if not isinstance(payload, Mapping):
+            raise ValueError(f"{raw_path} must contain an OSRM payload object")
+        routes = payload.get("routes", [])
+        if not isinstance(routes, list) or not routes or not isinstance(routes[0], Mapping):
+            raise ValueError(f"{raw_path} does not contain OSRM route metrics")
+        route_payload = routes[0]
+        reference_version = str(value.get("snapshot_reference_version", ""))
+        query_url = str(value.get("query_url", ""))
+        benchmarks.append(
+            ExternalRouteBenchmark(
+                benchmark_id=f"{route_id}_osrm",
+                route=routes_by_id[route_id],
+                benchmark_distance_m=float(route_payload["distance"]),
+                benchmark_duration_min=float(route_payload["duration"]) / 60.0,
+                method="osrm_route_v1_driving",
+                source_class="cached_external_router_snapshot",
+                reference_source=_reference_source_from_url(query_url),
+                reference_version=reference_version,
+                notes=(
+                    "optional cached OSRM route API snapshot; not ground truth; "
+                    "source_version_known=false; geometry_included=false; "
+                    f"reference_version={reference_version}; url={query_url}"
+                ),
+            )
+        )
+    return tuple(benchmarks)
+
+
+def _reference_source_from_url(url: str) -> str:
+    if url.startswith("https://router.project-osrm.org/"):
+        return "https://router.project-osrm.org"
+    return url.split("/route/v1/", 1)[0] if "/route/v1/" in url else url
 
 
 if __name__ == "__main__":

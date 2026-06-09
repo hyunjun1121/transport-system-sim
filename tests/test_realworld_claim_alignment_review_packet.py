@@ -33,7 +33,7 @@ def test_claim_alignment_rows_find_guardrails_and_claim_candidates() -> None:
     assert "paper/paper_draft.md" in sources
     assert "results/realworld_pilot/tables/figure_table_manifest.json" in sources
     assert "guardrail_language" in statuses
-    assert "requires_revision_or_acceptance" in statuses
+    assert "requires_revision_or_review" in statuses
     assert "calibration_claim" in categories
     assert "manuscript_report_alignment" in {
         row["gate_dependency"] for row in rows
@@ -123,7 +123,7 @@ def test_claim_alignment_ignores_artifact_paths_and_keeps_real_claims() -> None:
     assert "The framework proves operational superiority." in by_excerpt
     assert (
         by_excerpt["The framework proves operational superiority."]["review_status"]
-        == "requires_revision_or_acceptance"
+        == "requires_revision_or_review"
     )
 
     print("PASS: claim alignment ignores artifact paths and keeps real claims")

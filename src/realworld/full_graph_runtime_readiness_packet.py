@@ -1,4 +1,4 @@
-"""Full-graph runtime-readiness packet generation.
+"""Full-graph runtime review packet generation.
 
 The graph-scale review packet lists the full bus-practical graph as a possible
 method, but the current repository only has a bounded two-row smoke on that
@@ -35,7 +35,7 @@ DEFAULT_FULL_GRAPH_FULL_PROFILE_MANIFEST_PATH = (
     PROJECT_ROOT / "results" / "realworld_pilot" / "pilot_full_graph_manifest.json"
 )
 FULL_GRAPH_RUNTIME_READINESS_SCOPE = (
-    "Full-graph runtime-readiness packet only; not full-graph experiment "
+    "Full-graph runtime review packet only; not full-graph experiment "
     "output, not graph-scale acceptance, not calibrated validation, and not "
     "operational routing evidence."
 )
@@ -99,7 +99,7 @@ def write_full_graph_runtime_readiness_packet(
     full_graph_full_profile_manifest_path: str
     | Path = DEFAULT_FULL_GRAPH_FULL_PROFILE_MANIFEST_PATH,
 ) -> dict[str, Any]:
-    """Write full-graph runtime readiness CSV, manifest, and Markdown."""
+    """Write full-graph runtime review CSV, manifest, and Markdown."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -153,7 +153,7 @@ def build_full_graph_runtime_readiness_manifest(
     full_graph_full_profile_manifest_path: str
     | Path = DEFAULT_FULL_GRAPH_FULL_PROFILE_MANIFEST_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for full-graph runtime readiness."""
+    """Return a conservative manifest for full-graph runtime review."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     blocking_count = sum(
@@ -193,7 +193,7 @@ def build_full_graph_runtime_readiness_manifest(
         "review_items": [
             "review the measured two-row full-graph smoke before extrapolating runtime",
             "generate full-graph scenario-policy-seed outputs if full-graph execution is selected",
-            "or record in graph_scale_acceptance.json why final claims exclude full-graph execution",
+            "or record in graph_scale_acceptance.json why release-scope claims exclude full-graph execution",
             "decide downstream sensitivity, figure, table, and manuscript regeneration scope",
         ],
         "remaining_blockers": [
@@ -209,10 +209,10 @@ def build_full_graph_runtime_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable full-graph runtime readiness packet."""
+    """Return a human-readable full-graph runtime review packet."""
 
     lines = [
-        "# Full Graph Runtime Readiness Packet",
+        "# Full Graph Runtime Review Packet",
         "",
         str(manifest.get("claim_boundary", FULL_GRAPH_RUNTIME_READINESS_SCOPE)),
         "",
@@ -225,7 +225,7 @@ def build_full_graph_runtime_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Review Rows",
         "",
         "| Item | Status | Evidence | Required Action |",
         "| --- | --- | --- | --- |",
@@ -245,8 +245,8 @@ def build_full_graph_runtime_readiness_markdown(
             "## Required Reviewer Actions",
             "",
             "- Do not treat smoke runtime as full-profile full-graph evidence.",
-            "- Select full graph, reduced corridor, multi-corridor candidate, or an explicitly bounded scope only in the formal graph-scale acceptance record.",
-            "- Re-run affected downstream outputs after the accepted graph method is selected.",
+            "- Select full graph, reduced corridor, multi-corridor candidate, or an explicitly bounded scope only in the formal graph-scale decision record.",
+            "- Re-run affected downstream outputs after the selected graph method is recorded.",
             "",
         ]
     )
@@ -333,7 +333,7 @@ def _full_profile_row(context: Mapping[str, Any]) -> dict[str, str]:
             evidence_path=str(context.get("full_profile_path", "")),
             readiness_status="needs_human_review_full_graph_full_profile_outputs",
             blocking_reason="",
-            required_reviewer_action="review full-graph outputs before graph-scale acceptance",
+            required_reviewer_action="review full-graph outputs before graph-scale method selection",
         )
     return _row(
         "full_graph_full_profile_outputs",
@@ -342,7 +342,7 @@ def _full_profile_row(context: Mapping[str, Any]) -> dict[str, str]:
         readiness_status="blocked_missing_full_graph_full_profile_outputs",
         blocking_reason="full scenario-policy-seed outputs are absent on the full graph",
         required_reviewer_action=(
-            "generate full-graph outputs or formally bound final claims away "
+            "generate full-graph outputs or formally bound release-scope claims away "
             "from full-graph execution"
         ),
     )

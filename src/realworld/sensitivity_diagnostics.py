@@ -2,7 +2,7 @@
 
 This module does not accept sensitivity results for final-study claims. It only
 surfaces structural counts, missing or non-finite Morris index values, and
-claim-scope warnings so a reviewer can make an explicit acceptance decision.
+claim-scope warnings so a reviewer can make an explicit review decision.
 """
 
 from __future__ import annotations
@@ -286,7 +286,7 @@ def _review_items(
     items: list[str] = []
     if rows_with_index_issues:
         items.append(
-            "review missing or non-finite Morris index values before accepting "
+            "review missing or non-finite Morris index values before relying on "
             f"sensitivity outputs ({rows_with_index_issues} affected rows)"
         )
     if zero_mu_star_count:
@@ -310,7 +310,7 @@ def _review_items(
     scope = str(manifest.get("result_scope", "")).lower()
     if "scaffold" in scope or "not calibrated" in scope:
         items.append(
-            "current result scope remains scaffold or not-calibrated; do not use as final-study evidence without acceptance"
+            "current result scope remains scaffold or not-calibrated; do not use as final-study evidence without formal review"
         )
     return items
 

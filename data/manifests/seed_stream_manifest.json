@@ -3,7 +3,7 @@
   "blocking_check_count": 0,
   "can_mark_complete": false,
   "claim_boundary": "This seed-stream manifest documents current scenario-runner stochastic streams and deterministic dispatch components. It does not prove statistical power, accept CRN design, validate stochastic assumptions, or close final-study gates.",
-  "generated_at": "2026-05-10T07:57:40+00:00",
+  "generated_at": "2026-06-04T07:37:35+00:00",
   "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
   "marker_checks": [
     {
@@ -21,13 +21,13 @@
     {
       "check_id": "arrival_rng_consumed_by_lognormal",
       "observed": "src/models.py consumes the arrival RNG via lognormal sampling",
-      "review_action": "Review demand sampling implementation before accepting CRN design.",
+      "review_action": "Review demand sampling implementation before CRN design signoff.",
       "status": "pass"
     },
     {
       "check_id": "disruption_rng_consumed_by_edge_draws",
       "observed": "src/disruptions.py consumes the disruption RNG for edge draws",
-      "review_action": "Review disruption sampling implementation before accepting CRN design.",
+      "review_action": "Review disruption sampling implementation before CRN design signoff.",
       "status": "pass"
     },
     {
@@ -60,7 +60,7 @@
     "confirm demand and disruption streams are intentionally shared across policies by seed",
     "confirm deterministic dispatch and fleet components do not need additional RNG streams",
     "extend this manifest before adding stochastic dispatch, routing tie-breaking, or future sampling logic",
-    "use with CRN pairing audit and paired-delta statistics before experiment acceptance"
+    "use with CRN pairing audit and paired-delta statistics before experiment decision review"
   ],
   "run_profile": "full_pilot",
   "scenario_ids": [

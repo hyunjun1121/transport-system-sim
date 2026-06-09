@@ -1,0 +1,34 @@
+{
+  "approved_rows": [
+    "benchmark_cache_or_threshold->benchmark_review_packets",
+    "benchmark_cache_or_threshold->claim_boundaries",
+    "rail_source_or_timing->multimodal_benchmarks",
+    "rail_source_or_timing->rail_stress_profiles",
+    "region_boundary->benchmarks",
+    "region_boundary->connector_audits",
+    "region_boundary->road_snapshots",
+    "road_snapshot_or_evidence->benchmarks",
+    "road_snapshot_or_evidence->graph_scale_diagnostics",
+    "road_snapshot_or_evidence->route_exposure"
+  ],
+  "blocked_rows": [],
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "non_closeout_boundaries": [
+    "no publication readiness",
+    "no final-study readiness",
+    "no formal acceptance",
+    "no operational routing",
+    "no calibrated validation",
+    "graph-scale, validation, and rail-evidence blockers remain for broader gates"
+  ],
+  "publication_ready": false,
+  "record_type": "artifact_invalidation_closeout_reviewer_evidence_batch",
+  "reviewed_at_utc": "2026-06-09T06:02:06+00:00",
+  "reviewer_id": "gpt55_xhigh_source_output_lineage_reviewer_019eaaf2_20260609",
+  "schema_version": 1,
+  "scope": "artifact_invalidation_closeout_only",
+  "source_agent_id": "019eaaf2-09eb-7df2-bea2-87f5641f47d4",
+  "source_agent_nickname": "Ramanujan"
+}

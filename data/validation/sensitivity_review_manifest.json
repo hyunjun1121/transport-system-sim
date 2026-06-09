@@ -40,7 +40,7 @@
   "review_items": [
     "review unavailable or unexplained missing Morris indices before manuscript use",
     "interpret zero mu_star rows as diagnostic evidence, not calibrated no-effect proof",
-    "resolve graph-scale scope before using reduced-graph sensitivity outputs in final claims",
+    "resolve graph-scale scope before using reduced-graph sensitivity outputs in release-scope claims",
     "decide whether Morris screening is sufficient or a Sobol extension is required",
     "record any gate decision only in a separate sensitivity acceptance record"
   ],

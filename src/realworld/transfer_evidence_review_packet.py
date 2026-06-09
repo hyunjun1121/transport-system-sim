@@ -19,6 +19,7 @@ from src.realworld.rail_station_binding import (
     load_rail_station_bindings,
     summarize_rail_station_bindings,
 )
+from src.transfers import TransferDelayConfig
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -83,11 +84,21 @@ def build_transfer_evidence_review_rows(
     multimodal = config.get("multimodal", {}) if isinstance(config.get("multimodal"), Mapping) else {}
     transfer_fixed = _clean_number(multimodal.get("transfer_time_min", ""))
     transfer_per_passenger = _clean_number(multimodal.get("transfer_per_passenger_min", ""))
+    transfer_config = TransferDelayConfig(
+        base_min=_float_or_zero(transfer_fixed),
+        per_passenger_min=_float_or_zero(transfer_per_passenger),
+    )
 
     fixed_row = parameters.get("transfer_fixed_delay", {})
     per_row = parameters.get("transfer_per_passenger_delay", {})
     fixed_sensitivity = sensitivity.get("transfer_fixed_delay", {})
     per_sensitivity = sensitivity.get("transfer_per_passenger_delay", {})
+    component_rows = _build_transfer_component_rows(
+        region_id=region_id,
+        config_path=config_path,
+        parameter_sources_path=parameter_sources_path,
+        transfer_config=transfer_config,
+    )
 
     return [
         _row(
@@ -142,7 +153,7 @@ def build_transfer_evidence_review_rows(
             current_source=_display_path(sensitivity_design_path),
             candidate_artifacts=_join_paths((sensitivity_design_path, parameter_sources_path)),
             recommended_upgrade=(
-                "confirm whether sensitivity bounds are sufficient for final claims "
+                "confirm whether sensitivity bounds are sufficient for release-scope claims "
                 "or replace them with source-backed transfer timing evidence"
             ),
             publication_use_status="sensitivity_bounds_only_not_transfer_calibration",
@@ -151,6 +162,7 @@ def build_transfer_evidence_review_rows(
                 "fixed delay or disabled per-passenger delay."
             ),
         ),
+        *component_rows,
         _row(
             review_item_id="transfer_access_station_context",
             region_id=region_id,
@@ -167,7 +179,7 @@ def build_transfer_evidence_review_rows(
             candidate_artifacts=_join_paths((station_binding_path, parameter_sources_path)),
             recommended_upgrade=(
                 "review access-station transfer path, walking speed, vertical "
-                "circulation, and crowding assumptions before final transfer claims"
+                "circulation, and crowding assumptions before release-scope transfer claims"
             ),
             publication_use_status="station_context_only_not_transfer_timing",
             notes=(
@@ -218,7 +230,7 @@ def build_transfer_evidence_review_rows(
             ),
             recommended_upgrade=(
                 "supply reviewed station-layout, field-observation, pedestrian-flow "
-                "literature, or explicit weak-parameter acceptance before final claims"
+                "literature, or explicit weak-parameter acceptance before release-scope claims"
             ),
             publication_use_status="blocking_gap_for_transfer_calibration_claims",
             notes=(
@@ -344,9 +356,9 @@ def build_transfer_evidence_review_manifest(
         ],
         "review_items": [
             "review whether current fixed and per-passenger transfer delay values are bounded scenario assumptions or must be replaced",
-            "supply station-layout, observed transfer, pedestrian-flow literature, or field-review evidence before calibrated transfer claims",
+            "supply station-layout, observed transfer, pedestrian-flow literature, or field-review evidence before release-scope transfer claims",
             "keep station binding separate from station transfer timing evidence",
-            "rerun parameter source-readiness and final-study audits after transfer evidence changes",
+            "rerun parameter source-review and study-scope audits after transfer evidence changes",
         ],
     }
 
@@ -392,7 +404,7 @@ def build_transfer_evidence_review_markdown(
             "",
             "- This packet is review support, not transfer calibration.",
             "- Station binding does not measure platform, vertical-circulation, crowding, or boarding delay.",
-            "- Keep final transfer claims blocked until source-backed review or formal weak-parameter acceptance exists.",
+            "- Keep release-scope transfer claims blocked until source-backed review or formal weak-parameter acceptance exists.",
             "",
         ]
     )
@@ -404,6 +416,47 @@ def _row(**values: str) -> dict[str, str]:
     row.update({key: str(value) for key, value in values.items()})
     row["claim_boundary"] = TRANSFER_EVIDENCE_REVIEW_SCOPE
     return row
+
+
+def _build_transfer_component_rows(
+    *,
+    region_id: str,
+    config_path: str | Path,
+    parameter_sources_path: str | Path,
+    transfer_config: TransferDelayConfig,
+) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    breakdown = transfer_config.breakdown_for(0)
+    for component in breakdown.components:
+        rows.append(
+            _row(
+                review_item_id=f"transfer_component_{component.component_id}",
+                region_id=region_id,
+                evidence_group="component_accounting",
+                transfer_component=component.component_id,
+                current_value=(
+                    f"base={_clean_number(component.base_min)} min; "
+                    f"per_passenger={_clean_number(component.per_passenger_min)} min/pax; "
+                    f"source_class={component.source_class}"
+                ),
+                unit="min; min/pax",
+                evidence_status="documented_component_accounting",
+                source_status="config_derived_component_accounting",
+                source_artifact_status="component_accounting_code_present",
+                review_priority="medium",
+                weak_for_final_claim="true",
+                current_source=_join_paths((config_path, parameter_sources_path)),
+                candidate_artifacts=_join_paths((config_path, parameter_sources_path)),
+                recommended_upgrade=(
+                    "review whether this component maps to station walking, "
+                    "queueing, vertical circulation, ticketing, security, or "
+                    "crowding evidence before release-scope transfer claims"
+                ),
+                publication_use_status="component_accounting_only_not_transfer_calibration",
+                notes=component.notes,
+            )
+        )
+    return rows
 
 
 def _read_yaml_mapping(path: str | Path) -> dict[str, Any]:
@@ -455,6 +508,13 @@ def _clean_number(value: object) -> str:
     if text.endswith(".0"):
         return text[:-2]
     return text
+
+
+def _float_or_zero(value: object) -> float:
+    text = str(value).strip()
+    if not text:
+        return 0.0
+    return float(text)
 
 
 def _first_field(row: Mapping[str, str], keys: Sequence[str]) -> str:

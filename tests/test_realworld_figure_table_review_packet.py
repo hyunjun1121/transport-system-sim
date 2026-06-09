@@ -90,7 +90,7 @@ def test_figure_table_review_writer_outputs_artifacts() -> None:
         with open(manifest["outputs"]["doc"], "r", encoding="utf-8") as handle:
             doc = handle.read()
         assert "Figure/Table Review Packet" in doc
-        assert "not manuscript acceptance" in doc
+        assert "not manuscript decision" in doc
 
     print("PASS: figure/table review writer emits artifacts")
 

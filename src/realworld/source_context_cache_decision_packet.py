@@ -222,7 +222,7 @@ def build_source_context_cache_decision_manifest(
             "record reviewer, decision date, license/terms result, and attribution duties outside this packet",
             "retain raw responses and SHA256 evidence when a source is cached",
             "derive downstream rail evidence only after retained source extracts are reviewed",
-            "record final provenance only in data/manifests/provenance_acceptance.json",
+            "record release-scope provenance only in data/manifests/provenance_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -272,7 +272,7 @@ def build_source_context_cache_decision_markdown(
             "",
             "- This packet is a reviewer worksheet, not a formal decision record.",
             "- It does not cache data, certify terms, or accept source provenance.",
-            "- Keep final claims blocked until retained sources are reviewed and formal provenance acceptance exists.",
+            "- Keep release-scope claims blocked until retained sources are reviewed and formal provenance acceptance exists.",
             "",
         ]
     )
@@ -312,7 +312,7 @@ def _decision_row(
         "source_url_or_citation": str(row.get("source_url_or_citation", "")),
         "required_reviewer_action": (
             "Choose whether to cache reviewed source evidence, retain this "
-            "source as sensitivity/context-only, or exclude it from final claims."
+            "source as sensitivity/context-only, or exclude it from release-scope claims."
         ),
         "required_evidence_fields": (
             "reviewer; decision_date; decision_basis; terms_or_license_summary; "
@@ -339,7 +339,7 @@ def _candidate_options(row: Mapping[str, str]) -> str:
     options = [
         "cache_reviewed_extract",
         "retain_as_sensitivity_or_context_only",
-        "exclude_from_final_claims",
+        "exclude_from_release_scope_claims",
     ]
     source_id = str(row.get("source_id", ""))
     if source_id == "metro9_capacity_context":

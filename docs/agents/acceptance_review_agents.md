@@ -29,7 +29,7 @@ Required actions when not ready:
 
 Decision rules:
 - Do not assume license compatibility without cited or source-backed evidence.
-- Block final claims while source records are pending review or target payloads are absent.
+- Block release claims while source records are pending review or target payloads are absent.
 
 Required actions when not ready:
 - Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.
@@ -61,13 +61,13 @@ Required actions when not ready:
 
 Decision rules:
 - Flag unsupported parameters; never accept weak defaults silently.
-- Use reviewed overrides or accepted weak-parameter records before final claims.
+- Use reviewed overrides or reviewer-cleared weak-parameter records before release claims.
 
 Required actions when not ready:
 - Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
 - Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 
-## Validation Benchmark Strategy Agent
+## Benchmark Strategy Review Agent
 
 - Agent ID: `validation_benchmark_strategy_agent`
 - Gates: `validation_package`
@@ -147,12 +147,12 @@ Required actions when not ready:
 - Run or document clean-checkout validation with command log and artifact regeneration evidence.
 - Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
 
-## Final Independent Audit Agent
+## Independent Audit Review Agent
 
 - Agent ID: `final_independent_audit_agent`
 - Gates: `final_audit`
 - Non-ready status: `blocked`
-- Mission: Aggregate all acceptance records, verify every gate is accepted or blocked, and produce the final audit summary only after pre-final gates close.
+- Mission: Aggregate all reviewer records, verify every gate is cleared or blocked, and produce the independent audit summary only after prerequisite gates close.
 - Formal acceptance artifacts: `docs/final_study_audit.md`, `data/manifests/final_audit_acceptance.json`
 
 Decision rules:

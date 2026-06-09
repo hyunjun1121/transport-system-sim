@@ -1,19 +1,19 @@
 # Reproducibility Package
 
 This package records how to reproduce the current real-world or quasi-real
-study scaffold. It does not certify calibrated real-world accuracy.
+study scaffold. It does not certify fit-to-observed-data real-world accuracy.
 
 ## Scope
 
 Current reproducible artifacts are scaffold-only:
 
-- current final-study status remains `final_study_ready=false`;
-- the plan-level audit reports 3 / 15 ready gates
+- current study-closeout status remains `final_study_ready=false`;
+- the plan-level audit reports 3 / 15 preflight-pass gates
   (`real_input_smoke`, `structured_disruptions`, and `policy_alternatives`) and
   12 / 15 blocked gates;
-- formal acceptance remains 0 / 12 ready, with all required formal acceptance
-  artifacts absent and no final approval recorded;
-- graph-scale, validation, sensitivity, and experiment strategy-readiness
+- formal signoff remains 0 / 12 complete, with all required formal signoff
+  artifacts absent and no closeout signoff recorded;
+- graph-scale, evidence-check, sensitivity, and experiment strategy-blocker-review
   packets are present as review aids at
   `docs/graph_scale_strategy_readiness_packet.md`,
   `docs/validation_strategy_readiness_packet.md`,
@@ -23,23 +23,23 @@ Current reproducible artifacts are scaffold-only:
 - cached road-input evidence audit for OSM length, highway, maxspeed,
   capacity, and base-disruption proxy coverage
 - road-class evidence diagnostics that rank routeable highway classes by
-  speed, capacity, and base-disruption evidence gaps without accepting them
+  speed, capacity, and base-disruption evidence gaps without signing them off
 - cached OSM `maxspeed` candidate evidence by routeable road class; this
   summarizes sparse public tags for reviewer triage without creating reviewed
-  overrides or calibrated speed evidence
+  overrides or source-tuned speed evidence
 - cached OSM `lanes` capacity-candidate evidence by routeable road class; the
   current cache has no parseable lane observations, so this documents the
-  remaining capacity evidence gap without accepting fallback capacities
+  remaining capacity evidence gap without signing off fallback capacities
 - optional road-class override loader for reviewed speed, capacity, and
   base-disruption evidence tables
 - draft road-class override template generator for reviewer worksheets, using
-  diagnostics and current mapper defaults without creating acceptance evidence
+  diagnostics and current mapper defaults without creating signoff evidence
 - road-class override audit that keeps the missing reviewed default override
-  table visible as a final-claim blocker and separately checks whether an
-  accepted pilot manifest applied the reviewed table with a matching SHA256
+  table visible as a closeout-claim blocker and separately checks whether a
+  signed-off pilot manifest applied the reviewed table with a matching SHA256
 - optional cached rail-timetable derivation path that records source artifact
   path, SHA256, and field-level timing evidence when a reviewed timetable
-  extract is available; derived rows are ready only when the artifact resolves
+  extract is available; derived rows are usable only when the artifact resolves
   and the digest matches, and timetable station codes match official rail-point
   station bindings
 - optional headway-only rail derivation and data.go.kr train-schedule fetch
@@ -47,7 +47,7 @@ Current reproducible artifacts are scaffold-only:
   headway evidence but not travel-time evidence by itself
 - optional cached static-GTFS derivation path that records source artifact
   path, SHA256, and field-level timing evidence when a reviewed GTFS zip or
-  directory is available; derived rows are ready only when the artifact
+  directory is available; derived rows are usable only when the artifact
   resolves and the digest matches
 - optional cached rail shortest-path derivation path that records
   station-to-station travel-time evidence only, preserves source artifact path
@@ -69,28 +69,28 @@ Current reproducible artifacts are scaffold-only:
 - graph-scale alternate-route sensitivity diagnostic comparing the top
   full-graph route candidates with the reduced corridor; current rank-1 paths
   are preserved, but alternate candidates warn and remain graph-scale
-  uncertainty rather than acceptance evidence
+  uncertainty rather than signoff evidence
 - graph-scale multi-corridor candidate diagnostic preserving the top
   full-graph route candidates in a 164-node / 246-edge candidate graph; current
-  rows all pass, but this is an upgrade path rather than final graph-scale
-  acceptance
+  rows all pass, but this is an upgrade path rather than study-closeout
+  graph-scale signoff
 - graph-scale method review packet comparing the reduced corridor,
   multi-corridor candidate, and full bus-practical graph; it is review support
-  only, not acceptance
+  only, not signoff
 - parameter-source, rail-assumption, and fleet-assumption tables
-- parameter-acceptance schema for future reviewed weak assumptions retained
-  within bounded final claims; no acceptance CSV is committed in the current
+- parameter-signoff schema for future reviewed weak assumptions retained
+  within bounded study-closeout claims; no signoff CSV is committed in the current
   scaffold
-- parameter evidence readiness audit separating source-backed,
+- parameter evidence preflight audit separating source-backed,
   benchmark-supported, assumption-only, and sensitivity-only core inputs
 - parameter evidence review packet that turns the current audit into a 29-row
-  reviewer worksheet; it is review support only and not accepted calibration
+  reviewer worksheet; it is review support only and not signed-off benchmark fit
 - parameter evidence source-request packet that names the cross-cutting demand,
   fleet, dispatch, transfer, disruption, and traffic/BPR source inputs still
   needed before weak parameters can be strengthened
 - rail service evidence cache that currently marks timing values as an
   assumption proxy and capacity as sensitivity-only
-- rail evidence review packet that consolidates station-binding readiness,
+- rail evidence review packet that consolidates station-binding preflight status,
   rail-service timing gaps, capacity treatment, service-window assumptions, and
   available derivation paths; it is review support only
 - rail timing source-request packet that lists the API-key or reviewed-file
@@ -114,76 +114,75 @@ Current reproducible artifacts are scaffold-only:
   indices, zero-effect rows, reduced-graph scope, and scaffold claim boundaries
 - sensitivity review packet that converts Morris diagnostics into a 6-row
   reviewer worksheet for index handling, zero-effect interpretation,
-  reduced-graph scope, and Morris-vs-Sobol decision support without accepting
+  reduced-graph scope, and Morris-vs-Sobol decision support without signing off
   sensitivity evidence
-- sensitivity strategy-readiness packet that records Morris, graph-scope,
-  scaffold-result, method-decision, and missing-acceptance blockers without
-  accepting sensitivity evidence
-- experiment strategy-readiness packet that records current full-pilot scope,
+- sensitivity strategy-blocker-review packet that records Morris, graph-scope,
+  scaffold-result, method-decision, and missing-signoff blockers without
+  signing off sensitivity evidence
+- experiment strategy-blocker-review packet that records current full-pilot scope,
   graph/input dependencies, row-count/checksum, scenario-policy-seed, CRN, and
-  missing-acceptance review items without accepting experiment outputs
+  missing-signoff review items without signing off experiment outputs
 - scaffold-only figures, result tables, bottleneck attribution proxy, policy
   regime map, and claim-boundary table
 - scaffold-aligned English paper and Korean report source that state the
   current graph scales, full pilot row counts, Morris row counts, and
-  non-calibrated claim boundary; `report.docx` is regenerated from
+  non-source-tuned claim boundary; `report.docx` is regenerated from
   `report_draft.md`
 - current plan-gate audit separating executable scaffold evidence from
-  remaining final-study blockers
+  remaining study-closeout blockers
 - source provenance manifest that lists source URLs, license/terms notes,
   snapshot/access dates, local artifacts, review status, and claim boundaries
-  without accepting final-study provenance
-- graph-scale acceptance schema for a future reviewed
+  without signing off study-closeout provenance
+- graph-scale signoff schema for a future reviewed
   `data/manifests/graph_scale_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- validation acceptance schema for a future reviewed
+- evidence-check signoff schema for a future reviewed
   `data/manifests/validation_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- sensitivity acceptance schema for a future reviewed
+- sensitivity signoff schema for a future reviewed
   `data/manifests/sensitivity_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- experiment-output acceptance schema for a future reviewed
+- experiment-output signoff schema for a future reviewed
   `data/manifests/experiment_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- provenance acceptance schema for a future reviewed
+- provenance signoff schema for a future reviewed
   `data/manifests/provenance_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- manuscript/report acceptance schema for a future reviewed
+- manuscript/report signoff schema for a future reviewed
   `data/manifests/manuscript_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- clean-checkout reproducibility acceptance schema for a future reviewed
+- clean-checkout reproducibility signoff schema for a future reviewed
   `data/manifests/reproducibility_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- independent final-audit acceptance schema for a future reviewed
+- independent closeout-audit signoff schema for a future reviewed
   `data/manifests/final_audit_acceptance.json` record; the record is
   intentionally absent in the current scaffold
-- pilot acceptance schema for a future human-reviewed
+- pilot signoff schema for a future human-reviewed
   `data/manifests/pilot_acceptance.json` record; the record is intentionally
   absent in the current scaffold
-- publication-readiness audit aggregating parameter, road, rail-service, and
+- publication-preflight audit aggregating parameter, road, rail-service, and
   station-binding evidence gates
-- final-study readiness audit mapping every `plan.md` final gate to concrete
-  artifacts while separating scaffold artifact presence from final-study
-  readiness
+- study-closeout preflight audit mapping every `plan.md` closeout gate to
+  concrete artifacts while separating scaffold artifact presence from
+  study-closeout preflight status
 - current active-goal completion audit and structured JSON manifest that
-  restate the objective as concrete gates, list named acceptance artifacts,
+  restate the objective as concrete gates, list named signoff artifacts,
   reject proxy-only completion signals, and keep the project blocked until
-  reviewed final-study gates close
+  reviewed study-closeout gates close
 - clean-checkout reproducibility review packet that records scaffold manifest
-  scope, formal acceptance-record absence, current Git worktree state,
-  untracked artifact risk, validation command ladder coverage, runtime
+  scope, formal signoff-record absence, current Git worktree state,
+  untracked artifact risk, reproduction command ladder coverage, runtime
   `cloned_repo` import boundary, and the fact that full clean-checkout
-  reproduction has not been accepted
+  reproduction has not been signed off
 - bounded clean source-checkout smoke manifest, command log, and markdown
   summary; the current clean-checkout smoke clones the committed tree with
   Windows long-path support and runs a 9-command bounded smoke profile in a
   fresh virtual environment with dependency installation, but it is not a full
-  validation-ladder reproduction and does not close reproducibility acceptance
+  reproduction-ladder reproduction and does not close reproducibility signoff
 - bounded current-worktree reproducibility smoke manifest and command log; the
   current smoke records passing command counts in
   `data/validation/reproducibility_smoke_manifest.json`, but it is not a
-  formal clean-checkout acceptance record and cannot close reproducibility
-  acceptance
+  formal clean-checkout signoff record and cannot close reproducibility signoff
 - reduced-corridor method note and route-parity diagnostic explaining the
   current graph-scale boundary
 
@@ -283,7 +282,7 @@ Optional live rail shortest-path cache fetch:
 
 This command requires `DATA_GO_KR_KEY` or `--service-key`. It creates a local
 cache only; the cache must be reviewed before
-`scripts\derive_rail_shortest_path_evidence.py` is used for final-study rail
+`scripts\derive_rail_shortest_path_evidence.py` is used for study-closeout rail
 travel-time evidence.
 
 Optional live rail timetable cache fetch:
@@ -303,7 +302,7 @@ Optional live rail timetable cache fetch:
 
 This command also requires `DATA_GO_KR_KEY` or `--service-key`. It creates a
 local cache only; the cache must be reviewed before timetable or headway
-evidence derivation is used for final-study claims.
+evidence derivation is used for study-level claims.
 
 Optional reruns for individual pilot experiment profiles:
 
@@ -343,8 +342,8 @@ Optional cached OSM maxspeed candidate table:
 This writes `data/parameters/road_speed_evidence_candidates.csv` and
 `data/parameters/road_speed_evidence_manifest.json`. The current table has 10
 routeable road-class rows and 5 rows with observed `maxspeed` tags. It is a
-speed-evidence review aid only; reviewed values still need to be accepted in
-`data/parameters/road_class_overrides.csv` before final road-calibration
+speed-evidence review aid only; reviewed values still need reviewer signoff in
+`data/parameters/road_class_overrides.csv` before study-closeout road benchmark-fit
 claims.
 
 Optional cached OSM lane-count capacity candidate table:
@@ -366,9 +365,9 @@ Road-input evidence review packet:
 
 This writes `data/parameters/road_evidence_review_packet.csv` and
 `data/parameters/road_evidence_review_manifest.json`. The current packet has
-10 routeable road-class rows and marks all 10 rows weak for final-study road
+10 routeable road-class rows and marks all 10 rows weak for study-closeout road
 claims. It consolidates speed, capacity, disruption, and draft-override review
-status without accepting or applying any road-class override.
+status without signing off or applying any road-class override.
 
 Road evidence source-request packet:
 
@@ -390,8 +389,8 @@ Core-parameter evidence review packet:
 
 This writes `data/parameters/parameter_evidence_review_packet.csv` and
 `data/parameters/parameter_evidence_review_manifest.json`. The current packet
-has 29 core-parameter rows and 25 rows marked weak for final-study claims. It
-prioritizes evidence upgrades but does not accept any value.
+has 29 core-parameter rows and 25 rows marked weak for study-level claims. It
+prioritizes evidence upgrades but does not sign off any value.
 
 Parameter evidence source-request packet:
 
@@ -403,7 +402,7 @@ This writes `data/parameters/parameter_evidence_source_request_packet.csv` and
 `data/parameters/parameter_evidence_source_request_manifest.json`. The current
 packet has 7 request rows covering 25 demand, fleet, dispatch, transfer, rail,
 disruption, and traffic/BPR parameters. It is a source-request worksheet only,
-not source evidence, accepted calibration, or weak-parameter acceptance.
+not source evidence, signed-off benchmark fit, or weak-parameter signoff.
 
 Optional cached station binding derivation:
 
@@ -424,15 +423,16 @@ sensitivity-only treatment before publication claims.
 Optional cached static-GTFS derivation:
 
 ```powershell
-.\.venv\Scripts\python scripts\derive_rail_gtfs_evidence.py --input data\rail\pilot_gtfs.zip --output data\parameters\rail_service_evidence.csv --evidence-id songpa_public_demo_rail_gtfs_v1 --region-id songpa_public_demo --access-point S --egress-point R --access-stop-id ACCESS_STOP_ID --egress-stop-id EGRESS_STOP_ID --source-name "Reviewed static GTFS feed" --source-url-or-citation "GTFS source URL or citation" --extraction-date 2026-05-04 --capacity-pax-per-train 500 --service-window "weekday selected service window" --route-id ROUTE_ID
+.\.venv\Scripts\python scripts\derive_rail_gtfs_evidence.py --input data\rail\pilot_gtfs.zip --output data\parameters\rail_service_evidence.csv --evidence-id songpa_public_demo_rail_gtfs_v1 --region-id songpa_public_demo --access-point S --egress-point R --access-stop-id ACCESS_STOP_ID --egress-stop-id EGRESS_STOP_ID --source-name "Reviewed static GTFS feed" --source-url-or-citation "GTFS source URL or citation" --extraction-date 2026-05-04 --capacity-pax-per-train 500 --service-window "weekday selected service window" --route-id ROUTE_ID --gtfs-validator-report data\rail\pilot_gtfs_validator_report.json
 ```
 
 This command can strengthen scheduled headway and access-to-egress travel-time
-evidence only after the GTFS artifact is reviewed and reproducible. It does
-not prove emergency rail availability, station processing capacity, or train
-capacity.
+evidence only after the GTFS artifact is reviewed and reproducible, and after
+the retained GTFS Validator report records the same feed SHA256 with zero
+errors. It does not prove emergency rail availability, station processing
+capacity, or train capacity.
 
-Validation ladder:
+Reproduction check ladder:
 
 ```powershell
 .\.venv\Scripts\python -m compileall main.py src tests scripts generate_report.py
@@ -533,7 +533,7 @@ git diff --check
 | `data/parameters/road_class_overrides_draft.csv` | Current draft road-class override worksheet | 10 routeable road-class rows, all `expert assumption`; review aid only |
 | `scripts/audit_road_overrides.py` | Optional road-class override evidence audit | reports the missing default override table without failing |
 | `data/parameters/parameter_sources.csv` | Parameter-source table | assumption and sensitivity evidence |
-| `data/parameters/parameter_evidence_review_packet.csv` | Core-parameter evidence review worksheet | 29 rows, 25 weak for final-study claims; review support only |
+| `data/parameters/parameter_evidence_review_packet.csv` | Core-parameter evidence review worksheet | 29 rows, 25 weak for study-level claims; review support only |
 | `data/parameters/parameter_evidence_review_manifest.json` | Parameter review-packet manifest | summarizes weak rows, priorities, groups, and non-acceptance claim boundary |
 | `data/parameters/parameter_evidence_source_request_packet.csv` | Cross-cutting parameter evidence source-request worksheet | 7 rows for demand, fleet, dispatch, transfer, rail, disruption, and traffic/BPR source inputs; request aid only |
 | `data/parameters/parameter_evidence_source_request_manifest.json` | Parameter source-request manifest | summarizes covered parameters and keeps `publication_ready: false` |
@@ -670,9 +670,9 @@ Allowed:
 - The current code can load a cached pilot graph and run both transport modes.
 - The current tables document source classes and assumptions.
 - The current parameter audit verifies that core parameters are present and
-  identifies which remain weak for final-study claims.
+  identifies which remain weak for study-level claims.
 - The current parameter review packet prioritizes weak values for replacement
-  or explicit acceptance, but it does not close any evidence gate.
+  or explicit signoff, but it does not close any evidence gate.
 - The current road audit verifies cached-road input coverage and identifies
   free-flow speed, capacity, and disruption-probability proxy dependence.
 - The current road diagnostic ranks routeable road classes that should be
@@ -686,7 +686,7 @@ Allowed:
 - The current scenario and policy tables are deterministic and reproducible.
 - The current sample outputs verify the end-to-end pipeline.
 - The staged and full profile metadata identify intended scenario, policy, and
-  seed matrices before those outputs are accepted.
+  seed matrices before those outputs receive reviewer decision records.
 - The optional OSRM snapshot provides route-plausibility evidence. The current
   snapshot has 3 pass rows after bus-practical road filtering, and the OSRM
   manifest records 3 cached external-router rows, 0 unpinned rows, 3 retained
@@ -705,25 +705,29 @@ Allowed:
   current full-pilot scenario-policy-seed matrix for review.
 - The current-vs-candidate graph-scale result comparison has 819 metric-level
   rows and flags same/changed/non-finite differences for reviewer inspection
-  before any graph-scale acceptance.
-  It still requires graph-scale acceptance before result claims can use it.
+  before any graph-scale signoff.
+  Result claims still need graph-scale signoff before using it.
 - The graph-scale review packet puts the reduced corridor, multi-corridor
   candidate, and full bus-practical graph into one worksheet; it is a review
-  aid only and does not choose the final method.
+  aid only and does not choose the closeout method.
 
 Not allowed:
 
-- The current outputs are calibrated real-world results.
-- The current outputs prove operational superiority of any mode.
-- The current Morris output is calibrated real-world sensitivity evidence.
-- The current Morris output is a Sobol result.
-- The current Morris diagnostic audit accepts blank or degenerate index behavior
-  for publication claims.
-- The sensitivity review packet accepts Morris outputs, waives Sobol analysis,
-  or closes `data/manifests/sensitivity_acceptance.json`.
-- The current pilot scaffold is an accepted operational Songpa-gu network.
-- The current bottleneck attribution proxy is causal evidence from
-  instrumented station, vehicle, or passenger logs.
+- Treat current outputs as scaffold review artifacts only, not
+  fit-to-observed-data real-world results.
+- Do not use current outputs to support mode-superiority or deployment
+  conclusions.
+- Treat current Morris output as scaffold screening output only, not Sobol
+  analysis.
+- Treat the Morris diagnostic audit as a review checklist for blank or
+  degenerate index behavior; it does not support publication claims.
+- Treat the sensitivity review packet as a worksheet only; it does not endorse
+  Morris outputs, decide Sobol requirements, or close
+  `data/manifests/sensitivity_acceptance.json`.
+- Treat the pilot scaffold as a public Songpa-gu demo context only, not a
+  deployment network or gate decision.
+- Treat the bottleneck attribution proxy as a descriptive scaffold signal only,
+  not causal evidence from instrumented station, vehicle, or passenger logs.
 - The current parameter evidence is publication-ready. It currently reports
   `publication_ready: false`.
 - The current road-input evidence is publication-ready. It currently reports
@@ -731,22 +735,23 @@ Not allowed:
 - The current rail station binding does not prove rail service availability,
   station-to-station route choice, headway, travel time, or capacity. It only
   reports `binding_ready: true` for official station identifiers.
-- The current rail evidence review packet does not derive or accept rail timing
+- The current rail evidence review packet does not derive or sign off rail timing
   evidence. It currently reports `publication_ready: false`.
 - The current rail timing source-request packet does not contain source
   observations. It currently reports `publication_ready: false`.
-- The current aggregated publication-readiness audit passes final-study gates.
+- The current aggregated publication audit remains blocked.
   It currently reports `publication_ready: false`.
-- The current plan-level final-study readiness audit passes all gates. It
+- The current plan-level study audit remains blocked. It
   currently reports `final_study_ready: false`.
 
 ## Remaining Reproducibility Upgrades
 
-- Review or replace the current OSM-derived cache as an accepted pilot snapshot.
+- Review or replace the current OSM-derived cache as a reviewer-selected pilot
+  snapshot.
 - Add `data/manifests/provenance_acceptance.json` only after source snapshots,
   license/attribution, privacy abstraction, cache manifests, reproduction
   paths, and not-operational claim boundaries are reviewed.
-- Record a real pilot acceptance decision in `data/manifests/pilot_acceptance.json`
+- Record a real pilot signoff decision in `data/manifests/pilot_acceptance.json`
   only after privacy, graph-scale, evidence, and claim-boundary review.
 - Add a reviewed GTFS feed, public timetable, shortest-path extract, or
   equivalent timing evidence for rail assumptions.
@@ -764,23 +769,23 @@ Not allowed:
   data.go.kr API key, station names, station codes, extraction date, and raw
   response retention plan are available.
 - Replace weak road, fleet, transfer, disruption, demand/time, and censoring
-  assumptions with source-backed, benchmark-supported, or explicitly accepted
-  values where the final claim requires them.
+  assumptions with source-backed, benchmark-supported, or explicitly signed-off
+  values where the study-level claim requires them.
 - Use `scripts/audit_road_evidence_diagnostics.py` to prioritize routeable road
   classes before creating reviewed road-class override evidence.
 - Use `scripts/write_road_speed_evidence.py` to inspect sparse OSM `maxspeed`
   evidence before deciding whether candidate speeds are strong enough for a
   reviewed override table.
 - Use `scripts/write_road_capacity_evidence.py` to verify whether the current
-  cache has enough lane-count evidence before accepting any capacity override.
+  cache has enough lane-count evidence before signing off any capacity override.
 - Use `scripts/write_road_evidence_review_packet.py` to consolidate speed,
-  capacity, disruption, and draft-override gaps before replacing or accepting
+  capacity, disruption, and draft-override gaps before replacing or signing off
   weak road-class inputs.
 - Use `scripts/write_road_evidence_source_request_packet.py` before collecting
   source-backed road speed, capacity, benchmark, disruption, or
   override-application inputs.
 - Use `scripts/write_parameter_review_packet.py` to regenerate the weak-core
-  parameter worksheet before replacing or explicitly accepting retained
+  parameter worksheet before replacing or explicitly signing off retained
   assumptions.
 - Use `scripts/write_parameter_evidence_source_request_packet.py` before
   collecting cross-cutting demand, fleet, dispatch, transfer, disruption, or
@@ -792,43 +797,44 @@ Not allowed:
   routingpy, R5/OpenTripPlanner, UXsim, or an equivalent tool is needed.
 - Review `data/validation/osrm_route_benchmark_manifest.json`, including raw
   response retention status, before using optional OSRM rows in any
-  validation-acceptance decision.
+  evidence-check signoff decision.
 - Use `data/validation/validation_review_packet.csv` as the worksheet for
   internal plausibility warnings, fallback benchmark warnings, optional OSRM
   snapshot review, accessibility-loss coverage, route-level road-evidence
   exposure, and benchmark-strategy choice.
 - Add `data/manifests/validation_acceptance.json` only after the benchmark
-  strategy, validation scope, and not-ground-truth limitation are reviewed.
+  strategy, evidence-check scope, and not-ground-truth limitation are reviewed.
 - Add `data/manifests/sensitivity_acceptance.json` only after the Morris/Sobol
   method, parameter ranges, graph scope, NaN/masked-value behavior, and Sobol
   requirement decision are reviewed.
 - Use `data/validation/sensitivity_review_packet.csv` as the worksheet for that
   review; do not treat the packet itself as acceptance evidence.
 - Add `data/manifests/experiment_acceptance.json` only after graph scope,
-  input validation, scenario-policy-seed design, CRN pairing, output counts,
+  input checks, scenario-policy-seed design, CRN pairing, output counts,
   and the not-operational claim boundary are reviewed.
-- Review the staged/full pilot profiles with stronger input validation and
-  choose an accepted graph-scale method: corridor abstraction, full-graph
+- Review the staged/full pilot profiles with stronger input checks and
+  choose a reviewer-selected graph-scale method: corridor abstraction, full-graph
   runtime, or multi-corridor ensemble.
 - Use the route-parity and alternate-route diagnostics as review support only;
   decide whether the 6 warning rows are acceptable under a documented
   corridor-selection rule, regenerate on the 164-node / 246-edge
   multi-corridor candidate graph, or add full-graph runtime evidence before
-  graph-scale acceptance.
+  graph-scale signoff.
 - Use `data/validation/graph_scale_review_packet.csv` to compare the three
-  graph-scale options before recording any graph-scale acceptance decision.
+  graph-scale options before recording any graph-scale signoff decision.
 - Add `data/manifests/graph_scale_acceptance.json` only after that graph-scale
   method is reviewed, source and analysis graph counts are confirmed, and the
-  not-operational claim boundary is accepted.
+  not-operational claim boundary is signed off.
 - Add Sobol analysis only if compute budget and experimental design justify it.
-- Regenerate manuscript/report figures only after accepted pilot outputs exist.
+- Regenerate manuscript/report figures only after reviewer-selected pilot
+  outputs exist.
 - Add `data/manifests/manuscript_acceptance.json` only after the English
   manuscript, Korean report source, regenerated docx, figures/tables,
   evidence gates, result claims, and not-operational claim boundaries are
   reviewed.
 - Add `data/manifests/reproducibility_acceptance.json` only after
-  clean-checkout validation, the validation ladder, artifact regeneration,
-  manifest paths, runtime import boundaries, validation command count, and
+  clean-checkout command-check, the reproduction ladder, artifact regeneration,
+  manifest paths, runtime import boundaries, command-check count, and
   not-operational claim boundaries are reviewed.
 - Use `data/validation/reproducibility_review_packet.csv` first to inspect
   scaffold scope, dirty or untracked worktree state, runtime import boundaries,
@@ -838,11 +844,11 @@ Not allowed:
   clean source-checkout smoke evidence. They show that the committed source
   tree can be cloned and a bounded evidence profile can pass with dependency
   installation, but they do not prove full validation-ladder execution,
-  full artifact regeneration, or final reproducibility acceptance.
+  full artifact regeneration, or study-closeout reproducibility signoff.
 - Use `data/validation/reproducibility_smoke_manifest.json` and
   `data/validation/reproducibility_smoke_log.jsonl` as current-worktree smoke
   evidence only. They can help reviewers inspect the command ladder, but they
   do not replace a fresh-clone or clean-checkout reproduction.
 - Add `data/manifests/final_audit_acceptance.json` only after an independent
-  prompt-to-artifact audit verifies every pre-final gate and rejects proxy-only
+  prompt-to-artifact audit verifies every pre-closeout gate and rejects proxy-only
   completion evidence.

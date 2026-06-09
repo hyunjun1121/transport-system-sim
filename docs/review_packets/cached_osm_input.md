@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Road / Rail / Parameter Evidence Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-10T08:28:03+00:00`
+- Generated at: `2026-06-02T22:54:07+00:00`
 
 ## Decision
 
@@ -51,6 +51,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/write_road_source_readiness_packet.py
 - scripts/write_road_source_decision_packet.py
 - scripts/write_road_evidence_priority_packet.py
+- data/parameters/road_attribute_evidence_table.csv
+- data/parameters/road_attribute_evidence_manifest.json
+- scripts/write_road_attribute_evidence.py
+- docs/road_attribute_evidence.md
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
 - scripts/audit_road_overrides.py
@@ -83,6 +87,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - scripts/write_road_source_readiness_packet.py
 - scripts/write_road_source_decision_packet.py
 - scripts/write_road_evidence_priority_packet.py
+- data/parameters/road_attribute_evidence_table.csv
+- data/parameters/road_attribute_evidence_manifest.json
+- scripts/write_road_attribute_evidence.py
+- docs/road_attribute_evidence.md
 - data/parameters/road_class_overrides_draft.csv
 - scripts/write_road_class_override_template.py
 - scripts/audit_road_overrides.py
@@ -182,6 +190,27 @@ Formal acceptance artifacts:
   "details": {
     "edge_count": 28947,
     "override_application_ready": false,
+    "road_attribute_evidence_artifacts_present": true,
+    "road_attribute_evidence_can_mark_complete": false,
+    "road_attribute_evidence_capacity_class_counts": {
+      "expert proxy": 28947
+    },
+    "road_attribute_evidence_disruption_class_counts": {
+      "sensitivity-only": 28947
+    },
+    "road_attribute_evidence_formal_acceptance_created": false,
+    "road_attribute_evidence_manifest_present": true,
+    "road_attribute_evidence_publication_ready": false,
+    "road_attribute_evidence_routeable_edge_count": 9140,
+    "road_attribute_evidence_row_count": 28947,
+    "road_attribute_evidence_speed_class_counts": {
+      "OSM-derived": 374,
+      "expert proxy": 28573
+    },
+    "road_attribute_evidence_status_counts": {
+      "weak_for_final_claim": 28947
+    },
+    "road_attribute_evidence_weak_for_final_claim_count": 28947,
     "road_diagnostics_ready": true,
     "road_diagnostics_top_review_candidates": [
       "residential",
@@ -280,6 +309,10 @@ Formal acceptance artifacts:
     "scripts/write_road_source_readiness_packet.py",
     "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
+    "data/parameters/road_attribute_evidence_table.csv",
+    "data/parameters/road_attribute_evidence_manifest.json",
+    "scripts/write_road_attribute_evidence.py",
+    "docs/road_attribute_evidence.md",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
     "scripts/audit_road_overrides.py"

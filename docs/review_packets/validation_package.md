@@ -3,14 +3,14 @@
 Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.
 
 - Gate ID: `validation_package`
-- Agent: `Validation Benchmark Strategy Agent`
+- Agent: `Benchmark Strategy Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Generated at: `2026-06-03T17:37:32+00:00`
 
 ## Decision
 
-Validation Benchmark Strategy Agent cannot accept gate validation_package; the current final-study readiness audit reports blockers.
+Benchmark Strategy Review Agent cannot accept gate validation_package; the current final-study readiness audit reports blockers.
 
 ## Reviewed Inputs
 
@@ -81,7 +81,7 @@ Validation Benchmark Strategy Agent cannot accept gate validation_package; the c
 
 ## Risks
 
-- Live or unpinned route benchmarks are not reproducible enough for final claims.
+- Live or unpinned route benchmarks are not reproducible enough for release claims.
 - Plausibility checks cannot prove operational accuracy.
 - create an explicit validation acceptance record after benchmark-strategy review
 - resolve validation strategy-readiness blockers before validation acceptance
@@ -168,9 +168,9 @@ Formal acceptance artifacts:
     "review_packet_publication_ready": false,
     "review_packet_row_count": 7,
     "route_road_evidence_exposure_row_count": 76,
-    "strategy_readiness_blocking_request_count": 2,
+    "strategy_readiness_blocking_request_count": 3,
     "strategy_readiness_can_mark_complete": false,
-    "strategy_readiness_human_review_request_count": 5,
+    "strategy_readiness_human_review_request_count": 4,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
     "strategy_readiness_remaining_blockers": [
@@ -178,11 +178,11 @@ Formal acceptance artifacts:
       "route-level road evidence exposure remains weak until road evidence gates close"
     ],
     "strategy_readiness_status_counts": {
+      "blocked_fallback_benchmark_failures": 1,
       "blocked_missing_validation_acceptance_record": 1,
       "blocked_weak_route_road_evidence_exposure": 1,
       "needs_human_review_accessibility_disconnections": 1,
-      "needs_human_review_external_route_snapshot": 1,
-      "needs_human_review_fallback_benchmark_warnings": 1,
+      "needs_human_review_external_route_snap_distances": 1,
       "needs_human_review_internal_plausibility_warnings": 1,
       "needs_human_review_validation_summary_scope": 1
     },

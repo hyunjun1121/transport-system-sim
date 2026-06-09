@@ -1,5 +1,5 @@
 {
-  "claim_boundary": "This packet compares graph-scale method options for review. It does not accept a graph-scale method, validate regional traffic behavior, or authorize final-study claims.",
+  "claim_boundary": "This packet compares graph-scale method options for review. It does not accept a graph-scale method, validate regional traffic behavior, or authorize release-scope claims.",
   "option_ids": [
     "current_reduced_corridor",
     "multi_corridor_candidate",
@@ -13,8 +13,8 @@
   "publication_ready": false,
   "result_scope": "graph_scale_method_review_packet_not_graph_scale_acceptance",
   "review_items": [
-    "decide whether the 118-node reduced corridor is an acceptable final method or only a smoke shortcut",
-    "if the 164-node multi-corridor candidate is selected, review the full-profile candidate output and regenerate sensitivity/figure/table outputs on the accepted graph",
+    "decide whether the 118-node reduced corridor is suitable for release-scope use or only a smoke shortcut",
+    "if the 164-node multi-corridor candidate is selected, review the full-profile candidate output and regenerate sensitivity/figure/table outputs on the selected graph",
     "review the full-scale multi-corridor candidate output before treating it as sufficient graph-scale evidence",
     "review the current-vs-candidate result comparison before interpreting graph-choice-sensitive scenarios",
     "if the full bus-practical graph is selected, generate full experiment runtime and result evidence",

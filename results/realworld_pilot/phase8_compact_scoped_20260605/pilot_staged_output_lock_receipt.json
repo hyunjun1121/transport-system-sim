@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-05T02:26:33+00:00",
+    "lock_file_sha256": "a8b3604fe36dffbef595a52c3bc8c09df74ff87d27fad37b6e5cb688af713e5f",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged.output.lock",
+    "output_prefix": "pilot_staged",
+    "pid": 45428,
+    "receipt_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "manifest_sha256": "07cd065794a546f33df7ffa0493a993715131efed7148d0d19a1a1c3a098e288",
+    "results": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_results.csv",
+    "results_sha256": "6f311a3d659fa9d7b2b6494fa7bfebd5235d3301f65c41b54b537a99707228a7",
+    "summary": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_summary.csv",
+    "summary_sha256": "f158c29e903c945b904b4115fcc9bebd46d97c58af9f3a4db435fa9736b9f98e"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-05T02:26:36+00:00"
+  },
+  "schema_version": 1
+}

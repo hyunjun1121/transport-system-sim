@@ -1,0 +1,99 @@
+{
+  "artifact_hashes": {
+    "data/validation/external_route_benchmarks_osrm.csv": "sha256:4d1b0daf8c8bc37203be50cb3c817af588c859e774f222640a82c815ed3b888a",
+    "data/validation/graph_scale_result_comparison.csv": "sha256:d6cbbde3b572db2d59e49ce9aec3a3e2d3e7f543a496bc326b366541a071fe19",
+    "data/validation/graph_scale_strategy_readiness_manifest.json": "sha256:939a9fc06985054f059ec56ec977f95225a975a596c2f88d6e9ab7d3370302ed",
+    "data/validation/osrm_route_benchmark_manifest.json": "sha256:ab9585a89040464543172d22ba2d14e1c875bd6c984de793658fb4939bdb7fca",
+    "data/validation/route_plausibility.csv": "sha256:d13970522113eb2961cc8064da5f604b28e0ef59244dc95745a15e362a098952",
+    "data/validation/validation_benchmark_decision_manifest.json": "sha256:10e5b496b7188fa72d94b4baccf509ce2f566f479fc764df7127a30128a3fb81",
+    "data/validation/validation_benchmark_decision_packet.csv": "sha256:97fe521c622c13d3c2551617495436498a2e429e226a32fb721abe8c6ad14ad0",
+    "docs/recovery/agent_ledgers/phase7_external_benchmark_cache_guard_20260603.md": "sha256:b79b2a922b853dc10a7228d5e39721f0c76536bbc130ab5cd66c4a3025de5fd9",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "tests/test_realworld_graph_scale_diagnostics.py": "sha256:6ca61cae25f9d84ea9a33419c8a7c1061382c2dbc8da113464ae867a21a609d6",
+    "tests/test_realworld_osrm_snapshot_manifest.py": "sha256:db851ba2096516a7ce69625893b1fa0b45c7fac4f09d4881f6e3c4e8481473bf",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a",
+    "tests/test_realworld_plausibility.py": "sha256:77856277c03332f5c16fcbac8a6912369b3c27ddbce071eec99066237a4920fe",
+    "tests/test_realworld_validation_benchmark_decision_packet.py": "sha256:7809371a9db903d04bd963a881ac90c476fa98b4c230c0e60272aaf3c4748ee9"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": "commands listed in docs/recovery/agent_ledgers/phase7_external_benchmark_cache_guard_20260603.md",
+      "exit_code": 0,
+      "status": "documented_previous_pass"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_review_only",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "passed_for_ready_for_review_not_closure",
+    "write_locks": [
+      "data/manifests/phase_gates/phase7_external_benchmark_layer.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Cached OSRM benchmark manifest exists with 3 benchmark rows and raw payload bindings.",
+    "Benchmark evidence is ready for review as plausibility/cache guard only.",
+    "Graph-scale and validation decision packets remain review aids, not acceptance evidence."
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/validation/osrm_route_benchmark_manifest.json",
+    "data/validation/external_route_benchmarks_osrm.csv",
+    "data/validation/route_plausibility.csv",
+    "data/validation/validation_benchmark_decision_packet.csv",
+    "data/validation/graph_scale_result_comparison.csv",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Compare simulator travel-time and routing behavior against external route or observed benchmark sources.",
+  "phase_id": "phase7_external_benchmark_layer",
+  "prerequisites": [
+    "phase2_road_network_input closed",
+    "phase3_road_attribute_evidence closed"
+  ],
+  "remaining_blockers": [
+    "Phase2 and Phase3 are not closed.",
+    "validation_acceptance.json and graph_scale_acceptance.json are absent; route-road evidence exposure remains weak for final claims."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_bounded_promotion"
+  },
+  "source_inputs": [
+    "plan.md",
+    "data/validation/osrm_route_benchmark_manifest.json",
+    "data/validation/validation_benchmark_decision_manifest.json",
+    "data/validation/graph_scale_strategy_readiness_manifest.json",
+    "docs/recovery/agent_ledgers/phase7_external_benchmark_cache_guard_20260603.md"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "gpt-5.5-xhigh-readiness-scout:019ea504-c582-7a51-850b-27571814ed82:phase6-7-9",
+    "gpt-5.5-xhigh:phase7-external-benchmark-cache-guard-20260603:documented-review-inputs"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_plausibility.py",
+    "tests/test_realworld_osrm_snapshot_manifest.py",
+    "tests/test_realworld_validation_benchmark_decision_packet.py",
+    "tests/test_realworld_graph_scale_diagnostics.py"
+  ]
+}

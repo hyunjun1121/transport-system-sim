@@ -39,13 +39,13 @@ Allowed interpretation:
 
 Not allowed interpretation:
 
-- calibrated real-world accessibility loss;
+- fit-to-observed-data real-world accessibility loss;
 - observed disruption impact;
 - emergency route recommendation;
-- proof that one transport policy is operationally superior.
+- proof that one transport policy is field-use superior.
 
-Final manuscript claims still require accepted graph-scale, road evidence,
-validation, experiment, sensitivity, and manuscript/report gates.
+Release-scope manuscript claims still require reviewed graph-scale, road
+evidence, benchmark, experiment, sensitivity, and manuscript/report gates.
 
 ## Regeneration
 

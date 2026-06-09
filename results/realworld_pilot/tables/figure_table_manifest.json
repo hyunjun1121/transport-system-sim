@@ -38,7 +38,7 @@
         "graph_reduction_strategy": "single_corridor",
         "nodes": 118,
         "reduced": true,
-        "strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted"
+        "strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded"
       },
       "source": {
         "edges": 9148,
@@ -59,10 +59,10 @@
     }
   },
   "inputs": {
-    "pilot_manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
-    "pilot_summary_path": "results/realworld_pilot/pilot_full_summary.csv",
-    "sensitivity_manifest_path": "results/realworld_pilot/morris_manifest.json",
-    "sensitivity_summary_path": "results/realworld_pilot/morris_summary.csv"
+    "pilot_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "pilot_summary_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_summary.csv",
+    "sensitivity_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_manifest.json",
+    "sensitivity_summary_path": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/sensitivity_summary.csv"
   },
   "morris_index_handling": {
     "audit": "scripts/audit_sensitivity_diagnostics.py counts blank and non-finite index rows; it does not accept sensitivity claims.",
@@ -75,17 +75,17 @@
     "claim_boundary_table": 3,
     "main_result_table": 63,
     "policy_regime_table": 27,
-    "sensitivity_result_table": 7056
+    "sensitivity_result_table": 98
   },
   "schema_version": 1,
   "selected_sensitivity_metric": "penalized_makespan",
   "source_commands": {
-    "pilot": "scripts/run_pilot_experiments.py --full",
-    "sensitivity": "scripts/run_sensitivity.py --method morris --all"
+    "pilot": "scripts/run_pilot_experiments.py --staged",
+    "sensitivity": "scripts/run_sensitivity.py --all"
   },
   "source_result_scopes": {
-    "pilot": "Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
-    "sensitivity": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast."
+    "pilot": "Scoped compact-output invalidation-regeneration artifact only; not publication evidence, not final-study evidence, not formal acceptance evidence, and not operational evidence. Base profile scope: Pilot staged scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
+    "sensitivity": "Pilot scaffold sensitivity screening only; not calibrated real-world sensitivity indices or an operational forecast."
   },
   "tables": {
     "bottleneck_attribution_table": "results/realworld_pilot/tables/bottleneck_attribution_table.csv",

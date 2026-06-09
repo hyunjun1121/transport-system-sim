@@ -558,10 +558,10 @@ def build_reproducibility_smoke_manifest(
         ),
         "required_actions": [
             "run clean-checkout reproduction from a fresh clone or exported package",
-            "preserve command logs for the full validation ladder and artifact regeneration",
+            "preserve command logs for the full command ladder and artifact regeneration",
             "review the scaffold-only reproducibility manifest scope",
             "resolve dirty or untracked worktree state before claiming package reproducibility",
-            "create data/manifests/reproducibility_acceptance.json only after human review accepts the clean-checkout package",
+            "create data/manifests/reproducibility_acceptance.json only after human review records the clean-checkout package decision",
         ],
     }
 

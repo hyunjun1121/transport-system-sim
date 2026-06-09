@@ -188,7 +188,7 @@ def build_parameter_evidence_priority_manifest(
             "This packet prioritizes existing parameter evidence gaps. It does "
             "not create accepted parameter values, does not certify source "
             "sufficiency, and does not close parameter, validation, provenance, "
-            "or final-study gates."
+            "or study-closeout gates."
         ),
         "row_count": len(rows),
         "region_ids": _region_ids(rows),
@@ -381,17 +381,17 @@ def _priority_sort_key(row: Mapping[str, str]) -> tuple[int, int, int, str]:
 
 def _review_items(rows: Sequence[Mapping[str, str]]) -> list[str]:
     items = [
-        "resolve blocked rail timing and capacity treatment before rail-parameter final claims",
-        "review high-priority disruption and traffic/BPR rows before final parameter acceptance",
+        "resolve blocked rail timing and capacity treatment before release-scope rail parameter claims",
+        "review high-priority disruption and traffic/BPR rows before parameter acceptance review",
         "review demand, fleet, dispatch, and transfer assumptions as bounded planning inputs",
-        "rerun parameter and final-study audits after source-backed parameter changes",
+        "rerun parameter and study-closeout audits after source-backed parameter changes",
     ]
     if _group_has_status(rows, "transfer", "blocked_"):
-        items.insert(0, "resolve blocked transfer evidence before transfer-delay final claims")
+        items.insert(0, "resolve blocked transfer evidence before release-scope transfer-delay claims")
     else:
         items.insert(
             0,
-            "review transfer evidence packet rows before transfer-delay final claims",
+            "review transfer evidence packet rows before release-scope transfer-delay claims",
         )
     return items
 

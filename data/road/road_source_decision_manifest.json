@@ -3,7 +3,7 @@
   "blocking_decision_count": 2,
   "cached_osm_input_gate_closure_candidate_count": 0,
   "can_mark_complete": false,
-  "claim_boundary": "Road source-decision packet only; not road evidence, not accepted road calibration, not reviewed road-class override approval, not cached OSM input gate closure, and not publication-readiness approval. It cannot create data/parameters/road_class_overrides.csv.",
+  "claim_boundary": "Road source-decision packet only; not road evidence, not road-input tuning evidence, not reviewed road-class override approval, not cached OSM input gate closure, and not publication approval. It cannot create data/parameters/road_class_overrides.csv.",
   "decision_ids": [
     "reviewed_road_class_override_application_request",
     "road_capacity_lane_count_source_request",
@@ -43,17 +43,17 @@
   "remaining_blockers": [
     "reviewed road_class_overrides.csv is absent",
     "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+    "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit reviewer decisions",
     "reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
     "road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
   ],
-  "result_scope": "Road source-decision packet only; not road evidence, not accepted road calibration, not reviewed road-class override approval, not cached OSM input gate closure, and not publication-readiness approval.",
+  "result_scope": "Road source-decision packet only; not road evidence, not road-input tuning evidence, not reviewed road-class override approval, not cached OSM input gate closure, and not publication approval.",
   "review_items": [
     "choose source-backed update, reviewed road-class override, sensitivity-only treatment, benchmark-only treatment, or exclusion for every road-source request",
     "record reviewer, decision date, evidence paths, source class, override scope, and not-operational claim limits outside this packet",
     "create data/parameters/road_class_overrides.csv only after source-backed road evidence review",
-    "rerun pilot outputs with reviewed overrides before road-calibration or cached-OSM input claims",
-    "rerun road, validation, publication-readiness, and final-study audits after decisions are recorded"
+    "rerun pilot outputs with reviewed overrides before bounded road-input or cached-OSM input claims",
+    "rerun road, benchmark, publication, and study-scope audits after decisions are recorded"
   ],
   "road_application_gate_closure_candidate_count": 0,
   "road_class_overrides_present": false,

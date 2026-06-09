@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 from dataclasses import dataclass
 from pathlib import Path
+import re
 from typing import Mapping, Sequence
 
 
@@ -53,8 +54,14 @@ class ParameterAcceptance:
         return (
             self.accepted
             and self.sensitivity_reviewed
+            and _review_field_ready(self.accepted_by)
+            and _date_field_ready(self.accepted_date)
+            and _review_field_ready(self.acceptance_scope)
+            and _review_field_ready(self.notes)
             and "not operational" in self.claim_boundary.lower()
+            and _review_field_ready(self.claim_boundary)
             and bool(self.evidence_paths)
+            and _evidence_paths_ready(self.evidence_paths)
         )
 
 
@@ -98,6 +105,7 @@ def summarize_parameter_acceptance(
 
     records = load_parameter_acceptance(acceptance_path)
     ready = [record for record in records if record.ready]
+    accepted = [record for record in records if record.accepted]
     blockers: list[str] = []
     not_ready = [record.parameter for record in records if not record.ready]
     if not_ready:
@@ -107,7 +115,7 @@ def summarize_parameter_acceptance(
     return {
         "path": _display_path(acceptance_path),
         "record_present": True,
-        "accepted_parameter_count": len(records),
+        "accepted_parameter_count": len(accepted),
         "ready_parameter_count": len(ready),
         "ready_parameters": sorted(record.parameter for record in ready),
         "remaining_blockers": blockers,
@@ -205,6 +213,40 @@ def _bool_token(value: str, path: Path, line_num: int, field_name: str) -> bool:
     if normalized == "false":
         return False
     raise ValueError(f"{path}:{line_num} field {field_name!r} must be true or false")
+
+
+def _review_field_ready(value: str) -> bool:
+    normalized = value.strip().lower()
+    return bool(normalized) and "review_required" not in normalized and "template only" not in normalized
+
+
+def _date_field_ready(value: str) -> bool:
+    return bool(re.match(r"^\d{4}-\d{2}-\d{2}$", value.strip()))
+
+
+def _evidence_paths_ready(paths: Sequence[str]) -> bool:
+    return any(_evidence_path_can_support_acceptance(path) for path in paths)
+
+
+def _evidence_path_can_support_acceptance(path: str) -> bool:
+    normalized = path.replace("\\", "/").lower()
+    non_approval_tokens = (
+        "acceptance_template",
+        "draft_acceptance",
+        "pre_review",
+        "review_packet",
+        "readiness_packet",
+        "readiness_manifest",
+        "decision_packet",
+        "decision_manifest",
+        "source_request_packet",
+        "source_request_manifest",
+        "source_readiness_packet",
+        "source_readiness_manifest",
+        "source_decision_packet",
+        "source_decision_manifest",
+    )
+    return not any(token in normalized for token in non_approval_tokens)
 
 
 def _clean(value: object) -> str:

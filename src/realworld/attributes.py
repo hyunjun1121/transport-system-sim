@@ -110,10 +110,11 @@ def map_osm_edge_attributes(
         capacity = defaults.capacity
         assumptions.append("capacity")
 
-    base_p_fail = _parse_probability(
-        attrs.get("base_p_fail", attrs.get("p_fail", defaults.base_p_fail)),
-        "base_p_fail",
-    )
+    base_p_fail_value = attrs.get("base_p_fail", attrs.get("p_fail"))
+    if base_p_fail_value is None:
+        base_p_fail_value = defaults.base_p_fail
+        assumptions.append("base_p_fail")
+    base_p_fail = _parse_probability(base_p_fail_value, "base_p_fail")
 
     t0 = travel_time_min(length_m=length_m, speed_kph=speed_kph)
 

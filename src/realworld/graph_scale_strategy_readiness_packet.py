@@ -1,9 +1,9 @@
-"""Graph-scale strategy-readiness packet generation.
+"""Graph-scale strategy review packet generation.
 
 The graph-scale review packet lists the feasible source-vs-analysis graph
-options. This module turns those options into explicit pre-review readiness
-states without accepting a graph-scale method or treating reduced-corridor
-outputs as final real-world evidence.
+options. This module turns those options into explicit pre-review states
+without accepting a graph-scale method or treating reduced-corridor outputs as
+release-scope real-world evidence.
 """
 
 from __future__ import annotations
@@ -44,9 +44,9 @@ DEFAULT_GRAPH_SCALE_ACCEPTANCE_PATH = (
     PROJECT_ROOT / "data" / "manifests" / "graph_scale_acceptance.json"
 )
 GRAPH_SCALE_STRATEGY_READINESS_SCOPE = (
-    "Graph-scale strategy-readiness packet only; not graph-scale acceptance, "
+    "Graph-scale strategy review packet only; not graph-scale acceptance, "
     "not calibrated real-world validation, not traffic model validation, not "
-    "operational routing evidence, and not publication-readiness approval."
+    "operational routing evidence, and not publication approval."
 )
 GRAPH_SCALE_STRATEGY_READINESS_COLUMNS: tuple[str, ...] = (
     "option_id",
@@ -79,7 +79,7 @@ def build_graph_scale_strategy_readiness_rows(
     | Path = DEFAULT_GRAPH_SCALE_RESULT_COMPARISON_MANIFEST_PATH,
     acceptance_path: str | Path = DEFAULT_GRAPH_SCALE_ACCEPTANCE_PATH,
 ) -> list[dict[str, str]]:
-    """Return graph-scale strategy readiness rows for current method options."""
+    """Return graph-scale strategy review rows for current method options."""
 
     rows = (
         list(review_rows)
@@ -113,7 +113,7 @@ def write_graph_scale_strategy_readiness_packet(
     full_graph_runtime_readiness_manifest_path: str
     | Path = DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
 ) -> dict[str, Any]:
-    """Write graph-scale strategy readiness CSV, manifest, and Markdown."""
+    """Write graph-scale strategy review CSV, manifest, and Markdown."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -170,7 +170,7 @@ def build_graph_scale_strategy_readiness_manifest(
     full_graph_runtime_readiness_manifest_path: str
     | Path = DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for graph-scale strategy readiness."""
+    """Return a conservative manifest for graph-scale strategy review."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     runtime_manifest = _load_json_object(full_graph_runtime_readiness_manifest_path)
@@ -214,9 +214,9 @@ def build_graph_scale_strategy_readiness_manifest(
             "decide whether the 118-node reduced corridor is acceptable or only a smoke shortcut",
             "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
             "review graph-sensitive result differences before interpreting policy outcomes",
-            "review the full-graph runtime-readiness packet before accepting or excluding full-graph execution",
-            "generate full-graph outputs or record why full-graph execution is outside the accepted scope",
-            "record the final graph-scale method only in data/manifests/graph_scale_acceptance.json",
+            "review the full-graph runtime packet before selecting or excluding full-graph execution",
+            "generate full-graph outputs or record why full-graph execution is outside the selected scope",
+            "record the release-scope graph-scale method only in data/manifests/graph_scale_acceptance.json",
         ],
         "full_graph_runtime_readiness": _runtime_manifest_summary(runtime_manifest),
         "remaining_blockers": _remaining_blockers(
@@ -224,7 +224,7 @@ def build_graph_scale_strategy_readiness_manifest(
             extra=[
                 "current reduced-corridor output has alternate-route warnings",
                 "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-                "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+                "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
             ],
         ),
     }
@@ -235,10 +235,10 @@ def build_graph_scale_strategy_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable graph-scale strategy readiness packet."""
+    """Return a human-readable graph-scale strategy review packet."""
 
     lines = [
-        "# Graph-Scale Strategy Readiness Packet",
+        "# Graph-Scale Strategy Review Packet",
         "",
         str(manifest.get("claim_boundary", GRAPH_SCALE_STRATEGY_READINESS_SCOPE)),
         "",
@@ -251,14 +251,14 @@ def build_graph_scale_strategy_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Full-Graph Runtime Readiness",
+        "## Full-Graph Runtime Review",
         "",
         f"- Manifest present: `{str((manifest.get('full_graph_runtime_readiness') or {}).get('manifest_present', False)).lower()}`",
         f"- Blocking requests: {(manifest.get('full_graph_runtime_readiness') or {}).get('blocking_request_count', 0)}",
         f"- Human-review requests: {(manifest.get('full_graph_runtime_readiness') or {}).get('human_review_request_count', 0)}",
         f"- Can mark complete: `{str((manifest.get('full_graph_runtime_readiness') or {}).get('can_mark_complete', False)).lower()}`",
         "",
-        "## Readiness Rows",
+        "## Strategy Review Rows",
         "",
         "| Option | Status | Evidence | Required Action |",
         "| --- | --- | --- | --- |",
@@ -277,8 +277,8 @@ def build_graph_scale_strategy_readiness_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Choose the accepted graph-scale method only after reviewing route preservation, result deltas, runtime scope, and downstream regeneration impact.",
-            "- Keep reduced-corridor and multi-corridor outputs in scaffold scope until the selected method is formally accepted.",
+            "- Choose the selected graph-scale method only after reviewing route preservation, result deltas, runtime scope, and downstream regeneration impact.",
+            "- Keep reduced-corridor and multi-corridor outputs in scaffold scope until the selected method has a formal graph-scale decision record.",
             "- Do not treat this packet as graph-scale acceptance or calibrated network validation.",
             "",
         ]
@@ -344,13 +344,13 @@ def _acceptance_requirement_row(acceptance_path: Path) -> dict[str, str]:
             else "data/manifests/graph_scale_acceptance.json is absent"
         ),
         "required_reviewer_action": (
-            "validate the existing graph-scale acceptance record"
+            "review the existing graph-scale decision record"
             if acceptance_path.exists()
             else "record the selected graph-scale method only after source-vs-analysis graph review"
         ),
         "available_evidence": _display_path(acceptance_path),
         "result_comparison_signal": "",
-        "publication_use_status": "blocked_until_graph_scale_acceptance",
+        "publication_use_status": "blocked_until_graph_scale_decision",
         "can_support_graph_scale_gate": "false",
         "claim_boundary": GRAPH_SCALE_STRATEGY_READINESS_SCOPE,
     }
@@ -392,7 +392,7 @@ def _classify_option(
         return (
             "needs_human_review_reduced_corridor_scope",
             "",
-            "review whether the reduced corridor is acceptable for final claims",
+            "review whether the reduced corridor is acceptable for release-scope claims",
         )
     if option_id == "multi_corridor_candidate":
         if experiment_rows < 1000:
@@ -405,7 +405,7 @@ def _classify_option(
             return (
                 "blocked_incomplete_multi_corridor_run_profile",
                 "multi-corridor candidate has only separated/sample-scale output",
-                "use the full-profile candidate or regenerate the accepted experiment package on this graph",
+                "use the full-profile candidate or regenerate the selected experiment package on this graph",
             )
         return (
             "needs_human_review_multi_corridor_candidate_scope",
@@ -417,24 +417,24 @@ def _classify_option(
             return (
                 "needs_human_review_multi_corridor_result_deltas",
                 "",
-                "review candidate_worsens and nonfinite result differences before accepting this graph method",
+                "review candidate_worsens and nonfinite result differences before selecting this graph method",
             )
         return (
             "needs_human_review_multi_corridor_full_candidate",
             "",
-            "review the full-profile multi-corridor candidate as the potential accepted method",
+            "review the full-profile multi-corridor candidate as the potential selected method",
         )
     if option_id == "full_bus_practical_graph":
         if experiment_rows <= 0:
             return (
                 "blocked_missing_full_graph_experiment_outputs",
                 "full bus-practical graph has smoke evidence only",
-                "generate full-graph outputs or explicitly bound final claims away from full-graph execution",
+                "generate full-graph outputs or explicitly bound release-scope claims away from full-graph execution",
             )
         return (
             "needs_human_review_full_graph_outputs",
             "",
-            "review full-graph outputs and runtime scope before acceptance",
+            "review full-graph outputs and runtime scope before graph-scale decision",
         )
     return (
         "blocked_unclassified_graph_scale_option",

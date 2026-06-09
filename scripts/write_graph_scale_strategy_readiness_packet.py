@@ -1,4 +1,4 @@
-"""Write the current graph-scale strategy-readiness packet."""
+"""Write the current graph-scale strategy review packet."""
 
 from __future__ import annotations
 
@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write graph-scale strategy-readiness rows from the current "
+            "Write graph-scale strategy review rows from the current "
             "graph-scale review packet. The output is a reviewer packet and "
             "does not accept a graph-scale method."
         )
@@ -78,25 +78,25 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--full-graph-runtime-readiness-manifest",
         type=Path,
         default=DEFAULT_FULL_GRAPH_RUNTIME_READINESS_MANIFEST_PATH,
-        help="Full-graph runtime-readiness manifest JSON path.",
+        help="Full-graph runtime review manifest JSON path.",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_PACKET_PATH,
-        help="Graph-scale strategy-readiness CSV path.",
+        help="Graph-scale strategy review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_MANIFEST_PATH,
-        help="Graph-scale strategy-readiness manifest JSON path.",
+        help="Graph-scale strategy review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_GRAPH_SCALE_STRATEGY_READINESS_DOC_PATH,
-        help="Graph-scale strategy-readiness Markdown path.",
+        help="Graph-scale strategy review Markdown path.",
     )
     return parser.parse_args(argv)
 

@@ -146,7 +146,7 @@ def write_acceptance_task_assignments(
         "can_mark_complete": False,
         "review_items": [
             "each task requires source-backed evidence or an explicit blocked decision",
-            "review packets and templates are aids only, not formal acceptance",
+        "review packets and templates are aids only, not formal decisions",
             "rerun scripts/run_acceptance_audit.py after any formal artifact changes",
         ],
     }
@@ -197,7 +197,7 @@ def build_acceptance_task_assignment_markdown(
     """Render a human-readable task assignment document."""
 
     lines = [
-        "# Acceptance Task Assignments",
+        "# Reviewer Task Assignments",
         "",
         str(manifest.get("claim_boundary", TASK_ASSIGNMENT_BOUNDARY)),
         "",
@@ -205,8 +205,8 @@ def build_acceptance_task_assignment_markdown(
         "",
         f"- Tasks: {manifest.get('task_count', 0)}",
         f"- Assigned agents: {manifest.get('assigned_agent_count', 0)}",
-        f"- Formal acceptance ready: `{str(manifest.get('formal_acceptance_ready', False)).lower()}`",
-        f"- Final-study ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
+        f"- Formal decision ready: `{str(manifest.get('formal_acceptance_ready', False)).lower()}`",
+        f"- Study-closeout ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
         f"- CSV: `{manifest.get('assignment_path', '')}`",
         "",
@@ -279,11 +279,11 @@ def _validate_blocker_row(row: Mapping[str, str]) -> None:
 
 def _required_output(formal_target: str) -> str:
     if formal_target.endswith(".json"):
-        return "reviewed JSON acceptance record with real evidence paths"
+        return "reviewed JSON decision record with real evidence paths"
     if formal_target.endswith(".csv"):
-        return "reviewed CSV rows with source-backed or explicitly accepted values"
+        return "reviewed CSV rows with source-backed or explicitly retained values"
     if formal_target.endswith(".md"):
-        return "independent final audit document after all pre-final gates close"
+        return "independent closeout audit document after all prerequisite gates close"
     return "reviewed formal evidence artifact"
 
 

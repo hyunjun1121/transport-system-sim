@@ -120,8 +120,8 @@ this graph and writes 32 raw rows plus 16 summary rows for smoke-scale review.
 A second `multi_corridor_full_candidate` profile now runs the same candidate
 graph on the full 7-policy, 9-scenario, 30-seed matrix and writes 1,890 raw
 rows plus 63 summary rows for graph-scale review. Both outputs are still
-review support only: accepting this as the final graph-scale method would
-require a documented corridor-selection rule, reviewed comparison against the
+review support only. Treating either output as the selected graph-scale method
+would require a documented corridor-selection rule, reviewed comparison against the
 current reduced-corridor full pilot, review of the 819-row
 `graph_scale_result_comparison.csv` delta table, review of the latest
 `docs/graph_scale_strategy_readiness_packet.md`, regenerated downstream
@@ -144,21 +144,21 @@ Not allowed:
 - claiming that the reduced 118-node corridor represents all relevant regional
   route choice;
 - claiming that alternate corridors, congestion spillback, traffic assignment,
-  hazard exposure, or operational detours have been reviewed;
-- treating the 3 pass rows as final graph-scale acceptance;
-- treating the 6 alternate-route warning rows as calibrated failure or
+  hazard exposure, or deployment detours have been reviewed;
+- treating the 3 pass rows as the selected graph-scale decision;
+- treating the 6 alternate-route warning rows as field-fit failure or
   detour-probability evidence;
 - treating the 9 multi-corridor pass rows or the 1,890-row full-profile
-  multi-corridor candidate output as final method acceptance before the graph
+  multi-corridor candidate output as the selected method decision before the graph
   choice is reviewed;
-- using this diagnostic as calibrated real-world or operational route evidence.
+- using this diagnostic as field-fit real-world or deployment route evidence.
 
 ## Remaining Review Items
 
-Before the graph-scale strategy gate can close, reviewers must choose one final
+Before the graph-scale strategy gate can close, reviewers must choose one
 method:
 
-- accepted corridor abstraction,
+- retained corridor abstraction,
 - full-graph runtime,
 - multi-corridor ensemble.
 
@@ -169,10 +169,10 @@ upgrade path, but staged/full experiments and figures would need to be
 regenerated under that graph before result claims can use it. If the study
 moves to full-graph runtime, staged and full experiments must be regenerated on
 the full bus-practical graph. If a multi-corridor ensemble is selected,
-corridor uncertainty must be separated from operational parameter uncertainty
+corridor uncertainty must be separated from service-parameter uncertainty
 in the results.
 
-Final graph-scale claims still require a reviewed
+Release-scope graph-scale claims still require a reviewed
 `data/manifests/graph_scale_acceptance.json` record. That record is
 intentionally absent in the current scaffold.
 

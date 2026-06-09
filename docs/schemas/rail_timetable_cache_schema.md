@@ -103,6 +103,41 @@ The command writes the local cache schema only. It does not update
 `rail_service_evidence.csv`; run one of the derivation commands after the
 cached extract is reviewed.
 
+## Optional Static CSV Normalization
+
+If a reviewer retains an official static timetable CSV instead of using the
+live API helper, normalize it into the same local cache schema with explicit
+source-column mappings:
+
+```powershell
+.\.venv\Scripts\python scripts\normalize_rail_timetable_cache.py `
+  --input data\rail\reviewed_static_timetable.csv `
+  --output data\rail\pilot_rail_timetable_cache.csv `
+  --manifest-output data\rail\pilot_rail_timetable_cache_manifest.json `
+  --trip-id-column "<source train/trip id column>" `
+  --station-name-column "<source station name column>" `
+  --station-code-column "<source station code column>" `
+  --arrival-time-column "<source arrival time column>" `
+  --departure-time-column "<source departure time column>" `
+  --direction-column "<source direction column>" `
+  --service-day-column "<source service-day column>" `
+  --access-station-code "<reviewed access station code>" `
+  --egress-station-code "<reviewed egress station code>" `
+  --filter "<source filter column>=<source filter value>"
+```
+
+This command deliberately does not infer source headers. It only converts a
+reviewer-supplied source extract into the local timetable cache schema and
+reloads the output through `load_cached_timetable_events()`. Its output is not
+rail timing evidence, rail-service calibration, GTFS validation, emergency rail
+availability evidence, sensitivity-only acceptance, publication readiness,
+final-study readiness, or formal acceptance. It does not create or approve
+`data/parameters/rail_service_evidence.csv`. Source URL/citation, extraction
+date, raw and normalized artifact paths, SHA256 hashes, station-code binding,
+license/provenance review, and reviewer source decision remain required before
+rail claims are upgraded. Headway-only normalization cannot satisfy travel-time,
+capacity, or availability gates.
+
 ## Command Template
 
 ```powershell

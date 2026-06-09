@@ -4,7 +4,7 @@
   "design_scope": "Scenario-policy-seed design metadata for the next pilot experiment package. It separates the existing sample scaffold from staged and full pilot runs.",
   "claim_boundary": "This design supports quasi-real decision-support experiments only. Outputs are not calibrated real-world results, operational route plans, or public-agency forecasts.",
   "excluded_policy_ids": {
-    "bus_corridor_redundancy": "Excluded from staged/full pilot profiles until an accepted real-world redundant-corridor graph variant is documented."
+    "bus_corridor_redundancy": "Excluded from staged/full pilot profiles until a reviewed real-world redundant-corridor graph variant is documented."
   },
   "profiles": {
     "sample_scaffold": {
@@ -18,6 +18,11 @@
       "reduce_graph": true,
       "graph_reduction_strategy": "single_corridor",
       "corridor_path_count": 1,
+      "demand_profile_id": "pilot_default_demand",
+      "fleet_profile_id": "pilot_default_fleet",
+      "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+      "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+      "road_network_profile_id": "pilot_cached_osm_graph",
       "policy_ids": [
         "bus_only",
         "baseline_multimodal",
@@ -42,11 +47,16 @@
       "output_prefix": "pilot_staged",
       "sample_scaffold": false,
       "result_scope": "Pilot staged scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
-      "design_status": "accepted_staged_profile_for_prepublication_execution",
+      "design_status": "review_scoped_staged_profile_for_prepublication_execution",
       "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded",
       "reduce_graph": true,
       "graph_reduction_strategy": "single_corridor",
       "corridor_path_count": 1,
+      "demand_profile_id": "pilot_default_demand",
+      "fleet_profile_id": "pilot_default_fleet",
+      "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+      "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+      "road_network_profile_id": "pilot_cached_osm_graph",
       "policy_ids": [
         "bus_only",
         "baseline_multimodal",
@@ -74,7 +84,7 @@
         2104,
         2105
       ],
-      "description": "Moderate staged run covering all current disruption families and accepted policy alternatives before committing compute to the full seed set."
+      "description": "Moderate staged run covering all current disruption families and the current policy-alternative list before committing compute to the full seed set."
     },
     "full_pilot": {
       "profile_id": "full_pilot",
@@ -82,11 +92,16 @@
       "output_prefix": "pilot_full",
       "sample_scaffold": false,
       "result_scope": "Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
-      "design_status": "accepted_full_profile_pending_input_validation_and_compute_budget",
-      "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
+      "design_status": "review_scoped_full_profile_pending_input_validation_and_compute_budget",
+      "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_reviewed",
       "reduce_graph": true,
       "graph_reduction_strategy": "single_corridor",
       "corridor_path_count": 1,
+      "demand_profile_id": "pilot_default_demand",
+      "fleet_profile_id": "pilot_default_fleet",
+      "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+      "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+      "road_network_profile_id": "pilot_cached_osm_graph",
       "policy_ids": [
         "bus_only",
         "baseline_multimodal",
@@ -139,7 +154,7 @@
         3129,
         3130
       ],
-      "description": "Full current pilot design using the accepted scenario-policy matrix and a 30-seed common-random-number set. Run only after staged outputs and input validation are reviewed."
+      "description": "Full current pilot design using the current scenario-policy matrix and a 30-seed common-random-number set. Run only after staged outputs and input checks are reviewed."
     },
     "multi_corridor_candidate": {
       "profile_id": "multi_corridor_candidate",
@@ -147,11 +162,16 @@
       "output_prefix": "pilot_multi_corridor",
       "sample_scaffold": false,
       "result_scope": "Pilot multi-corridor candidate output for graph-scale method review; not calibrated real-world results or an operational forecast.",
-      "design_status": "candidate_graph_scale_upgrade_pending_acceptance",
-      "analysis_graph_strategy": "multi_shortest_time_route_corridor_candidate_with_top3_paths_not_accepted",
+      "design_status": "candidate_graph_scale_upgrade_pending_review",
+      "analysis_graph_strategy": "multi_shortest_time_route_corridor_candidate_with_top3_paths_not_selected",
       "reduce_graph": true,
       "graph_reduction_strategy": "multi_corridor",
       "corridor_path_count": 3,
+      "demand_profile_id": "pilot_default_demand",
+      "fleet_profile_id": "pilot_default_fleet",
+      "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+      "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+      "road_network_profile_id": "pilot_cached_osm_graph",
       "policy_ids": [
         "bus_only",
         "baseline_multimodal",
@@ -176,11 +196,16 @@
       "output_prefix": "pilot_multi_corridor_full",
       "sample_scaffold": false,
       "result_scope": "Pilot full multi-corridor candidate output for graph-scale method review; not calibrated real-world results or an operational forecast.",
-      "design_status": "candidate_graph_scale_full_profile_pending_acceptance",
-      "analysis_graph_strategy": "multi_shortest_time_route_corridor_candidate_full_profile_with_top3_paths_not_accepted",
+      "design_status": "candidate_graph_scale_full_profile_pending_review",
+      "analysis_graph_strategy": "multi_shortest_time_route_corridor_candidate_full_profile_with_top3_paths_not_selected",
       "reduce_graph": true,
       "graph_reduction_strategy": "multi_corridor",
       "corridor_path_count": 3,
+      "demand_profile_id": "pilot_default_demand",
+      "fleet_profile_id": "pilot_default_fleet",
+      "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
+      "validation_profile_id": "pilot_graph_ready_and_plausibility_review",
+      "road_network_profile_id": "pilot_cached_osm_graph",
       "policy_ids": [
         "bus_only",
         "baseline_multimodal",
@@ -233,7 +258,7 @@
         3129,
         3130
       ],
-      "description": "Separated full-scale candidate run on the 164-node / 246-edge multi-corridor analysis graph. It uses the same scenario-policy matrix and common-random-number seed block as the current full pilot so graph-scale reviewers can compare the current reduced corridor and multi-corridor candidate without treating either method as accepted."
+      "description": "Separated full-scale candidate run on the 164-node / 246-edge multi-corridor analysis graph. It uses the same scenario-policy matrix and common-random-number seed block as the current full pilot so graph-scale reviewers can compare the current reduced corridor and multi-corridor candidate without treating either method as selected."
     }
   }
 }

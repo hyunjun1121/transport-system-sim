@@ -67,6 +67,43 @@ from src.realworld.claim_alignment_review_packet import (  # noqa: E402
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH,
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_PACKET_PATH,
 )
+from src.realworld.claim_language_guard import (  # noqa: E402
+    DEFAULT_CLAIM_LANGUAGE_GUARD_DOC_PATH,
+    DEFAULT_CLAIM_LANGUAGE_GUARD_MANIFEST_PATH,
+    DEFAULT_CLAIM_LANGUAGE_GUARD_PATH,
+    summarize_claim_language_guard,
+)
+from src.realworld.artifact_invalidation_matrix import (  # noqa: E402
+    DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION,
+    DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_QUEUE,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_TEMPLATE,
+    DEFAULT_ARTIFACT_INVALIDATION_CSV,
+    DEFAULT_ARTIFACT_INVALIDATION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_TEMPLATE,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT_MANIFEST,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET_MANIFEST,
+    artifact_invalidation_blocks_phase9,
+    summarize_artifact_invalidation_action_batch_inspection_manifest,
+)
 from src.realworld.figure_table_review_packet import (  # noqa: E402
     DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH,
     DEFAULT_FIGURE_TABLE_REVIEW_MANIFEST_PATH,
@@ -172,9 +209,17 @@ from src.realworld.rail_evidence_priority_packet import (  # noqa: E402
     DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH,
 )
 from src.realworld.rail_source_decision_packet import (  # noqa: E402
+    DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_MANIFEST_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH,
+)
+from src.realworld.rail_source_decision_recommendation_packet import (  # noqa: E402
+    DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_MANIFEST_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_PACKET_PATH,
 )
 from src.realworld.road_source_readiness_packet import (  # noqa: E402
     DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
@@ -227,6 +272,29 @@ from src.realworld.goal_completion_audit import (  # noqa: E402
 from src.realworld.publication_readiness import (  # noqa: E402
     DEFAULT_PUBLICATION_READINESS_DOC_PATH,
     DEFAULT_PUBLICATION_READINESS_MANIFEST_PATH,
+    audit_publication_readiness,
+    _summarize_rail_bounded_treatment_audit,
+)
+from src.realworld.rail_bounded_treatment_audit import (  # noqa: E402
+    DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_DOC_PATH,
+    DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH,
+)
+from src.realworld.rail_transit_stress_profile_packet import (  # noqa: E402
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_DOC_PATH,
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_MANIFEST_PATH,
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_PACKET_PATH,
+)
+from src.realworld.demand_fleet_behavior_profiles import (  # noqa: E402
+    DEFAULT_BEHAVIOR_PROFILE_PATH,
+    DEFAULT_DEMAND_PROFILE_PATH,
+    DEFAULT_FLEET_PROFILE_PATH,
+    DEFAULT_PROFILE_DOC_PATH,
+    DEFAULT_PROFILE_MANIFEST_PATH,
+)
+from src.realworld.disruption_scenarios import (  # noqa: E402
+    DEFAULT_SCENARIO_DOC_PATH,
+    DEFAULT_SCENARIO_MANIFEST_PATH,
+    DEFAULT_SCENARIO_PATH,
 )
 from src.realworld.full_graph_runtime_readiness_packet import (  # noqa: E402
     DEFAULT_FULL_GRAPH_RUNTIME_READINESS_DOC_PATH,
@@ -311,10 +379,28 @@ from src.realworld.source_provenance_decision_packet import (  # noqa: E402
     DEFAULT_SOURCE_PROVENANCE_DECISION_PACKET_PATH,
 )
 from src.realworld.tracked_artifact_audit import (  # noqa: E402
+    DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV,
+    DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_DOC,
+    DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_MANIFEST,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_CSV,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_MANIFEST,
+    build_dirty_worktree_classification_rows,
+    summarize_dirty_worktree_classification,
     summarize_tracked_artifact_audit,
+)
+from src.realworld.phase_gate_ledger import (  # noqa: E402
+    DEFAULT_PHASE_GATE_LEDGER_AUDIT_DOC,
+    DEFAULT_PHASE_GATE_LEDGER_AUDIT_MANIFEST,
+    DEFAULT_PHASE_GATE_LEDGER_SCHEMA,
+    audit_phase_gate_ledgers,
+    summarize_phase_gate_ledger_audit,
+)
+from src.realworld.gpu_ml_runtime import (  # noqa: E402
+    DEFAULT_GPU_ML_RUNTIME_DOC,
+    DEFAULT_GPU_ML_RUNTIME_LOG,
+    DEFAULT_GPU_ML_RUNTIME_MANIFEST,
+    GPU_ML_RUNTIME_SCOPE,
 )
 
 SCAFFOLD_VERDICT = (
@@ -353,27 +439,62 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "rail_evidence_review_packet",
         ROOT / "data" / "parameters" / "rail_evidence_review_packet.csv",
-        10,
+        12,
     ),
     CsvExpectation(
         "rail_timing_source_request_packet",
         ROOT / "data" / "rail" / "rail_timing_source_request_packet.csv",
-        5,
+        6,
     ),
     CsvExpectation(
         "rail_fetch_readiness_packet",
         DEFAULT_RAIL_FETCH_READINESS_PACKET_PATH,
-        5,
+        6,
     ),
     CsvExpectation(
         "rail_evidence_priority_packet",
         DEFAULT_RAIL_EVIDENCE_PRIORITY_PACKET_PATH,
-        6,
+        7,
     ),
     CsvExpectation(
         "rail_source_decision_packet",
         DEFAULT_RAIL_SOURCE_DECISION_PACKET_PATH,
-        5,
+        6,
+    ),
+    CsvExpectation(
+        "rail_source_decision_action_ledger_template",
+        DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_PATH,
+        6,
+    ),
+    CsvExpectation(
+        "rail_source_decision_recommendation_packet",
+        DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_PACKET_PATH,
+        6,
+    ),
+    CsvExpectation(
+        "rail_transit_stress_profile_packet",
+        DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_PACKET_PATH,
+        6,
+    ),
+    CsvExpectation(
+        "demand_profiles",
+        DEFAULT_DEMAND_PROFILE_PATH,
+        2,
+    ),
+    CsvExpectation(
+        "fleet_profiles",
+        DEFAULT_FLEET_PROFILE_PATH,
+        6,
+    ),
+    CsvExpectation(
+        "behavior_profiles",
+        DEFAULT_BEHAVIOR_PROFILE_PATH,
+        6,
+    ),
+    CsvExpectation(
+        "disruption_scenarios",
+        DEFAULT_SCENARIO_PATH,
+        8,
     ),
     CsvExpectation(
         "road_class_overrides_draft",
@@ -469,6 +590,11 @@ CSV_EXPECTATIONS = (
         None,
     ),
     CsvExpectation(
+        "dirty_worktree_classification",
+        DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV,
+        None,
+    ),
+    CsvExpectation(
         "source_license_review_packet",
         DEFAULT_SOURCE_LICENSE_REVIEW_PACKET_PATH,
         11,
@@ -537,6 +663,56 @@ CSV_EXPECTATIONS = (
         "claim_alignment_review_packet",
         DEFAULT_CLAIM_ALIGNMENT_REVIEW_PACKET_PATH,
         None,
+    ),
+    CsvExpectation(
+        "claim_language_guard",
+        DEFAULT_CLAIM_LANGUAGE_GUARD_PATH,
+        None,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_matrix",
+        DEFAULT_ARTIFACT_INVALIDATION_CSV,
+        51,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_closeout_template",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_TEMPLATE,
+        51,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_closeout_action_queue",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_QUEUE,
+        51,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_action_batch_inspection",
+        DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION,
+        51,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_closeout_readiness_audit",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT,
+        51,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_quarantine_closeout_template",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_TEMPLATE,
+        6,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_quarantine_scope_audit",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT,
+        None,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_quarantine_non_evidence_index",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX,
+        None,
+    ),
+    CsvExpectation(
+        "artifact_invalidation_quarantine_non_evidence_transfer_packet",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET,
+        6,
     ),
     CsvExpectation(
         "figure_table_review_packet",
@@ -636,7 +812,7 @@ CSV_EXPECTATIONS = (
         / "realworld_pilot"
         / "tables"
         / "sensitivity_result_table.csv",
-        7056,
+        98,
     ),
     CsvExpectation(
         "bottleneck_attribution_table",
@@ -927,6 +1103,30 @@ JSON_EXPECTATIONS = (
         DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH,
     ),
     JsonExpectation(
+        "rail_source_decision_action_ledger_template_manifest",
+        DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "rail_source_decision_recommendation_manifest",
+        DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "rail_transit_stress_profile_manifest",
+        DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "demand_fleet_behavior_profile_manifest",
+        DEFAULT_PROFILE_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "disruption_scenarios_manifest",
+        DEFAULT_SCENARIO_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "rail_bounded_treatment_audit",
+        DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH,
+    ),
+    JsonExpectation(
         "road_source_readiness_manifest",
         DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
     ),
@@ -977,6 +1177,46 @@ JSON_EXPECTATIONS = (
     JsonExpectation(
         "claim_alignment_review_manifest",
         DEFAULT_CLAIM_ALIGNMENT_REVIEW_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "claim_language_guard_manifest",
+        DEFAULT_CLAIM_LANGUAGE_GUARD_MANIFEST_PATH,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_matrix_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_closeout_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_closeout_action_queue_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_action_batch_inspection_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_closeout_readiness_audit_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_quarantine_closeout_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_quarantine_scope_audit_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_quarantine_non_evidence_index_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX_MANIFEST,
+    ),
+    JsonExpectation(
+        "artifact_invalidation_quarantine_non_evidence_transfer_manifest",
+        DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET_MANIFEST,
     ),
     JsonExpectation(
         "figure_table_review_manifest",
@@ -1141,6 +1381,22 @@ JSON_EXPECTATIONS = (
         DEFAULT_TRACKED_ARTIFACT_AUDIT_MANIFEST,
     ),
     JsonExpectation(
+        "dirty_worktree_classification_manifest",
+        DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_MANIFEST,
+    ),
+    JsonExpectation(
+        "phase_gate_ledger_schema",
+        DEFAULT_PHASE_GATE_LEDGER_SCHEMA,
+    ),
+    JsonExpectation(
+        "phase_gate_ledger_audit_manifest",
+        DEFAULT_PHASE_GATE_LEDGER_AUDIT_MANIFEST,
+    ),
+    JsonExpectation(
+        "gpu_ml_runtime_manifest",
+        DEFAULT_GPU_ML_RUNTIME_MANIFEST,
+    ),
+    JsonExpectation(
         "current_goal_completion_audit_manifest",
         DEFAULT_GOAL_COMPLETION_MANIFEST_PATH,
     ),
@@ -1252,6 +1508,16 @@ DOC_EXPECTATIONS = (
     DEFAULT_SOURCE_PROVENANCE_DECISION_DOC_PATH,
     ROOT / "docs" / "schemas" / "manuscript_acceptance_schema.md",
     DEFAULT_CLAIM_ALIGNMENT_REVIEW_DOC_PATH,
+    DEFAULT_CLAIM_LANGUAGE_GUARD_DOC_PATH,
+    DEFAULT_ARTIFACT_INVALIDATION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_ACTION_BATCH_INSPECTION_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_READINESS_AUDIT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_CLOSEOUT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_SCOPE_AUDIT_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_NON_EVIDENCE_INDEX_DOC,
+    DEFAULT_ARTIFACT_INVALIDATION_QUARANTINE_TRANSFER_PACKET_DOC,
     DEFAULT_FIGURE_TABLE_REVIEW_DOC_PATH,
     DEFAULT_MANUSCRIPT_REPORT_DECISION_DOC_PATH,
     ROOT / "docs" / "schemas" / "reproducibility_acceptance_schema.md",
@@ -1282,6 +1548,8 @@ DOC_EXPECTATIONS = (
     DEFAULT_REVIEW_PACKAGE_PATH_AUDIT_DOC,
     DEFAULT_EXPERT_REVIEW_HANDOFF_DOC,
     DEFAULT_TRACKED_ARTIFACT_AUDIT_DOC,
+    DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_DOC,
+    DEFAULT_PHASE_GATE_LEDGER_AUDIT_DOC,
     ROOT / "docs" / "plan_completion_audit.md",
     ROOT / "docs" / "current_goal_completion_audit.md",
     DEFAULT_PUBLICATION_READINESS_DOC_PATH,
@@ -1309,6 +1577,13 @@ DOC_EXPECTATIONS = (
     DEFAULT_RAIL_FETCH_READINESS_DOC_PATH,
     DEFAULT_RAIL_EVIDENCE_PRIORITY_DOC_PATH,
     DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_ACTION_LEDGER_TEMPLATE_DOC_PATH,
+    DEFAULT_RAIL_SOURCE_DECISION_RECOMMENDATION_DOC_PATH,
+    DEFAULT_RAIL_TRANSIT_STRESS_PROFILE_DOC_PATH,
+    DEFAULT_GPU_ML_RUNTIME_DOC,
+    DEFAULT_PROFILE_DOC_PATH,
+    DEFAULT_SCENARIO_DOC_PATH,
+    DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_DOC_PATH,
     DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
     DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH,
     ROOT / "paper" / "paper_draft.md",
@@ -1320,7 +1595,32 @@ def main() -> int:
 
     summary = audit_artifacts()
     print(json.dumps(summary, indent=2, sort_keys=True))
-    return 0 if summary["all_required_artifacts_present"] else 1
+    dirty_gate_ok = bool(
+        summary.get("dirty_worktree_classification", {}).get(
+            "coverage_matches_current_git_status",
+            False,
+        )
+    )
+    phase_gate_closure_ok = bool(
+        summary.get("phase_gate_ledger_audit", {}).get(
+            "phase_gate_ledgers_ready",
+            False,
+        )
+    )
+    claim_language_ok = bool(
+        summary.get("claim_language_guard", {}).get(
+            "claim_language_guard_ready",
+            False,
+        )
+    )
+    return (
+        0
+        if summary["all_required_artifacts_present"]
+        and dirty_gate_ok
+        and phase_gate_closure_ok
+        and claim_language_ok
+        else 1
+    )
 
 
 def audit_artifacts() -> dict[str, Any]:
@@ -1348,6 +1648,9 @@ def audit_artifacts() -> dict[str, Any]:
     rail_station_binding_audit = summarize_rail_station_bindings(
         load_rail_station_bindings(DEFAULT_RAIL_STATION_BINDING_PATH)
     )
+    rail_bounded_treatment_audit = _summarize_rail_bounded_treatment_audit(
+        DEFAULT_RAIL_BOUNDED_TREATMENT_AUDIT_PATH
+    )
     sensitivity_diagnostics = audit_morris_sensitivity_diagnostics()
     source_provenance = summarize_source_provenance_manifest()
     final_study_audit = audit_final_study_readiness()
@@ -1363,25 +1666,29 @@ def audit_artifacts() -> dict[str, Any]:
     review_package_paths = audit_review_package_paths()
     review_handoff = build_expert_review_handoff_summary()
     tracked_artifacts = summarize_tracked_artifact_audit()
+    dirty_worktree_classification = summarize_dirty_worktree_classification()
+    dirty_worktree_freshness = _audit_dirty_worktree_classification_freshness(
+        dirty_worktree_classification
+    )
+    saved_phase_gate_ledgers = summarize_phase_gate_ledger_audit()
+    current_phase_gate_ledgers = audit_phase_gate_ledgers()
+    gpu_ml_runtime = _summarize_gpu_ml_runtime_manifest()
+    claim_language_guard = summarize_claim_language_guard()
+    artifact_action_batch_inspection = (
+        summarize_artifact_invalidation_action_batch_inspection_manifest()
+    )
+    (
+        artifact_preflight_blocks_phase9,
+        artifact_preflight_blockers,
+        artifact_preflight_summary,
+    ) = artifact_invalidation_blocks_phase9()
     reproducibility_smoke = summarize_reproducibility_smoke()
     formal_acceptance_guard = audit_formal_acceptance_artifacts()
     formal_acceptance_package = build_formal_acceptance_package_summary()
     formal_evidence_paths = audit_formal_evidence_paths()
     pilot_road_cache_manifest = audit_pilot_road_cache_manifest()
-    evidence_gates = {
-        "parameter_evidence_ready": parameter_audit["publication_ready"],
-        "road_input_evidence_ready": road_audit["publication_ready"],
-        "road_override_evidence_ready": road_override_audit["publication_ready"],
-        "road_override_application_ready": road_override_application_audit[
-            "publication_ready"
-        ],
-        "rail_service_evidence_ready": rail_service_audit["publication_ready"],
-        "rail_station_binding_ready": rail_station_binding_audit["binding_ready"],
-        "rail_evidence_ready": bool(
-            rail_service_audit["publication_ready"]
-            and rail_station_binding_audit["binding_ready"]
-        ),
-    }
+    publication_readiness = audit_publication_readiness()
+    evidence_gates = dict(publication_readiness.get("gates", {}))
     all_checks = [
         *csv_checks,
         *json_checks,
@@ -1479,11 +1786,34 @@ def audit_artifacts() -> dict[str, Any]:
             ],
         },
         "rail_evidence_audit": {
-            "publication_ready": evidence_gates["rail_evidence_ready"],
+            "publication_ready": bool(evidence_gates.get("rail_evidence_ready", False)),
             "service_publication_ready": rail_service_audit["publication_ready"],
             "station_binding_ready": rail_station_binding_audit["binding_ready"],
+            "source_decision_ready": bool(
+                evidence_gates.get("rail_source_decision_ready", False)
+            ),
+            "transit_stress_profile_ready": bool(
+                evidence_gates.get("rail_transit_stress_profile_ready", False)
+            ),
+            "bounded_treatment_integrity_ready": bool(
+                evidence_gates.get("rail_bounded_treatment_integrity_ready", False)
+            ),
+            "bounded_treatment_pending_decision_count": (
+                rail_bounded_treatment_audit[
+                    "unchecked_pending_decision_count"
+                ]
+            ),
+            "bounded_treatment_warning_count": rail_bounded_treatment_audit[
+                "warning_count"
+            ],
+            "bounded_treatment_mismatch_count": rail_bounded_treatment_audit[
+                "mismatch_count"
+            ],
             "service_remaining_blockers": rail_service_audit["remaining_blockers"],
             "station_binding_remaining_blockers": rail_station_binding_audit[
+                "remaining_blockers"
+            ],
+            "bounded_treatment_remaining_blockers": rail_bounded_treatment_audit[
                 "remaining_blockers"
             ],
         },
@@ -1518,13 +1848,15 @@ def audit_artifacts() -> dict[str, Any]:
             "remaining_blockers": source_provenance["remaining_blockers"],
         },
         "publication_readiness_audit": {
-            "publication_ready": all(evidence_gates.values()),
-            "verdict": (
-                "final_study_claims_allowed"
-                if all(evidence_gates.values())
-                else "final_study_claims_blocked"
+            "publication_ready": bool(
+                publication_readiness.get("publication_ready", False)
             ),
+            "verdict": publication_readiness.get("verdict", ""),
             "gates": evidence_gates,
+            "remaining_blockers": publication_readiness.get(
+                "remaining_blockers",
+                [],
+            ),
         },
         "final_study_readiness_audit": {
             "final_study_ready": final_study_audit["final_study_ready"],
@@ -1717,6 +2049,260 @@ def audit_artifacts() -> dict[str, Any]:
                 "clean_checkout_reproducibility_ready"
             ],
             "can_mark_complete": tracked_artifacts["can_mark_complete"],
+        },
+        "dirty_worktree_classification": {
+            "manifest_present": dirty_worktree_classification["manifest_present"],
+            "dirty_path_count": dirty_worktree_classification["dirty_path_count"],
+            "current_dirty_path_count": dirty_worktree_freshness[
+                "current_dirty_path_count"
+            ],
+            "saved_csv_dirty_path_count": dirty_worktree_freshness[
+                "saved_csv_dirty_path_count"
+            ],
+            "saved_path_count": dirty_worktree_freshness["saved_path_count"],
+            "current_path_count": dirty_worktree_freshness["current_path_count"],
+            "classified_path_count": dirty_worktree_classification[
+                "classified_path_count"
+            ],
+            "unclassified_path_count": dirty_worktree_classification[
+                "unclassified_path_count"
+            ],
+            "new_generated_output_allowed": dirty_worktree_classification[
+                "new_generated_output_allowed"
+            ],
+            "freshness_status": dirty_worktree_freshness["freshness_status"],
+            "coverage_matches_current_git_status": dirty_worktree_freshness[
+                "coverage_matches_current_git_status"
+            ],
+            "can_mark_complete": dirty_worktree_classification["can_mark_complete"],
+            "remaining_blockers": [
+                *dirty_worktree_classification["remaining_blockers"],
+                *dirty_worktree_freshness["remaining_blockers"],
+            ],
+        },
+        "phase_gate_ledger_audit": {
+            "manifest_present": saved_phase_gate_ledgers["manifest_present"],
+            "expected_phase_count": current_phase_gate_ledgers[
+                "expected_phase_count"
+            ],
+            "valid_ledger_count": current_phase_gate_ledgers["valid_ledger_count"],
+            "missing_phase_count": current_phase_gate_ledgers["missing_phase_count"],
+            "invalid_ledger_count": current_phase_gate_ledgers[
+                "invalid_ledger_count"
+            ],
+            "closed_phase_count": current_phase_gate_ledgers["closed_phase_count"],
+            "saved_support_present": saved_phase_gate_ledgers[
+                "phase_gate_support_present"
+            ],
+            "current_support_present": current_phase_gate_ledgers[
+                "phase_gate_support_present"
+            ],
+            "phase_gate_ledgers_ready": current_phase_gate_ledgers[
+                "phase_gate_ledgers_ready"
+            ],
+            "can_mark_complete": current_phase_gate_ledgers["can_mark_complete"],
+            "remaining_blockers": _unique_strings(
+                [
+                    *saved_phase_gate_ledgers["remaining_blockers"],
+                    *current_phase_gate_ledgers["remaining_blockers"],
+                ]
+            ),
+        },
+        "gpu_ml_runtime_audit": {
+            "manifest_present": gpu_ml_runtime["manifest_present"],
+            "log_present": gpu_ml_runtime["log_present"],
+            "doc_present": gpu_ml_runtime["doc_present"],
+            "can_support_gpu_ml_claim": gpu_ml_runtime[
+                "can_support_gpu_ml_claim"
+            ],
+            "gpu_ml_runtime_passed": gpu_ml_runtime["gpu_ml_runtime_passed"],
+            "cpu_fallback_recorded": gpu_ml_runtime["cpu_fallback_recorded"],
+            "nvidia_smi_available": gpu_ml_runtime["nvidia_smi_available"],
+            "simulation_engine_gpu_accelerated": gpu_ml_runtime[
+                "simulation_engine_gpu_accelerated"
+            ],
+            "simulation_correctness_blocked": gpu_ml_runtime[
+                "simulation_correctness_blocked"
+            ],
+            "publication_ready": gpu_ml_runtime["publication_ready"],
+            "final_study_ready": gpu_ml_runtime["final_study_ready"],
+            "formal_acceptance_evidence": gpu_ml_runtime[
+                "formal_acceptance_evidence"
+            ],
+            "requirements_path": gpu_ml_runtime["requirements_path"],
+            "requirements_status": gpu_ml_runtime["requirements_status"],
+            "package_results": gpu_ml_runtime["package_results"],
+            "command": gpu_ml_runtime["command"],
+            "claim_boundary": gpu_ml_runtime["claim_boundary"],
+            "remaining_blockers": gpu_ml_runtime["remaining_blockers"],
+        },
+        "claim_language_guard": {
+            "manifest_present": claim_language_guard.get("manifest_present", False),
+            "scan_complete": claim_language_guard.get("scan_complete", False),
+            "release_blocked": claim_language_guard.get("release_blocked", True),
+            "claims_approved": claim_language_guard.get("claims_approved", False),
+            "formal_acceptance_created": claim_language_guard.get(
+                "formal_acceptance_created",
+                False,
+            ),
+            "target_file_count": claim_language_guard.get("target_file_count", 0),
+            "scanned_file_count": claim_language_guard.get("scanned_file_count", 0),
+            "missing_target_count": claim_language_guard.get(
+                "missing_target_count",
+                0,
+            ),
+            "unreadable_target_count": claim_language_guard.get(
+                "unreadable_target_count",
+                0,
+            ),
+            "reserved_match_count": claim_language_guard.get(
+                "reserved_match_count",
+                0,
+            ),
+            "blocking_finding_count": claim_language_guard.get(
+                "blocking_finding_count",
+                0,
+            ),
+            "explicit_non_approval_count": claim_language_guard.get(
+                "explicit_non_approval_count",
+                0,
+            ),
+            "formal_evidence_backed_count": claim_language_guard.get(
+                "formal_evidence_backed_count",
+                0,
+            ),
+            "claim_language_guard_ready": claim_language_guard.get(
+                "claim_language_guard_ready",
+                False,
+            ),
+            "publication_ready": claim_language_guard.get(
+                "publication_ready",
+                False,
+            ),
+            "final_study_ready": claim_language_guard.get(
+                "final_study_ready",
+                False,
+            ),
+            "can_mark_complete": claim_language_guard.get(
+                "can_mark_complete",
+                False,
+            ),
+            "remaining_blockers": claim_language_guard.get(
+                "remaining_blockers",
+                [],
+            ),
+        },
+        "artifact_invalidation_action_batch_inspection": {
+            "manifest_present": artifact_action_batch_inspection.get(
+                "manifest_present",
+                False,
+            ),
+            "row_count": artifact_action_batch_inspection.get("row_count", 0),
+            "action_batch_counts": artifact_action_batch_inspection.get(
+                "action_batch_counts",
+                {},
+            ),
+            "dependency_stage_counts": artifact_action_batch_inspection.get(
+                "dependency_stage_counts",
+                {},
+            ),
+            "recommended_disposition_counts": artifact_action_batch_inspection.get(
+                "recommended_disposition_counts",
+                {},
+            ),
+            "inspection_classification_counts": artifact_action_batch_inspection.get(
+                "inspection_classification_counts",
+                {},
+            ),
+            "regeneration_candidate_count": artifact_action_batch_inspection.get(
+                "regeneration_candidate_count",
+                0,
+            ),
+            "exclusion_or_non_evidence_candidate_count": artifact_action_batch_inspection.get(
+                "exclusion_or_non_evidence_candidate_count",
+                0,
+            ),
+            "evidence_backed_closeout_row_count": artifact_action_batch_inspection.get(
+                "evidence_backed_closeout_row_count",
+                0,
+            ),
+            "pending_or_blocked_row_count": artifact_action_batch_inspection.get(
+                "pending_or_blocked_row_count",
+                0,
+            ),
+            "action_queue_blocks_phase9_row_count": artifact_action_batch_inspection.get(
+                "action_queue_blocks_phase9_row_count",
+                0,
+            ),
+            "reviewer_signoff_required_row_count": artifact_action_batch_inspection.get(
+                "reviewer_signoff_required_row_count",
+                0,
+            ),
+            "can_clear_invalidation_gate": artifact_action_batch_inspection.get(
+                "can_clear_invalidation_gate",
+                False,
+            ),
+            "can_mark_complete": artifact_action_batch_inspection.get(
+                "can_mark_complete",
+                False,
+            ),
+            "phase9_promotion_ready": artifact_action_batch_inspection.get(
+                "phase9_promotion_ready",
+                False,
+            ),
+            "publication_ready": artifact_action_batch_inspection.get(
+                "publication_ready",
+                False,
+            ),
+            "final_study_ready": artifact_action_batch_inspection.get(
+                "final_study_ready",
+                False,
+            ),
+            "formal_acceptance_evidence": artifact_action_batch_inspection.get(
+                "formal_acceptance_evidence",
+                False,
+            ),
+            "must_not_be_used_as_closeout_manifest": artifact_action_batch_inspection.get(
+                "must_not_be_used_as_closeout_manifest",
+                True,
+            ),
+            "remaining_blockers": artifact_action_batch_inspection.get(
+                "remaining_blockers",
+                [],
+            ),
+        },
+        "artifact_invalidation_preflight_audit": {
+            "blocks_phase9": artifact_preflight_blocks_phase9,
+            "matrix_manifest_present": artifact_preflight_summary.get(
+                "manifest_present",
+                False,
+            ),
+            "matrix_row_count": artifact_preflight_summary.get("row_count", 0),
+            "blocking_row_count": artifact_preflight_summary.get(
+                "blocking_row_count",
+                0,
+            ),
+            "closeout_manifest_present": artifact_preflight_summary.get(
+                "closeout_snapshot",
+                {},
+            ).get("manifest_present", False),
+            "closeout_pending_or_invalid_row_count": artifact_preflight_summary.get(
+                "closeout_snapshot",
+                {},
+            ).get("pending_or_invalid_row_count", 0),
+            "closeout_csv_verification_status": artifact_preflight_summary.get(
+                "closeout_snapshot",
+                {},
+            ).get("closeout_csv_verification_status", ""),
+            "closeout_csv_summary_matches_manifest": artifact_preflight_summary.get(
+                "closeout_snapshot",
+                {},
+            ).get("closeout_csv_summary_matches_manifest", False),
+            "phase9_promotion_ready": False,
+            "publication_ready": False,
+            "final_study_ready": False,
+            "formal_acceptance_evidence": False,
+            "remaining_blockers": artifact_preflight_blockers,
         },
         "formal_acceptance_guard_audit": {
             "artifact_count": formal_acceptance_guard["artifact_count"],
@@ -1981,6 +2567,171 @@ def _positive_int(value: object) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
 
+def _audit_dirty_worktree_classification_freshness(
+    manifest_summary: dict[str, Any],
+) -> dict[str, Any]:
+    """Check saved dirty-worktree ledger coverage against current git status."""
+
+    current_rows = build_dirty_worktree_classification_rows()
+    saved_rows = _read_csv_rows(DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV)
+    current_count = len(current_rows)
+    saved_csv_count = len(saved_rows)
+    saved_count = int(manifest_summary.get("dirty_path_count", 0))
+    current_paths = {str(row.get("path", "")) for row in current_rows}
+    saved_paths = {str(row.get("path", "")) for row in saved_rows}
+    git_status_failed = any(
+        row.get("evidence_status") == "git_status_failed"
+        for row in current_rows
+    )
+    matches = (
+        bool(manifest_summary.get("manifest_present", False))
+        and saved_count == current_count
+        and saved_csv_count == current_count
+        and saved_paths == current_paths
+        and not git_status_failed
+    )
+    blockers: list[str] = []
+    if not manifest_summary.get("manifest_present", False):
+        blockers.append("dirty worktree classification manifest is missing")
+    if not DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV.exists():
+        blockers.append("dirty worktree classification CSV is missing")
+    if saved_count != current_count:
+        blockers.append(
+            "dirty worktree classification is stale or incomplete: "
+            f"manifest_dirty_path_count={saved_count}; "
+            f"current_dirty_path_count={current_count}"
+        )
+    if saved_csv_count != current_count:
+        blockers.append(
+            "dirty worktree classification CSV row count is stale or incomplete: "
+            f"csv_dirty_path_count={saved_csv_count}; "
+            f"current_dirty_path_count={current_count}"
+        )
+    if saved_paths != current_paths:
+        missing_from_saved = sorted(current_paths - saved_paths)
+        extra_in_saved = sorted(saved_paths - current_paths)
+        blockers.append(
+            "dirty worktree classification path set does not match current git status: "
+            f"missing_from_saved={missing_from_saved[:5]}; "
+            f"extra_in_saved={extra_in_saved[:5]}"
+        )
+    if git_status_failed:
+        blockers.append("current git status failed during dirty classification freshness check")
+    return {
+        "current_dirty_path_count": current_count,
+        "saved_csv_dirty_path_count": saved_csv_count,
+        "saved_path_count": len(saved_paths),
+        "current_path_count": len(current_paths),
+        "freshness_status": "fresh" if matches else "blocked_stale_or_incomplete",
+        "coverage_matches_current_git_status": matches,
+        "remaining_blockers": blockers,
+    }
+
+
+def _read_csv_rows(path: Path) -> list[dict[str, str]]:
+    if not path.exists():
+        return []
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+def _summarize_gpu_ml_runtime_manifest() -> dict[str, Any]:
+    if not DEFAULT_GPU_ML_RUNTIME_MANIFEST.exists():
+        return {
+            "manifest_present": False,
+            "log_present": DEFAULT_GPU_ML_RUNTIME_LOG.exists(),
+            "doc_present": DEFAULT_GPU_ML_RUNTIME_DOC.exists(),
+            "can_support_gpu_ml_claim": False,
+            "gpu_ml_runtime_passed": False,
+            "cpu_fallback_recorded": False,
+            "nvidia_smi_available": False,
+            "simulation_engine_gpu_accelerated": False,
+            "simulation_correctness_blocked": False,
+            "publication_ready": False,
+            "final_study_ready": False,
+            "formal_acceptance_evidence": False,
+            "requirements_path": "",
+            "requirements_status": "missing_manifest",
+            "package_results": [],
+            "command": [],
+            "claim_boundary": GPU_ML_RUNTIME_SCOPE,
+            "remaining_blockers": ["GPU ML runtime manifest is missing"],
+        }
+    try:
+        payload = json.loads(
+            DEFAULT_GPU_ML_RUNTIME_MANIFEST.read_text(encoding="utf-8")
+        )
+    except json.JSONDecodeError as exc:
+        return {
+            "manifest_present": True,
+            "log_present": DEFAULT_GPU_ML_RUNTIME_LOG.exists(),
+            "doc_present": DEFAULT_GPU_ML_RUNTIME_DOC.exists(),
+            "can_support_gpu_ml_claim": False,
+            "gpu_ml_runtime_passed": False,
+            "cpu_fallback_recorded": False,
+            "nvidia_smi_available": False,
+            "simulation_engine_gpu_accelerated": False,
+            "simulation_correctness_blocked": False,
+            "publication_ready": False,
+            "final_study_ready": False,
+            "formal_acceptance_evidence": False,
+            "requirements_path": "",
+            "requirements_status": "invalid_manifest",
+            "package_results": [],
+            "command": [],
+            "claim_boundary": GPU_ML_RUNTIME_SCOPE,
+            "remaining_blockers": [
+                f"GPU ML runtime manifest is invalid JSON: {exc}"
+            ],
+        }
+    requirements = payload.get("requirements", {})
+    if not isinstance(requirements, dict):
+        requirements = {}
+    package_results = payload.get("package_results", [])
+    if not isinstance(package_results, list):
+        package_results = []
+    command = payload.get("command", [])
+    if not isinstance(command, list):
+        command = []
+    blockers = payload.get("remaining_blockers", [])
+    if not isinstance(blockers, list):
+        blockers = ["GPU ML runtime remaining_blockers is not an array"]
+    if not DEFAULT_GPU_ML_RUNTIME_LOG.exists():
+        blockers = [*blockers, "GPU ML runtime JSONL log is missing"]
+    if not DEFAULT_GPU_ML_RUNTIME_DOC.exists():
+        blockers = [*blockers, "GPU ML runtime Markdown note is missing"]
+    return {
+        "manifest_present": True,
+        "log_present": DEFAULT_GPU_ML_RUNTIME_LOG.exists(),
+        "doc_present": DEFAULT_GPU_ML_RUNTIME_DOC.exists(),
+        "can_support_gpu_ml_claim": bool(
+            payload.get("can_support_gpu_ml_claim", False)
+        ),
+        "gpu_ml_runtime_passed": bool(payload.get("gpu_ml_runtime_passed", False)),
+        "cpu_fallback_recorded": bool(
+            payload.get("cpu_fallback_recorded", False)
+        ),
+        "nvidia_smi_available": bool(payload.get("nvidia_smi_available", False)),
+        "simulation_engine_gpu_accelerated": bool(
+            payload.get("simulation_engine_gpu_accelerated", False)
+        ),
+        "simulation_correctness_blocked": bool(
+            payload.get("simulation_correctness_blocked", False)
+        ),
+        "publication_ready": bool(payload.get("publication_ready", False)),
+        "final_study_ready": bool(payload.get("final_study_ready", False)),
+        "formal_acceptance_evidence": bool(
+            payload.get("formal_acceptance_evidence", False)
+        ),
+        "requirements_path": str(requirements.get("path", "")),
+        "requirements_status": str(requirements.get("status", "")),
+        "package_results": package_results,
+        "command": command,
+        "claim_boundary": str(payload.get("claim_boundary", GPU_ML_RUNTIME_SCOPE)),
+        "remaining_blockers": _unique_strings([str(item) for item in blockers]),
+    }
+
+
 def _check_doc(path: Path) -> dict[str, Any]:
     return {
         "label": path.stem,
@@ -2037,6 +2788,18 @@ def _check_agent_review_records() -> list[dict[str, Any]]:
             }
         )
     return checks
+
+
+def _unique_strings(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        text = str(value)
+        if text in seen:
+            continue
+        seen.add(text)
+        result.append(text)
+    return result
 
 
 def _display_path(path: Path) -> str:

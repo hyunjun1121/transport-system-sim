@@ -1,4 +1,4 @@
-"""Write the current validation strategy-readiness packet."""
+"""Write the current validation strategy review packet."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write validation strategy-readiness rows from the current "
+            "Write validation strategy review rows from the current "
             "validation review packet. The output is a reviewer packet and "
             "does not accept a benchmark strategy."
         )
@@ -59,19 +59,19 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--output",
         type=Path,
         default=DEFAULT_VALIDATION_STRATEGY_READINESS_PACKET_PATH,
-        help="Validation strategy-readiness CSV path.",
+        help="Validation strategy review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_VALIDATION_STRATEGY_READINESS_MANIFEST_PATH,
-        help="Validation strategy-readiness manifest JSON path.",
+        help="Validation strategy review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH,
-        help="Validation strategy-readiness Markdown path.",
+        help="Validation strategy review Markdown path.",
     )
     return parser.parse_args(argv)
 

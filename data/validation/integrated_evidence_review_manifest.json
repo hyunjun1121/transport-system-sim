@@ -23,7 +23,7 @@
     "rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
     "validation summary still declares scaffold or sanity scope",
     "validation_acceptance.json is absent",
-    "experiment outputs depend on a graph method that is not accepted",
+    "experiment outputs depend on a graph method that is not selected by review",
     "one or more integrated evidence dependencies remain blocked"
   ],
   "result_scope": "Integrated evidence review packet only; not rail evidence acceptance, not validation acceptance, not experiment acceptance, not calibrated real-world evidence, and not operational routing evidence.",
@@ -37,7 +37,7 @@
   "review_items": [
     "review rail timing, capacity, and availability decisions before retaining rail-dependent claims",
     "keep fallback and OSRM benchmarks labeled as plausibility checks unless validation acceptance changes that boundary",
-    "review validation road-evidence dependencies before final validation claims",
+    "review validation road-evidence dependencies before release-scope validation claims",
     "review scenario-policy-seed, graph-scope, and regeneration decisions before experiment acceptance",
     "record final decisions only in the relevant formal acceptance artifacts"
   ],

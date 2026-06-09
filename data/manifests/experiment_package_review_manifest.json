@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "claim_boundary": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/experiment_acceptance.json after graph scope, input validation, scenario-policy-seed design, CRN pairing, counts, and claim boundaries are reviewed.",
+  "claim_boundary": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/experiment_acceptance.json after graph scope, input checks, scenario-policy-seed design, CRN pairing, counts, and claim boundaries are reviewed.",
   "result_scope": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval.",
   "row_count": 9,
   "present_artifact_row_count": 6,
@@ -21,7 +21,7 @@
   "acceptance_ready": false,
   "can_mark_complete": false,
   "inputs": {
-    "pilot_full_manifest": "results/realworld_pilot/pilot_full_manifest.json",
+    "pilot_full_manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
     "experiment_acceptance": "data/manifests/experiment_acceptance.json"
   },
   "outputs": {
@@ -31,9 +31,9 @@
   },
   "review_items": [
     "verify result and summary row counts against pilot_full_manifest.json",
-    "verify artifact checksums and retain them in the final acceptance record",
-    "confirm graph scope and input validation are accepted before using full outputs",
-    "confirm scenario-policy-seed design and CRN pairing before acceptance",
+    "verify artifact checksums and retain them in the experiment decision record",
+    "confirm graph scope and input checks before using full outputs",
+    "confirm scenario-policy-seed design and CRN pairing before the experiment decision",
     "create data/manifests/experiment_acceptance.json only after a real review decision"
   ],
   "remaining_blockers": [

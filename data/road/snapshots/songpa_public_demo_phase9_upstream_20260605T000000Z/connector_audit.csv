@@ -1,0 +1,5 @@
+point_id,point_role,point_lat,point_lon,road_node,road_lat,road_lon,connector_distance_m,connector_t0_min,connector_speed_kph,reasonableness_status
+A,assembly,37.520200,127.121000,13720486316,37.522253,127.115714,519.610398,1.558831,20.000000,ok_connector_distance
+D,destination,37.518000,127.102500,8089088773,37.518009,127.102542,3.881115,0.011643,20.000000,ok_connector_distance
+R,rail_egress,37.513300,127.100200,732441243,37.513348,127.100211,5.457611,0.016373,20.000000,ok_connector_distance
+S,rail_access,37.516600,127.130200,4681593435,37.516230,127.130985,80.614009,0.241842,20.000000,ok_connector_distance

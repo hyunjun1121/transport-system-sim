@@ -1,7 +1,7 @@
 {
   "blocking_request_count": 2,
   "can_mark_complete": false,
-  "claim_boundary": "Graph-scale strategy-readiness packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication-readiness approval. This packet cannot close data/manifests/graph_scale_acceptance.json.",
+  "claim_boundary": "Graph-scale strategy review packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication approval. This packet cannot close data/manifests/graph_scale_acceptance.json.",
   "full_graph_runtime_readiness": {
     "blocking_request_count": 2,
     "can_mark_complete": false,
@@ -40,16 +40,16 @@
     "data/manifests/graph_scale_acceptance.json is absent",
     "current reduced-corridor output has alternate-route warnings",
     "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+    "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
   ],
-  "result_scope": "Graph-scale strategy-readiness packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication-readiness approval.",
+  "result_scope": "Graph-scale strategy review packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication approval.",
   "review_items": [
     "decide whether the 118-node reduced corridor is acceptable or only a smoke shortcut",
     "decide whether the 164-node full-profile multi-corridor candidate should replace the current analysis graph",
     "review graph-sensitive result differences before interpreting policy outcomes",
-    "review the full-graph runtime-readiness packet before accepting or excluding full-graph execution",
-    "generate full-graph outputs or record why full-graph execution is outside the accepted scope",
-    "record the final graph-scale method only in data/manifests/graph_scale_acceptance.json"
+    "review the full-graph runtime packet before selecting or excluding full-graph execution",
+    "generate full-graph outputs or record why full-graph execution is outside the selected scope",
+    "record the release-scope graph-scale method only in data/manifests/graph_scale_acceptance.json"
   ],
   "row_count": 5,
   "schema_version": 1

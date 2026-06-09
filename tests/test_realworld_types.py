@@ -10,6 +10,7 @@ from src.realworld import (
     RailPointSpec,
     RailSpec,
     RegionSpec,
+    SourceRefSpec,
     ZoneSpec,
     get_region_spec,
     load_region_registry,
@@ -23,7 +24,8 @@ def minimal_region_dict() -> dict:
 
     return {
         "region_id": "pilot_small",
-        "name": "Pilot Small Region",
+        "label": "Pilot Small Region",
+        "sensitivity_level": "non_sensitive",
         "boundary": {
             "type": "bbox",
             "north": 37.53,
@@ -60,6 +62,14 @@ def minimal_region_dict() -> dict:
             "headway_min": 10,
             "capacity_pax_per_train": 500,
         },
+        "source_refs": [
+            {
+                "source_id": "pilot_region_spec",
+                "role": "region_registry",
+                "local_artifact_path": "data/regions/pilot_region.yaml",
+                "review_status": "repository_input_pending_review",
+            },
+        ],
     }
 
 
@@ -83,8 +93,13 @@ def test_minimal_region_spec_loads():
     assert isinstance(region.boundary, BoundarySpec)
     assert isinstance(region.primary_assembly, ZoneSpec)
     assert isinstance(region.rail.access, RailPointSpec)
+    assert isinstance(region.source_refs[0], SourceRefSpec)
     assert region.region_id == "pilot_small"
+    assert region.name == "Pilot Small Region"
+    assert region.label == "Pilot Small Region"
+    assert region.sensitivity_level == "non_sensitive"
     assert region.boundary.bounds == (127.08, 37.49, 127.14, 37.53)
+    assert region.origin_zones == region.assembly_zones
     assert region.canonical_ids == ("A", "D", "S", "R")
     assert region.simulator_node_ids == {
         "assembly": "A",
@@ -95,6 +110,7 @@ def test_minimal_region_spec_loads():
     assert region.rail.travel_time_min == 40.0
     assert region.rail.headway_min == 10.0
     assert region.rail.capacity_pax_per_train == 500
+    assert region.source_refs[0].source_id == "pilot_region_spec"
 
     print("PASS: Minimal region spec loads")
 
@@ -135,7 +151,12 @@ def test_bbox_validation_rejects_invalid_boundaries():
 
     spec = minimal_region_dict()
     spec["boundary"]["type"] = "polygon"
-    assert_value_error_contains(lambda: load_region_spec(spec), "boundary.type must be 'bbox'")
+    assert_value_error_contains(lambda: load_region_spec(spec), "boundary.polygon_path")
+
+    spec["boundary"]["polygon_path"] = "data/regions/pilot_region.geojson"
+    region = load_region_spec(spec)
+    assert region.boundary.type == "polygon"
+    assert region.boundary.polygon_path == "data/regions/pilot_region.geojson"
 
     print("PASS: Invalid bboxes fail clearly")
 
@@ -206,6 +227,53 @@ def test_duplicate_node_ids_are_rejected():
     )
 
     print("PASS: Duplicate node IDs fail clearly")
+
+
+def test_origin_zone_alias_and_sensitivity_fallback():
+    """Region registry vocabulary should accept origin_zones and metadata fallback."""
+
+    spec = minimal_region_dict()
+    spec["name"] = spec.pop("label")
+    spec["origin_zones"] = spec.pop("assembly_zones")
+    spec.pop("sensitivity_level")
+    spec["metadata"] = {"data_sensitivity": "synthetic"}
+
+    region = load_region_spec(spec)
+
+    assert region.primary_assembly_id == "A"
+    assert region.origin_zones == region.assembly_zones
+    assert region.sensitivity_level == "synthetic"
+
+    print("PASS: origin_zones alias and sensitivity fallback load")
+
+
+def test_source_refs_are_structured_not_metadata():
+    """Source references should be typed records separate from scalar metadata."""
+
+    region = load_region_spec(minimal_region_dict())
+
+    assert region.source_refs[0] == SourceRefSpec(
+        source_id="pilot_region_spec",
+        role="region_registry",
+        local_artifact_path="data/regions/pilot_region.yaml",
+        review_status="repository_input_pending_review",
+    )
+
+    spec = minimal_region_dict()
+    spec["source_refs"][0]["source_id"] = ""
+    assert_value_error_contains(
+        lambda: load_region_spec(spec),
+        "source_refs[0].source_id must be non-empty",
+    )
+
+    spec = minimal_region_dict()
+    spec["sensitivity_level"] = "classified"
+    assert_value_error_contains(
+        lambda: load_region_spec(spec),
+        "region.sensitivity_level must be one of",
+    )
+
+    print("PASS: source refs and sensitivity are validated")
 
 
 def test_metadata_validator_accepts_scalar_records_only():
@@ -284,6 +352,8 @@ if __name__ == "__main__":
     test_zone_validation_rejects_bad_coordinates_and_empty_lists()
     test_rail_validation_rejects_invalid_service_values()
     test_duplicate_node_ids_are_rejected()
+    test_origin_zone_alias_and_sensitivity_fallback()
+    test_source_refs_are_structured_not_metadata()
     test_metadata_validator_accepts_scalar_records_only()
     test_direct_dataclass_construction_validates_values()
     test_region_registry_loads_lists_and_keyed_mappings()

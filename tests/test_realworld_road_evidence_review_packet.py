@@ -64,7 +64,7 @@ def test_write_road_evidence_review_packet_outputs_csv_and_manifest() -> None:
         assert value["publication_ready"] is False
         assert written_manifest["row_count"] == 10
         assert written_manifest["weak_for_final_claim_count"] == 10
-        assert "does not create accepted road-class overrides" in written_manifest["claim_boundary"]
+        assert "does not create road-class override signoff" in written_manifest["claim_boundary"]
 
     print("PASS: road evidence review packet writer emits CSV and manifest")
 

@@ -43,6 +43,8 @@ OPTIONAL_COLUMNS: tuple[str, ...] = (
     "derived_fields",
     "source_artifact_path",
     "source_artifact_sha256",
+    "gtfs_validator_report_path",
+    "gtfs_validator_report_sha256",
 )
 
 ALLOWED_SOURCE_STATUSES: frozenset[str] = frozenset(
@@ -85,6 +87,8 @@ class RailServiceEvidence:
     derived_fields: str = ""
     source_artifact_path: str = ""
     source_artifact_sha256: str = ""
+    gtfs_validator_report_path: str = ""
+    gtfs_validator_report_sha256: str = ""
 
     @property
     def is_derived(self) -> bool:
@@ -165,9 +169,16 @@ def summarize_rail_service_evidence(
     source_artifact_ready = bool(derived) and all(
         _source_artifact_is_ready(record) for record in derived
     )
+    gtfs_records = [
+        record for record in records if record.source_status == "cached_gtfs_derived"
+    ]
+    gtfs_validation_ready = all(
+        _gtfs_validator_report_is_ready(record) for record in gtfs_records
+    )
     derived_field_ready = _derived_field_ready(records)
     timing_ready = (
         source_artifact_ready
+        and gtfs_validation_ready
         and derived_field_ready["headway"]
         and derived_field_ready["travel_time"]
     )
@@ -184,6 +195,8 @@ def summarize_rail_service_evidence(
         "derived_field_ready": dict(derived_field_ready),
         "timing_evidence_ready": timing_ready,
         "source_artifact_ready": source_artifact_ready,
+        "gtfs_validation_required_count": len(gtfs_records),
+        "gtfs_validation_ready": gtfs_validation_ready,
         "capacity_evidence_ready": capacity_ready,
         "capacity_sensitivity_acknowledged": capacity_sensitivity_acknowledged,
         "publication_ready": timing_ready
@@ -193,8 +206,9 @@ def summarize_rail_service_evidence(
             "Rail values are publication-ready only when cached evidence "
             "derives both headway and travel time, the source artifact is "
             "committed or otherwise reproducible with a matching SHA256 "
-            "digest, and rail capacity is either source-backed or explicitly "
-            "retained as a sensitivity-only value."
+            "digest, GTFS-derived rows include a reviewed validator report "
+            "with matching SHA256 digest, and rail capacity is either "
+            "source-backed or explicitly retained as a sensitivity-only value."
         ),
         "remaining_blockers": _rail_blockers(records),
     }
@@ -205,9 +219,16 @@ def _rail_blockers(records: Sequence[RailServiceEvidence]) -> list[str]:
     source_artifact_ready = bool(derived) and all(
         _source_artifact_is_ready(record) for record in derived
     )
+    gtfs_records = [
+        record for record in records if record.source_status == "cached_gtfs_derived"
+    ]
+    gtfs_validation_ready = all(
+        _gtfs_validator_report_is_ready(record) for record in gtfs_records
+    )
     derived_field_ready = _derived_field_ready(records)
     timing_ready = (
         source_artifact_ready
+        and gtfs_validation_ready
         and derived_field_ready["headway"]
         and derived_field_ready["travel_time"]
     )
@@ -224,6 +245,10 @@ def _rail_blockers(records: Sequence[RailServiceEvidence]) -> list[str]:
         blockers.append("derive headway and travel time from the cached records")
     if derived and not source_artifact_ready:
         blockers.append("record source artifact path and SHA256 for cached rail evidence")
+    if gtfs_records and not gtfs_validation_ready:
+        blockers.append(
+            "record GTFS Validator report path and SHA256 for GTFS-derived rail evidence"
+        )
     if not (capacity_ready or capacity_sensitivity_acknowledged):
         blockers.append(
             "replace capacity proxy or keep it as an explicit sensitivity-only value"
@@ -273,6 +298,8 @@ def _record_from_row(
         derived_fields=optional_values["derived_fields"],
         source_artifact_path=optional_values["source_artifact_path"],
         source_artifact_sha256=optional_values["source_artifact_sha256"],
+        gtfs_validator_report_path=optional_values["gtfs_validator_report_path"],
+        gtfs_validator_report_sha256=optional_values["gtfs_validator_report_sha256"],
     )
 
 
@@ -304,6 +331,23 @@ def _validate_record(record: RailServiceEvidence, path: Path, line_num: int) -> 
         )
     if record.source_artifact_sha256 and not _is_sha256(record.source_artifact_sha256):
         raise ValueError(f"{location} source_artifact_sha256 must be 64 hex characters")
+    if record.gtfs_validator_report_sha256 and not _is_sha256(
+        record.gtfs_validator_report_sha256
+    ):
+        raise ValueError(
+            f"{location} gtfs_validator_report_sha256 must be 64 hex characters"
+        )
+    if record.source_status == "cached_gtfs_derived":
+        if not record.gtfs_validator_report_path:
+            raise ValueError(
+                f"{location} cached GTFS-derived rail row must include "
+                "gtfs_validator_report_path"
+            )
+        if not record.gtfs_validator_report_sha256:
+            raise ValueError(
+                f"{location} cached GTFS-derived rail row must include "
+                "gtfs_validator_report_sha256"
+            )
 
 
 def _positive_number(value: str, path: Path, line_num: int) -> float:
@@ -368,6 +412,21 @@ def _source_artifact_is_ready(record: RailServiceEvidence) -> bool:
     if not artifact_path.exists() or not artifact_path.is_file():
         return False
     return _file_sha256(artifact_path).lower() == record.source_artifact_sha256.lower()
+
+
+def _gtfs_validator_report_is_ready(record: RailServiceEvidence) -> bool:
+    if record.source_status != "cached_gtfs_derived":
+        return True
+    if not record.gtfs_validator_report_path or not record.gtfs_validator_report_sha256:
+        return False
+    if not _is_sha256(record.gtfs_validator_report_sha256):
+        return False
+    report_path = Path(record.gtfs_validator_report_path)
+    if not report_path.is_absolute():
+        report_path = PROJECT_ROOT / report_path
+    if not report_path.exists() or not report_path.is_file():
+        return False
+    return _file_sha256(report_path).lower() == record.gtfs_validator_report_sha256.lower()
 
 
 def _file_sha256(path: Path) -> str:

@@ -146,7 +146,7 @@ def test_write_full_graph_runtime_readiness_packet_outputs_artifacts() -> None:
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert written_manifest["full_graph_gate_closure_candidate_count"] == 0
-        assert "Full Graph Runtime Readiness Packet" in text
+        assert "Full Graph Runtime Review Packet" in text
 
     print("PASS: full-graph runtime-readiness writer emits artifacts")
 

@@ -23,13 +23,13 @@ The packet exists because the current study has four graph-scale paths:
 | `data/validation/graph_scale_review_packet.csv` | Four-option method review worksheet | review support only |
 | `data/validation/graph_scale_review_manifest.json` | Summary of option IDs and claim boundary | review support only |
 | `data/validation/full_graph_smoke_manifest.json` | Two-row full bus-practical graph smoke manifest | feasibility evidence only |
-| `data/validation/full_graph_runtime_readiness_packet.csv` | Full-graph runtime/readiness worksheet | review support only |
+| `data/validation/full_graph_runtime_readiness_packet.csv` | Full-graph runtime review worksheet | review support only |
 | `data/validation/full_graph_runtime_readiness_manifest.json` | Runtime worksheet status summary | review support only |
 | `scripts/write_graph_scale_review_packet.py` | Regenerates the worksheet and manifest | deterministic scaffold command |
 | `scripts/run_full_graph_smoke.py` | Regenerates the full-graph smoke manifest | bounded smoke command |
-| `scripts/write_full_graph_runtime_readiness_packet.py` | Regenerates full-graph runtime readiness rows | deterministic scaffold command |
+| `scripts/write_full_graph_runtime_readiness_packet.py` | Regenerates full-graph runtime review rows | deterministic scaffold command |
 | `src/realworld/graph_scale_review.py` | Library implementation for option rows and manifest writing | project-owned code |
-| `src/realworld/full_graph_runtime_readiness_packet.py` | Library implementation for runtime readiness rows | project-owned code |
+| `src/realworld/full_graph_runtime_readiness_packet.py` | Library implementation for runtime review rows | project-owned code |
 
 ## Interpretation
 
@@ -39,25 +39,25 @@ candidate preserves the top route candidates and has a separated 32-row smoke
 profile. The full-profile multi-corridor candidate uses the same 1,890-row
 scenario-policy-seed matrix as the current full pilot. This improves the
 graph-scale review evidence, but it still does not accept the candidate graph
-as the final method. The companion result-comparison table has 819 metric-level
+as the release-scope method. The companion result-comparison table has 819 metric-level
 current-vs-candidate delta rows so reviewers can inspect whether the graph
-choice changes outcomes before any acceptance record is created. The full
+choice changes outcomes before any reviewer decision record is created. The full
 bus-practical graph has a current two-row smoke manifest on 4,608 nodes and
-9,148 edges, plus a 4-row runtime-readiness packet. That packet records an
+9,148 edges, plus a 4-row runtime review packet. That packet records an
 estimated full-profile runtime from the smoke rate, but the full graph still
 has no full scenario-policy-seed experiment outputs and no downstream
 regeneration decision.
 
-Final claims require a reviewer-created
+Release-scope claims require a reviewer-created
 `data/manifests/graph_scale_acceptance.json` after deciding which graph-scale
 method is valid for the study and after regenerating any affected outputs.
-The latest graph-scale strategy-readiness packet is present at
+The latest graph-scale strategy review packet is present at
 `docs/graph_scale_strategy_readiness_packet.md` with data artifacts
 `data/validation/graph_scale_strategy_readiness_packet.csv` and
 `data/validation/graph_scale_strategy_readiness_manifest.json`; it records
-current blockers and human-review items, not acceptance. Current final-study
-status remains `final_study_ready=false` with 3 / 15 plan gates ready, 12 / 15
-blocked, and formal acceptance 0 / 12 ready.
+current blockers and human-review items, not acceptance. Current study-closeout
+status remains `final_study_ready=false` with 3 / 15 plan gates unblocked for
+scaffold-level checks, 12 / 15 blocked, and formal acceptance 0 / 12.
 
 ## Regeneration
 

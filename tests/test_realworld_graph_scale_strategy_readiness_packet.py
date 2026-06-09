@@ -1,4 +1,4 @@
-"""Tests for graph-scale strategy-readiness packet generation."""
+"""Tests for graph-scale strategy review packet generation."""
 
 from __future__ import annotations
 
@@ -133,7 +133,7 @@ def test_write_graph_scale_strategy_readiness_packet_outputs_artifacts() -> None
         assert value["publication_ready"] is False
         assert value["can_mark_complete"] is False
         assert written_manifest["graph_scale_gate_closure_candidate_count"] == 0
-        assert "Graph-Scale Strategy Readiness Packet" in text
+        assert "Graph-Scale Strategy Review Packet" in text
 
     print("PASS: graph-scale strategy-readiness writer emits artifacts")
 

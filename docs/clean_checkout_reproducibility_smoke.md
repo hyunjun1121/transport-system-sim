@@ -41,10 +41,10 @@ reproducibility acceptance and does not close
 
 ## Claim Boundary
 
-This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full validation ladder, and its artifact regeneration is limited to bounded review and audit artifacts. It does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.
+This is bounded clean source-checkout smoke evidence. It tests the committed source tree in a fresh clone with a fresh virtual environment and dependency installation, but it does not execute the full command ladder, and its artifact regeneration is limited to bounded review and audit artifacts. It does not create data/manifests/reproducibility_acceptance.json, and does not support calibrated real-world or operational routing claims.
 
 ## Required Actions
 
-- review whether the bounded clean-checkout smoke is sufficient for the intended acceptance scope
-- preserve full validation-ladder logs before formal acceptance
-- keep data/manifests/reproducibility_acceptance.json absent until a human reviewer accepts the reproduction scope
+- review whether the bounded clean-checkout smoke is sufficient for the intended review scope
+- preserve full command-ladder logs before formal acceptance
+- keep data/manifests/reproducibility_acceptance.json absent until a human reviewer records the reproduction scope

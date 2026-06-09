@@ -2,8 +2,8 @@
   "acceptance_ready": false,
   "blocking_check_count": 0,
   "can_mark_complete": false,
-  "claim_boundary": "This audit checks structural common-random-number pairing in result files and seed-splitting source markers. It does not prove statistical power, validate stochastic model adequacy, approve experiment acceptance, or close final-study gates.",
-  "generated_at": "2026-05-10T07:50:12+00:00",
+  "claim_boundary": "This audit checks structural common-random-number pairing in result files and seed-splitting source markers. It does not prove statistical power, prove stochastic model adequacy, approve an experiment decision, or close study-closeout gates.",
+  "generated_at": "2026-06-04T06:59:07+00:00",
   "inputs": {
     "pilot_manifest": "results/realworld_pilot/pilot_full_manifest.json",
     "results": "results/realworld_pilot/pilot_full_results.csv",
@@ -18,9 +18,9 @@
   "publication_ready": false,
   "remaining_blockers": [],
   "review_items": [
-    "confirm source-level seed stream use before common-random-number acceptance",
+    "confirm source-level seed stream use before the common-random-number decision",
     "retain this audit with experiment_package_review_packet evidence",
-    "do not treat structural pairing as statistical power or validation acceptance"
+    "do not treat structural pairing as statistical power or benchmark approval"
   ],
   "row_count": 13,
   "schema_version": 1,

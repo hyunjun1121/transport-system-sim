@@ -186,7 +186,7 @@ def build_experiment_design_decision_rows(
             decision_topic="Scenario-policy-seed design",
             candidate_decision=(
                 "Use the current 7-policy, 9-scenario, 30-seed common-random-number "
-                "full design as the candidate accepted design"
+                "full design as the candidate reviewed design"
             ),
             current_evidence=_design_evidence(
                 full_manifest=full_manifest,
@@ -196,7 +196,7 @@ def build_experiment_design_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Review policy exclusions, scenario scope, seed count, CRN pairing, "
-                "and row-count multiplication before experiment acceptance."
+                "and row-count multiplication before experiment-gate review."
             ),
             followup_artifacts=(
                 "data/manifests/pilot_experiment_design.json; "
@@ -208,7 +208,7 @@ def build_experiment_design_decision_rows(
             decision_id="graph_scope_dependency",
             decision_topic="Graph-scope dependency",
             candidate_decision=(
-                "Accept experiment outputs only on the graph-scale method chosen "
+                "Use experiment outputs only on the graph-scale method chosen "
                 "by formal graph-scale review"
             ),
             current_evidence=_graph_evidence(
@@ -222,13 +222,13 @@ def build_experiment_design_decision_rows(
                 else "needs_human_review_graph_scope_dependency"
             ),
             blocking_reason=(
-                "experiment outputs depend on a graph method that is not accepted"
+                "experiment outputs depend on a graph method that is not selected by review"
                 if graph_reduced or not graph_acceptance.exists()
                 else ""
             ),
             required_reviewer_action=(
-                "Close graph-scale acceptance or regenerate outputs on the "
-                "accepted graph method before accepting full experiment results."
+                "Provide graph-scale review record or regenerate outputs on the "
+                "selected graph method before experiment-output review."
             ),
             followup_artifacts=(
                 "data/manifests/graph_scale_acceptance.json; "
@@ -240,7 +240,7 @@ def build_experiment_design_decision_rows(
             decision_id="input_evidence_dependency",
             decision_topic="Input-evidence dependency",
             candidate_decision=(
-                "Accept current experiment outputs only after upstream input, "
+                "Use current experiment outputs only after upstream input, "
                 "road override, parameter, validation, and provenance gates close"
             ),
             current_evidence=(
@@ -254,7 +254,7 @@ def build_experiment_design_decision_rows(
                 else "needs_human_review_input_evidence_dependency"
             ),
             blocking_reason=(
-                "upstream input, road override, parameter, validation, or provenance gates are not accepted"
+                "upstream input, road override, parameter, validation, or provenance gates are not closed"
                 if upstream_blocked
                 else ""
             ),
@@ -288,7 +288,7 @@ def build_experiment_design_decision_rows(
             ),
             required_reviewer_action=(
                 "Keep manuscript/report claims bounded until experiment acceptance "
-                "records the accepted result scope."
+                "records the reviewed result scope."
             ),
             followup_artifacts=(
                 "paper/paper_draft.md; report_draft.md; "
@@ -301,7 +301,7 @@ def build_experiment_design_decision_rows(
             decision_topic="Regenerate-or-retain decision",
             candidate_decision=(
                 "Decide whether to retain current outputs, regenerate after graph/input "
-                "acceptance, or keep them only as review evidence"
+                "review, or keep them only as review evidence"
             ),
             current_evidence=(
                 f"package_review_rows={_int(package_manifest.get('row_count'))}; "
@@ -312,7 +312,7 @@ def build_experiment_design_decision_rows(
             decision_status="needs_human_review_regenerate_or_retain_outputs",
             blocking_reason="",
             required_reviewer_action=(
-                "Record whether accepted outputs will be the current full_pilot run, "
+                "Record whether reviewed outputs should use the current full_pilot run, "
                 "a multi-corridor/full-graph rerun, or a later regenerated package."
             ),
             followup_artifacts=(
@@ -325,7 +325,7 @@ def build_experiment_design_decision_rows(
             decision_id="formal_experiment_acceptance_boundary",
             decision_topic="Formal experiment acceptance",
             candidate_decision=(
-                "Record the accepted run profile, graph scope, design, CRN, counts, "
+                "Record the selected run profile, graph scope, design, CRN, counts, "
                 "checksums, and claim boundary only in the formal experiment acceptance path"
             ),
             current_evidence=(
@@ -490,9 +490,9 @@ def build_experiment_design_decision_manifest(
         "review_items": [
             "choose whether the current full_pilot or multi-corridor full candidate is the run profile to review",
             "review the 7-policy, 9-scenario, 30-seed design and excluded policy treatment",
-            "resolve graph-scale and upstream input-evidence dependencies before accepting outputs",
-            "decide whether outputs must be regenerated after graph/input acceptance",
-            "record final experiment decisions only in data/manifests/experiment_acceptance.json",
+            "resolve graph-scale and upstream input-evidence dependencies before output review",
+            "decide whether outputs must be regenerated after graph/input review",
+            "record experiment gate decisions only in data/manifests/experiment_acceptance.json",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }

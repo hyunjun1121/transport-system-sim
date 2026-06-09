@@ -1,0 +1,65 @@
+{
+  "acceptance_ready": false,
+  "actual_disposition_counts": {
+    "marked_non_evidence": 6,
+    "pending": 45
+  },
+  "audit_result_counts": {
+    "not_run": 51
+  },
+  "can_clear_invalidation_gate": false,
+  "can_mark_complete": false,
+  "claim_boundary": "Artifact invalidation matrix for Phase 9 preflight review only; not an artifact regeneration record, not evidence-quality validation, not publication readiness, not final-study approval, and not formal acceptance.",
+  "claim_boundary_effect_counts": {
+    "blocks_claim_support": 51
+  },
+  "closed_candidate_count": 0,
+  "closed_row_count": 0,
+  "closeout_status_counts": {
+    "pending": 51
+  },
+  "csv_sha256": "6b96631c064209ea23ed79bc13e1a2b842a5d2fe8cbe249024a86bef17d7a547",
+  "draft_overlay_only": true,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T04:58:30+00:00",
+  "must_not_be_used_as_closeout_manifest": true,
+  "must_not_replace_main_closeout_record": true,
+  "outputs": {
+    "csv": "data/validation/artifact_invalidation_quarantine_main_closeout_draft_overlay.csv",
+    "doc": "docs/artifact_invalidation_quarantine_main_closeout_draft_overlay.md",
+    "manifest": "data/validation/artifact_invalidation_quarantine_main_closeout_draft_overlay_manifest.json"
+  },
+  "overlayed_row_count": 6,
+  "pending_or_invalid_row_count": 51,
+  "phase9_promotion_effect_counts": {
+    "blocks_phase9_promotion": 51
+  },
+  "phase9_promotion_ready": false,
+  "prefill_row_count": 6,
+  "publication_ready": false,
+  "quarantine_batch_only": true,
+  "remaining_blockers": [
+    "draft overlay rows are reviewer-action support only",
+    "authoritative main closeout rows still require reviewer-confirmed disposition, audit evidence, targeted-test evidence, claim-boundary review, and non-acceptance signoff"
+  ],
+  "rerun_result_counts": {
+    "not_run": 51
+  },
+  "reviewer_identity_status_counts": {
+    "missing_reviewer_id": 51
+  },
+  "reviewer_signoff_status_counts": {
+    "unsigned": 51
+  },
+  "row_count": 51,
+  "schema_version": 1,
+  "source_action_batch": "quarantine_non_evidence",
+  "source_main_closeout_path": "data/validation/artifact_invalidation_closeout_template.csv",
+  "source_main_closeout_sha256": "22ac184bf44f5b3c5ca0f45894ea61ea61deb4bcb924cc010dd46b45eaa6e889",
+  "source_prefill_path": "data/validation/artifact_invalidation_quarantine_closeout_prefill.csv",
+  "source_prefill_sha256": "6437c2cf63724e7e84f5724ba807859256c6f3b2dcccd0dc4f22319b98eef2d5",
+  "targeted_test_result_counts": {
+    "not_run": 51
+  }
+}

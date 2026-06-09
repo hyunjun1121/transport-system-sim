@@ -41,9 +41,9 @@ DEFAULT_ROAD_SOURCE_DECISION_DOC_PATH = (
     PROJECT_ROOT / "docs" / "road_source_decision_packet.md"
 )
 ROAD_SOURCE_DECISION_SCOPE = (
-    "Road source-decision packet only; not road evidence, not accepted road "
-    "calibration, not reviewed road-class override approval, not cached OSM "
-    "input gate closure, and not publication-readiness approval."
+    "Road source-decision packet only; not road evidence, not road-input "
+    "tuning evidence, not reviewed road-class override approval, not cached "
+    "OSM input gate closure, and not publication approval."
 )
 ROAD_SOURCE_DECISION_COLUMNS: tuple[str, ...] = (
     "request_id",
@@ -235,8 +235,8 @@ def build_road_source_decision_manifest(
             "choose source-backed update, reviewed road-class override, sensitivity-only treatment, benchmark-only treatment, or exclusion for every road-source request",
             "record reviewer, decision date, evidence paths, source class, override scope, and not-operational claim limits outside this packet",
             "create data/parameters/road_class_overrides.csv only after source-backed road evidence review",
-            "rerun pilot outputs with reviewed overrides before road-calibration or cached-OSM input claims",
-            "rerun road, validation, publication-readiness, and final-study audits after decisions are recorded",
+            "rerun pilot outputs with reviewed overrides before bounded road-input or cached-OSM input claims",
+            "rerun road, benchmark, publication, and study-scope audits after decisions are recorded",
         ],
         "remaining_blockers": _remaining_blockers(rows),
     }
@@ -284,8 +284,8 @@ def build_road_source_decision_markdown(
             "## Boundary",
             "",
             "- This packet is a reviewer worksheet, not a formal decision record.",
-            "- It does not create reviewed overrides, apply overrides, calibrate road inputs, or accept cached OSM input claims.",
-            "- Keep road and cached-input claims blocked until source-backed changes or formal acceptance exist.",
+            "- It does not create reviewed overrides, apply overrides, tune road inputs, or record cached OSM input claims.",
+            "- Keep road and cached-input claims blocked until source-backed changes or formal reviewer decisions exist.",
             "",
         ]
     )
@@ -331,7 +331,7 @@ def _decision_row(
         "required_reviewer_action": (
             "Choose whether to replace with source-backed road evidence, create "
             "reviewed road-class overrides, retain the value as sensitivity-only "
-            "or benchmark-only, or exclude the affected claim from final-study "
+            "or benchmark-only, or exclude the affected claim from study-scope "
             "interpretation."
         ),
         "required_evidence_fields": (
@@ -369,43 +369,43 @@ def _candidate_options(row: Mapping[str, str]) -> str:
     if source_type == "public_speed_limit_or_benchmark_source_required":
         options = [
             "replace_with_source_backed_speed_values",
-            "accept_fallback_speed_assumption_with_scope",
+            "record_fallback_speed_assumption_with_scope",
             "retain_speed_as_sensitivity_only",
-            "exclude_speed_dependent_final_claims",
+            "exclude_speed_dependent_release_scope_claims",
         ]
     elif source_type == "traffic_count_or_capacity_reference_required":
         options = [
             "replace_with_traffic_count_or_capacity_reference",
             "create_reviewed_capacity_override_assumption",
             "retain_capacity_as_sensitivity_only",
-            "exclude_capacity_dependent_final_claims",
+            "exclude_capacity_dependent_release_scope_claims",
         ]
     elif source_type == "routing_or_observed_traffic_benchmark_required":
         options = [
             "keep_benchmark_as_plausibility_only",
-            "use_benchmark_calibrated_background_traffic_with_limits",
+            "use_benchmark_bounded_background_traffic_with_limits",
             "collect_observed_traffic_source",
             "retain_background_traffic_as_sensitivity_only",
         ]
     elif source_type == "hazard_incident_or_reviewed_scenario_source_required":
         options = [
             "replace_with_hazard_or_incident_source",
-            "accept_scenario_only_disruption_with_scope",
+            "record_scenario_only_disruption_with_scope",
             "retain_disruption_as_sensitivity_only",
-            "exclude_disruption_probability_final_claims",
+            "exclude_disruption_probability_release_scope_claims",
         ]
     elif source_type == "reviewed_override_table_and_manifest_application_required":
         options = [
             "create_reviewed_road_class_overrides",
             "rerun_pilot_with_reviewed_overrides",
             "retain_current_mapper_defaults_as_sensitivity_only",
-            "exclude_road_calibration_final_claims",
+            "exclude_road_input_tuning_release_scope_claims",
         ]
     else:
         options = [
             "replace_with_source_backed_road_values",
             "retain_as_sensitivity_only",
-            "exclude_from_final_claims",
+            "exclude_from_release_scope_claims",
         ]
     return "; ".join(options)
 
@@ -446,12 +446,12 @@ def _evidence_paths(
 def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
     blockers = [
         (
-            "road_class_overrides.csv exists but remains non-ready until source-backed review and application are accepted"
+            "road_class_overrides.csv exists but remains blocked until source-backed review and application are recorded"
             if DEFAULT_ROAD_CLASS_OVERRIDE_PATH.exists()
             else "reviewed road_class_overrides.csv is absent"
         ),
         "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-        "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
+        "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit reviewer decisions",
     ]
     for row in rows:
         status = str(row.get("decision_status", ""))

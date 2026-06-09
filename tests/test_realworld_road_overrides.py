@@ -14,6 +14,7 @@ from src.realworld.attributes import HIGHWAY_DEFAULTS, map_edge_attributes  # no
 from src.realworld.road_overrides import (  # noqa: E402
     REQUIRED_COLUMNS,
     build_highway_defaults_with_overrides,
+    build_road_class_override_metadata,
     load_road_class_overrides,
 )
 
@@ -67,6 +68,24 @@ def test_road_class_override_rejects_unknown_highway() -> None:
     print("PASS: road class override rejects unknown highway")
 
 
+def test_road_class_override_metadata_preserves_source_fields() -> None:
+    """Override source metadata should remain available after default merging."""
+
+    with TemporaryDirectory() as tmp:
+        path = Path(tmp) / "road_class_overrides.csv"
+        _write_override_csv(path)
+        overrides = load_road_class_overrides(path)
+        metadata = build_road_class_override_metadata(overrides)
+
+        assert set(metadata) == {"primary"}
+        assert metadata["primary"]["source_class"] == "literature-derived"
+        assert metadata["primary"]["source_name"] == "fixture"
+        assert metadata["primary"]["source_url_or_citation"] == "fixture"
+        assert metadata["primary"]["capacity_veh_per_hr"] == 1234.0
+
+    print("PASS: road class override metadata preserves source fields")
+
+
 def _write_override_csv(path: Path, *, highway: str = "primary") -> None:
     row = {
         "highway": highway,
@@ -87,4 +106,5 @@ def _write_override_csv(path: Path, *, highway: str = "primary") -> None:
 if __name__ == "__main__":
     test_road_class_override_changes_mapper_fallback_values()
     test_road_class_override_rejects_unknown_highway()
+    test_road_class_override_metadata_preserves_source_fields()
     print("\n=== REALWORLD ROAD OVERRIDE TESTS PASSED ===")

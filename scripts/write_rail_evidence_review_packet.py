@@ -50,8 +50,8 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Write a conservative rail evidence review packet. The output is a "
-            "review aid only, not rail-service calibration or operational "
-            "readiness evidence."
+            "review aid only, not rail-service calibration or route-use "
+            "evidence."
         )
     )
     parser.add_argument(

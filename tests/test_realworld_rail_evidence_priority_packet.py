@@ -24,6 +24,7 @@ from src.realworld.rail_timing_request_packet import (  # noqa: E402
     KTDB_GTFS_SOURCE_METADATA_PATHS,
     METRO9_CAPACITY_RAW_PATH,
     RAIL_CAPACITY_REVIEW_INPUT_PATHS,
+    STATIC_TIMETABLE_SOURCE_NAME,
 )
 
 
@@ -33,10 +34,25 @@ def test_rail_evidence_priority_rows_classify_current_closure_paths() -> None:
     rows = build_rail_evidence_priority_rows()
     by_id = {row["priority_id"]: row for row in rows}
 
-    assert len(rows) == 6
+    assert len(rows) == 7
     assert by_id["rail_timetable_headway_request"]["readiness_status"] == (
         "blocked_missing_data_go_kr_key"
     )
+    assert by_id["rail_static_timetable_csv_headway_request"]["readiness_status"] == (
+        "ready_reviewed_static_timetable_cache_for_derivation_review"
+    )
+    assert by_id["rail_static_timetable_csv_headway_request"]["source_name"] == (
+        STATIC_TIMETABLE_SOURCE_NAME
+    )
+    assert by_id["rail_static_timetable_csv_headway_request"][
+        "can_close_timing_fields_after_review"
+    ] == "false"
+    assert by_id["rail_static_timetable_csv_headway_request"][
+        "source_cache_present"
+    ] == "true"
+    assert by_id["rail_static_timetable_csv_headway_request"][
+        "raw_payload_present"
+    ] == "true"
     assert by_id["rail_shortest_path_travel_time_request"]["readiness_status"] == (
         "blocked_missing_data_go_kr_key"
     )
@@ -98,10 +114,11 @@ def test_rail_evidence_priority_writer_outputs_artifacts() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert written_manifest["row_count"] == 6
+    assert written_manifest["row_count"] == 7
     assert written_manifest["blocking_priority_count"] == 3
     assert written_manifest["human_review_priority_count"] == 2
     assert "Rail Evidence Priority Packet" in doc_text
+    assert STATIC_TIMETABLE_SOURCE_NAME in doc_text
     assert "metro9_capacity_source_extract.csv" in doc_text
     assert "metro9_capacity_source_raw.html" in doc_text
 

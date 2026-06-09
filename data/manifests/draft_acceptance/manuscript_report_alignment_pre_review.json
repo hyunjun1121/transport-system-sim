@@ -48,7 +48,7 @@
     {
       "claim_supported": "Formal target required for manuscript_report_alignment",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "data/manifests/manuscript_acceptance.json"
     },
     {
@@ -121,7 +121,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-05-10T08:28:03+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -131,7 +131,7 @@
     "After a real decision, create or update data/manifests/manuscript_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Manuscript/Report Acceptance",
+  "label": "Manuscript/Report Alignment Decision",
   "missing_evidence": [
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "close evidence gates before final paper/report claims",
@@ -142,12 +142,12 @@
     "figure/table review: data/manifests/manuscript_acceptance.json is absent",
     "review figure/table human-review rows before manuscript acceptance",
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
-    "claim alignment: formal manuscript/report acceptance record is absent",
+    "claim alignment: formal manuscript/report review record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
-    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims",
+    "claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims",
     "resolve manuscript/report decision blockers before manuscript acceptance",
     "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "manuscript/report decision: claim-alignment packet has 91 rows requiring revision or acceptance",
+    "manuscript/report decision: claim-alignment packet has 42 rows requiring revision or acceptance",
     "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
     "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
     "review manuscript/report human-decision rows before manuscript acceptance",
@@ -171,7 +171,7 @@
     "docs/manuscript_report_decision_packet.md"
   ],
   "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
   "related_plan_gate_ids": [
     "manuscript_report_alignment"
   ],
@@ -179,26 +179,8 @@
     "Revise or hold claims until all supporting evidence gates are accepted.",
     "Create manuscript_acceptance.json after claim-by-claim review.",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
-    "close evidence gates before final paper/report claims",
-    "revise figure/table claim boundary from scaffold to accepted study scope",
-    "resolve figure/table review blockers before manuscript acceptance",
-    "figure/table review: figure/table outputs depend on reduced analysis graph scope",
-    "figure/table review: figure/table source outputs remain scaffold or not calibrated",
-    "figure/table review: data/manifests/manuscript_acceptance.json is absent",
-    "review figure/table human-review rows before manuscript acceptance",
-    "review or revise claim-alignment overclaim candidates before manuscript acceptance",
-    "claim alignment: formal manuscript/report acceptance record is absent",
-    "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
-    "claim alignment: evidence gates remain blocked, so result claims cannot be accepted as final-study claims",
-    "resolve manuscript/report decision blockers before manuscript acceptance",
-    "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "manuscript/report decision: claim-alignment packet has 91 rows requiring revision or acceptance",
-    "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
-    "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
-    "review manuscript/report human-decision rows before manuscript acceptance",
-    "data/manifests/manuscript_acceptance.json is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/manuscript_report_alignment.md",

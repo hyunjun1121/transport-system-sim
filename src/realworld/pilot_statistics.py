@@ -8,6 +8,7 @@ upgrading the claim boundary to calibrated real-world evidence.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 from collections import defaultdict
@@ -334,6 +335,8 @@ def _statistics_manifest(
         ),
         "source_results_path": _display_path(source_results_path),
         "source_manifest_path": _display_path(source_manifest_path),
+        "source_results_sha256": _sha256_file(source_results_path),
+        "source_manifest_sha256": _sha256_file(source_manifest_path),
         "source_run_profile": source_manifest.get("run_profile", ""),
         "source_row_count": source_manifest.get("row_count", ""),
         "source_summary_row_count": source_manifest.get("summary_row_count", ""),
@@ -372,6 +375,17 @@ def _load_json_object(path: str | Path) -> dict[str, Any]:
     with filepath.open("r", encoding="utf-8") as handle:
         value = json.load(handle)
     return value if isinstance(value, dict) else {}
+
+
+def _sha256_file(path: str | Path) -> str:
+    filepath = Path(path)
+    if not filepath.exists():
+        return ""
+    digest = hashlib.sha256()
+    with filepath.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _round_float(value: float) -> float:

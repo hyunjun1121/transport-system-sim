@@ -42,7 +42,7 @@ def test_validation_review_rows_summarize_current_artifacts() -> None:
         "fail=0; pass=19; warn=2"
     )
     assert by_category["fallback_route_benchmarks"]["status_counts"] == (
-        "fail=0; pass=2; warn=1"
+        "fail=1; pass=1; warn=1"
     )
     assert by_category["optional_osrm_route_benchmarks"]["status_counts"] == (
         "fail=0; pass=3; warn=0"
@@ -56,8 +56,17 @@ def test_validation_review_rows_summarize_current_artifacts() -> None:
     assert "snapshot_manifest_raw_response_files=3" in by_category[
         "optional_osrm_route_benchmarks"
     ]["coverage_counts"]
+    assert "snapshot_manifest_raw_binding_mismatches=0" in by_category[
+        "optional_osrm_route_benchmarks"
+    ]["coverage_counts"]
+    assert "snapshot_manifest_raw_missing_rows=0" in by_category[
+        "optional_osrm_route_benchmarks"
+    ]["coverage_counts"]
+    assert "snapshot_snap_status_warn=2" in by_category[
+        "optional_osrm_route_benchmarks"
+    ]["coverage_counts"]
     assert by_category["optional_osrm_route_benchmarks"]["review_status"] == (
-        "ready_for_review_cached_external_snapshot"
+        "review_required_osrm_snap_distance_review"
     )
     assert by_category["accessibility_loss_coverage"]["row_count"] == "127"
     assert "disconnected=22" in by_category["accessibility_loss_coverage"][
@@ -124,6 +133,22 @@ def test_write_validation_review_packet_outputs_csv_and_manifest() -> None:
             written_manifest["optional_osrm_benchmark_raw_response_file_count"]
             == 3
         )
+        assert (
+            written_manifest[
+                "optional_osrm_benchmark_raw_response_binding_mismatch_count"
+            ]
+            == 0
+        )
+        assert (
+            written_manifest[
+                "optional_osrm_benchmark_raw_response_missing_for_row_count"
+            ]
+            == 0
+        )
+        assert written_manifest["optional_osrm_benchmark_snap_status_counts"] == {
+            "pass": 1,
+            "warn": 2,
+        }
         assert "does not close the validation gate" in written_manifest[
             "claim_boundary"
         ]

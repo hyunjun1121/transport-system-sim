@@ -169,15 +169,15 @@ def build_source_license_review_manifest(
         },
         "review_items": [
             "verify each source URL, license, attribution requirement, and derivative-use constraint",
-            "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
+            "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims",
             "confirm local artifact paths and snapshot dates for every cached source",
-            "review project-owned synthetic/privacy abstraction before provenance acceptance",
+            "review project-owned synthetic/privacy abstraction before writing the provenance review record",
             "create data/manifests/provenance_acceptance.json only after all retained sources are reviewed",
         ],
         "remaining_blockers": [
             "formal provenance acceptance record is absent",
             "source/license packet rows are review aids and do not certify license compatibility",
-            "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims",
+            "context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from release-scope claims",
         ],
     }
 
@@ -204,7 +204,7 @@ def build_source_license_review_markdown(
         "",
         "## Source Review Rows",
         "",
-        "| Source | Status | Snapshot | Required Decision | Final Gate Support |",
+        "| Source | Status | Snapshot | Required Decision | Provenance Gate Support |",
         "| --- | --- | --- | --- | --- |",
     ]
     for row in rows:
@@ -223,8 +223,8 @@ def build_source_license_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Review official source terms and attribution requirements for every retained public source.",
-            "- Provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or exclude them before final claims.",
-            "- Confirm project-owned synthetic/privacy abstractions before accepting the pilot package.",
+            "- Provide reviewed target payloads, retain context-source rows as sensitivity/context-only evidence, or exclude them before release-scope claims.",
+            "- Confirm project-owned synthetic/privacy abstractions before retaining the pilot package.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
             "",
         ]

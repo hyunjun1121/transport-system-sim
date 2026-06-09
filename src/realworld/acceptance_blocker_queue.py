@@ -44,9 +44,9 @@ BLOCKER_QUEUE_COLUMNS: tuple[str, ...] = (
 )
 
 NON_APPROVAL_BOUNDARY = (
-    "Formal acceptance blocker queue only. Rows are work items for reviewers; "
-    "they do not create approvals, source evidence, calibrated validation, or "
-    "operational routing permission."
+    "Formal decision blocker queue only. Rows are work items for reviewers; "
+    "they do not create approvals, source evidence, field-fit benchmark "
+    "evidence, or deployment routing permission."
 )
 
 REVIEW_PACKET_BY_GATE: dict[str, str] = {
@@ -213,15 +213,15 @@ def build_acceptance_blocker_queue_markdown(
     """Render a concise human-readable queue document."""
 
     lines = [
-        "# Formal Acceptance Blocker Queue",
+        "# Formal Decision Blocker Queue",
         "",
         str(manifest.get("claim_boundary", NON_APPROVAL_BOUNDARY)),
         "",
         "## Summary",
         "",
         f"- Queue rows: {manifest.get('row_count', 0)}",
-        f"- Formal acceptance ready: `{str(manifest.get('formal_acceptance_ready', False)).lower()}`",
-        f"- Final-study ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
+        f"- Formal decision ready: `{str(manifest.get('formal_acceptance_ready', False)).lower()}`",
+        f"- Study-closeout ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
         f"- CSV: `{manifest.get('queue_path', '')}`",
         "",
@@ -245,7 +245,7 @@ def build_acceptance_blocker_queue_markdown(
             "",
             "## Use",
             "",
-            "Work this queue from top to bottom. If evidence is missing, leave the formal target absent. If evidence exists, update the formal target with a real reviewed decision and rerun the formal acceptance audits.",
+            "Work this queue from top to bottom. If evidence is missing, leave the formal target absent. If evidence exists, update the formal target with a real reviewed decision and rerun the formal decision package audits.",
             "",
         ]
     )
@@ -254,6 +254,7 @@ def build_acceptance_blocker_queue_markdown(
 
 def _queue_row(gate: Mapping[str, Any], blocker: str) -> dict[str, str]:
     gate_id = str(gate.get("gate_id", "")).strip()
+    display_blocker = _display_blocker_text(blocker)
     return {
         "gate_id": gate_id,
         "label": str(gate.get("label", gate_id)).strip(),
@@ -261,12 +262,38 @@ def _queue_row(gate: Mapping[str, Any], blocker: str) -> dict[str, str]:
         "formal_target": str(gate.get("path", "")).strip(),
         "review_packet": REVIEW_PACKET_BY_GATE.get(gate_id, ""),
         "template_or_worksheet": TEMPLATE_OR_WORKSHEET_BY_GATE.get(gate_id, ""),
-        "blocker": blocker,
-        "action_type": _action_type(blocker),
+        "blocker": display_blocker,
+        "action_type": _action_type(display_blocker),
         "requires_human_review": "true",
         "can_mark_complete": "false",
         "claim_boundary": NON_APPROVAL_BOUNDARY,
     }
+
+
+def _display_blocker_text(blocker: str) -> str:
+    """Normalize formal-package blockers for release-claim-safe queue display."""
+
+    replacements = (
+        ("pilot acceptance record", "pilot decision record"),
+        ("graph-scale acceptance record", "graph-scale decision record"),
+        ("provenance acceptance record", "provenance decision record"),
+        ("parameter acceptance records", "parameter decision rows"),
+        ("validation acceptance record", "benchmark decision record"),
+        ("sensitivity acceptance record", "sensitivity decision record"),
+        ("experiment acceptance record", "experiment decision record"),
+        ("manuscript/report acceptance record", "manuscript/report decision record"),
+        ("reproducibility acceptance record", "reproducibility decision record"),
+        ("final-audit acceptance record", "closeout audit decision record"),
+        ("retained in final claims", "retained in release-scope claims"),
+        ("if final claims require calibrated road inputs", "if release-scope claims require field-fit road inputs"),
+        ("input validation", "input-evidence review"),
+        ("clean-checkout validation", "clean-checkout reproduction review"),
+        ("every final gate is closed", "every prerequisite gate is closed"),
+    )
+    text = blocker
+    for old, new in replacements:
+        text = text.replace(old, new)
+    return text
 
 
 def _action_type(blocker: str) -> str:

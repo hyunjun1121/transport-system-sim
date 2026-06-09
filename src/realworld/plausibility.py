@@ -38,6 +38,14 @@ DEFAULT_FALLBACK_ROUTE_ASSUMPTIONS = {
 DEFAULT_OSRM_BASE_URL = "https://router.project-osrm.org"
 OSRM_BENCHMARK_METHOD = "osrm_route_v1_driving"
 OSRM_BENCHMARK_SOURCE_CLASS = "live_external_router_snapshot"
+ROAD_BENCHMARK_DISTANCE_PASS_MIN = 0.90
+ROAD_BENCHMARK_DISTANCE_PASS_MAX = 1.10
+ROAD_BENCHMARK_DISTANCE_WARN_MIN = 0.75
+ROAD_BENCHMARK_DISTANCE_WARN_MAX = 1.25
+ROAD_BENCHMARK_TIME_PASS_MIN = 0.80
+ROAD_BENCHMARK_TIME_PASS_MAX = 1.20
+ROAD_BENCHMARK_TIME_WARN_MIN = 0.60
+ROAD_BENCHMARK_TIME_WARN_MAX = 1.40
 
 CSV_FIELDS = (
     "region_id",
@@ -425,16 +433,22 @@ def evaluate_external_route_benchmarks(
     benchmarks: Sequence[ExternalRouteBenchmark],
     *,
     region_id: str | None = None,
-    distance_pass_min: float = 0.75,
-    distance_pass_max: float = 1.50,
-    distance_warn_min: float = 0.50,
-    distance_warn_max: float = 2.50,
-    time_pass_min: float = 0.33,
-    time_pass_max: float = 2.50,
-    time_warn_min: float = 0.20,
-    time_warn_max: float = 4.00,
+    distance_pass_min: float = ROAD_BENCHMARK_DISTANCE_PASS_MIN,
+    distance_pass_max: float = ROAD_BENCHMARK_DISTANCE_PASS_MAX,
+    distance_warn_min: float = ROAD_BENCHMARK_DISTANCE_WARN_MIN,
+    distance_warn_max: float = ROAD_BENCHMARK_DISTANCE_WARN_MAX,
+    time_pass_min: float = ROAD_BENCHMARK_TIME_PASS_MIN,
+    time_pass_max: float = ROAD_BENCHMARK_TIME_PASS_MAX,
+    time_warn_min: float = ROAD_BENCHMARK_TIME_WARN_MIN,
+    time_warn_max: float = ROAD_BENCHMARK_TIME_WARN_MAX,
 ) -> tuple[ExternalBenchmarkRecord, ...]:
-    """Compare adapted route metrics with cached or fallback benchmarks."""
+    """Compare adapted route metrics with cached or fallback benchmarks.
+
+    The default bands mirror the Phase 7 threshold table: road distance passes
+    within 10 percent and warns through 25 percent; road free-flow duration
+    passes within 20 percent and warns through 40 percent. The comparison
+    remains a plausibility check rather than route-engine ground truth.
+    """
 
     resolved_region_id = region_id or str(graph.graph.get("region_id", "unknown_region"))
     road_graph = _road_mode_view(graph)

@@ -1,0 +1,157 @@
+{
+  "can_mark_complete": false,
+  "can_support_final_provenance_gate": false,
+  "can_support_rail_evidence_gate": false,
+  "claim_boundary": "This manifest proves only that retained source-context review extracts match their cached raw byte payloads. It does not prove license rights, GTFS validity, transit service calibration, source provenance acceptance, or final-study readiness.",
+  "file_records": [
+    {
+      "computed_sha256": "316948d3df9ce8e0c5edaa70374584b33423b40b1e5c810b9542f8353b9ca26f",
+      "extract_path": "data/rail/ktdb_gtfs_source_extract.csv",
+      "file_role": "notice_raw_html",
+      "raw_file_integrity_ready": true,
+      "raw_path": "data/rail/ktdb_gtfs_notice_raw.html",
+      "recorded_sha256": "316948d3df9ce8e0c5edaa70374584b33423b40b1e5c810b9542f8353b9ca26f",
+      "sha256_matches": true,
+      "source_id": "ktdb_gtfs_source_context"
+    },
+    {
+      "computed_sha256": "8dacf895e039a72b04fc05434522c25946743cf0d37e99bf1b152bd9c4eb099a",
+      "extract_path": "data/rail/ktdb_gtfs_source_extract.csv",
+      "file_role": "dataset_list_raw_html",
+      "raw_file_integrity_ready": true,
+      "raw_path": "data/rail/ktdb_gtfs_dataset_list_raw.html",
+      "recorded_sha256": "8dacf895e039a72b04fc05434522c25946743cf0d37e99bf1b152bd9c4eb099a",
+      "sha256_matches": true,
+      "source_id": "ktdb_gtfs_source_context"
+    },
+    {
+      "computed_sha256": "712814e1a915c9a17fda4ed3aa6ab8dbb33eb29dd6146d8e4d0fd6b63b3becd5",
+      "extract_path": "data/rail/metro9_capacity_source_extract.csv",
+      "file_role": "source_raw_html",
+      "raw_file_integrity_ready": true,
+      "raw_path": "data/rail/metro9_capacity_source_raw.html",
+      "recorded_sha256": "712814e1a915c9a17fda4ed3aa6ab8dbb33eb29dd6146d8e4d0fd6b63b3becd5",
+      "sha256_matches": true,
+      "source_id": "metro9_capacity_source_context"
+    }
+  ],
+  "generated_at_utc": "2026-06-02T17:27:42.245238+00:00",
+  "provenance_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "rail_evidence_gate_closure_candidate_count": 0,
+  "raw_file_count": 3,
+  "raw_file_integrity_blocker_count": 0,
+  "raw_file_integrity_ready": true,
+  "raw_file_integrity_ready_count": 2,
+  "remaining_blockers": [
+    "source terms, license, attribution, and retention review are outside this hash audit",
+    "formal provenance acceptance is absent",
+    "rail timing and capacity evidence remain unaccepted"
+  ],
+  "remaining_gate_blockers": [
+    "source terms, license, attribution, and retention review are outside this hash audit",
+    "formal provenance acceptance is absent",
+    "rail timing and capacity evidence remain unaccepted"
+  ],
+  "remaining_hash_blockers": [],
+  "result_scope": "Source-context raw-file hash audit only; not source acceptance, not license certification, not GTFS validation, not rail timing evidence, not rail capacity acceptance, not provenance gate closure, and not operational routing approval.",
+  "review_items": [
+    "retain the raw source payloads with the review extract files",
+    "review source terms, attribution, and retention duties separately",
+    "do not use source-context hash integrity as GTFS validation",
+    "do not promote capacity or timing claims without reviewed evidence"
+  ],
+  "row_count": 3,
+  "schema_version": 1,
+  "source_context_count": 2,
+  "source_count": 2,
+  "sources": [
+    {
+      "can_mark_complete": false,
+      "can_support_final_provenance_gate": false,
+      "can_support_rail_evidence_gate": false,
+      "claim_boundary": "Raw-file hash match is source-context integrity only; it is not a reviewed GTFS feed, rail timing evidence, provenance acceptance, or rail-service calibration.",
+      "extract_path": "data/rail/ktdb_gtfs_source_extract.csv",
+      "file_records": [
+        {
+          "computed_sha256": "316948d3df9ce8e0c5edaa70374584b33423b40b1e5c810b9542f8353b9ca26f",
+          "extract_path": "data/rail/ktdb_gtfs_source_extract.csv",
+          "file_role": "notice_raw_html",
+          "raw_file_integrity_ready": true,
+          "raw_path": "data/rail/ktdb_gtfs_notice_raw.html",
+          "recorded_sha256": "316948d3df9ce8e0c5edaa70374584b33423b40b1e5c810b9542f8353b9ca26f",
+          "sha256_matches": true,
+          "source_id": "ktdb_gtfs_source_context"
+        },
+        {
+          "computed_sha256": "8dacf895e039a72b04fc05434522c25946743cf0d37e99bf1b152bd9c4eb099a",
+          "extract_path": "data/rail/ktdb_gtfs_source_extract.csv",
+          "file_role": "dataset_list_raw_html",
+          "raw_file_integrity_ready": true,
+          "raw_path": "data/rail/ktdb_gtfs_dataset_list_raw.html",
+          "recorded_sha256": "8dacf895e039a72b04fc05434522c25946743cf0d37e99bf1b152bd9c4eb099a",
+          "sha256_matches": true,
+          "source_id": "ktdb_gtfs_source_context"
+        }
+      ],
+      "publication_ready": false,
+      "raw_file_integrity_ready": true,
+      "raw_paths": [
+        "data/rail/ktdb_gtfs_notice_raw.html",
+        "data/rail/ktdb_gtfs_dataset_list_raw.html"
+      ],
+      "remaining_blockers": [
+        "source terms, license, attribution, and retention review are outside this hash audit",
+        "formal provenance acceptance is absent",
+        "rail timing and capacity evidence remain unaccepted"
+      ],
+      "remaining_gate_blockers": [
+        "source terms, license, attribution, and retention review are outside this hash audit",
+        "formal provenance acceptance is absent",
+        "rail timing and capacity evidence remain unaccepted"
+      ],
+      "remaining_hash_blockers": [],
+      "result_scope": "KTDB GTFS source-metadata extract for human review only; not a GTFS feed cache, not rail timing evidence, not license certification, not provenance gate closure, and not operational routing evidence.",
+      "source_extract_id": "ktdb_public_transport_gtfs_context",
+      "source_id": "ktdb_gtfs_source_context"
+    },
+    {
+      "can_mark_complete": false,
+      "can_support_final_provenance_gate": false,
+      "can_support_rail_evidence_gate": false,
+      "claim_boundary": "Raw-file hash match is source-context integrity only; it is not rail capacity acceptance, license certification, provenance acceptance, or rail-service calibration.",
+      "extract_path": "data/rail/metro9_capacity_source_extract.csv",
+      "file_records": [
+        {
+          "computed_sha256": "712814e1a915c9a17fda4ed3aa6ab8dbb33eb29dd6146d8e4d0fd6b63b3becd5",
+          "extract_path": "data/rail/metro9_capacity_source_extract.csv",
+          "file_role": "source_raw_html",
+          "raw_file_integrity_ready": true,
+          "raw_path": "data/rail/metro9_capacity_source_raw.html",
+          "recorded_sha256": "712814e1a915c9a17fda4ed3aa6ab8dbb33eb29dd6146d8e4d0fd6b63b3becd5",
+          "sha256_matches": true,
+          "source_id": "metro9_capacity_source_context"
+        }
+      ],
+      "publication_ready": false,
+      "raw_file_integrity_ready": true,
+      "raw_paths": [
+        "data/rail/metro9_capacity_source_raw.html"
+      ],
+      "remaining_blockers": [
+        "source terms, license, attribution, and retention review are outside this hash audit",
+        "formal provenance acceptance is absent",
+        "rail timing and capacity evidence remain unaccepted"
+      ],
+      "remaining_gate_blockers": [
+        "source terms, license, attribution, and retention review are outside this hash audit",
+        "formal provenance acceptance is absent",
+        "rail timing and capacity evidence remain unaccepted"
+      ],
+      "remaining_hash_blockers": [],
+      "result_scope": "Metro 9 rolling-stock source extract for human review only; not rail capacity acceptance, not license certification, not provenance gate closure, and not operational routing evidence.",
+      "source_extract_id": "metro9_capacity_context",
+      "source_id": "metro9_capacity_source_context"
+    }
+  ]
+}

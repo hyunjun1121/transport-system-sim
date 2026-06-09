@@ -33,7 +33,7 @@ def test_parameter_evidence_priority_rows_classify_current_sources() -> None:
         "needs_human_review_medium_priority_parameter_source"
     )
     assert by_id["rail_service_parameter_source_request"]["priority_status"] == (
-        "blocked_missing_parameter_source"
+        "needs_human_review_high_priority_parameter_source"
     )
     assert by_id["rail_service_parameter_source_request"][
         "high_priority_parameter_count"
@@ -94,8 +94,8 @@ def test_parameter_evidence_priority_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 7
-    assert written_manifest["blocking_priority_count"] == 1
-    assert written_manifest["human_review_priority_count"] == 6
+    assert written_manifest["blocking_priority_count"] == 0
+    assert written_manifest["human_review_priority_count"] == 7
     assert "Parameter Evidence Priority Packet" in doc_text
 
     print("PASS: parameter evidence priority writer emits artifacts")

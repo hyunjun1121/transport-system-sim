@@ -21,7 +21,7 @@ The packet records six request rows:
 - transfer-delay evidence,
 - disruption probability, capacity-reduction, blockage-rule, and scenario-rule
   evidence,
-- background-traffic, traffic rolling-window, and BPR calibration evidence.
+- background-traffic, traffic rolling-window, and BPR parameter evidence.
 
 Road-class speed/capacity override collection remains in the road evidence
 source-request packet. Rail timing and capacity collection remains in the rail
@@ -45,7 +45,7 @@ source-request worksheet, not evidence and not accepted calibration.
 ## Review Use
 
 Use this packet before editing `data/parameters/parameter_sources.csv` or
-`data/parameters/fleet_assumptions.csv` for stronger final-study claims. Each
+`data/parameters/fleet_assumptions.csv` for stronger release-scope claims. Each
 row states:
 
 - which parameters and evidence fields the source can support,

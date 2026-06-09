@@ -1,0 +1,74 @@
+{
+  "can_mark_complete": false,
+  "can_support_road_application_gate": false,
+  "can_support_road_evidence_gate": false,
+  "candidate_table_present": true,
+  "claim_boundary": "Road-class override source-candidate packet only; not a reviewed override table, not source-backed speed or capacity evidence, not calibrated disruption evidence, not proof that overrides were applied, and not publication, final-study, or formal acceptance evidence. The packet can support reviewer triage only.",
+  "field_source_class_counts": {
+    "base_p_fail_candidate_source_class": {
+      "sensitivity-only": 10
+    },
+    "capacity_candidate_source_class": {
+      "literature-derived": 10
+    },
+    "speed_candidate_source_class": {
+      "public-data-derived": 10
+    }
+  },
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "formal_acceptance_ready": false,
+  "formal_target_path": "data/parameters/road_class_overrides.csv",
+  "formal_target_present_at_write": false,
+  "formal_target_written": false,
+  "formal_target_written_by_this_packet": false,
+  "gate_closure_supported": false,
+  "graph_source_records_override": false,
+  "highway_classes": [
+    "primary",
+    "primary_link",
+    "residential",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "trunk",
+    "trunk_link",
+    "unclassified"
+  ],
+  "inputs": {
+    "draft_path": "data/parameters/road_class_overrides_draft.csv",
+    "draft_sha256": "78fe804c4d1a859026d90c67808474ef37671057061fda19380d5981e7266d1f",
+    "road_class_override_source_candidate_path": "data/parameters/road_class_override_source_candidate.csv",
+    "road_class_override_source_candidate_sha256": "d62302f254d728013ae2ca7c03fc7ccb9d7d8dc6b222ef5b01f47c54182f9f54"
+  },
+  "outputs": {
+    "csv": "data/parameters/road_class_override_source_candidate.csv",
+    "doc": "docs/road_class_override_source_candidate.md",
+    "manifest": "data/parameters/road_class_override_source_candidate_manifest.json"
+  },
+  "overrides_applied": false,
+  "publication_ready": false,
+  "remaining_blockers": [
+    "review whether Korean statutory speed-limit bounds justify each road-class free-flow speed",
+    "replace FHWA/HCM-derived capacity proxy candidates with Korean agency, count, or benchmark-calibrated capacity evidence where available",
+    "replace sensitivity-only base-disruption probabilities with hazard, incident, literature, or accepted scenario evidence",
+    "write data/parameters/road_class_overrides.csv only after source-backed review",
+    "rerun accepted pilot outputs with the reviewed override table and record matching SHA256 application evidence"
+  ],
+  "result_scope": "Road-class override source-candidate packet only; not a reviewed override table, not source-backed speed or capacity evidence, not calibrated disruption evidence, not proof that overrides were applied, and not publication, final-study, or formal acceptance evidence.",
+  "reviewed_override_table_present": false,
+  "road_class_overrides_applied": false,
+  "row_count": 10,
+  "schema_version": 1,
+  "sources_consulted": {
+    "capacity_proxy_references": [
+      "https://www.fhwa.dot.gov/ohim/hpmsmanl/appn1.cfm",
+      "https://www.fhwa.dot.gov/ohim/hpmsmanl/appn7.cfm"
+    ],
+    "speed_limit_bounds": [
+      "https://www.law.go.kr/LSW/lsPdfPrint.do?ancYnChk=0&bylChaChk=N&efGubun=Y&efYd=20220420&joAllCheck=Y&joEfOutPutYn=on&lsiSeq=241893&mokChaChk=N",
+      "https://www.easylaw.go.kr/CSP/IssueQaRetrieve.laf?issueqaSeq=110&targetRow=221&topMenu=openUl7"
+    ]
+  }
+}

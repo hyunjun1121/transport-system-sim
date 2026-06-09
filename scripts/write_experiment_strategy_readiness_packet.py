@@ -1,4 +1,4 @@
-"""Write the current experiment strategy-readiness packet."""
+"""Write the current experiment strategy review packet."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write experiment strategy-readiness rows from the current "
+            "Write experiment strategy review rows from the current "
             "experiment-package review packet. The output is a reviewer "
             "packet and does not accept the experiment package."
         )
@@ -69,19 +69,19 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--output",
         type=Path,
         default=DEFAULT_EXPERIMENT_STRATEGY_READINESS_PACKET_PATH,
-        help="Experiment strategy-readiness CSV path.",
+        help="Experiment strategy review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_EXPERIMENT_STRATEGY_READINESS_MANIFEST_PATH,
-        help="Experiment strategy-readiness manifest JSON path.",
+        help="Experiment strategy review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_EXPERIMENT_STRATEGY_READINESS_DOC_PATH,
-        help="Experiment strategy-readiness Markdown path.",
+        help="Experiment strategy review Markdown path.",
     )
     return parser.parse_args(argv)
 

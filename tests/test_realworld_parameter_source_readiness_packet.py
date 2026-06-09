@@ -1,4 +1,4 @@
-"""Tests for parameter source-readiness packet generation."""
+"""Tests for parameter source review packet generation."""
 
 from __future__ import annotations
 
@@ -172,7 +172,7 @@ def test_write_parameter_source_readiness_packet_outputs_artifacts() -> None:
         assert value["source_url_or_citation_present_count"] == len(rows)
         assert value["required_external_input_present_count"] == len(rows)
         assert written_manifest["parameter_evidence_gate_closure_candidate_count"] == 0
-        assert "Parameter Source Readiness Packet" in text
+        assert "Parameter Source Review Packet" in text
         assert "fixture citation for fleet" in text
         assert "fixture input for fleet" in text
 

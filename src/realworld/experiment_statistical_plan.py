@@ -49,9 +49,9 @@ DEFAULT_EXPERIMENT_STATISTICAL_PLAN_DOC_PATH = (
 
 EXPERIMENT_STATISTICAL_PLAN_CLAIM_BOUNDARY = (
     "This statistical-analysis plan and scenario-policy-seed note is a "
-    "pre-review planning artifact. It does not approve experiment acceptance, "
-    "prove replication adequacy, validate common-random-number design, certify "
-    "a multiple-comparison procedure, or close final-study gates."
+    "pre-review planning artifact. It does not approve experiment decision "
+    "artifacts, prove replication adequacy, verify common-random-number design, "
+    "select a multiple-comparison procedure, or close study-closeout gates."
 )
 PRIMARY_METRICS: tuple[str, ...] = (
     "completion_rate",
@@ -69,7 +69,7 @@ PRIMARY_COMPARISONS: tuple[dict[str, str], ...] = (
 )
 SECONDARY_COMPARISON_BOUNDARY = (
     "All other policy, scenario, and metric contrasts remain exploratory until "
-    "a reviewer accepts a primary/secondary comparison family and any required "
+    "a reviewer selects a primary/secondary comparison family and any required "
     "multiplicity adjustment."
 )
 
@@ -177,11 +177,11 @@ def build_experiment_statistical_plan(
             "doc": _display_path(DEFAULT_EXPERIMENT_STATISTICAL_PLAN_DOC_PATH),
         },
         "review_items": [
-            "confirm or revise the candidate primary policy contrast before formal experiment acceptance",
+            "confirm or revise the candidate primary policy contrast before a formal experiment decision",
             "confirm whether the primary metrics are sufficient for completion, tail risk, and resource efficiency claims",
             "review CRN source-code markers and structural pairing before interpreting paired deltas",
-            "decide whether 30 seeds and normal-approximation intervals are sufficient for accepted primary metrics",
-            "record any accepted multiplicity procedure only in the formal experiment acceptance evidence",
+            "decide whether 30 seeds and normal-approximation intervals are sufficient for reviewer-selected primary metrics",
+            "record any selected multiplicity procedure only in the formal experiment decision evidence",
         ],
     }
 
@@ -323,7 +323,7 @@ def _build_checks(
             "result_row_count_matches_design",
             "pass" if expected_row_count == observed_row_count else "blocked_row_count_mismatch",
             observed=f"{observed_row_count} / {expected_row_count}",
-            review_action="Regenerate results or revise the scenario-policy-seed design before acceptance.",
+            review_action="Regenerate results or revise the scenario-policy-seed design before review closure.",
         ),
         _check(
             "summary_row_count_matches_design",
@@ -331,7 +331,7 @@ def _build_checks(
             if expected_summary_row_count == observed_summary_row_count
             else "blocked_summary_count_mismatch",
             observed=f"{observed_summary_row_count} / {expected_summary_row_count}",
-            review_action="Regenerate summary outputs or revise the run design before acceptance.",
+            review_action="Regenerate summary outputs or revise the run design before review closure.",
         ),
         _check(
             "primary_metrics_pre_specified",
@@ -343,7 +343,7 @@ def _build_checks(
             "primary_policy_contrast_pre_specified",
             "needs_human_review_primary_comparison",
             observed="bus_only vs baseline_multimodal",
-            review_action="Confirm whether this is the accepted primary contrast or mark all contrasts exploratory.",
+            review_action="Confirm whether this is the reviewer-selected primary contrast or mark all contrasts exploratory.",
         ),
         _check(
             "crn_structural_pairing",
@@ -372,19 +372,19 @@ def _build_checks(
                 f"{replication_manifest.get('needs_human_review_count', 'missing')} "
                 "replication audit rows need review"
             ),
-            review_action="Decide whether seed count, finite paired counts, and CI method are adequate for final claims.",
+            review_action="Decide whether seed count, finite paired counts, and CI method are adequate for release-scope claims.",
         ),
         _check(
             "multiple_comparison_boundary",
             "needs_human_review_multiple_comparisons",
             observed=str(statistics_manifest.get("multiple_comparison_method", "")),
-            review_action="Accept a multiplicity procedure or keep secondary comparisons exploratory.",
+            review_action="Select a multiplicity procedure or keep secondary comparisons exploratory.",
         ),
         _check(
             "formal_experiment_acceptance",
             "blocked_missing_experiment_acceptance_record",
             observed="data/manifests/experiment_acceptance.json absent unless reviewer supplies it",
-            review_action="Create the formal experiment acceptance record only after graph, input, CRN, counts, and claim-scope review.",
+            review_action="Create the formal experiment decision record only after graph, input, CRN, counts, and claim-scope review.",
         ),
     ]
 

@@ -1,0 +1,36 @@
+{
+  "access_event_count": 241,
+  "can_mark_complete": false,
+  "can_support_rail_evidence_gate": false,
+  "claim_scope": "static timetable normalization cache only; not rail evidence, not operational service validation, not publication readiness, not final-study readiness, and not formal acceptance",
+  "egress_event_count": 0,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "input_path": "data\\rail\\pilot_rail_timetable_static_source.csv",
+  "input_sha256": "46b6d9e2c2e1e23632fa72208a3ca5dc6aeba9013c403ee6f52747fec2b9a9e2",
+  "normalized_event_count": 241,
+  "output_path": "data\\rail\\pilot_rail_static_timetable_cache.csv",
+  "output_sha256": "9785314a46c9aa5393040448ff2917591e5158f759c57ff93c6fccce05f091e8",
+  "publication_ready": false,
+  "selection": {
+    "access_station_code": "4136",
+    "access_station_name": "올림픽공원",
+    "egress_station_code": "",
+    "egress_station_name": "",
+    "filters": {
+      "INOUTTAG": "UP",
+      "LINE": "9",
+      "WEEKTAG": "DAY"
+    }
+  },
+  "source_column_map": {
+    "arrival_time": "STT",
+    "departure_time": "EDT",
+    "direction": "INOUTTAG",
+    "service_day": "WEEKTAG",
+    "station_code": "SI_ID",
+    "station_name": "STATION_NM",
+    "trip_id": "TRAIN_NO"
+  },
+  "source_license_or_provenance_review_status": "not_recorded_by_normalizer"
+}

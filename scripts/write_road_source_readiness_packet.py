@@ -1,4 +1,4 @@
-"""Write the current road source-readiness packet."""
+"""Write the current road source review packet."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Write road source-readiness rows from the current road evidence "
+            "Write road source review rows from the current road evidence "
             "source-request packet. The output is a reviewer packet and does "
             "not create road-class override evidence."
         )
@@ -59,19 +59,19 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--output",
         type=Path,
         default=DEFAULT_ROAD_SOURCE_READINESS_PACKET_PATH,
-        help="Road source-readiness CSV path.",
+        help="Road source review CSV path.",
     )
     parser.add_argument(
         "--manifest",
         type=Path,
         default=DEFAULT_ROAD_SOURCE_READINESS_MANIFEST_PATH,
-        help="Road source-readiness manifest JSON path.",
+        help="Road source review manifest JSON path.",
     )
     parser.add_argument(
         "--doc",
         type=Path,
         default=DEFAULT_ROAD_SOURCE_READINESS_DOC_PATH,
-        help="Road source-readiness Markdown path.",
+        help="Road source review Markdown path.",
     )
     return parser.parse_args(argv)
 

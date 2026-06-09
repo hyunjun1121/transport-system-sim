@@ -262,7 +262,7 @@ def build_source_url_review_markdown(
             "## Required Reviewer Actions",
             "",
             "- Verify the official source page, license, attribution, and derivative-use constraints.",
-            "- Provide reviewed target payloads, retain context-source URLs as sensitivity/context-only evidence, or explicitly exclude them from final claims.",
+            "- Provide reviewed target payloads, retain context-source URLs as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims.",
             "- Treat `reachable` as a transient connectivity observation, not acceptance evidence.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
             "",
@@ -450,7 +450,7 @@ def _review_items(
         items.append("resolve failed URL rows by replacement, caching, exclusion, or reviewer decision")
     items.extend(
         [
-            "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from final claims",
+            "provide reviewed target payloads for context-source rows, retain them as sensitivity/context-only evidence, or explicitly exclude them from release-scope claims",
             "treat live reachability as volatile and not as source acceptance",
             "create data/manifests/provenance_acceptance.json only after reviewer decisions",
         ]
@@ -472,7 +472,7 @@ def _remaining_blockers(
     if unreachable_or_error_count:
         blockers.append("unreachable, HTTP-error, or network-error URL rows require remediation review")
     blockers.append(
-        "context-source target URLs still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from final claims"
+        "context-source target URLs still need reviewed payloads, sensitivity/context-only retention decisions, or explicit exclusion from release-scope claims"
     )
     return blockers
 

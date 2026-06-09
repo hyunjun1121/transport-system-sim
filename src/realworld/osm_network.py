@@ -271,6 +271,14 @@ def _normalize_edge_attrs(u: Any, v: Any, key: Any, data: dict[str, Any]) -> dic
 def _graphml_safe_copy(graph: nx.Graph) -> nx.Graph:
     copied = graph.copy()
     for attr, value in list(copied.graph.items()):
+        if attr in {"node_default", "edge_default"}:
+            if not isinstance(value, dict):
+                del copied.graph[attr]
+            else:
+                safe_default = dict(value)
+                _replace_with_graphml_safe_values(safe_default)
+                copied.graph[attr] = safe_default
+            continue
         converted = _graphml_safe_value(value)
         if converted is None:
             del copied.graph[attr]

@@ -15,7 +15,7 @@ The packet makes the clean-checkout blocker auditable by checking:
 - whether the formal reproducibility acceptance record is absent or separate;
 - whether the current Git worktree is clean enough for a reproducible package;
 - whether untracked generated artifacts could be missing from a fresh checkout;
-- whether the validation command ladder is present;
+- whether the command ladder is present;
 - whether runtime code imports from `cloned_repo`;
 - whether bounded clean source-checkout smoke evidence exists;
 - whether a full clean-environment reproduction is still required, using both
@@ -97,5 +97,5 @@ This packet records review status only. A reviewer still needs to decide
 whether bounded clean-checkout smoke is sufficient for the intended scope or
 whether a full clean-environment reproduction is required, review command logs,
 confirm artifact regeneration, verify manifest paths, check the runtime import
-boundary, and then create `data/manifests/reproducibility_acceptance.json` if
-the package is accepted.
+boundary, and then create `data/manifests/reproducibility_acceptance.json` only
+if the reviewer records a source-backed reproducibility decision.

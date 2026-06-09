@@ -375,7 +375,7 @@ def build_deterministic_rerun_markdown(
         "",
         "## Verdict",
         "",
-        f"- Deterministic rerun structurally ready: `{str(manifest.get('deterministic_rerun_structurally_ready', False)).lower()}`",
+        f"- Deterministic rerun structural checks passed: `{str(manifest.get('deterministic_rerun_structurally_ready', False)).lower()}`",
         f"- Row hashes match: `{str(manifest.get('row_hashes_match', False)).lower()}`",
         f"- Summary hashes match: `{str(manifest.get('summary_hashes_match', False)).lower()}`",
         f"- Acceptance ready: `{str(manifest.get('acceptance_ready', False)).lower()}`",

@@ -12,9 +12,10 @@ strengthened.
 
 ## Scope
 
-The packet records five request rows:
+The packet records six request rows:
 
 - a data.go.kr train-schedule request for headway evidence,
+- a reviewed static timetable CSV normalization request for headway evidence,
 - a data.go.kr shortest-path request for station-to-station travel-time
   evidence,
 - a reviewed static-GTFS request that could derive both headway and travel
@@ -23,8 +24,11 @@ The packet records five request rows:
 - a rail availability and delay-scenario request.
 
 The current live API paths require `DATA_GO_KR_KEY` or an explicit
-`--service-key`. The static-GTFS path requires a reviewed GTFS zip or
-directory plus reviewed access stop, egress stop, route, and service-window
+`--service-key`. The static timetable CSV path requires a reviewed retained
+source CSV, explicit source-column mappings, reviewed station/line/direction/
+service-day/service-window choices, and a normalization manifest. The
+static-GTFS path requires a reviewed GTFS zip or directory plus a retained GTFS
+Validator report, reviewed access stop, egress stop, route, and service-window
 choices.
 
 ## Regeneration

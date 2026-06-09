@@ -26,7 +26,7 @@ Moved CSV and Markdown placeholders:
 
 The moved files remain draft/reference material only. They are not formal
 acceptance records, reviewed road overrides, accepted parameter records, or a
-final-study audit.
+study-closeout audit.
 
 After relocation, `scripts/audit_formal_acceptance_artifacts.py` reports:
 

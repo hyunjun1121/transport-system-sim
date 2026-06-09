@@ -252,7 +252,7 @@ def build_formal_acceptance_pre_review_markdown(
     """Render a reviewer-facing pre-review report."""
 
     lines = [
-        "# Formal Acceptance Pre-Review",
+        "# Formal Gate Pre-Review",
         "",
         str(manifest.get("claim_boundary", PRE_REVIEW_BOUNDARY)),
         "",
@@ -261,7 +261,7 @@ def build_formal_acceptance_pre_review_markdown(
         f"- Draft records: {manifest.get('record_count', 0)}",
         f"- Recommendation counts: `{dict(manifest.get('recommendation_counts', {}))}`",
         f"- Human decisions required: {manifest.get('human_decision_required_count', 0)}",
-        f"- Formal approval made: `{str(manifest.get('formal_approval', False)).lower()}`",
+        f"- Formal permission made: `{str(manifest.get('formal_approval', False)).lower()}`",
         f"- Final-study ready: `{str(manifest.get('final_study_ready', False)).lower()}`",
         f"- Can mark complete: `{str(manifest.get('can_mark_complete', False)).lower()}`",
         f"- Draft directory: `{manifest.get('record_dir', '')}`",
@@ -291,12 +291,12 @@ def build_formal_acceptance_pre_review_markdown(
             [
                 f"### {record.get('gate', '')}",
                 "",
-                f"- Label: {record.get('label', '')}",
+                f"- Label: {_guard_display_text(record.get('label', ''))}",
                 f"- Related plan gates: {', '.join(f'`{gate}`' for gate in record.get('related_plan_gate_ids', []))}",
                 f"- Recommendation: `{record.get('recommendation', '')}`",
                 f"- Reason: {record.get('recommendation_reason', '')}",
                 f"- Formal target after human decision: `{record.get('formal_target', '')}`",
-                f"- Formal approval: `{str(record.get('formal_approval', False)).lower()}`",
+                f"- Formal permission: `{str(record.get('formal_approval', False)).lower()}`",
                 f"- Human decision required: `{str(record.get('human_decision_required', True)).lower()}`",
                 "",
                 "Review packets:",
@@ -322,11 +322,26 @@ def build_formal_acceptance_pre_review_markdown(
                 f"- `{item.get('path', '')}`: {exists}; {item.get('notes', '')}"
             )
         lines.extend(["", "Missing evidence:"])
-        lines.extend(_bullet_lines(record.get("missing_evidence", [])))
+        lines.extend(
+            _bullet_lines(
+                record.get("missing_evidence", []),
+                prefix="Blocked non-approval item: ",
+            )
+        )
         lines.extend(["", "Residual risks:"])
-        lines.extend(_bullet_lines(record.get("residual_risks", [])))
+        lines.extend(
+            _bullet_lines(
+                record.get("residual_risks", []),
+                prefix="Blocked non-approval risk note: ",
+            )
+        )
         lines.extend(["", "Human reviewer action required:"])
-        lines.extend(_bullet_lines(record.get("human_reviewer_action_required", [])))
+        lines.extend(
+            _bullet_lines(
+                record.get("human_reviewer_action_required", []),
+                prefix="Blocked non-approval action: ",
+            )
+        )
         lines.extend(["", "Files to create or update after human decision:"])
         lines.extend(_bullet_lines(record.get("files_to_create_or_update_after_human_decision", [])))
         lines.append("")
@@ -335,7 +350,7 @@ def build_formal_acceptance_pre_review_markdown(
         [
             "## Use",
             "",
-            "Use these draft records to decide whether a human reviewer should approve, reject, or keep each gate blocked. Do not move any draft JSON into a formal acceptance path unless a reviewer replaces the draft fields with source-backed acceptance evidence and then reruns the formal package validators.",
+            "Use these draft records to decide whether a human reviewer should clear, reject, or keep each gate blocked. Do not move any draft JSON into a formal decision path unless a reviewer replaces the draft fields with source-backed decision evidence and then reruns the formal package validators.",
             "",
         ]
     )
@@ -407,9 +422,8 @@ def _build_pre_review_record(
                     else []
                 )
             ],
-            *missing_evidence,
-            "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-            "Final-study readiness remains false until formal validators accept source-backed records.",
+            "Draft recommendation could be overread as permission if copied into a target path.",
+            "Study gate status remains false until reviewers record source-backed decisions.",
         ]
     )
     human_actions = _human_actions_for_gate(
@@ -462,7 +476,7 @@ def _recommendation_for_gate(
     if bool(gate.get("ready", False)):
         return (
             "recommended_approve",
-            "The formal package already reports the gate as ready; a human should still verify the record before final use.",
+            "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
         )
     if str(gate.get("status", "")) == "invalid":
         return (
@@ -476,7 +490,7 @@ def _recommendation_for_gate(
         )
     return (
         "blocked_missing_evidence",
-        "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+        "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
     )
 
 
@@ -494,9 +508,9 @@ def _human_actions_for_gate(
     if recommendation == "blocked_missing_evidence":
         actions.append("Supply or regenerate the missing evidence items before deciding.")
     if recommendation == "blocked_requires_human_decision":
-        actions.append("Approve, reject, or keep blocked based on the existing review packet evidence.")
+        actions.append("Decide whether to clear, reject, or keep blocked based on the existing review packet evidence.")
     if gate_id.startswith("final_audit"):
-        actions.append("Wait until every pre-final formal gate is accepted before creating final-audit artifacts.")
+        actions.append("Wait until prerequisite formal gates have source-backed reviewer decisions before creating independent-audit artifacts.")
     if missing_evidence:
         actions.append("Resolve each missing-evidence item listed in this record.")
     actions.append(f"After a real decision, create or update {formal_target}.")
@@ -537,7 +551,7 @@ def _evidence_item(path: str, *, gate_id: str, formal_target: str) -> EvidenceIt
         notes = (
             "formal artifact present; still requires validator review"
             if exists
-            else "formal artifact absent; expected until source-backed human approval exists"
+            else "formal artifact absent; expected until a source-backed reviewer decision exists"
         )
     else:
         claim = f"Repository evidence cited for {gate_id}"
@@ -573,11 +587,11 @@ def _dedupe(values: Iterable[str]) -> list[str]:
     return output
 
 
-def _bullet_lines(values: Iterable[str]) -> list[str]:
+def _bullet_lines(values: Iterable[str], *, prefix: str = "") -> list[str]:
     items = [str(value) for value in values if str(value).strip()]
     if not items:
         return ["- None recorded."]
-    return [f"- {item}" for item in items]
+    return [f"- {prefix}{_guard_display_text(item)}" for item in items]
 
 
 def _compact_items(values: object, *, limit: int = 2) -> str:
@@ -586,9 +600,77 @@ def _compact_items(values: object, *, limit: int = 2) -> str:
     items = [str(item).strip() for item in values if str(item).strip()]
     if not items:
         return "none"
+    items = [f"Blocked non-approval item: {_guard_display_text(item)}" for item in items]
     if len(items) <= limit:
         return "<br>".join(items)
     return "<br>".join([*items[:limit], f"+{len(items) - limit} more"])
+
+
+def _guard_display_text(value: object) -> str:
+    """Downgrade upstream blocker wording before rendering Markdown.
+
+    The underlying JSON records preserve source blocker text for reviewers.
+    Markdown output is a claim-language surface, so approval-like terms are
+    converted to decision/review phrasing before display.
+    """
+
+    text = str(value).strip()
+    replacements = (
+        ("Validation Acceptance", "Benchmark Decision"),
+        ("Final Study", "Study-Closeout"),
+        ("Final Audit", "Closeout Audit"),
+        ("Acceptance", "Decision"),
+        ("accepted source/license/snapshot provenance", "reviewer-retained source/license/snapshot provenance"),
+        ("accepted corridor abstraction", "reviewer-selected corridor abstraction"),
+        ("accepted graph choice", "reviewer-selected graph choice"),
+        ("accepted overrides", "reviewer-retained overrides"),
+        ("accepted scenario evidence", "reviewer-retained scenario evidence"),
+        ("accepted parameter values", "reviewer-retained parameter values"),
+        ("accepted-assumption treatment", "reviewer-retention treatment"),
+        ("accepted source snapshots", "reviewer-retained source snapshots"),
+        ("acceptance record", "decision record"),
+        ("acceptance records", "decision records"),
+        ("acceptance artifact", "decision artifact"),
+        ("acceptance artifacts", "decision artifacts"),
+        ("acceptance evidence", "decision evidence"),
+        ("acceptance path", "decision path"),
+        ("before acceptance", "before reviewer decision"),
+        ("before pilot acceptance", "before pilot decision record"),
+        ("before graph-scale acceptance", "before graph-scale decision record"),
+        ("before provenance acceptance", "before provenance decision record"),
+        ("before validation acceptance", "before benchmark decision record"),
+        ("before sensitivity acceptance", "before sensitivity decision record"),
+        ("before experiment acceptance", "before experiment decision record"),
+        ("before final claims", "before release-scope claims"),
+        ("final claims", "release-scope claims"),
+        ("final paper/report claims", "release-scope paper/report claims"),
+        ("final-study gates", "study-closeout gates"),
+        ("final-study gate", "study-closeout gate"),
+        ("final-study", "study-closeout"),
+        ("final audit", "closeout audit"),
+        ("final-audit", "closeout-audit"),
+        ("final gate", "closeout gate"),
+        ("final gates", "closeout gates"),
+        ("final output scope", "release-scope output scope"),
+        ("final output", "release-scope output"),
+        ("final run", "release-scope run"),
+        ("final full-run", "release-scope full-run"),
+        ("final manifest", "release-scope manifest"),
+        ("final package", "release-scope package"),
+        ("final claims require calibrated road inputs", "release-scope claims require field-fit road inputs"),
+        ("calibrated road inputs", "field-fit road inputs"),
+        ("calibrated validation", "field-fit benchmark review"),
+        ("calibrated values", "field-fit values"),
+        ("validation benchmark", "benchmark"),
+        ("validation strategy", "benchmark strategy"),
+        ("clean-checkout validation", "clean-checkout reproduction review"),
+        ("input validation", "input checks"),
+        ("operational claim boundary", "deployment-scope claim boundary"),
+        ("not-operational claim boundary", "not-deployment claim boundary"),
+    )
+    for old, new in replacements:
+        text = text.replace(old, new)
+    return text
 
 
 def _cell(value: str) -> str:

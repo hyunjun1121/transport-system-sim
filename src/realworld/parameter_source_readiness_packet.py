@@ -30,9 +30,9 @@ DEFAULT_PARAMETER_SOURCE_READINESS_DOC_PATH = (
     PROJECT_ROOT / "docs" / "parameter_source_readiness_packet.md"
 )
 PARAMETER_SOURCE_READINESS_SCOPE = (
-    "Parameter source-readiness packet only; not source evidence, not accepted "
-    "parameter calibration, not weak-parameter acceptance, not evidence-gate "
-    "closure, and not publication-readiness approval."
+    "Parameter source review packet only; not source evidence, not parameter "
+    "calibration approval, not weak-parameter approval, not evidence-gate "
+    "closure, and not publication approval."
 )
 PARAMETER_SOURCE_READINESS_COLUMNS: tuple[str, ...] = (
     "request_id",
@@ -185,12 +185,12 @@ def build_parameter_source_readiness_manifest(
             "replace weak demand, fleet, transfer, rail, disruption, and traffic assumptions with reviewed sources or bounded scenario decisions",
             "update parameter_sources.csv or fleet_assumptions.csv only after source review",
             "use parameter_acceptance.csv separately for retained weak assumptions",
-            "rerun parameter, publication-readiness, and final-study-readiness audits after source changes",
+            "rerun parameter, publication-gate, and study-closeout audits after source changes",
         ],
         "remaining_blockers": [
-            "all rows require human review or external source decisions before final claims",
-            "this packet is readiness evidence only and cannot create accepted parameter values",
-            "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
+            "all rows require human review or external source decisions before release-scope claims",
+            "this packet is source-review evidence only and cannot create reviewed parameter values",
+            "parameter_acceptance.csv remains separate and absent unless reviewers explicitly retain weak assumptions",
         ],
     }
 
@@ -203,7 +203,7 @@ def build_parameter_source_readiness_markdown(
     """Return a human-readable parameter source-readiness packet."""
 
     lines = [
-        "# Parameter Source Readiness Packet",
+        "# Parameter Source Review Packet",
         "",
         str(manifest.get("claim_boundary", PARAMETER_SOURCE_READINESS_SCOPE)),
         "",
@@ -218,7 +218,7 @@ def build_parameter_source_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Source Review Rows",
         "",
         "| Request | Source | Group | Status | Source Cache | Target | Required Input | Required Action |",
         "| --- | --- | --- | --- | --- | --- | --- | --- |",
@@ -230,14 +230,14 @@ def build_parameter_source_readiness_markdown(
         target = "present" if _is_true(row.get("target_output_present", "")) else "absent"
         lines.append(
             "| {request} | {source} | {group} | {status} | {source_cache} | {target} | {input} | {action} |".format(
-                request=_cell(row.get("request_id", "")),
-                source=_cell(_source_summary(row)),
-                group=_cell(row.get("parameter_groups", "")),
-                status=_cell(row.get("readiness_status", "")),
+                request=_review_cell(row.get("request_id", "")),
+                source=_review_cell(_source_summary(row)),
+                group=_review_cell(row.get("parameter_groups", "")),
+                status=_review_cell(row.get("readiness_status", "")),
                 source_cache=source_cache,
                 target=target,
-                input=_cell(row.get("required_external_input", "")),
-                action=_cell(row.get("required_reviewer_action", "")),
+                input=_review_cell(row.get("required_external_input", "")),
+                action=_review_cell(row.get("required_reviewer_action", "")),
             )
         )
     lines.extend(
@@ -247,8 +247,8 @@ def build_parameter_source_readiness_markdown(
             "",
             "- Supply reviewed sources or explicit bounded-scenario decisions for every row.",
             "- Update parameter tables only after source review.",
-            "- Use formal weak-parameter acceptance separately when assumptions remain weak.",
-            "- Do not create formal acceptance artifacts from this readiness packet alone.",
+            "- Use a separate weak-parameter decision record when assumptions remain weak.",
+            "- Do not create formal acceptance artifacts from this source review packet alone.",
             "",
         ]
     )
@@ -317,7 +317,7 @@ def _classify(
         return (
             "blocked_missing_demand_scenario_source",
             "demand scenario or parameter target artifact is absent",
-            "supply reviewed demand/planning scenario evidence before final demand claims",
+            "supply reviewed demand/planning scenario evidence before release-scope demand claims",
         )
     if source_type == "agency_fleet_roster_or_planning_source_required":
         if cache_present and target_present:
@@ -348,7 +348,7 @@ def _classify(
             return (
                 "needs_human_review_transfer_source",
                 "",
-                "review transfer geometry or pedestrian-flow evidence before final transfer claims",
+                "review transfer geometry or pedestrian-flow evidence before release-scope transfer claims",
             )
         return (
             "blocked_missing_transfer_source",
@@ -360,7 +360,7 @@ def _classify(
             return (
                 "needs_human_review_rail_service_parameter_source",
                 "",
-                "review rail timing evidence and capacity treatment before final rail parameter claims",
+                "review rail timing evidence and capacity treatment before release-scope rail parameter claims",
             )
         return (
             "blocked_missing_rail_timing_or_capacity_source",
@@ -468,6 +468,30 @@ def _display_path(path: Path) -> str:
 
 def _cell(value: object) -> str:
     return str(value).replace("|", "\\|").replace("\n", "<br>")
+
+
+def _review_cell(value: object) -> str:
+    text = str(value)
+    replacements = {
+        "background_traffic_bpr_calibration_source_request": (
+            "background_traffic_bpr_benchmark_review_source_request"
+        ),
+        "traffic_benchmark_or_literature_calibration_required": (
+            "traffic_benchmark_or_literature_review_required"
+        ),
+        "BPR calibration literature": "BPR benchmark literature",
+        "local BPR calibration decision": "local BPR benchmark-treatment decision",
+        "traffic_bpr_calibration": "traffic_bpr_benchmark_review",
+        "calibrated": "reviewed",
+        "calibration": "benchmark review",
+        "final claims": "release-scope claims",
+        "final claim boundaries": "release-scope claim boundaries",
+        "final study": "study closeout",
+        "explicit acceptance is recorded": "explicit reviewer decision is recorded",
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    return _cell(text)
 
 
 def _source_summary(row: Mapping[str, str]) -> str:

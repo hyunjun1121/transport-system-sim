@@ -191,6 +191,16 @@ def write_validation_review_packet(
         "optional_osrm_benchmark_raw_response_file_count": int(
             (osrm_manifest or {}).get("raw_response_file_count", 0) or 0
         ),
+        "optional_osrm_benchmark_raw_response_binding_mismatch_count": int(
+            (osrm_manifest or {}).get("raw_response_binding_mismatch_count", 0) or 0
+        ),
+        "optional_osrm_benchmark_raw_response_missing_for_row_count": int(
+            (osrm_manifest or {}).get("raw_response_missing_for_row_count", 0) or 0
+        ),
+        "optional_osrm_benchmark_snap_status_counts": _dict_value(
+            osrm_manifest or {},
+            "snap_status_counts",
+        ),
         "osrm_benchmark_status_counts": _status_counts(osrm_rows)
         if osrm_present
         else {},
@@ -228,7 +238,7 @@ def write_validation_review_packet(
             "if using OSRM or another route engine, review the cached manifest and convert live snapshots into reviewed cached evidence",
             "review accessibility-loss rows as route-fragility diagnostics, not outage probabilities",
             "review route-level road-evidence exposure before prioritizing road-class evidence collection",
-            "record any final benchmark strategy only in data/manifests/validation_acceptance.json after review",
+            "record any release-scope benchmark strategy only in data/manifests/validation_acceptance.json after review",
         ],
     }
     with manifest.open("w", encoding="utf-8") as handle:
@@ -312,6 +322,13 @@ def _osrm_benchmark_row(
     status_counts = _status_counts(rows)
     manifest = _read_json_object(manifest_path)
     manifest_present = Path(manifest_path).exists()
+    raw_binding_mismatch_count = int(
+        (manifest or {}).get("raw_response_binding_mismatch_count", 0) or 0
+    )
+    raw_missing_count = int(
+        (manifest or {}).get("raw_response_missing_for_row_count", 0) or 0
+    )
+    snap_status_counts = _dict_value(manifest or {}, "snap_status_counts")
     unpinned = any(
         "unpinned" in str(row.get("reference_version", "")).lower()
         or "live" in str(row.get("source_class", "")).lower()
@@ -319,6 +336,10 @@ def _osrm_benchmark_row(
     )
     if not rows:
         review_status = "empty_validation_artifact"
+    elif raw_binding_mismatch_count or raw_missing_count:
+        review_status = "review_required_osrm_raw_payload_mismatch"
+    elif snap_status_counts.get("fail", 0) or snap_status_counts.get("warn", 0):
+        review_status = "review_required_osrm_snap_distance_review"
     elif status_counts.get("fail", 0) or status_counts.get("warn", 0):
         review_status = "review_required_osrm_warn_or_fail_rows"
     elif unpinned:
@@ -343,6 +364,12 @@ def _osrm_benchmark_row(
             "snapshot_manifest_raw_response_files": int(
                 (manifest or {}).get("raw_response_file_count", 0) or 0
             ),
+            "snapshot_manifest_raw_binding_mismatches": raw_binding_mismatch_count,
+            "snapshot_manifest_raw_missing_rows": raw_missing_count,
+            "snapshot_manifest_max_snap_distance_m": str(
+                (manifest or {}).get("max_waypoint_snap_distance_m", "")
+            ),
+            **_prefixed_counts("snapshot_snap_status", snap_status_counts),
         },
         review_status=review_status,
         review_action=(
@@ -473,7 +500,7 @@ def _validation_summary_scope_row(path: str | Path) -> dict[str, str]:
         review_action=(
             "Keep the validation summary inside scaffold, plausibility, and "
             "not-operational wording until a separate validation acceptance "
-            "record chooses the final benchmark strategy."
+            "record chooses the benchmark strategy."
         ),
         publication_use_status="scope_review_support_only_not_acceptance",
     )
@@ -510,7 +537,7 @@ def _benchmark_strategy_decision_row(
         },
         review_status=review_status,
         review_action=(
-            "Reviewer must choose the final benchmark strategy and record it "
+            "Reviewer must choose the release-scope benchmark strategy and record it "
             "only in data/manifests/validation_acceptance.json after reviewing "
             "internal checks, fallback benchmarks, optional external snapshots, "
             "and claim boundaries."
@@ -627,6 +654,19 @@ def _counts_text(values: Mapping[str, Any]) -> str:
             rendered = str(value)
         parts.append(f"{key}={rendered}")
     return "; ".join(parts)
+
+
+def _dict_value(value: Mapping[str, Any], key: str) -> dict[str, int]:
+    found = value.get(key, {})
+    if not isinstance(found, Mapping):
+        return {}
+    result: dict[str, int] = {}
+    for item_key, item_value in found.items():
+        try:
+            result[str(item_key)] = int(item_value)
+        except (TypeError, ValueError):
+            continue
+    return dict(sorted(result.items()))
 
 
 def _prefixed_counts(prefix: str, values: Mapping[str, int]) -> dict[str, int]:

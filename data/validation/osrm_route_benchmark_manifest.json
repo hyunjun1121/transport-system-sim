@@ -4,8 +4,8 @@
   "benchmark_method_counts": {
     "osrm_route_v1_driving": 3
   },
-  "claim_boundary": "This manifest records an optional OSRM route benchmark snapshot for plausibility review only. It is not validation acceptance, not calibrated traffic evidence, not benchmark ground truth, and not operational routing guidance.",
-  "csv_sha256": "a28781a36381f4d6706d2ad9b55b94f8dc3d426c9aba23afbac8d5bb1d557b86",
+  "claim_boundary": "This manifest records an optional OSRM route benchmark snapshot for plausibility review only. It is not validation acceptance, not local traffic evidence, not benchmark ground truth, and not route-use guidance.",
+  "csv_sha256": "4d1b0daf8c8bc37203be50cb3c817af588c859e774f222640a82c815ed3b888a",
   "distance_status_counts": {
     "pass": 3
   },
@@ -14,12 +14,68 @@
     "raw_response_dir": "data/validation/osrm_route_raw",
     "summary_markdown": "data/validation/osrm_route_benchmark_summary.md"
   },
+  "max_waypoint_snap_distance_m": "265.494619",
   "publication_ready": false,
   "query_url_count": 3,
   "query_urls": [
     "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
     "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
     "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false"
+  ],
+  "raw_response_binding_count": 3,
+  "raw_response_binding_mismatch_count": 0,
+  "raw_response_bindings": [
+    {
+      "binding_status": "match",
+      "distance_matches": true,
+      "duration_matches": true,
+      "max_snap_distance_m": "265.494619",
+      "mismatch_reasons": [],
+      "query_url": "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+      "query_url_matches": true,
+      "raw_payload_path": "data/validation/osrm_route_raw/route_bus_direct.json",
+      "raw_payload_present": true,
+      "raw_payload_sha256": "6d5b9fce9e430a00e5cb7c0ba50e9477745040ed742de238e2b1657b72ada2ca",
+      "reference_version_matches": true,
+      "route_check_id": "route_bus_direct",
+      "snap_status": "warn",
+      "source_snap_distance_m": "265.494619",
+      "target_snap_distance_m": "3.286911"
+    },
+    {
+      "binding_status": "match",
+      "distance_matches": true,
+      "duration_matches": true,
+      "max_snap_distance_m": "3.944500",
+      "mismatch_reasons": [],
+      "query_url": "https://router.project-osrm.org/route/v1/driving/127.1002000,37.5133000;127.1025000,37.5180000?overview=false&alternatives=false&steps=false",
+      "query_url_matches": true,
+      "raw_payload_path": "data/validation/osrm_route_raw/route_last_mile.json",
+      "raw_payload_present": true,
+      "raw_payload_sha256": "3db683773e06e55e64213869a8635a64e1caa80c4d28c465334c44f24b86a25d",
+      "reference_version_matches": true,
+      "route_check_id": "route_last_mile",
+      "snap_status": "pass",
+      "source_snap_distance_m": "3.944500",
+      "target_snap_distance_m": "3.286911"
+    },
+    {
+      "binding_status": "match",
+      "distance_matches": true,
+      "duration_matches": true,
+      "max_snap_distance_m": "265.494619",
+      "mismatch_reasons": [],
+      "query_url": "https://router.project-osrm.org/route/v1/driving/127.1210000,37.5202000;127.1302000,37.5166000?overview=false&alternatives=false&steps=false",
+      "query_url_matches": true,
+      "raw_payload_path": "data/validation/osrm_route_raw/route_rail_access.json",
+      "raw_payload_present": true,
+      "raw_payload_sha256": "7c94324c1c628adaee266bf01fd95862d6fbfa8b3a1e7e5592b4390883630da5",
+      "reference_version_matches": true,
+      "route_check_id": "route_rail_access",
+      "snap_status": "warn",
+      "source_snap_distance_m": "265.494619",
+      "target_snap_distance_m": "62.830362"
+    }
   ],
   "raw_response_file_count": 3,
   "raw_response_files": [
@@ -36,6 +92,8 @@
       "sha256": "7c94324c1c628adaee266bf01fd95862d6fbfa8b3a1e7e5592b4390883630da5"
     }
   ],
+  "raw_response_missing_for_row_count": 0,
+  "raw_response_unmatched_file_count": 0,
   "reference_source_counts": {
     "https://router.project-osrm.org": 3
   },
@@ -44,9 +102,10 @@
   },
   "result_scope": "osrm_route_benchmark_snapshot_manifest_not_validation_acceptance",
   "review_items": [
+    "review OSRM waypoint snap distances before relying on route-comparison wording",
     "review OSRM service terms, attribution, access date, and row-level query URLs before publication use",
-    "keep OSRM as a plausibility comparator only; it is not calibrated local traffic evidence",
-    "record any final benchmark strategy only in data/manifests/validation_acceptance.json after review"
+    "keep OSRM as a plausibility comparator only; it is not local traffic evidence",
+    "record any release-scope benchmark strategy only in data/manifests/validation_acceptance.json after review"
   ],
   "review_required": true,
   "route_check_ids": [
@@ -56,6 +115,12 @@
   ],
   "row_count": 3,
   "schema_version": 1,
+  "snap_pass_max_m": 100.0,
+  "snap_status_counts": {
+    "pass": 1,
+    "warn": 2
+  },
+  "snap_warn_max_m": 500.0,
   "source_class_counts": {
     "cached_external_router_snapshot": 3
   },
@@ -63,7 +128,7 @@
     "pass": 3
   },
   "summary_artifact_present": true,
-  "summary_sha256": "61b72a6353d5bc7fd69de6c3e1a7e4809d719602600635dd313dc966457b9d75",
+  "summary_sha256": "63c6227e47abab16905c087cccaf6bf966d634482479468d1a17eca4478b7b51",
   "time_status_counts": {
     "pass": 3
   },

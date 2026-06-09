@@ -17,7 +17,7 @@
   },
   "audited_manifest_count": 12,
   "can_mark_complete": false,
-  "claim_boundary": "This audit checks whether generated scaffold manifests expose source and analysis graph-scale fields. It does not accept a graph-scale method, validate route sufficiency, calibrate inputs, or close final-study gates.",
+  "claim_boundary": "This audit checks whether generated scaffold manifests expose source and analysis graph-scale fields. It does not select a graph-scale method, confirm route sufficiency, tune inputs, or close study gates.",
   "complete_graph_scale_row_count": 13,
   "coverage_status_counts": {
     "complete_reduced_analysis_graph_recorded": 13
@@ -49,9 +49,9 @@
   "result_scope": "graph_scale_manifest_audit_review_aid_only_not_graph_scale_acceptance",
   "review_items": [
     "confirm the source graph count is stable across pilot, sensitivity, statistics, and figure/table manifests",
-    "review whether each reduced analysis graph is a final method or only a scaffold shortcut",
-    "regenerate downstream manifests if a different graph-scale method is accepted",
-    "record any accepted graph-scale decision only in data/manifests/graph_scale_acceptance.json"
+    "review whether each reduced analysis graph is the selected method or only a scaffold shortcut",
+    "regenerate downstream manifests if a different graph-scale method is selected",
+    "record any selected graph-scale decision only in data/manifests/graph_scale_acceptance.json"
   ],
   "row_count": 13,
   "schema_version": 1,

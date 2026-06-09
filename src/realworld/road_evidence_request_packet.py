@@ -35,7 +35,7 @@ DEFAULT_ROAD_EVIDENCE_SOURCE_REQUEST_MANIFEST_PATH = (
 DEFAULT_REGION_ID = "songpa_public_demo"
 ROAD_EVIDENCE_SOURCE_REQUEST_SCOPE = (
     "Road evidence source-request packet; not reviewed speed evidence, "
-    "not calibrated capacity evidence, not accepted disruption evidence, "
+    "not calibrated capacity evidence, not reviewed disruption evidence, "
     "not applied road-class overrides, and not operational routing evidence."
 )
 ROAD_EVIDENCE_SOURCE_REQUEST_COLUMNS: tuple[str, ...] = (
@@ -88,7 +88,7 @@ def build_road_evidence_source_request_rows(
             source_url_or_citation="data/parameters/road_speed_evidence_candidates.csv",
             required_external_input=(
                 "reviewed speed-limit evidence for high-priority road classes; "
-                "fallback classes must be explicitly accepted as assumptions"
+                "fallback classes must be explicitly recorded as assumptions"
             ),
             prioritized_highway_classes=high_text,
             review_priority_basis=basis,
@@ -142,7 +142,7 @@ def build_road_evidence_source_request_rows(
             publication_use_status="capacity source support only; does not close speed or disruption evidence",
             notes=(
                 "Current cached lane evidence has zero parseable lane rows, so capacity "
-                "must come from another reviewed source or accepted sensitivity boundary."
+                "must come from another reviewed source or bounded sensitivity treatment."
             ),
             region_id=resolved_region_id,
         ),
@@ -198,7 +198,7 @@ def build_road_evidence_source_request_rows(
             ),
             derive_or_review_command=(
                 "review disruption scenario rules and replace draft base_p_fail values "
-                "or mark them as accepted sensitivity-only assumptions"
+                "or mark them as bounded sensitivity-only assumptions"
             ),
             target_output_path="data/parameters/road_class_overrides.csv",
             expected_source_status="hazard_source_backed_or_reviewed_scenario_rule",
@@ -216,7 +216,7 @@ def build_road_evidence_source_request_rows(
             request_id="reviewed_road_class_override_application_request",
             evidence_fields="speed;capacity;base_disruption;override_application",
             source_type="reviewed_override_table_and_manifest_application_required",
-            source_name="Reviewed road_class_overrides.csv plus accepted pilot manifest",
+            source_name="Reviewed road_class_overrides.csv plus pilot rerun manifest",
             source_url_or_citation="docs/schemas/road_class_override_schema.md",
             required_external_input=(
                 "reviewed road_class_overrides.csv with strong source classes; "
@@ -314,11 +314,11 @@ def write_road_evidence_source_request_packet(
         "claim_boundary": (
             "This packet identifies required road-evidence sources and review "
             "commands. It does not contain reviewed speed observations, traffic "
-            "counts, capacity calibration, accepted disruption probabilities, "
-            "or proof that overrides were applied to final outputs."
+            "counts, capacity calibration, reviewed disruption probabilities, "
+            "or proof that overrides were applied to release-scope outputs."
         ),
         "review_items": [
-            "collect source-backed or explicitly accepted sensitivity evidence for speed, capacity, background traffic, and disruption rules",
+            "collect source-backed or explicitly bounded sensitivity evidence for speed, capacity, background traffic, and disruption rules",
             "move reviewed values into data/parameters/road_class_overrides.csv only after source review",
             "rerun pilot experiments with the reviewed override table and verify manifest SHA256 application",
             "rerun road, publication-readiness, and final-study-readiness audits after road evidence changes",

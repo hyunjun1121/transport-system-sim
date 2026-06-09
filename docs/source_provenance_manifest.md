@@ -16,17 +16,22 @@ The manifest lists source-level provenance for:
 - cached OSM `lanes` capacity-candidate evidence;
 - public/synthetic pilot region specification;
 - repository parameter, scenario, policy, and sensitivity tables;
-- the validation review packet used to plan benchmark-strategy review across
+- the benchmark review packet used to plan benchmark-strategy review across
   internal plausibility, fallback benchmark, OSRM, accessibility-loss, and
-  validation-summary scope evidence;
+  benchmark-summary scope evidence;
 - the sensitivity review packet used to plan Morris-index, zero-effect,
-  reduced-graph, and Morris-vs-Sobol review before final claims;
+  reduced-graph, and Morris-vs-Sobol review before release-scope claims;
 - the parameter evidence review packet used to prioritize weak assumptions;
 - the parameter evidence source-request packet used to plan demand, fleet,
   dispatch, transfer, disruption, and traffic/BPR evidence collection;
 - the draft road-class override worksheet used for road evidence review;
+- the non-formal road override source-candidate packet used for road evidence
+  triage without creating reviewed overrides;
 - the road evidence source-request packet used to plan speed, capacity,
   background-traffic, disruption, and override-application evidence collection;
+- the non-formal static rail-service candidate packet used to expose
+  headway-only static timetable evidence and proxy/not-derived rail timing
+  limits;
 - cached station-code binding source;
 - rail shortest-path and timetable source contexts that still lack cached
   extracts;
@@ -69,9 +74,9 @@ The audit validates schema, source text, local artifact paths, review-status
 values, source types, and the not-operational claim boundary. It does not
 certify calibrated real-world accuracy or operational readiness.
 
-## Final Gate Relationship
+## Release Gate Relationship
 
-The final data-provenance gate still requires:
+The release-scope data-provenance gate still requires:
 
 - a reviewer-created `data/manifests/provenance_acceptance.json`;
 - a reproducibility manifest that no longer declares scaffold-only scope;

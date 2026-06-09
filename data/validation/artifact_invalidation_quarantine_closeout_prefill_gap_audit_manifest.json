@@ -1,0 +1,47 @@
+{
+  "acceptance_ready": false,
+  "blocking_gap_row_count": 6,
+  "can_clear_invalidation_gate": false,
+  "can_mark_complete": false,
+  "candidate_artifact_count": 73,
+  "claim_boundary": "Artifact invalidation matrix for Phase 9 preflight review only; not an artifact regeneration record, not evidence-quality validation, not publication readiness, not final-study approval, and not formal acceptance.",
+  "csv_sha256": "a8b436b43d5f7b909765060abb6e894bd7fa11be7f78bdf5990f6ee8b1abeda0",
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "gap_code_counts": {
+    "artifact_or_exclusion_confirmation_missing": 6,
+    "audit_not_passed": 6,
+    "claim_boundary_review_missing": 6,
+    "closeout_status_not_closed": 6,
+    "main_closeout_copy_required": 6,
+    "rerun_not_passed": 6,
+    "reviewer_signoff_missing": 6,
+    "targeted_test_not_passed": 6
+  },
+  "generated_at": "2026-06-09T04:58:30+00:00",
+  "must_not_be_used_as_closeout_manifest": true,
+  "outputs": {
+    "csv": "data/validation/artifact_invalidation_quarantine_closeout_prefill_gap_audit.csv",
+    "doc": "docs/artifact_invalidation_quarantine_closeout_prefill_gap_audit.md",
+    "manifest": "data/validation/artifact_invalidation_quarantine_closeout_prefill_gap_audit_manifest.json"
+  },
+  "phase9_promotion_ready": false,
+  "prefill_gap_audit_only": true,
+  "publication_ready": false,
+  "quarantine_batch_only": true,
+  "reference_hit_count": 125,
+  "remaining_blockers": [
+    "gap audit rows are reviewer-action support only",
+    "artifact or exclusion confirmation, audit evidence, targeted test evidence, main closeout copy, and reviewer signoff remain required"
+  ],
+  "row_count": 6,
+  "schema_version": 1,
+  "source_action_batch": "quarantine_non_evidence",
+  "source_transfer_packet_candidate_artifact_count": 73,
+  "source_transfer_packet_integrity_ready": true,
+  "source_transfer_packet_manifest": "data/validation/artifact_invalidation_quarantine_non_evidence_transfer_packet_manifest.json",
+  "source_transfer_packet_manifest_sha256": "fd6f666b561e535e1ed186a58d9026fca5fa2a1c0d7a78cc552a43ce0884e90f",
+  "source_transfer_packet_manifest_status": "loaded",
+  "source_transfer_packet_must_not_be_used_as_closeout_manifest": true,
+  "source_transfer_packet_row_count": 6
+}

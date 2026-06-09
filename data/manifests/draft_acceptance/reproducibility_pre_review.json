@@ -72,7 +72,7 @@
     {
       "claim_supported": "Formal target required for reproducibility",
       "exists": false,
-      "notes": "formal artifact absent; expected until source-backed human approval exists",
+      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
       "path": "data/manifests/reproducibility_acceptance.json"
     },
     {
@@ -121,7 +121,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-05-09T00:29:30+00:00",
+  "generated_at": "2026-06-04T02:16:50+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -131,7 +131,7 @@
     "After a real decision, create or update data/manifests/reproducibility_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
-  "label": "Reproducibility Acceptance",
+  "label": "Reproducibility Decision",
   "missing_evidence": [
     "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
     "replace scaffold-only manifest with clean-checkout final reproduction package",
@@ -157,7 +157,7 @@
     "docs/clean_checkout_reproducibility_smoke.md"
   ],
   "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, accepted, or upstream-complete evidence required by the current final-study audit.",
+  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
   "related_plan_gate_ids": [
     "reproducibility"
   ],
@@ -165,14 +165,8 @@
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
     "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
     "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package",
-    "resolve reproducibility decision blockers before reproducibility acceptance",
-    "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
-    "review reproducibility human-decision rows before reproducibility acceptance",
-    "data/manifests/reproducibility_acceptance.json is absent",
-    "Draft recommendation could be overread as formal approval if copied into a final acceptance path.",
-    "Final-study readiness remains false until formal validators accept source-backed records."
+    "Draft recommendation could be overread as permission if copied into a target path.",
+    "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
     "docs/review_packets/reproducibility.md",

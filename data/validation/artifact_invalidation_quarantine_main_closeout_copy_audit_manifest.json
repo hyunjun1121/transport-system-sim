@@ -1,0 +1,38 @@
+{
+  "acceptance_ready": false,
+  "actual_disposition_copied_count": 6,
+  "affected_artifacts_copied_count": 6,
+  "blocking_copy_audit_row_count": 0,
+  "can_clear_invalidation_gate": false,
+  "can_mark_complete": false,
+  "claim_boundary": "Artifact invalidation matrix for Phase 9 preflight review only; not an artifact regeneration record, not evidence-quality validation, not publication readiness, not final-study approval, and not formal acceptance.",
+  "closed_candidate_count": 6,
+  "copy_audit_blocker_counts": {},
+  "copy_audit_only": true,
+  "csv_sha256": "6ee2913c66f104ef6b21bf090619dfe3f8e16ac1fd3d22236bd637971c3f0d84",
+  "exclusion_scope_copied_count": 6,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T04:58:30+00:00",
+  "main_row_found_count": 6,
+  "must_not_be_used_as_closeout_manifest": true,
+  "outputs": {
+    "csv": "data/validation/artifact_invalidation_quarantine_main_closeout_copy_audit.csv",
+    "doc": "docs/artifact_invalidation_quarantine_main_closeout_copy_audit.md",
+    "manifest": "data/validation/artifact_invalidation_quarantine_main_closeout_copy_audit_manifest.json"
+  },
+  "phase9_promotion_ready": false,
+  "publication_ready": false,
+  "quarantine_batch_only": true,
+  "remaining_blockers": [
+    "copy audit rows are reviewer-action support only",
+    "main closeout rows must contain reviewer-confirmed disposition, audit evidence, targeted-test evidence, and non-acceptance signoff before the main closeout support audit can clear invalidation only"
+  ],
+  "row_count": 6,
+  "schema_version": 1,
+  "source_action_batch": "quarantine_non_evidence",
+  "source_main_closeout_path": "data/validation/artifact_invalidation_closeout_template.csv",
+  "source_main_closeout_sha256": "22ac184bf44f5b3c5ca0f45894ea61ea61deb4bcb924cc010dd46b45eaa6e889",
+  "source_prefill_path": "data/validation/artifact_invalidation_quarantine_closeout_prefill.csv",
+  "source_prefill_sha256": "6437c2cf63724e7e84f5724ba807859256c6f3b2dcccd0dc4f22319b98eef2d5"
+}

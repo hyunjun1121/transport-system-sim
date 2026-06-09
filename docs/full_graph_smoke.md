@@ -9,12 +9,12 @@ Full bus-practical graph smoke only; not calibrated real-world results or an ope
 - Graph edges: 9148
 - Analysis graph reduced: `false`
 - Rows: 2
-- Duration seconds: 2.557
+- Duration seconds: 1.433
 - Can mark complete: `false`
 
 ## Required Actions
 
 - treat this as two-row full-graph smoke evidence only
 - generate full scenario-policy-seed outputs if full-graph execution is selected
-- or record a reviewed graph-scale acceptance decision that bounds final claims away from full-graph execution
-- rerun downstream sensitivity, figures, tables, and manuscript interpretation on the accepted graph method
+- or record a reviewed graph-scale method decision that bounds release-scope claims away from full-graph execution
+- rerun downstream sensitivity, figures, tables, and manuscript interpretation on the reviewer-selected graph method

@@ -12,7 +12,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.realworld.disruption_scenarios import (
     CSV_COLUMNS,
+    DEFAULT_RECOVERY_PROFILE,
     DEFAULT_SCENARIO_PATH,
+    DEFAULT_TEMPORAL_SCOPE,
+    build_disruption_scenario_manifest,
     REQUIRED_FAMILIES,
     DisruptionScenario,
     assert_required_family_coverage,
@@ -22,6 +25,7 @@ from src.realworld.disruption_scenarios import (
     mark_scenario_edges,
     scenario_family_coverage,
     select_candidate_edges,
+    write_disruption_scenario_manifest,
 )
 from src.realworld.pilot_experiments import load_pilot_inputs
 
@@ -267,6 +271,36 @@ def test_route_station_spatial_mapping_and_edge_marking() -> None:
     print("PASS: route, station, spatial, and marking helpers work")
 
 
+def test_blocked_mode_maps_to_blocked_edge_disruption() -> None:
+    """Blocked scenarios should produce blocked simulator disruption states."""
+
+    graph = synthetic_simulator_graph()
+    scenario = DisruptionScenario(
+        scenario_id="synthetic_blocked",
+        region_id="synthetic_region",
+        family="critical_link",
+        label="Synthetic blocked critical link",
+        selection_method="edge_betweenness",
+        target_segment="all_road",
+        disruption_mode="blocked",
+        capacity_factor=0.0,
+        p_fail_scale=1.0,
+        max_edges=1,
+        evidence_class="scenario_based",
+        observed_disaster_data=False,
+    )
+    disruption_map = build_scenario_disruption_map(graph, scenario)
+
+    assert len(disruption_map) == 1
+    disruption = next(iter(disruption_map.values()))
+    assert disruption.status == "blocked"
+    assert disruption.capacity_factor == 0.0
+    assert scenario.recovery_profile == DEFAULT_RECOVERY_PROFILE
+    assert scenario.temporal_scope == DEFAULT_TEMPORAL_SCOPE
+
+    print("PASS: blocked scenario maps to blocked edge disruption")
+
+
 def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
     """Committed Songpa scenarios should map offline on the analysis graph."""
 
@@ -294,10 +328,76 @@ def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
     print("PASS: committed pilot disruption scenarios map offline to all families")
 
 
+def test_disruption_manifest_records_checksums_and_temporal_scope() -> None:
+    """The Phase 6 manifest should preserve checksums and claim boundaries."""
+
+    inputs = load_pilot_inputs()
+    scenarios = load_disruption_scenarios(DEFAULT_SCENARIO_PATH, region_id=inputs.region_id)
+    edge_map = build_scenario_edge_map(inputs.graph, scenarios, region_id=inputs.region_id)
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        manifest_path = Path(temp_dir) / "disruption_scenarios_manifest.json"
+        doc_path = Path(temp_dir) / "disruption_scenarios.md"
+        manifest = write_disruption_scenario_manifest(
+            scenarios,
+            scenario_path=DEFAULT_SCENARIO_PATH,
+            manifest_path=manifest_path,
+            doc_path=doc_path,
+            selected_edges=edge_map,
+        )
+
+        assert manifest_path.exists()
+        assert doc_path.exists()
+        assert manifest["row_count"] == 8
+        assert manifest["family_counts"] == {
+            "access_road": 2,
+            "critical_link": 1,
+            "last_mile": 1,
+            "rail_station_access": 1,
+            "random": 2,
+            "spatial_hazard_overlay": 1,
+        }
+        assert len(manifest["scenario_table_sha256"]) == 64
+        assert set(manifest["family_checksums"]) == REQUIRED_FAMILIES
+        assert all(len(value) == 64 for value in manifest["family_checksums"].values())
+        assert manifest["temporal_scope_counts"] == {
+            "metadata_only_not_dynamic_recovery": 8
+        }
+        assert manifest["recovery_profile_counts"] == {
+            "static_full_horizon_no_recovery": 8
+        }
+        assert manifest["publication_ready"] is False
+        assert manifest["final_study_ready"] is False
+        assert manifest["formal_acceptance_evidence"] is False
+        assert "not observed disaster data" in manifest["claim_boundary"]
+        assert "songpa_critical_link_blockage" in manifest["selected_edges"]
+        assert (
+            manifest["selected_edges"]["songpa_critical_link_blockage"]["edge_count"]
+            > 0
+        )
+        assert len(
+            manifest["selected_edges"]["songpa_critical_link_blockage"][
+                "selected_edge_checksum"
+            ]
+        ) == 64
+
+    # Also verify the pure builder path without writing files.
+    manifest = build_disruption_scenario_manifest(
+        scenarios,
+        scenario_path=DEFAULT_SCENARIO_PATH,
+        selected_edges=edge_map,
+    )
+    assert manifest["row_count"] == 8
+
+    print("PASS: disruption manifest records checksums and temporal scope")
+
+
 if __name__ == "__main__":
     test_csv_schema_validation_and_family_coverage()
     test_spatial_hazard_rows_must_not_claim_observed_data()
     test_deterministic_hash_and_critical_link_mapping()
     test_route_station_spatial_mapping_and_edge_marking()
+    test_blocked_mode_maps_to_blocked_edge_disruption()
     test_committed_pilot_scenarios_map_offline_to_all_families()
+    test_disruption_manifest_records_checksums_and_temporal_scope()
     print("\n=== REALWORLD DISRUPTION SCENARIO TESTS PASSED ===")

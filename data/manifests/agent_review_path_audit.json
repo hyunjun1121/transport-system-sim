@@ -297,15 +297,15 @@
   ],
   "missing_required_path_count": 0,
   "missing_required_paths": [],
-  "path_reference_count": 831,
-  "present_path_count": 795,
+  "path_reference_count": 853,
+  "present_path_count": 817,
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "remaining_blockers": [],
   "schema_version": 1,
   "status_counts": {
     "missing_formal_target": 36,
-    "present": 795
+    "present": 817
   },
   "unique_missing_formal_target_count": 12,
   "unique_missing_formal_targets": [

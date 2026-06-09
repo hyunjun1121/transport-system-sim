@@ -1,0 +1,145 @@
+{
+  "action_columns": [
+    "request_id",
+    "decision_choice",
+    "reviewer",
+    "decision_date",
+    "decision_basis",
+    "artifact_sha256s",
+    "excluded_or_retained_claim_scope",
+    "not_operational_claim_boundary",
+    "bounded_treatment_or_exclusion_rationale"
+  ],
+  "can_mark_complete": false,
+  "can_support_acceptance_gate": false,
+  "can_support_final_study_gate": false,
+  "can_support_publication_gate": false,
+  "can_support_rail_evidence_gate": false,
+  "candidate_decision_options_by_request_id": {
+    "rail_availability_scenario_request": [
+      "replace_with_public_disruption_or_incident_source",
+      "record_scenario_only_availability_scope",
+      "retain_availability_as_sensitivity_only",
+      "exclude_availability_dependent_release_scope_claims"
+    ],
+    "rail_capacity_treatment_request": [
+      "replace_with_operator_or_literature_capacity_source",
+      "retain_capacity_as_sensitivity_only_with_bounds",
+      "exclude_capacity_dependent_release_scope_claims"
+    ],
+    "rail_shortest_path_travel_time_request": [
+      "provide_reviewed_cached_api_payload",
+      "run_reviewed_live_api_fetch_and_cache_raw_payload",
+      "use_reviewed_gtfs_or_alternate_timing_source",
+      "retain_current_timing_assumption_as_sensitivity_only",
+      "exclude_timing_dependent_release_scope_claims"
+    ],
+    "rail_static_gtfs_timing_request": [
+      "provide_reviewed_static_gtfs_feed",
+      "pair_reviewed_timetable_headway_with_shortest_path_travel_time",
+      "use_other_reviewed_transit_timing_source",
+      "retain_current_timing_assumption_as_sensitivity_only",
+      "exclude_timing_dependent_release_scope_claims"
+    ],
+    "rail_static_timetable_csv_headway_request": [
+      "provide_reviewed_static_timetable_csv_and_mapping",
+      "pair_reviewed_static_timetable_headway_with_shortest_path_travel_time",
+      "use_reviewed_gtfs_or_alternate_timing_source",
+      "retain_current_timing_assumption_as_sensitivity_only",
+      "exclude_timing_dependent_release_scope_claims"
+    ],
+    "rail_timetable_headway_request": [
+      "provide_reviewed_cached_api_payload",
+      "run_reviewed_live_api_fetch_and_cache_raw_payload",
+      "use_reviewed_gtfs_or_alternate_timing_source",
+      "retain_current_timing_assumption_as_sensitivity_only",
+      "exclude_timing_dependent_release_scope_claims"
+    ]
+  },
+  "claim_boundary": "Template only. This CSV is a reviewer worksheet for the optional --action-ledger input. It is not rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, not publication gate evidence, not study-closeout evidence, and not a formal decision record.",
+  "current_decision_status_counts": {
+    "blocked_missing_rail_source_decision": 3,
+    "needs_human_review_rail_source_decision": 2,
+    "needs_human_review_ready_rail_source_decision": 1
+  },
+  "decision_ids": [
+    "rail_shortest_path_travel_time_request",
+    "rail_static_gtfs_timing_request",
+    "rail_timetable_headway_request",
+    "rail_availability_scenario_request",
+    "rail_capacity_treatment_request",
+    "rail_static_timetable_csv_headway_request"
+  ],
+  "decision_topics_by_request_id": {
+    "rail_availability_scenario_request": "Rail availability source or scenario treatment",
+    "rail_capacity_treatment_request": "Rail capacity source or sensitivity-only treatment",
+    "rail_shortest_path_travel_time_request": "Reviewed API cache, live fetch, or alternate rail timing source",
+    "rail_static_gtfs_timing_request": "Reviewed static GTFS acquisition and derivation decision",
+    "rail_static_timetable_csv_headway_request": "Reviewed static timetable CSV normalization and derivation decision",
+    "rail_timetable_headway_request": "Reviewed API cache, live fetch, or alternate rail timing source"
+  },
+  "ledger_compatible": true,
+  "outputs": {
+    "csv": "data/rail/rail_source_decision_action_ledger_template.csv",
+    "doc": "docs/rail_source_decision_action_ledger_template.md",
+    "manifest": "data/rail/rail_source_decision_action_ledger_template_manifest.json"
+  },
+  "protected_fields_excluded": [
+    "allowed_bounded_fallback",
+    "blocking_reason",
+    "can_support_acceptance_gate",
+    "can_support_rail_evidence_gate",
+    "can_support_timing_fields_after_review",
+    "candidate_decision_options",
+    "claim_boundary",
+    "current_artifact_status",
+    "current_readiness_status",
+    "data_go_kr_key_present",
+    "decision_completion_output",
+    "decision_scope",
+    "decision_status",
+    "decision_topic",
+    "derive_command",
+    "evidence_fields",
+    "evidence_input_paths",
+    "fetch_command",
+    "followup_artifacts",
+    "minimum_evidence_to_acquire",
+    "provisional_decision",
+    "raw_payload_path",
+    "raw_payload_present",
+    "region_id",
+    "required_evidence_fields",
+    "required_external_input",
+    "required_reviewer_action",
+    "review_priority",
+    "source_cache_path",
+    "source_cache_present",
+    "source_name",
+    "source_type",
+    "source_url_or_citation",
+    "target_evidence_artifact"
+  ],
+  "publication_ready": false,
+  "remaining_blockers": [
+    "template rows are pending reviewer action decisions",
+    "template output does not create source-backed rail evidence",
+    "template output does not close publication, study-closeout, or formal decision gates"
+  ],
+  "result_scope": "rail_source_decision_action_ledger_template_not_acceptance",
+  "review_items": [
+    "copy this template to a reviewer-owned action ledger path before editing",
+    "choose exactly one listed decision_choice per request_id",
+    "fill reviewer, ISO YYYY-MM-DD decision_date, decision_basis, and not_operational_claim_boundary for every non-pending row",
+    "for source-backed acquisition choices, fill artifact_sha256s as path=64hex_sha256 for every source_cache_path and raw_payload_path artifact",
+    "for sensitivity-only, scenario-only, or exclusion choices, fill excluded_or_retained_claim_scope and bounded_treatment_or_exclusion_rationale",
+    "rerun scripts/write_rail_source_decision_packet.py --action-ledger <edited_csv> and the publication-gate/study-closeout audits after reviewer edits"
+  ],
+  "row_count": 6,
+  "schema_version": 1,
+  "source_decision_row_count": 6,
+  "template_action_status_counts": {
+    "pending_action_decision": 6
+  },
+  "template_only": true
+}

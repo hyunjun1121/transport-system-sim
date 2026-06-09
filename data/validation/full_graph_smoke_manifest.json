@@ -7,9 +7,9 @@
     "baseline_multimodal": 1.0,
     "bus_only": 1.0
   },
-  "duration_sec": 2.557,
+  "duration_sec": 1.433,
   "full_graph_experiment_output_created": false,
-  "generated_at": "2026-05-08T09:03:58.635632+00:00",
+  "generated_at": "2026-06-04T08:52:54.469976+00:00",
   "graph_edges": 9148,
   "graph_nodes": 4608,
   "graph_scale": {
@@ -42,8 +42,8 @@
   "required_actions": [
     "treat this as two-row full-graph smoke evidence only",
     "generate full scenario-policy-seed outputs if full-graph execution is selected",
-    "or record a reviewed graph-scale acceptance decision that bounds final claims away from full-graph execution",
-    "rerun downstream sensitivity, figures, tables, and manuscript interpretation on the accepted graph method"
+    "or record a reviewed graph-scale method decision that bounds release-scope claims away from full-graph execution",
+    "rerun downstream sensitivity, figures, tables, and manuscript interpretation on the reviewer-selected graph method"
   ],
   "result_scope": "Full bus-practical graph smoke only; not calibrated real-world results or an operational forecast.",
   "row_count": 2,

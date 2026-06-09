@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import os
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ from src.realworld.metro9_capacity_source import (  # noqa: E402
     DEFAULT_METRO9_CAPACITY_URL,
     METRO9_CAPACITY_COLUMNS,
     METRO9_CAPACITY_SOURCE_SCOPE,
+    audit_metro9_capacity_raw_hash,
     build_metro9_capacity_extract,
     load_metro9_capacity_extract,
     write_metro9_capacity_cache,
@@ -86,16 +88,54 @@ def test_metro9_capacity_cache_writes_raw_and_extract() -> None:
         loaded = load_metro9_capacity_extract(extract_path)
 
         assert raw_path.read_text(encoding="utf-8") == FIXTURE_HTML
+        assert row["raw_file_sha256"] == hashlib.sha256(
+            raw_path.read_bytes()
+        ).hexdigest()
         assert len(loaded) == 1
         assert loaded[0]["total_capacity_6_cars"] == row["total_capacity_6_cars"]
         with extract_path.open("r", encoding="utf-8", newline="") as handle:
             reader = csv.DictReader(handle)
             assert tuple(reader.fieldnames or ()) == METRO9_CAPACITY_COLUMNS
+        audit = audit_metro9_capacity_raw_hash(
+            extract_path=extract_path,
+            raw_path=raw_path,
+        )
+
+    assert audit["raw_file_integrity_ready"] is True
+    assert audit["publication_ready"] is False
+    assert audit["can_mark_complete"] is False
 
     print("PASS: Metro 9 capacity cache writes raw page and extract")
+
+
+def test_metro9_capacity_raw_hash_audit_detects_mismatch() -> None:
+    """Raw-file hash audit should fail if the cached HTML changes."""
+
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        raw_path = root / "raw.html"
+        extract_path = root / "extract.csv"
+        write_metro9_capacity_cache(
+            html_text=FIXTURE_HTML,
+            raw_output_path=raw_path,
+            extract_output_path=extract_path,
+            fetched_at_utc="2026-05-08T00:00:00+00:00",
+        )
+        raw_path.write_text("changed after extract write", encoding="utf-8")
+        audit = audit_metro9_capacity_raw_hash(
+            extract_path=extract_path,
+            raw_path=raw_path,
+        )
+
+    assert audit["raw_file_integrity_ready"] is False
+    assert audit["raw_file_sha256_matches"] is False
+    assert audit["remaining_blockers"]
+
+    print("PASS: Metro 9 capacity raw hash audit detects mismatch")
 
 
 if __name__ == "__main__":
     test_metro9_capacity_extract_parses_official_page_fields()
     test_metro9_capacity_cache_writes_raw_and_extract()
+    test_metro9_capacity_raw_hash_audit_detects_mismatch()
     print("\n=== REALWORLD METRO9 CAPACITY SOURCE TESTS PASSED ===")

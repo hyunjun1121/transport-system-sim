@@ -40,7 +40,7 @@ DEFAULT_REPLICATION_AUDIT_DOC = PROJECT_ROOT / "docs" / "replication_adequacy_au
 REPLICATION_AUDIT_CLAIM_BOUNDARY = (
     "This audit checks internal consistency of seed-replication and paired-delta "
     "statistics. It does not prove that the replication count is sufficient for "
-    "final claims, approve a multiple-comparison procedure, validate stochastic "
+    "release-scope claims, approve a multiple-comparison procedure, validate stochastic "
     "assumptions, or close experiment acceptance."
 )
 REPLICATION_AUDIT_COLUMNS: tuple[str, ...] = (
@@ -152,7 +152,7 @@ def build_replication_adequacy_rows(
             else "blocked",
             observed=", ".join(baseline_ids) if baseline_ids else "none",
             expected=str(manifest.get("baseline_policy_id", "")),
-            review_action="Confirm the formal experiment acceptance record names the baseline policy.",
+            review_action="Confirm the formal experiment review record names the baseline policy.",
             evidence_paths=evidence,
         ),
         _row(
@@ -181,7 +181,7 @@ def build_replication_adequacy_rows(
             expected="primary/secondary comparison procedure or exploratory boundary declared",
             review_action=(
                 "Document the multiple-comparison procedure or explicitly label "
-                "secondary comparisons as exploratory before final claims."
+                "secondary comparisons as exploratory before release-scope claims."
             ),
             evidence_paths=evidence,
         ),
@@ -269,7 +269,7 @@ def build_replication_adequacy_manifest(
         "review_items": [
             "review whether 30 seeds are adequate for primary metrics and tail-risk metrics",
             "document primary/secondary comparisons and multiple-comparison handling",
-            "keep paired statistics in scaffold scope until graph/input/experiment acceptance gates close",
+            "keep paired statistics in scaffold scope until graph/input/experiment review gates close",
         ],
     }
 
@@ -314,7 +314,7 @@ def build_replication_adequacy_markdown(
             "## Use",
             "",
             "Use this audit with the seed-stream manifest, CRN pairing audit, "
-            "and experiment package review before accepting paired policy "
+            "and experiment package review before relying on paired policy "
             "statistics. A structurally complete table is not evidence that "
             "replication count, CI method, or comparison handling is adequate.",
             "",

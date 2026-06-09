@@ -3,7 +3,7 @@
 The claim-alignment and figure/table packets expose detailed manuscript review
 work. This module turns their current state into manuscript/report gate
 decision rows without creating ``data/manifests/manuscript_acceptance.json`` or
-approving final study claims.
+approving release-scope study claims.
 """
 
 from __future__ import annotations
@@ -124,7 +124,7 @@ def build_manuscript_report_decision_rows(
             decision_topic="English paper claim review",
             candidate_decision=(
                 "Retain the current paper draft only after every non-guardrail "
-                "claim row is reviewed, revised, or explicitly accepted within "
+                "claim row is reviewed, revised, or explicitly retained within "
                 "the scaffold claim boundary"
             ),
             current_evidence=_text_evidence(
@@ -136,7 +136,8 @@ def build_manuscript_report_decision_rows(
             blocking_reason="",
             required_reviewer_action=(
                 "Review paper claim rows and revise any language that implies "
-                "accepted validation, calibration, operational use, or finality."
+                "unsupported evidence-verification, benchmark treatment, "
+                "route-command use, or release-complete wording."
             ),
             followup_artifacts=(
                 "paper/paper_draft.md; "
@@ -150,7 +151,7 @@ def build_manuscript_report_decision_rows(
             candidate_decision=(
                 "Retain the Korean report source and generated docx only after "
                 "review confirms readability, claim scope, and consistency with "
-                "accepted evidence gates"
+                "reviewed upstream evidence decisions"
             ),
             current_evidence=_text_evidence(
                 label="report",
@@ -167,7 +168,7 @@ def build_manuscript_report_decision_rows(
             ),
             required_reviewer_action=(
                 "Review Korean report text against current scaffold limitations "
-                "and regenerate the docx only after accepted manuscript changes."
+                "and regenerate the docx only after reviewed manuscript changes."
             ),
             followup_artifacts="report_draft.md; report.docx",
             evidence_input_paths=evidence_paths,
@@ -178,7 +179,7 @@ def build_manuscript_report_decision_rows(
             candidate_decision=(
                 "Use current figures and tables only as scaffold evidence until "
                 "graph-scale, experiment, validation, and sensitivity dependencies "
-                "are accepted"
+                "have reviewer decision records"
             ),
             current_evidence=_figure_review_evidence(
                 figure_manifest=figure_manifest,
@@ -196,7 +197,7 @@ def build_manuscript_report_decision_rows(
             ),
             required_reviewer_action=(
                 "Resolve figure/table blocker rows and keep captions in scaffold "
-                "scope until formal manuscript acceptance."
+                "scope until a formal manuscript decision record exists."
             ),
             followup_artifacts=(
                 "data/manifests/figure_table_review_packet.csv; "
@@ -208,8 +209,8 @@ def build_manuscript_report_decision_rows(
             decision_id="result_claim_alignment_decision",
             decision_topic="Result-claim alignment",
             candidate_decision=(
-                "Accept result claims only after non-guardrail claim rows are "
-                "reviewed and aligned with accepted upstream evidence gates"
+                "Retain result claims only after non-guardrail claim rows are "
+                "reviewed and aligned with upstream evidence decisions"
             ),
             current_evidence=_claim_alignment_evidence(claim_manifest),
             decision_status=(
@@ -218,13 +219,13 @@ def build_manuscript_report_decision_rows(
                 else "needs_human_review_claim_alignment"
             ),
             blocking_reason=(
-                f"claim-alignment packet has {overclaim_count} rows requiring revision or acceptance"
+                f"claim-alignment packet has {overclaim_count} rows requiring revision or explicit retention"
                 if overclaim_count
                 else ""
             ),
             required_reviewer_action=(
                 "Review or revise every overclaim candidate before recording "
-                "result_claims_aligned in manuscript acceptance."
+                "result_claims_aligned in a manuscript decision record."
             ),
             followup_artifacts=(
                 "data/manifests/claim_alignment_review_packet.csv; "
@@ -256,7 +257,7 @@ def build_manuscript_report_decision_rows(
             ),
             required_reviewer_action=(
                 "Keep manuscript/report result language in scaffold scope until "
-                "the upstream evidence gates are accepted or explicitly limited."
+                "the upstream evidence gates are reviewed or explicitly limited."
             ),
             followup_artifacts=(
                 "data/manifests/graph_scale_acceptance.json; "
@@ -271,7 +272,7 @@ def build_manuscript_report_decision_rows(
             decision_topic="Generated report.docx review",
             candidate_decision=(
                 "Treat report.docx as regenerated only after reviewer confirms it "
-                "matches the accepted report source and current figure/table scope"
+                "matches the reviewed report source and current figure/table scope"
             ),
             current_evidence=_docx_evidence(docx, report=report),
             decision_status=(
@@ -283,7 +284,7 @@ def build_manuscript_report_decision_rows(
                 "" if docx.exists() else "report.docx is absent"
             ),
             required_reviewer_action=(
-                "Regenerate and review report.docx after any accepted report "
+                "Regenerate and review report.docx after any reviewed report "
                 "or figure/table changes."
             ),
             followup_artifacts="report.docx; generate_report.py",
@@ -311,7 +312,7 @@ def build_manuscript_report_decision_rows(
                 else "data/manifests/manuscript_acceptance.json is absent"
             ),
             required_reviewer_action=(
-                "Record formal manuscript acceptance only after placeholders are "
+                "Record a formal manuscript decision only after placeholders are "
                 "removed and source-backed evidence decisions support the claims."
             ),
             followup_artifacts="data/manifests/manuscript_acceptance.json",
@@ -444,9 +445,9 @@ def build_manuscript_report_decision_manifest(
         },
         "review_items": [
             "review paper and Korean report claims against evidence-gate status",
-            "resolve figure/table blocker rows before final manuscript claims",
-            "revise or explicitly accept non-guardrail claim-alignment rows",
-            "confirm report.docx is regenerated from the accepted report source",
+            "resolve figure/table blocker rows before release-scope manuscript claims",
+            "revise or explicitly retain non-guardrail claim-alignment rows",
+            "confirm report.docx is regenerated from the reviewed report source",
             "create data/manifests/manuscript_acceptance.json only after all manuscript/report decisions are source-backed",
         ],
         "remaining_blockers": _remaining_blockers(rows),
@@ -495,7 +496,7 @@ def build_manuscript_report_decision_markdown(
             "",
             "- This packet does not approve paper, report, docx, figure, or table claims.",
             "- It does not replace pilot, provenance, graph-scale, input-evidence, validation, sensitivity, experiment, or manuscript acceptance.",
-            "- Keep manuscript/report claims in scaffold scope until formal manuscript acceptance is reviewed.",
+            "- Keep manuscript/report claims in scaffold scope until a formal manuscript decision record is reviewed.",
             "",
         ]
     )

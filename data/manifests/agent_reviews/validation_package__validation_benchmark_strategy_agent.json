@@ -1,9 +1,9 @@
 {
-  "agent": "Validation Benchmark Strategy Agent",
+  "agent": "Benchmark Strategy Review Agent",
   "agent_id": "validation_benchmark_strategy_agent",
   "can_mark_complete": false,
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
-  "decision": "Validation Benchmark Strategy Agent cannot accept gate validation_package; the current final-study readiness audit reports blockers.",
+  "decision": "Benchmark Strategy Review Agent cannot accept gate validation_package; the current final-study readiness audit reports blockers.",
   "evidence": [
     "data/manifests/validation_acceptance.json",
     "data/validation/validation_summary.md",
@@ -37,7 +37,7 @@
     "docs/review_packets/validation_package.md"
   ],
   "gate_id": "validation_package",
-  "generated_at": "2026-05-09T00:30:10+00:00",
+  "generated_at": "2026-06-03T17:37:32+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
@@ -95,7 +95,7 @@
     "scripts/write_validation_strategy_readiness_packet.py"
   ],
   "risks": [
-    "Live or unpinned route benchmarks are not reproducible enough for final claims.",
+    "Live or unpinned route benchmarks are not reproducible enough for release claims.",
     "Plausibility checks cannot prove operational accuracy.",
     "create an explicit validation acceptance record after benchmark-strategy review",
     "resolve validation strategy-readiness blockers before validation acceptance",

@@ -1,7 +1,7 @@
 {
   "blocking_request_count": 2,
   "can_mark_complete": false,
-  "claim_boundary": "Full-graph runtime-readiness packet only; not full-graph experiment output, not graph-scale acceptance, not calibrated validation, and not operational routing evidence. This packet cannot close data/manifests/graph_scale_acceptance.json.",
+  "claim_boundary": "Full-graph runtime review packet only; not full-graph experiment output, not graph-scale acceptance, not calibrated validation, and not operational routing evidence. This packet cannot close data/manifests/graph_scale_acceptance.json.",
   "full_graph_gate_closure_candidate_count": 0,
   "human_review_request_count": 2,
   "inputs": {
@@ -26,11 +26,11 @@
     "full-graph runtime-scope decision requires graph_scale_acceptance.json",
     "downstream regeneration decisions are unresolved if full-graph execution is selected"
   ],
-  "result_scope": "Full-graph runtime-readiness packet only; not full-graph experiment output, not graph-scale acceptance, not calibrated validation, and not operational routing evidence.",
+  "result_scope": "Full-graph runtime review packet only; not full-graph experiment output, not graph-scale acceptance, not calibrated validation, and not operational routing evidence.",
   "review_items": [
     "review the measured two-row full-graph smoke before extrapolating runtime",
     "generate full-graph scenario-policy-seed outputs if full-graph execution is selected",
-    "or record in graph_scale_acceptance.json why final claims exclude full-graph execution",
+    "or record in graph_scale_acceptance.json why release-scope claims exclude full-graph execution",
     "decide downstream sensitivity, figure, table, and manuscript regeneration scope"
   ],
   "row_count": 4,

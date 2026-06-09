@@ -9,6 +9,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.transfers import (
     TransferDelayConfig,
+    TransferDelayComponent,
+    compute_transfer_delay_breakdown,
+    default_transfer_delay_components,
     compute_transfer_delay,
     transfer_batch,
     wait_for_transfer,
@@ -38,6 +41,51 @@ def test_transfer_delay_supports_fixed_and_per_passenger_terms():
     print("PASS: transfer delay supports fixed and per-passenger terms")
 
 
+def test_transfer_delay_breakdown_preserves_scalar_total():
+    """Component accounting should preserve the existing scalar delay model."""
+
+    config = TransferDelayConfig(base_min=2.0, per_passenger_min=0.5)
+    breakdown = config.breakdown_for(4)
+
+    assert_close(breakdown.base_min, 2.0, label="breakdown base")
+    assert_close(breakdown.per_passenger_min, 0.5, label="breakdown per passenger")
+    assert_close(breakdown.delay_min, config.delay_for(4), label="breakdown total")
+    assert breakdown.component_delays() == {
+        "fixed_transfer_delay": 2.0,
+        "per_passenger_transfer_delay": 2.0,
+    }
+    assert breakdown.source_classes() == ("config_or_parameter_source",)
+
+    print("PASS: transfer delay breakdown preserves scalar total")
+
+
+def test_custom_transfer_delay_components_are_auditable():
+    """Named transfer components should expose source classes and totals."""
+
+    components = (
+        TransferDelayComponent(
+            "walking",
+            base_min=3.0,
+            source_class="station-layout-review",
+        ),
+        TransferDelayComponent(
+            "crowding",
+            per_passenger_min=0.1,
+            source_class="sensitivity-only",
+        ),
+    )
+    breakdown = compute_transfer_delay_breakdown(10, components=components)
+
+    assert_close(breakdown.delay_min, 4.0, label="custom breakdown total")
+    assert breakdown.component_delays() == {"walking": 3.0, "crowding": 1.0}
+    assert breakdown.source_classes() == (
+        "sensitivity-only",
+        "station-layout-review",
+    )
+
+    print("PASS: custom transfer delay components are auditable")
+
+
 def test_transfer_delay_rejects_negative_inputs():
     """Negative delay inputs should fail fast."""
     for passenger_count in (-1, float("nan")):
@@ -61,6 +109,20 @@ def test_transfer_delay_rejects_negative_inputs():
         pass
     else:
         raise AssertionError("negative per_passenger_min should raise ValueError")
+
+    try:
+        TransferDelayComponent("", base_min=0.0)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("empty component_id should raise ValueError")
+
+    try:
+        default_transfer_delay_components(base_min=-1.0)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("negative component base should raise ValueError")
 
     print("PASS: transfer delay validation rejects negative inputs")
 
@@ -118,6 +180,8 @@ def test_transfer_batch_releases_passengers_after_delay():
 
 if __name__ == "__main__":
     test_transfer_delay_supports_fixed_and_per_passenger_terms()
+    test_transfer_delay_breakdown_preserves_scalar_total()
+    test_custom_transfer_delay_components_are_auditable()
     test_transfer_delay_rejects_negative_inputs()
     test_wait_for_transfer_advances_simpy_time_by_delay()
     test_transfer_batch_releases_passengers_after_delay()

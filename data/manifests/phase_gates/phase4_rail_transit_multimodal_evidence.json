@@ -1,0 +1,101 @@
+{
+  "artifact_hashes": {
+    "data/parameters/rail_evidence_review_manifest.json": "sha256:611f6891f777379b21802978855835619bb295b524246741c2b29acf729ab986",
+    "data/parameters/rail_evidence_review_packet.csv": "sha256:92dc4559a0c02b0e3e9005a0ac13c18680f9a65b6d9cf2da77ec62b32b731e89",
+    "data/parameters/rail_service_evidence.csv": "sha256:089481673b522957dfbe74e9e854b04a1becc0a02a1bf72ef398231fefa10650",
+    "data/parameters/rail_station_bindings.csv": "sha256:ef430ef0c5127d27452a63f9d2e9c1141f93736c4e9f1d3bdc063d6d86f63863",
+    "data/rail/rail_bounded_treatment_audit.json": "sha256:8db333d808130cc3f24086e0a80cdd55f0892ad2a76a501aed4f61055bd45f77",
+    "data/rail/rail_transit_stress_profile_manifest.json": "sha256:badbf1d5dc62d041845f82265f75a0fc89d9b0f71624e3ed652f340d48bec599",
+    "data/rail/rail_transit_stress_profile_packet.csv": "sha256:43408170e5b046b58f1147fcd571ad77c9be96bc54139e8a83cc10bfe13b140d",
+    "docs/recovery/agent_ledgers/phase4_transfer_evidence_component_packet_20260608.md": "sha256:a8e5b06936094ba91c8556bc094c978c7b724e8dd6b60f0863e0c7b9d04c7593",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md": "sha256:bc07bb0e869414b664ebc1861bd8062e78e23996345cbd75afa26d9b993cadbc",
+    "docs/recovery/phase4_rail_gtfs_validation_guard_results_20260602.md": "sha256:7e451d27287687c9028ed1d9cf17a8011d0780132268b746971433d2b4de9a66",
+    "plan.md": "sha256:4d34b9e6ee544250d002c707f318de5f82cade113b658e63f00420d63b772900",
+    "tests/test_realworld_phase_gate_ledger.py": "sha256:eafad7e7a66a2e7e2b23dd73563896a468d150c05f13a2a6e056a69b2c09b89a",
+    "tests/test_realworld_rail_bounded_treatment_audit.py": "sha256:c5870cfe212dcb7ddf1d62c7419ccaf50e280d0255e5cfd50a9df9a945039f56",
+    "tests/test_realworld_rail_evidence.py": "sha256:ce32ab1233134e0fecb5aac974b7062623c8230c5c25a8c2e6bdda339855532e",
+    "tests/test_realworld_rail_gtfs.py": "sha256:a6fe00ec10a91faaa5c62cbde99352fb6df05694c44e8c48aa52a7d22a1b7596",
+    "tests/test_realworld_rail_station_binding.py": "sha256:e339f474182908caef1f6f117ea624e23615ff06cace489d91dc1ea91407a68c",
+    "tests/test_realworld_rail_timetable_static.py": "sha256:c29f500890af05dd14cc3a624ffeabb97436796054e0183bb32ab94d7956ecab"
+  },
+  "can_mark_complete": false,
+  "claim_boundary": "Phase-gate ledger control only; generated templates do not close phases, approve final-study gates, validate real-world accuracy, or authorize operational routing.",
+  "command_results": [
+    {
+      "command": ".\\.venv\\Scripts\\python tests\\test_realworld_phase_gate_ledger.py",
+      "exit_code": 0,
+      "status": "passed_current_session"
+    },
+    {
+      "command": "commands listed in docs/recovery/phase4_rail_gtfs_validation_guard_results_20260602.md",
+      "exit_code": 0,
+      "status": "documented_previous_pass"
+    }
+  ],
+  "decision_authority": "reviewer:gpt-5.5-xhigh-readiness-evidence-and-main-thread-audit:2026-06-08",
+  "dependency_control": {
+    "dependency_status": "partially_satisfied_for_bounded_review_only",
+    "parallelism_mode": "main-thread-integration-with-parallel-read-only-gpt-5.5-xhigh-scouts",
+    "synthesis_barrier": "passed_for_ready_for_review_not_closure",
+    "write_locks": [
+      "data/manifests/phase_gates/phase4_rail_transit_multimodal_evidence.json",
+      "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+    ]
+  },
+  "final_study_ready": false,
+  "findings": [
+    "Rail station binding and rail/transit review artifacts exist for bounded review.",
+    "Rail bounded-treatment audit has mismatch_count=0 but is consistency support only.",
+    "Ready for review as rail/transit evidence support only; not operational timetable authority."
+  ],
+  "gate_decision": "ready_for_review",
+  "generated_at": "2026-06-08T02:38:55+00:00",
+  "generated_outputs": [
+    "data/parameters/rail_station_bindings.csv",
+    "data/parameters/rail_service_evidence.csv",
+    "data/parameters/rail_evidence_review_packet.csv",
+    "data/rail/rail_transit_stress_profile_packet.csv",
+    "data/rail/rail_bounded_treatment_audit.json",
+    "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md"
+  ],
+  "objective": "Bind rail, station, timetable, transfer, and multimodal evidence without overstating operational timetable authority.",
+  "phase_id": "phase4_rail_transit_multimodal_evidence",
+  "prerequisites": [
+    "phase1_region_scenario_demand_registry closed"
+  ],
+  "remaining_blockers": [
+    "Phase1 is not closed.",
+    "Reviewed GTFS/timetable/shortest-path, capacity, availability, and rail source-decision records remain missing or blocked."
+  ],
+  "reviewer_evidence": {
+    "common_ledger": "docs/recovery/agent_ledgers/phase_gate_reviewer_model_promotion_20260608.md",
+    "model_setting": "GPT-5.5 xhigh per current plan.md reviewer workflow",
+    "review_scope": "read-only readiness review; not gate approval"
+  },
+  "schema_version": 1,
+  "self_refine": {
+    "notes": "Main thread re-read plan.md and phase evidence, integrated GPT-5.5 xhigh read-only scout findings, and kept can_mark_complete=false/final_study_ready=false.",
+    "performed": true,
+    "status": "reviewed_bounded_promotion"
+  },
+  "source_inputs": [
+    "plan.md",
+    "data/parameters/rail_evidence_review_manifest.json",
+    "data/rail/rail_bounded_treatment_audit.json",
+    "data/rail/rail_transit_stress_profile_manifest.json",
+    "docs/recovery/phase4_rail_gtfs_validation_guard_results_20260602.md",
+    "docs/recovery/agent_ledgers/phase4_transfer_evidence_component_packet_20260608.md"
+  ],
+  "status": "ready_for_review",
+  "sub_agents": [
+    "gpt-5.5-xhigh-readiness-scout:019ea504-6aa7-7c80-b387-faca606d3424:phase1-4"
+  ],
+  "tests": [
+    "tests/test_realworld_phase_gate_ledger.py",
+    "tests/test_realworld_rail_evidence.py",
+    "tests/test_realworld_rail_station_binding.py",
+    "tests/test_realworld_rail_gtfs.py",
+    "tests/test_realworld_rail_timetable_static.py",
+    "tests/test_realworld_rail_bounded_treatment_audit.py"
+  ]
+}

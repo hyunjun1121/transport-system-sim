@@ -1,9 +1,9 @@
-"""Validation strategy-readiness packet generation.
+"""Validation strategy review packet generation.
 
 The validation review packet summarizes internal checks, fallback benchmarks,
 optional OSRM snapshots, accessibility diagnostics, route-level road evidence,
 summary scope, and the missing validation acceptance record. This module turns
-those rows into concrete pre-review readiness statuses without accepting a
+those rows into concrete pre-review status rows without accepting a
 benchmark strategy or treating plausibility checks as ground truth.
 """
 
@@ -31,9 +31,9 @@ DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH = (
     PROJECT_ROOT / "docs" / "validation_strategy_readiness_packet.md"
 )
 VALIDATION_STRATEGY_READINESS_SCOPE = (
-    "Validation strategy-readiness packet only; not validation acceptance, "
+    "Validation strategy review packet only; not validation acceptance, "
     "not benchmark ground truth, not calibrated traffic validation, not "
-    "operational routing evidence, and not publication-readiness approval."
+    "operational routing evidence, and not publication approval."
 )
 VALIDATION_STRATEGY_READINESS_COLUMNS: tuple[str, ...] = (
     "category_id",
@@ -58,7 +58,7 @@ def build_validation_strategy_readiness_rows(
     review_rows: Sequence[Mapping[str, str]] | None = None,
     review_packet_path: str | Path = DEFAULT_VALIDATION_REVIEW_PACKET_PATH,
 ) -> list[dict[str, str]]:
-    """Return strategy-readiness rows for validation review categories."""
+    """Return strategy review rows for validation review categories."""
 
     rows = (
         list(review_rows)
@@ -76,7 +76,7 @@ def write_validation_strategy_readiness_packet(
     doc_path: str | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH,
     review_packet_path: str | Path = DEFAULT_VALIDATION_REVIEW_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Write validation strategy-readiness CSV, manifest, and Markdown."""
+    """Write validation strategy review CSV, manifest, and Markdown."""
 
     output = Path(output_path)
     manifest = Path(manifest_path)
@@ -125,7 +125,7 @@ def build_validation_strategy_readiness_manifest(
     doc_path: str | Path = DEFAULT_VALIDATION_STRATEGY_READINESS_DOC_PATH,
     review_packet_path: str | Path = DEFAULT_VALIDATION_REVIEW_PACKET_PATH,
 ) -> dict[str, Any]:
-    """Return a conservative manifest for validation readiness rows."""
+    """Return a conservative manifest for validation strategy review rows."""
 
     status_counts = _counts(row.get("readiness_status", "") for row in rows)
     blocking_count = sum(
@@ -144,6 +144,38 @@ def build_validation_strategy_readiness_manifest(
         == 0
         for row in rows
     )
+    raw_payload_mismatch = any(
+        row.get("category_id") == "optional_osrm_route_benchmarks"
+        and (
+            _parse_counts(str(row.get("coverage_counts", ""))).get(
+                "snapshot_manifest_raw_binding_mismatches",
+                0,
+            )
+            > 0
+            or _parse_counts(str(row.get("coverage_counts", ""))).get(
+                "snapshot_manifest_raw_missing_rows",
+                0,
+            )
+            > 0
+        )
+        for row in rows
+    )
+    osrm_snap_review = any(
+        row.get("category_id") == "optional_osrm_route_benchmarks"
+        and (
+            _parse_counts(str(row.get("coverage_counts", ""))).get(
+                "snapshot_snap_status_warn",
+                0,
+            )
+            > 0
+            or _parse_counts(str(row.get("coverage_counts", ""))).get(
+                "snapshot_snap_status_fail",
+                0,
+            )
+            > 0
+        )
+        for row in rows
+    )
     osrm_unpinned_blocked = any(
         row.get("readiness_status") == "blocked_unpinned_external_route_snapshot"
         for row in rows
@@ -159,17 +191,17 @@ def build_validation_strategy_readiness_manifest(
     review_items = [
         "review internal warning rows and fallback benchmark warning rows",
         "review accessibility-loss and route road-evidence exposure as diagnostics only",
-        "choose the final benchmark strategy only in data/manifests/validation_acceptance.json",
+        "choose the release-scope benchmark strategy only in data/manifests/validation_acceptance.json",
     ]
     if osrm_unpinned_blocked:
         review_items.insert(
             1,
-            "pin or replace unpinned external route-engine snapshots before final benchmark use",
+            "pin or replace unpinned external route-engine snapshots before release-scope benchmark use",
         )
     else:
         review_items.insert(
             1,
-            "review cached external route-engine snapshots before final benchmark use",
+            "review cached external route-engine snapshots before release-scope benchmark use",
         )
     remaining_blockers = []
     if validation_acceptance_missing:
@@ -186,6 +218,15 @@ def build_validation_strategy_readiness_manifest(
         remaining_blockers.insert(
             2,
             "retained raw OSRM response payloads are absent from the current snapshot manifest",
+        )
+    if raw_payload_mismatch:
+        remaining_blockers.append(
+            "OSRM benchmark CSV rows do not match retained raw response payloads"
+        )
+    if osrm_snap_review:
+        review_items.insert(
+            2,
+            "review OSRM waypoint snap distances before route-comparison wording is used",
         )
     if weak_route_exposure:
         remaining_blockers.append(
@@ -223,10 +264,10 @@ def build_validation_strategy_readiness_markdown(
     *,
     rows: Sequence[Mapping[str, str]],
 ) -> str:
-    """Return a human-readable validation strategy-readiness packet."""
+    """Return a human-readable validation strategy review packet."""
 
     lines = [
-        "# Validation Strategy Readiness Packet",
+        "# Benchmark Strategy Review Packet",
         "",
         str(manifest.get("claim_boundary", VALIDATION_STRATEGY_READINESS_SCOPE)),
         "",
@@ -239,7 +280,7 @@ def build_validation_strategy_readiness_markdown(
         f"- Human-review requests: {manifest.get('human_review_request_count', 0)}",
         f"- Status counts: `{manifest.get('readiness_status_counts', {})}`",
         "",
-        "## Readiness Rows",
+        "## Review Rows",
         "",
         "| Category | Status | Artifact | Required Action |",
         "| --- | --- | --- | --- |",
@@ -260,9 +301,9 @@ def build_validation_strategy_readiness_markdown(
             "## Required Reviewer Actions",
             "",
             "- Decide whether fallback and optional external benchmarks are retained, replaced, or excluded.",
-            "- Keep validation claims at plausibility and decision-support scope until formal acceptance exists.",
+            "- Keep benchmark and plausibility claims at decision-support scope until a formal decision record exists.",
             "- Do not treat OSRM, fallback routes, or internal checks as ground truth.",
-            "- Do not create formal acceptance artifacts from this readiness packet alone.",
+            "- Do not create formal decision artifacts from this review packet alone.",
             "",
         ]
     )
@@ -300,7 +341,7 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
         return (
             "blocked_missing_validation_acceptance_record",
             "data/manifests/validation_acceptance.json is absent",
-            "record final benchmark strategy only after reviewer decision",
+            "record release-scope benchmark strategy only after reviewer decision",
         )
     if not artifact_present:
         return (
@@ -340,12 +381,17 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
                 "decide whether fallback benchmarks remain placeholders or bounded checks",
             )
         return (
-            "needs_human_review_fallback_benchmark_scope",
-            "",
-            "review fallback benchmark scope before final validation claims",
+                "needs_human_review_fallback_benchmark_scope",
+                "",
+                "review fallback benchmark scope before release-scope validation claims",
         )
     if category_id == "optional_osrm_route_benchmarks":
         raw_response_file_count = coverage.get("snapshot_manifest_raw_response_files", 0)
+        raw_binding_mismatch_count = coverage.get(
+            "snapshot_manifest_raw_binding_mismatches",
+            0,
+        )
+        raw_missing_count = coverage.get("snapshot_manifest_raw_missing_rows", 0)
         if coverage.get("snapshot_manifest_unpinned_rows", 0) > 0:
             if raw_response_file_count > 0:
                 action = (
@@ -361,11 +407,26 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
                 "optional OSRM snapshot has unpinned live rows",
                 action,
             )
+        if raw_binding_mismatch_count > 0 or raw_missing_count > 0:
+            return (
+                "blocked_external_route_raw_payload_mismatch",
+                "optional OSRM CSV rows are missing or mismatched against retained raw payloads",
+                "regenerate or repair the OSRM CSV/raw payload snapshot before strategy review",
+            )
         if raw_response_file_count == 0:
             return (
                 "blocked_missing_external_route_raw_payloads",
                 "optional OSRM snapshot has no retained raw response payloads",
                 "retain raw payloads or document why the external snapshot is excluded from acceptance",
+            )
+        if (
+            coverage.get("snapshot_snap_status_fail", 0) > 0
+            or coverage.get("snapshot_snap_status_warn", 0) > 0
+        ):
+            return (
+                "needs_human_review_external_route_snap_distances",
+                "",
+                "review OSRM waypoint snap distances before relying on route-comparison wording",
             )
         return (
             "needs_human_review_external_route_snapshot",
@@ -388,26 +449,26 @@ def _classify(row: Mapping[str, str]) -> tuple[str, str, str]:
         if coverage.get("weak_for_final_claim_true", 0) > 0:
             return (
                 "blocked_weak_route_road_evidence_exposure",
-                "route-level road evidence exposure contains weak final-claim rows",
+                "route-level road evidence exposure contains weak release-scope claim rows",
                 "close or bound road evidence before validation claims use route exposure",
             )
-        return (
-            "needs_human_review_route_road_evidence_exposure",
-            "",
-            "review route-level road evidence exposure against accepted road inputs",
-        )
+            return (
+                "needs_human_review_route_road_evidence_exposure",
+                "",
+                "review route-level road evidence exposure against selected road inputs",
+            )
     if category_id == "validation_summary_scope":
         if "scaffold" in review_status or coverage.get("scaffold_or_sanity_scope", 0):
             return (
                 "needs_human_review_validation_summary_scope",
                 "",
-                "keep validation summary in scaffold scope until acceptance chooses strategy",
+                "keep validation summary in scaffold scope until a formal decision record chooses strategy",
             )
-        return (
-            "needs_human_review_validation_summary_claims",
-            "",
-            "review validation summary wording against accepted benchmark strategy",
-        )
+            return (
+                "needs_human_review_validation_summary_claims",
+                "",
+                "review validation summary wording against selected benchmark strategy",
+            )
     return (
         "blocked_unclassified_validation_category",
         f"unrecognized category_id {category_id!r}",

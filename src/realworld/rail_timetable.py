@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
-import hashlib
 from pathlib import Path
 from statistics import median
 from typing import Iterable, Mapping, Sequence
@@ -18,6 +17,10 @@ from src.realworld.rail_evidence import (
     OPTIONAL_COLUMNS,
     REQUIRED_COLUMNS,
     RailServiceEvidence,
+)
+from src.realworld.source_artifacts import (
+    file_sha256 as _source_file_sha256,
+    validate_loaded_source_matches_metadata,
 )
 from src.realworld.rail_station_binding import RailStationBinding
 
@@ -49,6 +52,23 @@ class RailTimetableEvent:
     event_type: str
     direction: str
     service_day: str
+
+
+@dataclass(frozen=True)
+class CachedTimetableEvents(Sequence[RailTimetableEvent]):
+    """Timetable events with retained source path provenance."""
+
+    source_path: str
+    events: tuple[RailTimetableEvent, ...]
+
+    def __len__(self) -> int:
+        return len(self.events)
+
+    def __getitem__(self, index):
+        return self.events[index]
+
+    def __iter__(self):
+        return iter(self.events)
 
 
 @dataclass(frozen=True)
@@ -91,7 +111,7 @@ class RailHeadwayEvidenceConfig:
     source_artifact_sha256: str = ""
 
 
-def load_cached_timetable_events(path: str | Path) -> list[RailTimetableEvent]:
+def load_cached_timetable_events(path: str | Path) -> CachedTimetableEvents:
     """Load and validate a cached station-event timetable CSV."""
 
     timetable_path = Path(path)
@@ -107,7 +127,7 @@ def load_cached_timetable_events(path: str | Path) -> list[RailTimetableEvent]:
             events.append(_event_from_row(row, timetable_path, reader.line_num))
     if not events:
         raise ValueError(f"{timetable_path} must contain at least one timetable event")
-    return events
+    return CachedTimetableEvents(source_path=str(timetable_path), events=tuple(events))
 
 
 def derive_rail_service_evidence_from_timetable(
@@ -127,6 +147,11 @@ def derive_rail_service_evidence_from_timetable(
             "source_artifact_path and source_artifact_sha256 are required for "
             "cached timetable-derived rail evidence"
         )
+    _validate_loaded_timetable_source(
+        events,
+        config.source_artifact_path,
+        expected_sha256=config.source_artifact_sha256,
+    )
 
     filtered = _filter_events(
         events,
@@ -225,6 +250,11 @@ def derive_rail_headway_evidence_from_timetable(
             "source_artifact_path and source_artifact_sha256 are required for "
             "cached timetable-derived headway evidence"
         )
+    _validate_loaded_timetable_source(
+        events,
+        config.source_artifact_path,
+        expected_sha256=config.source_artifact_sha256,
+    )
 
     filtered = _filter_events(
         events,
@@ -347,11 +377,7 @@ def parse_service_time_min(value: str) -> float:
 def file_sha256(path: str | Path) -> str:
     """Return the SHA256 digest for a cached source artifact."""
 
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return _source_file_sha256(path)
 
 
 def _validate_columns(fieldnames: Sequence[str] | None, path: Path) -> None:
@@ -360,6 +386,27 @@ def _validate_columns(fieldnames: Sequence[str] | None, path: Path) -> None:
     missing = [column for column in REQUIRED_TIMETABLE_COLUMNS if column not in fieldnames]
     if missing:
         raise ValueError(f"{path} missing required columns: {', '.join(missing)}")
+
+
+def _validate_loaded_timetable_source(
+    events: Sequence[RailTimetableEvent],
+    source_artifact_path: str,
+    *,
+    expected_sha256: str,
+) -> None:
+    source_path = getattr(events, "source_path", "")
+    if source_path:
+        validate_loaded_source_matches_metadata(
+            source_path,
+            source_artifact_path,
+            expected_sha256=expected_sha256,
+        )
+        return
+    validate_loaded_source_matches_metadata(
+        source_artifact_path,
+        source_artifact_path,
+        expected_sha256=expected_sha256,
+    )
 
 
 def _event_from_row(
@@ -490,6 +537,8 @@ def _record_to_row(record: RailServiceEvidence) -> dict[str, object]:
         "derived_fields": record.derived_fields,
         "source_artifact_path": record.source_artifact_path,
         "source_artifact_sha256": record.source_artifact_sha256,
+        "gtfs_validator_report_path": record.gtfs_validator_report_path,
+        "gtfs_validator_report_sha256": record.gtfs_validator_report_sha256,
     }
 
 
@@ -520,6 +569,7 @@ __all__ = [
     "REQUIRED_TIMETABLE_COLUMNS",
     "RailEvidenceDerivationConfig",
     "RailHeadwayEvidenceConfig",
+    "CachedTimetableEvents",
     "RailTimetableEvent",
     "derive_rail_headway_evidence_from_timetable",
     "derive_rail_service_evidence_from_timetable",

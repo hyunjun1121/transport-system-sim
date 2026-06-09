@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "claim_boundary": "This package validates formal acceptance artifacts supplied by reviewers. It does not create approvals, invent evidence, or convert scaffold outputs into calibrated real-world findings.",
+  "claim_boundary": "This package checks reviewer-supplied formal decision artifacts. It does not create approvals, invent evidence, or convert scaffold outputs into field-fit findings.",
   "gate_count": 12,
   "ready_gate_count": 0,
   "blocked_gate_count": 12,
@@ -11,7 +11,7 @@
   "gates": [
     {
       "gate_id": "pilot_region_accepted",
-      "label": "Pilot Region Acceptance",
+      "label": "Pilot Region Decision",
       "path": "data/manifests/pilot_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -30,7 +30,7 @@
     },
     {
       "gate_id": "graph_scale_strategy",
-      "label": "Graph-Scale Acceptance",
+      "label": "Graph-Scale Decision",
       "path": "data/manifests/graph_scale_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -49,7 +49,7 @@
     },
     {
       "gate_id": "data_provenance",
-      "label": "Source/License/Provenance Acceptance",
+      "label": "Source/License/Provenance Decision",
       "path": "data/manifests/provenance_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -68,7 +68,7 @@
     },
     {
       "gate_id": "parameter_acceptance",
-      "label": "Weak-Parameter Acceptance",
+      "label": "Weak-Parameter Decision",
       "path": "data/parameters/parameter_acceptance.csv",
       "record_present": false,
       "ready": false,
@@ -92,7 +92,7 @@
     },
     {
       "gate_id": "road_class_overrides",
-      "label": "Road-Class Override Acceptance",
+      "label": "Road-Class Override Decision",
       "path": "data/parameters/road_class_overrides.csv",
       "record_present": false,
       "ready": false,
@@ -136,6 +136,18 @@
           "draft_source_class_counts": {
             "expert assumption": 10
           },
+          "draft_field_source_class_counts": {
+            "speed_kph": {
+              "expert assumption": 10
+            },
+            "capacity_veh_per_hr": {
+              "expert assumption": 10
+            },
+            "base_p_fail": {
+              "sensitivity-only": 10
+            }
+          },
+          "draft_weak_field_count": 30,
           "draft_claim_boundary": "The draft override table is a reviewer worksheet populated with current mapper defaults. It is not reviewed road evidence and does not close publication-readiness gates.",
           "claim_boundary": "Road-class override evidence is absent. The mapper still uses built-in fallback speed, capacity, and base-disruption proxies.",
           "remaining_blockers": [
@@ -160,7 +172,7 @@
     },
     {
       "gate_id": "validation_package",
-      "label": "Validation Acceptance",
+      "label": "Benchmark Decision",
       "path": "data/manifests/validation_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -179,7 +191,7 @@
     },
     {
       "gate_id": "sensitivity_analysis",
-      "label": "Sensitivity Acceptance",
+      "label": "Sensitivity Analysis Decision",
       "path": "data/manifests/sensitivity_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -198,7 +210,7 @@
     },
     {
       "gate_id": "full_experiment_output",
-      "label": "Experiment Acceptance",
+      "label": "Experiment Output Decision",
       "path": "data/manifests/experiment_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -217,7 +229,7 @@
     },
     {
       "gate_id": "manuscript_report_alignment",
-      "label": "Manuscript/Report Acceptance",
+      "label": "Manuscript/Report Alignment Decision",
       "path": "data/manifests/manuscript_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -236,7 +248,7 @@
     },
     {
       "gate_id": "reproducibility",
-      "label": "Reproducibility Acceptance",
+      "label": "Reproducibility Decision",
       "path": "data/manifests/reproducibility_acceptance.json",
       "record_present": false,
       "ready": false,
@@ -255,7 +267,7 @@
     },
     {
       "gate_id": "final_audit_document",
-      "label": "Final Study Audit Document",
+      "label": "Study-Closeout Audit Document",
       "path": "docs/final_study_audit.md",
       "record_present": false,
       "ready": false,
@@ -274,7 +286,7 @@
     },
     {
       "gate_id": "final_audit",
-      "label": "Final Audit Acceptance",
+      "label": "Closeout Audit Decision",
       "path": "data/manifests/final_audit_acceptance.json",
       "record_present": false,
       "ready": false,

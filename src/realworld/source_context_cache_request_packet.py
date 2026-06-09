@@ -121,7 +121,7 @@ _TARGETS_BY_SOURCE_ID: dict[str, tuple[tuple[str, ...], tuple[str, ...], str]] =
         ),
         (
             "cache a reviewed operator capacity extract or explicitly retain "
-            "rail capacity as sensitivity-only within the final claim boundary"
+            "rail capacity as sensitivity-only within the release-scope claim boundary"
         ),
     ),
 }
@@ -256,7 +256,7 @@ def build_source_context_cache_request_manifest(
             "doc": _display_path(doc_path),
         },
         "review_items": [
-            "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from final claims",
+            "for each row, either cache the reviewed source extract with terms/attribution review, retain it as sensitivity/context-only evidence, or exclude the source from release-scope claims",
             "retain raw API/page responses when a source is cached for reproducibility",
             "preserve SHA256 or equivalent digest evidence before deriving rail-service rows",
             "do not create data/manifests/provenance_acceptance.json until retained sources are reviewed",
@@ -309,7 +309,7 @@ def build_source_context_cache_request_markdown(
             "",
             "## Required Reviewer Actions",
             "",
-            "- Cache reviewed target source artifacts, retain each context-source row as sensitivity/context-only evidence, or explicitly exclude it from final claims.",
+            "- Cache reviewed target source artifacts, retain each context-source row as sensitivity/context-only evidence, or explicitly exclude it from release-scope claims.",
             "- Review terms, attribution, extraction date, retained raw response, and reproducibility before using a cached source.",
             "- Treat helper scripts as derivation paths only; they do not prove source suitability or close acceptance gates.",
             "- Create `data/manifests/provenance_acceptance.json` only after source-backed review.",
@@ -329,7 +329,7 @@ def _request_row(
         (
             ("reviewer_defined_cached_source_extract",),
             (),
-            "cache a reviewed source extract, retain this source as sensitivity/context-only, or exclude this source from final claims",
+            "cache a reviewed source extract, retain this source as sensitivity/context-only, or exclude this source from release-scope claims",
         ),
     )
     target_present = _target_artifacts_present(source_id, targets)
@@ -400,7 +400,7 @@ def _required_reviewer_decision(
         return (
             "cache the target source artifact with terms/attribution review, "
             "retain this source as sensitivity/context-only, or exclude this "
-            "source from final-study claims"
+            "source from release-scope claims"
         )
     return str(row.get("required_reviewer_decision", ""))
 
@@ -413,7 +413,7 @@ def _publication_use_status(
     source_id = str(row.get("source_id", ""))
     if not target_present and source_id in _TARGETS_BY_SOURCE_ID:
         return (
-            "target cache missing; cannot support final claims until cached or "
+            "target cache missing; cannot support release-scope claims until cached or "
             "retained as sensitivity/context-only or explicitly excluded"
         )
     return str(row.get("publication_use_status", ""))

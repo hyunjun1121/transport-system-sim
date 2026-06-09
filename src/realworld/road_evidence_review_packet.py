@@ -3,7 +3,7 @@
 This module consolidates cached road diagnostics, sparse OSM speed evidence,
 lane-count capacity evidence, and draft road-class override rows into one
 review worksheet. The packet supports road-input evidence review; it is not a
-calibration table, accepted override table, or operational road validation.
+calibration table, override signoff table, or operational road validation.
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ DEFAULT_ROAD_EVIDENCE_REVIEW_MANIFEST_PATH = (
     PROJECT_ROOT / "data" / "parameters" / "road_evidence_review_manifest.json"
 )
 ROAD_EVIDENCE_REVIEW_PACKET_SCOPE = (
-    "Road-input evidence review packet; not accepted road calibration, "
+    "Road-input evidence review packet; not road calibration signoff, "
     "road-class override evidence, traffic assignment validation, or "
     "operational routing evidence."
 )
@@ -162,15 +162,15 @@ def write_road_evidence_review_packet(
         "publication_ready": False,
         "claim_boundary": (
             "This packet organizes road-input evidence review by road class. "
-            "It does not create accepted road-class overrides, calibrated road "
-            "capacity, disruption probabilities, traffic assignment, or final "
-            "publication readiness."
+            "It does not create road-class override signoff, calibrated road "
+            "capacity, disruption probabilities, traffic assignment, or "
+            "release-scope publication clearance."
         ),
         "review_items": [
             "replace high-priority weak road classes with source-backed speed, capacity, and base-disruption evidence",
-            "move accepted values into data/parameters/road_class_overrides.csv only after review",
+            "move reviewer-selected values into data/parameters/road_class_overrides.csv only after review",
             "apply reviewed overrides in the pilot graph adapter before making road-calibration claims",
-            "rerun road, publication-readiness, and final-study-readiness audits after road evidence changes",
+            "rerun road, publication-readiness, and study-closeout audits after road evidence changes",
         ],
     }
     with manifest.open("w", encoding="utf-8") as handle:
@@ -291,7 +291,7 @@ def _notes(
         return "Current road-class evidence is structurally strong under packet rules."
     return (
         "Use this row to prepare reviewed road_class_overrides.csv values; "
-        "do not cite it as accepted calibration."
+        "do not cite it as calibration signoff."
     )
 
 

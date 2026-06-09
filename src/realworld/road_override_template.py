@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from src.realworld.attributes import HIGHWAY_DEFAULTS
-from src.realworld.road_overrides import REQUIRED_COLUMNS
+from src.realworld.road_overrides import OPTIONAL_FIELD_SOURCE_COLUMNS, REQUIRED_COLUMNS
 
 
 TEMPLATE_EXTRA_COLUMNS: tuple[str, ...] = (
@@ -20,7 +20,9 @@ TEMPLATE_EXTRA_COLUMNS: tuple[str, ...] = (
     "base_disruption_explicit_rate",
 )
 
-TEMPLATE_COLUMNS: tuple[str, ...] = REQUIRED_COLUMNS + TEMPLATE_EXTRA_COLUMNS
+TEMPLATE_COLUMNS: tuple[str, ...] = (
+    REQUIRED_COLUMNS + OPTIONAL_FIELD_SOURCE_COLUMNS + TEMPLATE_EXTRA_COLUMNS
+)
 
 
 def build_road_class_override_template_rows(
@@ -102,6 +104,15 @@ def _template_row(row: Mapping[str, Any]) -> dict[str, str]:
         "source_class": "expert assumption",
         "source_name": "draft mapper default pending road-evidence review",
         "source_url_or_citation": "src/realworld/attributes.py",
+        "speed_source_class": "expert assumption",
+        "speed_source_name": "draft mapper speed default pending road-evidence review",
+        "speed_source_url_or_citation": "src/realworld/attributes.py",
+        "capacity_source_class": "expert assumption",
+        "capacity_source_name": "draft mapper capacity default pending road-evidence review",
+        "capacity_source_url_or_citation": "src/realworld/attributes.py",
+        "base_p_fail_source_class": "sensitivity-only",
+        "base_p_fail_source_name": "draft mapper base-disruption scenario proxy",
+        "base_p_fail_source_url_or_citation": "src/realworld/attributes.py",
         "notes": (
             "DRAFT ONLY: replace with reviewed speed, capacity, and "
             "base-disruption evidence before using in final claims."

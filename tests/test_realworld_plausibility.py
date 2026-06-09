@@ -168,24 +168,24 @@ def test_external_benchmark_comparison_can_pass_warn_and_fail() -> None:
         benchmark_id="synthetic_benchmark",
         route=route,
         benchmark_distance_m=1_000.0,
-        benchmark_duration_min=3.0,
+        benchmark_duration_min=1.8,
         method="cached_osrm_fixture",
         source_class="cached_external_router_fixture",
         reference_source="unit_test_fixture",
     )
 
     pass_record = evaluate_external_route_benchmarks(
-        synthetic_route_graph(length_m=1_200.0),
+        synthetic_route_graph(length_m=1_050.0),
         (benchmark,),
         region_id="synthetic",
     )[0]
     warn_record = evaluate_external_route_benchmarks(
-        synthetic_route_graph(length_m=2_000.0),
+        synthetic_route_graph(length_m=1_200.0),
         (benchmark,),
         region_id="synthetic",
     )[0]
     fail_record = evaluate_external_route_benchmarks(
-        synthetic_route_graph(length_m=3_000.0),
+        synthetic_route_graph(length_m=1_300.0),
         (benchmark,),
         region_id="synthetic",
     )[0]
@@ -274,14 +274,14 @@ def test_shipped_external_benchmark_csv_matches_current_scaffold() -> None:
     assert reader.fieldnames == list(BENCHMARK_CSV_FIELDS)
     assert rows == expected_rows
     assert len(rows) == 3
-    assert {row["status"] for row in rows} == {PASS, WARN}
+    assert {row["status"] for row in rows} == {PASS, WARN, FAIL}
     assert {row["claim_scope"] for row in rows} == {BENCHMARK_CLAIM_SCOPE}
     assert {row["source_class"] for row in rows} == {
         DEFAULT_FALLBACK_BENCHMARK_SOURCE_CLASS
     }
 
     counts = benchmark_status_counts(current_pilot_benchmark_records())
-    assert counts == {PASS: 2, WARN: 1, FAIL: 0}
+    assert counts == {PASS: 1, WARN: 1, FAIL: 1}
 
     print("PASS: shipped external benchmark CSV matches current pilot scaffold")
 

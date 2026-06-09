@@ -26,7 +26,7 @@ acceptance, or operational routing evidence.
 
 The current worksheet has 76 rows across 18 route candidates. It covers both
 the current reduced corridor and the multi-corridor candidate graph-scale
-tables. Every exposure row remains weak for final-study claims because current
+tables. Every exposure row remains weak for release-scope claims because current
 road speed, capacity, disruption, and connector evidence is still review-stage.
 
 ## Interpretation
@@ -36,9 +36,9 @@ Use this worksheet to identify which weak road classes dominate the canonical
 complements the road-class review packet by making the route-level consequence
 of weak evidence visible.
 
-Final road-input claims still require reviewed road-class evidence, accepted
-override application when needed, validation-package acceptance, and
-graph-scale acceptance.
+Release-scope road-input claims still require reviewed road-class evidence,
+reviewer-decided override application when needed, benchmark decision records,
+and graph-scale decision records.
 
 ## Regeneration
 

@@ -75,7 +75,7 @@ def test_write_formal_acceptance_package_outputs_non_ready_audit() -> None:
 
     assert summary["can_mark_complete"] is False
     assert loaded["can_mark_complete"] is False
-    assert "Formal Acceptance Package Audit" in text
+    assert "Formal Decision Package Intake Audit" in text
     assert "does not create approvals" in text
     assert "Evidence Path Summary" in text
     assert "Can mark complete: `false`" in text

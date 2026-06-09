@@ -97,7 +97,7 @@ def test_validation_benchmark_decision_writer_outputs_artifacts() -> None:
     assert written_manifest["inputs"]["road_evidence_priority_manifest"] == (
         "data/road/road_evidence_priority_manifest.json"
     )
-    assert "Validation Benchmark Decision Packet" in doc_text
+    assert "Benchmark Strategy Decision Packet" in doc_text
 
     print("PASS: validation benchmark decision writer emits artifacts")
 

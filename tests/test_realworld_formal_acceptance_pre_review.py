@@ -74,8 +74,11 @@ def test_write_pre_review_outputs_draft_only_artifacts() -> None:
         assert loaded["can_mark_complete"] is False
         assert loaded["must_not_be_used_as_final_acceptance"] is True
         assert len(list(out_dir.glob("*_pre_review.json"))) == 12
-        assert "Formal Acceptance Pre-Review" in text
+        assert "Formal Gate Pre-Review" in text
         assert "Draft pre-review recommendations only" in text
+        assert "source-backed human approval exists" not in text
+        assert "formal approval if copied into a final acceptance path" not in text
+        assert "Blocked non-approval item:" in text
 
         compact = summarize_formal_acceptance_pre_review(manifest_path)
         assert compact["manifest_present"] is True

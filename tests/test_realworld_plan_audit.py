@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import csv
 import importlib.util
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -186,23 +188,53 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "rail_evidence_review_packet" and row["rows"] == 10
+        row["label"] == "rail_evidence_review_packet" and row["rows"] == 12
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "rail_timing_source_request_packet" and row["rows"] == 5
+        row["label"] == "rail_timing_source_request_packet" and row["rows"] == 6
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "rail_fetch_readiness_packet" and row["rows"] == 5
+        row["label"] == "rail_fetch_readiness_packet" and row["rows"] == 6
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "rail_evidence_priority_packet" and row["rows"] == 6
+        row["label"] == "rail_evidence_priority_packet" and row["rows"] == 7
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "rail_source_decision_packet" and row["rows"] == 5
+        row["label"] == "rail_source_decision_packet" and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "rail_source_decision_action_ledger_template"
+        and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "rail_source_decision_recommendation_packet"
+        and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "rail_transit_stress_profile_packet" and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "demand_profiles" and row["rows"] == 2
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "fleet_profiles" and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "behavior_profiles" and row["rows"] == 6
+        for row in summary["csv_checks"]
+    )
+    assert any(
+        row["label"] == "disruption_scenarios" and row["rows"] == 8
         for row in summary["csv_checks"]
     )
     assert any(
@@ -358,6 +390,32 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     assert any(
         row["label"] == "rail_source_decision_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "rail_source_decision_action_ledger_template_manifest"
+        and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "rail_source_decision_recommendation_manifest"
+        and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "rail_transit_stress_profile_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "demand_fleet_behavior_profile_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "disruption_scenarios_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "rail_bounded_treatment_audit" and row["ok"]
         for row in summary["json_checks"]
     )
     assert any(
@@ -538,6 +596,14 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["json_checks"]
     )
     assert any(
+        row["label"] == "phase_gate_ledger_schema" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
+        row["label"] == "phase_gate_ledger_audit_manifest" and row["ok"]
+        for row in summary["json_checks"]
+    )
+    assert any(
         row["label"] == "current_goal_completion_audit" and row["ok"]
         for row in summary["doc_checks"]
     )
@@ -614,6 +680,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["doc_checks"]
     )
     assert any(
+        row["path"] == "docs/rail_source_decision_action_ledger_template.md"
+        and row["ok"]
+        for row in summary["doc_checks"]
+    )
+    assert any(
         row["path"] == "docs/parameter_evidence_priority_packet.md" and row["ok"]
         for row in summary["doc_checks"]
     )
@@ -633,6 +704,14 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     )
     assert any(
         row["path"] == "docs/manuscript_report_decision_packet.md" and row["ok"]
+        for row in summary["doc_checks"]
+    )
+    assert any(
+        row["path"] == "docs/demand_fleet_behavior_profiles.md" and row["ok"]
+        for row in summary["doc_checks"]
+    )
+    assert any(
+        row["path"] == "docs/phase_gate_ledger_audit.md" and row["ok"]
         for row in summary["doc_checks"]
     )
     assert any(
@@ -675,6 +754,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         "scripts\\write_acceptance_task_assignments.py",
         "scripts\\write_formal_acceptance_evidence_matrix.py",
         "scripts\\audit_agent_review_paths.py",
+        "scripts\\write_phase_gate_ledgers.py",
     ):
         assert expected in runbook_text
     assert "not approve paper or report claims" in runbook_text
@@ -733,33 +813,14 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert "docs/current_goal_completion_audit.md" in plan_completion_text
     plan_text = (ROOT / "plan.md").read_text(encoding="utf-8")
     for expected in (
-        "scripts\\write_source_license_review_packet.py",
-        "scripts\\write_source_provenance_decision_packet.py",
-        "scripts\\write_pilot_privacy_review_packet.py",
-        "scripts\\write_full_graph_runtime_readiness_packet.py",
-        "scripts\\write_graph_scale_method_decision_packet.py",
-        "scripts\\write_osm_graph_snapshot_review_packet.py",
-        "scripts\\write_transfer_evidence_review_packet.py",
-        "scripts\\write_sensitivity_method_decision_packet.py",
-        "scripts\\write_experiment_package_review_packet.py",
-        "scripts\\write_claim_alignment_review_packet.py",
-        "scripts\\write_manuscript_report_decision_packet.py",
-        "scripts\\write_reproducibility_review_packet.py",
-        "scripts\\write_final_audit_decision_packet.py",
-        "scripts\\write_acceptance_blocker_queue.py",
-        "scripts\\write_acceptance_task_assignments.py",
-        "scripts\\write_formal_acceptance_pre_review.py",
-        "scripts\\audit_agent_review_paths.py",
-        "scripts\\audit_review_package_paths.py",
-        "scripts\\run_clean_checkout_smoke.py",
-        "scripts\\validate_formal_acceptance_package.py --fail-on-blockers",
-        "scripts\\audit_publication_readiness.py --fail-on-blockers",
-        "scripts\\audit_final_study_readiness.py --fail-on-blockers",
-        "scripts\\write_integrated_evidence_review_packet.py",
-        "scripts\\cache_ktdb_gtfs_source.py",
-        "scripts\\cache_metro9_capacity_source.py",
+        "Intent",
+        "Core Workflow",
+        "Claim Boundary",
+        "Stop Conditions",
+        "decision-support",
+        "Sub-Agent",
     ):
-        assert expected in plan_text
+        assert expected in plan_text, f"plan.md missing section: {expected}"
     assert any(
         row["path"] == "docs/validation_strategy_readiness_packet.md" and row["ok"]
         for row in summary["doc_checks"]
@@ -967,6 +1028,197 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         is False
     )
     assert summary["tracked_artifact_audit"]["can_mark_complete"] is False
+    assert summary["dirty_worktree_classification"]["manifest_present"] is True
+    assert (
+        summary["dirty_worktree_classification"]["classified_path_count"]
+        == summary["dirty_worktree_classification"]["dirty_path_count"]
+    )
+    assert (
+        summary["dirty_worktree_classification"]["current_dirty_path_count"]
+        == summary["dirty_worktree_classification"]["dirty_path_count"]
+    )
+    assert (
+        summary["dirty_worktree_classification"][
+            "coverage_matches_current_git_status"
+        ]
+        is True
+    )
+    assert summary["dirty_worktree_classification"]["unclassified_path_count"] == 0
+    assert (
+        summary["dirty_worktree_classification"]["new_generated_output_allowed"]
+        is False
+    )
+    assert summary["dirty_worktree_classification"]["can_mark_complete"] is False
+    assert summary["phase_gate_ledger_audit"]["manifest_present"] is True
+    assert summary["phase_gate_ledger_audit"]["expected_phase_count"] == 13
+    assert summary["phase_gate_ledger_audit"]["valid_ledger_count"] == 13
+    assert summary["phase_gate_ledger_audit"]["missing_phase_count"] == 0
+    assert summary["phase_gate_ledger_audit"]["invalid_ledger_count"] == 0
+    assert summary["phase_gate_ledger_audit"]["closed_phase_count"] == 0
+    assert summary["phase_gate_ledger_audit"]["current_support_present"] is True
+    assert summary["phase_gate_ledger_audit"]["phase_gate_ledgers_ready"] is False
+    assert summary["phase_gate_ledger_audit"]["can_mark_complete"] is False
+    assert summary["gpu_ml_runtime_audit"]["manifest_present"] is True
+    assert summary["gpu_ml_runtime_audit"]["log_present"] is True
+    assert summary["gpu_ml_runtime_audit"]["doc_present"] is True
+    assert (
+        summary["gpu_ml_runtime_audit"]["simulation_engine_gpu_accelerated"]
+        is False
+    )
+    assert (
+        summary["gpu_ml_runtime_audit"]["simulation_correctness_blocked"]
+        is False
+    )
+    assert summary["gpu_ml_runtime_audit"]["publication_ready"] is False
+    assert summary["gpu_ml_runtime_audit"]["final_study_ready"] is False
+    assert (
+        summary["gpu_ml_runtime_audit"]["formal_acceptance_evidence"]
+        is False
+    )
+    assert (
+        summary["gpu_ml_runtime_audit"]["requirements_path"]
+        in {"requirements.txt", "requirements-ml.txt"}
+    )
+    assert summary["gpu_ml_runtime_audit"]["requirements_status"] == "present"
+    assert summary["gpu_ml_runtime_audit"]["package_results"]
+    assert "check_gpu_ml_runtime.py" in " ".join(
+        summary["gpu_ml_runtime_audit"]["command"]
+    )
+    assert summary["claim_language_guard"]["manifest_present"] is True
+    assert summary["claim_language_guard"]["claims_approved"] is False
+    assert (
+        summary["claim_language_guard"]["formal_acceptance_created"] is False
+    )
+    assert summary["claim_language_guard"]["publication_ready"] is False
+    assert summary["claim_language_guard"]["final_study_ready"] is False
+    assert summary["claim_language_guard"]["can_mark_complete"] is False
+    assert summary["claim_language_guard"]["reserved_match_count"] >= 0
+    assert summary["claim_language_guard"]["blocking_finding_count"] >= 0
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "manifest_present"
+        ]
+        is True
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"]["row_count"]
+        == 51
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "action_batch_counts"
+        ]["quarantine_non_evidence"]
+        == 6
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "regeneration_candidate_count"
+        ]
+        == 45
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "exclusion_or_non_evidence_candidate_count"
+        ]
+        == 6
+    )
+    artifact_invalidation_action_batch_inspection = summary[
+        "artifact_invalidation_action_batch_inspection"
+    ]
+    assert (
+        artifact_invalidation_action_batch_inspection[
+            "evidence_backed_closeout_row_count"
+        ]
+        >= 0
+    )
+    assert (
+        artifact_invalidation_action_batch_inspection[
+            "evidence_backed_closeout_row_count"
+        ]
+        + artifact_invalidation_action_batch_inspection[
+            "pending_or_blocked_row_count"
+        ]
+        == artifact_invalidation_action_batch_inspection["row_count"]
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "action_queue_blocks_phase9_row_count"
+        ]
+        == summary["artifact_invalidation_action_batch_inspection"]["row_count"]
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "phase9_promotion_ready"
+        ]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "publication_ready"
+        ]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "final_study_ready"
+        ]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "formal_acceptance_evidence"
+        ]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_action_batch_inspection"][
+            "must_not_be_used_as_closeout_manifest"
+        ]
+        is True
+    )
+    assert summary["artifact_invalidation_preflight_audit"]["blocks_phase9"] is True
+    assert (
+        summary["artifact_invalidation_preflight_audit"][
+            "matrix_manifest_present"
+        ]
+        is True
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"]["matrix_row_count"]
+        == 51
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"][
+            "closeout_manifest_present"
+        ]
+        is True
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"][
+            "closeout_pending_or_invalid_row_count"
+        ]
+        == artifact_invalidation_action_batch_inspection[
+            "pending_or_blocked_row_count"
+        ]
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"]["phase9_promotion_ready"]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"]["publication_ready"]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"]["final_study_ready"]
+        is False
+    )
+    assert (
+        summary["artifact_invalidation_preflight_audit"][
+            "formal_acceptance_evidence"
+        ]
+        is False
+    )
     assert summary["graph_scale_checks"]
     assert all(row["ok"] for row in summary["graph_scale_checks"])
     assert any(
@@ -981,6 +1233,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         and row["analysis_nodes"] == 164
         for row in summary["graph_scale_checks"]
     )
+
     assert any(
         row["label"] == "pilot_multi_corridor_full_manifest"
         and row["source_nodes"] == 4608
@@ -1038,12 +1291,42 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["road_override_application_audit"]["overrides_applied"] is False
     assert summary["rail_evidence_audit"]["publication_ready"] is False
     assert summary["rail_evidence_audit"]["station_binding_ready"] is True
+    assert summary["rail_evidence_audit"]["source_decision_ready"] is False
+    assert summary["rail_evidence_audit"]["transit_stress_profile_ready"] is False
+    assert (
+        summary["rail_evidence_audit"]["bounded_treatment_integrity_ready"] is False
+    )
+    assert (
+        summary["rail_evidence_audit"]["bounded_treatment_pending_decision_count"]
+        >= 1
+    )
+    assert summary["rail_evidence_audit"]["bounded_treatment_warning_count"] >= 1
+    assert summary["rail_evidence_audit"]["bounded_treatment_mismatch_count"] == 0
     assert summary["rail_evidence_audit"]["station_binding_remaining_blockers"] == []
+    assert summary["rail_evidence_audit"]["bounded_treatment_remaining_blockers"]
     assert summary["publication_readiness_audit"]["publication_ready"] is False
     assert (
         summary["publication_readiness_audit"]["verdict"]
         == "final_study_claims_blocked"
     )
+    assert "rail_source_decision_ready" in summary["publication_readiness_audit"][
+        "gates"
+    ]
+    assert "rail_transit_stress_profile_ready" in summary[
+        "publication_readiness_audit"
+    ]["gates"]
+    assert "rail_bounded_treatment_integrity_ready" in summary[
+        "publication_readiness_audit"
+    ]["gates"]
+    assert summary["publication_readiness_audit"]["gates"][
+        "rail_source_decision_ready"
+    ] is False
+    assert summary["publication_readiness_audit"]["gates"][
+        "rail_transit_stress_profile_ready"
+    ] is False
+    assert summary["publication_readiness_audit"]["gates"][
+        "rail_bounded_treatment_integrity_ready"
+    ] is False
     assert summary["final_study_readiness_audit"]["final_study_ready"] is False
     assert (
         summary["final_study_readiness_audit"]["verdict"]
@@ -1057,6 +1340,35 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     print("PASS: plan artifact audit preserves scaffold claim boundary")
 
 
+def test_dirty_worktree_freshness_checks_path_set_not_only_count() -> None:
+    module = _load_audit_module()
+    current_rows = module.build_dirty_worktree_classification_rows()
+    with tempfile.TemporaryDirectory() as tmpdir:
+        fake_csv = Path(tmpdir) / "dirty.csv"
+        with fake_csv.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=("path",))
+            writer.writeheader()
+            for index, _row in enumerate(current_rows):
+                writer.writerow({"path": f"fake/path/{index}.txt"})
+        previous_csv = module.DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV
+        module.DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV = fake_csv
+        try:
+            result = module._audit_dirty_worktree_classification_freshness(
+                {
+                    "manifest_present": True,
+                    "dirty_path_count": len(current_rows),
+                }
+            )
+        finally:
+            module.DEFAULT_DIRTY_WORKTREE_CLASSIFICATION_CSV = previous_csv
+    assert result["saved_csv_dirty_path_count"] == len(current_rows)
+    assert result["current_dirty_path_count"] == len(current_rows)
+    assert result["coverage_matches_current_git_status"] is False
+    assert result["freshness_status"] == "blocked_stale_or_incomplete"
+    assert any("path set does not match" in item for item in result["remaining_blockers"])
+
+
 if __name__ == "__main__":
     test_audit_plan_artifacts_reports_scaffold_boundary()
+    test_dirty_worktree_freshness_checks_path_set_not_only_count()
     print("\n=== REALWORLD PLAN AUDIT TESTS PASSED ===")

@@ -96,7 +96,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "full_graph_runtime_readiness",
-        "Full-Graph Runtime Readiness",
+        "Full-Graph Runtime Review",
         PROJECT_ROOT
         / "data"
         / "validation"
@@ -104,7 +104,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "graph_scale_strategy_readiness",
-        "Graph-Scale Strategy Readiness",
+        "Graph-Scale Strategy Review",
         PROJECT_ROOT / "data" / "validation" / "graph_scale_strategy_readiness_manifest.json",
     ),
     (
@@ -137,7 +137,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "road_source_readiness",
-        "Road Source Readiness",
+        "Road Source Review",
         PROJECT_ROOT / "data" / "road" / "road_source_readiness_manifest.json",
     ),
     (
@@ -152,7 +152,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "parameter_source_readiness",
-        "Parameter Source Readiness",
+        "Parameter Source Review",
         PROJECT_ROOT
         / "data"
         / "parameters"
@@ -181,7 +181,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "rail_fetch_readiness",
-        "Rail Fetch Readiness",
+        "Rail Fetch Review",
         PROJECT_ROOT / "data" / "rail" / "rail_fetch_readiness_manifest.json",
     ),
     (
@@ -191,17 +191,17 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "validation_benchmark_readiness",
-        "Validation Benchmark Readiness",
+        "Benchmark Evidence Review",
         PROJECT_ROOT / "data" / "validation" / "validation_benchmark_readiness_manifest.json",
     ),
     (
         "validation_benchmark_decision",
-        "Validation Benchmark Decision",
+        "Benchmark Evidence Decision",
         PROJECT_ROOT / "data" / "validation" / "validation_benchmark_decision_manifest.json",
     ),
     (
         "validation_strategy_readiness",
-        "Validation Strategy Readiness",
+        "Benchmark Strategy Review",
         PROJECT_ROOT / "data" / "validation" / "validation_strategy_readiness_manifest.json",
     ),
     (
@@ -216,12 +216,12 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "sensitivity_strategy_readiness",
-        "Sensitivity Strategy Readiness",
+        "Sensitivity Strategy Review",
         PROJECT_ROOT / "data" / "validation" / "sensitivity_strategy_readiness_manifest.json",
     ),
     (
         "experiment_strategy_readiness",
-        "Experiment Strategy Readiness",
+        "Experiment Strategy Review",
         PROJECT_ROOT / "data" / "manifests" / "experiment_strategy_readiness_manifest.json",
     ),
     (
@@ -259,12 +259,12 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "final_audit_decision",
-        "Final Audit Decision",
+        "Independent Audit Decision",
         PROJECT_ROOT / "data" / "manifests" / "final_audit_decision_manifest.json",
     ),
     (
         "acceptance_decision_templates",
-        "Acceptance Decision Templates",
+        "Review Decision Templates",
         PROJECT_ROOT / "data" / "manifests" / "acceptance_decision_template_manifest.json",
     ),
     (
@@ -274,7 +274,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "acceptance_task_assignments",
-        "Acceptance Task Assignments",
+        "Review Task Assignments",
         PROJECT_ROOT / "data" / "manifests" / "acceptance_task_assignments_manifest.json",
     ),
     (
@@ -284,7 +284,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "formal_acceptance_pre_review",
-        "Formal Acceptance Pre-Review",
+        "Formal Pre-Review",
         PROJECT_ROOT
         / "data"
         / "manifests"
@@ -318,7 +318,7 @@ DEFAULT_REVIEW_STATUS_SNAPSHOT_MANIFESTS: tuple[tuple[str, str, Path], ...] = (
     ),
     (
         "publication_readiness_audit",
-        "Publication Readiness Audit",
+        "Publication Blocker Audit",
         PROJECT_ROOT / "data" / "manifests" / "publication_readiness_audit.json",
     ),
 )
@@ -363,8 +363,8 @@ class ReviewAgentDefinition:
             "required_actions": list(self.required_actions),
             "risks": list(self.risks),
             "non_fabrication_rule": (
-                "Do not mark accepted unless the final-study readiness gate is "
-                "already ready with evidence-backed acceptance records."
+            "Do not mark complete unless the study gate already has "
+            "evidence-backed reviewer records."
             ),
         }
 
@@ -466,7 +466,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         ),
         decision_rules=(
             "Do not assume license compatibility without cited or source-backed evidence.",
-            "Block final claims while source records are pending review or target payloads are absent.",
+            "Block release claims while source records are pending review or target payloads are absent.",
         ),
         required_actions=(
             "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
@@ -599,7 +599,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
         ),
         decision_rules=(
             "Flag unsupported parameters; never accept weak defaults silently.",
-            "Use reviewed overrides or accepted weak-parameter records before final claims.",
+            "Use reviewed overrides or reviewer-cleared weak-parameter records before release claims.",
         ),
         required_actions=(
             "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -613,7 +613,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
     ),
     ReviewAgentDefinition(
         agent_id="validation_benchmark_strategy_agent",
-        role_name="Validation Benchmark Strategy Agent",
+        role_name="Benchmark Strategy Review Agent",
         gate_ids=("validation_package",),
         mission=(
             "Review validation benchmark design, metrics, thresholds, sampling "
@@ -657,7 +657,7 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
             "Create validation_acceptance.json after benchmark-strategy review.",
         ),
         risks=(
-            "Live or unpinned route benchmarks are not reproducible enough for final claims.",
+            "Live or unpinned route benchmarks are not reproducible enough for release claims.",
             "Plausibility checks cannot prove operational accuracy.",
         ),
     ),
@@ -859,11 +859,11 @@ REVIEW_AGENT_DEFINITIONS: tuple[ReviewAgentDefinition, ...] = (
     ),
     ReviewAgentDefinition(
         agent_id="final_independent_audit_agent",
-        role_name="Final Independent Audit Agent",
+        role_name="Independent Audit Review Agent",
         gate_ids=("final_audit",),
         mission=(
-            "Aggregate all acceptance records, verify every gate is accepted or blocked, "
-            "and produce the final audit summary only after pre-final gates close."
+            "Aggregate all reviewer records, verify every gate is cleared or blocked, "
+            "and produce the independent audit summary only after prerequisite gates close."
         ),
         non_ready_status="blocked",
         final_acceptance_artifacts=(
@@ -1343,11 +1343,14 @@ def _build_manifest(
         "remaining_blockers": _dedupe_strings(
             [
                 *[
-                    f"{record.gate_id}: {action}"
+                    f"Blocked non-approval action: {record.gate_id}: {action}"
                     for record in blocked_or_review
                     for action in record.required_actions
                 ],
-                *_string_list(final_audit.get("remaining_blockers", [])),
+                *[
+                    f"Blocked non-approval audit item: {item}"
+                    for item in _string_list(final_audit.get("remaining_blockers", []))
+                ],
             ]
         ),
     }
@@ -1470,9 +1473,15 @@ def _load_review_status_snapshot(
         data.get("can_mark_complete", data.get("acceptance_ready", False))
     )
     base["status_counts"] = status_counts
-    base["remaining_blockers"] = list(_string_list(data.get("remaining_blockers", [])))
-    base["review_items"] = list(_string_list(data.get("review_items", [])))
-    base["result_scope"] = str(data.get("result_scope", ""))
+    base["remaining_blockers"] = _guarded_review_notes(
+        "Blocked non-approval source note: ",
+        _string_list(data.get("remaining_blockers", [])),
+    )
+    base["review_items"] = _guarded_review_notes(
+        "Review-only source note: ",
+        _string_list(data.get("review_items", [])),
+    )
+    base["result_scope"] = _guarded_scope(str(data.get("result_scope", "")))
     return base
 
 
@@ -1547,8 +1556,14 @@ def _load_source_provenance_priority_summary(path: Path) -> dict[str, Any]:
         "priority_status_counts": data.get("priority_status_counts", {}),
         "can_mark_complete": bool(data.get("can_mark_complete", False)),
         "publication_ready": bool(data.get("publication_ready", False)),
-        "remaining_blockers": list(_string_list(data.get("remaining_blockers", []))),
-        "review_items": list(_string_list(data.get("review_items", []))),
+        "remaining_blockers": _guarded_review_notes(
+            "Blocked non-approval source note: ",
+            _string_list(data.get("remaining_blockers", [])),
+        ),
+        "review_items": _guarded_review_notes(
+            "Review-only source note: ",
+            _string_list(data.get("review_items", [])),
+        ),
         "claim_boundary": str(data.get("claim_boundary", "")),
     }
 
@@ -1745,6 +1760,21 @@ def _string_list(value: object) -> tuple[str, ...]:
     if not isinstance(value, list | tuple):
         return ()
     return tuple(str(item).strip() for item in value if str(item).strip())
+
+
+def _guarded_review_notes(prefix: str, values: Iterable[str]) -> tuple[str, ...]:
+    return tuple(
+        value if value.startswith(prefix) else f"{prefix}{value}"
+        for value in _string_list(list(values))
+    )
+
+
+def _guarded_scope(value: str) -> str:
+    text = value.strip()
+    if not text:
+        return ""
+    prefix = "Non-acceptance review scope: "
+    return text if text.startswith(prefix) else f"{prefix}{text}"
 
 
 def _dedupe_strings(values: Iterable[str]) -> tuple[str, ...]:

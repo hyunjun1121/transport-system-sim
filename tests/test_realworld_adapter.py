@@ -133,14 +133,35 @@ def test_adapter_applies_reviewed_highway_defaults_when_supplied() -> None:
                 base_p_fail=0.012,
             )
         },
+        road_class_override_metadata={
+            "primary": {
+                "source_class": "literature-derived",
+                "source_name": "adapter fixture",
+                "source_url_or_citation": "fixture citation",
+                "notes": "fixture metadata",
+            }
+        },
     )
 
     assert graph.graph["road_class_overrides_applied"] is True
+    assert graph.graph["road_class_override_metadata_applied"] is True
+    assert graph.graph["road_class_override_highways"] == ("primary",)
     # The fixture edge has maxspeed, so speed comes from OSM. Capacity and
     # base_p_fail use the reviewed fallback defaults.
     assert graph.edges[1, 2]["speed_kph"] == 60.0
     assert graph.edges[1, 2]["capacity"] == 1234.0
     assert graph.edges[1, 2]["base_p_fail"] == 0.012
+    assert graph.edges[1, 2]["road_class_override_applied"] is True
+    assert graph.edges[1, 2]["road_class_override_fields"] == (
+        "base_p_fail",
+        "capacity",
+    )
+    assert graph.edges[1, 2]["road_class_override_source_class"] == (
+        "literature-derived"
+    )
+    assert graph.edges[1, 2]["road_class_override_source_name"] == (
+        "adapter fixture"
+    )
 
     print("PASS: adapter applies supplied highway defaults")
 

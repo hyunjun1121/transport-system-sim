@@ -48,10 +48,21 @@ def test_review_package_inventory_excludes_reference_and_self_outputs() -> None:
             "self\n",
             encoding="utf-8",
         )
+        (root / "data" / "manifests" / "review_package_closeout_20260609.zip").write_text(
+            "zip\n",
+            encoding="utf-8",
+        )
+        (root / "review_packages").mkdir()
+        (root / "review_packages" / "expert_review_package.zip").write_text(
+            "zip\n",
+            encoding="utf-8",
+        )
         rows = build_review_package_inventory_rows(root=root)
     paths = {row["path"] for row in rows}
     assert "cloned_repo/README.md" not in paths
     assert "data/manifests/review_package_inventory.csv" not in paths
+    assert "data/manifests/review_package_closeout_20260609.zip" not in paths
+    assert "review_packages/expert_review_package.zip" not in paths
 
 
 def test_review_package_inventory_summary_reports_missing_required_groups() -> None:

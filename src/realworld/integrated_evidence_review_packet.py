@@ -132,9 +132,10 @@ def build_integrated_evidence_review_rows(
                 human_review=rail.get("human_review_decision_count"),
                 status_counts=rail.get("decision_status_counts"),
                 extra={
-                    "rail_service_evidence_present": rail.get(
-                        "rail_service_evidence_present"
+                    "rail_service_evidence_artifact_present": rail.get(
+                        "rail_service_evidence_artifact_present"
                     ),
+                    "accepted_source_backed_rail_service_evidence": False,
                     "source_cache_present_count": rail.get(
                         "source_cache_present_count"
                     ),
@@ -214,7 +215,7 @@ def build_integrated_evidence_review_rows(
             blocking_reason=_first_blocker(validation),
             required_reviewer_action=(
                 "Resolve weak route-road evidence exposure and validation-scope "
-                "limitations before final validation claims."
+                "limitations before release-scope validation claims."
             ),
             followup_artifacts=(
                 "data/validation/validation_strategy_readiness_packet.csv; "
@@ -465,7 +466,7 @@ def build_integrated_evidence_review_manifest(
         "review_items": [
             "review rail timing, capacity, and availability decisions before retaining rail-dependent claims",
             "keep fallback and OSRM benchmarks labeled as plausibility checks unless validation acceptance changes that boundary",
-            "review validation road-evidence dependencies before final validation claims",
+            "review validation road-evidence dependencies before release-scope validation claims",
             "review scenario-policy-seed, graph-scope, and regeneration decisions before experiment acceptance",
             "record final decisions only in the relevant formal acceptance artifacts",
         ],

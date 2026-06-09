@@ -31,6 +31,10 @@
     "scripts/write_road_source_readiness_packet.py",
     "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
+    "data/parameters/road_attribute_evidence_table.csv",
+    "data/parameters/road_attribute_evidence_manifest.json",
+    "scripts/write_road_attribute_evidence.py",
+    "docs/road_attribute_evidence.md",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
     "scripts/audit_road_overrides.py",
@@ -48,7 +52,7 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "cached_osm_input",
-  "generated_at": "2026-05-10T08:28:03+00:00",
+  "generated_at": "2026-06-02T22:54:07+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
@@ -126,6 +130,10 @@
     "scripts/write_road_source_readiness_packet.py",
     "scripts/write_road_source_decision_packet.py",
     "scripts/write_road_evidence_priority_packet.py",
+    "data/parameters/road_attribute_evidence_table.csv",
+    "data/parameters/road_attribute_evidence_manifest.json",
+    "scripts/write_road_attribute_evidence.py",
+    "docs/road_attribute_evidence.md",
     "data/parameters/road_class_overrides_draft.csv",
     "scripts/write_road_class_override_template.py",
     "scripts/audit_road_overrides.py"
