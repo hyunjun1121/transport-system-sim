@@ -145,7 +145,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/sensitivity_acceptance.json",
   "gate": "sensitivity_analysis",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -200,6 +200,7 @@
     "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
     "Create sensitivity_acceptance.json after final input and graph scope are accepted.",
     "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
+    "create an explicit sensitivity decision record after SALib output and Sobol-decision review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

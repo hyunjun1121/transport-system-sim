@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-11T14:04:06+00:00",
+    "lock_file_sha256": "b68a82ad9d0579d8e57c34dc35620c3f15e82234f6f22b455e60ea2986639313",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/realworld_pilot/pilot_sample.output.lock",
+    "output_prefix": "pilot_sample",
+    "pid": 26040,
+    "receipt_path": "results/realworld_pilot/pilot_sample_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/realworld_pilot/pilot_sample_manifest.json",
+    "manifest_sha256": "6df1625aafc22f8523ee1d560946853aa30919dfb5bdc2dc6e248d12d69690aa",
+    "results": "results/realworld_pilot/pilot_sample_results.csv",
+    "results_sha256": "19a752c53e4071ffb2a5e25918cf1bb4df345fdf3d17b08364f457954e831c7b",
+    "summary": "results/realworld_pilot/pilot_sample_summary.csv",
+    "summary_sha256": "e878cc4d24bf9b4bf6d326e7f936e871921d1f2f1b137d58aea6b52b0db0441e"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-11T14:04:09+00:00"
+  },
+  "schema_version": 1
+}

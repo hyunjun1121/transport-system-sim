@@ -32,7 +32,7 @@ def test_policy_feasibility_rows_classify_current_policies() -> None:
     rows = build_policy_feasibility_rows()
     by_id = {row["policy_id"]: row for row in rows}
 
-    assert len(rows) == 8
+    assert len(rows) == 24
     assert set(by_id) == {
         "bus_only",
         "baseline_multimodal",
@@ -42,6 +42,22 @@ def test_policy_feasibility_rows_classify_current_policies() -> None:
         "bus_corridor_redundancy",
         "rail_delay_or_partial_unavailability",
         "fleet_shortage_stress",
+        "fleet_shortage_severe",
+        "lastmile_capacity_mild",
+        "lastmile_capacity_moderate",
+        "lastmile_capacity_severe",
+        "peak_congestion_bus",
+        "peak_congestion_multimodal",
+        "moderate_congestion_bus",
+        "moderate_congestion_multimodal",
+        "heavy_congestion_bus",
+        "heavy_congestion_multimodal",
+        "severe_congestion_bus",
+        "severe_congestion_multimodal",
+        "transfer_stress_mild",
+        "transfer_stress_moderate",
+        "transfer_stress_severe",
+        "transfer_stress_extreme",
     }
     assert by_id["bus_only"]["feasibility_status"] == (
         "proxy_comparator_ready_for_engineering_compact_only"
@@ -161,7 +177,7 @@ def test_phase8_precompact_writer_outputs_artifacts() -> None:
 
     assert tuple(policy_reader.fieldnames or ()) == POLICY_FEASIBILITY_COLUMNS
     assert tuple(threshold_reader.fieldnames or ()) == BENCHMARK_THRESHOLD_COLUMNS
-    assert len(policy_rows) == 8
+    assert len(policy_rows) == 24
     assert len(threshold_rows) == 11
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

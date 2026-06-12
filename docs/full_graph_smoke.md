@@ -9,7 +9,7 @@ Full bus-practical graph smoke only; not calibrated real-world results or an ope
 - Graph edges: 9148
 - Analysis graph reduced: `false`
 - Rows: 2
-- Duration seconds: 1.433
+- Duration seconds: 2.222
 - Can mark complete: `false`
 
 ## Required Actions

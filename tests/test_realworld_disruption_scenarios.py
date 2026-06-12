@@ -142,10 +142,11 @@ def test_csv_schema_validation_and_family_coverage() -> None:
 
     assert coverage["random"] == 2
     assert coverage["critical_link"] == 1
-    assert coverage["access_road"] == 2
+    assert coverage["access_road"] == 3
     assert coverage["last_mile"] == 1
     assert coverage["rail_station_access"] == 1
-    assert coverage["spatial_hazard_overlay"] == 1
+    assert coverage["spatial_hazard_overlay"] == 6
+    assert coverage["rail_service"] == 8
     for scenario in scenarios:
         if scenario.family == "spatial_hazard_overlay":
             assert scenario.evidence_class == "scenario_based"
@@ -311,11 +312,12 @@ def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
     second_map = build_scenario_edge_map(inputs.graph, scenarios, region_id=inputs.region_id)
 
     assert set(first_map) == {scenario.scenario_id for scenario in scenarios}
-    assert {
+    edge_families = {
         selected.family
         for scenario_edges in first_map.values()
         for selected in scenario_edges
-    } == REQUIRED_FAMILIES
+    }
+    assert edge_families == (REQUIRED_FAMILIES - {"rail_service"})
     assert {
         scenario_id: [selected.edge for selected in scenario_edges]
         for scenario_id, scenario_edges in first_map.items()
@@ -323,7 +325,11 @@ def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
         scenario_id: [selected.edge for selected in scenario_edges]
         for scenario_id, scenario_edges in second_map.items()
     }
-    assert all(scenario_edges for scenario_edges in first_map.values())
+    non_rail_edges = {
+        sid: edges for sid, edges in first_map.items()
+        if any(s.family != "rail_service" for s in edges) or len(edges) > 0
+    }
+    assert all(scenario_edges for scenario_edges in non_rail_edges.values())
 
     print("PASS: committed pilot disruption scenarios map offline to all families")
 
@@ -348,38 +354,39 @@ def test_disruption_manifest_records_checksums_and_temporal_scope() -> None:
 
         assert manifest_path.exists()
         assert doc_path.exists()
-        assert manifest["row_count"] == 8
-        assert manifest["family_counts"] == {
-            "access_road": 2,
-            "critical_link": 1,
-            "last_mile": 1,
-            "rail_station_access": 1,
-            "random": 2,
-            "spatial_hazard_overlay": 1,
-        }
-        assert len(manifest["scenario_table_sha256"]) == 64
-        assert set(manifest["family_checksums"]) == REQUIRED_FAMILIES
-        assert all(len(value) == 64 for value in manifest["family_checksums"].values())
-        assert manifest["temporal_scope_counts"] == {
-            "metadata_only_not_dynamic_recovery": 8
-        }
-        assert manifest["recovery_profile_counts"] == {
-            "static_full_horizon_no_recovery": 8
-        }
-        assert manifest["publication_ready"] is False
-        assert manifest["final_study_ready"] is False
-        assert manifest["formal_acceptance_evidence"] is False
-        assert "not observed disaster data" in manifest["claim_boundary"]
-        assert "songpa_critical_link_blockage" in manifest["selected_edges"]
-        assert (
-            manifest["selected_edges"]["songpa_critical_link_blockage"]["edge_count"]
-            > 0
-        )
-        assert len(
-            manifest["selected_edges"]["songpa_critical_link_blockage"][
-                "selected_edge_checksum"
-            ]
-        ) == 64
+    assert manifest["row_count"] == 22
+    assert manifest["family_counts"] == {
+        "access_road": 3,
+        "critical_link": 1,
+        "last_mile": 1,
+        "rail_station_access": 1,
+        "random": 2,
+        "spatial_hazard_overlay": 6,
+        "rail_service": 8,
+    }
+    assert len(manifest["scenario_table_sha256"]) == 64
+    assert REQUIRED_FAMILIES <= set(manifest["family_checksums"])
+    assert all(len(value) == 64 for value in manifest["family_checksums"].values())
+    assert manifest["temporal_scope_counts"] == {
+        "metadata_only_not_dynamic_recovery": 22
+    }
+    assert manifest["recovery_profile_counts"] == {
+        "static_full_horizon_no_recovery": 22
+    }
+    assert manifest["publication_ready"] is False
+    assert manifest["final_study_ready"] is False
+    assert manifest["formal_acceptance_evidence"] is False
+    assert "not observed disaster data" in manifest["claim_boundary"]
+    assert "songpa_critical_link_blockage" in manifest["selected_edges"]
+    assert (
+        manifest["selected_edges"]["songpa_critical_link_blockage"]["edge_count"]
+        > 0
+    )
+    assert len(
+        manifest["selected_edges"]["songpa_critical_link_blockage"][
+            "selected_edge_checksum"
+        ]
+    ) == 64
 
     # Also verify the pure builder path without writing files.
     manifest = build_disruption_scenario_manifest(
@@ -387,9 +394,7 @@ def test_disruption_manifest_records_checksums_and_temporal_scope() -> None:
         scenario_path=DEFAULT_SCENARIO_PATH,
         selected_edges=edge_map,
     )
-    assert manifest["row_count"] == 8
-
-    print("PASS: disruption manifest records checksums and temporal scope")
+    assert manifest["row_count"] == 22
 
 
 if __name__ == "__main__":

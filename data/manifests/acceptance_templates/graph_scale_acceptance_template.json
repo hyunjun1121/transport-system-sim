@@ -3,8 +3,8 @@
   "accepted_by": "REVIEW_REQUIRED",
   "accepted_date": "REVIEW_REQUIRED",
   "alternate_corridor_sensitivity_reviewed": false,
-  "analysis_graph_edges": 174,
-  "analysis_graph_nodes": 118,
+  "analysis_graph_edges": 246,
+  "analysis_graph_nodes": 164,
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "corridor_reduction_accepted": false,
   "evidence_paths": [

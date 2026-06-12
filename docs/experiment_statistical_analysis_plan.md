@@ -15,14 +15,14 @@ This statistical-analysis plan and scenario-policy-seed note is a pre-review pla
 
 - Region: `songpa_public_demo`
 - Graph source: `cached_graphml:data/cache/pilot_region_road.graphml`
-- Analysis graph strategy: `route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted`
-- Policies: 7
-- Scenarios: 9
+- Analysis graph strategy: `multi_corridor_for_realistic_route_alternatives`
+- Policies: 23
+- Scenarios: 23
 - Seeds: 30
-- Expected result rows: 1890
-- Observed result rows: 1890
-- Expected summary rows: 63
-- Observed summary rows: 63
+- Expected result rows: 15870
+- Observed result rows: 15870
+- Expected summary rows: 529
+- Observed summary rows: 529
 - Common random numbers declared: `true`
 
 ## Primary Analysis Proposal
@@ -48,8 +48,8 @@ Multiplicity note: No formal multiple-comparison correction is accepted for the 
 | Check | Status | Observed | Required Action |
 | --- | --- | --- | --- |
 | selected_profile_present | pass | full_pilot | Restore the selected run profile before experiment review. |
-| result_row_count_matches_design | pass | 1890 / 1890 | Regenerate results or revise the scenario-policy-seed design before review closure. |
-| summary_row_count_matches_design | pass | 63 / 63 | Regenerate summary outputs or revise the run design before review closure. |
+| result_row_count_matches_design | pass | 15870 / 15870 | Regenerate results or revise the scenario-policy-seed design before review closure. |
+| summary_row_count_matches_design | pass | 529 / 529 | Regenerate summary outputs or revise the run design before review closure. |
 | primary_metrics_pre_specified | needs_human_review_primary_metrics | completion_rate, penalized_makespan, p95_arrival_time, passengers_per_total_service_minute | Confirm, revise, or narrow the proposed primary metric set. |
 | primary_policy_contrast_pre_specified | needs_human_review_primary_comparison | bus_only vs baseline_multimodal | Confirm whether this is the reviewer-selected primary contrast or mark all contrasts exploratory. |
 | crn_structural_pairing | pass | True | Resolve structural CRN blockers before paired policy claims. |

@@ -43,7 +43,7 @@ def test_edge_rows_keep_capacity_candidates_separate_from_used_proxy() -> None:
     rows = build_road_attribute_evidence_rows(graph)
     row = rows[0]
 
-    assert row["capacity_proxy_veh_per_hr"] == "1400"
+    assert row["capacity_proxy_veh_per_hr"] == "1300"
     assert row["lane_based_capacity_candidate_veh_per_hr"] == "1600"
     assert row["lane_based_capacity_evidence_class"] == "OSM-derived"
     assert row["capacity_evidence_class"] == "expert proxy"

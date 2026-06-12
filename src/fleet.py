@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
+import numpy as np
+
 from src.sim_types import VehicleTrip, require_int_at_least, require_non_negative
 
 
@@ -47,9 +49,17 @@ class FleetAssignment:
 class FleetAvailability:
     """Track vehicle availability with deterministic earliest-vehicle assignment."""
 
-    def __init__(self, fleet_size: int, turnaround_time: float = 0.0):
+    def __init__(
+        self,
+        fleet_size: int,
+        turnaround_time: float = 0.0,
+        turnaround_noise_lambda: float = 0.0,
+        rng_turnaround: np.random.Generator | None = None,
+    ):
         self.fleet_size = require_int_at_least(fleet_size, "fleet_size", 1)
         self.turnaround_time = require_non_negative(turnaround_time, "turnaround_time")
+        self._turnaround_noise_lambda = float(turnaround_noise_lambda)
+        self._rng_turnaround = rng_turnaround
         self._available_times = [0.0 for _ in range(self.fleet_size)]
 
     @property
@@ -77,6 +87,9 @@ class FleetAvailability:
         depart_time = max(requested_depart_time, vehicle_available)
         arrival_time = depart_time + travel_time
         available_time = arrival_time + self.turnaround_time
+        if self._turnaround_noise_lambda > 0.0 and self._rng_turnaround is not None:
+            noise = self._rng_turnaround.exponential(self._turnaround_noise_lambda)
+            available_time = arrival_time + self.turnaround_time * (1.0 + noise)
         self._available_times[vehicle_id] = available_time
 
         return FleetAssignment(
@@ -97,6 +110,8 @@ def apply_fleet_availability(
     trips: Iterable[VehicleTrip],
     fleet_size: int,
     turnaround_time: float = 0.0,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
 ) -> list[VehicleTrip]:
     """Delay planned trips according to fleet size and turnaround time.
 
@@ -105,7 +120,12 @@ def apply_fleet_availability(
     availability pushes the physical trip later.
     """
 
-    fleet = FleetAvailability(fleet_size=fleet_size, turnaround_time=turnaround_time)
+    fleet = FleetAvailability(
+        fleet_size=fleet_size,
+        turnaround_time=turnaround_time,
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
+    )
     scheduled_trips = sorted(enumerate(trips), key=lambda item: (item[1].depart_time, item[0]))
     adjusted: list[tuple[int, VehicleTrip]] = []
 

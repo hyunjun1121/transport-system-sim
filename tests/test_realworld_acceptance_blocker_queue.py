@@ -27,7 +27,7 @@ def test_blocker_queue_rows_reflect_current_formal_package() -> None:
     summary = build_formal_acceptance_package_summary()
     rows = build_acceptance_blocker_queue_rows(package_summary=summary)
 
-    assert len(rows) == 15
+    assert len(rows) == 18
     assert {row["can_mark_complete"] for row in rows} == {"false"}
     assert {row["requires_human_review"] for row in rows} == {"true"}
     assert any(row["gate_id"] == "road_class_overrides" for row in rows)
@@ -51,7 +51,7 @@ def test_write_blocker_queue_outputs_csv_manifest_and_doc() -> None:
             package_summary=summary,
         )
 
-        assert value["row_count"] == 15
+        assert value["row_count"] == 18
         assert value["can_mark_complete"] is False
         assert output.exists()
         assert manifest.exists()
@@ -59,12 +59,12 @@ def test_write_blocker_queue_outputs_csv_manifest_and_doc() -> None:
 
         with output.open("r", encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
-        assert len(rows) == 15
+        assert len(rows) == 18
         assert all(row["formal_target"] for row in rows)
 
         compact = summarize_acceptance_blocker_queue(manifest)
         assert compact["manifest_present"] is True
-        assert compact["row_count"] == 15
+        assert compact["row_count"] == 18
         assert compact["can_mark_complete"] is False
 
 

@@ -21,7 +21,7 @@
   "acceptance_ready": false,
   "can_mark_complete": false,
   "inputs": {
-    "pilot_full_manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
+    "pilot_full_manifest": "results/realworld_pilot/pilot_full_manifest.json",
     "experiment_acceptance": "data/manifests/experiment_acceptance.json"
   },
   "outputs": {

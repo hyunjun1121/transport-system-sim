@@ -7,7 +7,7 @@
   "claim_boundary": "Phase 6 disruption scenario library only; deterministic scenario-design metadata for decision-support stress testing, not observed disaster data, not calibrated disruption probabilities, not dynamic recovery modeling, not an operational route plan, not publication readiness, not final-study readiness, and not formal acceptance.",
   "disruption_mode_counts": {
     "blocked": 2,
-    "capacity_reduction": 6
+    "capacity_reduction": 9
   },
   "family_checksums": {
     "access_road": "98eeda03c69e4e8e7ee3cf33c41c8b2d52a304b3942c276fcc19e4d5b11fd771",
@@ -15,7 +15,7 @@
     "last_mile": "c261fde7e109f4a7590c9c5161678e5232dba46827883e2226fca4e9cb604b76",
     "rail_station_access": "efaaa0591109ef544a1ff3d8096e0ceb2c625e899d73d9c66a301cd4874e118a",
     "random": "9280c985a11b1b11d3c38113418d20eed52ff2789e099b58d9eab48cd1fa7456",
-    "spatial_hazard_overlay": "d44f5b66a0a5090f562a03f76a219af08aa5078d9e1bf8b9ae6c6edabdf9a625"
+    "spatial_hazard_overlay": "3a061de3514f486e79bbfa14ffe86aad65320934fee0b27b0e0a7880ff122d0a"
   },
   "family_counts": {
     "access_road": 2,
@@ -23,7 +23,7 @@
     "last_mile": 1,
     "rail_station_access": 1,
     "random": 2,
-    "spatial_hazard_overlay": 1
+    "spatial_hazard_overlay": 4
   },
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
@@ -34,7 +34,7 @@
   },
   "publication_ready": false,
   "recovery_profile_counts": {
-    "static_full_horizon_no_recovery": 8
+    "static_full_horizon_no_recovery": 11
   },
   "remaining_blockers": [
     "scenario rows are not observed disaster or incident data",
@@ -49,7 +49,7 @@
     "keep rail-headway stress as policy/stress metadata until a first-class runtime disruption override is implemented",
     "regenerate compact/full outputs after any scenario row, family, selected edge, or temporal metadata change"
   ],
-  "row_count": 8,
+  "row_count": 11,
   "scenario_ids": [
     "songpa_access_origin_to_destination",
     "songpa_access_origin_to_station",
@@ -58,10 +58,13 @@
     "songpa_rail_station_access",
     "songpa_random_blockage",
     "songpa_random_capacity_reduction",
+    "songpa_spatial_assembly_egress",
+    "songpa_spatial_feeder_east",
+    "songpa_spatial_lastmile_west",
     "songpa_spatial_tancheon_corridor"
   ],
   "scenario_table_path": "data\\scenarios\\disruption_scenarios.csv",
-  "scenario_table_sha256": "49e866f58f14a724ffb7f354e153d6a62e0e76dc2633eb63e40471b15544ff09",
+  "scenario_table_sha256": "bf18b14031501c60eeb39470499cd332f2c53543a740c5243b94239525fa2869",
   "schema_version": 1,
   "selected_edges": {
     "songpa_access_origin_to_destination": {
@@ -248,6 +251,37 @@
         "osm:473975683"
       ]
     },
+    "songpa_spatial_assembly_egress": {
+      "edge_count": 6,
+      "selected_edge_checksum": "6b72e4344bd6b83845ccad936978a0536cc587b4758fdf7c36c0b198c026f301",
+      "selected_edge_ids": [
+        "osm:1498168919",
+        "osm:426094557",
+        "osm:1498168919",
+        "osm:426094556",
+        "osm:1498168920",
+        "osm:1498168919"
+      ]
+    },
+    "songpa_spatial_feeder_east": {
+      "edge_count": 3,
+      "selected_edge_checksum": "75c223a8b5216ec73145390e6aa26d3325eb2bf36a3d40a5086263d9e4b252cd",
+      "selected_edge_ids": [
+        "osm:172203041",
+        "osm:908666735",
+        "osm:908666735"
+      ]
+    },
+    "songpa_spatial_lastmile_west": {
+      "edge_count": 4,
+      "selected_edge_checksum": "a5a9509cdd0cc1fb2c1b1cc4d7ffa6ff3892911328f3834453f59ef85f494835",
+      "selected_edge_ids": [
+        "osm:218855790",
+        "osm:218855790",
+        "osm:218855790",
+        "osm:908608594"
+      ]
+    },
     "songpa_spatial_tancheon_corridor": {
       "edge_count": 6,
       "selected_edge_checksum": "11e235509acf2db980da425965e35cbf09fd52da3ffc859baf24ab56d802ea8f",
@@ -262,14 +296,14 @@
     }
   },
   "selection_method_counts": {
-    "bbox_midpoint": 1,
+    "bbox_midpoint": 4,
     "edge_betweenness": 1,
     "hash_rank": 2,
     "shortest_path": 3,
     "station_access": 1
   },
-  "spatial_overlay_count": 1,
+  "spatial_overlay_count": 4,
   "temporal_scope_counts": {
-    "metadata_only_not_dynamic_recovery": 8
+    "metadata_only_not_dynamic_recovery": 11
   }
 }

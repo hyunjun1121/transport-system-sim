@@ -44,12 +44,21 @@ rail:
       coordinate_class: public
       role: rail_egress_demo
       sensitivity: public_station_area
-  travel_time_min: 20
-  headway_min: 10
-  capacity_pax_per_train: 500
+  travel_time_min: 13
+  headway_min: 8
+  capacity_pax_per_train: 1000
   metadata:
-    source_class: documented_assumption
+    source_class: literature-derived
     operational_claim: scheduled_service_proxy_not_emergency_availability
+    source_notes: >
+      Derived from Seoul Metro Lines 2/8/9 service data. Travel time:
+      Line 9 Olympic Park -> Sports Complex (6 stops, ~6.2 km) + transfer
+      (~3-5 min) + Line 2 Sports Complex -> Jamsil (2 stops, ~2.4 km).
+      Headway: blended peak/off-peak across Lines 2/8/9.
+      Capacity: Line 9 6-car train crush capacity ~960-1200 pax.
+      Sources: Wikipedia Seoul Subway Line 2/8/9 articles, Namuwiki
+      Line 9 article, Seoul Metro official service data.
+      GTFS available at data.go.kr dataset 15042735.
 metadata:
   pilot_status: quasi_real_public_demo
   data_sensitivity: non_sensitive

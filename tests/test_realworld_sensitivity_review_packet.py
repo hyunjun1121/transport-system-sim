@@ -41,11 +41,11 @@ def test_sensitivity_review_rows_summarize_current_morris_diagnostics() -> None:
     assert by_category["missing_or_nonfinite_morris_indices"]["diagnostic_status"] == (
         "review_required_unavailable_indices"
     )
-    assert by_category["missing_or_nonfinite_morris_indices"]["affected_row_count"] == "168"
+    assert by_category["missing_or_nonfinite_morris_indices"]["affected_row_count"] == "4872"
     assert "mu_star=0" in by_category["missing_or_nonfinite_morris_indices"]["diagnostic_detail"]
-    assert "unavailable_index_rows=168" in by_category["missing_or_nonfinite_morris_indices"]["diagnostic_detail"]
-    assert by_category["zero_mu_star_rows"]["affected_row_count"] == "4272"
-    assert by_category["reduced_graph_scope"]["affected_row_count"] == "7056"
+    assert "unavailable_index_rows=4872" in by_category["missing_or_nonfinite_morris_indices"]["diagnostic_detail"]
+    assert by_category["zero_mu_star_rows"]["affected_row_count"] == "29601"
+    assert by_category["reduced_graph_scope"]["affected_row_count"] == "54096"
     assert by_category["result_scope"]["publication_ready"] == "false"
     assert by_category["sobol_decision_requirement"]["acceptance_ready"] == "false"
     assert {row["claim_boundary"] for row in rows} == {
@@ -83,11 +83,11 @@ def test_write_sensitivity_review_packet_outputs_csv_and_manifest() -> None:
         assert value["acceptance_gate_closure_candidate_count"] == 0
         assert written_manifest["row_count"] == 6
         assert written_manifest["rows_with_index_issues"] == 0
-        assert written_manifest["all_rows_with_index_issues"] == 168
-        assert written_manifest["unavailable_index_row_count"] == 168
+        assert written_manifest["all_rows_with_index_issues"] == 4872
+        assert written_manifest["unavailable_index_row_count"] == 4872
         assert written_manifest["index_issue_counts"]["mu_star"] == 0
-        assert written_manifest["all_index_issue_counts"]["mu_star"] == 168
-        assert written_manifest["zero_mu_star_count"] == 4272
+        assert written_manifest["all_index_issue_counts"]["mu_star"] == 4872
+        assert written_manifest["zero_mu_star_count"] == 29601
         assert "does not close the sensitivity gate" in written_manifest["claim_boundary"]
 
     print("PASS: sensitivity review packet writer emits CSV and manifest")

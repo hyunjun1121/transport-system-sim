@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-10T00:00:16+00:00",
+    "lock_file_sha256": "f7aac7e5c05066eedd28b14539dc862c3cbf767087ef2948d34d24de6b7c3a75",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/realworld_pilot/pilot_multi_corridor_full.output.lock",
+    "output_prefix": "pilot_multi_corridor_full",
+    "pid": 33288,
+    "receipt_path": "results/realworld_pilot/pilot_multi_corridor_full_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/realworld_pilot/pilot_multi_corridor_full_manifest.json",
+    "manifest_sha256": "ae7948204ce62b605371d25564571ef41b694e34c8e6cec10fd8d29d3684e8ee",
+    "results": "results/realworld_pilot/pilot_multi_corridor_full_results.csv",
+    "results_sha256": "bc3468737d49dd74ae046c6fbaeb144ddabd20e6998f3703c58c12dab168a750",
+    "summary": "results/realworld_pilot/pilot_multi_corridor_full_summary.csv",
+    "summary_sha256": "4f524bbeb29be7910a8e2fb72d4819bb5e0ac595b7be5c0605985964d55be543"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-10T00:00:32+00:00"
+  },
+  "schema_version": 1
+}

@@ -94,34 +94,37 @@
       "gate_id": "road_class_overrides",
       "label": "Road-Class Override Decision",
       "path": "data/parameters/road_class_overrides.csv",
-      "record_present": false,
+      "record_present": true,
       "ready": false,
       "status": "blocked",
       "remaining_blockers": [
-        "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-        "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-        "reviewed road-class override table is absent"
+        "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
+        "verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
+        "accepted pilot manifest does not record road_class_overrides_applied: true",
+        "accepted pilot manifest does not record road_class_overrides_path",
+        "accepted pilot manifest does not record road_class_overrides_sha256",
+        "accepted pilot manifest graph_source does not record road_class_overrides"
       ],
       "summary": {
         "acceptance_ready": false,
-        "record_present": false,
+        "record_present": true,
         "path": "data/parameters/road_class_overrides.csv",
         "evidence_publication_ready": false,
         "application_publication_ready": false,
         "remaining_blockers": [
-          "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-          "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-          "reviewed road-class override table is absent"
+          "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
+          "verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
+          "accepted pilot manifest does not record road_class_overrides_applied: true",
+          "accepted pilot manifest does not record road_class_overrides_path",
+          "accepted pilot manifest does not record road_class_overrides_sha256",
+          "accepted pilot manifest graph_source does not record road_class_overrides"
         ],
         "evidence": {
           "publication_ready": false,
           "path": "data/parameters/road_class_overrides.csv",
-          "override_table_present": false,
-          "row_count": 0,
-          "draft_table_present": true,
-          "draft_path": "data/parameters/road_class_overrides_draft.csv",
-          "draft_row_count": 10,
-          "draft_highway_classes": [
+          "override_table_present": true,
+          "row_count": 10,
+          "highway_classes": [
             "primary",
             "primary_link",
             "residential",
@@ -133,39 +136,100 @@
             "trunk_link",
             "unclassified"
           ],
-          "draft_source_class_counts": {
-            "expert assumption": 10
+          "source_class_counts": {
+            "literature-derived": 10
           },
-          "draft_field_source_class_counts": {
+          "field_source_class_counts": {
             "speed_kph": {
-              "expert assumption": 10
+              "literature-derived": 10
             },
             "capacity_veh_per_hr": {
-              "expert assumption": 10
+              "literature-derived": 10
             },
             "base_p_fail": {
               "sensitivity-only": 10
             }
           },
-          "draft_weak_field_count": 30,
-          "draft_claim_boundary": "The draft override table is a reviewer worksheet populated with current mapper defaults. It is not reviewed road evidence and does not close publication-readiness gates.",
-          "claim_boundary": "Road-class override evidence is absent. The mapper still uses built-in fallback speed, capacity, and base-disruption proxies.",
+          "weak_row_count": 0,
+          "weak_highway_classes": [],
+          "weak_field_count": 10,
+          "weak_field_entries": [
+            {
+              "highway": "residential",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "tertiary",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "secondary",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "primary",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "trunk",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "trunk_link",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "primary_link",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "secondary_link",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "unclassified",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            },
+            {
+              "highway": "tertiary_link",
+              "field": "base_p_fail",
+              "source_class": "sensitivity-only"
+            }
+          ],
+          "claim_boundary": "This audit checks override-table source strength only. It does not prove the overrides were applied to a result graph or calibrated against observed traffic.",
           "remaining_blockers": [
-            "replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-            "apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs"
+            "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
+            "verify graph-adapter runs apply the reviewed override table before using road-calibration claims"
           ]
         },
         "application": {
           "publication_ready": false,
           "override_path": "data/parameters/road_class_overrides.csv",
           "manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
-          "override_table_present": false,
+          "override_table_present": true,
           "manifest_present": true,
           "overrides_applied": false,
+          "manifest_override_path": "",
+          "manifest_override_sha256": "",
+          "expected_override_sha256": "cc71a60428dc28a716436f4a8a7925882129f9e6a8a92df30e69807f7546ff36",
+          "path_matches": false,
           "sha256_matches": false,
-          "claim_boundary": "Road-calibration claims require both reviewed override evidence and an accepted result manifest proving those overrides were applied.",
+          "graph_source_records_override": false,
+          "claim_boundary": "This audit checks whether a result manifest records actual use of the reviewed road-class override table. It does not calibrate traffic assignment or validate observed operations.",
           "remaining_blockers": [
-            "reviewed road-class override table is absent"
+            "accepted pilot manifest does not record road_class_overrides_applied: true",
+            "accepted pilot manifest does not record road_class_overrides_path",
+            "accepted pilot manifest does not record road_class_overrides_sha256",
+            "accepted pilot manifest graph_source does not record road_class_overrides"
           ]
         }
       }
@@ -306,26 +370,25 @@
   ],
   "formal_acceptance_guard": {
     "artifact_count": 12,
-    "present_count": 0,
-    "missing_count": 12,
+    "present_count": 1,
+    "missing_count": 11,
     "template_or_placeholder_count": 0,
     "formal_acceptance_ready": false,
     "can_mark_complete": false
   },
   "formal_evidence_path_audit": {
     "artifact_count": 11,
-    "present_artifact_count": 0,
+    "present_artifact_count": 1,
     "evidence_item_count": 0,
     "missing_local_evidence_count": 0,
     "placeholder_evidence_count": 0,
-    "empty_evidence_record_count": 0,
+    "empty_evidence_record_count": 1,
     "can_mark_complete": false
   },
   "final_study_readiness": {
     "gate_count": 15,
     "ready_gate_ids": [
       "real_input_smoke",
-      "structured_disruptions",
       "policy_alternatives"
     ],
     "blocked_gate_ids": [
@@ -336,6 +399,7 @@
       "parameter_evidence",
       "rail_evidence",
       "validation_package",
+      "structured_disruptions",
       "sensitivity_analysis",
       "full_experiment_output",
       "manuscript_report_alignment",
@@ -350,9 +414,12 @@
     "data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
     "parameter_acceptance: create reviewed parameter acceptance records only for weak assumptions retained in final claims",
     "parameter_acceptance: parameter_acceptance.csv is missing",
-    "road_class_overrides: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-    "road_class_overrides: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road_class_overrides: reviewed road-class override table is absent",
+    "road_class_overrides: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
+    "road_class_overrides: verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
+    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_applied: true",
+    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_path",
+    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_sha256",
+    "road_class_overrides: accepted pilot manifest graph_source does not record road_class_overrides",
     "validation_package: create an explicit validation acceptance record after benchmark-strategy review",
     "sensitivity_analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
     "full_experiment_output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
@@ -364,7 +431,6 @@
     "formal_acceptance_guard: data/manifests/graph_scale_acceptance.json: create formal acceptance artifact",
     "formal_acceptance_guard: data/manifests/provenance_acceptance.json: create formal acceptance artifact",
     "formal_acceptance_guard: data/parameters/parameter_acceptance.csv: create formal acceptance artifact",
-    "formal_acceptance_guard: data/parameters/road_class_overrides.csv: create formal acceptance artifact",
     "formal_acceptance_guard: data/manifests/validation_acceptance.json: create formal acceptance artifact",
     "formal_acceptance_guard: data/manifests/sensitivity_acceptance.json: create formal acceptance artifact",
     "formal_acceptance_guard: data/manifests/experiment_acceptance.json: create formal acceptance artifact",
@@ -372,6 +438,7 @@
     "formal_acceptance_guard: data/manifests/reproducibility_acceptance.json: create formal acceptance artifact",
     "formal_acceptance_guard: docs/final_study_audit.md: create formal acceptance artifact",
     "formal_acceptance_guard: data/manifests/final_audit_acceptance.json: create formal acceptance artifact",
+    "formal_evidence_paths: data/parameters/road_class_overrides.csv: no evidence_paths, source_paths, reviewed_inputs, or data_snapshot_paths found",
     "final_study_readiness: final-study readiness audit is still false"
   ]
 }

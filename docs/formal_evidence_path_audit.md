@@ -6,7 +6,7 @@ This audit checks whether formal target artifacts point to concrete local eviden
 
 - Formal evidence paths ready: `false`
 - Can mark complete: `false`
-- Formal artifacts present: 0 / 11
+- Formal artifacts present: 1 / 11
 - Evidence items: 0
 - Missing local evidence: 0
 - Placeholder evidence values: 0
@@ -19,7 +19,7 @@ This audit checks whether formal target artifacts point to concrete local eviden
 | `data/manifests/graph_scale_acceptance.json` | false | 0 | none |
 | `data/manifests/provenance_acceptance.json` | false | 0 | none |
 | `data/parameters/parameter_acceptance.csv` | false | 0 | none |
-| `data/parameters/road_class_overrides.csv` | false | 0 | none |
+| `data/parameters/road_class_overrides.csv` | true | 0 | none |
 | `data/manifests/validation_acceptance.json` | false | 0 | none |
 | `data/manifests/sensitivity_acceptance.json` | false | 0 | none |
 | `data/manifests/experiment_acceptance.json` | false | 0 | none |

@@ -54,6 +54,7 @@ class MetricsCollector:
 
     # Unit-explicit fields for new resource accounting.
     lastmile_vehicle_minutes: float = 0.0
+    rerouting_events: int = 0
     passenger_travel_minutes: float = 0.0
 
     # Personnel still waiting at end
@@ -240,6 +241,7 @@ class MetricsCollector:
                 4,
             ),
             "resource_efficiency": round(self.resource_efficiency, 4),
+            "rerouting_events": self.rerouting_events,
             "leftover_count": self.leftover_count,
             "censored_count": self.censored_count,
             "completion_rate": self.completion_rate,

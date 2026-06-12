@@ -1,8 +1,9 @@
 {
   "action_type_counts": {
     "apply_reviewed_input_and_regenerate": 1,
-    "create_or_supply_formal_evidence": 13,
-    "replace_weak_or_scaffold_evidence": 1
+    "create_or_supply_formal_evidence": 12,
+    "replace_weak_or_scaffold_evidence": 1,
+    "resolve_blocker": 4
   },
   "agent_task_counts": {
     "clean_checkout_reproducibility_agent": 1,
@@ -12,25 +13,25 @@
     "osm_source_license_provenance_review_agent": 1,
     "paper_report_claim_alignment_agent": 1,
     "pilot_region_privacy_review_agent": 1,
-    "road_rail_parameter_evidence_agent": 5,
+    "road_rail_parameter_evidence_agent": 8,
     "sensitivity_analysis_review_agent": 1,
     "validation_benchmark_strategy_agent": 1
   },
   "assigned_agent_count": 10,
   "assignment_path": "data/manifests/acceptance_task_assignments.csv",
-  "blocker_queue_claim_boundary": "Formal acceptance blocker queue only. Rows are work items for reviewers; they do not create approvals, source evidence, calibrated validation, or operational routing permission.",
+  "blocker_queue_claim_boundary": "Formal decision blocker queue only. Rows are work items for reviewers; they do not create approvals, source evidence, field-fit benchmark evidence, or deployment routing permission.",
   "can_mark_complete": false,
   "claim_boundary": "Sub-agent task assignments only. These rows assign review work; they do not approve evidence, certify licenses, validate calibration, or close final-study gates.",
   "final_study_ready": false,
   "formal_acceptance_ready": false,
-  "generated_at": "2026-06-04T02:49:15+00:00",
+  "generated_at": "2026-06-11T15:07:29+00:00",
   "orchestration_claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
-  "requires_human_review_count": 15,
+  "requires_human_review_count": 18,
   "review_items": [
     "each task requires source-backed evidence or an explicit blocked decision",
     "review packets and templates are aids only, not formal decisions",
     "rerun scripts/run_acceptance_audit.py after any formal artifact changes"
   ],
   "schema_version": 1,
-  "task_count": 15
+  "task_count": 18
 }

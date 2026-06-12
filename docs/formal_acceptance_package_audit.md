@@ -18,7 +18,7 @@ This package checks reviewer-supplied formal decision artifacts. It does not cre
 | Graph-Scale Decision | blocked | `data/manifests/graph_scale_acceptance.json` | create an explicit graph-scale acceptance record after source-vs-analysis graph review |
 | Source/License/Provenance Decision | blocked | `data/manifests/provenance_acceptance.json` | create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review |
 | Weak-Parameter Decision | blocked | `data/parameters/parameter_acceptance.csv` | create reviewed parameter acceptance records only for weak assumptions retained in final claims<br>parameter_acceptance.csv is missing |
-| Road-Class Override Decision | blocked | `data/parameters/road_class_overrides.csv` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs<br>reviewed road-class override table is absent |
+| Road-Class Override Decision | blocked | `data/parameters/road_class_overrides.csv` | replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed<br>verify graph-adapter runs apply the reviewed override table before using road-calibration claims<br>accepted pilot manifest does not record road_class_overrides_applied: true<br>accepted pilot manifest does not record road_class_overrides_path<br>accepted pilot manifest does not record road_class_overrides_sha256<br>accepted pilot manifest graph_source does not record road_class_overrides |
 | Benchmark Decision | blocked | `data/manifests/validation_acceptance.json` | create an explicit validation acceptance record after benchmark-strategy review |
 | Sensitivity Analysis Decision | blocked | `data/manifests/sensitivity_acceptance.json` | create an explicit sensitivity acceptance record after SALib output and Sobol-decision review |
 | Experiment Output Decision | blocked | `data/manifests/experiment_acceptance.json` | create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review |
@@ -29,8 +29,8 @@ This package checks reviewer-supplied formal decision artifacts. It does not cre
 
 ## Guard Summary
 
-- Formal artifacts present: 0 / 12
-- Missing formal artifacts: 12
+- Formal artifacts present: 1 / 12
+- Missing formal artifacts: 11
 - Template or placeholder artifacts detected: 0
 - Guard can mark complete: `false`
 
@@ -39,14 +39,14 @@ This package checks reviewer-supplied formal decision artifacts. It does not cre
 - Evidence items: 0
 - Missing local evidence: 0
 - Placeholder evidence values: 0
-- Empty evidence records: 0
+- Empty evidence records: 1
 - Evidence-path audit can mark complete: `false`
 
 ## Study-Closeout Cross-Check
 
 - Study-closeout verdict: `study_closeout_blocked`
-- Ready plan gates: 3 / 15
-- Blocked plan gates: 12 / 15
+- Ready plan gates: 2 / 15
+- Blocked plan gates: 13 / 15
 
 ## Use
 

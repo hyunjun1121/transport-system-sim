@@ -121,7 +121,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -147,7 +147,7 @@
     "claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims",
     "resolve manuscript/report decision blockers before manuscript acceptance",
     "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "manuscript/report decision: claim-alignment packet has 42 rows requiring revision or acceptance",
+    "manuscript/report decision: claim-alignment packet has 52 rows requiring revision or explicit retention",
     "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
     "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
     "review manuscript/report human-decision rows before manuscript acceptance",
@@ -179,6 +179,7 @@
     "Revise or hold claims until all supporting evidence gates are accepted.",
     "Create manuscript_acceptance.json after claim-by-claim review.",
     "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
+    "create an explicit manuscript/report decision record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

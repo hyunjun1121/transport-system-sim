@@ -137,9 +137,9 @@ def test_shipped_full_pilot_statistics_are_reproducible() -> None:
     metric_rows = build_metric_ci_rows(rows)
     delta_rows = build_paired_delta_ci_rows(rows)
 
-    assert len(rows) == 1890
-    assert len(metric_rows) == 819
-    assert len(delta_rows) == 702
+    assert len(rows) == 15870
+    assert len(metric_rows) == 6877
+    assert len(delta_rows) == 6578
 
     print("PASS: shipped full-pilot statistics match current scaffold dimensions")
 

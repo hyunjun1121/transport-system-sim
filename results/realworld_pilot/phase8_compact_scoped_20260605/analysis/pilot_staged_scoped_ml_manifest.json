@@ -4,29 +4,19 @@
     "normal"
   ],
   "command": [
-    "scripts\\run_ml_analysis.py",
-    "--input",
-    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\pilot_staged_results.csv",
-    "--source-manifest",
-    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\pilot_staged_manifest.json",
-    "--output-dir",
-    "results\\realworld_pilot\\phase8_compact_scoped_20260605\\analysis",
-    "--output-prefix",
-    "pilot_staged_scoped",
-    "--device",
-    "cuda"
+    "scripts\\run_ml_analysis.py"
   ],
   "feature_importance_row_count": 23,
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
-  "generated_at": "2026-06-09T06:39:57+00:00",
+  "generated_at": "2026-06-12T02:14:16+00:00",
   "label_counts": {
     "failure": 30,
     "normal": 285
   },
   "label_row_count": 315,
   "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
-  "model_device": "cuda",
+  "model_device": "cpu",
   "model_package": "xgboost",
   "model_status": "xgboost_trained",
   "output_prefix": "pilot_staged_scoped",

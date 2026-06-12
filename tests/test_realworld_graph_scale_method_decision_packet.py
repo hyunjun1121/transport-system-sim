@@ -41,7 +41,7 @@ def test_graph_scale_method_decision_rows_surface_current_blockers() -> None:
     assert by_id["multi_corridor_full_candidate_method_option"][
         "decision_status"
     ] == "needs_human_review_multi_corridor_result_delta_policy"
-    assert "candidate_worsens=24" in by_id[
+    assert "candidate_worsens=27" in by_id[
         "multi_corridor_full_candidate_method_option"
     ]["current_evidence"]
     assert by_id["full_bus_practical_graph_method_option"]["decision_status"] == (

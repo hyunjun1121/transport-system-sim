@@ -13,6 +13,7 @@ from collections.abc import Iterable, Mapping, Sequence
 from math import inf, isfinite
 
 import networkx as nx
+import numpy as np
 
 from src.models import bpr_travel_time
 from src.sim_types import (
@@ -48,6 +49,8 @@ class DynamicRoadTraffic:
         beta: float = 4.0,
         scale: float = 1.0,
         disruptions: Mapping[Edge, EdgeDisruption] | None = None,
+        road_noise_sigma: float = 0.0,
+        rng_road: np.random.Generator | None = None,
     ) -> None:
         self.graph = graph
         self.volume_window_min = require_positive(
@@ -63,6 +66,8 @@ class DynamicRoadTraffic:
         self.scale = require_non_negative(scale, "scale")
         self.disruptions: dict[Edge, EdgeDisruption] = dict(disruptions or {})
         self._entries: defaultdict[Edge, deque[float]] = defaultdict(deque)
+        self._road_noise_sigma = float(road_noise_sigma)
+        self._rng_road = rng_road
 
     @classmethod
     def from_config(
@@ -72,6 +77,8 @@ class DynamicRoadTraffic:
         *,
         params: Mapping | None = None,
         disruptions: Mapping[Edge, EdgeDisruption] | None = None,
+        road_noise_sigma: float = 0.0,
+        rng_road: np.random.Generator | None = None,
     ) -> "DynamicRoadTraffic":
         """Build a helper from project config namespaces."""
         traffic_config = config.get("traffic", {})
@@ -86,6 +93,8 @@ class DynamicRoadTraffic:
             beta=bpr_config.get("beta", 4.0),
             scale=params.get("s", 1.0),
             disruptions=disruptions,
+            road_noise_sigma=road_noise_sigma,
+            rng_road=rng_road,
         )
 
     def set_disruptions(
@@ -161,6 +170,9 @@ class DynamicRoadTraffic:
             beta=self.beta,
             scale=self.scale,
         )
+        if self._road_noise_sigma > 0.0 and self._rng_road is not None:
+            noise_factor = 1.0 + self._rng_road.normal(0.0, self._road_noise_sigma)
+            travel_time = travel_time * max(noise_factor, 0.1)
         exit_time = entry_time + travel_time if isfinite(travel_time) else inf
 
         return EdgeTraversal(

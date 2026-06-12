@@ -26,7 +26,7 @@ def test_task_assignments_cover_current_formal_blockers() -> None:
     summary = build_formal_acceptance_package_summary()
     rows = build_acceptance_task_assignment_rows(package_summary=summary)
 
-    assert len(rows) == 15
+    assert len(rows) == 18
     assert {row["can_mark_complete"] for row in rows} == {"false"}
     assert {row["requires_human_review"] for row in rows} == {"true"}
     assert all(row["assigned_agent_id"] for row in rows)
@@ -56,7 +56,7 @@ def test_write_task_assignments_outputs_csv_manifest_and_doc() -> None:
             package_summary=summary,
         )
 
-        assert value["task_count"] == 15
+        assert value["task_count"] == 18
         assert value["assigned_agent_count"] >= 1
         assert value["can_mark_complete"] is False
         assert output.exists()
@@ -65,12 +65,12 @@ def test_write_task_assignments_outputs_csv_manifest_and_doc() -> None:
 
         with output.open("r", encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
-        assert len(rows) == 15
+        assert len(rows) == 18
         assert all(row["validation_command"] for row in rows)
 
         compact = summarize_acceptance_task_assignments(manifest)
         assert compact["manifest_present"] is True
-        assert compact["task_count"] == 15
+        assert compact["task_count"] == 18
         assert compact["can_mark_complete"] is False
 
 

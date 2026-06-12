@@ -11,6 +11,7 @@
     "parameter_evidence",
     "rail_evidence",
     "validation_package",
+    "structured_disruptions",
     "sensitivity_analysis",
     "full_experiment_output",
     "manuscript_report_alignment",
@@ -31,14 +32,12 @@
   "prompt_to_artifact_checklist_reviewed": false,
   "ready_gate_ids": [
     "real_input_smoke",
-    "structured_disruptions",
     "policy_alternatives"
   ],
   "record_type": "formal_acceptance_template_not_approval",
   "region_id": "songpa_public_demo",
   "reviewed_gate_ids": [
     "real_input_smoke",
-    "structured_disruptions",
     "policy_alternatives",
     "pilot_region_accepted",
     "cached_osm_input",
@@ -47,6 +46,7 @@
     "parameter_evidence",
     "rail_evidence",
     "validation_package",
+    "structured_disruptions",
     "sensitivity_analysis",
     "full_experiment_output",
     "manuscript_report_alignment",

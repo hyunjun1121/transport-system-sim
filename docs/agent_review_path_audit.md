@@ -8,11 +8,11 @@ This audit checks sub-agent review-record path hygiene only. It does not approve
 - Can mark complete: `false`
 - Review records: 12
 - Path references: 853
-- Present paths: 817
+- Present paths: 820
 - Missing required paths: 0
-- Missing formal targets: 36
-- Unique missing formal targets: 12
-- Status counts: missing_formal_target=36, present=817
+- Missing formal targets: 33
+- Unique missing formal targets: 11
+- Status counts: missing_formal_target=33, present=820
 
 ## Missing Formal Targets
 
@@ -20,7 +20,6 @@ These are expected to remain absent until reviewed acceptance decisions are supp
 
 | Gate | Field | Path | Record |
 | --- | --- | --- | --- |
-| cached_osm_input | source_paths | `data/parameters/road_class_overrides.csv` | `data/manifests/agent_reviews/cached_osm_input__road_rail_parameter_evidence_agent.json` |
 | cached_osm_input | source_paths | `data/parameters/parameter_acceptance.csv` | `data/manifests/agent_reviews/cached_osm_input__road_rail_parameter_evidence_agent.json` |
 | data_provenance | evidence | `data/manifests/provenance_acceptance.json` | `data/manifests/agent_reviews/data_provenance__osm_source_license_provenance_review_agent.json` |
 | data_provenance | source_paths | `data/manifests/provenance_acceptance.json` | `data/manifests/agent_reviews/data_provenance__osm_source_license_provenance_review_agent.json` |
@@ -40,12 +39,10 @@ These are expected to remain absent until reviewed acceptance decisions are supp
 | manuscript_report_alignment | evidence | `data/manifests/manuscript_acceptance.json` | `data/manifests/agent_reviews/manuscript_report_alignment__paper_report_claim_alignment_agent.json` |
 | manuscript_report_alignment | source_paths | `data/manifests/manuscript_acceptance.json` | `data/manifests/agent_reviews/manuscript_report_alignment__paper_report_claim_alignment_agent.json` |
 | manuscript_report_alignment | reviewed_inputs | `data/manifests/manuscript_acceptance.json` | `data/manifests/agent_reviews/manuscript_report_alignment__paper_report_claim_alignment_agent.json` |
-| parameter_evidence | source_paths | `data/parameters/road_class_overrides.csv` | `data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json` |
 | parameter_evidence | source_paths | `data/parameters/parameter_acceptance.csv` | `data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json` |
 | pilot_region_accepted | evidence | `data/manifests/pilot_acceptance.json` | `data/manifests/agent_reviews/pilot_region_accepted__pilot_region_privacy_review_agent.json` |
 | pilot_region_accepted | source_paths | `data/manifests/pilot_acceptance.json` | `data/manifests/agent_reviews/pilot_region_accepted__pilot_region_privacy_review_agent.json` |
 | pilot_region_accepted | reviewed_inputs | `data/manifests/pilot_acceptance.json` | `data/manifests/agent_reviews/pilot_region_accepted__pilot_region_privacy_review_agent.json` |
-| rail_evidence | source_paths | `data/parameters/road_class_overrides.csv` | `data/manifests/agent_reviews/rail_evidence__road_rail_parameter_evidence_agent.json` |
 | rail_evidence | source_paths | `data/parameters/parameter_acceptance.csv` | `data/manifests/agent_reviews/rail_evidence__road_rail_parameter_evidence_agent.json` |
 | reproducibility | evidence | `data/manifests/reproducibility_acceptance.json` | `data/manifests/agent_reviews/reproducibility__clean_checkout_reproducibility_agent.json` |
 | reproducibility | source_paths | `data/manifests/reproducibility_acceptance.json` | `data/manifests/agent_reviews/reproducibility__clean_checkout_reproducibility_agent.json` |

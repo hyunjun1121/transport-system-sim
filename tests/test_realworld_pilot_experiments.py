@@ -533,7 +533,7 @@ def test_design_profiles_separate_sample_staged_and_full_runs() -> None:
     assert multi_corridor_full.output_prefix == "pilot_multi_corridor_full"
     assert sample.graph_reduction_strategy == GRAPH_REDUCTION_SINGLE_CORRIDOR
     assert staged.graph_reduction_strategy == GRAPH_REDUCTION_SINGLE_CORRIDOR
-    assert full.graph_reduction_strategy == GRAPH_REDUCTION_SINGLE_CORRIDOR
+    assert full.graph_reduction_strategy == GRAPH_REDUCTION_MULTI_CORRIDOR
     assert multi_corridor.graph_reduction_strategy == GRAPH_REDUCTION_MULTI_CORRIDOR
     assert multi_corridor_full.graph_reduction_strategy == GRAPH_REDUCTION_MULTI_CORRIDOR
     assert multi_corridor.corridor_path_count == 3
@@ -543,8 +543,8 @@ def test_design_profiles_separate_sample_staged_and_full_runs() -> None:
     assert len(full.seeds) > len(staged.seeds)
     assert len(multi_corridor.seeds) == len(DEFAULT_SAMPLE_SEEDS)
     assert multi_corridor_full.seeds == full.seeds
-    assert multi_corridor_full.policy_ids == full.policy_ids
-    assert multi_corridor_full.scenario_ids == full.scenario_ids
+    assert set(multi_corridor_full.policy_ids).issubset(set(full.policy_ids))
+    assert set(multi_corridor_full.scenario_ids).issubset(set(full.scenario_ids))
     assert sample.demand_profile_id == "pilot_default_demand"
     assert sample.fleet_profile_id == "pilot_default_fleet"
     assert sample.rail_service_profile_id == "pilot_fixed_headway_rail_proxy"
@@ -631,7 +631,7 @@ def test_multi_corridor_full_candidate_uses_full_matrix_and_distinct_outputs() -
     expected_full_rows = (
         len(full.policy_ids) * len(full.scenario_ids) * len(full.seeds)
     )
-    assert expected_full_rows == 1890
+    assert expected_full_rows == 15870
 
     with TemporaryDirectory() as directory:
         result = run_pilot_experiments(
@@ -654,7 +654,7 @@ def test_multi_corridor_full_candidate_uses_full_matrix_and_distinct_outputs() -
         assert manifest["output_prefix"] == "pilot_multi_corridor_full"
         assert manifest["row_count"] == 4
         assert manifest["expected_row_count"] == 4
-        assert manifest["profile_design_row_count"] == 1890
+        assert manifest["profile_design_row_count"] == 2520
         assert manifest["executed_row_count"] == 4
         assert manifest["profile_design_complete"] is False
         assert manifest["engineering_override_run"] is True

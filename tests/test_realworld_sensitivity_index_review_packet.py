@@ -29,13 +29,13 @@ def test_sensitivity_index_rows_summarize_current_metrics() -> None:
     by_metric = {row["metric"]: row for row in rows}
 
     assert len(rows) == 7
-    assert by_metric["p80_arrival_time"]["unavailable_index_rows"] == "84"
-    assert by_metric["p95_arrival_time"]["unavailable_index_rows"] == "84"
-    assert by_metric["completion_rate"]["zero_mu_star_rows"] == "1008"
-    assert by_metric["completion_rate"]["all_zero_groups"] == "72"
-    assert by_metric["censored_count"]["positive_mu_star_rows"] == "6"
+    assert by_metric["p80_arrival_time"]["unavailable_index_rows"] == "2436"
+    assert by_metric["p95_arrival_time"]["unavailable_index_rows"] == "2436"
+    assert by_metric["completion_rate"]["zero_mu_star_rows"] == "7386"
+    assert by_metric["completion_rate"]["all_zero_groups"] == "456"
+    assert by_metric["censored_count"]["positive_mu_star_rows"] == "479"
     assert by_metric["p80_arrival_time"]["affected_unavailable_scenarios"] == (
-        "songpa_critical_link_blockage"
+        "no_disruption; songpa_access_origin_to_destination; songpa_access_origin_to_station; songpa_combo_access_rail_capacity; songpa_combo_tancheon_rail_delay; songpa_critical_link_blockage; songpa_last_mile_station_to_destination; songpa_rail_capacity_reduction; songpa_rail_combined_stress; songpa_rail_combined_stress_mild; songpa_rail_combined_stress_severe; songpa_rail_delay; songpa_rail_delay_mild; songpa_rail_delay_severe; songpa_rail_station_access; songpa_rail_unavailable; songpa_random_blockage; songpa_random_capacity_reduction; songpa_spatial_assembly_egress; songpa_spatial_feeder_east; songpa_spatial_lastmile_west; songpa_spatial_tancheon_corridor; songpa_transfer_point_blockage"
     )
     assert by_metric["p80_arrival_time"]["index_review_status"] == (
         "needs_human_review_unavailable_indices"
@@ -74,8 +74,8 @@ def test_sensitivity_index_writer_outputs_artifacts() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert written_manifest["unavailable_index_row_count"] == 168
-    assert written_manifest["zero_mu_star_row_count"] == 4272
+    assert written_manifest["unavailable_index_row_count"] == 4872
+    assert written_manifest["zero_mu_star_row_count"] == 29601
     assert "Sensitivity Index Review Packet" in doc_text
 
     print("PASS: sensitivity index review writer emits artifacts")
@@ -101,11 +101,11 @@ def test_shipped_sensitivity_index_review_packet_matches_current_outputs() -> No
     assert len(written_rows) == len(rows)
     assert [row["metric"] for row in written_rows] == [row["metric"] for row in rows]
     assert manifest["row_count"] == 7
-    assert manifest["unavailable_index_row_count"] == 168
-    assert manifest["zero_mu_star_row_count"] == 4272
-    assert manifest["positive_mu_star_row_count"] == 2616
-    assert manifest["all_zero_group_count"] == 150
-    assert manifest["unavailable_group_count"] == 12
+    assert manifest["unavailable_index_row_count"] == 4872
+    assert manifest["zero_mu_star_row_count"] == 29601
+    assert manifest["positive_mu_star_row_count"] == 19623
+    assert manifest["all_zero_group_count"] == 954
+    assert manifest["unavailable_group_count"] == 348
     assert manifest["publication_ready"] is False
 
     print("PASS: shipped sensitivity index review packet matches current outputs")

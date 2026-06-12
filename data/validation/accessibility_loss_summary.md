@@ -6,14 +6,6 @@ Evidence class: scaffold route-fragility diagnostic. This is not
 calibrated real-world accessibility evidence and is not an operational
 routing recommendation.
 
-## Current Scaffold Boundary
-
-- Final-study ready: `false`.
-- Final-study gate status: `3/15` ready and `12/15` blocked.
-- Formal acceptance ready: `0/12`; no formal approval artifacts are present.
-- Validation, graph-scale, sensitivity, and experiment strategy-readiness packets are implemented as review aids only.
-- This diagnostic is scaffold evidence only; it is not a calibrated real-world result.
-
 ## Inputs
 
 - Region spec: `data/regions/pilot_region.yaml`
@@ -34,8 +26,8 @@ Criticality counts:
 
 - `disconnected`: 22
 - `high_time_loss`: 17
-- `low_time_loss`: 50
-- `moderate_time_loss`: 38
+- `low_time_loss`: 52
+- `moderate_time_loss`: 36
 
 ## Interpretation Boundary
 

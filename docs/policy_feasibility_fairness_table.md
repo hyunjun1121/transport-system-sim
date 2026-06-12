@@ -6,8 +6,8 @@ Phase 8 pre-compact review table only; not policy acceptance, not validation acc
 
 - Publication ready: `false`
 - Can mark complete: `false`
-- Rows: 8
-- Status counts: `{'blocked_current_policy_no_effect': 1, 'blocked_excluded_until_documented_corridor': 1, 'deterministic_dispatch_variant_not_adaptive_routing': 1, 'proxy_comparator_ready_for_engineering_compact_only': 2, 'resource_sensitivity_ready_for_engineering_compact_only': 2, 'stress_sensitivity_only': 1}`
+- Rows: 24
+- Status counts: `{'blocked_current_policy_no_effect': 1, 'blocked_excluded_until_documented_corridor': 1, 'deterministic_dispatch_variant_not_adaptive_routing': 1, 'proxy_comparator_ready_for_engineering_compact_only': 2, 'resource_sensitivity_ready_for_engineering_compact_only': 18, 'stress_sensitivity_only': 1}`
 
 ## Rows
 
@@ -21,6 +21,22 @@ Phase 8 pre-compact review table only; not policy acceptance, not validation acc
 | bus_corridor_redundancy | blocked_excluded_until_documented_corridor | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
 | rail_delay_or_partial_unavailability | stress_sensitivity_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
 | fleet_shortage_stress | blocked_current_policy_no_effect | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| peak_congestion_bus | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| peak_congestion_multimodal | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| moderate_congestion_bus | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| moderate_congestion_multimodal | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| heavy_congestion_bus | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| heavy_congestion_multimodal | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| severe_congestion_bus | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| severe_congestion_multimodal | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| transfer_stress_mild | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| transfer_stress_moderate | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| transfer_stress_severe | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| transfer_stress_extreme | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| fleet_shortage_severe | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| lastmile_capacity_mild | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| lastmile_capacity_moderate | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
+| lastmile_capacity_severe | resource_sensitivity_ready_for_engineering_compact_only | Phase 8 pre-compact review table only; not policy acceptance, not validation acceptance, not calibrated real-world evidence, not final-study approval, and not operational routing or dispatch guidance. |
 
 ## Boundary
 

@@ -1,5 +1,5 @@
 {
-  "all_zero_group_count": 150,
+  "all_zero_group_count": 954,
   "can_mark_complete": false,
   "claim_boundary": "This packet summarizes Morris index handling by metric. It does not create sensitivity acceptance, does not waive Sobol analysis, and does not support calibrated final-study sensitivity claims.",
   "human_review_metric_count": 7,
@@ -25,7 +25,7 @@
     "doc": "docs/sensitivity_index_review_packet.md",
     "manifest": "data/validation/sensitivity_index_review_manifest.json"
   },
-  "positive_mu_star_row_count": 2616,
+  "positive_mu_star_row_count": 19623,
   "publication_ready": false,
   "remaining_blockers": [
     "metric-level index handling still requires human review",
@@ -41,7 +41,7 @@
   "row_count": 7,
   "schema_version": 1,
   "sensitivity_gate_closure_candidate_count": 0,
-  "unavailable_group_count": 12,
-  "unavailable_index_row_count": 168,
-  "zero_mu_star_row_count": 4272
+  "unavailable_group_count": 348,
+  "unavailable_index_row_count": 4872,
+  "zero_mu_star_row_count": 29601
 }

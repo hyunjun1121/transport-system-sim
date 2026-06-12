@@ -93,10 +93,10 @@
       "sample_scaffold": false,
       "result_scope": "Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
       "design_status": "review_scoped_full_profile_pending_input_validation_and_compute_budget",
-      "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_reviewed",
+      "analysis_graph_strategy": "multi_corridor_for_realistic_route_alternatives",
       "reduce_graph": true,
-      "graph_reduction_strategy": "single_corridor",
-      "corridor_path_count": 1,
+      "graph_reduction_strategy": "multi_corridor",
+      "corridor_path_count": 3,
       "demand_profile_id": "pilot_default_demand",
       "fleet_profile_id": "pilot_default_fleet",
       "rail_service_profile_id": "pilot_fixed_headway_rail_proxy",
@@ -109,7 +109,23 @@
         "staggered_or_adaptive_dispatch",
         "multimodal_increased_feeder_capacity",
         "rail_delay_or_partial_unavailability",
-        "fleet_shortage_stress"
+        "fleet_shortage_stress",
+        "fleet_shortage_severe",
+        "moderate_congestion_bus",
+        "moderate_congestion_multimodal",
+        "heavy_congestion_bus",
+        "heavy_congestion_multimodal",
+        "severe_congestion_bus",
+        "severe_congestion_multimodal",
+        "peak_congestion_bus",
+        "peak_congestion_multimodal",
+        "transfer_stress_mild",
+        "transfer_stress_moderate",
+        "transfer_stress_severe",
+        "transfer_stress_extreme",
+        "lastmile_capacity_mild",
+        "lastmile_capacity_moderate",
+        "lastmile_capacity_severe"
       ],
       "scenario_ids": [
         "no_disruption",
@@ -120,7 +136,21 @@
         "songpa_access_origin_to_destination",
         "songpa_last_mile_station_to_destination",
         "songpa_rail_station_access",
-        "songpa_spatial_tancheon_corridor"
+        "songpa_spatial_tancheon_corridor",
+        "songpa_spatial_feeder_east",
+        "songpa_spatial_lastmile_west",
+        "songpa_spatial_assembly_egress",
+        "songpa_rail_delay",
+        "songpa_rail_delay_mild",
+        "songpa_rail_delay_severe",
+        "songpa_rail_unavailable",
+        "songpa_rail_capacity_reduction",
+        "songpa_rail_combined_stress",
+        "songpa_rail_combined_stress_mild",
+        "songpa_rail_combined_stress_severe",
+        "songpa_combo_tancheon_rail_delay",
+        "songpa_combo_access_rail_capacity",
+        "songpa_transfer_point_blockage"
       ],
       "seeds": [
         3101,
@@ -154,7 +184,7 @@
         3129,
         3130
       ],
-      "description": "Full current pilot design using the current scenario-policy matrix and a 30-seed common-random-number set. Run only after staged outputs and input checks are reviewed."
+      "description": "Full pilot design with R4 reinforcement: 23 policies (4 fleet/capacity new), 23 scenarios (6 rail severity ladder + transfer point new), 30 seeds = 15870 rows. Covers all 5 thesis pillars with graduated severity ladders: access roads, rail service, transfer handling, last-mile capacity, and fleet availability."
     },
     "multi_corridor_candidate": {
       "profile_id": "multi_corridor_candidate",
@@ -224,7 +254,10 @@
         "songpa_access_origin_to_destination",
         "songpa_last_mile_station_to_destination",
         "songpa_rail_station_access",
-        "songpa_spatial_tancheon_corridor"
+        "songpa_spatial_tancheon_corridor",
+        "songpa_spatial_feeder_east",
+        "songpa_spatial_lastmile_west",
+        "songpa_spatial_assembly_egress"
       ],
       "seeds": [
         3101,

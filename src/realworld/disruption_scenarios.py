@@ -34,10 +34,11 @@ ALLOWED_FAMILIES = frozenset(
         "last_mile",
         "rail_station_access",
         "spatial_hazard_overlay",
+        "rail_service",
     }
 )
-REQUIRED_FAMILIES = ALLOWED_FAMILIES
-ALLOWED_DISRUPTION_MODES = frozenset({"blocked", "capacity_reduction"})
+REQUIRED_FAMILIES = ALLOWED_FAMILIES - {"rail_service"}
+ALLOWED_DISRUPTION_MODES = frozenset({"blocked", "capacity_reduction", "none"})
 ALLOWED_SELECTION_METHODS = frozenset(
     {
         "hash_rank",
@@ -45,6 +46,7 @@ ALLOWED_SELECTION_METHODS = frozenset(
         "shortest_path",
         "station_access",
         "bbox_midpoint",
+        "rail_param",
     }
 )
 FAMILY_SELECTION_METHODS = {
@@ -54,6 +56,7 @@ FAMILY_SELECTION_METHODS = {
     "last_mile": frozenset({"shortest_path"}),
     "rail_station_access": frozenset({"station_access"}),
     "spatial_hazard_overlay": frozenset({"bbox_midpoint"}),
+    "rail_service": frozenset({"rail_param"}),
 }
 CSV_COLUMNS = (
     "scenario_id",
@@ -70,6 +73,9 @@ CSV_COLUMNS = (
     "hazard_bbox_south",
     "hazard_bbox_east",
     "hazard_bbox_north",
+    "rail_travel_time_multiplier",
+    "rail_headway_multiplier",
+    "rail_capacity_multiplier",
     "evidence_class",
     "observed_disaster_data",
     "duration_min",
@@ -132,6 +138,9 @@ class DisruptionScenario:
     p_fail_scale: float
     max_edges: int | None = None
     hazard_bbox: HazardBbox | None = None
+    rail_travel_time_multiplier: float | None = None
+    rail_headway_multiplier: float | None = None
+    rail_capacity_multiplier: float | None = None
     evidence_class: str = "scenario_based"
     observed_disaster_data: bool = False
     duration_min: float | None = None
@@ -433,6 +442,9 @@ def select_candidate_edges(
 ) -> tuple[ScenarioEdge, ...]:
     """Map one scenario to deterministic candidate graph edges."""
 
+    if scenario.selection_method == "rail_param":
+        return ()
+
     _validate_mapping_graph(graph, scenario)
     node_ids = _normalize_required_nodes(required_nodes)
 
@@ -541,6 +553,15 @@ def _scenario_from_row(row: Mapping[str, str], row_number: int) -> DisruptionSce
         p_fail_scale=_row_float(row, "p_fail_scale", row_number),
         max_edges=_optional_row_int(row, "max_edges", row_number),
         hazard_bbox=bbox,
+        rail_travel_time_multiplier=_optional_row_float(
+            row, "rail_travel_time_multiplier", row_number,
+        ),
+        rail_headway_multiplier=_optional_row_float(
+            row, "rail_headway_multiplier", row_number,
+        ),
+        rail_capacity_multiplier=_optional_row_float(
+            row, "rail_capacity_multiplier", row_number,
+        ),
         evidence_class=_required_row_text(row, "evidence_class", row_number),
         observed_disaster_data=_row_bool(row, "observed_disaster_data", row_number),
         duration_min=_optional_row_float(row, "duration_min", row_number),
@@ -653,6 +674,9 @@ def _validate_scenario(scenario: DisruptionScenario) -> None:
         raise ValueError("capacity_reduction scenarios require capacity_factor > 0")
     if scenario.p_fail_scale < 0.0:
         raise ValueError("p_fail_scale must be non-negative")
+    if scenario.family == "rail_service":
+        _validate_rail_service_scenario(scenario)
+        return
     if scenario.selection_method == "shortest_path" and "->" not in scenario.target_segment:
         raise ValueError("shortest_path scenarios require target_segment like 'A->D'")
     if scenario.selection_method == "bbox_midpoint" and scenario.hazard_bbox is None:
@@ -663,6 +687,21 @@ def _validate_scenario(scenario: DisruptionScenario) -> None:
                 "spatial_hazard_overlay rows must be scenario_based and "
                 "observed_disaster_data=false"
             )
+
+
+def _validate_rail_service_scenario(scenario: DisruptionScenario) -> None:
+    if scenario.disruption_mode != "none":
+        raise ValueError("rail_service scenarios must use disruption_mode 'none'")
+    has_rail_knob = any(
+        v is not None and v != 1.0
+        for v in (
+            scenario.rail_travel_time_multiplier,
+            scenario.rail_headway_multiplier,
+            scenario.rail_capacity_multiplier,
+        )
+    )
+    if not has_rail_knob:
+        raise ValueError("rail_service scenarios require at least one rail multiplier != 1.0")
 
 
 def _validate_mapping_graph(graph: nx.DiGraph, scenario: DisruptionScenario) -> None:
@@ -933,6 +972,9 @@ def _scenario_manifest_row(scenario: DisruptionScenario) -> dict[str, Any]:
         "p_fail_scale": scenario.p_fail_scale,
         "max_edges": scenario.max_edges,
         "hazard_bbox": scenario.hazard_bbox,
+        "rail_travel_time_multiplier": scenario.rail_travel_time_multiplier,
+        "rail_headway_multiplier": scenario.rail_headway_multiplier,
+        "rail_capacity_multiplier": scenario.rail_capacity_multiplier,
         "evidence_class": scenario.evidence_class,
         "observed_disaster_data": scenario.observed_disaster_data,
         "duration_min": scenario.duration_min,

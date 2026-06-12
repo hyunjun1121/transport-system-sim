@@ -20,8 +20,8 @@
     "docs/experiment_design_decision_packet.md",
     "scripts/write_experiment_design_decision_packet.py"
   ],
-  "expected_row_count": 1890,
-  "expected_summary_row_count": 63,
+  "expected_row_count": 15870,
+  "expected_summary_row_count": 529,
   "graph_scope_accepted": false,
   "input_validation_accepted": false,
   "policy_count": 7,

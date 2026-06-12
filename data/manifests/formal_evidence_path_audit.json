@@ -34,7 +34,7 @@
       "path": "data/parameters/parameter_acceptance.csv"
     },
     {
-      "artifact_present": false,
+      "artifact_present": true,
       "artifact_type": "csv",
       "blockers": [],
       "evidence_item_count": 0,
@@ -92,13 +92,15 @@
   ],
   "can_mark_complete": false,
   "claim_boundary": "This audit checks whether formal target artifacts point to concrete local evidence files or explicit external references. It does not approve the evidence, check license sufficiency, certify calibration, or close final-study gates.",
-  "empty_evidence_record_count": 0,
+  "empty_evidence_record_count": 1,
   "evidence_item_count": 0,
   "formal_evidence_paths_ready": false,
   "missing_local_evidence_count": 0,
   "placeholder_evidence_count": 0,
-  "present_artifact_count": 0,
-  "remaining_blockers": [],
+  "present_artifact_count": 1,
+  "remaining_blockers": [
+    "data/parameters/road_class_overrides.csv: no evidence_paths, source_paths, reviewed_inputs, or data_snapshot_paths found"
+  ],
   "review_items": [
     "review all external references for source, license, and citation compatibility",
     "replace REVIEW_REQUIRED placeholders before any formal review package is considered",

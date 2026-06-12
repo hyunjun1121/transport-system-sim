@@ -4,18 +4,18 @@
   "final_study_ready": false,
   "formal_acceptance_ready": false,
   "gate_count": 12,
-  "generated_at": "2026-06-04T04:32:50+00:00",
+  "generated_at": "2026-06-11T15:07:11+00:00",
   "package_claim_boundary": "This package checks reviewer-supplied formal decision artifacts. It does not create approvals, invent evidence, or convert scaffold outputs into field-fit findings.",
   "queue_path": "data/manifests/formal_acceptance_blocker_queue.csv",
-  "requires_human_review_count": 15,
+  "requires_human_review_count": 18,
   "review_items": [
     "resolve each row with source-backed evidence or keep the formal target absent",
     "rerun validate_formal_acceptance_package.py after any formal artifact is added",
     "do not treat this queue as acceptance or calibration evidence"
   ],
-  "row_count": 15,
+  "row_count": 18,
   "schema_version": 1,
   "status_counts": {
-    "blocked": 15
+    "blocked": 18
   }
 }

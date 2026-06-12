@@ -1,20 +1,50 @@
 ﻿# AGENTS.md - Transport System Simulation
 
-## Current Continuation Context - 2026-06-09
+## Current Continuation Context - 2026-06-12
 
-The active thread goal is to **proceed with `plan.md`** for the autonomous
-real-world simulation completion workflow. The current `plan.md` is intentionally
-workflow-level, not a command-by-command checklist. It authorizes GPT-5.5 xhigh
-reviewer/sub-agent evidence as the replacement review mechanism for historical
-human-review gates, but it does **not** permit unsupported closure claims.
+The active thread goal is to **execute `plan.md` Phase T**: Stochasticity
+Redesign & Honest Rebuild. This phase fixes design errors from Phase S and
+rebuilds the simulation with scientifically grounded stochasticity.
 
-Before continuing, a new agent must re-read the current worktree. Do not rely on
-this section alone for final claims. It is a handoff summary of the state last
-observed in this thread.
+### What Happened Before (Phase S Summary)
+
+Phase S added three stochasticity mechanisms to fix zero seed variance:
+
+- **Mechanism A**: Probabilistic edge disruption (`p_fail=0.8` on selected
+  edges instead of `1.0`). **Design flaw**: this changes disruption scenario
+  semantics — e.g. "rail_unavailable" has 20% chance of rail working.
+- **Mechanism B**: Road noise (`sigma=0.05` Gaussian on BPR travel time).
+  Parameter is arbitrary (no empirical basis).
+- **Mechanism C**: Turnaround noise (`lambda=0.2` Exponential on turnaround).
+  Parameter is arbitrary (no empirical basis).
+
+Phase S produced 15,870 result rows, 529 summary groups, updated paper/report,
+162/163 tests pass. However, a retrospective identified Mechanism A as a
+design error and the paper's claim of "genuine estimates of stochastic
+uncertainty" (§9.9) as unsupported.
+
+### Current State of the Worktree
+
+- `plan.md`: Defines Phase T workflow (stochasticity redesign).
+- Simulation code: All three mechanisms implemented in `src/scenario.py`,
+  `src/traffic.py`, `src/fleet.py`, `src/realworld/pilot_experiments.py`.
+- Results: `results/realworld_pilot/pilot_full_results.csv` (15,870 rows)
+  produced with Mechanism A active (probabilistic disruption). These will be
+  superseded by Phase T3 re-experimentation.
+- Truth table: `data/validation/summary_truth_table.csv` (529 rows) reflects
+  Phase S data. Will be rebuilt in Phase T4.
+- Paper: `paper/paper_draft.md` updated with Phase S numbers and stochasticity
+  claims that need correction in Phase T5.
+- Report: `report_draft.md` and `report.docx` mirror paper values.
+- Morris sensitivity: `results/realworld_pilot/morris_summary.csv` (54,096 rows)
+  with 19,623 non-zero mu_star. Does not yet include sigma/lambda as parameters.
+- Tests: 162/163 pass. The one failure is `test_realworld_plan_audit.py`
+  (dirty-worktree path count mismatch — not a code regression).
+- Claim guard: 4 blockers, all in `plan.md` "final" words. 0 non-plan blockers.
 
 ### Active Claim Boundary
 
-Do not claim any of the following unless the current audits independently prove
+Do not claim any of the following unless current audits independently prove
 them:
 
 - operational route-command capability (not claimed);
@@ -22,119 +52,40 @@ them:
 - calibrated field validation (not claimed);
 - publication readiness (not claimed);
 - final-study readiness (not claimed);
-- formal acceptance (not claimed).
+- formal acceptance (not claimed);
+- "genuine estimates of stochastic uncertainty" from uncalibrated parameters
+  (explicitly NOT claimed — must be qualified or removed in Phase T5).
 
-Allowed framing remains: decision-support simulation, real-world-oriented or
-quasi-real input pipeline, stochastic scenario comparison, resilience/sensitivity
-analysis, and ML-assisted post-simulation risk classification only when runtime
-evidence supports that specific claim.
+Allowed framing: decision-support simulation, quasi-real input pipeline,
+scenario comparison (deterministic disruption + operational variability),
+resilience/sensitivity analysis, and ML-assisted classification only when
+runtime evidence supports that specific claim.
 
-### Current Worktree And Audit State
+### Phase T Key Design Decisions
 
-Observed current state from local inspection on 2026-06-09:
-
-- `plan.md` exists and defines the autonomous review workflow.
-- `data/validation/dirty_worktree_classification_manifest.json` reported
-  `dirty_path_count=837`, `classified_path_count=837`,
-  `unclassified_path_count=0`, `new_generated_output_allowed=false`,
-  `destructive_cleanup_allowed=false`, and `can_mark_complete=false`.
-- `data/validation/artifact_invalidation_closeout_manifest.json` reported
-  `row_count=51`, `closed_row_count=31`, `pending_or_invalid_row_count=20`,
-  `phase9_promotion_ready=false`, `publication_ready=false`,
-  `final_study_ready=false`, and `formal_acceptance_evidence=false`.
-- `data/validation/claim_language_guard_manifest.json` reported
-  `blocking_finding_count=0` and `claim_language_guard_ready=true`, but also
-  `claims_approved=false`, `publication_ready=false`, and
-  `final_study_ready=false`.
-- `data/manifests/phase_gate_ledger_audit.json` reported all 13 phase ledgers
-  present and valid, with 11 `ready_for_review`, 2 `blocked`, and 0 closed
-  phases. Phase ledgers are control records only; they do not approve final
-  study claims.
-- `data/manifests/current_goal_completion_audit.json` reported
-  `final_study_ready=false`, 3 ready/scaffold-level gates, and 12 blocked gates.
-- `data/manifests/publication_readiness_audit.json` reported
-  `publication_ready=false`, 1 ready gate, and 9 blocked gates.
-
-Two current tests were run in the main thread and passed:
-
-```powershell
-.\.venv\Scripts\python tests\test_realworld_phase_gate_ledger.py
-.\.venv\Scripts\python tests\test_realworld_claim_language_guard.py
-```
-
-The parallel `scripts\audit_claim_language.py --fail-on-blockers` invocation was
-interrupted during the previous turn and must not be treated as completed unless
-rerun and inspected.
-
-### GPT-5.5 xhigh Reviewer Triage
-
-Three read-only GPT-5.5 xhigh reviewers were used for triage. Treat their
-outputs as review guidance, not as final acceptance. Re-inspect files before
-acting on any specific claim.
-
-1. Simulation/data/provenance reviewer:
-   - Found a real-world-oriented input path in `src/realworld/`, including OSM
-     cache loading, adapter logic, graph-checks, disruption scenarios, policy
-     alternatives, and pilot experiments.
-   - Reported local pilot inputs are traceable but bounded. The OSM/road
-     snapshot and pilot experiment outputs support decision-support/scaffold
-     work, not calibrated operational claims.
-   - Reported blockers remain in road calibration evidence, rail service
-     evidence, validation acceptance, reproducibility, and formal closeout.
-   - Recommended the next dependency-safe technical task: perform a graph-scale
-     decision review comparing the reduced graph, multi-corridor candidate, and
-     full-graph evidence before regenerating or interpreting more outputs.
-
-2. Report/claim/package reviewer:
-   - Confirmed `plan.md` does not allow operational, forecasting, publication-ready,
-     final-study-ready, or formal-acceptance claims unless audits prove them.
-   - Reported claim-language guard is not the active lexical blocker, but it is
-     not approval.
-   - Reported the review package path surface looked internally path-valid, but
-     package handoff identity may be stale and should be reconciled before
-     external review or closeout.
-   - Recommended reconciling package identity and rerunning package
-     path/handoff audits before any package closeout claim.
-
-3. Test/audit reviewer:
-   - Recommended starting with targeted tests rather than broad write-producing
-     audits because the worktree is very dirty.
-   - Suggested this first safe test batch:
-
-```powershell
-.\.venv\Scripts\python tests\test_realworld_formal_acceptance_guard.py
-.\.venv\Scripts\python tests\test_realworld_formal_acceptance_package.py
-.\.venv\Scripts\python tests\test_realworld_formal_evidence_path_audit.py
-.\.venv\Scripts\python tests\test_realworld_review_package_inventory.py
-.\.venv\Scripts\python tests\test_realworld_review_package_path_audit.py
-.\.venv\Scripts\python tests\test_realworld_review_package_builder.py
-.\.venv\Scripts\python tests\test_realworld_plan_audit.py
-```
-
-   - Recommended default, non-fail-flag audit checks next:
-
-```powershell
-.\.venv\Scripts\python scripts\audit_formal_acceptance_artifacts.py
-.\.venv\Scripts\python scripts\audit_final_study_readiness.py
-```
-
-Avoid broad clean-checkout, full-graph, OSRM, or generated-output refreshes until
-the worktree/lineage state and write scope are deliberately chosen.
+1. **Mechanism A reverted**: Pilot experiments return to
+   `force_deterministic=True`. Disruption scenarios are controlled experiments.
+2. **Mechanisms B & C retained**: Road noise and turnaround noise remain as
+   the sole within-scenario variance sources, but framed as exploratory
+   sensitivity parameters, not calibrated defaults.
+3. **Morris extended**: `road_noise_sigma` and `turnaround_noise_lambda` added
+   to the Morris parameter space so sensitivity analysis reveals whether
+   conclusions depend on noise parameter choices.
+4. **Paper honesty**: §9.9 must not claim "genuine estimates of stochastic
+   uncertainty" unless the Morris sweep proves conclusions are robust across
+   parameter choices.
 
 ### Immediate Continuation Priority
 
-The next agent should not try to close every phase at once. Continue in this
-order unless fresh evidence changes the dependency graph:
+The next agent should execute Phase T1 through T7 as defined in `plan.md`:
 
-1. Re-read `plan.md`, this `agents.md`, dirty-worktree classification,
-   phase-gate ledger audit, closeout manifest, current-goal audit, publication
-   audit, and claim-language guard.
-2. Run the targeted non-destructive tests listed above.
-3. Inspect package identity and handoff sidecars before rebuilding packages.
-4. Inspect graph-scale artifacts and decide the next safe graph-scope task.
-5. Only then regenerate or update ledgers with tightly scoped write locks.
-6. Use GPT-5.5 xhigh sub-agents for bounded review, but do not treat their
-   output as formal acceptance by itself.
+1. T1: Revert Mechanism A, add sigma/lambda to Morris parameters.
+2. T2: Verify variance from B+C only, run parameter sweep diagnostics.
+3. T3: Full re-experimentation + extended Morris.
+4. T4: Truth table rebuild + data audit.
+5. T5: Paper/report correction (honest stochasticity framing).
+6. T6: Final verification + independent sub-agent review.
+7. T7: Closeout (update AGENTS.md, status.md).
 
 Keep `final_study_ready=false`, `publication_ready=false`, and
 `formal_acceptance_evidence=false` unless current repository audits prove

@@ -14,6 +14,7 @@ from src.disruptions import (
     effective_capacity,
     is_blocked,
     is_edge_blocked,
+    sample_correlated_failures,
     sample_edge_disruptions,
     sample_disruptions,
     scaled_failure_probability,
@@ -190,6 +191,145 @@ def test_invalid_disruption_parameters_raise_value_error():
     print("PASS: invalid disruption parameters raise ValueError")
 
 
+def test_correlated_zero_radius_matches_independent():
+    """Zero correlation radius should produce identical results to independent."""
+    G = nx.DiGraph()
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.5, mode="road")
+    G.add_edge("B", "C", capacity=300.0, p_fail=0.3, mode="road")
+
+    independent = sample_edge_disruptions(
+        G, 1.0, np.random.default_rng(42), mode="blocked",
+    )
+    correlated = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(42), mode="blocked",
+        correlation_radius_m=0.0,
+    )
+    assert independent == correlated
+    print("PASS: zero correlation radius matches independent sampling")
+
+
+def test_correlated_nonzero_radius_produces_disruptions():
+    """Non-zero radius should sample disruptions without error."""
+    G = nx.DiGraph()
+    G.add_node("A", x=127.0, y=37.5)
+    G.add_node("B", x=127.001, y=37.501)
+    G.add_node("C", x=127.002, y=37.502)
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.3, mode="road")
+    G.add_edge("B", "C", capacity=300.0, p_fail=0.3, mode="road")
+
+    disruptions = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(99), mode="blocked",
+        correlation_radius_m=500.0, correlation_strength=2.0,
+    )
+    assert len(disruptions) == 2
+    for edge in [("A", "B"), ("B", "C")]:
+        assert edge in disruptions
+        assert isinstance(disruptions[edge], EdgeDisruption)
+    print("PASS: nonzero radius produces disruptions")
+
+
+def test_correlated_rail_immune_with_coordinates():
+    """Rail edges should remain normal even with spatial correlation."""
+    G = nx.DiGraph()
+    G.add_node("A", x=127.0, y=37.5)
+    G.add_node("B", x=127.001, y=37.501)
+    G.add_node("S", x=127.002, y=37.502)
+    G.add_node("R", x=127.003, y=37.503)
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.5, mode="road")
+    G.add_edge("S", "R", capacity=1000.0, p_fail=1.0, mode="rail")
+
+    disruptions = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(7), mode="blocked",
+        correlation_radius_m=1000.0, correlation_strength=2.0,
+    )
+    assert not disruptions[("S", "R")].is_blocked
+    print("PASS: rail immune with spatial correlation")
+
+
+def test_correlated_no_coordinates_falls_back_gracefully():
+    """Edges without node coordinates should still sample via latent field."""
+    G = nx.DiGraph()
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.5, mode="road")
+
+    disruptions = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(7), mode="blocked",
+        correlation_radius_m=100.0, correlation_strength=1.0,
+    )
+    assert isinstance(disruptions[("A", "B")], EdgeDisruption)
+    print("PASS: no coordinates falls back gracefully")
+
+
+def test_correlated_deterministic_with_same_seed():
+    """Same seed should produce identical correlated disruptions."""
+    G = nx.DiGraph()
+    G.add_node("A", x=127.0, y=37.5)
+    G.add_node("B", x=127.001, y=37.501)
+    G.add_node("C", x=127.005, y=37.505)
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.3, mode="road")
+    G.add_edge("B", "C", capacity=300.0, p_fail=0.3, mode="road")
+
+    first = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(777), mode="blocked",
+        correlation_radius_m=500.0, correlation_strength=2.0,
+    )
+    second = sample_correlated_failures(
+        G, 1.0, np.random.default_rng(777), mode="blocked",
+        correlation_radius_m=500.0, correlation_strength=2.0,
+    )
+    assert first == second
+    print("PASS: same seed produces identical correlated disruptions")
+
+
+def test_correlated_nearby_edges_share_latent_field():
+    """Nearby edges should fail more often than independent when boosted."""
+    G = nx.DiGraph()
+    n = 20
+    for i in range(n):
+        G.add_node(str(i), x=127.0 + i * 0.0001, y=37.5)
+    for i in range(n - 1):
+        G.add_edge(str(i), str(i + 1), capacity=500.0, p_fail=0.05, mode="road")
+
+    n_replications = 200
+    correlated_count = 0
+    independent_count = 0
+
+    for seed in range(n_replications):
+        rng_c = np.random.default_rng(seed)
+        rng_i = np.random.default_rng(seed)
+        c = sample_correlated_failures(
+            G, 1.0, rng_c, mode="blocked",
+            correlation_radius_m=200.0, correlation_strength=3.0,
+        )
+        i = sample_edge_disruptions(G, 1.0, rng_i, mode="blocked")
+        correlated_count += sum(1 for d in c.values() if d.is_blocked)
+        independent_count += sum(1 for d in i.values() if d.is_blocked)
+
+    assert correlated_count >= independent_count
+    print(
+        f"PASS: correlated failures ({correlated_count}) >= "
+        f"independent ({independent_count}) over {n_replications} replications"
+    )
+
+
+def test_correlated_invalid_parameters_raise():
+    """Invalid correlation parameters should raise ValueError."""
+    G = nx.DiGraph()
+    G.add_edge("A", "B", capacity=500.0, p_fail=0.5, mode="road")
+    rng = np.random.default_rng(1)
+
+    assert_raises_value_error(
+        lambda: sample_correlated_failures(
+            G, 1.0, rng, correlation_radius_m=-1.0,
+        )
+    )
+    assert_raises_value_error(
+        lambda: sample_correlated_failures(
+            G, 1.0, rng, correlation_strength=-0.5,
+        )
+    )
+    print("PASS: invalid correlation parameters raise ValueError")
+
+
 TESTS = [
     test_blocked_mode_samples_structured_states,
     test_capacity_reduction_mode_degrades_capacity_without_blocking,
@@ -198,6 +338,13 @@ TESTS = [
     test_failure_probability_uses_multiplier_semantics,
     test_legacy_sample_link_failures_returns_blocked_edges_only,
     test_invalid_disruption_parameters_raise_value_error,
+    test_correlated_zero_radius_matches_independent,
+    test_correlated_nonzero_radius_produces_disruptions,
+    test_correlated_rail_immune_with_coordinates,
+    test_correlated_no_coordinates_falls_back_gracefully,
+    test_correlated_deterministic_with_same_seed,
+    test_correlated_nearby_edges_share_latent_field,
+    test_correlated_invalid_parameters_raise,
 ]
 
 

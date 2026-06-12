@@ -7,9 +7,9 @@
     "baseline_multimodal": 1.0,
     "bus_only": 1.0
   },
-  "duration_sec": 1.433,
+  "duration_sec": 2.222,
   "full_graph_experiment_output_created": false,
-  "generated_at": "2026-06-04T08:52:54.469976+00:00",
+  "generated_at": "2026-06-09T14:34:50.415093+00:00",
   "graph_edges": 9148,
   "graph_nodes": 4608,
   "graph_scale": {
@@ -29,8 +29,8 @@
     "manifest": "data/validation/full_graph_smoke_manifest.json"
   },
   "penalized_makespan": {
-    "baseline_multimodal": 51.11,
-    "bus_only": 19.28
+    "baseline_multimodal": 46.39,
+    "bus_only": 19.81
   },
   "policies": [
     "bus_only",

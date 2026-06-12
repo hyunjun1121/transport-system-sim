@@ -1,0 +1,9 @@
+{
+  "source_file": "results\\\\realworld_pilot\\\\pilot_full_summary.csv",
+  "source_sha256": "d7b9effa5f46c4ff67578c517173a0b4c33315b4d69c42b36a101026ac6376eb",
+  "row_count": 529,
+  "unique_policy_count": 23,
+  "unique_scenario_count": 23,
+  "expected_cross_product": 529,
+  "cross_product_matches": true
+}

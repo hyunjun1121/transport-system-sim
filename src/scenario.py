@@ -58,6 +58,11 @@ def run_scenario(
 
     rng_arrival = np.random.default_rng(seed)
     rng_failure = np.random.default_rng(seed + 10_000)
+    stochastic_conf = config.get("stochastic", {})
+    road_noise_sigma = float(stochastic_conf.get("road_noise_sigma", 0.0))
+    turnaround_noise_lambda = float(stochastic_conf.get("turnaround_noise_lambda", 0.0))
+    rng_road = np.random.default_rng(seed + 20_000) if road_noise_sigma > 0.0 else None
+    rng_turnaround = np.random.default_rng(seed + 30_000) if turnaround_noise_lambda > 0.0 else None
 
     delays = sample_arrival_delays(
         n_personnel,
@@ -79,12 +84,22 @@ def run_scenario(
         config,
         params=params,
         disruptions=disruptions,
+        road_noise_sigma=road_noise_sigma,
+        rng_road=rng_road,
     )
 
     if scenario_type == "bus_only":
-        _run_bus_only(G, config, passengers, policy, traffic, metrics)
+        _run_bus_only(
+            G, config, passengers, policy, traffic, metrics,
+            turnaround_noise_lambda=turnaround_noise_lambda,
+            rng_turnaround=rng_turnaround,
+        )
     elif scenario_type == "multimodal":
-        _run_multimodal(G, config, passengers, policy, traffic, metrics)
+        _run_multimodal(
+            G, config, passengers, policy, traffic, metrics,
+            turnaround_noise_lambda=turnaround_noise_lambda,
+            rng_turnaround=rng_turnaround,
+        )
     else:
         raise ValueError(f"unknown scenario_type: {scenario_type}")
 
@@ -99,12 +114,21 @@ def _run_bus_only(
     policy: DeparturePolicy,
     traffic: DynamicRoadTraffic,
     metrics: MetricsCollector,
+    *,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
 ) -> None:
     """Run queue-based bus-only transport from A to D."""
     bus_conf = config.get("bus", {})
     group_size = config["personnel"]["group_size"]
     assembly_time = config["personnel"]["assembly_time"]
-    traveler = _make_route_traveler(G, traffic, "A", "D", allowed_modes={"road"})
+    rerouting_conf = config.get("failure", {}).get("rerouting", {})
+    traveler = _make_route_traveler(
+        G, traffic, "A", "D",
+        allowed_modes={"road"},
+        rerouting_config=rerouting_conf,
+        metrics=metrics,
+    )
 
     planned = _plan_origin_dispatches(
         passengers=passengers,
@@ -131,6 +155,8 @@ def _run_bus_only(
         metrics=metrics,
         record_arrivals_at_destination=True,
         resource_mode="bus",
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
     )
 
 
@@ -141,6 +167,9 @@ def _run_multimodal(
     policy: DeparturePolicy,
     traffic: DynamicRoadTraffic,
     metrics: MetricsCollector,
+    *,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
 ) -> None:
     """Run shuttle -> rail -> last-mile multimodal transport."""
     if not passengers:
@@ -149,8 +178,14 @@ def _run_multimodal(
     multimodal_conf = config.get("multimodal", {})
     group_size = config["personnel"]["group_size"]
     assembly_time = config["personnel"]["assembly_time"]
+    rerouting_conf = config.get("failure", {}).get("rerouting", {})
 
-    shuttle_traveler = _make_route_traveler(G, traffic, "A", "S", allowed_modes={"road"})
+    shuttle_traveler = _make_route_traveler(
+        G, traffic, "A", "S",
+        allowed_modes={"road"},
+        rerouting_config=rerouting_conf,
+        metrics=metrics,
+    )
     shuttle_plan = _plan_origin_dispatches(
         passengers=passengers,
         policy=policy,
@@ -178,6 +213,8 @@ def _run_multimodal(
         metrics=metrics,
         record_arrivals_at_destination=False,
         resource_mode="bus",
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
     )
 
     transfer_batches = _apply_transfer_batches(
@@ -187,7 +224,12 @@ def _run_multimodal(
     )
     rail_arrivals = _run_rail_service(config, transfer_batches, metrics)
 
-    lastmile_traveler = _make_route_traveler(G, traffic, "R", "D", allowed_modes={"road"})
+    lastmile_traveler = _make_route_traveler(
+        G, traffic, "R", "D",
+        allowed_modes={"road"},
+        rerouting_config=rerouting_conf,
+        metrics=metrics,
+    )
     _execute_lastmile_batches(
         rail_arrivals,
         traveler=lastmile_traveler,
@@ -207,6 +249,8 @@ def _run_multimodal(
             0.0,
         ),
         metrics=metrics,
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
     )
 
 
@@ -268,12 +312,16 @@ def _execute_vehicle_trips(
     metrics: MetricsCollector,
     record_arrivals_at_destination: bool,
     resource_mode: str,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
 ) -> list[StationBatch]:
     """Apply fleet availability, traverse routes, and optionally record arrivals."""
     ready_batches: list[StationBatch] = []
     fleet = FleetAvailability(
         fleet_size=fleet_size,
         turnaround_time=turnaround_time,
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
     )
 
     for planned in planned_trips:
@@ -320,6 +368,8 @@ def _execute_lastmile_batches(
     turnaround_time: float,
     first_depart_time: float,
     metrics: MetricsCollector,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
 ) -> None:
     """Move rail-arrived passengers through a finite last-mile fleet."""
     planned = _plan_lastmile_dispatches(
@@ -336,6 +386,8 @@ def _execute_lastmile_batches(
         metrics=metrics,
         record_arrivals_at_destination=True,
         resource_mode="lastmile",
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
     )
 
 
@@ -581,8 +633,12 @@ def _make_route_traveler(
     target: str,
     *,
     allowed_modes: set[str],
+    rerouting_config: dict | None = None,
+    metrics: MetricsCollector | None = None,
 ) -> RouteTraveler:
     """Create a route traveler that chooses a dynamic shortest path at departure."""
+    rerouting_enabled = (rerouting_config or {}).get("enabled", False)
+    overhead_min = (rerouting_config or {}).get("overhead_min", 3.0)
 
     def travel(depart_time: float) -> tuple[float, tuple[str, ...]]:
         path = _shortest_path_at_time(
@@ -595,8 +651,22 @@ def _make_route_traveler(
         )
         if not path:
             return float("inf"), ()
-        travel_time, _ = traffic.traverse_route(path, depart_time)
-        return travel_time, tuple(path)
+
+        if not rerouting_enabled:
+            travel_time, _ = traffic.traverse_route(path, depart_time)
+            return travel_time, tuple(path)
+
+        travel_time, actual_path = _traverse_with_rerouting(
+            G,
+            traffic,
+            path,
+            depart_time,
+            target,
+            allowed_modes=allowed_modes,
+            overhead_min=overhead_min,
+            metrics=metrics,
+        )
+        return travel_time, actual_path
 
     return travel
 
@@ -684,6 +754,103 @@ def _edge_weight_at_time(
         beta=traffic.beta,
         scale=traffic.scale,
     )
+
+
+def _reroute_around_blocked_edge(
+    G: nx.DiGraph,
+    blocked_edge: Edge,
+    target: str,
+    traffic: DynamicRoadTraffic,
+    *,
+    allowed_modes: set[str],
+) -> list[str] | None:
+    u, _ = blocked_edge
+
+    def _weight(nu: str, nv: str, data: dict) -> float:
+        if data.get("mode", "road") not in allowed_modes:
+            return float("inf")
+        disruption = traffic.disruptions.get((nu, nv), EdgeDisruption())
+        if disruption.is_blocked:
+            return float("inf")
+        return float(data.get("t0", 1.0))
+
+    try:
+        path = nx.shortest_path(G, u, target, weight=_weight)
+        total = sum(
+            _weight(path[i], path[i + 1], G.edges[path[i], path[i + 1]])
+            for i in range(len(path) - 1)
+        )
+        if not math.isfinite(total):
+            return None
+        return path
+    except (nx.NetworkXNoPath, nx.NodeNotFound):
+        return None
+
+
+def _traverse_with_rerouting(
+    G: nx.DiGraph,
+    traffic: DynamicRoadTraffic,
+    initial_path: list[str],
+    depart_time: float,
+    target: str,
+    *,
+    allowed_modes: set[str],
+    overhead_min: float,
+    metrics: MetricsCollector | None,
+) -> tuple[float, tuple[str, ...]]:
+    current_time = depart_time
+    actual_nodes = [initial_path[0]]
+    edges = list(zip(initial_path, initial_path[1:]))
+    idx = 0
+    reroute_count = 0
+    max_reroutes = len(G.nodes) + 1
+
+    while idx < len(edges):
+        u, v = edges[idx]
+        edge_data = G.edges[(u, v)]
+        mode = edge_data.get("mode", "road")
+        disruption = traffic.disruptions.get((u, v), EdgeDisruption())
+
+        if mode == "road" and disruption.is_blocked:
+            if reroute_count >= max_reroutes:
+                return float("inf"), tuple(actual_nodes)
+            alt = _reroute_around_blocked_edge(
+                G, (u, v), target, traffic,
+                allowed_modes=allowed_modes,
+            )
+            if alt and len(alt) > 1:
+                reroute_count += 1
+                if metrics is not None:
+                    metrics.rerouting_events += 1
+                current_time += overhead_min
+                edges = list(zip(alt, alt[1:]))
+                idx = 0
+                continue
+            return float("inf"), tuple(actual_nodes)
+
+        traversal = traffic.enter_edge((u, v), current_time)
+
+        if not math.isfinite(traversal.travel_time):
+            if mode == "road" and reroute_count < max_reroutes:
+                alt = _reroute_around_blocked_edge(
+                    G, (u, v), target, traffic,
+                    allowed_modes=allowed_modes,
+                )
+                if alt and len(alt) > 1:
+                    reroute_count += 1
+                    if metrics is not None:
+                        metrics.rerouting_events += 1
+                    current_time += overhead_min
+                    edges = list(zip(alt, alt[1:]))
+                    idx = 0
+                    continue
+            return float("inf"), tuple(actual_nodes)
+
+        actual_nodes.append(v)
+        current_time = traversal.exit_time
+        idx += 1
+
+    return current_time - depart_time, tuple(actual_nodes)
 
 
 def _make_passengers(arrival_times: np.ndarray) -> tuple[Passenger, ...]:

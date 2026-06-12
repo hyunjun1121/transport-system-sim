@@ -91,7 +91,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/pilot_acceptance.json",
   "gate": "pilot_region_accepted",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -132,6 +132,7 @@
   "residual_risks": [
     "Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.",
     "create an explicit pilot acceptance record after privacy and case-scope review",
+    "create an explicit pilot decision record after privacy and case-scope review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

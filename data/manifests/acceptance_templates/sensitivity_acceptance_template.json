@@ -26,8 +26,8 @@
     "scripts/write_sensitivity_strategy_readiness_packet.py",
     "scripts/write_sensitivity_method_decision_packet.py"
   ],
-  "expected_row_count": 4320,
-  "expected_summary_row_count": 7056,
+  "expected_row_count": 33120,
+  "expected_summary_row_count": 54096,
   "graph_scope_accepted": false,
   "nan_or_masked_values_reviewed": false,
   "parameter_ranges_reviewed": false,

@@ -247,7 +247,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/graph_scale_acceptance.json",
   "gate": "graph_scale_strategy",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -265,11 +265,11 @@
     "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
     "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
     "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale strategy readiness: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
     "resolve graph-scale method-decision blockers before graph-scale acceptance",
     "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
+    "graph-scale method decision: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
     "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
     "review graph-scale method-decision human-decision items before graph-scale acceptance",
     "data/manifests/graph_scale_acceptance.json is absent"
@@ -324,6 +324,7 @@
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
     "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
+    "create an explicit graph-scale decision record after source-vs-analysis graph review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

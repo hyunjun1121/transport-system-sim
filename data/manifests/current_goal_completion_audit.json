@@ -1,6 +1,6 @@
 {
-  "audit_date": "2026-06-09",
-  "blocked_gate_count": 12,
+  "audit_date": "2026-06-11",
+  "blocked_gate_count": 13,
   "blocked_gate_ids": [
     "pilot_region_accepted",
     "cached_osm_input",
@@ -9,6 +9,7 @@
     "parameter_evidence",
     "rail_evidence",
     "validation_package",
+    "structured_disruptions",
     "sensitivity_analysis",
     "full_experiment_output",
     "manuscript_report_alignment",
@@ -43,21 +44,20 @@
     "can_mark_complete": false,
     "formal_target_count": 12,
     "handoff_manifest_location": "review_packages/expert_review_handoff_20260510.json",
-    "mirror_zip_matches": true,
-    "missing_formal_target_count": 12,
+    "mirror_zip_matches": false,
+    "missing_formal_target_count": 11,
     "zip_file_count": 1319,
     "zip_path": "required_deliverables.zip",
     "zip_sha256_location": "review_packages/expert_review_handoff_20260510.md"
   },
   "final_study_ready": false,
   "gate_count": 15,
-  "missing_acceptance_artifact_count": 12,
+  "missing_acceptance_artifact_count": 11,
   "missing_acceptance_artifacts": [
     "data/manifests/pilot_acceptance.json",
     "data/manifests/graph_scale_acceptance.json",
     "data/manifests/provenance_acceptance.json",
     "data/parameters/parameter_acceptance.csv",
-    "data/parameters/road_class_overrides.csv",
     "data/manifests/validation_acceptance.json",
     "data/manifests/sensitivity_acceptance.json",
     "data/manifests/experiment_acceptance.json",
@@ -85,7 +85,7 @@
     },
     {
       "path": "data/parameters/road_class_overrides.csv",
-      "present": false
+      "present": true
     },
     {
       "path": "data/manifests/validation_acceptance.json",
@@ -122,7 +122,7 @@
     "manifest": "data/manifests/current_goal_completion_audit.json",
     "markdown": "docs/current_goal_completion_audit.md"
   },
-  "present_acceptance_artifact_count": 0,
+  "present_acceptance_artifact_count": 1,
   "prompt_to_artifact_checklist": [
     {
       "current_status": "blocked",
@@ -194,9 +194,12 @@
         "blocked requirement: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
         "blocked requirement: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
         "blocked requirement: road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
-        "blocked requirement: road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-        "blocked requirement: road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-        "blocked requirement: road override application: reviewed road-class override table is absent",
+        "blocked requirement: road override evidence: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
+        "blocked requirement: road override evidence: verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
+        "blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_applied: true",
+        "blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_path",
+        "blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_sha256",
+        "blocked requirement: road override application: accepted pilot manifest graph_source does not record road_class_overrides",
         "blocked requirement: road source readiness: cached lane-count evidence has no parseable observed lane rows",
         "blocked requirement: road source readiness: data/parameters/road_class_overrides.csv is absent",
         "blocked requirement: road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
@@ -530,15 +533,17 @@
       "ready": false
     },
     {
-      "current_status": "scaffold_unblocked",
+      "current_status": "blocked",
       "evidence_inspected": [
         "data/scenarios/disruption_scenarios.csv",
         "data/scenarios/disruption_scenarios_manifest.json"
       ],
       "gate_id": "structured_disruptions",
       "label": "Structured Disruptions",
-      "missing_or_weak_requirements": [],
-      "ready": true
+      "missing_or_weak_requirements": [
+        "blocked requirement: write disruption_scenarios_manifest.json with matching CSV SHA256, row count, and bounded claim flags"
+      ],
+      "ready": false
     },
     {
       "current_status": "scaffold_unblocked",
@@ -663,7 +668,7 @@
         "blocked requirement: claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims",
         "blocked requirement: resolve manuscript/report decision blockers before manuscript acceptance",
         "blocked requirement: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-        "blocked requirement: manuscript/report decision: claim-alignment packet has 44 rows requiring revision or explicit retention",
+        "blocked requirement: manuscript/report decision: claim-alignment packet has 52 rows requiring revision or explicit retention",
         "blocked requirement: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
         "blocked requirement: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
         "blocked requirement: review manuscript/report human-decision rows before manuscript acceptance"
@@ -713,12 +718,12 @@
         "blocked requirement: create docs/final_study_audit.md after all other gates close",
         "blocked requirement: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
         "blocked requirement: resolve final-audit decision blockers before final-audit acceptance",
-        "blocked requirement: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
-        "blocked requirement: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
+        "blocked requirement: final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
+        "blocked requirement: final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
         "blocked requirement: final-audit decision: docs/final_study_audit.md is absent",
         "blocked requirement: final-audit decision: data/manifests/final_audit_acceptance.json is absent",
         "blocked requirement: review final-audit human-decision rows before final-audit acceptance",
-        "blocked requirement: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
+        "blocked requirement: all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
       ],
       "ready": false
     }
@@ -730,10 +735,9 @@
     "OSM-derived road data are not calibrated traffic, capacity, or disruption evidence by themselves",
     "paper and report drafts remain scaffold scope until manuscript acceptance is reviewed"
   ],
-  "ready_gate_count": 3,
+  "ready_gate_count": 2,
   "ready_gate_ids": [
     "real_input_smoke",
-    "structured_disruptions",
     "policy_alternatives"
   ],
   "result_scope": "current_goal_completion_gap_audit_not_final_acceptance",
@@ -750,9 +754,9 @@
   },
   "schema_version": 1,
   "status_counts": {
-    "blocked": 12,
-    "missing_acceptance_artifact": 12,
-    "ready": 3
+    "blocked": 13,
+    "missing_acceptance_artifact": 11,
+    "ready": 2
   },
   "verdict": "final_real_world_study_blocked"
 }

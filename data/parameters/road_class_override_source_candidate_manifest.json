@@ -19,7 +19,7 @@
   "formal_acceptance_evidence": false,
   "formal_acceptance_ready": false,
   "formal_target_path": "data/parameters/road_class_overrides.csv",
-  "formal_target_present_at_write": false,
+  "formal_target_present_at_write": true,
   "formal_target_written": false,
   "formal_target_written_by_this_packet": false,
   "gate_closure_supported": false,

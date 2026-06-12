@@ -121,7 +121,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -165,6 +165,7 @@
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
     "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
     "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
+    "create an explicit reproducibility decision record after clean-checkout reproduction review, artifact regeneration, manifest review, and import-boundary checks",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

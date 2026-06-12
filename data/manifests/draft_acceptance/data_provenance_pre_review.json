@@ -241,7 +241,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/provenance_acceptance.json",
   "gate": "data_provenance",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -322,6 +322,7 @@
     "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
     "Create data/manifests/provenance_acceptance.json only after source-backed review.",
     "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
+    "create an explicit provenance decision record after source, license, snapshot, privacy, and reproducibility review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

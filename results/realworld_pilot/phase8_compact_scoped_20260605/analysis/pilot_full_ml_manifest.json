@@ -1,0 +1,60 @@
+{
+  "class_labels": [
+    "failure",
+    "normal"
+  ],
+  "command": [
+    "scripts\\run_ml_analysis.py",
+    "--input",
+    "results\\realworld_pilot\\pilot_full_results.csv",
+    "--source-manifest",
+    "results\\realworld_pilot\\pilot_full_manifest.json",
+    "--output-prefix",
+    "pilot_full",
+    "--device",
+    "cuda"
+  ],
+  "feature_importance_row_count": 23,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-06-09T14:38:01+00:00",
+  "label_counts": {
+    "failure": 180,
+    "normal": 1710
+  },
+  "label_row_count": 1890,
+  "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
+  "model_device": "cuda",
+  "model_package": "xgboost",
+  "model_status": "xgboost_trained",
+  "output_prefix": "pilot_full",
+  "outputs": {
+    "doc": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_analysis.md",
+    "feature_importance": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_feature_importance.csv",
+    "labels": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_labels.csv",
+    "manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_manifest.json",
+    "metrics": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_metrics.json",
+    "predictions": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_full_ml_predictions.csv"
+  },
+  "prediction_row_count": 1890,
+  "publication_ready": false,
+  "result_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
+  "row_count": 1890,
+  "schema_version": 1,
+  "source_manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
+  "source_manifest_sha256": "08312ead1f76aac3809a916ac3c9bf614cd5330cee051f6fd09fba75879aba53",
+  "source_results_path": "results/realworld_pilot/pilot_full_results.csv",
+  "source_results_sha256": "093252d5504c5c6ae14985a88af68d43e54cc6a0ab63506b977e1672ba5748e7",
+  "test_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 378
+  },
+  "test_row_count": 378,
+  "train_metrics": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 1512
+  },
+  "train_row_count": 1512
+}

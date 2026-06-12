@@ -1,6 +1,6 @@
 {
   "acceptance_ready": false,
-  "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
+  "analysis_graph_strategy": "multi_corridor_for_realistic_route_alternatives",
   "blocking_check_count": 1,
   "can_mark_complete": false,
   "checks": [
@@ -14,14 +14,14 @@
     {
       "check_id": "result_row_count_matches_design",
       "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment decision artifacts, prove replication adequacy, verify common-random-number design, select a multiple-comparison procedure, or close study-closeout gates.",
-      "observed": "1890 / 1890",
+      "observed": "15870 / 15870",
       "review_action": "Regenerate results or revise the scenario-policy-seed design before review closure.",
       "status": "pass"
     },
     {
       "check_id": "summary_row_count_matches_design",
       "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment decision artifacts, prove replication adequacy, verify common-random-number design, select a multiple-comparison procedure, or close study-closeout gates.",
-      "observed": "63 / 63",
+      "observed": "529 / 529",
       "review_action": "Regenerate summary outputs or revise the run design before review closure.",
       "status": "pass"
     },
@@ -77,8 +77,8 @@
   ],
   "ci_method": "normal_approximation_mean_plus_minus_1_96_standard_errors",
   "claim_boundary": "This statistical-analysis plan and scenario-policy-seed note is a pre-review planning artifact. It does not approve experiment decision artifacts, prove replication adequacy, verify common-random-number design, select a multiple-comparison procedure, or close study-closeout gates.",
-  "design_status": "accepted_full_profile_pending_input_validation_and_compute_budget",
-  "generated_at": "2026-06-04T04:45:26+00:00",
+  "design_status": "review_scoped_full_profile_pending_input_validation_and_compute_budget",
+  "generated_at": "2026-06-11T15:07:49+00:00",
   "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
   "inputs": {
     "crn_pairing_audit_manifest": "data/manifests/crn_pairing_audit_manifest.json",
@@ -119,11 +119,11 @@
   ],
   "scenario_policy_seed_design": {
     "common_random_numbers": true,
-    "expected_row_count": 1890,
-    "expected_summary_row_count": 63,
-    "observed_row_count": 1890,
-    "observed_summary_row_count": 63,
-    "policy_count": 7,
+    "expected_row_count": 15870,
+    "expected_summary_row_count": 529,
+    "observed_row_count": 15870,
+    "observed_summary_row_count": 529,
+    "policy_count": 23,
     "policy_ids": [
       "bus_only",
       "baseline_multimodal",
@@ -131,9 +131,25 @@
       "staggered_or_adaptive_dispatch",
       "multimodal_increased_feeder_capacity",
       "rail_delay_or_partial_unavailability",
-      "fleet_shortage_stress"
+      "fleet_shortage_stress",
+      "fleet_shortage_severe",
+      "moderate_congestion_bus",
+      "moderate_congestion_multimodal",
+      "heavy_congestion_bus",
+      "heavy_congestion_multimodal",
+      "severe_congestion_bus",
+      "severe_congestion_multimodal",
+      "peak_congestion_bus",
+      "peak_congestion_multimodal",
+      "transfer_stress_mild",
+      "transfer_stress_moderate",
+      "transfer_stress_severe",
+      "transfer_stress_extreme",
+      "lastmile_capacity_mild",
+      "lastmile_capacity_moderate",
+      "lastmile_capacity_severe"
     ],
-    "scenario_count": 9,
+    "scenario_count": 23,
     "scenario_ids": [
       "no_disruption",
       "songpa_random_capacity_reduction",
@@ -143,7 +159,21 @@
       "songpa_access_origin_to_destination",
       "songpa_last_mile_station_to_destination",
       "songpa_rail_station_access",
-      "songpa_spatial_tancheon_corridor"
+      "songpa_spatial_tancheon_corridor",
+      "songpa_spatial_feeder_east",
+      "songpa_spatial_lastmile_west",
+      "songpa_spatial_assembly_egress",
+      "songpa_rail_delay",
+      "songpa_rail_delay_mild",
+      "songpa_rail_delay_severe",
+      "songpa_rail_unavailable",
+      "songpa_rail_capacity_reduction",
+      "songpa_rail_combined_stress",
+      "songpa_rail_combined_stress_mild",
+      "songpa_rail_combined_stress_severe",
+      "songpa_combo_tancheon_rail_delay",
+      "songpa_combo_access_rail_capacity",
+      "songpa_transfer_point_blockage"
     ],
     "seed_count": 30,
     "seeds": [

@@ -19,8 +19,8 @@
   },
   "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
   "index_status_counts": {
-    "available": 6888,
-    "unavailable_nonfinite_metric_outputs": 168
+    "available": 49224,
+    "unavailable_nonfinite_metric_outputs": 4872
   },
   "inputs": {
     "cache_path": "data/cache/pilot_region_road.graphml",
@@ -58,7 +58,23 @@
     "multimodal_increased_feeder_capacity",
     "bus_corridor_redundancy",
     "rail_delay_or_partial_unavailability",
-    "fleet_shortage_stress"
+    "fleet_shortage_stress",
+    "peak_congestion_bus",
+    "peak_congestion_multimodal",
+    "moderate_congestion_bus",
+    "moderate_congestion_multimodal",
+    "heavy_congestion_bus",
+    "heavy_congestion_multimodal",
+    "severe_congestion_bus",
+    "severe_congestion_multimodal",
+    "transfer_stress_mild",
+    "transfer_stress_moderate",
+    "transfer_stress_severe",
+    "transfer_stress_extreme",
+    "fleet_shortage_severe",
+    "lastmile_capacity_mild",
+    "lastmile_capacity_moderate",
+    "lastmile_capacity_severe"
   ],
   "rank_metrics": [
     "completion_rate",
@@ -71,7 +87,7 @@
   ],
   "region_id": "songpa_public_demo",
   "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
-  "row_count": 4320,
+  "row_count": 33120,
   "salib_available": true,
   "salib_problem": {
     "bounds": [
@@ -159,12 +175,26 @@
     "songpa_access_origin_to_destination",
     "songpa_last_mile_station_to_destination",
     "songpa_rail_station_access",
-    "songpa_spatial_tancheon_corridor"
+    "songpa_spatial_tancheon_corridor",
+    "songpa_spatial_feeder_east",
+    "songpa_spatial_lastmile_west",
+    "songpa_spatial_assembly_egress",
+    "songpa_rail_delay",
+    "songpa_rail_capacity_reduction",
+    "songpa_rail_combined_stress",
+    "songpa_combo_tancheon_rail_delay",
+    "songpa_combo_access_rail_capacity",
+    "songpa_rail_delay_mild",
+    "songpa_rail_delay_severe",
+    "songpa_rail_unavailable",
+    "songpa_rail_combined_stress_mild",
+    "songpa_rail_combined_stress_severe",
+    "songpa_transfer_point_blockage"
   ],
   "schema_version": 1,
   "seed": 2201,
   "source_graph_edges": 9148,
   "source_graph_nodes": 4608,
-  "summary_row_count": 7056,
-  "unavailable_index_row_count": 168
+  "summary_row_count": 54096,
+  "unavailable_index_row_count": 4872
 }

@@ -50,7 +50,7 @@ def test_final_audit_decision_rows_classify_current_state() -> None:
     assert by_id["not_operational_claim_boundary_decision"]["decision_status"] == (
         "needs_human_review_not_operational_boundary"
     )
-    assert "blocked_pre_final_gate_count=11" in by_id[
+    assert "blocked_pre_final_gate_count=12" in by_id[
         "pre_final_gate_closure_decision"
     ]["current_evidence"]
     assert {row["claim_boundary"] for row in rows} == {FINAL_AUDIT_DECISION_SCOPE}

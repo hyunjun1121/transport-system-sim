@@ -1,17 +1,18 @@
 {
   "claim_boundary": "This comparison is graph-scale review evidence only. It does not accept a graph method, validate real-world calibration, or support operational routing claims.",
   "comparison_status_counts": {
-    "candidate_improves": 24,
-    "candidate_worsens": 24,
-    "nonfinite_difference": 30,
-    "same_or_close": 741
+    "candidate_improves": 588,
+    "candidate_worsens": 27,
+    "current_only": 6058,
+    "nonfinite_difference": 35,
+    "same_or_close": 169
   },
-  "group_count": 63,
+  "group_count": 529,
   "inputs": {
     "candidate_summary": "results/realworld_pilot/pilot_multi_corridor_full_summary.csv",
     "current_summary": "results/realworld_pilot/pilot_full_summary.csv"
   },
-  "max_abs_delta": 7388.89,
+  "max_abs_delta": 7380.15,
   "metric_count": 13,
   "outputs": {
     "comparison": "data/validation/graph_scale_result_comparison.csv",
@@ -24,6 +25,6 @@
     "decide whether changed blocked-scenario outcomes reflect a better graph abstraction or an unintended scenario-method interaction",
     "regenerate sensitivity, figures, tables, and manuscript interpretation after the accepted graph-scale method is selected"
   ],
-  "row_count": 819,
+  "row_count": 6877,
   "schema_version": 1
 }

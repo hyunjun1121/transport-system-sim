@@ -20,7 +20,7 @@ Draft pre-review recommendations only. These records classify remaining formal a
 | graph_scale_strategy | `blocked` | `blocked_requires_human_decision` | `data/manifests/graph_scale_acceptance.json` | Blocked non-approval item: create an explicit graph-scale decision record after source-vs-analysis graph review<br>Blocked non-approval item: resolve graph-scale strategy-readiness blockers before graph-scale decision record<br>+12 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | data_provenance | `blocked` | `blocked_requires_human_decision` | `data/manifests/provenance_acceptance.json` | Blocked non-approval item: create an explicit provenance decision record after source, license, snapshot, privacy, and reproducibility review<br>Blocked non-approval item: replace scaffold-only reproducibility manifest with reviewer-retained source/license/snapshot provenance<br>+20 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | parameter_acceptance | `blocked` | `blocked_missing_evidence` | `data/parameters/parameter_acceptance.csv` | Blocked non-approval item: create reviewed parameter decision records only for weak assumptions retained in release-scope claims<br>Blocked non-approval item: parameter_acceptance.csv is missing<br>+53 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
-| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | Blocked non-approval item: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence<br>Blocked non-approval item: apply the reviewed overrides when adapting the pilot graph if release-scope claims require field-fit road inputs<br>+18 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
+| road_class_overrides | `blocked` | `blocked_missing_evidence` | `data/parameters/road_class_overrides.csv` | Blocked non-approval item: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed<br>Blocked non-approval item: verify graph-adapter runs apply the reviewed override table before using road-calibration claims<br>+23 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | validation_package | `blocked` | `blocked_requires_human_decision` | `data/manifests/validation_acceptance.json` | Blocked non-approval item: create an explicit validation decision record after benchmark-strategy review<br>Blocked non-approval item: resolve benchmark strategy-readiness blockers before benchmark decision record<br>+10 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | sensitivity_analysis | `blocked` | `blocked_missing_evidence` | `data/manifests/sensitivity_acceptance.json` | Blocked non-approval item: create an explicit sensitivity decision record after SALib output and Sobol-decision review<br>Blocked non-approval item: resolve sensitivity strategy-readiness blockers before sensitivity decision record<br>+7 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
 | full_experiment_output | `blocked` | `blocked_missing_evidence` | `data/manifests/experiment_acceptance.json` | Blocked non-approval item: create an explicit experiment decision record after input checks, graph-scope, and scenario-policy-seed review<br>Blocked non-approval item: resolve experiment strategy-readiness blockers before experiment decision record<br>+14 more | Blocked non-approval item: Inspect the listed review packets and evidence paths.<br>Blocked non-approval item: Record an explicit source-backed reviewer decision; do not use this draft record as approval.<br>+4 more |
@@ -81,6 +81,7 @@ Missing evidence:
 
 Residual risks:
 - Blocked non-approval risk note: Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-deployment-scope claim boundary.
+- Blocked non-approval risk note: create an explicit pilot decision record after privacy and case-scope review
 - Blocked non-approval risk note: create an explicit pilot decision record after privacy and case-scope review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
@@ -174,11 +175,11 @@ Missing evidence:
 - Blocked non-approval item: graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent
 - Blocked non-approval item: graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
 - Blocked non-approval item: graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- Blocked non-approval item: graph-scale strategy readiness: reviewer-selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
+- Blocked non-approval item: graph-scale strategy readiness: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - Blocked non-approval item: review graph-scale strategy-readiness human-decision items before graph-scale decision record
 - Blocked non-approval item: resolve graph-scale method-decision blockers before graph-scale decision record
 - Blocked non-approval item: graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- Blocked non-approval item: graph-scale method decision: reviewer-selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
+- Blocked non-approval item: graph-scale method decision: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
 - Blocked non-approval item: graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
 - Blocked non-approval item: review graph-scale method-decision human-decision items before graph-scale decision record
 - Blocked non-approval item: data/manifests/graph_scale_acceptance.json is absent
@@ -186,6 +187,7 @@ Missing evidence:
 Residual risks:
 - Blocked non-approval risk note: Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - Blocked non-approval risk note: Create graph_scale_acceptance.json with matching graph counts and evidence paths.
+- Blocked non-approval risk note: create an explicit graph-scale decision record after source-vs-analysis graph review
 - Blocked non-approval risk note: create an explicit graph-scale decision record after source-vs-analysis graph review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
@@ -302,6 +304,7 @@ Missing evidence:
 Residual risks:
 - Blocked non-approval risk note: Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.
 - Blocked non-approval risk note: Create data/manifests/provenance_acceptance.json only after source-backed review.
+- Blocked non-approval risk note: create an explicit provenance decision record after source, license, snapshot, privacy, and reproducibility review
 - Blocked non-approval risk note: create an explicit provenance decision record after source, license, snapshot, privacy, and reproducibility review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
@@ -446,8 +449,8 @@ Missing evidence:
 - Blocked non-approval item: strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
 - Blocked non-approval item: support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
 - Blocked non-approval item: parameter source readiness: all rows require human review or external source decisions before release-scope claims
-- Blocked non-approval item: parameter source readiness: this packet is readiness evidence only and cannot create reviewer-retained parameter values
-- Blocked non-approval item: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
+- Blocked non-approval item: parameter source readiness: this packet is source-review evidence only and cannot create reviewed parameter values
+- Blocked non-approval item: parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers explicitly retain weak assumptions
 - Blocked non-approval item: parameter evidence priority: transfer-delay evidence still requires human review and source-backed or reviewer-retention treatment
 - Blocked non-approval item: parameter evidence priority: rail timing/source-decision evidence is incomplete
 - Blocked non-approval item: parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
@@ -470,7 +473,7 @@ Missing evidence:
 - Blocked non-approval item: rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
 - Blocked non-approval item: rail source decision: rail timing cache or reviewed GTFS source files remain required for source-backed timing claims
 - Blocked non-approval item: rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment
-- Blocked non-approval item: rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal acceptance gates
+- Blocked non-approval item: rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates
 - Blocked non-approval item: rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
 - Blocked non-approval item: rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file or GTFS Validator report is absent
 - Blocked non-approval item: rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
@@ -481,11 +484,11 @@ Missing evidence:
 - Blocked non-approval item: rail transit stress profile is not publication-ready evidence
 - Blocked non-approval item: rail transit stress profile cannot mark complete
 - Blocked non-approval item: rail transit stress profile: rail transit stress profiles are scenario/sensitivity review support only
-- Blocked non-approval item: rail transit stress profile: capacity and availability profiles require reviewer decisions before release-scope claims
+- Blocked non-approval item: rail transit stress profile: capacity and availability profiles require reviewer decisions before release-scope rail claims
 - Blocked non-approval item: rail transit stress profile: rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests
 - Blocked non-approval item: rail transit stress profile: rail source decision: rail timing cache or reviewed GTFS source files remain required for source-backed timing claims
 - Blocked non-approval item: rail transit stress profile: rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment
-- Blocked non-approval item: rail transit stress profile: rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal acceptance gates
+- Blocked non-approval item: rail transit stress profile: rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates
 - Blocked non-approval item: rail transit stress profile: rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present
 - Blocked non-approval item: rail transit stress profile: rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file or GTFS Validator report is absent
 - Blocked non-approval item: rail transit stress profile: rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present
@@ -498,6 +501,7 @@ Residual risks:
 - Blocked non-approval risk note: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
 - Blocked non-approval risk note: create reviewed parameter decision records only for weak assumptions retained in release-scope claims
 - Blocked non-approval risk note: parameter_acceptance.csv is missing
+- Blocked non-approval risk note: create reviewed parameter decision rows only for weak assumptions retained in release-scope claims
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -572,7 +576,7 @@ Evidence inspected:
 - `data/rail/rail_fetch_readiness_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_evidence_priority_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/rail/rail_source_decision_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
-- `data/parameters/road_class_overrides.csv`: absent; formal artifact absent; expected until a source-backed reviewer decision exists
+- `data/parameters/road_class_overrides.csv`: present; formal artifact present; still requires validator review
 - `docs/review_packets/cached_osm_input.md`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/parameter_evidence_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
 - `data/parameters/road_evidence_review_packet.csv`: present; local supporting artifact present; evidence quality still requires human/source review
@@ -618,33 +622,41 @@ Evidence inspected:
 - `scripts/audit_road_overrides.py`: present; local supporting artifact present; evidence quality still requires human/source review
 
 Missing evidence:
-- Blocked non-approval item: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- Blocked non-approval item: apply the reviewed overrides when adapting the pilot graph if release-scope claims require field-fit road inputs
-- Blocked non-approval item: reviewed road-class override table is absent
+- Blocked non-approval item: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed
+- Blocked non-approval item: verify graph-adapter runs apply the reviewed override table before using road-calibration claims
+- Blocked non-approval item: accepted pilot manifest does not record road_class_overrides_applied: true
+- Blocked non-approval item: accepted pilot manifest does not record road_class_overrides_path
+- Blocked non-approval item: accepted pilot manifest does not record road_class_overrides_sha256
+- Blocked non-approval item: accepted pilot manifest graph_source does not record road_class_overrides
 - Blocked non-approval item: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where release-scope claims require calibration
 - Blocked non-approval item: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-field-fit values
 - Blocked non-approval item: road input evidence: replace road-class base disruption probabilities with hazard, incident, or reviewer-retained scenario evidence
 - Blocked non-approval item: road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates
-- Blocked non-approval item: road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- Blocked non-approval item: road override evidence: apply the reviewed overrides when adapting the pilot graph if release-scope claims require field-fit road inputs
-- Blocked non-approval item: road override application: reviewed road-class override table is absent
+- Blocked non-approval item: road override evidence: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed
+- Blocked non-approval item: road override evidence: verify graph-adapter runs apply the reviewed override table before using road-calibration claims
+- Blocked non-approval item: road override application: accepted pilot manifest does not record road_class_overrides_applied: true
+- Blocked non-approval item: road override application: accepted pilot manifest does not record road_class_overrides_path
+- Blocked non-approval item: road override application: accepted pilot manifest does not record road_class_overrides_sha256
+- Blocked non-approval item: road override application: accepted pilot manifest graph_source does not record road_class_overrides
 - Blocked non-approval item: road source readiness: cached lane-count evidence has no parseable observed lane rows
 - Blocked non-approval item: road source readiness: data/parameters/road_class_overrides.csv is absent
 - Blocked non-approval item: road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
-- Blocked non-approval item: road source readiness: this packet is readiness evidence only and cannot create road-class overrides
+- Blocked non-approval item: road source readiness: this packet is source-review triage only and cannot create road-class overrides
 - Blocked non-approval item: road source decision: reviewed road_class_overrides.csv is absent
 - Blocked non-approval item: road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
-- Blocked non-approval item: road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
+- Blocked non-approval item: road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit reviewer decisions
 - Blocked non-approval item: road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
 - Blocked non-approval item: road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
-- Blocked non-approval item: data/parameters/road_class_overrides.csv is absent
 
 Residual risks:
 - Blocked non-approval risk note: Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit reviewer-retained overrides.
 - Blocked non-approval risk note: Create road_class_overrides.csv and parameter_acceptance.csv only after review.
-- Blocked non-approval risk note: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- Blocked non-approval risk note: apply the reviewed overrides when adapting the pilot graph if release-scope claims require field-fit road inputs
-- Blocked non-approval risk note: reviewed road-class override table is absent
+- Blocked non-approval risk note: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed
+- Blocked non-approval risk note: verify graph-adapter runs apply the reviewed override table before using road-calibration claims
+- Blocked non-approval risk note: accepted pilot manifest does not record road_class_overrides_applied: true
+- Blocked non-approval risk note: accepted pilot manifest does not record road_class_overrides_path
+- Blocked non-approval risk note: accepted pilot manifest does not record road_class_overrides_sha256
+- Blocked non-approval risk note: accepted pilot manifest graph_source does not record road_class_overrides
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -741,6 +753,7 @@ Residual risks:
 - Blocked non-approval risk note: Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.
 - Blocked non-approval risk note: Create validation_acceptance.json after benchmark-strategy review.
 - Blocked non-approval risk note: create an explicit validation decision record after benchmark-strategy review
+- Blocked non-approval risk note: create an explicit benchmark decision record after benchmark-strategy review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -820,6 +833,7 @@ Residual risks:
 - Blocked non-approval risk note: Review parameter ranges and decide whether Morris is enough or Sobol is required.
 - Blocked non-approval risk note: Create sensitivity_acceptance.json after final input and graph scope are accepted.
 - Blocked non-approval risk note: create an explicit sensitivity decision record after SALib output and Sobol-decision review
+- Blocked non-approval risk note: create an explicit sensitivity decision record after SALib output and Sobol-decision review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -883,13 +897,13 @@ Missing evidence:
 - Blocked non-approval item: create an explicit experiment decision record after input checks, graph-scope, and scenario-policy-seed review
 - Blocked non-approval item: resolve experiment strategy-readiness blockers before experiment decision record
 - Blocked non-approval item: experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated
-- Blocked non-approval item: experiment strategy readiness: full-pilot outputs depend on a graph method that is not accepted
-- Blocked non-approval item: experiment strategy readiness: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- Blocked non-approval item: experiment strategy readiness: full-pilot outputs depend on a graph method that has no graph-scale decision
+- Blocked non-approval item: experiment strategy readiness: upstream input, road override, parameter, benchmark, or provenance gates are unresolved
 - Blocked non-approval item: experiment strategy readiness: data/manifests/experiment_acceptance.json is absent
 - Blocked non-approval item: review experiment strategy-readiness human-decision items before experiment decision record
 - Blocked non-approval item: resolve experiment design-decision blockers before experiment decision record
-- Blocked non-approval item: experiment design decision: experiment outputs depend on a graph method that is not accepted
-- Blocked non-approval item: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not accepted
+- Blocked non-approval item: experiment design decision: experiment outputs depend on a graph method that is not selected by review
+- Blocked non-approval item: experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not closed
 - Blocked non-approval item: experiment design decision: current full-pilot result scope is scaffold or not calibrated
 - Blocked non-approval item: experiment design decision: data/manifests/experiment_acceptance.json is absent
 - Blocked non-approval item: review experiment design-decision human-decision items before experiment decision record
@@ -901,6 +915,7 @@ Residual risks:
 - Blocked non-approval risk note: Regenerate or accept full outputs after input, graph-scale, and validation gates close.
 - Blocked non-approval risk note: Create experiment_acceptance.json with matching run profile and row counts.
 - Blocked non-approval risk note: create an explicit experiment decision record after input checks, graph-scope, and scenario-policy-seed review
+- Blocked non-approval risk note: create an explicit experiment decision record after input-evidence review, graph-scope, and scenario-policy-seed review
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -976,7 +991,7 @@ Missing evidence:
 - Blocked non-approval item: claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims
 - Blocked non-approval item: resolve manuscript/report decision blockers before manuscript acceptance
 - Blocked non-approval item: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent
-- Blocked non-approval item: manuscript/report decision: claim-alignment packet has 42 rows requiring revision or acceptance
+- Blocked non-approval item: manuscript/report decision: claim-alignment packet has 52 rows requiring revision or explicit retention
 - Blocked non-approval item: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output
 - Blocked non-approval item: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent
 - Blocked non-approval item: review manuscript/report human-decision rows before manuscript acceptance
@@ -985,6 +1000,7 @@ Missing evidence:
 Residual risks:
 - Blocked non-approval risk note: Revise or hold claims until all supporting evidence gates are accepted.
 - Blocked non-approval risk note: Create manuscript_acceptance.json after claim-by-claim review.
+- Blocked non-approval risk note: create an explicit manuscript/report decision record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - Blocked non-approval risk note: create an explicit manuscript/report decision record after evidence gates, figures, paper, report, and claim boundaries are reviewed
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
@@ -1063,6 +1079,7 @@ Residual risks:
 - Blocked non-approval risk note: Run or document clean-checkout reproduction review with command log and artifact regeneration evidence.
 - Blocked non-approval risk note: Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
 - Blocked non-approval risk note: create an explicit reproducibility decision record after clean-checkout reproduction review, artifact regeneration, manifest review, and import-boundary checks
+- Blocked non-approval risk note: create an explicit reproducibility decision record after clean-checkout reproduction review, artifact regeneration, manifest review, and import-boundary checks
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 
@@ -1120,12 +1137,12 @@ Missing evidence:
 - Blocked non-approval item: create docs/final_study_audit.md after all other gates close
 - Blocked non-approval item: create an explicit closeout-audit decision record only after prompt-to-artifact review confirms every closeout gate is closed
 - Blocked non-approval item: resolve closeout-audit decision blockers before closeout-audit acceptance
-- Blocked non-approval item: closeout-audit decision: pre-closeout gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
-- Blocked non-approval item: closeout-audit decision: required formal decision artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
+- Blocked non-approval item: closeout-audit decision: pre-closeout gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- Blocked non-approval item: closeout-audit decision: required formal decision artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
 - Blocked non-approval item: closeout-audit decision: docs/final_study_audit.md is absent
 - Blocked non-approval item: closeout-audit decision: data/manifests/final_audit_acceptance.json is absent
 - Blocked non-approval item: review closeout-audit human-decision rows before closeout-audit acceptance
-- Blocked non-approval item: all pre-closeout gates must be ready before closeout audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- Blocked non-approval item: all pre-closeout gates must be ready before closeout audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
 - Blocked non-approval item: docs/final_study_audit.md is absent
 
 Residual risks:
@@ -1191,18 +1208,19 @@ Missing evidence:
 - Blocked non-approval item: create an explicit closeout-audit decision record only after prompt-to-artifact review confirms every closeout gate is closed
 - Blocked non-approval item: create docs/final_study_audit.md after all other gates close
 - Blocked non-approval item: resolve closeout-audit decision blockers before closeout-audit acceptance
-- Blocked non-approval item: closeout-audit decision: pre-closeout gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
-- Blocked non-approval item: closeout-audit decision: required formal decision artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
+- Blocked non-approval item: closeout-audit decision: pre-closeout gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- Blocked non-approval item: closeout-audit decision: required formal decision artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
 - Blocked non-approval item: closeout-audit decision: docs/final_study_audit.md is absent
 - Blocked non-approval item: closeout-audit decision: data/manifests/final_audit_acceptance.json is absent
 - Blocked non-approval item: review closeout-audit human-decision rows before closeout-audit acceptance
-- Blocked non-approval item: all pre-closeout gates must be ready before closeout audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- Blocked non-approval item: all pre-closeout gates must be ready before closeout audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, structured_disruptions, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
 - Blocked non-approval item: data/manifests/final_audit_acceptance.json is absent
 
 Residual risks:
 - Blocked non-approval risk note: After all pre-closeout gates are ready, write the independent prompt-to-artifact closeout audit.
 - Blocked non-approval risk note: Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence.
 - Blocked non-approval risk note: create an explicit closeout-audit decision record only after prompt-to-artifact review confirms every closeout gate is closed
+- Blocked non-approval risk note: create an explicit closeout audit decision record only after prompt-to-artifact review confirms every prerequisite gate is closed
 - Blocked non-approval risk note: Draft recommendation could be overread as permission if copied into a target path.
 - Blocked non-approval risk note: Study gate status remains false until reviewers record source-backed decisions.
 

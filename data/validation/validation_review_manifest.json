@@ -4,8 +4,8 @@
   "accessibility_criticality_counts": {
     "disconnected": 22,
     "high_time_loss": 17,
-    "low_time_loss": 50,
-    "moderate_time_loss": 38
+    "low_time_loss": 52,
+    "moderate_time_loss": 36
   },
   "accessibility_route_count": 3,
   "artifact_presence_counts": {

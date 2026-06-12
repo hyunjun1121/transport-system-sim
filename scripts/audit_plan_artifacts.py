@@ -479,12 +479,12 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "demand_profiles",
         DEFAULT_DEMAND_PROFILE_PATH,
-        2,
+        4,
     ),
     CsvExpectation(
         "fleet_profiles",
         DEFAULT_FLEET_PROFILE_PATH,
-        6,
+        12,
     ),
     CsvExpectation(
         "behavior_profiles",
@@ -763,12 +763,12 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "pilot_full_results",
         ROOT / "results" / "realworld_pilot" / "pilot_full_results.csv",
-        1890,
+        2430,
     ),
     CsvExpectation(
         "pilot_full_summary",
         ROOT / "results" / "realworld_pilot" / "pilot_full_summary.csv",
-        63,
+        81,
     ),
     CsvExpectation(
         "morris_results",
@@ -803,7 +803,7 @@ CSV_EXPECTATIONS = (
     CsvExpectation(
         "main_result_table",
         ROOT / "results" / "realworld_pilot" / "tables" / "main_result_table.csv",
-        63,
+        81,
     ),
     CsvExpectation(
         "sensitivity_result_table",
@@ -812,7 +812,7 @@ CSV_EXPECTATIONS = (
         / "realworld_pilot"
         / "tables"
         / "sensitivity_result_table.csv",
-        98,
+        7056,
     ),
     CsvExpectation(
         "bottleneck_attribution_table",
@@ -821,7 +821,7 @@ CSV_EXPECTATIONS = (
         / "realworld_pilot"
         / "tables"
         / "bottleneck_attribution_table.csv",
-        63,
+        81,
     ),
     CsvExpectation(
         "policy_regime_table",
@@ -839,7 +839,7 @@ CSV_EXPECTATIONS = (
         / "realworld_pilot"
         / "tables"
         / "pilot_full_metric_ci.csv",
-        819,
+        1053,
     ),
     CsvExpectation(
         "pilot_full_paired_delta_ci",
@@ -848,7 +848,7 @@ CSV_EXPECTATIONS = (
         / "realworld_pilot"
         / "tables"
         / "pilot_full_paired_delta_ci.csv",
-        702,
+        936,
     ),
     CsvExpectation(
         "pilot_multi_corridor_metric_ci",

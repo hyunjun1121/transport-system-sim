@@ -4,20 +4,12 @@
   "claim_boundary": "This audit checks sub-agent review-record path hygiene only. It does not approve evidence quality, licenses, calibration, reviewer decisions, or final-study readiness.",
   "invalid_record_count": 0,
   "invalid_records": [],
-  "missing_formal_target_count": 36,
+  "missing_formal_target_count": 33,
   "missing_formal_targets": [
     {
       "agent_id": "road_rail_parameter_evidence_agent",
       "field": "source_paths",
       "gate_id": "cached_osm_input",
-      "path": "data/parameters/road_class_overrides.csv",
-      "record_path": "data/manifests/agent_reviews/cached_osm_input__road_rail_parameter_evidence_agent.json",
-      "status": "missing_formal_target"
-    },
-    {
-      "agent_id": "road_rail_parameter_evidence_agent",
-      "field": "source_paths",
-      "gate_id": "cached_osm_input",
       "path": "data/parameters/parameter_acceptance.csv",
       "record_path": "data/manifests/agent_reviews/cached_osm_input__road_rail_parameter_evidence_agent.json",
       "status": "missing_formal_target"
@@ -170,14 +162,6 @@
       "agent_id": "road_rail_parameter_evidence_agent",
       "field": "source_paths",
       "gate_id": "parameter_evidence",
-      "path": "data/parameters/road_class_overrides.csv",
-      "record_path": "data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json",
-      "status": "missing_formal_target"
-    },
-    {
-      "agent_id": "road_rail_parameter_evidence_agent",
-      "field": "source_paths",
-      "gate_id": "parameter_evidence",
       "path": "data/parameters/parameter_acceptance.csv",
       "record_path": "data/manifests/agent_reviews/parameter_evidence__road_rail_parameter_evidence_agent.json",
       "status": "missing_formal_target"
@@ -204,14 +188,6 @@
       "gate_id": "pilot_region_accepted",
       "path": "data/manifests/pilot_acceptance.json",
       "record_path": "data/manifests/agent_reviews/pilot_region_accepted__pilot_region_privacy_review_agent.json",
-      "status": "missing_formal_target"
-    },
-    {
-      "agent_id": "road_rail_parameter_evidence_agent",
-      "field": "source_paths",
-      "gate_id": "rail_evidence",
-      "path": "data/parameters/road_class_overrides.csv",
-      "record_path": "data/manifests/agent_reviews/rail_evidence__road_rail_parameter_evidence_agent.json",
       "status": "missing_formal_target"
     },
     {
@@ -298,16 +274,16 @@
   "missing_required_path_count": 0,
   "missing_required_paths": [],
   "path_reference_count": 853,
-  "present_path_count": 817,
+  "present_path_count": 820,
   "record_count": 12,
   "record_dir": "data/manifests/agent_reviews",
   "remaining_blockers": [],
   "schema_version": 1,
   "status_counts": {
-    "missing_formal_target": 36,
-    "present": 817
+    "missing_formal_target": 33,
+    "present": 820
   },
-  "unique_missing_formal_target_count": 12,
+  "unique_missing_formal_target_count": 11,
   "unique_missing_formal_targets": [
     "data/manifests/experiment_acceptance.json",
     "data/manifests/final_audit_acceptance.json",
@@ -319,7 +295,6 @@
     "data/manifests/sensitivity_acceptance.json",
     "data/manifests/validation_acceptance.json",
     "data/parameters/parameter_acceptance.csv",
-    "data/parameters/road_class_overrides.csv",
     "docs/final_study_audit.md"
   ]
 }

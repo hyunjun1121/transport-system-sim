@@ -233,6 +233,9 @@ class PilotDisruptionCase:
     capacity_factor: float
     p_fail_scale: float
     selected_edges: tuple[ScenarioEdge, ...] = ()
+    rail_travel_time_multiplier: float | None = None
+    rail_headway_multiplier: float | None = None
+    rail_capacity_multiplier: float | None = None
     notes: str = ""
 
     @property
@@ -1136,7 +1139,7 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
         },
         "traffic": {
             "volume_window_min": 60.0,
-            "background_volume": 150.0,
+            "background_volume": 300.0,
         },
         "failure": {
             "mode": "blocked",
@@ -1146,7 +1149,7 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
             "late_penalty_min": 300.0,
         },
         "bpr": {
-            "alpha": 0.15,
+            "alpha": 0.50,
             "beta": 4.0,
         },
         "lateness": {
@@ -1157,7 +1160,11 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
         "experiment": {
             "R": 1,
             "seed_base": 1,
-            "time_limit": 240.0,
+            "time_limit": 200.0,
+        },
+        "stochastic": {
+            "road_noise_sigma": 0.05,
+            "turnaround_noise_lambda": 0.2,
         },
     }
 
@@ -1240,7 +1247,11 @@ def run_pilot_rows(
     )
     profile_sigma = _profile_run_sigma(base_config)
     for case in cases:
-        disrupted_graph = graph_with_forced_disruption_probabilities(inputs.graph, case)
+        disrupted_graph = graph_with_forced_disruption_probabilities(
+            inputs.graph, case,
+            force_deterministic=False,
+            selection_p_fail=0.8,
+        )
         for policy in policies:
             variant = build_policy_config_variant(base_config, policy, policies)
             run_config = _config_with_case_failure(variant.config, case)
@@ -1274,22 +1285,34 @@ def run_pilot_rows(
 def graph_with_forced_disruption_probabilities(
     graph: nx.DiGraph,
     case: PilotDisruptionCase,
+    *,
+    force_deterministic: bool = True,
+    selection_p_fail: float = 0.8,
 ) -> nx.DiGraph:
     """Copy a graph and force deterministic selected-road disruption sampling."""
 
     prepared = graph.copy()
-    for _, _, data in prepared.edges(data=True):
-        if data.get("mode") == "road":
-            data["p_fail"] = 0.0
-            data["base_p_fail"] = 0.0
+    if force_deterministic:
+        for _, _, data in prepared.edges(data=True):
+            if data.get("mode") == "road":
+                data["p_fail"] = 0.0
+                data["base_p_fail"] = 0.0
 
-    for selected in case.selected_edges:
-        if not prepared.has_edge(*selected.edge):
-            raise ValueError(f"selected edge missing from graph: {selected.edge!r}")
-        data = prepared.edges[selected.edge]
-        if data.get("mode") == "road":
-            data["p_fail"] = 1.0
-            data["base_p_fail"] = 1.0
+        for selected in case.selected_edges:
+            if not prepared.has_edge(*selected.edge):
+                raise ValueError(f"selected edge missing from graph: {selected.edge!r}")
+            data = prepared.edges[selected.edge]
+            if data.get("mode") == "road":
+                data["p_fail"] = 1.0
+                data["base_p_fail"] = 1.0
+    else:
+        for selected in case.selected_edges:
+            if not prepared.has_edge(*selected.edge):
+                raise ValueError(f"selected edge missing from graph: {selected.edge!r}")
+            data = prepared.edges[selected.edge]
+            if data.get("mode") == "road":
+                data["p_fail"] = selection_p_fail
+                data["base_p_fail"] = selection_p_fail
     return prepared
 
 
@@ -1699,6 +1722,9 @@ def _case_from_scenario(
         capacity_factor=scenario.capacity_factor,
         p_fail_scale=scenario.p_fail_scale if selected_edges else 0.0,
         selected_edges=selected_edges,
+        rail_travel_time_multiplier=scenario.rail_travel_time_multiplier,
+        rail_headway_multiplier=scenario.rail_headway_multiplier,
+        rail_capacity_multiplier=scenario.rail_capacity_multiplier,
         notes=scenario.notes,
     )
 
@@ -1714,6 +1740,19 @@ def _config_with_case_failure(
         run_config["failure"]["capacity_reduction_factor"] = case.capacity_factor
     else:
         run_config["failure"]["capacity_reduction_factor"] = 1.0
+    if case.rail_travel_time_multiplier is not None or case.rail_headway_multiplier is not None or case.rail_capacity_multiplier is not None:
+        network = run_config.setdefault("network", {})
+        rail_links = network.get("rail_link")
+        if rail_links and isinstance(rail_links, list) and len(rail_links) > 0:
+            rail_link = rail_links[0]
+            if not isinstance(rail_link, list) or len(rail_link) < 5:
+                raise ValueError("rail_link[0] must be a list with at least 5 elements")
+            if case.rail_travel_time_multiplier is not None:
+                rail_link[2] = float(rail_link[2]) * case.rail_travel_time_multiplier
+            if case.rail_headway_multiplier is not None:
+                rail_link[3] = float(rail_link[3]) * case.rail_headway_multiplier
+            if case.rail_capacity_multiplier is not None:
+                rail_link[4] = max(1, round(float(rail_link[4]) * case.rail_capacity_multiplier))
     return run_config
 
 

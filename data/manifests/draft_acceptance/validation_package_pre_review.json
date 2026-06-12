@@ -205,7 +205,7 @@
   "formal_record_present": false,
   "formal_target": "data/manifests/validation_acceptance.json",
   "gate": "validation_package",
-  "generated_at": "2026-06-04T02:16:50+00:00",
+  "generated_at": "2026-06-11T15:08:02+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
@@ -271,6 +271,7 @@
     "Review validation thresholds, benchmark scope, snapshot pinning, and failure cases.",
     "Create validation_acceptance.json after benchmark-strategy review.",
     "create an explicit validation acceptance record after benchmark-strategy review",
+    "create an explicit benchmark decision record after benchmark-strategy review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],

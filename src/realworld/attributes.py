@@ -28,25 +28,31 @@ class RoadClassDefaults:
     base_p_fail: float
 
 
-# These are intentionally coarse planning defaults, not calibrated road values.
+# Korean urban road defaults derived from:
+# - Road Traffic Act (도로교통법) Enforcement Regulations Art. 19 for legal speed limits
+# - Korea HCM 2004 (도로용량편람) for capacity values
+# - MOLIT Road Design Standards (도로설계기준) for design speeds
+# - Suh et al. 1990, Seoul field capacity measurements
+# - Kim & Jung 2021, Seoul urban speed limit study
+# Speeds reflect urban Seoul posting practice; capacities from Korea HCM classes.
 # Capacities are directional proxy values used by the BPR congestion model.
 HIGHWAY_DEFAULTS: dict[str, RoadClassDefaults] = {
-    "motorway": RoadClassDefaults(speed_kph=100.0, capacity=2200.0, base_p_fail=0.010),
+    "motorway": RoadClassDefaults(speed_kph=100.0, capacity=2100.0, base_p_fail=0.010),
     "motorway_link": RoadClassDefaults(speed_kph=60.0, capacity=1200.0, base_p_fail=0.020),
-    "trunk": RoadClassDefaults(speed_kph=80.0, capacity=1800.0, base_p_fail=0.015),
-    "trunk_link": RoadClassDefaults(speed_kph=50.0, capacity=1000.0, base_p_fail=0.025),
-    "primary": RoadClassDefaults(speed_kph=60.0, capacity=1400.0, base_p_fail=0.020),
-    "primary_link": RoadClassDefaults(speed_kph=45.0, capacity=800.0, base_p_fail=0.030),
-    "secondary": RoadClassDefaults(speed_kph=50.0, capacity=1000.0, base_p_fail=0.025),
-    "secondary_link": RoadClassDefaults(speed_kph=40.0, capacity=700.0, base_p_fail=0.035),
-    "tertiary": RoadClassDefaults(speed_kph=40.0, capacity=800.0, base_p_fail=0.030),
-    "tertiary_link": RoadClassDefaults(speed_kph=35.0, capacity=500.0, base_p_fail=0.040),
-    "unclassified": RoadClassDefaults(speed_kph=35.0, capacity=600.0, base_p_fail=0.040),
+    "trunk": RoadClassDefaults(speed_kph=60.0, capacity=1700.0, base_p_fail=0.015),
+    "trunk_link": RoadClassDefaults(speed_kph=40.0, capacity=900.0, base_p_fail=0.025),
+    "primary": RoadClassDefaults(speed_kph=50.0, capacity=1300.0, base_p_fail=0.020),
+    "primary_link": RoadClassDefaults(speed_kph=35.0, capacity=750.0, base_p_fail=0.030),
+    "secondary": RoadClassDefaults(speed_kph=40.0, capacity=1000.0, base_p_fail=0.025),
+    "secondary_link": RoadClassDefaults(speed_kph=30.0, capacity=600.0, base_p_fail=0.035),
+    "tertiary": RoadClassDefaults(speed_kph=30.0, capacity=750.0, base_p_fail=0.030),
+    "tertiary_link": RoadClassDefaults(speed_kph=25.0, capacity=450.0, base_p_fail=0.040),
+    "unclassified": RoadClassDefaults(speed_kph=30.0, capacity=500.0, base_p_fail=0.040),
     "residential": RoadClassDefaults(speed_kph=30.0, capacity=400.0, base_p_fail=0.040),
     "living_street": RoadClassDefaults(speed_kph=10.0, capacity=100.0, base_p_fail=0.050),
     "service": RoadClassDefaults(speed_kph=20.0, capacity=200.0, base_p_fail=0.050),
     "track": RoadClassDefaults(speed_kph=15.0, capacity=100.0, base_p_fail=0.060),
-    "road": RoadClassDefaults(speed_kph=35.0, capacity=600.0, base_p_fail=0.040),
+    "road": RoadClassDefaults(speed_kph=30.0, capacity=500.0, base_p_fail=0.040),
 }
 
 # Bus-oriented regional movement should not silently route over OSM pedestrian,

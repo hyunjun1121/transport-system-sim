@@ -6,9 +6,9 @@ Phase 6 disruption scenario library only; deterministic scenario-design metadata
 
 - Publication ready: `false`
 - Final-study ready: `false`
-- Row count: `8`
-- Family counts: `{'access_road': 2, 'critical_link': 1, 'last_mile': 1, 'rail_station_access': 1, 'random': 2, 'spatial_hazard_overlay': 1}`
-- Temporal scope counts: `{'metadata_only_not_dynamic_recovery': 8}`
+- Row count: `11`
+- Family counts: `{'access_road': 2, 'critical_link': 1, 'last_mile': 1, 'rail_station_access': 1, 'random': 2, 'spatial_hazard_overlay': 4}`
+- Temporal scope counts: `{'metadata_only_not_dynamic_recovery': 11}`
 
 ## Family Checksums
 
@@ -17,7 +17,7 @@ Phase 6 disruption scenario library only; deterministic scenario-design metadata
 - `last_mile`: `c261fde7e109f4a7590c9c5161678e5232dba46827883e2226fca4e9cb604b76`
 - `rail_station_access`: `efaaa0591109ef544a1ff3d8096e0ceb2c625e899d73d9c66a301cd4874e118a`
 - `random`: `9280c985a11b1b11d3c38113418d20eed52ff2789e099b58d9eab48cd1fa7456`
-- `spatial_hazard_overlay`: `d44f5b66a0a5090f562a03f76a219af08aa5078d9e1bf8b9ae6c6edabdf9a625`
+- `spatial_hazard_overlay`: `3a061de3514f486e79bbfa14ffe86aad65320934fee0b27b0e0a7880ff122d0a`
 
 ## Selected Edge Summary
 
@@ -28,6 +28,9 @@ Phase 6 disruption scenario library only; deterministic scenario-design metadata
 - `songpa_rail_station_access`: 6 selected edges; checksum `16ff7bfec87493bbb0e571e1bb126b852bfb113f9c91f33c2cf55a9ce39648e1`.
 - `songpa_random_blockage`: 2 selected edges; checksum `f98ccab1208d761d9e03cb04e6caa408003acbd26ba5253bb277d6941d4a89f3`.
 - `songpa_random_capacity_reduction`: 4 selected edges; checksum `8089d802f9a45bc3339dde4762417387d7bc453d35abe5dd7916e3defd9b5511`.
+- `songpa_spatial_assembly_egress`: 6 selected edges; checksum `6b72e4344bd6b83845ccad936978a0536cc587b4758fdf7c36c0b198c026f301`.
+- `songpa_spatial_feeder_east`: 3 selected edges; checksum `75c223a8b5216ec73145390e6aa26d3325eb2bf36a3d40a5086263d9e4b252cd`.
+- `songpa_spatial_lastmile_west`: 4 selected edges; checksum `a5a9509cdd0cc1fb2c1b1cc4d7ffa6ff3892911328f3834453f59ef85f494835`.
 - `songpa_spatial_tancheon_corridor`: 6 selected edges; checksum `11e235509acf2db980da425965e35cbf09fd52da3ffc859baf24ab56d802ea8f`.
 
 ## Remaining Blockers
