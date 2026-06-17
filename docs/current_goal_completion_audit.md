@@ -1,6 +1,6 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-06-11
+Audit date: 2026-06-17
 
 ## Objective
 
@@ -175,7 +175,7 @@ The handoff sidecar records the final ZIP checksum and send-list outside the ZIP
 - ZIP path: `required_deliverables.zip`
 - ZIP file count: 1319
 - ZIP SHA256: recorded in `review_packages/expert_review_handoff_20260510.md` and `review_packages/expert_review_handoff_20260510.json` outside the ZIP
-- Mirror ZIP matches: `false`
+- Mirror ZIP matches: `true`
 - Formal acceptance ready: `false`
 - Missing formal targets: 11 / 12
 - Can mark complete: `false`

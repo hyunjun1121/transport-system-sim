@@ -1195,42 +1195,43 @@ catastrophic for both modes at heavy congestion and above.
 
 ### 9.9 Seed Variance
 
-The updated parameters produce genuine stochastic variation across the 30-seed
-replication sets through three stochasticity mechanisms:
+Within each disruption scenario, seed variance reflects run-to-run
+variability in road travel time and fleet turnaround. These are the sole
+within-scenario stochasticity mechanisms:
 
-1. **Probabilistic edge disruption** (selection_p_fail=0.8): Each eligible road
-   edge is independently selected for disruption with probability 0.8. Under
-   heavy congestion, this creates seed-dependent route blockages that determine
-   whether a given replication completes or fails. This is the primary driver of
-   completion-rate variation at 4x congestion and above.
+1. **Road noise** (sigma=0.05): A Gaussian perturbation (sigma=0.05) is applied
+   to road free-flow travel times per replication. This creates variation in
+   arrival times across seeds, even in no-disruption scenarios. This is the
+   dominant variance source.
 
-2. **Road noise** (sigma=0.05): A Gaussian perturbation (sigma=0.05) is applied
-   to road free-flow travel times per replication. This creates small but
-   genuine variation in arrival times across seeds, even in no-disruption
-   scenarios.
-
-3. **Turnaround noise** (lambda=0.2): An exponential perturbation
+2. **Turnaround noise** (lambda=0.2): An exponential perturbation
    (lambda=0.2) is applied to vehicle turnaround times. This varies fleet
-   cycling speed across seeds, creating dispatch-timing diversity.
+   cycling speed across seeds, creating dispatch-timing diversity. This
+   has weak influence on outcomes (see §10.7).
+
+Disruption scenarios are deterministic by design: selected road edges are
+always blocked (p_fail=1.0), not probabilistically sampled. This separation
+ensures that scenario-level uncertainty (which disruption occurs) is distinct
+from realization-level uncertainty (run-to-run variability within a fixed
+disruption).
 
 Variance statistics across 529 summary groups (policy-scenario pairs):
 
-- 464 out of 529 groups (87.7%) produce >=5 unique makespan values across 30
-  seeds. The mean unique makespan count across non-inf-dominated groups is 17.3
-  out of 30 seeds.
-- 65 groups with <5 unique values are all inf-dominated (blocked routes where
-  most or all seeds fail completely, producing identical inf makespans).
+- 426 out of 529 groups (80.5%) produce >=5 unique makespan values across 30
+  seeds. The mean unique makespan count across all groups is 15.6 out of 30
+  seeds.
+- Groups with fewer unique values occur where the disruption creates a tight
+  resource constraint with limited routing flexibility.
 - At baseline congestion (1x), finite makespan groups show seed-dependent
   variation with standard deviations of 0.5-2.0 min around the mean.
-- At heavy congestion (4x), probabilistic edge disruption creates bimodal
-  outcomes: some seeds complete with finite makespan while others fail, producing
-  the observed CR values between 0.0 and 1.0 and inf mean makespans.
+- At heavy congestion (4x), road noise amplifies BPR travel-time increases,
+  producing wider makespan distributions.
 
-Confidence intervals computed from the 30-seed replications are genuine
-estimates of stochastic uncertainty. The three mechanisms interact: road noise
-and turnaround noise create makespan variation even when all edges remain
-passable, while probabilistic edge disruption creates the completion-rate
-variation that dominates regime boundaries at high congestion.
+Confidence intervals computed from seed replications reflect run-to-run
+variability under the chosen noise parameters (sigma=0.05, lambda=0.2).
+These parameters are exploratory sensitivity assumptions, not empirically
+calibrated values. The sensitivity of conclusions to these parameter choices
+is reported in §10.7.
 
 ### 9.10 Sensitivity Analysis
 
@@ -1270,9 +1271,11 @@ All results in this section carry the following claim boundaries:
 9. The simulation time limit is 200 minutes.
 10. Peak congestion (8x background volume) is a stress scenario, not a
     calibrated representation of specific real-world congestion events.
-11. Seed-level variance now produces a mean of 17.3 unique makespan values per
-     30 seeds (464/529 groups with >=5 unique values), providing meaningful
-     confidence intervals.
+11. Seed-level variance produces a mean of 15.6 unique makespan values per
+     30 seeds (426/529 groups with >=5 unique values). This variance reflects
+     operational variability under exploratory noise parameters (sigma=0.05,
+     lambda=0.2), not calibrated real-world uncertainty. See §10.7 for
+     sensitivity of conclusions to these parameter choices.
 12. The spatial overlay results reflect the specific geographic configuration of
     the Songpa-gu pilot region. The Tancheon corridor, feeder-east, lastmile-west,
     and assembly-egress disruption locations are defined by this region's road and
@@ -1585,23 +1588,40 @@ remain road-dependent. When road congestion reaches a level that prevents any
 road vehicle from completing its leg within the time limit, the entire
 multimodal chain fails regardless of rail availability.
 
-### 10.7 Seed Variance Is Now Genuine
+### 10.7 Sensitivity to Noise Parameters
 
-Previous pilot experiments produced near-deterministic results with only 1-2
-unique makespan values across 30 seeds. The updated experiment introduces three
-stochasticity mechanisms that generate genuine variation: probabilistic edge
-disruption (selection_p_fail=0.8) independently selects road edges for
-disruption per seed, road noise (sigma=0.05) perturbs free-flow travel times,
-and turnaround noise (lambda=0.2) varies vehicle turnaround times. Across 529
-summary groups, 464 groups (87.7%) produce >=5 unique makespan values with a
-mean of 17.3 unique values per group. The 65 groups with fewer unique values
-are all inf-dominated blocked routes. This genuine variance produces bimodal
-outcomes at heavy congestion: some seeds complete while others fail, creating
-the observed completion-rate distributions that distinguish regime boundaries.
-Confidence intervals computed from seed replications are now meaningful
-estimates of stochastic uncertainty, not artifacts of near-deterministic
-replication. This strengthens the statistical validity of the reported regime
-boundaries.
+The two within-scenario stochasticity mechanisms (road noise sigma and
+turnaround noise lambda) use uncalibrated parameters. To test whether
+conclusions depend on these parameter choices, both were added to the Morris
+sensitivity analysis alongside the 14 existing parameters.
+
+Morris screening results across 23 policies × 23 scenarios × 4 metrics:
+
+- **road_noise_sigma**: 2,222 non-zero mu_star values out of 3,864 index
+  rows (57.6%). This parameter has substantial influence on penalized
+  makespan, especially under heavy congestion where road noise amplifies BPR
+  travel-time increases. The top influence is on congested road scenarios
+  (mu_star up to 1,804 min for heavy_congestion_bus under random capacity
+  reduction).
+
+- **turnaround_noise_lambda**: 49 non-zero mu_star values out of 3,864 index
+  rows (1.3%). This parameter has weak influence on outcomes, with effects
+  limited to multimodal service-minute metrics. Most policy-scenario-metric
+  combinations show zero sensitivity to turnaround noise.
+
+**Finding**: Conclusions about regime boundaries and policy rankings are
+robust to the choice of turnaround noise parameter but sensitive to the
+choice of road noise parameter, particularly under congestion. The default
+sigma=0.05 should be treated as an exploratory assumption. Studies seeking
+stronger claims should source-tune road noise against observed travel-time
+variability data.
+
+Confidence intervals reported in this paper reflect run-to-run variability
+under the chosen noise parameters. They are not calibrated estimates of
+real-world stochastic uncertainty. The sensitivity analysis above quantifies
+how much this framing matters: for low-congestion scenarios, conclusions are
+robust; for high-congestion regime boundaries, the road noise parameter
+materially affects reported makespan distributions.
 
 ### 10.8 Fleet Under-Provisioning Creates Real Resource Contention
 
@@ -1751,9 +1771,9 @@ Current limitations:
   counts. The Korean urban arterial literature value is 0.36.
 - LogNormal sigma=0.8 is set to generate meaningful seed-level variance; this
   is higher than the previous value of 0.5 and may overestimate arrival-tail
-  effects. Additional stochasticity mechanisms (road noise sigma=0.05,
-  turnaround noise lambda=0.2, probabilistic edge disruption
-  selection_p_fail=0.8) further increase seed-level variation.
+  effects. Within-scenario noise mechanisms (road noise sigma=0.05,
+  turnaround noise lambda=0.2) provide additional seed-level variation.
+  These are exploratory sensitivity parameters, not calibrated values.
 - Fleet resources (8/5/4) are deliberately under-provisioned to create resource
   contention; this represents a constrained scenario, not an observed fleet
   configuration.

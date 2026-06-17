@@ -75,7 +75,7 @@
     "claim_boundary_table": 3,
     "main_result_table": 529,
     "policy_regime_table": 69,
-    "sensitivity_result_table": 54096
+    "sensitivity_result_table": 61824
   },
   "schema_version": 1,
   "selected_sensitivity_metric": "penalized_makespan",

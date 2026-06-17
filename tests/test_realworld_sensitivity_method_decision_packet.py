@@ -38,10 +38,10 @@ def test_sensitivity_method_decision_rows_surface_current_blockers() -> None:
     assert by_id["index_handling_policy"]["decision_status"] == (
         "needs_human_review_index_handling_policy"
     )
-    assert "unavailable_index_rows=4872" in by_id["index_handling_policy"][
+    assert "unavailable_index_rows=4832" in by_id["index_handling_policy"][
         "current_evidence"
     ]
-    assert "zero_mu_star_rows=29601" in by_id["index_handling_policy"][
+    assert "zero_mu_star_rows=33619" in by_id["index_handling_policy"][
         "current_evidence"
     ]
     assert by_id["graph_scope_dependency"]["decision_status"] == (

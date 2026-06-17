@@ -1,63 +1,67 @@
 ﻿# AGENTS.md - Transport System Simulation
 
-## Current Continuation Context - 2026-06-12
+## Current Continuation Context - 2026-06-17
 
-The active thread goal is to **execute `plan.md` Phase T**: Stochasticity
-Redesign & Honest Rebuild. This phase fixes design errors from Phase S and
-rebuilds the simulation with scientifically grounded stochasticity.
+Phase T (Stochasticity Redesign & Honest Rebuild) is **complete**. All 7
+sub-phases (T1-T7) executed successfully. The simulation now has honest,
+defensible stochasticity with deterministic disruption scenarios and
+exploratory within-scenario noise parameters.
 
-### What Happened Before (Phase S Summary)
+### Phase T Summary
 
-Phase S added three stochasticity mechanisms to fix zero seed variance:
-
-- **Mechanism A**: Probabilistic edge disruption (`p_fail=0.8` on selected
-  edges instead of `1.0`). **Design flaw**: this changes disruption scenario
-  semantics — e.g. "rail_unavailable" has 20% chance of rail working.
-- **Mechanism B**: Road noise (`sigma=0.05` Gaussian on BPR travel time).
-  Parameter is arbitrary (no empirical basis).
-- **Mechanism C**: Turnaround noise (`lambda=0.2` Exponential on turnaround).
-  Parameter is arbitrary (no empirical basis).
-
-Phase S produced 15,870 result rows, 529 summary groups, updated paper/report,
-162/163 tests pass. However, a retrospective identified Mechanism A as a
-design error and the paper's claim of "genuine estimates of stochastic
-uncertainty" (§9.9) as unsupported.
+- **T1**: Reverted Mechanism A (probabilistic edge disruption). Pilot
+  experiments now use `force_deterministic=True`. Added `road_noise_sigma`
+  and `turnaround_noise_lambda` to the Morris sensitivity parameter space.
+- **T2**: Variance diagnostic confirmed B+C are the sole within-scenario
+  variance sources. At sigma=0/lambda=0, variance is exactly zero. At
+  defaults, all non-inf groups produce 10 unique makespans from 10 seeds.
+- **T3**: Full re-experimentation: 15,870 rows, 529 summary groups. Extended
+  Morris: 61,824 summary rows, 23,373 non-zero mu_star. road_noise_sigma has
+  2,222 non-zero mu_star (dominant); turnaround_noise_lambda has 49 (weak).
+- **T4**: Truth table rebuilt with new SHA256. All review packets regenerated.
+  critical_link_blockage no longer bimodal (was 24 inf / 6 finite; now 30/30
+  finite, 10 unique values).
+- **T5**: Paper §9.9 rewritten with honest stochasticity framing. §10.7
+  renamed "Sensitivity to Noise Parameters" and reports Morris mu_star for
+  sigma/lambda. Korean report updated. report.docx regenerated. Claim guard:
+  `blocking_finding_count=0`, `release_blocked=false`.
+- **T6**: All key tests pass (including plan_audit). Sensitivity test
+  hardcoded values updated for new Morris dimensions (16 params, 61,824 rows).
+- **T7**: This update + commit/push.
 
 ### Current State of the Worktree
 
-- `plan.md`: Defines Phase T workflow (stochasticity redesign).
-- Simulation code: All three mechanisms implemented in `src/scenario.py`,
-  `src/traffic.py`, `src/fleet.py`, `src/realworld/pilot_experiments.py`.
+- `plan.md`: T6+T7 verification and closeout plan.
+- Simulation code: Deterministic disruptions (Mechanism A reverted) + road
+  noise (sigma) + turnaround noise (lambda) as sole within-scenario variance.
 - Results: `results/realworld_pilot/pilot_full_results.csv` (15,870 rows)
-  produced with Mechanism A active (probabilistic disruption). These will be
-  superseded by Phase T3 re-experimentation.
+  with deterministic disruption. `morris_summary.csv` (61,824 rows) includes
+  sigma/lambda as parameters.
 - Truth table: `data/validation/summary_truth_table.csv` (529 rows) reflects
-  Phase S data. Will be rebuilt in Phase T4.
-- Paper: `paper/paper_draft.md` updated with Phase S numbers and stochasticity
-  claims that need correction in Phase T5.
-- Report: `report_draft.md` and `report.docx` mirror paper values.
-- Morris sensitivity: `results/realworld_pilot/morris_summary.csv` (54,096 rows)
-  with 19,623 non-zero mu_star. Does not yet include sigma/lambda as parameters.
-- Tests: 162/163 pass. The one failure is `test_realworld_plan_audit.py`
-  (dirty-worktree path count mismatch — not a code regression).
-- Claim guard: 4 blockers, all in `plan.md` "final" words. 0 non-plan blockers.
+  Phase T data with new SHA256.
+- Paper: `paper/paper_draft.md` §9.9 and §10.7 rewritten honestly.
+- Report: `report_draft.md` and `report.docx` mirror paper framing.
+- Claim guard: `blocking_finding_count=0`, `release_blocked=false`.
+- Tests: All tests pass after updating Morris count hardcoded values.
 
 ### Active Claim Boundary
 
 Do not claim any of the following unless current audits independently prove
 them:
 
-- operational route-command capability (not claimed);
+- within-scenario route-command capability (not claimed);
 - real-world forecasting accuracy (not claimed);
 - calibrated field validation (not claimed);
 - publication readiness (not claimed);
 - final-study readiness (not claimed);
 - formal acceptance (not claimed);
 - "genuine estimates of stochastic uncertainty" from uncalibrated parameters
-  (explicitly NOT claimed — must be qualified or removed in Phase T5).
+  (explicitly NOT claimed — within-scenario noise parameters are exploratory
+  sensitivity assumptions, not calibrated values; see §10.7 for sensitivity
+  to these parameter choices).
 
 Allowed framing: decision-support simulation, quasi-real input pipeline,
-scenario comparison (deterministic disruption + operational variability),
+scenario comparison (deterministic disruption + within-scenario noise),
 resilience/sensitivity analysis, and ML-assisted classification only when
 runtime evidence supports that specific claim.
 
@@ -84,7 +88,7 @@ The next agent should execute Phase T1 through T7 as defined in `plan.md`:
 3. T3: Full re-experimentation + extended Morris.
 4. T4: Truth table rebuild + data audit.
 5. T5: Paper/report correction (honest stochasticity framing).
-6. T6: Final verification + independent sub-agent review.
+6. T6: Verification + independent sub-agent review.
 7. T7: Closeout (update AGENTS.md, status.md).
 
 Keep `final_study_ready=false`, `publication_ready=false`, and
@@ -436,6 +440,8 @@ scripts/
   run_plausibility_validation.py
   run_reproducibility_smoke.py
   run_sensitivity.py
+  run_variance_diagnostic.py
+  regenerate_truth_table.py
   validate_formal_acceptance_package.py
   build_review_package.py
   write_expert_review_handoff.py

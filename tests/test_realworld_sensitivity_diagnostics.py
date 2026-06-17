@@ -23,14 +23,14 @@ def test_shipped_morris_diagnostics_are_structurally_ready() -> None:
     summary = audit_morris_sensitivity_diagnostics()
 
     assert summary["diagnostics_ready"] is True
-    assert summary["row_count"] == 54096
-    assert summary["manifest_summary_row_count"] == 54096
-    assert summary["expected_summary_row_count_from_manifest_dimensions"] == 54096
+    assert summary["row_count"] == 61824
+    assert summary["manifest_summary_row_count"] == 61824
+    assert summary["expected_summary_row_count_from_manifest_dimensions"] == 61824
     assert summary["rows_with_index_issues"] == 0
-    assert summary["all_rows_with_index_issues"] == 4872
-    assert summary["unavailable_index_row_count"] == 4872
+    assert summary["all_rows_with_index_issues"] == 4832
+    assert summary["unavailable_index_row_count"] == 4832
     assert summary["unavailable_index_status_counts"] == {
-        "unavailable_nonfinite_metric_outputs": 4872
+        "unavailable_nonfinite_metric_outputs": 4832
     }
     assert summary["index_issue_counts"] == {
         "mu": 0,
@@ -38,7 +38,7 @@ def test_shipped_morris_diagnostics_are_structurally_ready() -> None:
         "sigma": 0,
         "mu_star_conf": 0,
     }
-    assert summary["zero_mu_star_count"] == 29601
+    assert summary["zero_mu_star_count"] == 33619
     assert summary["remaining_blockers"] == []
     assert summary["review_items"]
     assert "unavailable Morris index rows" in " ".join(summary["review_items"])

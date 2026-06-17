@@ -1099,6 +1099,16 @@ def _apply_sensitivity_values(
         "capacity_reduction_factor",
     )
 
+    config.setdefault("stochastic", {})
+    config["stochastic"]["road_noise_sigma"] = _float_value(
+        values,
+        "road_noise_sigma",
+    )
+    config["stochastic"]["turnaround_noise_lambda"] = _float_value(
+        values,
+        "turnaround_noise_lambda",
+    )
+
     rail_link = list(config["network"]["rail_link"][0])
     rail_link[3] = _float_value(values, "rail_headway")
     rail_link[4] = _int_value(values, "rail_capacity")

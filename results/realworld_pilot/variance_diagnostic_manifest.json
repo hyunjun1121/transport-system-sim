@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-06-17T02:08:43.624065+00:00",
+  "total_runs": 450,
+  "representative_pairs": [
+    [
+      "bus_only",
+      "no_disruption"
+    ],
+    [
+      "baseline_multimodal",
+      "no_disruption"
+    ],
+    [
+      "heavy_congestion_bus",
+      "songpa_spatial_tancheon_corridor"
+    ],
+    [
+      "baseline_multimodal",
+      "songpa_critical_link_blockage"
+    ],
+    [
+      "severe_congestion_bus",
+      "songpa_rail_delay"
+    ]
+  ],
+  "sigma_values": [
+    0.0,
+    0.05,
+    0.1
+  ],
+  "lambda_values": [
+    0.0,
+    0.2,
+    0.4
+  ],
+  "num_seeds": 10,
+  "claim_boundary": "Exploratory variance diagnostic only; not calibrated uncertainty or operational forecast.",
+  "outputs": {
+    "csv": "results\\realworld_pilot\\variance_diagnostic.csv",
+    "manifest": "results\\realworld_pilot\\variance_diagnostic_manifest.json"
+  }
+}

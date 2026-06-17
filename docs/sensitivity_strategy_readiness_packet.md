@@ -16,11 +16,11 @@ Sensitivity strategy review packet only; not sensitivity acceptance, not calibra
 | Category | Status | Affected Rows | Required Action |
 | --- | --- | --- | --- |
 | structural_readiness | needs_human_review_morris_artifact_selection | 0 | confirm these Morris artifacts correspond to the selected study-closeout sensitivity run |
-| missing_or_nonfinite_morris_indices | needs_human_review_unavailable_morris_indices | 168 | document why the affected Morris indices are unavailable and how those rows are handled in tables and claims |
-| zero_mu_star_rows | needs_human_review_zero_mu_star_interpretation | 4272 | interpret zero-effect rows before claiming parameter influence or no-effect findings |
-| reduced_graph_scope | blocked_reduced_graph_scope_for_sensitivity_claims | 7056 | close graph-scale decision review or regenerate sensitivity outputs on the reviewer-selected graph method |
-| result_scope | blocked_scaffold_or_not_calibrated_result_scope | 7056 | keep release-scope claims bounded until sensitivity results are reviewer-cleared on release evidence scope |
-| sobol_decision_requirement | blocked_missing_morris_vs_sobol_decision | 7056 | decide whether Morris screening is sufficient or Sobol analysis is required |
+| missing_or_nonfinite_morris_indices | needs_human_review_unavailable_morris_indices | 4832 | document why the affected Morris indices are unavailable and how those rows are handled in tables and claims |
+| zero_mu_star_rows | needs_human_review_zero_mu_star_interpretation | 33619 | interpret zero-effect rows before claiming parameter influence or no-effect findings |
+| reduced_graph_scope | blocked_reduced_graph_scope_for_sensitivity_claims | 61824 | close graph-scale decision review or regenerate sensitivity outputs on the reviewer-selected graph method |
+| result_scope | blocked_scaffold_or_not_calibrated_result_scope | 61824 | keep release-scope claims bounded until sensitivity results are reviewer-cleared on release evidence scope |
+| sobol_decision_requirement | blocked_missing_morris_vs_sobol_decision | 61824 | decide whether Morris screening is sufficient or Sobol analysis is required |
 | sensitivity_acceptance_record | blocked_missing_sensitivity_acceptance_record |  | record method, graph scope, parameter-range, SALib-output, index-handling, and Sobol decisions only after review |
 
 ## Required Reviewer Actions

@@ -1,12 +1,12 @@
 {
-  "blocking_finding_count": 4,
-  "bounded_finding_count": 5702,
-  "bounded_non_claim_reference_count": 575,
+  "blocking_finding_count": 0,
+  "bounded_finding_count": 5645,
+  "bounded_non_claim_reference_count": 546,
   "can_mark_complete": false,
   "claim_boundary": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
-  "claim_language_guard_ready": false,
+  "claim_language_guard_ready": true,
   "claims_approved": false,
-  "explicit_non_approval_count": 5126,
+  "explicit_non_approval_count": 5098,
   "final_study_ready": false,
   "formal_acceptance_created": false,
   "formal_evidence_backed_count": 1,
@@ -211,27 +211,22 @@
     "manifest": "data/validation/claim_language_guard_manifest.json"
   },
   "publication_ready": false,
-  "release_blocked": true,
-  "remaining_blockers": [
-    "plan.md:88 final requires boundary review",
-    "plan.md:338 final requires boundary review",
-    "plan.md:381 final requires boundary review",
-    "plan.md:387 final requires boundary review"
-  ],
-  "reserved_match_count": 5706,
+  "release_blocked": false,
+  "remaining_blockers": [],
+  "reserved_match_count": 5645,
   "result_scope": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
   "review_items": [
     "downgrade unbounded final, ready, accepted, validated, calibrated, operational, forecast, real-time, and approved language",
     "preserve explicit non-approval and decision-support boundary language",
     "rerun this guard before public/package/report release"
   ],
-  "row_count": 5706,
+  "row_count": 5645,
   "scan_complete": true,
-  "scanned_file_count": 187,
+  "scanned_file_count": 186,
   "schema_version": 1,
   "source_counts": {
     "README.md": 187,
-    "agents.md": 164,
+    "agents.md": 137,
     "data/manifests/acceptance_decision_template_manifest.json": 12,
     "data/manifests/acceptance_orchestration_manifest.json": 1390,
     "data/manifests/acceptance_task_assignments_manifest.json": 11,
@@ -317,7 +312,7 @@
     "docs/current_goal_completion_audit.md": 131,
     "docs/demand_fleet_behavior_profiles.md": 11,
     "docs/deterministic_rerun_audit.md": 6,
-    "docs/dirty_worktree_classification.md": 35,
+    "docs/dirty_worktree_classification.md": 9,
     "docs/disruption_scenarios.md": 10,
     "docs/experiment_design_decision_packet.md": 12,
     "docs/experiment_package_review_packet.md": 13,
@@ -409,8 +404,7 @@
     "docs/validation_benchmark_readiness_packet.md": 7,
     "docs/validation_review_packet.md": 20,
     "docs/validation_strategy_readiness_packet.md": 10,
-    "paper/paper_draft.md": 66,
-    "plan.md": 13,
+    "paper/paper_draft.md": 71,
     "report_draft.md": 5,
     "results/realworld_pilot/tables/figure_table_manifest.json": 32,
     "results/realworld_pilot/tables/pilot_full_statistics_manifest.json": 8,
@@ -419,21 +413,20 @@
     "status.md": 14
   },
   "status_counts": {
-    "bounded_non_claim_reference": 575,
-    "explicit_non_approval": 5126,
-    "formal_evidence_backed": 1,
-    "release_blocking_unbounded": 4
+    "bounded_non_claim_reference": 546,
+    "explicit_non_approval": 5098,
+    "formal_evidence_backed": 1
   },
   "target_file_count": 189,
   "term_counts": {
-    "accepted": 1283,
-    "approved": 1319,
-    "calibrated": 455,
-    "final": 495,
-    "forecast": 38,
-    "operational": 313,
-    "ready": 789,
-    "validated": 1014
+    "accepted": 1277,
+    "approved": 1317,
+    "calibrated": 457,
+    "final": 484,
+    "forecast": 36,
+    "operational": 311,
+    "ready": 780,
+    "validated": 983
   },
   "unreadable_target_count": 0
 }

@@ -1,5 +1,5 @@
 {
-  "audit_date": "2026-06-11",
+  "audit_date": "2026-06-17",
   "blocked_gate_count": 13,
   "blocked_gate_ids": [
     "pilot_region_accepted",
@@ -44,7 +44,7 @@
     "can_mark_complete": false,
     "formal_target_count": 12,
     "handoff_manifest_location": "review_packages/expert_review_handoff_20260510.json",
-    "mirror_zip_matches": false,
+    "mirror_zip_matches": true,
     "missing_formal_target_count": 11,
     "zip_file_count": 1319,
     "zip_path": "required_deliverables.zip",
@@ -668,7 +668,7 @@
         "blocked requirement: claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims",
         "blocked requirement: resolve manuscript/report decision blockers before manuscript acceptance",
         "blocked requirement: manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-        "blocked requirement: manuscript/report decision: claim-alignment packet has 52 rows requiring revision or explicit retention",
+        "blocked requirement: manuscript/report decision: claim-alignment packet has 55 rows requiring revision or explicit retention",
         "blocked requirement: manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
         "blocked requirement: manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
         "blocked requirement: review manuscript/report human-decision rows before manuscript acceptance"

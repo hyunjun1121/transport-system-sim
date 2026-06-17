@@ -15,12 +15,12 @@ Experiment strategy review packet only; not an experiment decision record, not f
 
 | Category | Status | Rows | Required Action |
 | --- | --- | --- | --- |
-| manifest_scope | blocked_scaffold_or_not_calibrated_experiment_scope | 1890 / 1890 | keep experiment claims bounded until a formal experiment decision chooses the release-scope result set |
-| results_row_count | needs_human_review_experiment_row_counts | 1890 / 1890 | confirm row counts are generated from the selected run profile |
-| summary_row_count | needs_human_review_experiment_row_counts | 63 / 63 | confirm row counts are generated from the selected run profile |
-| scenario_policy_seed_design | needs_human_review_scenario_policy_seed_design | 1890 / 1890 | review scenario, policy, seed, and exclusion design before an experiment decision |
-| graph_scope_dependency | blocked_graph_scale_dependency | 118 / 4608 | resolve graph-scale decision or regenerate outputs on the selected graph method |
-| input_evidence_dependency | blocked_input_evidence_dependency | 7 / 5 | resolve upstream input-evidence gates before promoting full experiment outputs |
+| manifest_scope | blocked_scaffold_or_not_calibrated_experiment_scope | 15870 / 15870 | keep experiment claims bounded until a formal experiment decision chooses the release-scope result set |
+| results_row_count | needs_human_review_experiment_row_counts | 15870 / 15870 | confirm row counts are generated from the selected run profile |
+| summary_row_count | needs_human_review_experiment_row_counts | 529 / 529 | confirm row counts are generated from the selected run profile |
+| scenario_policy_seed_design | needs_human_review_scenario_policy_seed_design | 15870 / 15870 | review scenario, policy, seed, and exclusion design before an experiment decision |
+| graph_scope_dependency | blocked_graph_scale_dependency | 164 / 4608 | resolve graph-scale decision or regenerate outputs on the selected graph method |
+| input_evidence_dependency | blocked_input_evidence_dependency | 16 / 5 | resolve upstream input-evidence gates before promoting full experiment outputs |
 | common_random_numbers | needs_human_review_common_random_numbers | 30 / 30 | review seed pairing and scenario runner RNG splitting before paired claims |
 | artifact_checksums | needs_human_review_experiment_checksums | 3 / 3 | record checksums or regenerated equivalents in the formal experiment decision record |
 | formal_experiment_acceptance_requirement | blocked_missing_experiment_acceptance_record | 0 / 1 | create a formal experiment decision record only after reviewer review |

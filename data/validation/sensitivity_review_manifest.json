@@ -2,12 +2,12 @@
   "acceptance_gate_closure_candidate_count": 0,
   "acceptance_ready": false,
   "all_index_issue_counts": {
-    "mu": 4872,
-    "mu_star": 4872,
-    "mu_star_conf": 4872,
-    "sigma": 4872
+    "mu": 4832,
+    "mu_star": 4832,
+    "mu_star_conf": 4832,
+    "sigma": 4832
   },
-  "all_rows_with_index_issues": 4872,
+  "all_rows_with_index_issues": 4832,
   "analysis_graph_reduced": true,
   "category_ids": [
     "structural_readiness",
@@ -29,7 +29,7 @@
     "mu_star_conf": 0,
     "sigma": 0
   },
-  "morris_summary_row_count": 54096,
+  "morris_summary_row_count": 61824,
   "outputs": {
     "manifest": "data/validation/sensitivity_review_manifest.json",
     "sensitivity_review_packet": "data/validation/sensitivity_review_packet.csv"
@@ -49,9 +49,9 @@
   "rows_with_index_issues": 0,
   "schema_version": 1,
   "structural_blocker_count": 0,
-  "unavailable_index_row_count": 4872,
+  "unavailable_index_row_count": 4832,
   "unavailable_index_status_counts": {
-    "unavailable_nonfinite_metric_outputs": 4872
+    "unavailable_nonfinite_metric_outputs": 4832
   },
-  "zero_mu_star_count": 29601
+  "zero_mu_star_count": 33619
 }

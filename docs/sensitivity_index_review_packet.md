@@ -7,22 +7,22 @@ This packet summarizes Morris index handling by metric. It does not create sensi
 - Publication ready: `false`
 - Can mark complete: `false`
 - Metrics: 7
-- Unavailable index rows: 4872
-- Zero `mu_star` rows: 29601
-- All-zero metric/policy/scenario groups: 954
+- Unavailable index rows: 4832
+- Zero `mu_star` rows: 33619
+- All-zero metric/policy/scenario groups: 878
 - Status counts: `{'needs_human_review_unavailable_indices': 2, 'needs_human_review_zero_mu_star_rows': 5}`
 
 ## Rows
 
 | Metric | Unavailable | Zero mu_star | Positive mu_star | All-zero groups | Status | Required action |
 | --- | ---: | ---: | ---: | ---: | --- | --- |
-| censored_count | 0 | 7249 | 479 | 365 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
-| completion_rate | 0 | 7386 | 342 | 456 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
-| p80_arrival_time | 2436 | 1715 | 3577 | 0 | needs_human_review_unavailable_indices | document unavailable index handling for this metric before using rankings |
-| p95_arrival_time | 2436 | 1715 | 3577 | 0 | needs_human_review_unavailable_indices | document unavailable index handling for this metric before using rankings |
-| passengers_per_total_service_minute | 0 | 4250 | 3478 | 91 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
-| penalized_makespan | 0 | 3423 | 4305 | 0 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
-| total_service_minutes | 0 | 3863 | 3865 | 42 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
+| censored_count | 0 | 8349 | 483 | 374 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
+| completion_rate | 0 | 8483 | 349 | 418 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
+| p80_arrival_time | 2416 | 2264 | 4152 | 0 | needs_human_review_unavailable_indices | document unavailable index handling for this metric before using rankings |
+| p95_arrival_time | 2416 | 2176 | 4240 | 0 | needs_human_review_unavailable_indices | document unavailable index handling for this metric before using rankings |
+| passengers_per_total_service_minute | 0 | 4374 | 4458 | 44 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
+| penalized_makespan | 0 | 3977 | 4855 | 0 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
+| total_service_minutes | 0 | 3996 | 4836 | 42 | needs_human_review_zero_mu_star_rows | interpret zero mu_star rows before claiming parameter influence or no effect |
 
 ## Boundary
 

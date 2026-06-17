@@ -19,8 +19,8 @@
   },
   "graph_source": "cached_graphml:data/cache/pilot_region_road.graphml",
   "index_status_counts": {
-    "available": 49224,
-    "unavailable_nonfinite_metric_outputs": 4872
+    "available": 56992,
+    "unavailable_nonfinite_metric_outputs": 4832
   },
   "inputs": {
     "cache_path": "data/cache/pilot_region_road.graphml",
@@ -30,7 +30,7 @@
     "sensitivity_design_path": "data/scenarios/sensitivity_design.csv"
   },
   "method": "salib_morris",
-  "morris_sample_count": 60,
+  "morris_sample_count": 68,
   "morris_summary_schema_version": 2,
   "num_levels": 4,
   "num_trajectories": 4,
@@ -48,7 +48,9 @@
     "transfer_fixed_delay",
     "transfer_per_passenger_delay",
     "turnaround_time",
-    "last_mile_access_disruption_probability"
+    "last_mile_access_disruption_probability",
+    "road_noise_sigma",
+    "turnaround_noise_lambda"
   ],
   "policy_ids": [
     "bus_only",
@@ -87,7 +89,7 @@
   ],
   "region_id": "songpa_public_demo",
   "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
-  "row_count": 33120,
+  "row_count": 37536,
   "salib_available": true,
   "salib_problem": {
     "bounds": [
@@ -146,6 +148,14 @@
       [
         0.0,
         1.0
+      ],
+      [
+        0.0,
+        0.15
+      ],
+      [
+        0.0,
+        0.5
       ]
     ],
     "names": [
@@ -162,9 +172,11 @@
       "transfer_fixed_delay",
       "transfer_per_passenger_delay",
       "turnaround_time",
-      "last_mile_access_disruption_probability"
+      "last_mile_access_disruption_probability",
+      "road_noise_sigma",
+      "turnaround_noise_lambda"
     ],
-    "num_vars": 14
+    "num_vars": 16
   },
   "scenario_ids": [
     "no_disruption",
@@ -195,6 +207,6 @@
   "seed": 2201,
   "source_graph_edges": 9148,
   "source_graph_nodes": 4608,
-  "summary_row_count": 54096,
-  "unavailable_index_row_count": 4872
+  "summary_row_count": 61824,
+  "unavailable_index_row_count": 4832
 }

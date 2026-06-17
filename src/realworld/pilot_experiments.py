@@ -1249,8 +1249,7 @@ def run_pilot_rows(
     for case in cases:
         disrupted_graph = graph_with_forced_disruption_probabilities(
             inputs.graph, case,
-            force_deterministic=False,
-            selection_p_fail=0.8,
+            force_deterministic=True,
         )
         for policy in policies:
             variant = build_policy_config_variant(base_config, policy, policies)
