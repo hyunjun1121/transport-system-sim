@@ -38,8 +38,8 @@ def test_rail_evidence_review_rows_cover_current_gaps() -> None:
     assert len(rows) == 12
     assert by_item["rail_station_binding_S"]["evidence_status"] == "official_station_code_bound"
     assert by_item["rail_station_binding_R"]["weak_for_final_claim"] == "false"
-    assert by_item["rail_headway"]["evidence_status"] == "missing_cached_timing_evidence"
-    assert by_item["rail_headway"]["weak_for_final_claim"] == "true"
+    assert by_item["rail_headway"]["evidence_status"] == "cached_timing_derived"
+    assert by_item["rail_headway"]["weak_for_final_claim"] == "false"
     assert by_item["rail_travel_time"]["review_priority"] == "high"
     assert by_item["rail_capacity"]["evidence_status"] == "source_backed_or_sensitivity_acknowledged"
     assert by_item["rail_capacity"]["weak_for_final_claim"] == "false"
@@ -118,7 +118,7 @@ def test_write_rail_evidence_review_packet_outputs_csv_and_manifest() -> None:
             "data\\rail\\pilot_rail_static_timetable_segment_pair_diagnostic.csv"
         )
         assert written_manifest["row_count"] == 12
-        assert written_manifest["weak_for_final_claim_count"] == 9
+        assert written_manifest["weak_for_final_claim_count"] == 8
         assert "does not derive headway or travel time" in written_manifest["claim_boundary"]
 
     print("PASS: rail evidence review packet writer emits CSV and manifest")

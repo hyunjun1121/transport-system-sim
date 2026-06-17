@@ -1,138 +1,85 @@
-# Unit 2: Clean-Checkout Reproducibility Smoke — Detailed Plan
+# Units 3+4: Rail Headway + Capacity Evidence Derivation
 
-Parent: `high_level_plan.md` Phase U. This is a decision-support
-simulation project; outputs are not operational route plans. Sub-Agent
-architecture (Builder / Reviewer / Verifier) inherited from Phase T.
+Parent: `high_level_plan.md` Phase U. This is a decision-support simulation
+project; outputs are not operational route plans. Sub-Agent architecture
+(Builder / Reviewer / Verifier) inherited from Phase T.
 
 ## Mission
 
-Refresh `data/validation/clean_checkout_reproducibility_smoke_manifest.json`
-so it references the current HEAD (`55327c4b`) instead of the stale
-2026-05-10 commit (`2c15e0f9`). The reproducibility gate itself stays
-blocked (needs `reproducibility_acceptance.json`, a human-signoff
-artifact the agent must not create). This unit strengthens evidence
-freshness, reduces the source-commit lag, and updates downstream review
-packets to reference current source state.
+Unit 3: Derive rail headway from the cached static timetable (241 access
+departures at station 4136 / Olympic Park). Write a headway-derived
+evidence row with source SHA256 into `data/parameters/rail_service_evidence.csv`.
+
+Unit 4: Derive rail capacity (922 pax / 6 cars) from the cached Metro9
+operator-page extract. Create a thin `derive_rail_capacity_evidence.py`
+wrapper that reads `metro9_capacity_source_extract.csv`, extracts the
+capacity value with source SHA256, and writes a documented-public-source
+evidence row.
+
+Both rows are added alongside the existing assumption-proxy row (total
+3 rows). Neither row closes the rail evidence gate (travel time still
+not derived). Capacity remains sensitivity-only.
 
 ## Claim Boundary
 
-This unit produces bounded clean-checkout smoke evidence only. It does
-NOT create `reproducibility_acceptance.json`, does NOT close the
-reproducibility gate, and does NOT claim clean-environment certification
-or publication acceptance. The reproducibility gate stays blocked until
-a human reviewer records the acceptance decision.
+These units produce cached-source evidence rows only. They do NOT
+create `rail_acceptance.json`, do NOT close the rail evidence gate
+(travel_time still missing), and do NOT claim calibrated rail timing or
+operational rail capacity. The headway value is derived from an
+unreviewed static timetable cache; the capacity value is from an
+unreviewed operator web page. Both carry pending-review status.
 
 ## Stop Conditions
 
-1. Manifest refreshed with current HEAD as source_commit.
-2. `smoke_passed=true`, `clean_checkout_test_performed=true`.
-3. `dependency_install_tested=true`, `artifact_regeneration_tested=true`.
-4. Affected reproducibility tests pass (smoke, acceptance, decision,
-   review packet).
-5. Claim guard: `blocking_finding_count=0`.
-6. Reproducibility gate remains blocked (acceptance.json absent).
+1. Headway row derived from 241 access departures with correct SHA256.
+2. Capacity row written from Metro9 extract with correct SHA256.
+3. Evidence CSV schema checks pass (3 rows, 1 derived, 2 assumption/source).
+4. Rail evidence audit shows derived_record_count >= 1, headway derived-field satisfied.
+5. Rail evidence review packet regenerated; row count stays 12.
+6. Affected tests updated and passing.
+7. Claim guard: blocking_finding_count=0.
+8. Rail evidence gate remains blocked (travel_time not derived).
 
-## Root Cause (Confirmed)
+## Builder Steps
 
-The existing manifest was written 2026-05-10 against commit
-`2c15e0f9` with 99 dirty source files. Since then Phase T
-(commit `163aa75d`) and Phase U1 (commit `55327c4b`) changed the
-source tree substantially. The manifest's `source_commit` lags the
-review head by many commits, and the reproducibility review/decision
-packets report a stale freshness snapshot.
-
-## What This Unit Does NOT Do
-
-- Does NOT create `data/manifests/reproducibility_acceptance.json`
-  (human signoff artifact; agent must never create).
-- Does NOT flip `reproducibility` gate from blocked to passing
-  (still needs acceptance.json).
-- Does NOT claim clean-environment certification or publication
-  acceptance.
-
-## Steps
-
-### Step 1: Run the clean-checkout smoke
-
-Run with dependency install + artifact regeneration (bounded profile):
-
+### Step 1: Run headway derivation
 ```
-.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py `
-  --install-dependencies --artifact-regeneration
+python scripts/derive_rail_headway_evidence.py \
+  --input data/rail/pilot_rail_timetable_cache.csv \
+  --output <temp_headway.csv> \
+  --evidence-id songpa_public_demo_rail_headway_v1 \
+  --egress-station-name "Jamsil Station area" \
+  --source-name "KTDB static timetable cache (line 9, station 4136 Olympic Park, UP/DAY)" \
+  --source-url-or-citation "data/rail/pilot_rail_timetable_cache.csv; data/rail/pilot_rail_timetable_static_source.csv" \
+  --extraction-date 2026-05-08 \
+  --travel-time-min-proxy 20 \
+  --capacity-pax-per-train 922 \
+  --service-window "scheduled public service" \
+  --direction UP \
+  --service-day DAY
 ```
 
-This clones the committed source tree into a temp dir, checks out the
-exact HEAD (`55327c4b`), creates a fresh venv, installs
-requirements.txt, runs the `clean-checkout-minimal` smoke profile, then
-regenerates 5 bounded review/audit artifacts inside the clone. Writes
-manifest + log + doc back to the source repo.
+### Step 2: Create capacity derivation script
+Create `scripts/derive_rail_capacity_evidence.py`:
+- Reads Metro9 extract CSV
+- Extracts total_capacity_6_cars (922)
+- Computes source SHA256
+- Writes a `documented_public_source_available` evidence row
 
-Expected outer steps (11):
-1. git_clone_source_tree
-2. git_checkout_source_commit
-3. create_clean_checkout_venv
-4. upgrade_clean_checkout_pip
-5. install_clean_checkout_requirements
-6. run_reproducibility_smoke_in_clean_checkout
-7. regenerate_reproducibility_review_packet
-8. regenerate_reproducibility_decision_packet
-9. regenerate_final_audit_decision_packet
-10. regenerate_acceptance_audit
-11. regenerate_plan_artifact_audit
+### Step 3: Merge evidence rows
+Write all 3 rows (assumption proxy + headway derived + capacity source)
+to `data/parameters/rail_service_evidence.csv` using
+`write_rail_service_evidence`.
 
-### Step 2: Verify the refreshed manifest
-
-Confirm the new manifest fields:
-
-- `smoke_passed is True`
-- `clean_checkout_test_performed is True`
-- `full_clean_environment_tested is True`
-- `artifact_regeneration_tested is True`
-- `source_commit` matches `55327c4b` (the pre-smoke HEAD)
-- `acceptance_ready is False`
-- `can_mark_complete is False`
-- `final_study_ready is False`
-
-Note: after committing the smoke outputs, the source_commit will be an
-ancestor of the new HEAD (lag_count=1), which is expected and handled
-by downstream review packets.
-
-### Step 3: Run affected reproducibility tests
-
+### Step 4: Regenerate rail evidence review packet
 ```
-.\.venv\Scripts\python tests\test_realworld_reproducibility_smoke.py
-.\.venv\Scripts\python tests\test_realworld_reproducibility_acceptance.py
-.\.venv\Scripts\python tests\test_realworld_reproducibility_decision_packet.py
-.\.venv\Scripts\python tests\test_realworld_reproducibility_review_packet.py
-.\.venv\Scripts\python tests\test_realworld_final_study_readiness.py
+python scripts/write_rail_evidence_review_packet.py
 ```
 
-### Step 4: Refresh dirty-worktree classification + claim guard
+### Step 5: Update tests
+- `test_realworld_rail_evidence.py`: shipped evidence now has 3 rows,
+  1 derived, headway evidence strengthened.
+- `test_realworld_rail_evidence_review_packet.py`: headway row now
+  shows `cached_timing_derived`, `weak_for_final_claim=false`.
 
-```
-.\.venv\Scripts\python scripts\write_dirty_worktree_classification.py
-.\.venv\Scripts\python scripts\audit_claim_language.py
-```
-
-Confirm: `blocking_finding_count == 0`, `release_blocked is False`.
-
-### Step 5: Run plan_audit test
-
-```
-.\.venv\Scripts\python tests\test_realworld_plan_audit.py
-```
-
-### Step 6: Commit + push
-
-```
-git add -A
-git commit -m "phase U2: refresh clean-checkout smoke manifest to current HEAD"
-git push
-```
-
-## Expected Outcome
-
-- Manifest source_commit advances from `2c15e0f9` to `55327c4b`.
-- Reproducibility review/decision packets reference current freshness.
-- Reproducibility gate remains blocked (acceptance.json absent).
-- 0 claim-guard blockers; affected tests pass.
+### Step 6: Run affected tests + claim guard + commit

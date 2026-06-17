@@ -1,24 +1,26 @@
 {
   "can_mark_complete": false,
   "category_counts": {
-    "data_or_manifest": 9,
-    "documentation": 4,
-    "realworld_code": 1,
-    "root_document_or_config": 2
+    "data_or_manifest": 7,
+    "documentation": 2,
+    "root_document_or_config": 4,
+    "script": 1,
+    "test": 2
   },
   "claim_boundary": "This ledger classifies current dirty and untracked worktree paths for sprint-safety planning. It does not commit files, clean the worktree, approve reproducibility, permit generated-output promotion, or close final-study gates.",
   "classified_path_count": 16,
   "destructive_cleanup_allowed": false,
   "dirty_path_count": 16,
   "evidence_status_counts": {
-    "changed_claim_text_requires_claim_boundary_review": 3,
-    "changed_code_or_test_requires_diff_and_test_review": 1,
-    "changed_generated_or_evidence_artifact_requires_manifest_review": 7,
-    "changed_path_requires_main_thread_review": 2,
-    "self_generated_classification_output": 3
+    "changed_claim_text_requires_claim_boundary_review": 1,
+    "changed_code_or_test_requires_diff_and_test_review": 2,
+    "changed_generated_or_evidence_artifact_requires_manifest_review": 5,
+    "changed_path_requires_main_thread_review": 4,
+    "self_generated_classification_output": 3,
+    "untracked_requires_owner_and_package_decision": 1
   },
   "final_study_ready": false,
-  "generated_at": "2026-06-17T15:06:31+00:00",
+  "generated_at": "2026-06-17T23:34:31+00:00",
   "git_status_failed": false,
   "new_generated_output_allowed": false,
   "outputs": {
@@ -27,35 +29,36 @@
     "manifest": "data/validation/dirty_worktree_classification_manifest.json"
   },
   "owner_counts": {
-    "artifact_lineage_owner_required": 9,
-    "claim_document_owner_required": 4,
-    "implementation_owner_required": 1,
-    "main_thread_owner_required": 2
+    "artifact_lineage_owner_required": 7,
+    "claim_document_owner_required": 2,
+    "implementation_owner_required": 3,
+    "main_thread_owner_required": 4
   },
   "phase_counts": {
-    "evidence_or_manifest_phase_requires_source_review": 7,
+    "evidence_or_manifest_phase_requires_source_review": 5,
     "implementation_phase_requires_scope_assignment": 1,
-    "phase0_baseline_and_worktree_safety": 2,
+    "phase0_baseline_and_worktree_safety": 4,
     "phase0_dirty_worktree_classification": 2,
-    "phase11_claim_and_package_review": 4
+    "phase11_claim_and_package_review": 2,
+    "verification_phase_requires_scope_assignment": 2
   },
   "remaining_blockers": [
+    "agents.md: Inspect and assign owner before cleanup or new generated-output work.",
+    "data/parameters/rail_evidence_review_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/rail_evidence_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/rail_service_evidence.csv: Verify source lineage, row counts, hashes, and invalidation status.",
     "data/validation/claim_language_guard.csv: Verify source lineage, row counts, hashes, and invalidation status.",
     "data/validation/claim_language_guard_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/clean_checkout_reproducibility_smoke_log.jsonl: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/clean_checkout_reproducibility_smoke_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
     "data/validation/dirty_worktree_classification.csv: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
     "data/validation/dirty_worktree_classification_manifest.json: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
-    "data/validation/reproducibility_decision_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/reproducibility_review_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/reproducibility_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
     "docs/claim_language_guard.md: Run claim-boundary review before report, package, or final-study use.",
-    "docs/clean_checkout_reproducibility_smoke.md: Run claim-boundary review before report, package, or final-study use.",
     "docs/dirty_worktree_classification.md: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
-    "docs/reproducibility_decision_packet.md: Run claim-boundary review before report, package, or final-study use.",
     "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work.",
     "plan.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "src/realworld/clean_checkout_smoke.py: Inspect diff, run narrow tests, and record owner before broader work."
+    "status.md: Inspect and assign owner before cleanup or new generated-output work.",
+    "tests/test_realworld_rail_evidence.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "tests/test_realworld_rail_evidence_review_packet.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "scripts/derive_rail_capacity_evidence.py: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion."
   ],
   "schema_version": 1,
   "unclassified_path_count": 0

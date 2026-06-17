@@ -415,6 +415,7 @@ scripts/
   check_gpu_ml_runtime.py    # Optional GPU ML runtime preflight; not simulation acceleration evidence
   write_runtime_preflight_manifest.py # Phase-scoped runtime/dependency preflight manifest
   derive_rail_gtfs_evidence.py
+  derive_rail_capacity_evidence.py  # Cached Metro9 extract -> capacity evidence row
   derive_rail_headway_evidence.py
   derive_rail_service_evidence.py
   derive_rail_shortest_path_evidence.py

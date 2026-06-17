@@ -45,7 +45,7 @@ Run `write_disruption_scenario_manifest.py` → emit
 `data/scenarios/disruption_scenarios_manifest.json` (SHA256, row count,
 claim flags). Dep: none. Impact: +1 ready gate (3→4).
 
-### 2. Clean-checkout reproducibility smoke [ ]
+### 2. Clean-checkout reproducibility smoke [x]
 Run `run_clean_checkout_smoke.py --install-dependencies
 --artifact-regeneration` → fresh clone + venv + smoke ladder. Expected:
 `clean_checkout_test_performed=true`. Dep: best after #1. Impact:

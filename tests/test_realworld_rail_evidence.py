@@ -37,20 +37,26 @@ def assert_raises_value_error(func, expected_message: str) -> None:
     raise AssertionError("expected ValueError")
 
 
-def test_shipped_rail_service_evidence_validates_as_assumption_proxy() -> None:
+def test_shipped_rail_service_evidence_validates_with_mixed_evidence() -> None:
     """The current rail cache should validate while blocking final claims."""
 
     records = load_rail_service_evidence(DEFAULT_RAIL_SERVICE_EVIDENCE_PATH)
     summary = summarize_rail_service_evidence(records)
 
-    assert len(records) == 1
-    assert records[0].source_status == "documented_assumption_proxy"
+    assert len(records) >= 1
+    assumption_rows = [
+        record for record in records
+        if record.source_status == "documented_assumption_proxy"
+    ]
+    assert len(assumption_rows) >= 1
+    assert "not calibrated" in assumption_rows[0].claim_scope
     assert summary["publication_ready"] is False
-    assert summary["derived_record_count"] == 0
     assert summary["remaining_blockers"]
-    assert "not calibrated" in records[0].claim_scope
+    assert summary["derived_record_count"] >= 1
+    assert summary["derived_field_ready"]["headway"] is True
+    assert summary["derived_field_ready"]["travel_time"] is False
 
-    print("PASS: shipped rail evidence validates as assumption proxy")
+    print("PASS: shipped rail evidence validates with mixed derived + assumption rows")
 
 
 def test_derived_fixture_can_be_publication_ready() -> None:
@@ -298,7 +304,7 @@ def _load_audit_script():
 
 
 if __name__ == "__main__":
-    test_shipped_rail_service_evidence_validates_as_assumption_proxy()
+    test_shipped_rail_service_evidence_validates_with_mixed_evidence()
     test_derived_fixture_can_be_publication_ready()
     test_derived_fixture_requires_source_artifact_fields()
     test_mixed_timetable_and_shortest_path_rows_can_satisfy_timing_gate()
