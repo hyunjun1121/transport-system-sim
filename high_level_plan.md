@@ -40,7 +40,7 @@ honest. 163 tests pass. Commit `163aa75d` (2026-06-17).
 
 Status legend: [ ] pending, [~] in-progress, [x] done.
 
-### 1. Disruption scenario manifest [ ]
+### 1. Disruption scenario manifest [x]
 Run `write_disruption_scenario_manifest.py` → emit
 `data/scenarios/disruption_scenarios_manifest.json` (SHA256, row count,
 claim flags). Dep: none. Impact: +1 ready gate (3→4).

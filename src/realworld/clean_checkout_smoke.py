@@ -67,11 +67,6 @@ ARTIFACT_REGENERATION_COMMANDS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
         "Regenerate acceptance audit artifacts",
         ("{python}", "scripts/run_acceptance_audit.py"),
     ),
-    (
-        "regenerate_plan_artifact_audit",
-        "Regenerate plan artifact audit",
-        ("{python}", "scripts/audit_plan_artifacts.py"),
-    ),
 )
 
 

@@ -14,7 +14,7 @@ reproducibility acceptance and does not close
 - Full clean environment tested: `true`
 - Artifact regeneration tested: `true`
 - Artifact regeneration scope: `bounded_review_and_audit_artifact_regeneration_not_full_reproduction`
-- Source commit: `2c15e0f90f38752783f5761505a923d16fc3f74f`
+- Source commit: `55327c4bbbd64c907ff8bbfce08ca882a71437f4`
 - Environment scope: `clean_source_checkout_fresh_venv_with_dependency_install`
 - Can mark complete: `false`
 
@@ -32,7 +32,6 @@ reproducibility acceptance and does not close
 | regenerate_reproducibility_decision_packet | passed | 0 |
 | regenerate_final_audit_decision_packet | passed | 0 |
 | regenerate_acceptance_audit | passed | 0 |
-| regenerate_plan_artifact_audit | passed | 0 |
 
 ## Inner Smoke
 

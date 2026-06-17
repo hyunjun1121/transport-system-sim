@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 10
-- Classified paths: 10
+- Dirty paths: 16
+- Classified paths: 16
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -15,16 +15,22 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/scenarios/disruption_scenarios_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/clean_checkout_reproducibility_smoke_log.jsonl` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/clean_checkout_reproducibility_smoke_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | phase0_dirty_worktree_classification | self_generated_classification_output | `data/validation/dirty_worktree_classification.csv` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
 | M | artifact_lineage_owner_required | phase0_dirty_worktree_classification | self_generated_classification_output | `data/validation/dirty_worktree_classification_manifest.json` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_decision_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/claim_language_guard.md` | Run claim-boundary review before report or package use. |
+| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/clean_checkout_reproducibility_smoke.md` | Run claim-boundary review before report or package use. |
 | M | claim_document_owner_required | phase11_claim_and_package_review | self_generated_classification_output | `docs/dirty_worktree_classification.md` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
-| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/disruption_scenarios.md` | Run claim-boundary review before report or package use. |
+| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/reproducibility_decision_packet.md` | Run claim-boundary review before report or package use. |
+| M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
-| M | implementation_owner_required | verification_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `tests/test_realworld_final_study_readiness.py` | Inspect diff, run narrow tests, and record owner before broader work. |
+| M | implementation_owner_required | implementation_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `src/realworld/clean_checkout_smoke.py` | Inspect diff, run narrow tests, and record owner before broader work. |
 
 ## Use
 

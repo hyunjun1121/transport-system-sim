@@ -1,4 +1,4 @@
-# Unit 1: Disruption Scenario Manifest — Detailed Plan
+# Unit 2: Clean-Checkout Reproducibility Smoke — Detailed Plan
 
 Parent: `high_level_plan.md` Phase U. This is a decision-support
 simulation project; outputs are not operational route plans. Sub-Agent
@@ -6,135 +6,133 @@ architecture (Builder / Reviewer / Verifier) inherited from Phase T.
 
 ## Mission
 
-Close the `structured_disruptions` closeout gate by regenerating
-`data/scenarios/disruption_scenarios_manifest.json` so it matches the
-current `data/scenarios/disruption_scenarios.csv`.
-
-## Root Cause (Confirmed)
-
-The gate check in `src/realworld/final_study_readiness.py:2540-2588`
-requires:
-
-1. CSV contains families: `random`, `critical_link`, `access_road`,
-   `last_mile`, `rail_station_access`, `spatial_hazard_overlay`. STATUS:
-   all present (plus extra `rail_service`). PASS.
-2. Manifest `row_count == len(csv_rows)`. STATUS: manifest says 11, CSV
-   has 22 data rows. FAIL (stale).
-3. Manifest `scenario_table_sha256 == file_sha256(csv)`. STATUS:
-   `bf18b140...` vs current `f2eef4e4...`. FAIL (stale).
-4. Manifest `publication_ready is False`. STATUS: PASS.
-5. Manifest `final_study_ready is False`. STATUS: PASS.
-
-Only conditions 2 and 3 fail. The CSV was expanded (11 → 22 rows) after
-the manifest was last written; the manifest was never refreshed.
-
-## Steps
-
-### Step 1: Regenerate the manifest
-
-Run with defaults (script reads the canonical CSV and writes the
-canonical manifest path):
-
-```
-.\.venv\Scripts\python scripts\write_disruption_scenario_manifest.py
-```
-
-If the script default paths differ, pass them explicitly:
-
-```
-.\.venv\Scripts\python scripts\write_disruption_scenario_manifest.py `
-  --scenarios data/scenarios/disruption_scenarios.csv `
-  --manifest data/scenarios/disruption_scenarios_manifest.json `
-  --include-pilot-edge-map
-```
-
-Use `--include-pilot-edge-map` only if the script supports it and the
-pilot graph edge checksums add value; otherwise use
-`--no-include-pilot-edge-map` to keep the manifest stable across graph
-cache changes.
-
-### Step 2: Verify the regenerated manifest
-
-Confirm the new manifest fields:
-
-- `row_count == 22`
-- `scenario_table_sha256 == f2eef4e4...` (lowercase, matching
-  `file_sha256()` output)
-- `publication_ready is False`
-- `final_study_ready is False`
-
-Command:
-
-```
-$m = Get-Content data\scenarios\disruption_scenarios_manifest.json -Raw | ConvertFrom-Json
-$m.row_count; $m.scenario_table_sha256; $m.publication_ready; "publication_ready must be False, not accepted"; $m.final_study_ready; "final_study_ready must be False, not accepted"
-```
-
-### Step 3: Confirm the gate is satisfied
-
-Run the closeout completeness audit and confirm `structured_disruptions`
-appears in the passing-gate list (expected: 4/15 passing, up from 3/15):
-
-```
-.\.venv\Scripts\python scripts\audit_final_study_readiness.py
-```
-
-### Step 4: Refresh dirty-worktree classification
-
-The plan_audit test compares the current worktree state against a cached
-classification. After regenerating the manifest, refresh it:
-
-```
-.\.venv\Scripts\python scripts\write_dirty_worktree_classification.py
-```
-
-### Step 5: Run relevant tests
-
-Run the tests most likely to be affected by the manifest change:
-
-```
-.\.venv\Scripts\python tests\test_realworld_disruption_scenarios.py
-.\.venv\Scripts\python tests\test_realworld_plan_audit.py
-.\.venv\Scripts\python tests\test_realworld_final_study_readiness.py
-```
-
-All must pass. If a test hardcodes the old row count (11) or old SHA,
-update the hardcoded value to match the regenerated manifest — but first
-check whether the test reads the live manifest (preferred) versus a
-hardcoded literal.
-
-### Step 6: Commit and push
-
-```
-git add -A
-git commit -m "phase U1: regenerate disruption scenarios manifest, close structured_disruptions gate"
-git push
-```
-
-## Stop Conditions
-
-- Manifest `row_count == 22` and SHA matches the current CSV.
-- `audit_final_study_readiness.py` lists `structured_disruptions` in
-  `ready_gate_ids`.
-- `test_realworld_disruption_scenarios.py`,
-  `test_realworld_plan_audit.py`, and
-  `test_realworld_final_study_readiness.py` pass.
-- Claim guard remains clean (no new blocking findings).
-- `final_study_ready` is still false (other gates remain blocked).
-
-## Risks
-
-- The script may write additional fields or docs that shift other
-  audits. If so, refresh the affected review packets.
-- If `--include-pilot-edge-map` produces a graph-dependent SHA that
-  changes whenever the cache changes, prefer `--no-include-pilot-edge-map`
-  for stability unless the gate explicitly requires edge checksums.
-- The plan_audit test may fail if the dirty-worktree classification is
-  not refreshed after the manifest regeneration.
+Refresh `data/validation/clean_checkout_reproducibility_smoke_manifest.json`
+so it references the current HEAD (`55327c4b`) instead of the stale
+2026-05-10 commit (`2c15e0f9`). The reproducibility gate itself stays
+blocked (needs `reproducibility_acceptance.json`, a human-signoff
+artifact the agent must not create). This unit strengthens evidence
+freshness, reduces the source-commit lag, and updates downstream review
+packets to reference current source state.
 
 ## Claim Boundary
 
-This unit only regenerates a review-support manifest from an existing
-scenario library CSV. It does not create observed disaster data, does
-not calibrate disruption probabilities, and does not create formal
-acceptance. The manifest remains review support only.
+This unit produces bounded clean-checkout smoke evidence only. It does
+NOT create `reproducibility_acceptance.json`, does NOT close the
+reproducibility gate, and does NOT claim clean-environment certification
+or publication acceptance. The reproducibility gate stays blocked until
+a human reviewer records the acceptance decision.
+
+## Stop Conditions
+
+1. Manifest refreshed with current HEAD as source_commit.
+2. `smoke_passed=true`, `clean_checkout_test_performed=true`.
+3. `dependency_install_tested=true`, `artifact_regeneration_tested=true`.
+4. Affected reproducibility tests pass (smoke, acceptance, decision,
+   review packet).
+5. Claim guard: `blocking_finding_count=0`.
+6. Reproducibility gate remains blocked (acceptance.json absent).
+
+## Root Cause (Confirmed)
+
+The existing manifest was written 2026-05-10 against commit
+`2c15e0f9` with 99 dirty source files. Since then Phase T
+(commit `163aa75d`) and Phase U1 (commit `55327c4b`) changed the
+source tree substantially. The manifest's `source_commit` lags the
+review head by many commits, and the reproducibility review/decision
+packets report a stale freshness snapshot.
+
+## What This Unit Does NOT Do
+
+- Does NOT create `data/manifests/reproducibility_acceptance.json`
+  (human signoff artifact; agent must never create).
+- Does NOT flip `reproducibility` gate from blocked to passing
+  (still needs acceptance.json).
+- Does NOT claim clean-environment certification or publication
+  acceptance.
+
+## Steps
+
+### Step 1: Run the clean-checkout smoke
+
+Run with dependency install + artifact regeneration (bounded profile):
+
+```
+.\.venv\Scripts\python scripts\run_clean_checkout_smoke.py `
+  --install-dependencies --artifact-regeneration
+```
+
+This clones the committed source tree into a temp dir, checks out the
+exact HEAD (`55327c4b`), creates a fresh venv, installs
+requirements.txt, runs the `clean-checkout-minimal` smoke profile, then
+regenerates 5 bounded review/audit artifacts inside the clone. Writes
+manifest + log + doc back to the source repo.
+
+Expected outer steps (11):
+1. git_clone_source_tree
+2. git_checkout_source_commit
+3. create_clean_checkout_venv
+4. upgrade_clean_checkout_pip
+5. install_clean_checkout_requirements
+6. run_reproducibility_smoke_in_clean_checkout
+7. regenerate_reproducibility_review_packet
+8. regenerate_reproducibility_decision_packet
+9. regenerate_final_audit_decision_packet
+10. regenerate_acceptance_audit
+11. regenerate_plan_artifact_audit
+
+### Step 2: Verify the refreshed manifest
+
+Confirm the new manifest fields:
+
+- `smoke_passed is True`
+- `clean_checkout_test_performed is True`
+- `full_clean_environment_tested is True`
+- `artifact_regeneration_tested is True`
+- `source_commit` matches `55327c4b` (the pre-smoke HEAD)
+- `acceptance_ready is False`
+- `can_mark_complete is False`
+- `final_study_ready is False`
+
+Note: after committing the smoke outputs, the source_commit will be an
+ancestor of the new HEAD (lag_count=1), which is expected and handled
+by downstream review packets.
+
+### Step 3: Run affected reproducibility tests
+
+```
+.\.venv\Scripts\python tests\test_realworld_reproducibility_smoke.py
+.\.venv\Scripts\python tests\test_realworld_reproducibility_acceptance.py
+.\.venv\Scripts\python tests\test_realworld_reproducibility_decision_packet.py
+.\.venv\Scripts\python tests\test_realworld_reproducibility_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_final_study_readiness.py
+```
+
+### Step 4: Refresh dirty-worktree classification + claim guard
+
+```
+.\.venv\Scripts\python scripts\write_dirty_worktree_classification.py
+.\.venv\Scripts\python scripts\audit_claim_language.py
+```
+
+Confirm: `blocking_finding_count == 0`, `release_blocked is False`.
+
+### Step 5: Run plan_audit test
+
+```
+.\.venv\Scripts\python tests\test_realworld_plan_audit.py
+```
+
+### Step 6: Commit + push
+
+```
+git add -A
+git commit -m "phase U2: refresh clean-checkout smoke manifest to current HEAD"
+git push
+```
+
+## Expected Outcome
+
+- Manifest source_commit advances from `2c15e0f9` to `55327c4b`.
+- Reproducibility review/decision packets reference current freshness.
+- Reproducibility gate remains blocked (acceptance.json absent).
+- 0 claim-guard blockers; affected tests pass.
