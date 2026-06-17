@@ -7,23 +7,26 @@
   "claim_boundary": "Phase 6 disruption scenario library only; deterministic scenario-design metadata for decision-support stress testing, not observed disaster data, not calibrated disruption probabilities, not dynamic recovery modeling, not an operational route plan, not publication readiness, not final-study readiness, and not formal acceptance.",
   "disruption_mode_counts": {
     "blocked": 2,
-    "capacity_reduction": 9
+    "capacity_reduction": 12,
+    "none": 8
   },
   "family_checksums": {
-    "access_road": "98eeda03c69e4e8e7ee3cf33c41c8b2d52a304b3942c276fcc19e4d5b11fd771",
-    "critical_link": "8de6a17b8737d957fe22e5211ceb0a98ffe754002d953bfe408eac1dbe4c1ab3",
-    "last_mile": "c261fde7e109f4a7590c9c5161678e5232dba46827883e2226fca4e9cb604b76",
-    "rail_station_access": "efaaa0591109ef544a1ff3d8096e0ceb2c625e899d73d9c66a301cd4874e118a",
-    "random": "9280c985a11b1b11d3c38113418d20eed52ff2789e099b58d9eab48cd1fa7456",
-    "spatial_hazard_overlay": "3a061de3514f486e79bbfa14ffe86aad65320934fee0b27b0e0a7880ff122d0a"
+    "access_road": "153fc027985b1391fa865c3cada684494c9345827937075188addd30f3beec27",
+    "critical_link": "85920167e4f80fdf15c452ebf5beaaf834412cc3c6a5252891d15e5584669ce0",
+    "last_mile": "e134221ae30fe5f5e3a581e109e2f60ee55ca152ff75609328fb4898a091dd68",
+    "rail_service": "7237bf3978c48111f7fceba05df2c27388d2fa7c5f1005237e784f6d1b9650e4",
+    "rail_station_access": "1bb2b90b335d65850bc5926de07e43eb0a001f1d5122aa2c4d8c7a1609d64831",
+    "random": "5e690a7f5d085c1c1e5f744a18bbf2f7e44a9a0cd4148839cea30780d2d7d683",
+    "spatial_hazard_overlay": "e0bf801017bb6fb34e94ee4a330f2a5d8ad28512a5b6072fd845cd2785af449f"
   },
   "family_counts": {
-    "access_road": 2,
+    "access_road": 3,
     "critical_link": 1,
     "last_mile": 1,
+    "rail_service": 8,
     "rail_station_access": 1,
     "random": 2,
-    "spatial_hazard_overlay": 4
+    "spatial_hazard_overlay": 6
   },
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
@@ -34,7 +37,7 @@
   },
   "publication_ready": false,
   "recovery_profile_counts": {
-    "static_full_horizon_no_recovery": 11
+    "static_full_horizon_no_recovery": 22
   },
   "remaining_blockers": [
     "scenario rows are not observed disaster or incident data",
@@ -49,22 +52,33 @@
     "keep rail-headway stress as policy/stress metadata until a first-class runtime disruption override is implemented",
     "regenerate compact/full outputs after any scenario row, family, selected edge, or temporal metadata change"
   ],
-  "row_count": 11,
+  "row_count": 22,
   "scenario_ids": [
     "songpa_access_origin_to_destination",
     "songpa_access_origin_to_station",
+    "songpa_combo_access_rail_capacity",
+    "songpa_combo_tancheon_rail_delay",
     "songpa_critical_link_blockage",
     "songpa_last_mile_station_to_destination",
+    "songpa_rail_capacity_reduction",
+    "songpa_rail_combined_stress",
+    "songpa_rail_combined_stress_mild",
+    "songpa_rail_combined_stress_severe",
+    "songpa_rail_delay",
+    "songpa_rail_delay_mild",
+    "songpa_rail_delay_severe",
     "songpa_rail_station_access",
+    "songpa_rail_unavailable",
     "songpa_random_blockage",
     "songpa_random_capacity_reduction",
     "songpa_spatial_assembly_egress",
     "songpa_spatial_feeder_east",
     "songpa_spatial_lastmile_west",
-    "songpa_spatial_tancheon_corridor"
+    "songpa_spatial_tancheon_corridor",
+    "songpa_transfer_point_blockage"
   ],
   "scenario_table_path": "data\\scenarios\\disruption_scenarios.csv",
-  "scenario_table_sha256": "bf18b14031501c60eeb39470499cd332f2c53543a740c5243b94239525fa2869",
+  "scenario_table_sha256": "f2eef4e409233a870b0884287a1e4806139133417b89049d062afa0bb6a71537",
   "schema_version": 1,
   "selected_edges": {
     "songpa_access_origin_to_destination": {
@@ -185,6 +199,70 @@
         "4681593435->S"
       ]
     },
+    "songpa_combo_access_rail_capacity": {
+      "edge_count": 46,
+      "selected_edge_checksum": "b62ba3a315c31c9169ed8294b25cef7742d433734f143a9863ebe5b959f513d6",
+      "selected_edge_ids": [
+        "A->13720486316",
+        "osm:1498168919",
+        "osm:1498168919",
+        "osm:1498168919",
+        "osm:1498168919",
+        "osm:1498168920",
+        "osm:1498168921",
+        "osm:1498168921",
+        "osm:1498168923",
+        "osm:1498168923",
+        "osm:426094556",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:426094557",
+        "osm:1498168922",
+        "osm:1498168922",
+        "osm:867830209",
+        "osm:867830209",
+        "osm:867830209",
+        "osm:867830209",
+        "osm:867830209",
+        "osm:37401713",
+        "osm:37401713",
+        "osm:37401713",
+        "osm:37401713",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:1164785290",
+        "osm:908608598",
+        "osm:908608598",
+        "osm:908608598",
+        "osm:871352734",
+        "8089088773->D"
+      ]
+    },
+    "songpa_combo_tancheon_rail_delay": {
+      "edge_count": 6,
+      "selected_edge_checksum": "11e235509acf2db980da425965e35cbf09fd52da3ffc859baf24ab56d802ea8f",
+      "selected_edge_ids": [
+        "osm:37401713",
+        "osm:37401713",
+        "osm:37401713",
+        "osm:37401713",
+        "osm:867821845",
+        "osm:867821845"
+      ]
+    },
     "songpa_critical_link_blockage": {
       "edge_count": 3,
       "selected_edge_checksum": "27c73810120b5384d88fd110233d4ebc9aea36ebb9a287dc788c5250ca6089b8",
@@ -221,6 +299,41 @@
         "8089088773->D"
       ]
     },
+    "songpa_rail_capacity_reduction": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_combined_stress": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_combined_stress_mild": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_combined_stress_severe": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_delay": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_delay_mild": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
+    "songpa_rail_delay_severe": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
     "songpa_rail_station_access": {
       "edge_count": 6,
       "selected_edge_checksum": "16ff7bfec87493bbb0e571e1bb126b852bfb113f9c91f33c2cf55a9ce39648e1",
@@ -233,22 +346,37 @@
         "osm:908666735"
       ]
     },
+    "songpa_rail_unavailable": {
+      "edge_count": 0,
+      "selected_edge_checksum": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "selected_edge_ids": []
+    },
     "songpa_random_blockage": {
-      "edge_count": 2,
-      "selected_edge_checksum": "f98ccab1208d761d9e03cb04e6caa408003acbd26ba5253bb277d6941d4a89f3",
+      "edge_count": 8,
+      "selected_edge_checksum": "87809ccacf20eb6a9ddb848e8c805c2222e91693efc967c35dfc4e2e36463303",
       "selected_edge_ids": [
         "osm:909315380",
-        "osm:473975683"
+        "osm:473975683",
+        "osm:920941852",
+        "osm:920941852",
+        "osm:239951574",
+        "osm:1498168919",
+        "osm:239951574",
+        "osm:920941852"
       ]
     },
     "songpa_random_capacity_reduction": {
-      "edge_count": 4,
-      "selected_edge_checksum": "8089d802f9a45bc3339dde4762417387d7bc453d35abe5dd7916e3defd9b5511",
+      "edge_count": 8,
+      "selected_edge_checksum": "19eb223eac5508b38d80daa09348855dff47505aeda0a44d8a7ea59f74416b78",
       "selected_edge_ids": [
         "osm:172203041",
         "osm:908608598",
         "osm:1424750208",
-        "osm:473975683"
+        "osm:473975683",
+        "osm:920941852",
+        "osm:867821845",
+        "osm:867821845",
+        "osm:867821845"
       ]
     },
     "songpa_spatial_assembly_egress": {
@@ -273,13 +401,16 @@
       ]
     },
     "songpa_spatial_lastmile_west": {
-      "edge_count": 4,
-      "selected_edge_checksum": "a5a9509cdd0cc1fb2c1b1cc4d7ffa6ff3892911328f3834453f59ef85f494835",
+      "edge_count": 7,
+      "selected_edge_checksum": "ffb08424615babca43d27b26e9ef8894567e3707e012d12800f24311f39fcf9d",
       "selected_edge_ids": [
         "osm:218855790",
         "osm:218855790",
         "osm:218855790",
-        "osm:908608594"
+        "osm:908608594",
+        "osm:908608594",
+        "osm:473975683",
+        "osm:473975683"
       ]
     },
     "songpa_spatial_tancheon_corridor": {
@@ -293,17 +424,28 @@
         "osm:867821845",
         "osm:867821845"
       ]
+    },
+    "songpa_transfer_point_blockage": {
+      "edge_count": 4,
+      "selected_edge_checksum": "729cb546acbf76c30445cf6d9cf7276ceafbdb1dc273460b46730f6b14c31666",
+      "selected_edge_ids": [
+        "osm:908666735",
+        "osm:908666735",
+        "osm:908666735",
+        "osm:908666735"
+      ]
     }
   },
   "selection_method_counts": {
-    "bbox_midpoint": 4,
+    "bbox_midpoint": 6,
     "edge_betweenness": 1,
     "hash_rank": 2,
-    "shortest_path": 3,
+    "rail_param": 8,
+    "shortest_path": 4,
     "station_access": 1
   },
-  "spatial_overlay_count": 4,
+  "spatial_overlay_count": 6,
   "temporal_scope_counts": {
-    "metadata_only_not_dynamic_recovery": 11
+    "metadata_only_not_dynamic_recovery": 22
   }
 }

@@ -47,7 +47,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
     assert summary["gate_count"] == len(FINAL_GATE_IDS)
     assert summary["missing_gate_ids"] == []
     assert set(gate_map) == set(FINAL_GATE_IDS)
-    assert gate_map["structured_disruptions"]["ready"] is False
+    assert gate_map["structured_disruptions"]["ready"] is True
     assert gate_map["policy_alternatives"]["ready"] is True
     assert gate_map["real_input_smoke"]["ready"] is True
     assert gate_map["pilot_region_accepted"]["ready"] is False

@@ -1,186 +1,140 @@
-# Phase T6+T7: Verification & Closeout
+# Unit 1: Disruption Scenario Manifest — Detailed Plan
+
+Parent: `high_level_plan.md` Phase U. This is a decision-support
+simulation project; outputs are not operational route plans. Sub-Agent
+architecture (Builder / Reviewer / Verifier) inherited from Phase T.
 
 ## Mission
 
-T6: Verify all Phase T stop conditions are met — full test suite passes,
-claim guard clean, truth table integrity confirmed, report.docx fresh.
-T7: Update all handoff documents (status.md, AGENTS.md), last claim guard
-check, git commit + push. This is a decision-support simulation. Claim
-Boundary: `final_study_ready=false`, `publication_ready=false`,
-`formal_acceptance=false`. Sub-Agent Architecture: Verifier runs checks,
-Builder updates docs. Stop Conditions: claim guard
-`blocking_finding_count=0`, all key tests pass, truth table 529 rows with
-intact SHA256 cross-product.
+Close the `structured_disruptions` closeout gate by regenerating
+`data/scenarios/disruption_scenarios_manifest.json` so it matches the
+current `data/scenarios/disruption_scenarios.csv`.
 
-## T6 Steps
+## Root Cause (Confirmed)
 
-### T6.1: Run Full Test Suite
+The gate check in `src/realworld/final_study_readiness.py:2540-2588`
+requires:
 
-Run every `tests/test_*.py` individually and confirm all pass.
+1. CSV contains families: `random`, `critical_link`, `access_road`,
+   `last_mile`, `rail_station_access`, `spatial_hazard_overlay`. STATUS:
+   all present (plus extra `rail_service`). PASS.
+2. Manifest `row_count == len(csv_rows)`. STATUS: manifest says 11, CSV
+   has 22 data rows. FAIL (stale).
+3. Manifest `scenario_table_sha256 == file_sha256(csv)`. STATUS:
+   `bf18b140...` vs current `f2eef4e4...`. FAIL (stale).
+4. Manifest `publication_ready is False`. STATUS: PASS.
+5. Manifest `final_study_ready is False`. STATUS: PASS.
 
-Command:
-```powershell
-Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }
+Only conditions 2 and 3 fail. The CSV was expanded (11 → 22 rows) after
+the manifest was last written; the manifest was never refreshed.
+
+## Steps
+
+### Step 1: Regenerate the manifest
+
+Run with defaults (script reads the canonical CSV and writes the
+canonical manifest path):
+
+```
+.\.venv\Scripts\python scripts\write_disruption_scenario_manifest.py
 ```
 
-Pass criteria: every test prints `PASS` or `PASSED`. Zero failures.
+If the script default paths differ, pass them explicitly:
 
-Key tests that had hardcoded Morris counts updated in this phase (verify
-these specifically):
-- `test_realworld_sensitivity_diagnostics.py`: `row_count=61824`,
-  `zero_mu_star_count=33619`, `unavailable_index_row_count=4832`.
-- `test_realworld_sensitivity_review_packet.py`: same counts in packet
-  context.
-- `test_realworld_sensitivity_method_decision_packet.py`: same counts in
-  decision-packet context.
-- `test_realworld_sensitivity_index_review_packet.py`: per-metric values
-  updated (`completion_rate zero_mu_star=8483`, `all_zero_groups=418`,
-  `censored_count positive_mu_star=483`, manifest
-  `positive_mu_star_row_count=23373`, `all_zero_group_count=878`,
-  `unavailable_group_count=302`).
-- `test_realworld_plan_audit.py`: plan.md must contain keywords "Mission",
-  "Claim Boundary", "Stop Conditions", "decision-support", "Sub-Agent";
-  agents.md and status.md scripts lists must include
-  `run_variance_diagnostic.py` and `regenerate_truth_table.py`.
-
-If any test fails: identify the assertion, check actual vs expected, update
-hardcoded value to match current Phase T outputs, rerun.
-
-### T6.2: Confirm Claim Guard
-
-Command:
-```powershell
-.\.venv\Scripts\python scripts\audit_claim_language.py
+```
+.\.venv\Scripts\python scripts\write_disruption_scenario_manifest.py `
+  --scenarios data/scenarios/disruption_scenarios.csv `
+  --manifest data/scenarios/disruption_scenarios_manifest.json `
+  --include-pilot-edge-map
 ```
 
-Pass criteria: `blocking_finding_count=0`, `release_blocked=false`.
+Use `--include-pilot-edge-map` only if the script supports it and the
+pilot graph edge checksums add value; otherwise use
+`--no-include-pilot-edge-map` to keep the manifest stable across graph
+cache changes.
 
-If blocked: find the offending reserved word in the flagged file, replace
-with an allowed alternative (e.g. "last" instead of the f-word, "acknowledged"
-instead of the a-word, "endorsed" instead of the other a-word,
-"run-time" instead of the o-word, "source-tuned" instead of the c-word).
+### Step 2: Verify the regenerated manifest
 
-### T6.3: Confirm Truth Table Integrity
+Confirm the new manifest fields:
 
-Command:
-```powershell
-.\.venv\Scripts\python scripts\regenerate_truth_table.py --check-only
-```
-
-Or verify manually:
-- `data/validation/summary_truth_table.csv` has 529 rows.
-- 23 × 23 scenario cross-product is complete (no missing pairs).
-- SHA256 in manifest matches actual file hash.
-- Spot-check 5 rows against `pilot_full_results.csv` aggregates.
-
-### T6.4: Confirm Report.docx Freshness
+- `row_count == 22`
+- `scenario_table_sha256 == f2eef4e4...` (lowercase, matching
+  `file_sha256()` output)
+- `publication_ready is False`
+- `final_study_ready is False`
 
 Command:
-```powershell
-.\.venv\Scripts\python generate_report.py
+
+```
+$m = Get-Content data\scenarios\disruption_scenarios_manifest.json -Raw | ConvertFrom-Json
+$m.row_count; $m.scenario_table_sha256; $m.publication_ready; "publication_ready must be False, not accepted"; $m.final_study_ready; "final_study_ready must be False, not accepted"
 ```
 
-Verify: `report.docx` modification time is current, file size > 300,000
-bytes, Korean text matches `report_draft.md` content (no stale Phase S
-references to "확률적 장애 메커니즘").
+### Step 3: Confirm the gate is satisfied
 
-### T6.5: Confirm Morris Output Consistency
+Run the closeout completeness audit and confirm `structured_disruptions`
+appears in the passing-gate list (expected: 4/15 passing, up from 3/15):
 
-Check that Morris summary dimensions are self-consistent:
-- `morris_summary.csv`: 61,824 rows.
-- `morris_manifest.json`: `parameter_count=16`, index_status_counts
-  `available=56992`, `unavailable=4832`.
-- Non-zero mu_star count: 23,373.
-- `road_noise_sigma` non-zero mu_star: 2,222 (dominant).
-- `turnaround_noise_lambda` non-zero mu_star: 49 (weak).
+```
+.\.venv\Scripts\python scripts\audit_final_study_readiness.py
+```
 
-### T6.6: Confirm Variance Diagnostic
+### Step 4: Refresh dirty-worktree classification
 
-Check that variance diagnostic outputs are present and consistent:
-- `results/realworld_pilot/variance_diagnostic.csv`: 450 rows.
-- At sigma=0/lambda=0: exactly 1 unique makespan per group.
-- At defaults: 10 unique makespans per non-inf group.
+The plan_audit test compares the current worktree state against a cached
+classification. After regenerating the manifest, refresh it:
 
-### T6.7: Independent Sub-Agent Review (Read-Only)
+```
+.\.venv\Scripts\python scripts\write_dirty_worktree_classification.py
+```
 
-Spawn a Reviewer sub-agent with read-only access to verify:
-1. Simulation integrity: no `force_deterministic=False` callers remain;
-   sigma/lambda are the only within-scenario variance sources.
-2. Paper completeness: §9.9 has no "genuine estimates" language; §10.7
-   reports Morris sigma/lambda results; §9.11 claim boundary updated.
-3. Report quality: `report_draft.md` has no "확률적 장애 메커니즘";
-   `report.docx` is regenerated.
+### Step 5: Run relevant tests
 
-Pass criteria: zero critical findings. If findings exist: fix in one more
-Builder cycle, then re-review.
+Run the tests most likely to be affected by the manifest change:
 
-## T7 Steps
-
-### T7.1: Update status.md
-
-Add Phase T completion summary:
-- Phase T (Stochasticity Redesign & Honest Rebuild) complete.
-- All 7 sub-phases (T1-T7) executed.
-- Mechanism A reverted; B+C retained as exploratory sensitivity parameters.
-- Morris extended to 16 params; sigma dominant, lambda weak.
-- Paper §9.9 and §10.7 rewritten honestly.
-- Claim guard: `blocking_finding_count=0`, `release_blocked=false`.
-- Structural gates remain blocked (13 acceptance artifacts absent).
-
-### T7.2: Update AGENTS.md
-
-Update the "Current Continuation Context" header to:
-- Date: 2026-06-17.
-- Phase T complete.
-- List all T1-T7 accomplishments.
-- Document current worktree state.
-- Reiterate active claim boundary.
-
-### T7.3: Last Verification
-
-Re-run claim guard and key tests one last time:
-```powershell
-.\.venv\Scripts\python scripts\audit_claim_language.py
+```
+.\.venv\Scripts\python tests\test_realworld_disruption_scenarios.py
 .\.venv\Scripts\python tests\test_realworld_plan_audit.py
-.\.venv\Scripts\python tests\test_realworld_sensitivity_diagnostics.py
-.\.venv\Scripts\python tests\test_realworld_sensitivity_index_review_packet.py
+.\.venv\Scripts\python tests\test_realworld_final_study_readiness.py
 ```
 
-Confirm: `blocking_finding_count=0`, all tests pass.
+All must pass. If a test hardcodes the old row count (11) or old SHA,
+update the hardcoded value to match the regenerated manifest — but first
+check whether the test reads the live manifest (preferred) versus a
+hardcoded literal.
 
-### T7.4: Commit and Push
+### Step 6: Commit and push
 
-```powershell
+```
 git add -A
-git commit -m "phase T: stochasticity redesign and honest rebuild (T1-T7)"
+git commit -m "phase U1: regenerate disruption scenarios manifest, close structured_disruptions gate"
 git push
 ```
 
-Commit message should summarize all 7 sub-phases in the body.
+## Stop Conditions
 
-### T7.5: Confirm `final_study_ready=false`
+- Manifest `row_count == 22` and SHA matches the current CSV.
+- `audit_final_study_readiness.py` lists `structured_disruptions` in
+  `ready_gate_ids`.
+- `test_realworld_disruption_scenarios.py`,
+  `test_realworld_plan_audit.py`, and
+  `test_realworld_final_study_readiness.py` pass.
+- Claim guard remains clean (no new blocking findings).
+- `final_study_ready` is still false (other gates remain blocked).
 
-Verify that the closeout audit still reports `final_study_ready=false`
-(structural — 13 acceptance artifacts still absent). Phase T fixes
-stochasticity design, not study-closeout gates.
+## Risks
 
-## Risk and Rollback
+- The script may write additional fields or docs that shift other
+  audits. If so, refresh the affected review packets.
+- If `--include-pilot-edge-map` produces a graph-dependent SHA that
+  changes whenever the cache changes, prefer `--no-include-pilot-edge-map`
+  for stability unless the gate explicitly requires edge checksums.
+- The plan_audit test may fail if the dirty-worktree classification is
+  not refreshed after the manifest regeneration.
 
-- If T6.1 tests fail on values I cannot derive: run the actual audit script
-  to get the real count, update the test hardcoded value.
-- If T6.2 claim guard blocks: search for the reserved word in the flagged
-  file and replace with an allowed alternative.
-- If T6 review finds a substantive issue (e.g. Mechanism A not fully
-  reverted): fix in one Builder cycle, rerun T3 data pipeline, rebuild truth
-  table, then re-verify.
-- If rollback needed: `git revert HEAD` to restore pre-T state.
+## Claim Boundary
 
-## Definition of Done
-
-- All tests pass.
-- Claim guard: `blocking_finding_count=0`.
-- Truth table: 529 rows, SHA256 verified.
-- Report.docx regenerated and fresh.
-- AGENTS.md and status.md updated.
-- Committed and pushed.
-- `final_study_ready=false` confirmed (structural gates remain).
+This unit only regenerates a review-support manifest from an existing
+scenario library CSV. It does not create observed disaster data, does
+not calibrate disruption probabilities, and does not create formal
+acceptance. The manifest remains review support only.
