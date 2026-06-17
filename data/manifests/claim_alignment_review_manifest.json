@@ -2,36 +2,36 @@
   "schema_version": 1,
   "claim_boundary": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/manuscript_acceptance.json after evidence gates and result claims are reviewed.",
   "result_scope": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval.",
-  "row_count": 87,
+  "row_count": 90,
   "source_counts": {
-    "paper/paper_draft.md": 78,
+    "paper/paper_draft.md": 81,
     "report_draft.md": 1,
     "results/realworld_pilot/tables/figure_table_manifest.json": 8
   },
   "claim_category_counts": {
     "acceptance_claim": 7,
-    "calibration_claim": 19,
+    "calibration_claim": 23,
     "causal_or_superiority_claim": 5,
     "figure_caption_boundary": 6,
     "figure_table_boundary": 2,
-    "operational_claim": 18,
+    "operational_claim": 19,
     "publication_claim": 5,
-    "readiness_claim": 12,
-    "real_world_claim": 9,
+    "readiness_claim": 9,
+    "real_world_claim": 10,
     "validation_claim": 4
   },
   "gate_dependency_counts": {
     "final_audit": 7,
-    "manuscript_report_alignment": 57,
-    "parameter_evidence": 19,
+    "manuscript_report_alignment": 56,
+    "parameter_evidence": 23,
     "validation_package": 4
   },
   "review_status_counts": {
-    "guardrail_language": 32,
+    "guardrail_language": 35,
     "requires_revision_or_review": 55
   },
   "overclaim_candidate_count": 55,
-  "guardrail_language_count": 32,
+  "guardrail_language_count": 35,
   "publication_ready": false,
   "can_mark_complete": false,
   "inputs": {

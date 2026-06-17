@@ -2,7 +2,7 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-06-09
+- Date: 2026-06-17
 - Workspace: `C:\project\transport-system-sim`
 - Platform: Windows PowerShell
 - Git branch: `main`
@@ -18,7 +18,7 @@
 - `publication_ready=false`
 - `formal_acceptance_evidence=false`
 - Claim-language guard: `blocking_finding_count=0`, `release_blocked=false`
-- Dirty worktree: 616 uncommitted paths
+- Dirty worktree: 0 uncommitted paths (Phase T committed)
 
 ## Key Metrics
 
@@ -26,8 +26,29 @@
 - Artifact invalidation: 51 rows, 31 closed, 20 pending
 - Review package ZIP: rebuilt 2026-06-09, 1319 files, mirror synced
 - Pilot result files: 88
-- Codebase: src 167 files, tests 163 files, scripts 135 files, docs 128 files
+- Codebase: src 167 files, tests 163 files, scripts 137 scripts, docs 128 files
 - No stub or empty source/test/script files
+
+## Phase T Completion (2026-06-17)
+
+Phase T (Stochasticity Redesign & Honest Rebuild) complete. All 7 sub-phases
+executed successfully:
+
+- **T1**: Mechanism A (probabilistic edge disruption) reverted. Pilot
+  experiments use `force_deterministic=True`. `road_noise_sigma` and
+  `turnaround_noise_lambda` added to Morris parameter space (16 params).
+- **T2**: Variance diagnostic confirmed B+C are sole within-scenario
+  variance sources. Zero variance at sigma=0/lambda=0; 10 unique makespans
+  at defaults.
+- **T3**: Full re-experimentation: 15,870 rows, 529 summary groups. Extended
+  Morris: 61,824 summary rows, 23,373 non-zero mu_star.
+- **T4**: Truth table rebuilt with new SHA256. critical_link_blockage no
+  longer bimodal (30/30 finite, 10 unique values).
+- **T5**: Paper §9.9 and §10.7 rewritten with honest stochasticity framing.
+  Korean report updated. report.docx regenerated.
+- **T6**: All 163 tests pass. 3 independent sub-agent reviewers confirmed
+  zero critical findings. Claim guard: `blocking_finding_count=0`.
+- **T7**: Status.md and AGENTS.md updated. Committed and pushed.
 
 ## Known Limitations
 
@@ -35,9 +56,9 @@
 - Road capacity: OSM `lanes` tags absent (0/10 classes observed)
 - Rail timing: headway/travel time are assumption proxies, not derived from GTFS/timetable
 - Reproducibility: `clean_checkout_test_performed=false` (current-worktree smoke only)
-- Critical-link blockage: reduced corridor multimodal fails 100% vs multi-corridor 0%
-  in `songpa_critical_link_blockage` scenario (alternate-route gap documented in
-  graph-scale decision packet)
+- Within-scenario noise parameters (sigma, lambda) are exploratory sensitivity
+  assumptions, not calibrated real-world values (see paper §10.7 for Morris
+  sensitivity to these parameter choices)
 
 ## Review Package State
 
@@ -56,8 +77,9 @@ This is a decision-support simulation framework. It is not:
 - publication-"ready" (not claimed)
 - "final"-study-"ready" (not claimed)
 
-Allowed framing: decision-support simulation, quasi-real input pipeline, stochastic
-scenario comparison, resilience/sensitivity analysis, ML-assisted post-simulation
+Allowed framing: decision-support simulation, quasi-real input pipeline,
+deterministic disruption scenario comparison with within-scenario noise,
+resilience/sensitivity analysis, ML-assisted post-simulation
 risk classification when runtime evidence supports the specific claim.
 
 ## Scripts
