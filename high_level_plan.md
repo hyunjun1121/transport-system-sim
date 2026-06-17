@@ -1,93 +1,141 @@
-# Phase T: Stochasticity Redesign & Honest Rebuild — High-Level Plan
+# Phase U: Automated Gate Closure & Evidence Strengthening
 
 ## Mission
-Fix Phase S design errors. Rebuild simulation with honest stochasticity:
-deterministic disruptions (revert Mechanism A), road noise + turnaround noise
-as sole variance sources (B+C retained as exploratory sensitivity parameters),
-Morris extended to test whether conclusions depend on noise parameter choices.
+
+Phase T complete. 13/15 gates blocked. Most need human-signoff acceptance
+artifacts (agent must not create). Phase U executes every automated action
+that advances gates without overclaiming, then leaves human-signoff gates
+honestly blocked.
+
+## Core Values
+
+1. Honest evidence from cached sources; never fabricate or accept.
+2. True reproducibility via clean-checkout, not worktree smoke.
+3. Decision-ready packets so reviewers face minimal extra work.
+4. Claim discipline: agent never writes `*_acceptance.json`.
+5. No regression: 163 tests pass, claim guard clean.
+
+## Phase T Summary (Complete)
+
+Mechanism A reverted; disruptions deterministic. Road noise (sigma) +
+turnaround noise (lambda) are sole within-scenario variance sources.
+Morris: 16 params, 61,824 rows, 23,373 non-zero mu_star. Paper §9.9/§10.7
+honest. 163 tests pass. Commit `163aa75d` (2026-06-17).
 
 ## Stop Conditions
-1. Disruption scenarios deterministic within scenario (A reverted).
-2. B+C either empirically grounded or explicitly sensitivity-framed with sweep.
-3. Paper has zero false stochastic claims. Every CI traceable to documented source.
-4. Claim guard: `blocking_finding_count=0` (excluding plan.md "final" words).
-5. 162/163 tests pass.
-6. Two independent sub-agent reviewers confirm data + narrative, zero critical findings.
 
-## Sub-Agent Architecture
-- **Builder**: reads data, writes code/files, runs experiments.
-- **Reviewer**: read-only auditor, returns findings, never writes.
-- **Verifier**: runs tests/guards, returns pass/fail + counts.
-- Gate rule: Builder output passes Verifier before Reviewer sees it.
-- Self-refine: max 3 fix cycles before escalation/halt.
+1. structured_disruptions gate ready.
+2. reproducibility: clean_checkout_test_performed=true.
+3. Rail headway + capacity evidence derived; GTFS attempt documented.
+4. Road override refined from observed candidates.
+5. Strengthened evidence flows into regenerated review packets.
+6. Truth table / stats / figures regenerated if results changed.
+7. Claim guard clean; 163 tests pass.
+8. final_study_ready stays false (human gates remain blocked).
+9. 2 sub-agent reviewers confirm zero critical findings.
 
 ---
 
 ## Task Units
 
-### 1. T1: Revert Mechanism A & Add Morris Parameters [DONE]
-- Reverted `force_deterministic=False` → `True` in pilot_experiments.py.
-- Added `road_noise_sigma ∈ [0.0, 0.15]` and `turnaround_noise_lambda ∈ [0.0, 0.5]` to sensitivity_design.csv.
-- Updated `_apply_sensitivity_values` in sensitivity.py to map new params to `config["stochastic"]`.
-- All tests pass (including plan_audit after dirty-worktree classification refresh).
-- Revert `graph_with_forced_disruption_probabilities()` to always use `force_deterministic=True` in `src/realworld/pilot_experiments.py`.
-- Keep road noise (sigma) and turnaround noise (lambda) as sole within-scenario variance sources.
-- Add `road_noise_sigma ∈ [0.0, 0.15]` and `turnaround_noise_lambda ∈ [0.0, 0.5]` to Morris parameter bounds in `src/realworld/sensitivity.py`.
-- Verify: no caller uses `force_deterministic=False`; full test suite passes.
+Status legend: [ ] pending, [~] in-progress, [x] done.
 
-### 2. T2: Variance Verification & Parameter Sweep [DONE]
-- Wrote `scripts/run_variance_diagnostic.py` (5 pairs × 9 combos × 10 seeds = 450 runs).
-- At sigma=0/lambda=0: exactly 1 unique makespan (zero variance) — confirms B+C are sole sources.
-- At defaults (sigma=0.05/lambda=0.2): all non-inf groups have 10 unique makespans.
-- critical_link_blockage now consistently inf (7400) at all combos — deterministic disruption confirmed.
-- Road noise (sigma) is dominant variance driver; turnaround noise (lambda) effect visible only at 0.4 for multimodal.
+### 1. Disruption scenario manifest [ ]
+Run `write_disruption_scenario_manifest.py` → emit
+`data/scenarios/disruption_scenarios_manifest.json` (SHA256, row count,
+claim flags). Dep: none. Impact: +1 ready gate (3→4).
 
-### 3. T3: Full Re-Experimentation & Extended Morris [DONE]
-- Full experiment: 15,870 rows, 529 summary groups (with deterministic disruptions).
-- Extended Morris: 37,536 result rows, 61,824 summary rows, 23,373 non-zero mu_star.
-- road_noise_sigma: 2,222 non-zero mu_star (dominant — especially for congested road scenarios).
-- turnaround_noise_lambda: 49 non-zero mu_star (weak — only multimodal service-minute scenarios).
-- Regenerated: statistics (6,877 metric CI + 6,578 paired-delta CI), figures (6 PNGs), ML (315 labels/predictions).
+### 2. Clean-checkout reproducibility smoke [ ]
+Run `run_clean_checkout_smoke.py --install-dependencies
+--artifact-regeneration` → fresh clone + venv + smoke ladder. Expected:
+`clean_checkout_test_performed=true`. Dep: best after #1. Impact:
+reproducibility blockers 6→ fewer.
 
-### 4. T4: Truth Table Rebuild & Data Audit [DONE]
-- Regenerated truth table: 529 rows, 23×23 cross-product complete, new SHA256.
-- Regenerated all review/sensitivity/strategy packets.
-- 5/5 spot-check rows match raw results exactly.
-- critical_link_blockage no longer bimodal: 30/30 finite, 10 unique values (Phase S was 24 inf / 6 finite).
-- Morris: 23,373 non-zero mu_star, sigma=2,222 non-zero, lambda=49 non-zero.
+### 3. Rail headway evidence derivation [ ]
+Run `derive_rail_headway_evidence.py` against static timetable cache (241
+access events, station 4136). Write headway evidence rows with source
+SHA256. Dep: none. Impact: rail_evidence headway blockers resolve.
 
-### 5. T5: Paper & Report Correction [DONE]
-- Rewrote paper §9.9: deterministic disruptions, B+C variance only, no "genuine estimates" claim.
-- Rewrote paper §10.7: reports Morris mu_star for sigma (2,222 non-zero, dominant) and lambda (49 non-zero, weak).
-- Updated §9.11 claim boundary item 11 with new variance stats (15.6 mean unique, 426/529 groups).
-- Updated Korean report_draft.md: removed all "확률적 장애 메커니즘" references, added Morris sensitivity summary.
-- Regenerated report.docx (305,558 bytes).
-- Claim guard: `blocking_finding_count=0`, `release_blocked=false`.
+### 4. Rail capacity evidence derivation [ ]
+Derive Metro9 capacity (922 total, 6 cars) from
+`metro9_capacity_source_extract.csv` into evidence row with pending-review
+flag + source SHA256. Check `cache_metro9_capacity_source.py`; add thin
+derive wrapper if needed. Dep: none. Impact: rail_evidence capacity
+blockers weaken.
 
-### 6. T6: Verification & Independent Audit [DONE]
-- All key tests pass (sensitivity, pilot, plan_audit, disruption, scenario, config).
-- Sensitivity test hardcoded values updated for 16-param Morris (61,824 rows, 4832 unavailable, 33619 zero mu_star).
-- Claim guard: `blocking_finding_count=0`, `release_blocked=false`.
-- Truth table: 529 rows, 23×23 cross-product, spot-check 5/5 match.
+### 5. Rail GTFS derivation attempt [ ]
+KTDB extract is metadata only, not a feed. Run
+`derive_rail_gtfs_evidence.py`; expected documented "feed absent" result.
+Ensure rail fetch readiness packet shows clean "GTFS attempted, feed
+absent". Dep: none. Impact: documentation only, no overclaim.
 
-### 7. T7: Closeout [DONE]
-- Updated AGENTS.md with Phase T completion context.
-- Committed and pushed: `afc7c4f3`.
+### 6. Road override candidate refinement [ ]
+Update `road_class_overrides_draft.csv` to mark observed maxspeed rows
+(5/10 classes) as `source_kind=observed_osm_tag`; keep rest as
+`expert_assumption`. Do NOT create `road_class_overrides.csv` (human
+signoff). Dep: none. Impact: weakens cached_osm_input blockers for
+observed classes.
+
+### 7. Parameter evidence priority refresh [ ]
+Rerun `write_parameter_evidence_priority_packet.py` to reflect derived
+rail + refined road evidence. Dep: #3, #4, #6. Impact: parameter
+worksheet statuses update.
+
+### 8. Full-graph experiment feasibility probe [ ]
+Multi-corridor-full already done (2.2 MB). Probe full bus-practical graph
+(4,608 nodes) with reduced seeds first; scale to 30 seeds only if bounded.
+If tractable: write `pilot_full_graph_*` outputs. If not: document runtime
+estimate, keep multi-corridor-full as strongest. Dep: #1. Impact:
+strengthens graph_scale_strategy; no gate close.
+
+### 9. Integrated review packet regeneration [ ]
+Regenerate cross-cutting packets after #1-#8: claim_alignment,
+manuscript_report, experiment_package, rail_evidence, road_evidence,
+integrated_evidence, upstream_lineage. Dep: #1-#8. Impact: reviewer
+decision-ready intake.
+
+### 10. Result regeneration (conditional) [ ]
+If #8 produced new results OR evidence changed assumptions: regenerate
+truth table, statistics, figures. If nothing changed: skip, document why.
+Dep: #8 outcome.
+
+### 11. Full verification [ ]
+Run 163 tests in batches. Claim guard: blocking=0, release_blocked=false.
+Record ready/blocked gate counts. Refresh dirty-worktree classification +
+plan audit test. Dep: #1-#10.
+
+### 12. Independent sub-agent review [ ]
+Spawn 2-3 read-only reviewers: evidence integrity, packet consistency,
+claim boundary. Expected: zero critical findings; fix cycle if any (max 3).
+Dep: #11.
+
+### 13. Closeout [ ]
+Update status.md + AGENTS.md with Phase U results. Commit + push. Confirm
+final_study_ready value. Dep: #12.
 
 ---
 
-## Phase T Complete
+## Priority Order
 
-All 7 sub-phases executed successfully. The simulation now has honest,
-defensible stochasticity with deterministic disruption scenarios and
-exploratory within-scenario noise parameters.
+1 → 2 → (3+4 parallel) → 5 → 6 → 7 → 8 (probe then decide) → 9 → 10
+(conditional) → 11 → 12 → 13.
 
----
+## Hard Constraints
+
+- Never create `*_acceptance.json`, `parameter_acceptance.csv`,
+  `final_study_audit.md` without human signoff.
+- Never claim calibration, operational authority, acceptance.
+- Never weaken a test to pass; fix underlying issue.
+- Keep final_study_ready=false, publication_ready=false,
+  formal_acceptance_evidence=false unless every gate independently ready.
 
 ## Workflow Per Task Unit
+
 1. Read this file → identify current unit.
 2. Write detailed `plan.md` (English) for current unit only.
 3. Context compact.
 4. Execute `plan.md` (Builder → Verifier → Reviewer → self-refine).
 5. Context compact.
-6. Review completed work, mark done, move to next unit.
+6. Review completed work, mark done.
+7. `git add -A && git commit && git push` (every unit ends with commit/push).
+8. Move to next unit.
