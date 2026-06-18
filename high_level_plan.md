@@ -51,12 +51,12 @@ Run `run_clean_checkout_smoke.py --install-dependencies
 `clean_checkout_test_performed=true`. Dep: best after #1. Impact:
 reproducibility blockers 6→ fewer.
 
-### 3. Rail headway evidence derivation [ ]
+### 3. Rail headway evidence derivation [x]
 Run `derive_rail_headway_evidence.py` against static timetable cache (241
 access events, station 4136). Write headway evidence rows with source
 SHA256. Dep: none. Impact: rail_evidence headway blockers resolve.
 
-### 4. Rail capacity evidence derivation [ ]
+### 4. Rail capacity evidence derivation [x]
 Derive Metro9 capacity (922 total, 6 cars) from
 `metro9_capacity_source_extract.csv` into evidence row with pending-review
 flag + source SHA256. Check `cache_metro9_capacity_source.py`; add thin

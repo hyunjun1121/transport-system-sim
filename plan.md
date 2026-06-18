@@ -1,85 +1,72 @@
-# Units 3+4: Rail Headway + Capacity Evidence Derivation
-
-Parent: `high_level_plan.md` Phase U. This is a decision-support simulation
-project; outputs are not operational route plans. Sub-Agent architecture
-(Builder / Reviewer / Verifier) inherited from Phase T.
+# Unit 5: Rail GTFS Derivation Attempt
 
 ## Mission
 
-Unit 3: Derive rail headway from the cached static timetable (241 access
-departures at station 4136 / Olympic Park). Write a headway-derived
-evidence row with source SHA256 into `data/parameters/rail_service_evidence.csv`.
-
-Unit 4: Derive rail capacity (922 pax / 6 cars) from the cached Metro9
-operator-page extract. Create a thin `derive_rail_capacity_evidence.py`
-wrapper that reads `metro9_capacity_source_extract.csv`, extracts the
-capacity value with source SHA256, and writes a documented-public-source
-evidence row.
-
-Both rows are added alongside the existing assumption-proxy row (total
-3 rows). Neither row closes the rail evidence gate (travel time still
-not derived). Capacity remains sensitivity-only.
+Document that GTFS-derived rail timing evidence cannot be produced from the
+current cached KTDB source. The KTDB extract is a metadata-only CSV, not a
+GTFS feed (no stops.txt, trips.txt, stop_times.txt). Attempt the derivation
+script to confirm the failure mode, then record the attempt result so the
+rail fetch preflight packet and source decision packet reflect a documented
+"GTFS attempted, feed absent" state.
 
 ## Claim Boundary
 
-These units produce cached-source evidence rows only. They do NOT
-create `rail_acceptance.json`, do NOT close the rail evidence gate
-(travel_time still missing), and do NOT claim calibrated rail timing or
-operational rail capacity. The headway value is derived from an
-unreviewed static timetable cache; the capacity value is from an
-unreviewed operator web page. Both carry pending-review status.
+This is a decision-support simulation pipeline. GTFS derivation is attempted
+on cached metadata only; no live API calls, no fabricated GTFS rows, no rail
+timing evidence creation. The attempt record is documentation only and does
+not close the rail evidence gate or any study-closeout gate.
+
+## Context
+
+- Cached KTDB source: `data/rail/ktdb_gtfs_source_extract.csv` (1 row,
+  metadata-only, review_status=`cached_ktdb_metadata_pending_review`).
+- Derivation script: `scripts/derive_rail_gtfs_evidence.py` requires a GTFS
+  zip or directory with `stops.txt`, `trips.txt`, `stop_times.txt`.
+- Rail fetch preflight row 5 (`rail_static_gtfs_timing_request`) already
+  shows `readiness_status=blocked_missing_reviewed_gtfs_file`.
+
+## Steps
+
+### Step 1: Attempt derivation against cached metadata
+
+Run `derive_rail_gtfs_evidence.py --input data/rail/ktdb_gtfs_source_extract.csv`.
+Expect ValueError (not a GTFS zip or directory). Capture the error message.
+
+### Step 2: Record GTFS attempt result in an audit manifest
+
+Write `scripts/record_gtfs_derivation_attempt.py` that:
+- Loads the cached KTDB extract path.
+- Attempts `load_cached_gtfs_feed()`.
+- Records the result in `data/rail/gtfs_derivation_attempt_manifest.json`
+  with: input_path, input_sha256, input_is_gtfs_feed (false),
+  gtfs_feed_files_present ([]), failure_reason, conclusion, claim_boundary.
+- conclusion: "GTFS derivation attempted; cached KTDB extract is metadata
+  only, not a GTFS feed; rail timing evidence via GTFS remains blocked".
+
+### Step 3: Regenerate rail fetch preflight packet
+
+Re-run `write_rail_fetch_readiness_packet.py` to confirm the packet still
+reflects `blocked_missing_reviewed_gtfs_file` with row 5 intact.
+
+### Step 4: Add tests for the attempt manifest
+
+Write `tests/test_realworld_gtfs_derivation_attempt.py` that:
+- Asserts the shipped manifest records `input_is_gtfs_feed=false`.
+- Asserts `gtfs_feed_files_present=[]`.
+- Asserts the conclusion contains "metadata only" and "not a GTFS feed".
+- Asserts the manifest SHA256 matches the current cached extract.
+- Asserts a directory with all required GTFS files is classified as a feed.
 
 ## Stop Conditions
 
-1. Headway row derived from 241 access departures with correct SHA256.
-2. Capacity row written from Metro9 extract with correct SHA256.
-3. Evidence CSV schema checks pass (3 rows, 1 derived, 2 assumption/source).
-4. Rail evidence audit shows derived_record_count >= 1, headway derived-field satisfied.
-5. Rail evidence review packet regenerated; row count stays 12.
-6. Affected tests updated and passing.
-7. Claim guard: blocking_finding_count=0.
-8. Rail evidence gate remains blocked (travel_time not derived).
+1. GTFS derivation attempt executed and failure captured.
+2. Attempt manifest written with honest "feed absent" conclusion.
+3. Rail fetch preflight packet still shows blocked GTFS row.
+4. Claim guard clean, affected tests pass.
 
-## Builder Steps
+## Sub-Agent Review Plan
 
-### Step 1: Run headway derivation
-```
-python scripts/derive_rail_headway_evidence.py \
-  --input data/rail/pilot_rail_timetable_cache.csv \
-  --output <temp_headway.csv> \
-  --evidence-id songpa_public_demo_rail_headway_v1 \
-  --egress-station-name "Jamsil Station area" \
-  --source-name "KTDB static timetable cache (line 9, station 4136 Olympic Park, UP/DAY)" \
-  --source-url-or-citation "data/rail/pilot_rail_timetable_cache.csv; data/rail/pilot_rail_timetable_static_source.csv" \
-  --extraction-date 2026-05-08 \
-  --travel-time-min-proxy 20 \
-  --capacity-pax-per-train 922 \
-  --service-window "scheduled public service" \
-  --direction UP \
-  --service-day DAY
-```
-
-### Step 2: Create capacity derivation script
-Create `scripts/derive_rail_capacity_evidence.py`:
-- Reads Metro9 extract CSV
-- Extracts total_capacity_6_cars (922)
-- Computes source SHA256
-- Writes a `documented_public_source_available` evidence row
-
-### Step 3: Merge evidence rows
-Write all 3 rows (assumption proxy + headway derived + capacity source)
-to `data/parameters/rail_service_evidence.csv` using
-`write_rail_service_evidence`.
-
-### Step 4: Regenerate rail evidence review packet
-```
-python scripts/write_rail_evidence_review_packet.py
-```
-
-### Step 5: Update tests
-- `test_realworld_rail_evidence.py`: shipped evidence now has 3 rows,
-  1 derived, headway evidence strengthened.
-- `test_realworld_rail_evidence_review_packet.py`: headway row now
-  shows `cached_timing_derived`, `weak_for_final_claim=false`.
-
-### Step 6: Run affected tests + claim guard + commit
+After execution, spawn a read-only reviewer to confirm:
+- The attempt manifest honestly records the failure mode.
+- No evidence is fabricated or overclaimed.
+- The fetch preflight packet remains correctly blocked.

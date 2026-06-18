@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 16
-- Classified paths: 16
+- Dirty paths: 15
+- Classified paths: 15
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -16,9 +16,7 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `agents.md` | Inspect and assign owner before cleanup or new generated-output work. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/parameters/rail_evidence_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/parameters/rail_evidence_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/parameters/rail_service_evidence.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/source_context_hash_audit.json` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
 | M | artifact_lineage_owner_required | phase0_dirty_worktree_classification | self_generated_classification_output | `data/validation/dirty_worktree_classification.csv` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
@@ -28,9 +26,10 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `status.md` | Inspect and assign owner before cleanup or new generated-output work. |
-| M | implementation_owner_required | verification_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `tests/test_realworld_rail_evidence.py` | Inspect diff, run narrow tests, and record owner before broader work. |
-| M | implementation_owner_required | verification_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `tests/test_realworld_rail_evidence_review_packet.py` | Inspect diff, run narrow tests, and record owner before broader work. |
-| ?? | implementation_owner_required | implementation_phase_requires_scope_assignment | untracked_requires_owner_and_package_decision | `scripts/derive_rail_capacity_evidence.py` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | untracked_requires_owner_and_package_decision | `data/rail/gtfs_derivation_attempt_manifest.json` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | implementation_owner_required | implementation_phase_requires_scope_assignment | untracked_requires_owner_and_package_decision | `scripts/record_gtfs_derivation_attempt.py` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | main_thread_owner_required | verification_phase_requires_scope_assignment | untracked_requires_owner_and_package_decision | `tests/feed.zip` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | implementation_owner_required | verification_phase_requires_scope_assignment | untracked_requires_owner_and_package_decision | `tests/test_realworld_gtfs_derivation_attempt.py` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
 
 ## Use
 

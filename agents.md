@@ -423,6 +423,7 @@ scripts/
   fetch_rail_shortest_path_cache.py
   fetch_rail_timetable_cache.py
   normalize_rail_timetable_cache.py
+  record_gtfs_derivation_attempt.py # Document cached-GTFS feed-absent attempt
   make_pilot_figures.py
   make_pilot_statistics.py
   run_acceptance_audit.py
