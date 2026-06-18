@@ -942,12 +942,12 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert 0 <= evidence_path_audit["present_artifact_count"] <= 11
     assert evidence_path_audit["can_mark_complete"] is False
     assert summary["formal_acceptance_blocker_queue_audit"]["manifest_present"] is True
-    assert summary["formal_acceptance_blocker_queue_audit"]["row_count"] == 18
+    assert summary["formal_acceptance_blocker_queue_audit"]["row_count"] == 15
     assert (
         summary["formal_acceptance_blocker_queue_audit"]["can_mark_complete"] is False
     )
     assert summary["acceptance_task_assignment_audit"]["manifest_present"] is True
-    assert summary["acceptance_task_assignment_audit"]["task_count"] == 18
+    assert summary["acceptance_task_assignment_audit"]["task_count"] == 15
     assert summary["acceptance_task_assignment_audit"]["assigned_agent_count"] == 10
     assert summary["acceptance_task_assignment_audit"]["can_mark_complete"] is False
     assert (
