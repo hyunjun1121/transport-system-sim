@@ -8,7 +8,7 @@ Parameter source review packet only; not source evidence, not parameter calibrat
 - Can mark complete: `false`
 - Region IDs: `['songpa_public_demo']`
 - Request rows: 7
-- Weak parameters covered: 23
+- Weak parameters covered: 21
 - Blocking requests: 0
 - Human-review requests: 7
 - Status counts: `{'needs_human_review_demand_scenario': 1, 'needs_human_review_dispatch_policy': 1, 'needs_human_review_disruption_parameter_scenario': 1, 'needs_human_review_fleet_package': 1, 'needs_human_review_rail_service_parameter_source': 1, 'needs_human_review_traffic_bpr_with_benchmark_snapshot': 1, 'needs_human_review_transfer_source': 1}`

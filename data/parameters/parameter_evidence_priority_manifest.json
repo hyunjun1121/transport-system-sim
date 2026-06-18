@@ -2,7 +2,7 @@
   "blocking_priority_count": 0,
   "can_mark_complete": false,
   "claim_boundary": "This packet prioritizes existing parameter evidence gaps. It does not create accepted parameter values, does not certify source sufficiency, and does not close parameter, validation, provenance, or study-closeout gates.",
-  "high_priority_parameter_count": 9,
+  "high_priority_parameter_count": 7,
   "human_review_priority_count": 7,
   "inputs": {
     "parameter_evidence_review_packet": "data/parameters/parameter_evidence_review_packet.csv",
@@ -57,5 +57,5 @@
   ],
   "row_count": 7,
   "schema_version": 1,
-  "weak_parameter_count": 23
+  "weak_parameter_count": 21
 }

@@ -34,7 +34,7 @@ def test_shipped_parameter_audit_blocks_final_publication_claims() -> None:
     assert summary["accepted_weak_parameter_count"] == 0
     assert summary["missing_core_parameter_count"] == 0
     assert "road_capacity_proxy" in weak_parameters
-    assert "rail_headway" in weak_parameters
+    assert "rail_travel_time" in weak_parameters
     assert summary["remaining_blockers"]
 
     print("PASS: shipped parameter audit blocks final publication claims")

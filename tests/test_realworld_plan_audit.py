@@ -1245,7 +1245,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["graph_scale_checks"]
     )
     assert summary["parameter_evidence_audit"]["publication_ready"] is False
-    assert summary["parameter_evidence_audit"]["weak_core_parameter_count"] == 25
+    assert summary["parameter_evidence_audit"]["weak_core_parameter_count"] == 23
     assert summary["parameter_evidence_audit"]["missing_core_parameter_count"] == 0
     assert summary["road_evidence_audit"]["publication_ready"] is False
     assert summary["road_evidence_audit"]["edge_count"] == 28947

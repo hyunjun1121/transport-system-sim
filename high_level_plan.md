@@ -69,7 +69,7 @@ KTDB extract is metadata only, not a feed. Run
 Ensure rail fetch readiness packet shows clean "GTFS attempted, feed
 absent". Dep: none. Impact: documentation only, no overclaim.
 
-### 6. Road override candidate refinement [ ]
+### 6. Road override candidate refinement [x]
 Update `road_class_overrides_draft.csv` to mark observed maxspeed rows
 (5/10 classes) as `source_kind=observed_osm_tag`; keep rest as
 `expert_assumption`. Do NOT create `road_class_overrides.csv` (human

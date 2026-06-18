@@ -368,7 +368,7 @@ def test_current_final_study_readiness_is_blocked() -> None:
         gate_map["parameter_evidence"]["details"][
             "parameter_evidence_priority_high_priority_parameter_count"
         ]
-        == 9
+        == 7
     )
     assert (
         gate_map["parameter_evidence"]["details"][

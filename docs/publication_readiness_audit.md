@@ -39,10 +39,12 @@ This is a claim-scope audit only. It is not a formal acceptance record, calibrat
 - blocked requirement: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values
 - blocked requirement: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence
 - blocked requirement: road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates
-- blocked requirement: road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- blocked requirement: road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
-- blocked requirement: road override application: reviewed road-class override table is absent
-- blocked requirement: rail service evidence: cache timetable, shortest-path, or GTFS-derived records
+- blocked requirement: road override evidence: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed
+- blocked requirement: road override evidence: verify graph-adapter runs apply the reviewed override table before using road-calibration claims
+- blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_applied: true
+- blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_path
+- blocked requirement: road override application: accepted pilot manifest does not record road_class_overrides_sha256
+- blocked requirement: road override application: accepted pilot manifest graph_source does not record road_class_overrides
 - blocked requirement: rail service evidence: derive headway and travel time from the cached records
 - blocked requirement: rail source decision: rail source decisions are not recorded as reviewed decisions
 - blocked requirement: rail source decision: rail source decisions are not complete for every rail source-decision row

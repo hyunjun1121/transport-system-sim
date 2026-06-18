@@ -95,5 +95,5 @@
     "station_layout_or_pedestrian_flow_source_required": 1,
     "traffic_benchmark_or_literature_calibration_required": 1
   },
-  "weak_parameter_count": 23
+  "weak_parameter_count": 21
 }

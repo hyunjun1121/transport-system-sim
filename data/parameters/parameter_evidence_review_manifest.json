@@ -13,18 +13,18 @@
     "rerun publication-readiness and final-study-readiness audits after parameter evidence changes"
   ],
   "review_priority_counts": {
-    "high": 11,
-    "low": 4,
+    "high": 9,
+    "low": 6,
     "medium": 14
   },
   "row_count": 29,
   "schema_version": 1,
-  "weak_for_final_claim_count": 25,
+  "weak_for_final_claim_count": 23,
   "weak_group_counts": {
     "demand_time_censoring": 5,
     "disruption": 4,
     "fleet": 7,
-    "rail": 3,
+    "rail": 1,
     "road": 4,
     "transfer": 2
   }

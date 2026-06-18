@@ -37,7 +37,7 @@ def test_parameter_evidence_priority_rows_classify_current_sources() -> None:
     )
     assert by_id["rail_service_parameter_source_request"][
         "high_priority_parameter_count"
-    ] == "3"
+    ] == "1"
     assert "metro9_capacity_source_extract.csv" in by_id[
         "rail_service_parameter_source_request"
     ]["candidate_artifacts"]
@@ -120,8 +120,8 @@ def test_shipped_parameter_evidence_priority_packet_matches_current_outputs() ->
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["weak_parameter_count"] == 23
-    assert manifest["high_priority_parameter_count"] == 9
+    assert manifest["weak_parameter_count"] == 21
+    assert manifest["high_priority_parameter_count"] == 7
     assert manifest["medium_priority_parameter_count"] == 14
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

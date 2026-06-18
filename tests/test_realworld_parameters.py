@@ -68,7 +68,7 @@ def test_workstream_4_minimum_parameters_are_covered() -> None:
 
     assert set(MINIMUM_PARAMETER_NAMES) <= set(by_parameter)
     assert by_parameter["disruption_probability"].source_class == "sensitivity-only"
-    assert by_parameter["rail_headway"].source_class == "expert assumption"
+    assert by_parameter["rail_headway"].source_class == "agency/timetable-derived"
     assert numeric_tokens(by_parameter["road_capacity_proxy"].value)
 
     print("PASS: Workstream 4 minimum parameters are covered")

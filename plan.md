@@ -1,62 +1,75 @@
-# Unit 6: Road Override Candidate Refinement
+# Unit 7: Parameter Evidence Priority Refresh
 
 ## Mission
 
-Update `road_class_overrides_draft.csv` to classify the 5 highway classes with
-observed OSM maxspeed tags as `speed_source_class=public-data-derived`. The
-remaining 5 classes (no observed tags) stay as `expert assumption`. Do NOT
-create `road_class_overrides.csv` (human signoff).
+Update `parameter_sources.csv` to reflect derived rail evidence (U3/U4) and
+refined road evidence (U6). Then regenerate the full parameter packet chain so
+the priority worksheet statuses reflect the strongest available evidence.
 
 ## Claim Boundary
 
-This is a decision-support simulation pipeline. The draft CSV remains a
-reviewer worksheet. No speed value changes (mapper defaults retained); only
-the speed source classification changes for observed classes. No gate closes.
+This is a decision-support simulation pipeline. No simulation values change
+(config stays at 10 min headway, 500 pax capacity). The parameter_sources.csv
+adds evidence rows documenting derived values alongside simulation defaults.
+No gate closes, no calibration claim, no acceptance artifact created.
 
 ## Context
 
-Speed evidence candidates table (`road_speed_evidence_candidates.csv`):
-- 5 classes with observed OSM maxspeed tags (`maxspeed_observed_count > 0`):
-  residential, tertiary, secondary, primary, trunk
-- 5 classes without: trunk_link, primary_link, secondary_link, unclassified,
-  tertiary_link
+Current parameter_sources.csv (31 rows) has rail parameters as expert
+assumption. After U3/U4:
+- rail_headway: 3.583 min derived from KTDB GTFS timetable
+  (rail_service_evidence.csv row 2, source_artifact_sha256 verified)
+- rail_capacity: 922 pax from Metro9 operator page
+  (rail_service_evidence.csv row 3, source_artifact_sha256 verified)
+- rail_travel_time: still assumption (GTFS derivation attempted in U5,
+  feed was not a real GTFS feed)
 
-Draft CSV is loaded via `load_road_class_overrides` so `speed_source_class`
-must be in `ALLOWED_SOURCE_CLASSES`. Use `public-data-derived` (not
-`observed_osm_tag` which is not an allowed value).
+After U6:
+- road_free_flow_speed: 5/10 highway classes have observed OSM maxspeed
+  tags; draft override template marks them public-data-derived but the
+  override is not applied (simulation uses mapper defaults).
 
-Row-level `source_class` stays `expert assumption` for all 10 rows because
-capacity and base_p_fail are still assumptions.
+The parameter audit (`audit_parameter_evidence.py`) reads
+parameter_sources.csv and picks the strongest source_class per parameter
+when multiple rows exist.
 
 ## Steps
 
-### Step 1: Modify `_template_row` in `road_override_template.py`
+### Step 1: Update parameter_sources.csv
 
-Add logic: if `maxspeed_parseable_rate > 0`, set speed field source to
-`public-data-derived` with name/citation pointing to the speed evidence
-candidates table. Otherwise keep `expert assumption`.
+Add derived evidence rows:
+- rail_headway: 3.583 min, agency/timetable-derived, KTDB GTFS
+- rail_capacity: 922 pax, public-data-derived, Metro9 operator page
 
-### Step 2: Regenerate draft CSV
+Update notes for:
+- rail_travel_time: mention GTFS derivation attempted, no real feed found
+- road_free_flow_speed: mention 5/10 classes have observed maxspeed
 
-Run `write_road_class_override_template.py --overwrite`.
+### Step 2: Regenerate parameter packet chain
+
+1. audit_parameter_evidence.py
+2. write_parameter_review_packet.py
+3. write_parameter_evidence_source_request_packet.py
+4. write_parameter_source_readiness_packet.py
+5. write_parameter_evidence_priority_packet.py
 
 ### Step 3: Verify audit + tests
 
-Run road override audit, template tests, plan audit, road evidence tests.
-Confirm 5 rows now have `speed_source_class=public-data-derived` and 5 have
-`expert assumption`.
+Run parameter audit, plan audit, publication gate check, study-closeout
+gate check, parameter review packet tests. Confirm rail_headway and
+rail_capacity are now source-backed in the audit.
 
 ## Stop Conditions
 
-1. 5/10 rows classified `speed_source_class=public-data-derived`.
-2. 5/10 rows remain `speed_source_class=expert assumption`.
-3. Row-level `source_class` stays `expert assumption` for all 10.
+1. parameter_sources.csv has derived rail evidence rows.
+2. Parameter audit shows rail_headway and rail_capacity as source-backed.
+3. Priority packet regenerated with updated statuses.
 4. Claim guard clean, affected tests pass.
 
 ## Sub-Agent Review Plan
 
 After execution, spawn a read-only reviewer to confirm:
-- The 5 observed classes match the speed evidence candidates table.
-- No speed values were changed (mapper defaults retained).
-- Row-level source_class stays expert assumption for all 10 rows.
+- Derived rail values match rail_service_evidence.csv.
+- Simulation config values unchanged.
+- road_free_flow_speed stays expert assumption (draft not applied).
 - No gate closes or overclaims.
