@@ -8,7 +8,7 @@ Parameter source-decision packet only; not source evidence, not approved paramet
 - Can mark complete: `false`
 - Parameter acceptance present: `false`
 - Decision rows: 7
-- Weak parameters covered: 23
+- Weak parameters covered: 21
 - Blocking decisions: 0
 - Human-review decisions: 7
 

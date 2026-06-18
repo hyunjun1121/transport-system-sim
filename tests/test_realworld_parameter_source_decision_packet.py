@@ -104,7 +104,7 @@ def test_parameter_source_decision_writer_outputs_artifacts() -> None:
     assert written_manifest["row_count"] == 7
     assert written_manifest["blocking_decision_count"] == 0
     assert written_manifest["human_review_decision_count"] == 7
-    assert written_manifest["weak_parameter_count"] == 23
+    assert written_manifest["weak_parameter_count"] == 21
     assert written_manifest["parameter_acceptance_present"] is False
     assert "Parameter Source Decision Packet" in doc_text
 

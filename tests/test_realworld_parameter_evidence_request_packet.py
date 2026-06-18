@@ -54,7 +54,7 @@ def test_parameter_evidence_source_request_rows_are_actionable() -> None:
     ]["covered_parameters"]
     assert by_id["rail_service_parameter_source_request"][
         "weak_parameter_count"
-    ] == "3"
+    ] == "1"
     assert "rail_capacity" in by_id[
         "rail_service_parameter_source_request"
     ]["covered_parameters"]

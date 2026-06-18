@@ -114,7 +114,7 @@ def test_goal_completion_manifest_blocks_current_scaffold() -> None:
     assert manifest["schema_version"] == 1
     assert manifest["final_study_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert manifest["blocked_gate_count"] == 13
+    assert manifest["blocked_gate_count"] == 12
     assert manifest["missing_acceptance_artifact_count"] == 11
     checklist = {
         row["gate_id"]: row

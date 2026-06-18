@@ -1,19 +1,24 @@
 {
   "can_mark_complete": false,
   "category_counts": {
-    "generated_result": 15,
-    "root_document_or_config": 1
+    "data_or_manifest": 7,
+    "documentation": 3,
+    "root_document_or_config": 1,
+    "test": 3
   },
   "claim_boundary": "This ledger classifies current dirty and untracked worktree paths for sprint-safety planning. It does not commit files, clean the worktree, approve reproducibility, permit generated-output promotion, or close final-study gates.",
-  "classified_path_count": 16,
+  "classified_path_count": 14,
   "destructive_cleanup_allowed": false,
-  "dirty_path_count": 16,
+  "dirty_path_count": 14,
   "evidence_status_counts": {
+    "changed_claim_text_requires_claim_boundary_review": 2,
+    "changed_code_or_test_requires_diff_and_test_review": 3,
+    "changed_generated_or_evidence_artifact_requires_manifest_review": 5,
     "changed_path_requires_main_thread_review": 1,
-    "untracked_requires_owner_and_package_decision": 15
+    "self_generated_classification_output": 3
   },
   "final_study_ready": false,
-  "generated_at": "2026-06-18T03:29:08+00:00",
+  "generated_at": "2026-06-18T03:53:24+00:00",
   "git_status_failed": false,
   "new_generated_output_allowed": false,
   "outputs": {
@@ -22,30 +27,33 @@
     "manifest": "data/validation/dirty_worktree_classification_manifest.json"
   },
   "owner_counts": {
-    "artifact_lineage_owner_required": 15,
+    "artifact_lineage_owner_required": 7,
+    "claim_document_owner_required": 3,
+    "implementation_owner_required": 3,
     "main_thread_owner_required": 1
   },
   "phase_counts": {
-    "experiment_output_phase_requires_manifest_review": 15,
-    "phase0_baseline_and_worktree_safety": 1
+    "evidence_or_manifest_phase_requires_source_review": 5,
+    "phase0_baseline_and_worktree_safety": 1,
+    "phase0_dirty_worktree_classification": 2,
+    "phase11_claim_and_package_review": 3,
+    "verification_phase_requires_scope_assignment": 3
   },
   "remaining_blockers": [
+    "data/manifests/source_context_hash_audit.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/parameter_source_decision_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/parameter_source_decision_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/dirty_worktree_classification.csv: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
+    "data/validation/dirty_worktree_classification_manifest.json: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
+    "data/validation/policy_feasibility_fairness_table.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/reproducibility_decision_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "docs/dirty_worktree_classification.md: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
+    "docs/parameter_source_decision_packet.md: Run claim-boundary review before report, package, or final-study use.",
+    "docs/reproducibility_decision_packet.md: Run claim-boundary review before report, package, or final-study use.",
     "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "results/realworld_pilot/full_graph_figures/bottleneck_attribution.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_figures/censored_by_disruption.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_figures/completion_by_disruption.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_figures/policy_regime_map.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_figures/policy_resource_tradeoff.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_figures/sensitivity_ranking.png: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/bottleneck_attribution_table.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/claim_boundary_table.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/figure_table_manifest.json: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/main_result_table.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/policy_regime_table.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/full_graph_tables/sensitivity_result_table.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_metric_ci.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_paired_delta_ci.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_statistics_manifest.json: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion."
+    "tests/test_realworld_goal_completion_audit.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "tests/test_realworld_parameter_evidence_request_packet.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "tests/test_realworld_parameter_source_decision_packet.py: Inspect diff, run narrow tests, and record owner before broader work."
   ],
   "schema_version": 1,
   "unclassified_path_count": 0

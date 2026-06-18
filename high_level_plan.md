@@ -94,7 +94,7 @@ manuscript_report, experiment_package, rail_evidence, road_evidence,
 integrated_evidence, upstream_lineage. Dep: #1-#8. Impact: reviewer
 decision-ready intake.
 
-### 10. Result regeneration (conditional) [ ]
+### 10. Result regeneration (conditional) [x]
 If #8 produced new results OR evidence changed assumptions: regenerate
 truth table, statistics, figures. If nothing changed: skip, document why.
 Dep: #8 outcome.
