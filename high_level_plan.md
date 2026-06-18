@@ -99,7 +99,7 @@ If #8 produced new results OR evidence changed assumptions: regenerate
 truth table, statistics, figures. If nothing changed: skip, document why.
 Dep: #8 outcome.
 
-### 11. Full verification [ ]
+### 11. Full verification [x]
 Run 163 tests in batches. Claim guard: blocking=0, release_blocked=false.
 Record ready/blocked gate counts. Refresh dirty-worktree classification +
 plan audit test. Dep: #1-#10.

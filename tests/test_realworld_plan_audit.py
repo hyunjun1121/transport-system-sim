@@ -259,11 +259,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "formal_acceptance_blocker_queue" and row["rows"] == 18
+        row["label"] == "formal_acceptance_blocker_queue" and row["rows"] == 15
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "acceptance_task_assignments" and row["rows"] == 18
+        row["label"] == "acceptance_task_assignments" and row["rows"] == 15
         for row in summary["csv_checks"]
     )
     assert any(

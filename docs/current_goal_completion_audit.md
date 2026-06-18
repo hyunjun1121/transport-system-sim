@@ -1,6 +1,6 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-06-17
+Audit date: 2026-06-18
 
 ## Objective
 
@@ -10,8 +10,8 @@ Implement every requirement planned in plan.md for the closeout real-world or qu
 
 - Final-study ready: `false`
 - Verdict: `final_real_world_study_blocked`
-- Ready gates: 2 / 15
-- Blocked gates: 13 / 15
+- Ready gates: 3 / 15
+- Blocked gates: 12 / 15
 
 This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.
 
@@ -24,14 +24,14 @@ The active objective is complete only when every final-study gate below is ready
 | Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
 | --- | --- | --- | --- |
 | Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+6 more | blocked requirement: create an explicit pilot acceptance record after privacy and case-scope review<br>blocked requirement: resolve pilot-region decision blockers before pilot acceptance<br>blocked requirement: pilot-region decision: data/manifests/graph_scale_acceptance.json is absent<br>+3 more |
-| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+29 more | blocked requirement: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>blocked requirement: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>blocked requirement: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+16 more |
+| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+29 more | blocked requirement: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>blocked requirement: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>blocked requirement: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+13 more |
 | Real Input Smoke | scaffold_unblocked | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
 | Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | blocked requirement: create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>blocked requirement: resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>blocked requirement: graph-scale strategy readiness: full bus-practical graph has smoke evidence only<br>+10 more |
 | Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+30 more | blocked requirement: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>blocked requirement: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>blocked requirement: source provenance priority: formal provenance acceptance record is absent<br>+18 more |
 | Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/transfer_evidence_review_packet.csv<br>+20 more | blocked requirement: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>blocked requirement: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>blocked requirement: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+14 more |
-| Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+31 more | blocked requirement: rail service evidence: cache timetable, shortest-path, or GTFS-derived records<br>blocked requirement: rail service evidence: derive headway and travel time from the cached records<br>blocked requirement: rail fetch readiness: source-backed rail timing evidence remains incomplete until every required timing source is reviewed and retained<br>+32 more |
+| Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+31 more | blocked requirement: rail service evidence: derive headway and travel time from the cached records<br>blocked requirement: rail fetch readiness: source-backed rail timing evidence remains incomplete until every required timing source is reviewed and retained<br>blocked requirement: rail fetch readiness: API-key rows require DATA_GO_KR_KEY or reviewed cached API payloads<br>+31 more |
 | Validation Package | blocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+25 more | blocked requirement: create an explicit validation acceptance record after benchmark-strategy review<br>blocked requirement: resolve validation strategy-readiness blockers before validation acceptance<br>blocked requirement: validation strategy readiness: validation_acceptance.json is absent<br>+8 more |
-| Structured Disruptions | blocked | data/scenarios/disruption_scenarios.csv<br>data/scenarios/disruption_scenarios_manifest.json | blocked requirement: write disruption_scenarios_manifest.json with matching CSV SHA256, row count, and bounded claim flags |
+| Structured Disruptions | scaffold_unblocked | data/scenarios/disruption_scenarios.csv<br>data/scenarios/disruption_scenarios_manifest.json | none recorded |
 | Policy Alternatives | scaffold_unblocked | data/scenarios/policy_alternatives.csv | none recorded |
 | Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+17 more | blocked requirement: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>blocked requirement: resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>blocked requirement: sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph<br>+5 more |
 | Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+10 more | blocked requirement: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>blocked requirement: resolve experiment strategy-readiness blockers before experiment acceptance<br>blocked requirement: experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated<br>+12 more |
@@ -60,7 +60,7 @@ These files are required before closeout completion can be claimed. Missing file
 | `data/manifests/graph_scale_acceptance.json` | missing or intentionally absent |
 | `data/manifests/provenance_acceptance.json` | missing or intentionally absent |
 | `data/parameters/parameter_acceptance.csv` | missing or intentionally absent |
-| `data/parameters/road_class_overrides.csv` | present |
+| `data/parameters/road_class_overrides.csv` | missing or intentionally absent |
 | `data/manifests/validation_acceptance.json` | missing or intentionally absent |
 | `data/manifests/sensitivity_acceptance.json` | missing or intentionally absent |
 | `data/manifests/experiment_acceptance.json` | missing or intentionally absent |
@@ -148,7 +148,7 @@ This audit checks whether sub-agent records cite existing local review inputs or
 
 - Review records: 12
 - Missing required paths: 0
-- Missing formal targets: 33
+- Missing formal targets: 36
 - Agent review paths ready: `true`
 - Can mark complete: `false`
 
@@ -177,7 +177,7 @@ The handoff sidecar records the final ZIP checksum and send-list outside the ZIP
 - ZIP SHA256: recorded in `review_packages/expert_review_handoff_20260510.md` and `review_packages/expert_review_handoff_20260510.json` outside the ZIP
 - Mirror ZIP matches: `true`
 - Formal acceptance ready: `false`
-- Missing formal targets: 11 / 12
+- Missing formal targets: 12 / 12
 - Can mark complete: `false`
 
 This handoff note identifies the external review ZIP and sidecar files. It does not validate evidence quality, approve formal acceptance records, certify calibration, or close final-study gates.
@@ -187,8 +187,8 @@ This handoff note identifies the external review ZIP and sidecar files. It does 
 The guard checks that formal acceptance paths do not contain copied templates, placeholders, draft overrides, or current-state audit text masquerading as final approval.
 
 - Formal artifact count: 12
-- Present formal artifacts: 1
-- Missing formal artifacts: 11
+- Present formal artifacts: 0
+- Missing formal artifacts: 12
 - Template or placeholder artifacts detected: 0
 - Formal acceptance ready: `false`
 - Can mark complete: `false`
@@ -200,11 +200,11 @@ This guard detects placeholder/template misuse in formal acceptance paths. It do
 The evidence-path audit checks reviewer-supplied formal artifacts for missing local evidence, unresolved placeholders, empty evidence records, and external references that still require source/license review. It is necessary hygiene only and cannot certify evidence sufficiency.
 
 - Formal artifact paths checked: 11
-- Present formal artifacts checked: 1
+- Present formal artifacts checked: 0
 - Evidence items found: 0
 - Missing local evidence paths: 0
 - Placeholder evidence values: 0
-- Empty evidence records: 1
+- Empty evidence records: 0
 - Formal evidence paths ready: `false`
 - Can mark complete: `false`
 

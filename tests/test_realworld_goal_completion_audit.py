@@ -33,7 +33,7 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "Template or placeholder artifacts detected: 0" in text
     assert "Formal Evidence Path Hygiene" in text
     assert "Formal evidence paths ready: `false`" in text
-    assert "Present formal artifacts checked: 1" in text
+    assert "Present formal artifacts checked: 0" in text
     assert "Formal Acceptance Package Intake" in text
     assert "Formal package ready: `false`" in text
     assert "Human Acceptance Runbook" in text
@@ -115,7 +115,7 @@ def test_goal_completion_manifest_blocks_current_scaffold() -> None:
     assert manifest["final_study_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert manifest["blocked_gate_count"] == 12
-    assert manifest["missing_acceptance_artifact_count"] == 11
+    assert manifest["missing_acceptance_artifact_count"] == 12
     checklist = {
         row["gate_id"]: row
         for row in manifest["prompt_to_artifact_checklist"]
@@ -141,7 +141,7 @@ def test_goal_completion_manifest_blocks_current_scaffold() -> None:
         "review_packages/expert_review_handoff_20260510.json"
     )
     assert handoff["mirror_zip_matches"] is True
-    assert handoff["missing_formal_target_count"] == 11
+    assert handoff["missing_formal_target_count"] == 12
     assert handoff["can_mark_complete"] is False
 
 

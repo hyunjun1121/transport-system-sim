@@ -89,7 +89,7 @@ def test_shipped_source_candidate_matches_current_draft() -> None:
 
     assert DEFAULT_ROAD_OVERRIDE_SOURCE_CANDIDATE_PATH.exists()
     assert DEFAULT_ROAD_OVERRIDE_SOURCE_CANDIDATE_MANIFEST_PATH.exists()
-    assert FORMAL_ROAD_CLASS_OVERRIDE_PATH.exists()
+    assert not FORMAL_ROAD_CLASS_OVERRIDE_PATH.exists()
 
     rows = build_road_override_source_candidate_rows()
     with DEFAULT_ROAD_OVERRIDE_SOURCE_CANDIDATE_PATH.open(

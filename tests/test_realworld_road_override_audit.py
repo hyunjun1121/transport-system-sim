@@ -28,9 +28,7 @@ def test_missing_default_override_table_is_reported_not_failed() -> None:
     summary = audit_road_class_override_evidence()
 
     assert summary["publication_ready"] is False
-    assert summary["override_table_present"] is True
-    assert summary["publication_ready"] is False
-    assert summary["row_count"] == 10
+    assert summary["override_table_present"] is False
     assert summary["remaining_blockers"]
 
     print("PASS: missing reviewed override table is reported with draft context")

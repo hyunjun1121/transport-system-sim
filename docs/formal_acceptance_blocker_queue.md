@@ -4,7 +4,7 @@ Formal decision blocker queue only. Rows are work items for reviewers; they do n
 
 ## Summary
 
-- Queue rows: 18
+- Queue rows: 15
 - Formal decision ready: `false`
 - Study-closeout ready: `false`
 - Can mark complete: `false`
@@ -19,12 +19,9 @@ Formal decision blocker queue only. Rows are work items for reviewers; they do n
 | data_provenance | create_or_supply_formal_evidence | `data/manifests/provenance_acceptance.json` | `docs/review_packets/data_provenance.md` | create an explicit provenance decision record after source, license, snapshot, privacy, and reproducibility review |
 | parameter_acceptance | create_or_supply_formal_evidence | `data/parameters/parameter_acceptance.csv` | `docs/review_packets/parameter_evidence.md` | create reviewed parameter decision rows only for weak assumptions retained in release-scope claims |
 | parameter_acceptance | create_or_supply_formal_evidence | `data/parameters/parameter_acceptance.csv` | `docs/review_packets/parameter_evidence.md` | parameter_acceptance.csv is missing |
-| road_class_overrides | replace_weak_or_scaffold_evidence | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed |
-| road_class_overrides | apply_reviewed_input_and_regenerate | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | verify graph-adapter runs apply the reviewed override table before using road-calibration claims |
-| road_class_overrides | resolve_blocker | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | accepted pilot manifest does not record road_class_overrides_applied: true |
-| road_class_overrides | resolve_blocker | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | accepted pilot manifest does not record road_class_overrides_path |
-| road_class_overrides | resolve_blocker | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | accepted pilot manifest does not record road_class_overrides_sha256 |
-| road_class_overrides | resolve_blocker | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | accepted pilot manifest graph_source does not record road_class_overrides |
+| road_class_overrides | replace_weak_or_scaffold_evidence | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence |
+| road_class_overrides | apply_reviewed_input_and_regenerate | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | apply the reviewed overrides when adapting the pilot graph if release-scope claims require field-fit road inputs |
+| road_class_overrides | create_or_supply_formal_evidence | `data/parameters/road_class_overrides.csv` | `docs/review_packets/cached_osm_input.md` | reviewed road-class override table is absent |
 | validation_package | create_or_supply_formal_evidence | `data/manifests/validation_acceptance.json` | `docs/review_packets/validation_package.md` | create an explicit benchmark decision record after benchmark-strategy review |
 | sensitivity_analysis | create_or_supply_formal_evidence | `data/manifests/sensitivity_acceptance.json` | `docs/review_packets/sensitivity_analysis.md` | create an explicit sensitivity decision record after SALib output and Sobol-decision review |
 | full_experiment_output | create_or_supply_formal_evidence | `data/manifests/experiment_acceptance.json` | `docs/review_packets/full_experiment_output.md` | create an explicit experiment decision record after input-evidence review, graph-scope, and scenario-policy-seed review |
