@@ -109,7 +109,7 @@ Spawn 2-3 read-only reviewers: evidence integrity, packet consistency,
 claim boundary. Expected: zero critical findings; fix cycle if any (max 3).
 Dep: #11.
 
-### 13. Closeout [ ]
+### 13. Closeout [x]
 Update status.md + AGENTS.md with Phase U results. Commit + push. Confirm
 final_study_ready value. Dep: #12.
 
