@@ -76,7 +76,7 @@ Update `road_class_overrides_draft.csv` to mark observed maxspeed rows
 signoff). Dep: none. Impact: weakens cached_osm_input blockers for
 observed classes.
 
-### 7. Parameter evidence priority refresh [ ]
+### 7. Parameter evidence priority refresh [x]
 Rerun `write_parameter_evidence_priority_packet.py` to reflect derived
 rail + refined road evidence. Dep: #3, #4, #6. Impact: parameter
 worksheet statuses update.

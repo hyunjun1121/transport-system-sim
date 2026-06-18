@@ -17,6 +17,7 @@ from src.realworld.pilot_experiments import (
     DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_MANIFEST_PATH,
     DEFAULT_ARTIFACT_INVALIDATION_MANIFEST_PATH,
     DEFAULT_FULL_PROFILE_ID,
+    DEFAULT_FULL_GRAPH_PROFILE_ID,
     DEFAULT_MULTI_CORRIDOR_FULL_PROFILE_ID,
     DEFAULT_MULTI_CORRIDOR_PROFILE_ID,
     DEFAULT_OUTPUT_DIR,
@@ -110,6 +111,14 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         help=(
             "Run the full-scale multi-corridor candidate profile for "
             "graph-scale review."
+        ),
+    )
+    profile_group.add_argument(
+        "--full-graph",
+        action="store_true",
+        help=(
+            "Run the full bus-practical graph (4,608 nodes) feasibility "
+            "probe for graph-scale review."
         ),
     )
     profile_group.add_argument(
@@ -236,6 +245,8 @@ def _resolve_profile_arg(args: argparse.Namespace) -> str:
         return DEFAULT_MULTI_CORRIDOR_PROFILE_ID
     if args.multi_corridor_full:
         return DEFAULT_MULTI_CORRIDOR_FULL_PROFILE_ID
+    if args.full_graph:
+        return DEFAULT_FULL_GRAPH_PROFILE_ID
     if args.full or args.all:
         return DEFAULT_FULL_PROFILE_ID
     return DEFAULT_SAMPLE_PROFILE_ID
