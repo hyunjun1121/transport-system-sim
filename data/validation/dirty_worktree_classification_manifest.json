@@ -1,24 +1,21 @@
 {
   "can_mark_complete": false,
   "category_counts": {
-    "data_or_manifest": 1,
-    "generated_result": 4,
-    "realworld_code": 1,
-    "root_document_or_config": 1,
-    "script": 1
+    "data_or_manifest": 9,
+    "documentation": 1,
+    "root_document_or_config": 1
   },
   "claim_boundary": "This ledger classifies current dirty and untracked worktree paths for sprint-safety planning. It does not commit files, clean the worktree, approve reproducibility, permit generated-output promotion, or close final-study gates.",
-  "classified_path_count": 8,
+  "classified_path_count": 11,
   "destructive_cleanup_allowed": false,
-  "dirty_path_count": 8,
+  "dirty_path_count": 11,
   "evidence_status_counts": {
-    "changed_code_or_test_requires_diff_and_test_review": 2,
-    "changed_generated_or_evidence_artifact_requires_manifest_review": 1,
-    "changed_path_requires_main_thread_review": 1,
-    "untracked_requires_owner_and_package_decision": 4
+    "changed_claim_text_requires_claim_boundary_review": 1,
+    "changed_generated_or_evidence_artifact_requires_manifest_review": 9,
+    "changed_path_requires_main_thread_review": 1
   },
   "final_study_ready": false,
-  "generated_at": "2026-06-18T03:22:51+00:00",
+  "generated_at": "2026-06-18T03:26:51+00:00",
   "git_status_failed": false,
   "new_generated_output_allowed": false,
   "outputs": {
@@ -27,25 +24,28 @@
     "manifest": "data/validation/dirty_worktree_classification_manifest.json"
   },
   "owner_counts": {
-    "artifact_lineage_owner_required": 5,
-    "implementation_owner_required": 2,
+    "artifact_lineage_owner_required": 9,
+    "claim_document_owner_required": 1,
     "main_thread_owner_required": 1
   },
   "phase_counts": {
-    "evidence_or_manifest_phase_requires_source_review": 1,
-    "experiment_output_phase_requires_manifest_review": 4,
-    "implementation_phase_requires_scope_assignment": 2,
-    "phase0_baseline_and_worktree_safety": 1
+    "evidence_or_manifest_phase_requires_source_review": 7,
+    "phase0_baseline_and_worktree_safety": 1,
+    "phase11_claim_and_package_review": 1,
+    "phase9_artifact_invalidation_closeout": 2
   },
   "remaining_blockers": [
-    "data/manifests/pilot_experiment_design.json: Verify source lineage, row counts, hashes, and invalidation status.",
-    "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "scripts/run_pilot_experiments.py: Inspect diff, run narrow tests, and record owner before broader work.",
-    "src/realworld/pilot_experiments.py: Inspect diff, run narrow tests, and record owner before broader work.",
-    "results/realworld_pilot/pilot_full_graph_manifest.json: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_output_lock_receipt.json: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_results.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "results/realworld_pilot/pilot_full_graph_summary.csv: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion."
+    "data/manifests/claim_alignment_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/manifests/manuscript_report_decision_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/road_evidence_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/artifact_invalidation_upstream_lineage_review_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/artifact_invalidation_upstream_lineage_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/graph_scale_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/graph_scale_strategy_readiness_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/reproducibility_review_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/validation/reproducibility_review_packet.csv: Verify source lineage, row counts, hashes, and invalidation status.",
+    "docs/manuscript_report_decision_packet.md: Run claim-boundary review before report, package, or final-study use.",
+    "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work."
   ],
   "schema_version": 1,
   "unclassified_path_count": 0

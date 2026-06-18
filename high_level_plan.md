@@ -81,7 +81,7 @@ Rerun `write_parameter_evidence_priority_packet.py` to reflect derived
 rail + refined road evidence. Dep: #3, #4, #6. Impact: parameter
 worksheet statuses update.
 
-### 8. Full-graph experiment feasibility probe [ ]
+### 8. Full-graph experiment feasibility probe [x]
 Multi-corridor-full already done (2.2 MB). Probe full bus-practical graph
 (4,608 nodes) with reduced seeds first; scale to 30 seeds only if bounded.
 If tractable: write `pilot_full_graph_*` outputs. If not: document runtime

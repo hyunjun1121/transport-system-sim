@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 8
-- Classified paths: 8
+- Dirty paths: 11
+- Classified paths: 11
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -15,14 +15,17 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/pilot_experiment_design.json` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/claim_alignment_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/manuscript_report_decision_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/parameters/road_evidence_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | phase9_artifact_invalidation_closeout | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/artifact_invalidation_upstream_lineage_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | phase9_artifact_invalidation_closeout | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/artifact_invalidation_upstream_lineage_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/graph_scale_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/graph_scale_strategy_readiness_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
+| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/manuscript_report_decision_packet.md` | Run claim-boundary review before report or package use. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
-| M | implementation_owner_required | implementation_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `scripts/run_pilot_experiments.py` | Inspect diff, run narrow tests, and record owner before broader work. |
-| M | implementation_owner_required | implementation_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `src/realworld/pilot_experiments.py` | Inspect diff, run narrow tests, and record owner before broader work. |
-| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_manifest.json` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
-| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_output_lock_receipt.json` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
-| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_results.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
-| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_summary.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
 
 ## Use
 
