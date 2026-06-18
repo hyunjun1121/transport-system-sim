@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 3
-- Classified paths: 3
+- Dirty paths: 2
+- Classified paths: 2
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -16,7 +16,6 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `agents.md` | Inspect and assign owner before cleanup or new generated-output work. |
-| M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `status.md` | Inspect and assign owner before cleanup or new generated-output work. |
 
 ## Use

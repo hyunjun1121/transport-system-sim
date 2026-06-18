@@ -12,7 +12,7 @@
 
 - `final_study_ready=false`
 - Gate count: 15
-- Ready gates: 3/15: `real_input_smoke`, `structured_disruptions`, `policy_alternatives`
+- Unblocked gates: 3/15: `real_input_smoke`, `structured_disruptions`, `policy_alternatives`
 - Blocked gates: 12/15: `pilot_region_accepted`, `cached_osm_input`, `graph_scale_strategy`, `data_provenance`, `parameter_evidence`, `rail_evidence`, `validation_package`, `sensitivity_analysis`, `full_experiment_output`, `manuscript_report_alignment`, `reproducibility`, `final_audit`
 - Formal acceptance: 0/12 (all 12 formal artifacts intentionally absent until reviewer signoff)
 - `publication_ready=false`

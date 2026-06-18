@@ -55,7 +55,7 @@ human-signoff acceptance artifacts.
 
 ### Gate Status
 
-- Ready: 3/15 (`real_input_smoke`, `structured_disruptions`,
+- Unblocked: 3/15 (`real_input_smoke`, `structured_disruptions`,
   `policy_alternatives`)
 - Blocked: 12/15 (all require human-signoff `*_acceptance.json` artifacts)
 - Formal acceptance artifacts: 0/12 present (all intentionally absent)

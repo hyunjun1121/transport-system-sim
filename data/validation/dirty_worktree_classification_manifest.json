@@ -1,17 +1,17 @@
 {
   "can_mark_complete": false,
   "category_counts": {
-    "root_document_or_config": 3
+    "root_document_or_config": 2
   },
   "claim_boundary": "This ledger classifies current dirty and untracked worktree paths for sprint-safety planning. It does not commit files, clean the worktree, approve reproducibility, permit generated-output promotion, or close final-study gates.",
-  "classified_path_count": 3,
+  "classified_path_count": 2,
   "destructive_cleanup_allowed": false,
-  "dirty_path_count": 3,
+  "dirty_path_count": 2,
   "evidence_status_counts": {
-    "changed_path_requires_main_thread_review": 3
+    "changed_path_requires_main_thread_review": 2
   },
   "final_study_ready": false,
-  "generated_at": "2026-06-18T05:36:00+00:00",
+  "generated_at": "2026-06-18T05:37:29+00:00",
   "git_status_failed": false,
   "new_generated_output_allowed": false,
   "outputs": {
@@ -20,14 +20,13 @@
     "manifest": "data/validation/dirty_worktree_classification_manifest.json"
   },
   "owner_counts": {
-    "main_thread_owner_required": 3
+    "main_thread_owner_required": 2
   },
   "phase_counts": {
-    "phase0_baseline_and_worktree_safety": 3
+    "phase0_baseline_and_worktree_safety": 2
   },
   "remaining_blockers": [
     "agents.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work.",
     "status.md: Inspect and assign owner before cleanup or new generated-output work."
   ],
   "schema_version": 1,
