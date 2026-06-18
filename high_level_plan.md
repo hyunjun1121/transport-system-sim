@@ -63,7 +63,7 @@ flag + source SHA256. Check `cache_metro9_capacity_source.py`; add thin
 derive wrapper if needed. Dep: none. Impact: rail_evidence capacity
 blockers weaken.
 
-### 5. Rail GTFS derivation attempt [ ]
+### 5. Rail GTFS derivation attempt [x]
 KTDB extract is metadata only, not a feed. Run
 `derive_rail_gtfs_evidence.py`; expected documented "feed absent" result.
 Ensure rail fetch readiness packet shows clean "GTFS attempted, feed

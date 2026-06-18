@@ -1,72 +1,62 @@
-# Unit 5: Rail GTFS Derivation Attempt
+# Unit 6: Road Override Candidate Refinement
 
 ## Mission
 
-Document that GTFS-derived rail timing evidence cannot be produced from the
-current cached KTDB source. The KTDB extract is a metadata-only CSV, not a
-GTFS feed (no stops.txt, trips.txt, stop_times.txt). Attempt the derivation
-script to confirm the failure mode, then record the attempt result so the
-rail fetch preflight packet and source decision packet reflect a documented
-"GTFS attempted, feed absent" state.
+Update `road_class_overrides_draft.csv` to classify the 5 highway classes with
+observed OSM maxspeed tags as `speed_source_class=public-data-derived`. The
+remaining 5 classes (no observed tags) stay as `expert assumption`. Do NOT
+create `road_class_overrides.csv` (human signoff).
 
 ## Claim Boundary
 
-This is a decision-support simulation pipeline. GTFS derivation is attempted
-on cached metadata only; no live API calls, no fabricated GTFS rows, no rail
-timing evidence creation. The attempt record is documentation only and does
-not close the rail evidence gate or any study-closeout gate.
+This is a decision-support simulation pipeline. The draft CSV remains a
+reviewer worksheet. No speed value changes (mapper defaults retained); only
+the speed source classification changes for observed classes. No gate closes.
 
 ## Context
 
-- Cached KTDB source: `data/rail/ktdb_gtfs_source_extract.csv` (1 row,
-  metadata-only, review_status=`cached_ktdb_metadata_pending_review`).
-- Derivation script: `scripts/derive_rail_gtfs_evidence.py` requires a GTFS
-  zip or directory with `stops.txt`, `trips.txt`, `stop_times.txt`.
-- Rail fetch preflight row 5 (`rail_static_gtfs_timing_request`) already
-  shows `readiness_status=blocked_missing_reviewed_gtfs_file`.
+Speed evidence candidates table (`road_speed_evidence_candidates.csv`):
+- 5 classes with observed OSM maxspeed tags (`maxspeed_observed_count > 0`):
+  residential, tertiary, secondary, primary, trunk
+- 5 classes without: trunk_link, primary_link, secondary_link, unclassified,
+  tertiary_link
+
+Draft CSV is loaded via `load_road_class_overrides` so `speed_source_class`
+must be in `ALLOWED_SOURCE_CLASSES`. Use `public-data-derived` (not
+`observed_osm_tag` which is not an allowed value).
+
+Row-level `source_class` stays `expert assumption` for all 10 rows because
+capacity and base_p_fail are still assumptions.
 
 ## Steps
 
-### Step 1: Attempt derivation against cached metadata
+### Step 1: Modify `_template_row` in `road_override_template.py`
 
-Run `derive_rail_gtfs_evidence.py --input data/rail/ktdb_gtfs_source_extract.csv`.
-Expect ValueError (not a GTFS zip or directory). Capture the error message.
+Add logic: if `maxspeed_parseable_rate > 0`, set speed field source to
+`public-data-derived` with name/citation pointing to the speed evidence
+candidates table. Otherwise keep `expert assumption`.
 
-### Step 2: Record GTFS attempt result in an audit manifest
+### Step 2: Regenerate draft CSV
 
-Write `scripts/record_gtfs_derivation_attempt.py` that:
-- Loads the cached KTDB extract path.
-- Attempts `load_cached_gtfs_feed()`.
-- Records the result in `data/rail/gtfs_derivation_attempt_manifest.json`
-  with: input_path, input_sha256, input_is_gtfs_feed (false),
-  gtfs_feed_files_present ([]), failure_reason, conclusion, claim_boundary.
-- conclusion: "GTFS derivation attempted; cached KTDB extract is metadata
-  only, not a GTFS feed; rail timing evidence via GTFS remains blocked".
+Run `write_road_class_override_template.py --overwrite`.
 
-### Step 3: Regenerate rail fetch preflight packet
+### Step 3: Verify audit + tests
 
-Re-run `write_rail_fetch_readiness_packet.py` to confirm the packet still
-reflects `blocked_missing_reviewed_gtfs_file` with row 5 intact.
-
-### Step 4: Add tests for the attempt manifest
-
-Write `tests/test_realworld_gtfs_derivation_attempt.py` that:
-- Asserts the shipped manifest records `input_is_gtfs_feed=false`.
-- Asserts `gtfs_feed_files_present=[]`.
-- Asserts the conclusion contains "metadata only" and "not a GTFS feed".
-- Asserts the manifest SHA256 matches the current cached extract.
-- Asserts a directory with all required GTFS files is classified as a feed.
+Run road override audit, template tests, plan audit, road evidence tests.
+Confirm 5 rows now have `speed_source_class=public-data-derived` and 5 have
+`expert assumption`.
 
 ## Stop Conditions
 
-1. GTFS derivation attempt executed and failure captured.
-2. Attempt manifest written with honest "feed absent" conclusion.
-3. Rail fetch preflight packet still shows blocked GTFS row.
+1. 5/10 rows classified `speed_source_class=public-data-derived`.
+2. 5/10 rows remain `speed_source_class=expert assumption`.
+3. Row-level `source_class` stays `expert assumption` for all 10.
 4. Claim guard clean, affected tests pass.
 
 ## Sub-Agent Review Plan
 
 After execution, spawn a read-only reviewer to confirm:
-- The attempt manifest honestly records the failure mode.
-- No evidence is fabricated or overclaimed.
-- The fetch preflight packet remains correctly blocked.
+- The 5 observed classes match the speed evidence candidates table.
+- No speed values were changed (mapper defaults retained).
+- Row-level source_class stays expert assumption for all 10 rows.
+- No gate closes or overclaims.

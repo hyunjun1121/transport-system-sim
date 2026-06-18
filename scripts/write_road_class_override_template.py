@@ -18,6 +18,10 @@ from src.realworld.road_override_template import (
     build_road_class_override_template_rows,
     write_road_class_override_template,
 )  # noqa: E402
+from src.realworld.road_speed_evidence import (  # noqa: E402
+    DEFAULT_ROAD_SPEED_EVIDENCE_PATH,
+    load_observed_speed_classes,
+)
 
 
 DEFAULT_OUTPUT_PATH = ROOT / "data" / "parameters" / "road_class_overrides_draft.csv"
@@ -93,6 +97,9 @@ def main() -> int:
         diagnostics,
         include_low_priority=args.include_low_priority,
         top_n=args.top_n,
+        observed_speed_classes=load_observed_speed_classes(
+            DEFAULT_ROAD_SPEED_EVIDENCE_PATH,
+        ),
     )
     write_road_class_override_template(output_path, rows)
     print(

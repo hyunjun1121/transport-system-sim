@@ -30,12 +30,17 @@ def build_road_class_override_template_rows(
     *,
     include_low_priority: bool = False,
     top_n: int | None = None,
+    observed_speed_classes: set[str] | None = None,
 ) -> list[dict[str, str]]:
     """Return draft override rows for routeable highway classes needing review.
 
     The generated values intentionally mirror current mapper defaults and use
     ``expert assumption`` as the source class. They are review scaffolds, not
     publication-ready evidence.
+
+    When *observed_speed_classes* is provided, those highway classes are
+    marked ``public-data-derived`` for the speed field source, reflecting
+    observed OSM maxspeed tags on routeable edges.
     """
 
     rows = _diagnostic_rows(diagnostics)
@@ -64,7 +69,10 @@ def build_road_class_override_template_rows(
             raise ValueError("top_n must be positive when provided")
         candidates = candidates[:top_n]
 
-    return [_template_row(candidate) for candidate in candidates]
+    resolved_observed = observed_speed_classes or set()
+    return [
+        _template_row(candidate, resolved_observed) for candidate in candidates
+    ]
 
 
 def write_road_class_override_template(
@@ -93,9 +101,24 @@ def _diagnostic_rows(diagnostics: Mapping[str, Any]) -> list[Mapping[str, Any]]:
     return rows
 
 
-def _template_row(row: Mapping[str, Any]) -> dict[str, str]:
+def _template_row(
+    row: Mapping[str, Any],
+    observed_speed_classes: set[str],
+) -> dict[str, str]:
     highway = str(row["highway"]).strip().lower()
     defaults = HIGHWAY_DEFAULTS[highway]
+    if highway in observed_speed_classes:
+        speed_source_class = "public-data-derived"
+        speed_source_name = (
+            "cached OSM maxspeed tags; see road_speed_evidence_candidates.csv"
+        )
+        speed_source_citation = (
+            "data/parameters/road_speed_evidence_candidates.csv"
+        )
+    else:
+        speed_source_class = "expert assumption"
+        speed_source_name = "draft mapper speed default pending road-evidence review"
+        speed_source_citation = "src/realworld/attributes.py"
     return {
         "highway": highway,
         "speed_kph": _format_number(defaults.speed_kph),
@@ -104,9 +127,9 @@ def _template_row(row: Mapping[str, Any]) -> dict[str, str]:
         "source_class": "expert assumption",
         "source_name": "draft mapper default pending road-evidence review",
         "source_url_or_citation": "src/realworld/attributes.py",
-        "speed_source_class": "expert assumption",
-        "speed_source_name": "draft mapper speed default pending road-evidence review",
-        "speed_source_url_or_citation": "src/realworld/attributes.py",
+        "speed_source_class": speed_source_class,
+        "speed_source_name": speed_source_name,
+        "speed_source_url_or_citation": speed_source_citation,
         "capacity_source_class": "expert assumption",
         "capacity_source_name": "draft mapper capacity default pending road-evidence review",
         "capacity_source_url_or_citation": "src/realworld/attributes.py",

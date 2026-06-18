@@ -1,25 +1,24 @@
 {
   "can_mark_complete": false,
   "category_counts": {
-    "data_or_manifest": 6,
-    "documentation": 2,
-    "root_document_or_config": 5,
-    "script": 1,
-    "test": 1
+    "data_or_manifest": 3,
+    "documentation": 1,
+    "realworld_code": 2,
+    "root_document_or_config": 2,
+    "script": 1
   },
   "claim_boundary": "This ledger classifies current dirty and untracked worktree paths for sprint-safety planning. It does not commit files, clean the worktree, approve reproducibility, permit generated-output promotion, or close final-study gates.",
-  "classified_path_count": 15,
+  "classified_path_count": 9,
   "destructive_cleanup_allowed": false,
-  "dirty_path_count": 15,
+  "dirty_path_count": 9,
   "evidence_status_counts": {
-    "changed_claim_text_requires_claim_boundary_review": 1,
-    "changed_generated_or_evidence_artifact_requires_manifest_review": 3,
-    "changed_path_requires_main_thread_review": 4,
-    "self_generated_classification_output": 3,
-    "untracked_requires_owner_and_package_decision": 4
+    "changed_code_or_test_requires_diff_and_test_review": 3,
+    "changed_generated_or_evidence_artifact_requires_manifest_review": 1,
+    "changed_path_requires_main_thread_review": 2,
+    "self_generated_classification_output": 3
   },
   "final_study_ready": false,
-  "generated_at": "2026-06-18T00:01:53+00:00",
+  "generated_at": "2026-06-18T00:42:26+00:00",
   "git_status_failed": false,
   "new_generated_output_allowed": false,
   "outputs": {
@@ -28,35 +27,28 @@
     "manifest": "data/validation/dirty_worktree_classification_manifest.json"
   },
   "owner_counts": {
-    "artifact_lineage_owner_required": 6,
-    "claim_document_owner_required": 2,
-    "implementation_owner_required": 2,
-    "main_thread_owner_required": 5
+    "artifact_lineage_owner_required": 3,
+    "claim_document_owner_required": 1,
+    "implementation_owner_required": 3,
+    "main_thread_owner_required": 2
   },
   "phase_counts": {
-    "evidence_or_manifest_phase_requires_source_review": 4,
-    "implementation_phase_requires_scope_assignment": 1,
-    "phase0_baseline_and_worktree_safety": 4,
+    "evidence_or_manifest_phase_requires_source_review": 1,
+    "implementation_phase_requires_scope_assignment": 3,
+    "phase0_baseline_and_worktree_safety": 2,
     "phase0_dirty_worktree_classification": 2,
-    "phase11_claim_and_package_review": 2,
-    "verification_phase_requires_scope_assignment": 2
+    "phase11_claim_and_package_review": 1
   },
   "remaining_blockers": [
-    "agents.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "data/manifests/source_context_hash_audit.json: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/claim_language_guard.csv: Verify source lineage, row counts, hashes, and invalidation status.",
-    "data/validation/claim_language_guard_manifest.json: Verify source lineage, row counts, hashes, and invalidation status.",
+    "data/parameters/road_class_overrides_draft.csv: Verify source lineage, row counts, hashes, and invalidation status.",
     "data/validation/dirty_worktree_classification.csv: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
     "data/validation/dirty_worktree_classification_manifest.json: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
-    "docs/claim_language_guard.md: Run claim-boundary review before report, package, or final-study use.",
     "docs/dirty_worktree_classification.md: Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence.",
     "high_level_plan.md: Inspect and assign owner before cleanup or new generated-output work.",
     "plan.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "status.md: Inspect and assign owner before cleanup or new generated-output work.",
-    "data/rail/gtfs_derivation_attempt_manifest.json: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "scripts/record_gtfs_derivation_attempt.py: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "tests/feed.zip: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion.",
-    "tests/test_realworld_gtfs_derivation_attempt.py: Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion."
+    "scripts/write_road_class_override_template.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "src/realworld/road_override_template.py: Inspect diff, run narrow tests, and record owner before broader work.",
+    "src/realworld/road_speed_evidence.py: Inspect diff, run narrow tests, and record owner before broader work."
   ],
   "schema_version": 1,
   "unclassified_path_count": 0

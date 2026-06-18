@@ -1,7 +1,7 @@
 {
   "blocking_finding_count": 0,
-  "bounded_finding_count": 5647,
-  "bounded_non_claim_reference_count": 548,
+  "bounded_finding_count": 5645,
+  "bounded_non_claim_reference_count": 546,
   "can_mark_complete": false,
   "claim_boundary": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
   "claim_language_guard_ready": true,
@@ -213,14 +213,14 @@
   "publication_ready": false,
   "release_blocked": false,
   "remaining_blockers": [],
-  "reserved_match_count": 5647,
+  "reserved_match_count": 5645,
   "result_scope": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
   "review_items": [
     "downgrade unbounded final, ready, accepted, validated, calibrated, operational, forecast, real-time, and approved language",
     "preserve explicit non-approval and decision-support boundary language",
     "rerun this guard before public/package/report release"
   ],
-  "row_count": 5647,
+  "row_count": 5645,
   "scan_complete": true,
   "scanned_file_count": 186,
   "schema_version": 1,
@@ -312,7 +312,7 @@
     "docs/current_goal_completion_audit.md": 131,
     "docs/demand_fleet_behavior_profiles.md": 11,
     "docs/deterministic_rerun_audit.md": 6,
-    "docs/dirty_worktree_classification.md": 11,
+    "docs/dirty_worktree_classification.md": 9,
     "docs/disruption_scenarios.md": 10,
     "docs/experiment_design_decision_packet.md": 12,
     "docs/experiment_package_review_packet.md": 13,
@@ -413,7 +413,7 @@
     "status.md": 15
   },
   "status_counts": {
-    "bounded_non_claim_reference": 548,
+    "bounded_non_claim_reference": 546,
     "explicit_non_approval": 5098,
     "formal_evidence_backed": 1
   },
@@ -426,7 +426,7 @@
     "forecast": 36,
     "operational": 310,
     "ready": 780,
-    "validated": 985
+    "validated": 983
   },
   "unreadable_target_count": 0
 }

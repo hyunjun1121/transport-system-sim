@@ -269,6 +269,32 @@ def _display_path(path: str | Path) -> str:
         return filepath.as_posix()
 
 
+def load_observed_speed_classes(path: str | Path) -> set[str]:
+    """Return highway classes with observed OSM maxspeed tags on routeable edges.
+
+    Reads the speed evidence candidates CSV and returns classes where
+    ``maxspeed_observed_count > 0``. Returns an empty set when the file is
+    absent so the caller can proceed with fallback classification.
+    """
+
+    evidence_path = Path(path)
+    if not evidence_path.exists():
+        return set()
+    observed: set[str] = set()
+    with evidence_path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            try:
+                count = int(float(row.get("maxspeed_observed_count") or 0))
+            except (TypeError, ValueError):
+                count = 0
+            if count > 0:
+                highway = (row.get("highway") or "").strip().lower()
+                if highway:
+                    observed.add(highway)
+    return observed
+
+
 __all__ = [
     "DEFAULT_ROAD_SPEED_EVIDENCE_MANIFEST_PATH",
     "DEFAULT_ROAD_SPEED_EVIDENCE_PATH",
@@ -277,5 +303,6 @@ __all__ = [
     "RoadSpeedClassStats",
     "build_cached_road_speed_evidence_rows",
     "build_road_speed_evidence_rows",
+    "load_observed_speed_classes",
     "write_road_speed_evidence",
 ]
