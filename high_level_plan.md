@@ -88,7 +88,7 @@ If tractable: write `pilot_full_graph_*` outputs. If not: document runtime
 estimate, keep multi-corridor-full as strongest. Dep: #1. Impact:
 strengthens graph_scale_strategy; no gate close.
 
-### 9. Integrated review packet regeneration [ ]
+### 9. Integrated review packet regeneration [x]
 Regenerate cross-cutting packets after #1-#8: claim_alignment,
 manuscript_report, experiment_package, rail_evidence, road_evidence,
 integrated_evidence, upstream_lineage. Dep: #1-#8. Impact: reviewer

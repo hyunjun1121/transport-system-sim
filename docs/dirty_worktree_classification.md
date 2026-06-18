@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 11
-- Classified paths: 11
+- Dirty paths: 16
+- Classified paths: 16
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -15,17 +15,22 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/claim_alignment_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/manuscript_report_decision_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/parameters/road_evidence_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | phase9_artifact_invalidation_closeout | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/artifact_invalidation_upstream_lineage_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | phase9_artifact_invalidation_closeout | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/artifact_invalidation_upstream_lineage_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/graph_scale_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/graph_scale_strategy_readiness_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/reproducibility_review_packet.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/manuscript_report_decision_packet.md` | Run claim-boundary review before report or package use. |
 | M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/bottleneck_attribution.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/censored_by_disruption.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/completion_by_disruption.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/policy_regime_map.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/policy_resource_tradeoff.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_figures/sensitivity_ranking.png` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/bottleneck_attribution_table.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/claim_boundary_table.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/figure_table_manifest.json` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/main_result_table.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/policy_regime_table.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/full_graph_tables/sensitivity_result_table.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_metric_ci.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_paired_delta_ci.csv` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
+| ?? | artifact_lineage_owner_required | experiment_output_phase_requires_manifest_review | untracked_requires_owner_and_package_decision | `results/realworld_pilot/pilot_full_graph_statistics_manifest.json` | Assign owner and phase, then add, package, or explicitly exclude before generated-output promotion. |
 
 ## Use
 
