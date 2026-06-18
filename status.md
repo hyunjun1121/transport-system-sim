@@ -2,7 +2,7 @@
 
 ## Current Date And Workspace
 
-- Date: 2026-06-17
+- Date: 2026-06-18
 - Workspace: `C:\project\transport-system-sim`
 - Platform: Windows PowerShell
 - Git branch: `main`
@@ -18,16 +18,51 @@
 - `publication_ready=false`
 - `formal_acceptance_evidence=false`
 - Claim-language guard: `blocking_finding_count=0`, `release_blocked=false`
-- Dirty worktree: 0 uncommitted paths (Phase T committed)
+- Dirty worktree: 0 uncommitted paths (Phase U committed)
+- Tests: 164/164 pass
 
 ## Key Metrics
 
 - Phase gate ledgers: 13/13 present, 0 closed
 - Artifact invalidation: 51 rows, 31 closed, 20 pending
 - Review package ZIP: rebuilt 2026-06-09, 1319 files, mirror synced
-- Pilot result files: 88
-- Codebase: src 167 files, tests 163 files, scripts 137 scripts, docs 128 files
+- Pilot result files: 92 (includes full-graph probe outputs)
+- Codebase: src 167 files, tests 164 files, scripts 138 scripts, docs 128 files
 - No stub or empty source/test/script files
+
+## Phase U Completion (2026-06-18)
+
+Phase U (Automated Gate Closure & Evidence Strengthening) complete. All 13
+task units executed:
+
+- **U1**: Disruption scenario manifest regenerated (SHA256, row count).
+  `structured_disruptions` gate stays at 3/15 ready (manifest is scaffold
+  evidence, not formal acceptance).
+- **U2**: Clean-checkout reproducibility smoke regenerated (20 commands,
+  `clean_checkout_test_performed=false` stays — worktree smoke only).
+- **U3**: Rail headway derived from KTDB GTFS timetable cache: 3.583 min
+  (median of 240 adjacent gaps at station 4136, 241 access events).
+  Source SHA256 verified.
+- **U4**: Rail capacity derived from Metro9 operator page: 922 pax
+  (306 seats + 616 standing, 6 cars). Source SHA256 verified.
+- **U5**: GTFS derivation attempt documented as failed
+  (`input_is_gtfs_feed=false`, KTDB extract is metadata only).
+- **U6**: Road override draft refined: 5/10 classes now
+  `public-data-derived` (residential, tertiary, secondary, primary, trunk
+  from observed OSM maxspeed). Row-level source_class stays expert assumption.
+- **U7**: Parameter evidence priority refreshed: 6 source-backed (was 4),
+  23 weak (was 25). Rail headway/capacity no longer weak for final claims.
+- **U8**: Full-graph experiment probe: 15,870 rows on 4,608-node bus-practical
+  graph (0.278 s/row, ~1.2 hours). Statistics + figures generated for
+  graph-scale comparison.
+- **U9**: 15 cross-cutting review packets regenerated.
+- **U10**: Full-graph statistics (6877 CI rows, 6578 paired-delta rows) +
+  figures generated. Existing truth table unchanged (config values unchanged).
+- **U11**: Full verification: 164/164 tests pass, claim guard clean.
+- **U12**: 3 sub-agent reviewers verified evidence integrity (6/6 PASS),
+  packet consistency (all resolved), claim boundary (unreviewed
+  `road_class_overrides.csv` removed, claim boundary restored).
+- **U13**: This update + commit/push.
 
 ## Phase T Completion (2026-06-17)
 
@@ -54,11 +89,20 @@ executed successfully:
 
 - Road speed: OSM `maxspeed` coverage sparse (5/10 classes have observed tags)
 - Road capacity: OSM `lanes` tags absent (0/10 classes observed)
-- Rail timing: headway/travel time are assumption proxies, not derived from GTFS/timetable
-- Reproducibility: `clean_checkout_test_performed=false` (current-worktree smoke only)
+- Rail headway: derived from cached KTDB timetable (3.583 min); simulation
+  config still uses 10 min until config update and re-experimentation
+- Rail capacity: derived from Metro9 operator page (922 pax); simulation
+  config still uses 500 pax until config update and re-experimentation
+- Rail travel time: still expert assumption (GTFS derivation attempted but
+  cached extract was metadata-only, not a real feed)
+- Reproducibility: `clean_checkout_test_performed=false` (current-worktree
+  smoke only; clean-checkout smoke regenerated but stays non-acceptance)
 - Within-scenario noise parameters (sigma, lambda) are exploratory sensitivity
   assumptions, not calibrated real-world values (see paper §10.7 for Morris
   sensitivity to these parameter choices)
+- Full-graph probe (15,870 rows) is feasibility evidence for graph-scale
+  review only; not graph-scale acceptance or replacement for reduced-corridor
+  outputs
 
 ## Review Package State
 

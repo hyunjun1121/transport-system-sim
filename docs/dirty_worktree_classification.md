@@ -4,8 +4,8 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 ## Summary
 
-- Dirty paths: 8
-- Classified paths: 8
+- Dirty paths: 3
+- Classified paths: 3
 - Unclassified paths: 0
 - New generated output allowed: `false`
 - Destructive cleanup allowed: `false`
@@ -15,14 +15,9 @@ This ledger classifies current dirty and untracked worktree paths for sprint-saf
 
 | Status | Owner | Phase | Evidence Status | Path | Allowed Next Action |
 | --- | --- | --- | --- | --- | --- |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/manifests/source_context_hash_audit.json` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard.csv` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | evidence_or_manifest_phase_requires_source_review | changed_generated_or_evidence_artifact_requires_manifest_review | `data/validation/claim_language_guard_manifest.json` | Verify source lineage, row counts, hashes, and invalidation status. |
-| M | artifact_lineage_owner_required | phase0_dirty_worktree_classification | self_generated_classification_output | `data/validation/dirty_worktree_classification.csv` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
-| M | artifact_lineage_owner_required | phase0_dirty_worktree_classification | self_generated_classification_output | `data/validation/dirty_worktree_classification_manifest.json` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
-| M | claim_document_owner_required | phase11_claim_and_package_review | changed_claim_text_requires_claim_boundary_review | `docs/claim_language_guard.md` | Run claim-boundary review before report or package use. |
-| M | claim_document_owner_required | phase11_claim_and_package_review | self_generated_classification_output | `docs/dirty_worktree_classification.md` | Regenerate only through the dirty-worktree classification writer; do not treat as acceptance evidence. |
-| M | implementation_owner_required | verification_phase_requires_scope_assignment | changed_code_or_test_requires_diff_and_test_review | `tests/test_realworld_plan_audit.py` | Inspect diff, run narrow tests, and record owner before broader work. |
+| M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `agents.md` | Inspect and assign owner before cleanup or new generated-output work. |
+| M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `high_level_plan.md` | Inspect and assign owner before cleanup or new generated-output work. |
+| M | main_thread_owner_required | phase0_baseline_and_worktree_safety | changed_path_requires_main_thread_review | `status.md` | Inspect and assign owner before cleanup or new generated-output work. |
 
 ## Use
 

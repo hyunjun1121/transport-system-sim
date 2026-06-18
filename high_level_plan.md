@@ -104,7 +104,7 @@ Run 163 tests in batches. Claim guard: blocking=0, release_blocked=false.
 Record ready/blocked gate counts. Refresh dirty-worktree classification +
 plan audit test. Dep: #1-#10.
 
-### 12. Independent sub-agent review [ ]
+### 12. Independent sub-agent review [x]
 Spawn 2-3 read-only reviewers: evidence integrity, packet consistency,
 claim boundary. Expected: zero critical findings; fix cycle if any (max 3).
 Dep: #11.

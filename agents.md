@@ -1,48 +1,65 @@
 ﻿# AGENTS.md - Transport System Simulation
 
-## Current Continuation Context - 2026-06-17
+## Current Continuation Context - 2026-06-18
 
-Phase T (Stochasticity Redesign & Honest Rebuild) is **complete**. All 7
-sub-phases (T1-T7) executed successfully. The simulation now has honest,
-defensible stochasticity with deterministic disruption scenarios and
-exploratory within-scenario noise parameters.
+Phase U (Automated Gate Closure & Evidence Strengthening) is **complete**.
+All 13 task units (U1-U13) executed successfully. Evidence was strengthened
+from cached public-data sources, a full-graph feasibility probe was run,
+and all review packets were regenerated. 12 gates remain blocked pending
+human-signoff acceptance artifacts.
 
-### Phase T Summary
+### Phase U Summary
 
-- **T1**: Reverted Mechanism A (probabilistic edge disruption). Pilot
-  experiments now use `force_deterministic=True`. Added `road_noise_sigma`
-  and `turnaround_noise_lambda` to the Morris sensitivity parameter space.
-- **T2**: Variance diagnostic confirmed B+C are the sole within-scenario
-  variance sources. At sigma=0/lambda=0, variance is exactly zero. At
-  defaults, all non-inf groups produce 10 unique makespans from 10 seeds.
-- **T3**: Full re-experimentation: 15,870 rows, 529 summary groups. Extended
-  Morris: 61,824 summary rows, 23,373 non-zero mu_star. road_noise_sigma has
-  2,222 non-zero mu_star (dominant); turnaround_noise_lambda has 49 (weak).
-- **T4**: Truth table rebuilt with new SHA256. All review packets regenerated.
-  critical_link_blockage no longer bimodal (was 24 inf / 6 finite; now 30/30
-  finite, 10 unique values).
-- **T5**: Paper §9.9 rewritten with honest stochasticity framing. §10.7
-  renamed "Sensitivity to Noise Parameters" and reports Morris mu_star for
-  sigma/lambda. Korean report updated. report.docx regenerated. Claim guard:
-  `blocking_finding_count=0`, `release_blocked=false`.
-- **T6**: All key tests pass (including plan_audit). Sensitivity test
-  hardcoded values updated for new Morris dimensions (16 params, 61,824 rows).
-- **T7**: This update + commit/push.
+- **U1**: Disruption scenario manifest regenerated with SHA256 and row count.
+- **U2**: Clean-checkout reproducibility smoke regenerated (20 commands pass,
+  `clean_checkout_test_performed=false` stays — worktree smoke only).
+- **U3**: Rail headway derived from KTDB GTFS timetable cache: **3.583 min**
+  (median of 240 adjacent gaps, station 4136, 241 access departures).
+- **U4**: Rail capacity derived from Metro9 operator page: **922 pax**
+  (306 seats + 616 standing, 6 cars).
+- **U5**: GTFS derivation attempt documented as failed
+  (`input_is_gtfs_feed=false`).
+- **U6**: Road override draft refined: 5/10 classes `public-data-derived`
+  (observed OSM maxspeed).
+- **U7**: Parameter evidence refreshed: 6 source-backed (was 4),
+  23 weak (was 25). Rail headway/capacity no longer weak for final claims.
+- **U8**: Full-graph probe: **15,870 rows** on 4,608-node bus-practical
+  graph (0.278 s/row). Statistics + figures generated.
+- **U9**: 15 cross-cutting review packets regenerated.
+- **U10**: Full-graph statistics (6877 CI rows) + figures. Truth table
+  unchanged (config values unchanged).
+- **U11**: Full verification: 164/164 tests pass, claim guard clean.
+- **U12**: 3 sub-agent reviewers confirmed evidence integrity (6/6 PASS),
+  packet consistency (resolved), claim boundary (removed unreviewed
+  `road_class_overrides.csv`).
+- **U13**: This update + commit/push.
 
 ### Current State of the Worktree
 
-- `plan.md`: T6+T7 verification and closeout plan.
-- Simulation code: Deterministic disruptions (Mechanism A reverted) + road
-  noise (sigma) + turnaround noise (lambda) as sole within-scenario variance.
-- Results: `results/realworld_pilot/pilot_full_results.csv` (15,870 rows)
-  with deterministic disruption. `morris_summary.csv` (61,824 rows) includes
-  sigma/lambda as parameters.
-- Truth table: `data/validation/summary_truth_table.csv` (529 rows) reflects
-  Phase T data with new SHA256.
-- Paper: `paper/paper_draft.md` §9.9 and §10.7 rewritten honestly.
-- Report: `report_draft.md` and `report.docx` mirror paper framing.
+- Simulation code: Deterministic disruptions + road noise (sigma) +
+  turnaround noise (lambda) as sole within-scenario variance (from Phase T).
+- Results: `pilot_full_results.csv` (15,870 rows, reduced corridor) +
+  `pilot_full_graph_results.csv` (15,870 rows, full 4,608-node graph).
+- Parameter evidence: `parameter_sources.csv` has 6 source-backed params
+  (bpr_alpha, bpr_beta, rail_access_point, rail_egress_point, rail_headway,
+  rail_capacity). Rail headway = 3.583 min, rail_capacity = 922 pax.
+  Simulation config unchanged (10 min headway, 500 pax capacity) until
+  config update and re-experimentation.
+- Rail evidence: `rail_service_evidence.csv` has 3 rows (proxy,
+  headway_derived, capacity_derived) with source SHA256.
+- Road evidence: `road_class_overrides_draft.csv` has 5/10 classes
+  `public-data-derived`. Reviewed `road_class_overrides.csv` intentionally
+  absent (removed during U12 to restore claim boundary).
 - Claim guard: `blocking_finding_count=0`, `release_blocked=false`.
-- Tests: All tests pass after updating Morris count hardcoded values.
+- Tests: 164/164 pass.
+
+### Gate Status
+
+- Ready: 3/15 (`real_input_smoke`, `structured_disruptions`,
+  `policy_alternatives`)
+- Blocked: 12/15 (all require human-signoff `*_acceptance.json` artifacts)
+- Formal acceptance artifacts: 0/12 present (all intentionally absent)
+- `final_study_ready=false`, `publication_ready=false`
 
 ### Active Claim Boundary
 
