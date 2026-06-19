@@ -1,75 +1,87 @@
-# Unit 7: Parameter Evidence Priority Refresh
+# High-Level Plan
 
-## Mission
+## Current State (2026-06-19)
 
-Update `parameter_sources.csv` to reflect derived rail evidence (U3/U4) and
-refined road evidence (U6). Then regenerate the full parameter packet chain so
-the priority worksheet statuses reflect the strongest available evidence.
+Phase V (Full Formal Close) **complete**. All 15 final-study gates ready.
+`final_study_ready=true`, claim guard clean (`blocking_finding_count=0`),
+164/164 tests pass. All acceptance artifacts present (9 JSON + 2 CSV).
+Commit `329f4de0` pushed to `main`.
 
-## Claim Boundary
+## Completed Phases
 
-This is a decision-support simulation pipeline. No simulation values change
-(config stays at 10 min headway, 500 pax capacity). The parameter_sources.csv
-adds evidence rows documenting derived values alongside simulation defaults.
-No gate closes, no calibration claim, no acceptance artifact created.
+| Phase | Description | Status |
+|-------|-------------|--------|
+| S | Real-world MVP scaffold | done |
+| T | Stochastic honesty, Morris sensitivity | done |
+| U | Automated gate closure, evidence strengthening | done |
+| V | Full formal close, acceptance artifacts, test suite | done |
 
-## Context
+## Near-Term Items
 
-Current parameter_sources.csv (31 rows) has rail parameters as expert
-assumption. After U3/U4:
-- rail_headway: 3.583 min derived from KTDB GTFS timetable
-  (rail_service_evidence.csv row 2, source_artifact_sha256 verified)
-- rail_capacity: 922 pax from Metro9 operator page
-  (rail_service_evidence.csv row 3, source_artifact_sha256 verified)
-- rail_travel_time: still assumption (GTFS derivation attempted in U5,
-  feed was not a real GTFS feed)
+(No remaining blockers. All 15 gates ready.)
 
-After U6:
-- road_free_flow_speed: 5/10 highway classes have observed OSM maxspeed
-  tags; draft override template marks them public-data-derived but the
-  override is not applied (simulation uses mapper defaults).
+## Long-Term Vision Items
 
-The parameter audit (`audit_parameter_evidence.py`) reads
-parameter_sources.csv and picks the strongest source_class per parameter
-when multiple rows exist.
+### FTA/FM/FA 기반 경쟁 시뮬레이션 실행 환경 구축
 
-## Steps
+Build a competitive simulation execution environment based on **FTA (Fault Tree Analysis)**,
+**FM (Failure Mode)**, and **FA (Failure Analysis)** techniques.
 
-### Step 1: Update parameter_sources.csv
+Scope:
+- **FTA**: Top-down fault tree modeling for systemic disruption scenarios
+  (cascading rail/bus/road failure chains beyond current single-edge disruption)
+- **FM**: Systematic failure mode enumeration across transport modes
+  (bus fleet shortage, rail signal failure, transfer hub congestion, road
+  flooding, dispatch system delay)
+- **FA**: Root-cause failure analysis from simulation output traces
+  (identify which failure path dominates time-to-destination, agent-level
+  bottleneck attribution)
 
-Add derived evidence rows:
-- rail_headway: 3.583 min, agency/timetable-derived, KTDB GTFS
-- rail_capacity: 922 pax, public-data-derived, Metro9 operator page
+Deliverables:
+1. FTA library: importable fault-tree DSL or YAML-specified tree with
+   AND/OR gates, basic events, cut-set enumeration
+2. FM registry: structured failure mode catalog with mode→scenario mapping,
+   probability/frequency metadata, and cross-mode dependency graph
+3. FA post-processor: given simulation trace (edge-level traversal log),
+   attribute delay to active failure path; compute Fussell-Vesely or
+   Birnbaum importance per basic event
+4. Competitive runner: compare `bus-only` vs `rail-bus` vs candidate
+   multimodal strategies under same FTA-sampled disruption set using CRN
+   pairing; output strategy ranking by mean/percentile/VaR of
+   `penalized_makespan`
+5. Visualization: fault-tree diagram (text/Graphviz), failure-mode
+   heatmap, importance bar chart, strategy-vs-disruption scatter
 
-Update notes for:
-- rail_travel_time: mention GTFS derivation attempted, no real feed found
-- road_free_flow_speed: mention 5/10 classes have observed maxspeed
+Integration:
+- Extends `src/disruptions.py` failure model from per-edge stochastic
+  to fault-tree-structured scenario sampling
+- Reuses existing `src/policies.py`, `src/dispatch.py`, `src/fleet.py`,
+  `src/rail.py` as leaf-node simulation targets
+- Reuses `src/realworld/` graph adapter and zone connectors for
+  real-world FTA application
+- Reports as `results/fta_fm_fa/`
 
-### Step 2: Regenerate parameter packet chain
+Claim boundary:
+- FTA/FM/FA outputs are exploratory reliability engineering aids
+- Not certified safety analysis, not field-validation, not
+  publication-ready without independent audit
+- Failure probabilities in FTA basic events are sensitivity assumptions
+  unless source-backed
 
-1. audit_parameter_evidence.py
-2. write_parameter_review_packet.py
-3. write_parameter_evidence_source_request_packet.py
-4. write_parameter_source_readiness_packet.py
-5. write_parameter_evidence_priority_packet.py
+### Multi-Corridor Ensemble Expansion
 
-### Step 3: Verify audit + tests
+Extend from single Songpa corridor to multi-corridor (3-5 regional
+corridors) for stronger resilience claims.
 
-Run parameter audit, plan audit, publication gate check, study-closeout
-gate check, parameter review packet tests. Confirm rail_headway and
-rail_capacity are now source-backed in the audit.
+### Field Validation Benchmark
 
-## Stop Conditions
+Acquire real-world travel-time data (T-map, Naver, bus GPS traces) for
+at least one corridor to validate BPR parameters.
 
-1. parameter_sources.csv has derived rail evidence rows.
-2. Parameter audit shows rail_headway and rail_capacity as source-backed.
-3. Priority packet regenerated with updated statuses.
-4. Claim guard clean, affected tests pass.
+### GPU-Accelerated Monte Carlo
 
-## Sub-Agent Review Plan
+Port high-replication inner loop to JAX/CUDA for 10^5+ seed sweeps.
 
-After execution, spawn a read-only reviewer to confirm:
-- Derived rail values match rail_service_evidence.csv.
-- Simulation config values unchanged.
-- road_free_flow_speed stays expert assumption (draft not applied).
-- No gate closes or overclaims.
+### Policy Optimization via Reinforcement Learning
+
+Replace GRACE heuristic with learned dispatch policy (RLlib/Stable-Baselines3).
