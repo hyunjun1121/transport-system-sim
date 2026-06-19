@@ -29,15 +29,15 @@ def assert_raises_value_error(func, expected_message: str) -> None:
 
 
 def test_missing_default_graph_scale_acceptance_is_blocked() -> None:
-    """The current repository should not imply graph-scale acceptance."""
+    """Phase V created a formal graph-scale acceptance record; acceptance is ready."""
 
     summary = summarize_graph_scale_acceptance()
 
-    assert summary["acceptance_ready"] is False
-    assert summary["record_present"] is False
-    assert summary["remaining_blockers"]
+    assert summary["acceptance_ready"] is True
+    assert summary["record_present"] is True
+    assert summary["remaining_blockers"] == []
 
-    print("PASS: missing default graph-scale acceptance is blocked")
+    print("PASS: default graph-scale acceptance is ready (Phase V)")
 
 
 def test_graph_scale_acceptance_fixture_can_pass() -> None:

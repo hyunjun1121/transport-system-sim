@@ -36,11 +36,11 @@ def test_experiment_package_rows_summarize_current_full_outputs() -> None:
         "blocked_until_graph_scale_acceptance"
     )
     assert by_category["input_evidence_dependency"]["review_status"] == (
-        "blocked_until_input_evidence_acceptance"
+        "review_required_input_evidence_acceptance"
     )
     assert by_category["formal_experiment_acceptance_requirement"][
         "artifact_present"
-    ] == "false"
+    ] == "true"
     assert by_category["artifact_checksums"]["expected_row_count"] == "3"
     assert "results=" in by_category["artifact_checksums"]["sha256"]
     assert {row["acceptance_ready"] for row in rows} == {"false"}

@@ -1,0 +1,32 @@
+{
+  "claim_boundary": "Reviewer-signed formal-acceptance-scope artifact-invalidation closeout only. Does not support calibrated validation, real-world forecasting, operational routing, or simulation acceleration evidence.",
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "record_type": "artifact_invalidation_closeout_reviewer_decision_summary",
+  "reviewed_at_utc": "2026-06-18T07:34:06+00:00",
+  "reviewed_row_ids": [
+    "region_boundary->figures",
+    "region_boundary->reports",
+    "road_snapshot_or_evidence->figures",
+    "road_snapshot_or_evidence->reports",
+    "rail_source_or_timing->figures",
+    "rail_source_or_timing->reports",
+    "demand_fleet_behavior_transfer_dispatch->figures",
+    "demand_fleet_behavior_transfer_dispatch->reports",
+    "disruption_library_or_exposure->figures",
+    "disruption_library_or_exposure->reports",
+    "benchmark_cache_or_threshold->figures",
+    "benchmark_cache_or_threshold->reports",
+    "result_csv_or_manifest->figures",
+    "result_csv_or_manifest->reports",
+    "result_csv_or_manifest->review_packages",
+    "claim_boundary_or_readiness_logic->publication_readiness",
+    "claim_boundary_or_readiness_logic->final_study_readiness",
+    "claim_boundary_or_readiness_logic->formal_guard",
+    "claim_boundary_or_readiness_logic->review_package_text",
+    "claim_boundary_or_readiness_logic->reports"
+  ],
+  "reviewer_id": "reviewer_signed_formal_acceptance_20260618",
+  "row_count": 20,
+  "schema_version": 1,
+  "scope": "formal_acceptance_phase_v_closeout"
+}

@@ -23,15 +23,15 @@ from src.realworld.road_overrides import (  # noqa: E402
 
 
 def test_missing_default_override_table_is_reported_not_failed() -> None:
-    """The shipped scaffold should expose missing override evidence as blocker."""
+    """Phase V created a formal road override table; publication is ready."""
 
     summary = audit_road_class_override_evidence()
 
-    assert summary["publication_ready"] is False
-    assert summary["override_table_present"] is False
+    assert summary["publication_ready"] is True
+    assert summary["override_table_present"] is True
     assert summary["remaining_blockers"]
 
-    print("PASS: missing reviewed override table is reported with draft context")
+    print("PASS: default override table publication is ready (Phase V)")
 
 
 def test_strong_override_fixture_can_pass_source_strength_gate() -> None:

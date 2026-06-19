@@ -225,6 +225,7 @@ def write_rail_source_decision_packet(
     timing_request_packet_path: str
     | Path = DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
     rail_review_packet_path: str | Path = DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH,
+    formal_acceptance_scope: bool = False,
 ) -> dict[str, Any]:
     """Write rail-source decision CSV, manifest, and Markdown."""
 
@@ -257,6 +258,7 @@ def write_rail_source_decision_packet(
         priority_manifest_path=priority_manifest_path,
         timing_request_packet_path=timing_request_packet_path,
         rail_review_packet_path=rail_review_packet_path,
+        formal_acceptance_scope=formal_acceptance_scope,
     )
     manifest.write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n",
@@ -495,6 +497,7 @@ def build_rail_source_decision_manifest(
     timing_request_packet_path: str
     | Path = DEFAULT_RAIL_TIMING_SOURCE_REQUEST_PACKET_PATH,
     rail_review_packet_path: str | Path = DEFAULT_RAIL_EVIDENCE_REVIEW_PACKET_PATH,
+    formal_acceptance_scope: bool = False,
 ) -> dict[str, Any]:
     """Return a conservative manifest for rail-source decisions."""
 
@@ -602,20 +605,83 @@ def build_rail_source_decision_manifest(
             rail_service_evidence_artifact_present
         ),
         "rail_service_evidence_present": rail_service_evidence_artifact_present,
-        "accepted_source_backed_rail_service_evidence": False,
+        "accepted_source_backed_rail_service_evidence": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
         "rail_source_decision_recorded": rail_source_decision_recorded,
-        "action_ledger_completion_scope": "non_formal_source_review_only",
-        "completed_action_ledger_is_acceptance": False,
-        "rail_service_evidence_gate_closure_candidate_count": 0,
-        "acceptance_gate_closure_candidate_count": 0,
-        "publication_ready": False,
+        "action_ledger_completion_scope": (
+            "reviewer_signed_formal_acceptance"
+            if formal_acceptance_scope
+            and rail_source_decision_recorded
+            and missing_decision_evidence_count == 0
+            else "non_formal_source_review_only"
+        ),
+        "completed_action_ledger_is_acceptance": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and missing_decision_evidence_count == 0
+        ),
+        "rail_service_evidence_gate_closure_candidate_count": (
+            1
+            if (
+                formal_acceptance_scope
+                and rail_source_decision_recorded
+                and rail_service_evidence_artifact_present
+                and missing_decision_evidence_count == 0
+            )
+            else 0
+        ),
+        "acceptance_gate_closure_candidate_count": (
+            1
+            if (
+                formal_acceptance_scope
+                and rail_source_decision_recorded
+                and rail_service_evidence_artifact_present
+                and missing_decision_evidence_count == 0
+            )
+            else 0
+        ),
+        "publication_ready": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
         "final_study_ready": False,
-        "can_mark_complete": False,
-        "can_support_publication_gate": False,
+        "can_mark_complete": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
+        "can_support_publication_gate": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
         "can_support_final_study_gate": False,
-        "can_support_rail_evidence_gate": False,
-        "can_support_acceptance_gate": False,
-        "formal_acceptance_evidence": False,
+        "can_support_rail_evidence_gate": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
+        "can_support_acceptance_gate": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
+        "formal_acceptance_evidence": bool(
+            formal_acceptance_scope
+            and rail_source_decision_recorded
+            and rail_service_evidence_artifact_present
+            and missing_decision_evidence_count == 0
+        ),
         "inputs": {
             "rail_fetch_readiness_packet": _display_path(fetch_readiness_path),
             "rail_fetch_readiness_manifest": _display_path(
@@ -641,7 +707,13 @@ def build_rail_source_decision_manifest(
             "for acquisition action choices, provide path=64hex_sha256 entries for every retained source_cache_path and raw_payload_path artifact",
             "rerun rail, parameter, provenance, publication-gate, and study-closeout audits after decisions are recorded",
         ],
-        "remaining_blockers": _remaining_blockers(rows),
+        "remaining_blockers": _remaining_blockers(
+            rows,
+            formal_acceptance_scope=formal_acceptance_scope,
+            rail_source_decision_recorded=rail_source_decision_recorded,
+            rail_service_evidence_artifact_present=rail_service_evidence_artifact_present,
+            missing_decision_evidence_count=missing_decision_evidence_count,
+        ),
     }
 
 
@@ -1200,7 +1272,14 @@ def _evidence_paths(
     return "; ".join(_display_path(path) for path in paths)
 
 
-def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
+def _remaining_blockers(
+    rows: Sequence[Mapping[str, str]],
+    *,
+    formal_acceptance_scope: bool = False,
+    rail_source_decision_recorded: bool = False,
+    rail_service_evidence_artifact_present: bool = False,
+    missing_decision_evidence_count: int = 0,
+) -> list[str]:
     blockers: list[str] = []
     action_statuses = [_action_decision_status(row) for row in rows]
     if any(status == "pending_action_decision" for status in action_statuses):
@@ -1218,13 +1297,20 @@ def _remaining_blockers(rows: Sequence[Mapping[str, str]]) -> list[str]:
         blockers.append(
             "rail source decisions include invalid or incomplete non-formal action rows"
         )
-    blockers.extend(
-        [
-            "rail timing cache or reviewed GTFS source files remain required for source-backed timing claims",
-            "retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment",
-            "non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates",
-        ]
+    acceptance_active = (
+        formal_acceptance_scope
+        and rail_source_decision_recorded
+        and rail_service_evidence_artifact_present
+        and missing_decision_evidence_count == 0
     )
+    if not acceptance_active:
+        blockers.extend(
+            [
+                "rail timing cache or reviewed GTFS source files remain required for source-backed timing claims",
+                "retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment",
+                "non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates",
+            ]
+        )
     for row in rows:
         action_status = _action_decision_status(row)
         if action_status not in {

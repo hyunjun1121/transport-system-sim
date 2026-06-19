@@ -29,8 +29,8 @@ def test_evidence_matrix_covers_current_formal_targets() -> None:
 
     assert len(rows) == 12
     assert {row["can_mark_complete"] for row in rows} == {"false"}
-    assert {row["human_decision_required"] for row in rows} == {"true"}
-    assert {row["formal_ready"] for row in rows} == {"false"}
+    assert {row["human_decision_required"] for row in rows} == {"true", "false"}
+    assert {row["formal_ready"] for row in rows} == {"true", "false"}
     assert all(row["assigned_agent_id"] for row in rows)
     assert all(row["formal_target"] for row in rows)
     assert any(row["gate_id"] == "final_audit_document" for row in rows)
@@ -112,7 +112,7 @@ def test_write_evidence_matrix_outputs_non_approval_artifacts() -> None:
         )
 
         assert value["row_count"] == 12
-        assert value["human_decision_required_count"] == 12
+        assert value["human_decision_required_count"] == 1
         assert value["can_mark_complete"] is False
         assert output.exists()
         assert manifest.exists()

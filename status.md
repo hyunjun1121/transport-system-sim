@@ -128,7 +128,7 @@ risk classification when runtime evidence supports the specific claim.
 
 ## Scripts
 
-audit_agent_review_paths.py, audit_analysis_outputs.py, audit_claim_language.py,
+apply_road_overrides_to_cache.py, audit_agent_review_paths.py, audit_analysis_outputs.py, audit_claim_language.py,
 audit_compact_scoped_outputs.py, audit_crn_pairing.py, audit_deterministic_rerun.py,
 audit_final_study_readiness.py, audit_formal_acceptance_artifacts.py,
 audit_formal_evidence_paths.py, audit_graph_scale_manifests.py,

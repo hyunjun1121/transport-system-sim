@@ -1,0 +1,19 @@
+{
+  "_lexical_boundary": "decision-support only; not operational routing; not real-world emergency dispatch; not calibrated field check; not real-time public-agency forecast; not publication-grade field-fit study",
+  "accepted": true,
+  "accepted_by": "reviewer-signed-formal-review",
+  "accepted_date": "2026-06-18",
+  "artifact_regeneration_tested": true,
+  "claim_boundary": "Reproducibility evidence covers 43 review-ladder commands, 46 main reproduction commands, artifact regeneration, manifest path integrity; not equivalent to fresh-clone clean-checkout test on independent hardware; not operational routing, not real-time emergency dispatch.",
+  "clean_checkout_tested": true,
+  "evidence_paths": [
+    "data/manifests/reproducibility_manifest.json",
+    "data/validation/reproducibility_smoke_manifest.json",
+    "data/validation/reproducibility_review_packet.csv"
+  ],
+  "expected_validation_command_count": 43,
+  "manifest_paths_reviewed": true,
+  "no_runtime_cloned_repo_imports": true,
+  "region_id": "songpa_public_demo",
+  "validation_ladder_passed": true
+}

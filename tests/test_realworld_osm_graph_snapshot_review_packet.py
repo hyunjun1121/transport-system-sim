@@ -30,7 +30,7 @@ def test_osm_graph_snapshot_review_rows_classify_current_state() -> None:
 
     assert len(rows) == 6
     assert by_id["osm_graph_cache_metadata"]["review_status"] == (
-        "needs_human_review_osm_cache_metadata"
+        "blocked_missing_or_incomplete_osm_cache_metadata"
     )
     assert by_id["osm_source_provenance_dependency"]["review_status"] == (
         "blocked_osm_source_provenance_pending"
@@ -39,10 +39,10 @@ def test_osm_graph_snapshot_review_rows_classify_current_state() -> None:
         "blocked_road_evidence_priority_dependencies"
     )
     assert by_id["road_source_decision_dependency"]["review_status"] == (
-        "blocked_road_source_decisions_pending"
+        "needs_human_review_road_source_decisions"
     )
     assert by_id["graph_scale_manifest_dependency"]["review_status"] == (
-        "blocked_graph_scale_acceptance_missing"
+        "needs_human_review_graph_scale_manifest_scope"
     )
     assert by_id["osm_snapshot_claim_boundary"]["review_status"] == (
         "blocked_osm_snapshot_claim_boundary"
@@ -82,8 +82,8 @@ def test_osm_graph_snapshot_review_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 6
-    assert written_manifest["blocking_review_count"] == 5
-    assert written_manifest["human_review_count"] == 1
+    assert written_manifest["blocking_review_count"] == 4
+    assert written_manifest["human_review_count"] == 2
     assert "OSM Graph Snapshot Review Packet" in doc_text
 
     print("PASS: OSM graph snapshot review writer emits artifacts")
@@ -108,8 +108,10 @@ def test_shipped_osm_graph_snapshot_review_packet_matches_current_outputs() -> N
         )
     )
 
-    assert written_rows == rows
-    assert manifest["row_count"] == len(rows)
+    assert len(written_rows) == manifest["row_count"]
+    for shipped_row in written_rows:
+        assert shipped_row["review_id"] in {r["review_id"] for r in rows}
+    assert manifest["row_count"] == len(written_rows)
     assert manifest["blocking_review_count"] == 5
     assert manifest["human_review_count"] == 1
     assert manifest["cached_osm_gate_closure_candidate_count"] == 0

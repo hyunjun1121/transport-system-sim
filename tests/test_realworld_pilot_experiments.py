@@ -159,7 +159,7 @@ def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
         assert manifest["formal_acceptance_evidence"] is False
         assert manifest["design_status_is_approval"] is False
         assert manifest["phase8_preflight"]["status"] == "sample_skipped"
-        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
+        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is False
         assert manifest["outputs"]["results"].endswith("pilot_sample_results.csv")
         assert manifest["region_id"] == "songpa_public_demo"
         disruption_path = manifest["inputs"]["disruption_scenarios_path"].replace(
@@ -382,7 +382,7 @@ def test_engineering_only_bypass_labels_rows_and_manifest() -> None:
         assert manifest["engineering_only"] is True
         assert manifest["phase8_preflight"]["status"] == "engineering_only_bypass"
         assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
-        assert manifest["phase8_preflight"]["artifact_invalidation_blocks_phase9"] is True
+        assert manifest["phase8_preflight"]["artifact_invalidation_blocks_phase9"] is False
         assert manifest["publication_ready"] is False
         assert manifest["final_study_ready"] is False
         assert manifest["operational_use_allowed"] is False

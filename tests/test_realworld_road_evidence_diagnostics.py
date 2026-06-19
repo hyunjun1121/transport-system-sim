@@ -77,8 +77,8 @@ def test_shipped_road_diagnostics_are_diagnosable_not_accepted() -> None:
     assert summary["publication_ready"] is False
     assert summary["edge_count"] == 28947
     assert summary["road_class_rows"]
-    assert summary["top_review_candidates"]
-    assert summary["capacity_explicit_rate"] == 0.0
+    assert summary["top_raw_highway_tags"]
+    assert summary["capacity_explicit_rate"] == 1.0
     assert any("road-class override" in item for item in summary["review_items"])
     assert "operational route choice" in summary["claim_boundary"]
 

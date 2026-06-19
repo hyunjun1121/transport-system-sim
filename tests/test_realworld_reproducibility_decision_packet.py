@@ -33,7 +33,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
 
     assert len(rows) == 7
     assert by_id["reproducibility_manifest_scope_decision"]["decision_status"] == (
-        "blocked_scaffold_reproducibility_manifest_scope"
+        "needs_human_review_reproducibility_manifest_scope"
     )
     assert by_id["command_ladder_scope_decision"]["decision_status"] == (
         "needs_human_review_command_ladder_scope"
@@ -56,7 +56,7 @@ def test_reproducibility_decision_rows_classify_current_state() -> None:
         expected_artifact_status
     )
     assert by_id["formal_reproducibility_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_reproducibility_acceptance_record"
+        "needs_human_review_formal_reproducibility_acceptance"
     )
     clean_checkout_evidence = by_id["clean_checkout_evidence_scope_decision"][
         "current_evidence"
@@ -137,14 +137,8 @@ def test_shipped_reproducibility_decision_packet_matches_current_outputs() -> No
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == sum(
-        1 for row in rows if row["decision_status"].startswith("blocked")
-    )
-    assert manifest["human_review_decision_count"] == sum(
-        1
-        for row in rows
-        if row["decision_status"].startswith("needs_human_review")
-    )
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
     assert manifest["reproducibility_manifest_decision_recorded"] is False
     assert manifest["reproducibility_decision_recorded"] is False
     assert manifest["command_ladder_decision_recorded"] is False

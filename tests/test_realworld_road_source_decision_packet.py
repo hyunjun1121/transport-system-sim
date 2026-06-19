@@ -129,8 +129,8 @@ def test_shipped_road_source_decision_packet_matches_current_outputs() -> None:
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 2
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
     assert manifest["road_source_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

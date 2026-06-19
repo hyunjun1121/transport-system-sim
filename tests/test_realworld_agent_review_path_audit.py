@@ -27,10 +27,10 @@ def test_agent_review_path_audit_allows_missing_formal_targets_only() -> None:
     assert summary["record_count"] == 12
     assert summary["invalid_record_count"] == 0
     assert summary["missing_required_path_count"] == 0
-    assert summary["missing_formal_target_count"] >= 1
-    assert 1 <= summary["unique_missing_formal_target_count"] <= 12
-    assert summary["unique_missing_formal_targets"]
-    assert summary["status_counts"]["missing_formal_target"] >= 1
+    assert summary["missing_formal_target_count"] == 0
+    assert summary["unique_missing_formal_target_count"] == 0
+    assert not summary["unique_missing_formal_targets"]
+    assert summary["status_counts"]["missing_formal_target"] == 0
     assert summary["status_counts"]["present"] >= 1
     assert summary["agent_review_paths_ready"] is True
     assert summary["can_mark_complete"] is False

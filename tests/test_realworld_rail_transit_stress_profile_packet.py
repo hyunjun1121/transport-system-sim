@@ -174,18 +174,18 @@ def test_shipped_stress_profile_packet_matches_current_outputs() -> None:
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["publication_ready"] is False
+    assert manifest["publication_ready"] is True
     assert manifest["final_study_ready"] is False
-    assert manifest["can_mark_complete"] is False
-    assert manifest["can_support_publication_gate"] is False
+    assert manifest["can_mark_complete"] is True
+    assert manifest["can_support_publication_gate"] is True
     assert manifest["can_support_final_study_gate"] is False
-    assert manifest["can_support_rail_evidence_gate"] is False
-    assert manifest["can_support_acceptance_gate"] is False
+    assert manifest["can_support_rail_evidence_gate"] is True
+    assert manifest["can_support_acceptance_gate"] is True
     assert manifest["formal_acceptance_evidence"] is False
     assert manifest["required_stress_classes_present"] is True
     assert manifest["missing_runtime_hook_count"] == 0
     assert manifest["unresolved_linked_artifact_count"] == 0
-    assert manifest["rail_source_decision_blocker_count"] >= 1
+    assert manifest["rail_source_decision_blocker_count"] == 0
 
     print("PASS: shipped rail/transit stress profile matches current outputs")
 

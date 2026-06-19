@@ -111,9 +111,20 @@ def write_acceptance_decision_templates(
         )
         writer.writeheader()
         writer.writerows(parameter_rows)
-    non_ready_summaries["parameter_acceptance"] = summarize_parameter_acceptance(
-        parameter_output
-    )
+    if parameter_rows:
+        non_ready_summaries["parameter_acceptance"] = summarize_parameter_acceptance(
+            parameter_output
+        )
+    else:
+        non_ready_summaries["parameter_acceptance"] = {
+            "record_present": False,
+            "ready_parameter_count": 0,
+            "accepted_parameter_count": 0,
+            "ready_parameters": [],
+            "remaining_blockers": [
+                "create reviewed parameter acceptance records only for weak assumptions retained in final claims"
+            ],
+        }
 
     value = _build_manifest(
         specs=specs,

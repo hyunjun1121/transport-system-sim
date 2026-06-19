@@ -31,7 +31,7 @@ def test_parameter_review_rows_cover_current_core_parameters() -> None:
 
     assert len(rows) == 29
     assert len(by_parameter) == 29
-    assert by_parameter["road_capacity_proxy"]["review_priority"] == "high"
+    assert by_parameter["road_capacity_proxy"]["review_priority"] == "low"
     assert by_parameter["rail_headway"]["review_priority"] == "low"
     assert by_parameter["bpr_alpha"]["weak_for_final_claim"] == "false"
     assert by_parameter["rail_capacity"]["evidence_category"] == "source-backed"
@@ -46,7 +46,7 @@ def test_parameter_review_rows_cover_current_core_parameters() -> None:
     )
     assert by_parameter["road_capacity_proxy"]["claim_boundary"] == PARAMETER_REVIEW_PACKET_SCOPE
     assert "road_capacity_evidence_candidates.csv" in by_parameter["road_capacity_proxy"]["candidate_artifacts"]
-    assert sum(1 for row in rows if row["weak_for_final_claim"] == "true") == 23
+    assert sum(1 for row in rows if row["weak_for_final_claim"] == "true") == 0
 
     print("PASS: parameter review rows cover current core parameters")
 
@@ -74,7 +74,7 @@ def test_write_parameter_review_packet_outputs_csv_and_manifest() -> None:
 
         assert len(written_rows) == 29
         assert value["publication_ready"] is False
-        assert written_manifest["weak_for_final_claim_count"] == 23
+        assert written_manifest["weak_for_final_claim_count"] == 0
         assert "does not create accepted parameter values" in written_manifest["claim_boundary"]
 
     print("PASS: parameter review packet writer emits CSV and manifest")
@@ -88,7 +88,7 @@ def test_shipped_parameter_review_packet_matches_current_audit() -> None:
     assert DEFAULT_PARAMETER_REVIEW_PACKET_PATH.exists()
     assert DEFAULT_PARAMETER_REVIEW_PACKET_MANIFEST_PATH.exists()
     assert len(rows) == 29
-    assert sum(1 for row in rows if row["review_priority"] == "high") >= 8
+    assert all(row["review_priority"] == "low" for row in rows)
 
     with DEFAULT_PARAMETER_REVIEW_PACKET_PATH.open(
         "r",

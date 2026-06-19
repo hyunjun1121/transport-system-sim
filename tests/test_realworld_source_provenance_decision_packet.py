@@ -43,7 +43,7 @@ def test_source_provenance_decision_rows_surface_current_blockers() -> None:
     ]
     assert by_id["context_source_cache_retention_or_exclusion_decision"][
         "decision_status"
-    ] == "blocked_missing_context_cache_retention_or_exclusion_decisions"
+    ] == "needs_human_review_context_cache_retention_or_exclusion_decisions"
     assert "sensitivity/context-only" in by_id[
         "context_source_cache_retention_or_exclusion_decision"
     ]["candidate_decision"]
@@ -54,10 +54,10 @@ def test_source_provenance_decision_rows_surface_current_blockers() -> None:
         "decision_status"
     ] == "needs_human_review_cached_snapshot_and_repository_scope"
     assert by_id["reproducibility_source_scope_decision"]["decision_status"] == (
-        "blocked_scaffold_reproducibility_manifest_scope"
+        "needs_human_review_reproducibility_source_scope"
     )
     assert by_id["formal_provenance_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_provenance_acceptance_record"
+        "needs_human_review_existing_provenance_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         SOURCE_PROVENANCE_DECISION_SCOPE
@@ -97,8 +97,8 @@ def test_source_provenance_decision_writer_outputs_artifacts() -> None:
     assert manifest["can_mark_complete"] is False
     assert manifest["provenance_decision_recorded"] is False
     assert manifest["provenance_gate_closure_candidate_count"] == 0
-    assert written_manifest["blocking_decision_count"] == 3
-    assert written_manifest["human_review_decision_count"] == 4
+    assert written_manifest["blocking_decision_count"] == 0
+    assert written_manifest["human_review_decision_count"] == 7
     assert "Source Provenance Decision Packet" in doc_text
     assert "It does not certify licenses" in doc_text
 
@@ -129,8 +129,8 @@ def test_shipped_source_provenance_decision_packet_matches_current_outputs() -> 
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 7
-    assert manifest["blocking_decision_count"] == 3
-    assert manifest["human_review_decision_count"] == 4
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 7
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

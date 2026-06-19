@@ -48,10 +48,10 @@ def test_sensitivity_method_decision_rows_surface_current_blockers() -> None:
         "blocked_reduced_graph_scope_dependency"
     )
     assert by_id["result_scope_boundary"]["decision_status"] == (
-        "blocked_scaffold_result_scope"
+        "needs_human_review_result_scope"
     )
     assert by_id["formal_sensitivity_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_sensitivity_acceptance_record"
+        "needs_human_review_existing_sensitivity_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         SENSITIVITY_METHOD_DECISION_SCOPE
@@ -120,8 +120,8 @@ def test_shipped_sensitivity_method_decision_packet_matches_current_outputs() ->
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 7
-    assert manifest["blocking_decision_count"] == 4
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == 2
+    assert manifest["human_review_decision_count"] == 5
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

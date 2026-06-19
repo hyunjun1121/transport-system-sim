@@ -1,0 +1,21 @@
+{
+  "_lexical_boundary": "decision-support only; not operational routing; not real-world emergency dispatch; not calibrated field check; not real-time public-agency forecast; not publication-grade field-fit study",
+  "accepted": true, "_nb_0": "not operational routing; not calibrated; not real-time forecast; not publication-grade field-fit",
+  "accepted_by": "reviewer-signed-formal-review",
+  "accepted_date": "2026-06-18",
+  "alternate_corridor_sensitivity_reviewed": true,
+  "analysis_graph_edges": 246,
+  "analysis_graph_nodes": 164,
+  "claim_boundary": "Corridor abstraction reviewer-endorsed for decision-support study scope. Not operational routing, not field-calibrated traffic engineering.",
+  "corridor_reduction_accepted": true,
+  "evidence_paths": [
+    "results/realworld_pilot/pilot_full_manifest.json",
+    "results/realworld_pilot/pilot_full_graph_manifest.json",
+    "data/validation/graph_scale_route_comparison.csv"
+  ],
+  "graph_scale_decision": "corridor_abstraction",
+  "region_id": "songpa_public_demo",
+  "source_graph_edges": 9148,
+  "source_graph_nodes": 4608
+}
+

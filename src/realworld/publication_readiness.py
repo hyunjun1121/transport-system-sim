@@ -57,6 +57,25 @@ PUBLICATION_READINESS_RESULT_SCOPE = (
 )
 
 
+def _rail_formal_acceptance_active() -> bool:
+    """Return True when reviewer-signed rail source-decision acceptance exists."""
+
+    path = Path(DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH)
+    if not path.exists():
+        return False
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if not isinstance(manifest, dict):
+        return False
+    return bool(
+        manifest.get("rail_source_decision_recorded", False)
+        and manifest.get("publication_ready", False)
+        and manifest.get("completed_action_ledger_is_acceptance", False)
+    )
+
+
 def audit_publication_readiness(
     *,
     road_graph_path: str | Path = DEFAULT_ROAD_GRAPH_PATH,
@@ -76,7 +95,8 @@ def audit_publication_readiness(
     road_override_audit = audit_road_class_override_evidence()
     road_override_application_audit = audit_road_class_override_application()
     rail_service_audit = summarize_rail_service_evidence(
-        load_rail_service_evidence(rail_service_path)
+        load_rail_service_evidence(rail_service_path),
+        formal_acceptance_active=_rail_formal_acceptance_active(),
     )
     station_binding_audit = summarize_rail_station_bindings(
         load_rail_station_bindings(rail_station_binding_path)

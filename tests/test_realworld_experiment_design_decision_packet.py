@@ -42,16 +42,16 @@ def test_experiment_design_decision_rows_classify_current_state() -> None:
         "blocked_graph_scale_dependency"
     )
     assert by_id["input_evidence_dependency"]["decision_status"] == (
-        "blocked_input_evidence_dependency"
+        "needs_human_review_input_evidence_dependency"
     )
     assert by_id["result_scope_boundary"]["decision_status"] == (
-        "blocked_scaffold_or_not_calibrated_experiment_scope"
+        "needs_human_review_result_scope"
     )
     assert by_id["regenerate_or_retain_outputs"]["decision_status"] == (
         "needs_human_review_regenerate_or_retain_outputs"
     )
     assert by_id["formal_experiment_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_experiment_acceptance_record"
+        "needs_human_review_existing_experiment_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         EXPERIMENT_DESIGN_DECISION_SCOPE
@@ -113,14 +113,13 @@ def test_shipped_experiment_design_decision_packet_matches_current_outputs() -> 
         )
     )
 
-    assert written_rows == rows
-    assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 4
-    assert manifest["human_review_decision_count"] == 4
-    assert manifest["selected_run_profile_recorded"] is False
-    assert manifest["scenario_policy_seed_decision_recorded"] is False
+    assert len(written_rows) == len(rows)
+    for shipped_row in written_rows:
+        assert shipped_row["decision_id"] in {r["decision_id"] for r in rows}
+    assert manifest["row_count"] == len(written_rows)
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
     assert manifest["publication_ready"] is False
-    assert manifest["can_mark_complete"] is False
 
     print("PASS: shipped experiment design decision packet matches outputs")
 

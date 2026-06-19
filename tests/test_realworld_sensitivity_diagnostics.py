@@ -42,7 +42,7 @@ def test_shipped_morris_diagnostics_are_structurally_ready() -> None:
     assert summary["remaining_blockers"] == []
     assert summary["review_items"]
     assert "unavailable Morris index rows" in " ".join(summary["review_items"])
-    assert "not-calibrated" in " ".join(summary["review_items"])
+    assert "graph-scale acceptance is still required" in " ".join(summary["review_items"])
 
     print("PASS: shipped Morris diagnostics are structurally ready")
 

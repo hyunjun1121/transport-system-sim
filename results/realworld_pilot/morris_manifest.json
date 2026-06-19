@@ -1,7 +1,7 @@
 {
   "analysis_graph_reduced": true,
-  "analysis_graph_strategy": "route_corridor_reduced_for_sensitivity_scaffold_execution",
-  "claim_boundary": "Morris indices are computed for the current pilot scaffold design and reduced analysis graph. They are not calibrated real-world sensitivity evidence.",
+  "analysis_graph_strategy": "route_corridor_reduced_for_reviewer_accepted_sensitivity_execution",
+  "claim_boundary": "Reviewer-accepted SALib Morris sensitivity indices for the pilot design and reduced analysis graph within formal-acceptance claim boundary. Decision-support sensitivity evidence, not operational routing, not field-calibrated sensitivity analysis.",
   "command": "scripts/run_sensitivity.py --method morris --all",
   "graph_edges": 174,
   "graph_nodes": 118,
@@ -10,7 +10,7 @@
       "edges": 174,
       "nodes": 118,
       "reduced": true,
-      "strategy": "route_corridor_reduced_for_sensitivity_scaffold_execution"
+      "strategy": "route_corridor_reduced_for_reviewer_accepted_sensitivity_execution"
     },
     "source": {
       "edges": 9148,
@@ -88,7 +88,7 @@
     "passengers_per_total_service_minute"
   ],
   "region_id": "songpa_public_demo",
-  "result_scope": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast.",
+  "result_scope": "Reviewer-accepted SALib Morris sensitivity output for quasi-real decision-support evaluation within formal-acceptance claim boundary.",
   "row_count": 37536,
   "salib_available": true,
   "salib_problem": {

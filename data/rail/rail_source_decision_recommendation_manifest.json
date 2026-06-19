@@ -9,7 +9,7 @@
   "empty_request_id_count": 0,
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
-  "generated_at": "2026-06-03T08:19:15+00:00",
+  "generated_at": "2026-06-18T07:13:35+00:00",
   "inputs": {
     "rail_source_decision_manifest": "data/rail/rail_source_decision_manifest.json",
     "rail_source_decision_packet": "data/rail/rail_source_decision_packet.csv"
@@ -45,6 +45,6 @@
   "reviewer_owned_count": 6,
   "row_count": 6,
   "schema_version": 1,
-  "source_decision_scope": "Rail source-decision packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, not sensitivity-only rail approval, and not rail evidence gate closure, not publication readiness, not final-study readiness, and not formal acceptance.",
+  "source_decision_scope": "Rail source-decision packet only; not rail timing evidence, not GTFS validation, not rail-service calibration, not emergency rail availability evidence, not sensitivity-only rail approval, and not rail evidence gate closure, not publication gate evidence, not study-closeout evidence, and not a formal decision record.",
   "unsafe_evidence_or_readiness_flag_count": 0
 }

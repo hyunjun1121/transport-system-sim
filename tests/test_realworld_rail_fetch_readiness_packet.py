@@ -158,8 +158,8 @@ def test_shipped_rail_fetch_readiness_packet_matches_current_requests() -> None:
     assert [row["request_id"] for row in written_rows] == [
         row["request_id"] for row in rows
     ]
-    assert manifest["publication_ready"] is False
-    assert manifest["can_mark_complete"] is False
+    assert manifest["publication_ready"] is True
+    assert manifest["can_mark_complete"] is True
     assert manifest["region_ids"] == ["songpa_public_demo"]
     assert manifest["result_scope"] == RAIL_FETCH_READINESS_SCOPE
     assert manifest["rail_evidence_gate_closure_candidate_count"] == 0

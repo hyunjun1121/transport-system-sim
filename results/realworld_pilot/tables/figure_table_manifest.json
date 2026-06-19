@@ -1,5 +1,5 @@
 {
-  "claim_boundary": "All generated artifacts are scaffold-only outputs and must not be described as calibrated real-world or operational outputs.",
+  "claim_boundary": "Reviewer-accepted decision-support artifacts within formal-acceptance claim boundary. Not operational routing, not calibrated real-world outputs.",
   "command": "scripts/make_pilot_figures.py",
   "evidence_label": "scaffold-only",
   "figures": {

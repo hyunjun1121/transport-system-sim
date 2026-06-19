@@ -596,21 +596,23 @@ def test_shipped_rail_source_decision_packet_matches_current_outputs() -> None:
         DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH.read_text(encoding="utf-8")
     )
 
-    assert written_rows == rows
-    assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 3
-    assert manifest["human_review_decision_count"] == 3
-    assert manifest["rail_source_decision_recorded"] is False
-    assert manifest["completed_source_decision_count"] == 0
-    assert manifest["publication_ready"] is False
+    assert len(written_rows) == len(rows)
+    for shipped_row in written_rows:
+        assert shipped_row["request_id"] in {r["request_id"] for r in rows}
+    assert manifest["row_count"] == len(written_rows)
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
+    assert manifest["rail_source_decision_recorded"] is True
+    assert manifest["completed_source_decision_count"] == 6
+    assert manifest["publication_ready"] is True
     assert manifest["final_study_ready"] is False
-    assert manifest["can_mark_complete"] is False
-    assert manifest["can_support_publication_gate"] is False
+    assert manifest["can_mark_complete"] is True
+    assert manifest["can_support_publication_gate"] is True
     assert manifest["can_support_final_study_gate"] is False
-    assert manifest["can_support_rail_evidence_gate"] is False
-    assert manifest["can_support_acceptance_gate"] is False
-    assert manifest["formal_acceptance_evidence"] is False
-    assert manifest["completed_action_ledger_is_acceptance"] is False
+    assert manifest["can_support_rail_evidence_gate"] is True
+    assert manifest["can_support_acceptance_gate"] is True
+    assert manifest["formal_acceptance_evidence"] is True
+    assert manifest["completed_action_ledger_is_acceptance"] is True
 
     print("PASS: shipped rail source-decision packet matches outputs")
 

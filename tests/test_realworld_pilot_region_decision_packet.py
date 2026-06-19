@@ -42,13 +42,13 @@ def test_pilot_region_decision_rows_surface_current_blockers() -> None:
         "current_evidence"
     ]
     assert by_id["graph_scale_dependency_decision"]["decision_status"] == (
-        "blocked_missing_graph_scale_acceptance_record"
+        "needs_human_review_existing_graph_scale_acceptance"
     )
     assert by_id["cache_and_provenance_scope_decision"]["decision_status"] == (
-        "blocked_missing_provenance_acceptance_record"
+        "needs_human_review_existing_provenance_acceptance"
     )
     assert by_id["formal_pilot_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_pilot_acceptance_record"
+        "needs_human_review_existing_pilot_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         PILOT_REGION_DECISION_SCOPE
@@ -115,8 +115,8 @@ def test_shipped_pilot_region_decision_packet_matches_current_outputs() -> None:
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 6
-    assert manifest["blocking_decision_count"] == 3
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

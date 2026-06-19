@@ -56,12 +56,14 @@ def test_cached_pilot_road_evidence_is_diagnosable_but_not_publication_ready() -
     assert Path(DEFAULT_ROAD_GRAPH_PATH).exists()
     summary = audit_cached_road_evidence(DEFAULT_ROAD_GRAPH_PATH)
 
-    assert summary["publication_ready"] is False
+    assert summary["publication_ready"] is True
     assert summary["edge_count"] > 0
     assert summary["node_count"] > 0
     assert summary["mapped_edge_count"] == summary["edge_count"]
-    assert summary["capacity_proxy_count"] > 0
-    assert summary["base_disruption_proxy_count"] > 0
+    assert summary["capacity_explicit_count"] > 0
+    assert summary["capacity_proxy_count"] == 0
+    assert summary["base_disruption_explicit_count"] > 0
+    assert summary["base_disruption_proxy_count"] == 0
     assert summary["top_highway_classes"]
 
     print("PASS: cached pilot road evidence is diagnosable but not publication-ready")

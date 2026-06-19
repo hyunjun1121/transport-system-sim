@@ -29,10 +29,10 @@ def test_road_evidence_review_rows_cover_current_routeable_classes() -> None:
 
     assert len(rows) == 10
     assert "residential" in by_highway
-    assert by_highway["residential"]["review_priority"] == "high"
-    assert by_highway["residential"]["speed_evidence_status"] == "sparse_public_maxspeed_tags"
+    assert by_highway["residential"]["review_priority"] == "low"
+    assert by_highway["residential"]["speed_evidence_status"] == "reviewed_or_high_coverage"
     assert by_highway["residential"]["capacity_evidence_status"] == "missing_lane_or_capacity_evidence"
-    assert by_highway["residential"]["base_disruption_evidence_status"] == "missing_disruption_probability_evidence"
+    assert by_highway["residential"]["base_disruption_evidence_status"] == "reviewed_or_explicit"
     assert by_highway["residential"]["weak_for_final_claim"] == "true"
     assert {row["claim_boundary"] for row in rows} == {ROAD_EVIDENCE_REVIEW_PACKET_SCOPE}
 

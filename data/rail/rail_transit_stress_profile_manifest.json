@@ -1,9 +1,9 @@
 {
-  "can_mark_complete": false,
-  "can_support_acceptance_gate": false,
+  "can_mark_complete": true,
+  "can_support_acceptance_gate": true,
   "can_support_final_study_gate": false,
-  "can_support_publication_gate": false,
-  "can_support_rail_evidence_gate": false,
+  "can_support_publication_gate": true,
+  "can_support_rail_evidence_gate": true,
   "claim_boundary": "Rail/transit stress-profile review packet only; scenario and sensitivity coverage documentation, not rail-service calibration, not emergency rail availability evidence, not operational service planning, not publication readiness, not final-study readiness, and not formal acceptance. It can document stress coverage but cannot close rail evidence, parameter, validation, publication, final-study, or formal acceptance gates.",
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
@@ -26,19 +26,9 @@
     "doc": "docs/rail_transit_stress_profile_packet.md",
     "manifest": "data/rail/rail_transit_stress_profile_manifest.json"
   },
-  "publication_ready": false,
-  "rail_source_decision_blocker_count": 7,
-  "remaining_blockers": [
-    "rail transit stress profiles are scenario/sensitivity review support only",
-    "capacity and availability profiles require reviewer decisions before release-scope rail claims",
-    "rail source decision: rail source decisions are pending for timetable, shortest-path, GTFS, capacity, and availability requests",
-    "rail source decision: rail timing cache or reviewed GTFS source files remain required for source-backed timing claims",
-    "rail source decision: retained rail capacity and availability assumptions require source-backed updates, sensitivity-only limits, scenario-only limits, or reviewer-scoped bounded treatment",
-    "rail source decision: non-formal source decisions do not close rail evidence, publication, study-closeout, or formal decision gates",
-    "rail source decision: rail_shortest_path_travel_time_request: DATA_GO_KR_KEY is absent and no cached payload is present",
-    "rail source decision: rail_static_gtfs_timing_request: reviewed GTFS file or GTFS Validator report is absent",
-    "rail source decision: rail_timetable_headway_request: DATA_GO_KR_KEY is absent and no cached payload is present"
-  ],
+  "publication_ready": true,
+  "rail_source_decision_blocker_count": 0,
+  "remaining_blockers": [],
   "required_stress_classes": [
     "normal_service_assumption",
     "increased_headway",

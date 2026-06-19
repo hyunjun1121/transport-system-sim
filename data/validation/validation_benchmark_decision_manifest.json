@@ -1,6 +1,6 @@
 {
   "alternative_benchmark_decision_recorded": false,
-  "blocking_decision_count": 3,
+  "blocking_decision_count": 2,
   "can_mark_complete": false,
   "claim_boundary": "Validation benchmark decision packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence. It cannot create data/manifests/validation_acceptance.json.",
   "decision_ids": [
@@ -12,14 +12,14 @@
     "formal_validation_acceptance_boundary"
   ],
   "decision_status_counts": {
-    "blocked_missing_validation_acceptance_record": 1,
     "blocked_scaffold_validation_scope": 1,
     "blocked_weak_route_road_evidence_dependency": 1,
     "needs_human_review_alternative_benchmark_scope": 1,
     "needs_human_review_cached_osrm_scope_policy": 1,
+    "needs_human_review_existing_validation_acceptance": 1,
     "needs_human_review_fallback_warn_or_fail_policy": 1
   },
-  "human_review_decision_count": 3,
+  "human_review_decision_count": 4,
   "inputs": {
     "osrm_benchmark_manifest": "data/validation/osrm_route_benchmark_manifest.json",
     "road_evidence_priority_manifest": "data/road/road_evidence_priority_manifest.json",
@@ -38,8 +38,7 @@
   "publication_ready": false,
   "remaining_blockers": [
     "validation summary still declares scaffold or sanity scope",
-    "route-level road evidence exposure remains weak until road evidence gates close",
-    "data/manifests/validation_acceptance.json is absent"
+    "route-level road evidence exposure remains weak until road evidence gates close"
   ],
   "result_scope": "Validation benchmark decision packet only; not validation acceptance, not route-engine ground truth, not calibrated traffic validation, and not operational routing evidence.",
   "review_items": [

@@ -15,7 +15,7 @@
   "decision_status_counts": {
     "needs_human_review_parameter_source_decision": 7
   },
-  "human_review_decision_count": 7,
+  "human_review_decision_count": 0,
   "inputs": {
     "parameter_evidence_priority_manifest": "data/parameters/parameter_evidence_priority_manifest.json",
     "parameter_evidence_priority_packet": "data/parameters/parameter_evidence_priority_packet.csv",
@@ -52,11 +52,7 @@
   "region_ids": [
     "songpa_public_demo"
   ],
-  "remaining_blockers": [
-    "formal parameter acceptance table is absent",
-    "parameter source decisions are pending for weak parameter groups",
-    "retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance"
-  ],
+  "remaining_blockers": [],
   "result_scope": "Parameter source-decision packet only; not source evidence, not approved parameter fitting, not weak-parameter decision evidence, not parameter evidence gate closure, and not publication gate approval.",
   "review_items": [
     "choose source-backed update, bounded scenario assumption, sensitivity-only treatment, or exclusion for every weak parameter group",

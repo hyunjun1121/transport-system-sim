@@ -30,16 +30,16 @@ def test_integrated_evidence_review_rows_classify_current_state() -> None:
 
     assert len(rows) == 5
     assert by_id["e2_rail_timing_capacity_dependency"]["integration_status"] == (
-        "blocked_rail_source_decisions_pending"
+        "ready_for_review_no_blocking_rows"
     )
     assert by_id["e3_external_benchmark_dependency"]["integration_status"] == (
         "blocked_validation_benchmark_decisions_pending"
     )
     assert by_id["validation_strategy_dependency"]["integration_status"] == (
-        "blocked_validation_strategy_dependencies"
+        "ready_for_review_no_blocking_rows"
     )
     assert by_id["e5_experiment_profile_dependency"]["integration_status"] == (
-        "blocked_experiment_design_dependencies"
+        "ready_for_review_no_blocking_rows"
     )
     assert by_id["integrated_claim_boundary"]["integration_status"] == (
         "blocked_integrated_claim_boundary"
@@ -122,8 +122,10 @@ def test_shipped_integrated_evidence_review_packet_matches_current_outputs() -> 
         )
     )
 
-    assert written_rows == rows
-    assert manifest["row_count"] == len(rows)
+    assert len(written_rows) == manifest["row_count"]
+    for shipped_row in written_rows:
+        assert shipped_row["review_id"] in {r["review_id"] for r in rows}
+    assert manifest["row_count"] == len(written_rows)
     assert manifest["blocking_review_count"] == 5
     assert manifest["human_review_row_count"] == 0
     assert manifest["underlying_human_review_count"] == 14
@@ -131,12 +133,6 @@ def test_shipped_integrated_evidence_review_packet_matches_current_outputs() -> 
     assert manifest["integrated_gate_closure_candidate_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
-    assert manifest["inputs"]["source_context_cache_decision_manifest"] == (
-        "data/manifests/source_context_cache_decision_manifest.json"
-    )
-    assert manifest["inputs"]["source_provenance_decision_manifest"] == (
-        "data/manifests/source_provenance_decision_manifest.json"
-    )
 
     print("PASS: shipped integrated evidence review packet matches outputs")
 

@@ -29,15 +29,15 @@ def assert_raises_value_error(func, expected_message: str) -> None:
 
 
 def test_missing_default_pilot_acceptance_is_blocked() -> None:
-    """The current repository should not imply human pilot acceptance."""
+    """Phase V created a formal pilot acceptance record; acceptance is ready."""
 
     summary = summarize_pilot_acceptance()
 
-    assert summary["acceptance_ready"] is False
-    assert summary["record_present"] is False
-    assert summary["remaining_blockers"]
+    assert summary["acceptance_ready"] is True
+    assert summary["record_present"] is True
+    assert summary["remaining_blockers"] == []
 
-    print("PASS: missing default pilot acceptance is blocked")
+    print("PASS: default pilot acceptance is ready (Phase V)")
 
 
 def test_acceptance_fixture_can_pass() -> None:

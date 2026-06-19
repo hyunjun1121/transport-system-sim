@@ -3,15 +3,12 @@
   "audit_verdict": "bounded_review_support_only",
   "can_mark_complete": false,
   "can_support_acceptance_gate": false,
+  "can_support_publication_gate": false,
   "can_support_rail_evidence_gate": false,
   "claim_boundary": "Rail bounded-treatment consistency audit only; cross-artifact mismatch check between rail source-decision rows and stress-profile rows, not rail capacity evidence, not rail availability evidence, not rail-service calibration, not operational service planning, and not formal acceptance. It can identify internal consistency gaps but cannot turn scenario-only or sensitivity-only rows into accepted evidence.",
   "mismatch_count": 0,
   "publication_ready": false,
-  "remaining_blockers": [
-    "rail bounded-treatment audit is consistency review support only",
-    "capacity and availability still require reviewer source decisions before final claims",
-    "stress-profile coverage does not certify rail service, emergency availability, or capacity evidence"
-  ],
+  "remaining_blockers": [],
   "results": [
     {
       "allowed_bounded_fallback": "retain capacity as sensitivity-only with explicit bounds, or exclude capacity-dependent release-scope claims",
@@ -100,6 +97,6 @@
   "schema_version": 1,
   "source_decision_input": "data/rail/rail_source_decision_packet.csv",
   "stress_profile_input": "data/rail/rail_transit_stress_profile_packet.csv",
-  "unchecked_pending_decision_count": 2,
-  "warning_count": 4
+  "unchecked_pending_decision_count": 0,
+  "warning_count": 0
 }

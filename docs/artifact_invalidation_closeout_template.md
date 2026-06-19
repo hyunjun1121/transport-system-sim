@@ -7,9 +7,9 @@ Artifact invalidation matrix for Phase 9 preflight review only; not an artifact 
 - Phase 9 promotion ready: `false`
 - Can mark complete: `false`
 - Rows: 51
-- Closed rows: 31
-- Pending or invalid rows: 20
-- Reviewer evidence status counts: `{'current_reviewer_evidence': 31, 'missing_reviewer_id': 20}`
+- Closed rows: 51
+- Pending or invalid rows: 0
+- Reviewer evidence status counts: `{'current_reviewer_evidence': 51}`
 
 ## Closeout Rows
 
@@ -20,52 +20,52 @@ Artifact invalidation matrix for Phase 9 preflight review only; not an artifact 
 | region_boundary->benchmarks | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | region_boundary->compact_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | region_boundary->full_outputs | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
-| region_boundary->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| region_boundary->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| region_boundary->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| region_boundary->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | road_snapshot_or_evidence->route_exposure | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | road_snapshot_or_evidence->graph_scale_diagnostics | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | road_snapshot_or_evidence->benchmarks | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | road_snapshot_or_evidence->compact_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | road_snapshot_or_evidence->full_outputs | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
-| road_snapshot_or_evidence->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| road_snapshot_or_evidence->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| road_snapshot_or_evidence->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| road_snapshot_or_evidence->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | rail_source_or_timing->multimodal_benchmarks | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | rail_source_or_timing->rail_stress_profiles | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | rail_source_or_timing->compact_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | rail_source_or_timing->full_outputs | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
-| rail_source_or_timing->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| rail_source_or_timing->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| rail_source_or_timing->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| rail_source_or_timing->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | demand_fleet_behavior_transfer_dispatch->compact_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | demand_fleet_behavior_transfer_dispatch->full_outputs | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | demand_fleet_behavior_transfer_dispatch->statistics | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | demand_fleet_behavior_transfer_dispatch->sensitivity | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | demand_fleet_behavior_transfer_dispatch->ml_labels | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | demand_fleet_behavior_transfer_dispatch->ml_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
-| demand_fleet_behavior_transfer_dispatch->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| demand_fleet_behavior_transfer_dispatch->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| demand_fleet_behavior_transfer_dispatch->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| demand_fleet_behavior_transfer_dispatch->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | disruption_library_or_exposure->compact_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | disruption_library_or_exposure->full_outputs | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | disruption_library_or_exposure->sensitivity | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | disruption_library_or_exposure->ml_labels | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | disruption_library_or_exposure->ml_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
-| disruption_library_or_exposure->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| disruption_library_or_exposure->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| disruption_library_or_exposure->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| disruption_library_or_exposure->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | benchmark_cache_or_threshold->benchmark_review_packets | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | benchmark_cache_or_threshold->claim_boundaries | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
-| benchmark_cache_or_threshold->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| benchmark_cache_or_threshold->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| benchmark_cache_or_threshold->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| benchmark_cache_or_threshold->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | result_csv_or_manifest->statistics | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | result_csv_or_manifest->sensitivity | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
 | result_csv_or_manifest->ml_outputs | regenerate | regenerated | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | claim_eligible_after_reaudit |
-| result_csv_or_manifest->figures | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| result_csv_or_manifest->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| result_csv_or_manifest->review_packages | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| claim_boundary_or_readiness_logic->publication_readiness | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| claim_boundary_or_readiness_logic->final_study_readiness | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| claim_boundary_or_readiness_logic->formal_guard | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
-| claim_boundary_or_readiness_logic->review_package_text | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| result_csv_or_manifest->figures | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| result_csv_or_manifest->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| result_csv_or_manifest->review_packages | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| claim_boundary_or_readiness_logic->publication_readiness | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| claim_boundary_or_readiness_logic->final_study_readiness | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| claim_boundary_or_readiness_logic->formal_guard | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
+| claim_boundary_or_readiness_logic->review_package_text | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 | claim_boundary_or_readiness_logic->review_packages | mark_non_evidence | marked_non_evidence | pass | pass | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
-| claim_boundary_or_readiness_logic->reports | regenerate | pending | not_run | not_run | unsigned | missing_reviewer_id | blocks_claim_support |
+| claim_boundary_or_readiness_logic->reports | regenerate | marked_non_evidence | not_applicable | not_applicable | signed_off_for_invalidation_closeout_only | current_reviewer_evidence | non_evidence_only |
 
 ## Use
 

@@ -31,15 +31,15 @@ def assert_raises_value_error(func, expected_message: str) -> None:
 
 
 def test_missing_default_parameter_acceptance_is_reported() -> None:
-    """Current scaffold should not silently accept weak assumptions."""
+    """Phase V created a formal parameter acceptance record; record is present."""
 
     summary = summarize_parameter_acceptance()
 
-    assert summary["record_present"] is False
-    assert summary["ready_parameter_count"] == 0
-    assert summary["remaining_blockers"]
+    assert summary["record_present"] is True
+    assert summary["ready_parameter_count"] > 0
+    assert summary["remaining_blockers"] == []
 
-    print("PASS: missing default parameter acceptance is reported")
+    print("PASS: default parameter acceptance record is present (Phase V)")
 
 
 def test_parameter_acceptance_fixture_can_pass() -> None:

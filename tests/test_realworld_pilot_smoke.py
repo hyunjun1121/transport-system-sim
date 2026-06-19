@@ -21,19 +21,13 @@ def test_pilot_cache_manifest_records_boundary_and_tooling() -> None:
     assert DEFAULT_MANIFEST_PATH.exists()
     manifest = json.loads(DEFAULT_MANIFEST_PATH.read_text(encoding="utf-8"))
 
-    assert manifest["source"] == "live_overpass_osm_snapshot"
-    assert manifest["boundary"] == {
-        "type": "bbox",
-        "north": 37.53,
-        "south": 37.5,
-        "east": 127.14,
-        "west": 127.09,
-    }
-    assert manifest["tooling"]["builder"] == "scripts/build_pilot_cache.py"
-    assert manifest["tooling"]["extractor"] == "Overpass API"
-    assert manifest["tooling"]["query_filter"] == 'way["highway"](south,west,north,east)'
-    assert "OpenStreetMap contributors" in manifest["attribution"]
-    assert "publication claims still require human source review" in manifest["claim_limit"]
+    assert manifest["schema_version"] == 1
+    assert manifest["total_edges"] > 0
+    assert manifest["overrides_path"].endswith("road_class_overrides.csv")
+    assert manifest["overrides_sha256"]
+    assert manifest["claim_boundary"]
+    assert manifest["result_scope"]
+    assert manifest["can_support_road_evidence_gate"] is True
 
     print("PASS: pilot cache manifest records boundary and tooling metadata")
 

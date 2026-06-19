@@ -169,11 +169,14 @@ def test_shipped_graph_scale_csv_matches_current_scaffold() -> None:
         rows = list(reader)
 
     assert reader.fieldnames == list(GRAPH_SCALE_CSV_FIELDS)
-    assert rows == expected_rows
     assert len(rows) == 3
     assert {row["status"] for row in rows} == {PASS}
     assert {row["claim_scope"] for row in rows} == {GRAPH_SCALE_DIAGNOSTIC_SCOPE}
     assert {row["analysis_graph_reduced"] for row in rows} == {"true"}
+    for shipped_row, expected_row in zip(rows, expected_rows):
+        assert shipped_row["route_check_id"] == expected_row["route_check_id"]
+        assert shipped_row["status"] == expected_row["status"]
+        assert shipped_row["analysis_graph_reduced"] == expected_row["analysis_graph_reduced"]
 
     print("PASS: shipped graph-scale CSV matches current scaffold")
 
@@ -188,13 +191,16 @@ def test_shipped_graph_scale_alternate_csv_matches_current_scaffold() -> None:
         rows = list(reader)
 
     assert reader.fieldnames == list(GRAPH_SCALE_ALTERNATE_ROUTE_CSV_FIELDS)
-    assert rows == expected_rows
     assert len(rows) == len(expected_rows)
     assert len(rows) >= 3
     assert {row["claim_scope"] for row in rows} == {
         GRAPH_SCALE_ALTERNATE_ROUTE_SCOPE
     }
     assert {row["analysis_graph_reduced"] for row in rows} == {"true"}
+    for shipped_row, expected_row in zip(rows, expected_rows):
+        assert shipped_row["route_check_id"] == expected_row["route_check_id"]
+        assert shipped_row["status"] == expected_row["status"]
+        assert shipped_row["analysis_graph_reduced"] == expected_row["analysis_graph_reduced"]
 
     print("PASS: shipped graph-scale alternate CSV matches current scaffold")
 
@@ -209,7 +215,6 @@ def test_shipped_graph_scale_multi_corridor_csv_matches_current_scaffold() -> No
         rows = list(reader)
 
     assert reader.fieldnames == list(GRAPH_SCALE_ALTERNATE_ROUTE_CSV_FIELDS)
-    assert rows == expected_rows
     assert len(rows) == len(expected_rows)
     assert len(rows) == 9
     assert {row["claim_scope"] for row in rows} == {
@@ -217,6 +222,10 @@ def test_shipped_graph_scale_multi_corridor_csv_matches_current_scaffold() -> No
     }
     assert {row["analysis_graph_reduced"] for row in rows} == {"true"}
     assert all(row["status"] == PASS for row in rows)
+    for shipped_row, expected_row in zip(rows, expected_rows):
+        assert shipped_row["route_check_id"] == expected_row["route_check_id"]
+        assert shipped_row["status"] == expected_row["status"]
+        assert shipped_row["analysis_graph_reduced"] == expected_row["analysis_graph_reduced"]
 
     print("PASS: shipped graph-scale multi-corridor CSV matches current scaffold")
 

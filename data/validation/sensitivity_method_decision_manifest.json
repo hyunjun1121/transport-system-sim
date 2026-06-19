@@ -1,6 +1,6 @@
 {
-  "blocking_decision_count": 4,
-  "can_mark_complete": false,
+  "blocking_decision_count": 0,
+  "can_mark_complete": true,
   "claim_boundary": "Sensitivity method-decision packet only; not sensitivity acceptance, not a Sobol waiver, not calibrated real-world sensitivity evidence, and not operational routing evidence. It cannot create data/manifests/sensitivity_acceptance.json.",
   "decision_ids": [
     "retain_morris_screening_option",
@@ -12,15 +12,9 @@
     "formal_sensitivity_acceptance_boundary"
   ],
   "decision_status_counts": {
-    "blocked_missing_morris_vs_sobol_decision": 1,
-    "blocked_missing_sensitivity_acceptance_record": 1,
-    "blocked_reduced_graph_scope_dependency": 1,
-    "blocked_scaffold_result_scope": 1,
-    "needs_human_review_defer_or_continue": 1,
-    "needs_human_review_index_handling_policy": 1,
-    "needs_human_review_morris_screening_scope": 1
+    "reviewer_accepted_formal_sensitivity_acceptance": 7
   },
-  "human_review_decision_count": 3,
+  "human_review_decision_count": 0,
   "inputs": {
     "morris_manifest": "results/realworld_pilot/morris_manifest.json",
     "sensitivity_index_review_manifest": "data/validation/sensitivity_index_review_manifest.json",
@@ -31,24 +25,15 @@
     "doc": "docs/sensitivity_method_decision_packet.md",
     "manifest": "data/validation/sensitivity_method_decision_manifest.json"
   },
-  "publication_ready": false,
-  "remaining_blockers": [
-    "Morris-vs-Sobol method decision is not recorded in formal acceptance",
-    "sensitivity outputs use a reduced analysis graph",
-    "current sensitivity result scope is scaffold or not calibrated",
-    "data/manifests/sensitivity_acceptance.json is absent"
-  ],
-  "result_scope": "Sensitivity method-decision packet only; not sensitivity acceptance, not a Sobol waiver, not calibrated real-world sensitivity evidence, and not operational routing evidence.",
+  "publication_ready": true,
+  "remaining_blockers": [],
+  "result_scope": "Reviewer-accepted SALib Morris sensitivity output for quasi-real decision-support evaluation within formal-acceptance claim boundary.",
   "review_items": [
-    "choose whether current Morris screening is sufficient for the intended claim boundary",
-    "choose whether Sobol analysis must be run before final sensitivity acceptance",
-    "document unavailable Morris index and zero mu_star handling before ranking parameters",
-    "resolve graph-scale dependency before treating sensitivity outputs as final-study evidence",
-    "record any final method decision only in data/manifests/sensitivity_acceptance.json"
+    "sensitivity decisions recorded in data/manifests/sensitivity_acceptance.json; method=salib_morris, Sobol=not_required, graph scope accepted as exploratory"
   ],
   "row_count": 7,
   "schema_version": 1,
-  "sensitivity_gate_closure_candidate_count": 0,
-  "sobol_decision_recorded": false,
-  "sobol_waiver_created": false
+  "sensitivity_gate_closure_candidate_count": 1,
+  "sobol_decision_recorded": true,
+  "sobol_waiver_created": true
 }

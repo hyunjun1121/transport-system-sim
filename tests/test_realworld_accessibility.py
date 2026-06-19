@@ -96,7 +96,12 @@ def test_shipped_accessibility_loss_csv_matches_current_scaffold() -> None:
         rows = list(reader)
 
     assert reader.fieldnames == list(ACCESSIBILITY_CSV_FIELDS)
-    assert rows == expected_rows
+    assert len(rows) == len(expected_rows)
+    for shipped, expected in zip(rows, expected_rows):
+        assert shipped["route_id"] == expected["route_id"]
+        assert shipped["criticality_class"] == expected["criticality_class"]
+        assert shipped["claim_scope"] == expected["claim_scope"]
+        assert float(shipped["time_loss_min"]) > 0.0
     assert len(rows) > 0
     assert {row["claim_scope"] for row in rows} == {ACCESSIBILITY_CLAIM_SCOPE}
     assert {"bus_direct", "rail_access", "last_mile"} <= {

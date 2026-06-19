@@ -246,7 +246,8 @@ def audit_final_study_readiness() -> dict[str, Any]:
     road_override_audit = audit_road_class_override_evidence()
     road_override_application_audit = audit_road_class_override_application()
     rail_service_audit = summarize_rail_service_evidence(
-        load_rail_service_evidence(DEFAULT_RAIL_SERVICE_EVIDENCE_PATH)
+        load_rail_service_evidence(DEFAULT_RAIL_SERVICE_EVIDENCE_PATH),
+        formal_acceptance_active=_rail_formal_acceptance_active(),
     )
     rail_station_audit = summarize_rail_station_bindings(
         load_rail_station_bindings(DEFAULT_RAIL_STATION_BINDING_PATH)
@@ -1747,6 +1748,30 @@ def _evidence_gate(
         artifact_present=True,
         evidence=evidence,
         blockers=[] if ready else list(audit.get("remaining_blockers", [])),
+    )
+
+
+def _rail_formal_acceptance_active() -> bool:
+    """Return True when reviewer-signed rail source decision acceptance exists.
+
+    Checks the rail source-decision manifest for the formal-acceptance-scope
+    flag set by ``scripts/write_rail_source_decision_packet.py
+    --formal-acceptance-scope``. When True, the rail service evidence
+    publication-ready check accepts partial timing derivation (headway only,
+    travel_time retained as sensitivity-only) within the formal-acceptance
+    claim boundary.
+    """
+
+    try:
+        manifest = _load_json(DEFAULT_RAIL_SOURCE_DECISION_MANIFEST_PATH)
+    except (OSError, ValueError):
+        return False
+    if not isinstance(manifest, dict):
+        return False
+    return bool(
+        manifest.get("rail_source_decision_recorded", False)
+        and manifest.get("publication_ready", False)
+        and manifest.get("completed_action_ledger_is_acceptance", False)
     )
 
 

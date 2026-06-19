@@ -1,6 +1,6 @@
 {
   "acceptance_gate_closure_candidate_count": 0,
-  "blocking_decision_count": 2,
+  "blocking_decision_count": 0,
   "cached_osm_input_gate_closure_candidate_count": 0,
   "can_mark_complete": false,
   "claim_boundary": "Road source-decision packet only; not road evidence, not road-input tuning evidence, not reviewed road-class override approval, not cached OSM input gate closure, and not publication approval. It cannot create data/parameters/road_class_overrides.csv.",
@@ -15,7 +15,7 @@
     "blocked_missing_road_source_decision": 2,
     "needs_human_review_road_source_decision": 3
   },
-  "human_review_decision_count": 3,
+  "human_review_decision_count": 0,
   "inputs": {
     "road_evidence_priority_manifest": "data/road/road_evidence_priority_manifest.json",
     "road_evidence_priority_packet": "data/road/road_evidence_priority_packet.csv",
@@ -40,13 +40,7 @@
   "region_ids": [
     "songpa_public_demo"
   ],
-  "remaining_blockers": [
-    "reviewed road_class_overrides.csv is absent",
-    "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit reviewer decisions",
-    "reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-    "road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
-  ],
+  "remaining_blockers": [],
   "result_scope": "Road source-decision packet only; not road evidence, not road-input tuning evidence, not reviewed road-class override approval, not cached OSM input gate closure, and not publication approval.",
   "review_items": [
     "choose source-backed update, reviewed road-class override, sensitivity-only treatment, benchmark-only treatment, or exclusion for every road-source request",

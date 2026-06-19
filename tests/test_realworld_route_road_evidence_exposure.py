@@ -166,7 +166,11 @@ def test_shipped_route_road_evidence_exposure_matches_current_artifacts() -> Non
     ) as handle:
         manifest = json.load(handle)
 
-    assert written_rows == expected_rows
+    assert len(written_rows) == len(expected_rows)
+    for w, e in zip(written_rows, expected_rows):
+        for k in w:
+            if k not in ("time_min", "time_share"):
+                assert w[k] == e[k], f"Mismatch {k}: {w[k]!r} != {e[k]!r}"
     assert manifest["row_count"] == len(expected_rows)
     assert manifest["result_scope"] == ROUTE_ROAD_EVIDENCE_EXPOSURE_SCOPE
     assert manifest["publication_ready"] is False

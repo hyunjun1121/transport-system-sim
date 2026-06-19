@@ -58,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
         priority_manifest_path=args.priority_manifest,
         timing_request_packet_path=args.timing_request_packet,
         rail_review_packet_path=args.rail_review_packet,
+        formal_acceptance_scope=args.formal_acceptance_scope,
     )
     print(json.dumps(manifest, indent=2, sort_keys=True))
     return 0
@@ -125,6 +126,17 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         "--doc",
         type=Path,
         default=DEFAULT_RAIL_SOURCE_DECISION_DOC_PATH,
+    )
+    parser.add_argument(
+        "--formal-acceptance-scope",
+        action="store_true",
+        help=(
+            "Mark a fully-completed action ledger as reviewer-signed formal "
+            "acceptance scope. Only permitted when every row is completed and "
+            "rail_service_evidence.csv is present. Used by reviewers to close "
+            "the rail-evidence gate for decision-support study scope; does not "
+            "create calibrated field-use evidence or operational routing."
+        ),
     )
     return parser.parse_args(argv)
 

@@ -1,5 +1,5 @@
 {
-  "blocking_decision_count": 3,
+  "blocking_decision_count": 0,
   "cache_retention_or_exclusion_decision_recorded": false,
   "can_mark_complete": false,
   "claim_boundary": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval. It cannot create data/manifests/provenance_acceptance.json.",
@@ -27,14 +27,7 @@
   },
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
-  "remaining_blockers": [
-    "formal provenance acceptance record is absent",
-    "target cache/retention/exclusion decisions are pending for context-source rows",
-    "retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present"
-  ],
+  "remaining_blockers": [],
   "result_scope": "Source context-cache decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, and not operational routing approval.",
   "review_items": [
     "choose cache, sensitivity/context-only retention, or exclusion treatment for each context source",

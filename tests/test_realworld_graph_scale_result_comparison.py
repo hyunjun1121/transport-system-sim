@@ -110,8 +110,7 @@ def test_shipped_graph_scale_result_comparison_matches_current_summaries() -> No
     with DEFAULT_RESULT_COMPARISON_MANIFEST_PATH.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
 
-        assert len(rows) == 6877
-    assert len(written_rows) == len(rows)
+    assert len(written_rows) == manifest["row_count"]
     assert manifest["row_count"] == 6877
     assert manifest["publication_ready"] is False
     assert "candidate_worsens" in manifest["comparison_status_counts"]

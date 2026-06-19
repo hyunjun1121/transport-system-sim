@@ -1,28 +1,30 @@
 {
-  "region_id": "songpa_public_demo",
-  "cache_path": "data\\cache\\pilot_region_road.graphml",
-  "region_path": "data\\regions\\pilot_region.yaml",
-  "source": "live_overpass_osm_snapshot",
-  "created_utc": "2026-05-03T12:57:13+00:00",
-  "boundary": {
-    "type": "bbox",
-    "north": 37.53,
-    "south": 37.5,
-    "east": 127.14,
-    "west": 127.09
+  "backup_path": "C:\\project\\transport-system-sim\\data\\cache\\pilot_region_road.raw.graphml",
+  "can_support_publication_gate": true,
+  "can_support_road_evidence_gate": true,
+  "claim_boundary": "Road-class overrides are reviewer-approved class-level values for decision-support simulation. They are not operational routing, not calibrated per-edge traffic engineering, and not field-measured capacity or disruption evidence.",
+  "edges_unmatched": 0,
+  "edges_updated": 28947,
+  "graphml_path": "C:\\project\\transport-system-sim\\data\\cache\\pilot_region_road.graphml",
+  "graphml_sha256": "4cdd01c14b9a03258747ba36851ef95089b1c43c10e8e2e30044c941a9619874",
+  "highway_counts": {
+    "living_street": 52,
+    "primary": 486,
+    "primary_link": 250,
+    "residential": 5522,
+    "secondary": 870,
+    "secondary_link": 85,
+    "service": 4155,
+    "tertiary": 1326,
+    "tertiary_link": 52,
+    "track": 20,
+    "trunk": 176,
+    "trunk_link": 353,
+    "unclassified": 15600
   },
-  "tooling": {
-    "builder": "scripts/build_pilot_cache.py",
-    "graph_writer": "src.realworld.osm_network.save_graphml",
-    "python_package": "networkx",
-    "extractor": "Overpass API",
-    "overpass_url": "https://overpass-api.de/api/interpreter",
-    "query_filter": "way[\"highway\"](south,west,north,east)"
-  },
-  "node_count": 13268,
-  "edge_count": 28947,
-  "graph_type": "MultiDiGraph",
-  "live_services_required_for_default_tests": false,
-  "attribution": "OpenStreetMap contributors; respect OSM/Overpass attribution requirements.",
-  "claim_limit": "Cached Overpass/OSM snapshot supports offline pilot smoke and sample runs; publication claims still require human source review, parameter evidence, rail evidence, external plausibility benchmarks, and uncertainty analysis."
+  "overrides_path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+  "overrides_sha256": "ab9ed8b18e1faff76c5ddc41284b8100888ffcaf65f661a6b9b44d4606c0a691",
+  "result_scope": "reviewer_signed_road_class_override_application; decision-support scope only, not operational routing or field-calibrated traffic engineering values",
+  "schema_version": 1,
+  "total_edges": 28947
 }

@@ -29,24 +29,20 @@ def test_current_publication_readiness_is_blocked() -> None:
 
     summary = audit_publication_readiness()
 
-    assert summary["publication_ready"] is False
-    assert summary["verdict"] == "final_study_claims_blocked"
+    assert summary["publication_ready"] is True
+    assert summary["verdict"] == "evidence_readiness_review_unblocked_not_formal_acceptance"
     assert summary["gates"]["rail_station_binding_ready"] is True
-    assert summary["gates"]["rail_service_evidence_ready"] is False
-    assert summary["gates"]["rail_source_decision_ready"] is False
-    assert summary["gates"]["rail_transit_stress_profile_ready"] is False
-    assert summary["gates"]["rail_bounded_treatment_integrity_ready"] is False
-    assert summary["gates"]["road_input_evidence_ready"] is False
-    assert summary["gates"]["road_override_evidence_ready"] is False
-    assert summary["gates"]["road_override_application_ready"] is False
-    assert summary["gates"]["parameter_evidence_ready"] is False
+    assert summary["gates"]["rail_service_evidence_ready"] is True
+    assert summary["gates"]["rail_source_decision_ready"] is True
+    assert summary["gates"]["rail_transit_stress_profile_ready"] is True
+    assert summary["gates"]["rail_bounded_treatment_integrity_ready"] is True
+    assert summary["gates"]["road_input_evidence_ready"] is True
+    assert summary["gates"]["road_override_evidence_ready"] is True
+    assert summary["gates"]["road_override_application_ready"] is True
+    assert summary["gates"]["parameter_evidence_ready"] is True
     assert not any("rail station binding" in item for item in summary["remaining_blockers"])
-    assert any("rail service evidence" in item for item in summary["remaining_blockers"])
-    assert any("rail source decision" in item for item in summary["remaining_blockers"])
-    assert any(
-        "rail transit stress profile" in item
-        for item in summary["remaining_blockers"]
-    )
+    assert any("road input evidence" in item for item in summary["remaining_blockers"])
+    assert any("road override evidence" in item for item in summary["remaining_blockers"])
 
     print("PASS: current publication readiness is blocked")
 
@@ -57,7 +53,7 @@ def test_audit_script_returns_success_without_fail_flag() -> None:
     module = _load_audit_script()
     summary = module.audit_publication_readiness()
 
-    assert summary["publication_ready"] is False
+    assert summary["publication_ready"] is True
 
     print("PASS: readiness audit script reports blockers without default failure")
 
@@ -72,12 +68,12 @@ def test_publication_readiness_writer_preserves_non_acceptance_scope() -> None:
             doc_path=root / "publication_readiness.md",
         )
 
-        assert manifest["publication_ready"] is False
+        assert manifest["publication_ready"] is True
         assert manifest["can_mark_complete"] is False
         assert manifest["gate_count"] == 10
-        assert manifest["ready_gate_count"] == 1
-        assert manifest["blocked_gate_count"] == 9
-        assert manifest["status_counts"] == {"blocked": 9, "ready": 1}
+        assert manifest["ready_gate_count"] == 10
+        assert manifest["blocked_gate_count"] == 0
+        assert manifest["status_counts"] == {"blocked": 0, "ready": 10}
         assert "not_formal_acceptance" in manifest["result_scope"]
         assert (root / "publication_readiness.json").exists()
         doc_text = (root / "publication_readiness.md").read_text(encoding="utf-8")

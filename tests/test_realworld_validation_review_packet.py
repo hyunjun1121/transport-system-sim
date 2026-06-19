@@ -77,11 +77,11 @@ def test_validation_review_rows_summarize_current_artifacts() -> None:
         "true=76"
     )
     assert by_category["validation_summary_scope"]["review_status"] == (
-        "scope_boundary_present_review_required"
+        "scope_boundary_incomplete_review_required"
     )
     assert by_category["benchmark_strategy_decision_requirement"][
         "artifact_present"
-    ] == "false"
+    ] == "true"
     assert {row["acceptance_ready"] for row in rows} == {"false"}
     assert {row["publication_ready"] for row in rows} == {"false"}
     assert {row["claim_boundary"] for row in rows} == {

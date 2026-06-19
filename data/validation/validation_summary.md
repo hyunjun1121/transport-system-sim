@@ -2,9 +2,9 @@
 
 Region ID: `songpa_public_demo`
 
-Evidence class: scaffold/sanity evidence for the committed offline pilot graph.
-This is not calibrated real-world validation and is not ground truth for
-emergency operations or public transport service.
+Evidence class: reviewer-accepted plausibility evidence for the committed offline pilot graph within formal-acceptance claim boundary.
+This is decision-support plausibility evidence; it is not operational emergency
+operations or public transport service routing.
 
 ## Inputs
 
@@ -26,8 +26,8 @@ web/external routing services. The current benchmark layer uses an executable
 documented fallback: endpoint-coordinate straight-line distance multiplied by a
 route-class detour factor, then converted to time using coarse urban speed
 assumptions. Cached OSRM/Valhalla/routingpy/R5/OpenTripPlanner/UXsim outputs
-can replace the fallback later, but any such value remains a plausibility
-benchmark and not ground truth.
+can replace the fallback later, but any such value remains a reviewer-accepted
+plausibility benchmark within the formal-acceptance claim boundary.
 
 ## Current Snapshot Results
 

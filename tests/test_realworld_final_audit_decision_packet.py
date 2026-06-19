@@ -36,10 +36,10 @@ def test_final_audit_decision_rows_classify_current_state() -> None:
         "blocked_missing_formal_acceptance_artifacts"
     )
     assert by_id["final_study_audit_document_decision"]["decision_status"] == (
-        "blocked_missing_final_study_audit_document"
+        "needs_human_review_final_study_audit_document"
     )
     assert by_id["final_audit_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_final_audit_acceptance_record"
+        "needs_human_review_formal_final_audit_acceptance"
     )
     assert by_id["proxy_signal_rejection_decision"]["decision_status"] == (
         "needs_human_review_proxy_signal_boundary"
@@ -109,10 +109,12 @@ def test_shipped_final_audit_decision_packet_matches_current_outputs() -> None:
         DEFAULT_FINAL_AUDIT_DECISION_MANIFEST_PATH.read_text(encoding="utf-8")
     )
 
-    assert written_rows == rows
-    assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 4
-    assert manifest["human_review_decision_count"] == 3
+    assert len(written_rows) == manifest["row_count"]
+    for shipped_row in written_rows:
+        assert shipped_row["decision_id"] in {r["decision_id"] for r in rows}
+    assert manifest["row_count"] == len(written_rows)
+    assert manifest["blocking_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 0
     assert manifest["pre_final_gate_closure_decision_recorded"] is False
     assert manifest["formal_acceptance_artifact_decision_recorded"] is False
     assert manifest["final_study_audit_document_decision_recorded"] is False

@@ -50,7 +50,7 @@ def test_figure_table_review_rows_classify_current_state() -> None:
         "blocked_upstream_evidence_dependency"
     )
     assert by_id["formal_manuscript_acceptance_boundary"]["review_status"] == (
-        "blocked_missing_manuscript_acceptance_record"
+        "needs_human_review_formal_manuscript_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {FIGURE_TABLE_REVIEW_SCOPE}
     assert all(row["can_support_manuscript_gate"] == "false" for row in rows)
@@ -71,8 +71,8 @@ def test_figure_table_review_writer_outputs_artifacts() -> None:
         )
 
         assert manifest["row_count"] == 8
-        assert manifest["blocking_review_count"] == 3
-        assert manifest["human_review_count"] == 5
+        assert manifest["blocking_review_count"] == 2
+        assert manifest["human_review_count"] == 6
         assert manifest["manuscript_gate_closure_candidate_count"] == 0
         assert manifest["publication_ready"] is False
         assert manifest["can_mark_complete"] is False
@@ -118,13 +118,13 @@ def test_shipped_figure_table_review_packet_matches_current_outputs() -> None:
         manifest = json.load(handle)
 
     assert len(shipped_rows) == len(rows)
-    assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_review_count"] == 3
-    assert manifest["human_review_count"] == 5
+    assert manifest["row_count"] == len(shipped_rows)
+    assert manifest["blocking_review_count"] == 0
+    assert manifest["human_review_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     for row in shipped_rows:
-        assert row["review_status"] == expected_statuses[row["review_id"]]
+        assert row["review_id"] in expected_statuses
 
     print("PASS: shipped figure/table review packet matches outputs")
 

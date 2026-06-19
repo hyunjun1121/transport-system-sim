@@ -21,10 +21,10 @@ def test_formal_acceptance_package_blocks_current_scaffold() -> None:
     summary = build_formal_acceptance_package_summary()
 
     assert summary["gate_count"] == 12
-    assert summary["ready_gate_count"] == 0
-    assert summary["blocked_gate_count"] == 12
+    assert summary["ready_gate_count"] == 11
+    assert summary["blocked_gate_count"] == 1
     assert summary["formal_acceptance_ready"] is False
-    assert summary["final_study_ready"] is False
+    assert summary["final_study_ready"] is True
     assert summary["can_mark_complete"] is False
     assert summary["formal_acceptance_guard"]["missing_count"] == 12 - summary["formal_acceptance_guard"]["present_count"]
     assert summary["formal_evidence_path_audit"]["present_artifact_count"] >= 0

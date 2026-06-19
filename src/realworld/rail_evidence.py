@@ -159,8 +159,16 @@ def validate_rail_service_evidence(
 
 def summarize_rail_service_evidence(
     records: Sequence[RailServiceEvidence],
+    *,
+    formal_acceptance_active: bool = False,
 ) -> dict[str, object]:
-    """Return conservative rail-evidence status counts and blockers."""
+    """Return conservative rail-evidence status counts and blockers.
+
+    When ``formal_acceptance_active`` is true, partial timing derivation
+    (headway only, with travel_time retained as sensitivity-only) is accepted
+    within the reviewer-signed formal-acceptance claim boundary. This does
+    not create calibrated field-use travel-time evidence.
+    """
 
     derived = [record for record in records if record.is_derived]
     assumption = [
@@ -176,11 +184,22 @@ def summarize_rail_service_evidence(
         _gtfs_validator_report_is_ready(record) for record in gtfs_records
     )
     derived_field_ready = _derived_field_ready(records)
-    timing_ready = (
+    headway_ready = derived_field_ready["headway"]
+    travel_time_ready = derived_field_ready["travel_time"]
+    timing_ready_strict = (
         source_artifact_ready
         and gtfs_validation_ready
-        and derived_field_ready["headway"]
-        and derived_field_ready["travel_time"]
+        and headway_ready
+        and travel_time_ready
+    )
+    timing_ready = (
+        timing_ready_strict
+        or (
+            formal_acceptance_active
+            and source_artifact_ready
+            and gtfs_validation_ready
+            and headway_ready
+        )
     )
     capacity_ready = any("capacity" in record.derived_field_set for record in derived)
     capacity_sensitivity_acknowledged = any(
@@ -194,6 +213,7 @@ def summarize_rail_service_evidence(
         "derived_field_counts": _derived_field_counts(records),
         "derived_field_ready": dict(derived_field_ready),
         "timing_evidence_ready": timing_ready,
+        "timing_evidence_strict_ready": timing_ready_strict,
         "source_artifact_ready": source_artifact_ready,
         "gtfs_validation_required_count": len(gtfs_records),
         "gtfs_validation_ready": gtfs_validation_ready,
@@ -210,11 +230,18 @@ def summarize_rail_service_evidence(
             "with matching SHA256 digest, and rail capacity is either "
             "source-backed or explicitly retained as a sensitivity-only value."
         ),
-        "remaining_blockers": _rail_blockers(records),
+        "remaining_blockers": _rail_blockers(
+            records,
+            formal_acceptance_active=formal_acceptance_active,
+        ),
     }
 
 
-def _rail_blockers(records: Sequence[RailServiceEvidence]) -> list[str]:
+def _rail_blockers(
+    records: Sequence[RailServiceEvidence],
+    *,
+    formal_acceptance_active: bool = False,
+) -> list[str]:
     derived = [record for record in records if record.is_derived]
     source_artifact_ready = bool(derived) and all(
         _source_artifact_is_ready(record) for record in derived
@@ -226,11 +253,22 @@ def _rail_blockers(records: Sequence[RailServiceEvidence]) -> list[str]:
         _gtfs_validator_report_is_ready(record) for record in gtfs_records
     )
     derived_field_ready = _derived_field_ready(records)
-    timing_ready = (
+    headway_ready = derived_field_ready["headway"]
+    travel_time_ready = derived_field_ready["travel_time"]
+    timing_ready_strict = (
         source_artifact_ready
         and gtfs_validation_ready
-        and derived_field_ready["headway"]
-        and derived_field_ready["travel_time"]
+        and headway_ready
+        and travel_time_ready
+    )
+    timing_ready = (
+        timing_ready_strict
+        or (
+            formal_acceptance_active
+            and source_artifact_ready
+            and gtfs_validation_ready
+            and headway_ready
+        )
     )
     capacity_ready = any("capacity" in record.derived_field_set for record in derived)
     capacity_sensitivity_acknowledged = any(
@@ -241,8 +279,15 @@ def _rail_blockers(records: Sequence[RailServiceEvidence]) -> list[str]:
     blockers: list[str] = []
     if not derived:
         blockers.append("cache timetable, shortest-path, or GTFS-derived records")
-    if not (derived_field_ready["headway"] and derived_field_ready["travel_time"]):
-        blockers.append("derive headway and travel time from the cached records")
+    if not timing_ready:
+        if formal_acceptance_active and headway_ready and not travel_time_ready:
+            blockers.append(
+                "travel_time is retained as sensitivity-only under formal acceptance; "
+                "headway is derived but travel_time calibration requires a reviewed "
+                "shortest-path or GTFS source"
+            )
+        else:
+            blockers.append("derive headway and travel time from the cached records")
     if derived and not source_artifact_ready:
         blockers.append("record source artifact path and SHA256 for cached rail evidence")
     if gtfs_records and not gtfs_validation_ready:

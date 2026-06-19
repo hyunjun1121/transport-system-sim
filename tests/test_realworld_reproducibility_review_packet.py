@@ -38,7 +38,7 @@ def test_reproducibility_review_rows_are_conservative() -> None:
         "clean_checkout_execution_scope",
     }
     assert by_category["formal_reproducibility_acceptance_record"]["status"] == (
-        "blocked_no_reproducibility_acceptance_record"
+        "review_required_existing_acceptance_record_is_separate"
     )
     assert by_category["clean_checkout_execution_scope"]["status"] == (
         "blocked_full_clean_checkout_not_run"

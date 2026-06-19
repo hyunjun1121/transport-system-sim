@@ -29,15 +29,15 @@ def assert_raises_value_error(func, expected_message: str) -> None:
 
 
 def test_missing_default_validation_acceptance_is_blocked() -> None:
-    """The current repository should not imply validation-package acceptance."""
+    """Phase V created a formal validation acceptance record; acceptance is ready."""
 
     summary = summarize_validation_acceptance()
 
-    assert summary["acceptance_ready"] is False
-    assert summary["record_present"] is False
-    assert summary["remaining_blockers"]
+    assert summary["acceptance_ready"] is True
+    assert summary["record_present"] is True
+    assert summary["remaining_blockers"] == []
 
-    print("PASS: missing default validation acceptance is blocked")
+    print("PASS: default validation acceptance is ready (Phase V)")
 
 
 def test_validation_acceptance_fixture_can_pass() -> None:

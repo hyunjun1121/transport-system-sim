@@ -1,0 +1,30 @@
+{
+  "broader_blockers": [
+    "calibrated validation",
+    "real-world forecasting",
+    "operational routing",
+    "simulation acceleration evidence"
+  ],
+  "decision": "signed_off_for_invalidation_closeout_only",
+  "evidence_paths": [
+    "data/validation/artifact_invalidation_closeout_template.csv",
+    "data/validation/artifact_invalidation_closeout_manifest.json",
+    "data/validation/claim_language_guard_manifest.json"
+  ],
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "invalidation_row_id": "benchmark_cache_or_threshold->reports",
+  "publication_ready": false,
+  "record_type": "artifact_invalidation_closeout_reviewer_evidence",
+  "reviewed_at_utc": "2026-06-18T07:34:06+00:00",
+  "reviewed_paths": [
+    "data/validation/artifact_invalidation_closeout_template.csv",
+    "data/validation/artifact_invalidation_matrix.csv"
+  ],
+  "reviewer_id": "reviewer_signed_formal_acceptance_20260618",
+  "schema_version": 1,
+  "scope": "artifact_invalidation_closeout_only",
+  "scope_statement": "Reviewer-signed formal-acceptance-scope artifact-invalidation closeout only. Approval is limited to closed_invalidation_only and does not support calibrated validation, real-world forecasting, operational routing, or simulation-acceleration evidence. Approval covers regeneration of figures, reports, review packages, and downstream readiness artifacts after reviewer-approved source/parameter/road/rail evidence updates recorded in 2026-06-18 formal acceptance artifacts.",
+  "stale_downstream_group": "reports",
+  "upstream_change_group": "benchmark_cache_or_threshold"
+}

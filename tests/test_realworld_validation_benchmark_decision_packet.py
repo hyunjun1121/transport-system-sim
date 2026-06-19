@@ -53,7 +53,7 @@ def test_validation_benchmark_decision_rows_classify_current_state() -> None:
         in by_id["road_evidence_dependency"]["evidence_input_paths"]
     )
     assert by_id["formal_validation_acceptance_boundary"]["decision_status"] == (
-        "blocked_missing_validation_acceptance_record"
+        "needs_human_review_existing_validation_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         VALIDATION_BENCHMARK_DECISION_SCOPE
@@ -123,8 +123,8 @@ def test_shipped_validation_benchmark_decision_packet_matches_current_outputs() 
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["blocking_decision_count"] == 3
-    assert manifest["human_review_decision_count"] == 3
+    assert manifest["blocking_decision_count"] == 2
+    assert manifest["human_review_decision_count"] == 4
     assert manifest["alternative_benchmark_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

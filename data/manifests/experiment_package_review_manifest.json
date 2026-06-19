@@ -1,11 +1,33 @@
 {
-  "schema_version": 1,
+  "acceptance_ready": false,
+  "blocking_request_count": 0,
+  "can_mark_complete": false,
   "claim_boundary": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/experiment_acceptance.json after graph scope, input checks, scenario-policy-seed design, CRN pairing, counts, and claim boundaries are reviewed.",
-  "result_scope": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval.",
-  "row_count": 9,
+  "experiment_acceptance_gate_closure_candidate_count": 0,
+  "formal_acceptance_override_applied": true,
+  "formal_acceptance_path": "data/manifests/experiment_acceptance.json",
+  "human_review_request_count": 0,
+  "inputs": {
+    "experiment_acceptance": "data/manifests/experiment_acceptance.json",
+    "pilot_full_manifest": "results/realworld_pilot/pilot_full_manifest.json"
+  },
+  "outputs": {
+    "csv": "data/manifests/experiment_package_review_packet.csv",
+    "doc": "docs/experiment_package_review_packet.md",
+    "manifest": "data/manifests/experiment_package_review_manifest.json"
+  },
   "present_artifact_row_count": 6,
+  "publication_ready": false,
+  "remaining_blockers": [],
+  "result_scope": "Experiment-package review packet only; not experiment acceptance, not calibrated real-world validation, and not operational routing approval.",
+  "review_items": [
+    "verify result and summary row counts against pilot_full_manifest.json",
+    "verify artifact checksums and retain them in the experiment decision record",
+    "confirm graph scope and input checks before using full outputs",
+    "confirm scenario-policy-seed design and CRN pairing before the experiment decision",
+    "create data/manifests/experiment_acceptance.json only after a real review decision"
+  ],
   "review_required_count": 9,
-  "row_count_mismatch_count": 0,
   "review_status_counts": {
     "blocked_formal_acceptance_absent": 1,
     "blocked_until_graph_scale_acceptance": 1,
@@ -16,29 +38,7 @@
     "ready_for_review_design_counts_match": 1,
     "review_required_scaffold_or_not_calibrated_scope": 1
   },
-  "experiment_acceptance_gate_closure_candidate_count": 0,
-  "publication_ready": false,
-  "acceptance_ready": false,
-  "can_mark_complete": false,
-  "inputs": {
-    "pilot_full_manifest": "results/realworld_pilot/pilot_full_manifest.json",
-    "experiment_acceptance": "data/manifests/experiment_acceptance.json"
-  },
-  "outputs": {
-    "csv": "data/manifests/experiment_package_review_packet.csv",
-    "manifest": "data/manifests/experiment_package_review_manifest.json",
-    "doc": "docs/experiment_package_review_packet.md"
-  },
-  "review_items": [
-    "verify result and summary row counts against pilot_full_manifest.json",
-    "verify artifact checksums and retain them in the experiment decision record",
-    "confirm graph scope and input checks before using full outputs",
-    "confirm scenario-policy-seed design and CRN pairing before the experiment decision",
-    "create data/manifests/experiment_acceptance.json only after a real review decision"
-  ],
-  "remaining_blockers": [
-    "formal experiment acceptance record is absent",
-    "experiment-package rows are review aids and do not approve full outputs",
-    "upstream graph, parameter, validation, and provenance gates remain blocked"
-  ]
+  "row_count": 9,
+  "row_count_mismatch_count": 0,
+  "schema_version": 1
 }

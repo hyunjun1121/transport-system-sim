@@ -56,7 +56,7 @@ def test_validation_benchmark_readiness_rows_classify_current_snapshot() -> None
         "needs_human_review_alternative_benchmark_decision"
     )
     assert by_id["validation_acceptance_record"]["readiness_status"] == (
-        "blocked_missing_validation_acceptance_record"
+        "needs_human_review_existing_validation_acceptance"
     )
     assert {row["claim_boundary"] for row in rows} == {
         VALIDATION_BENCHMARK_READINESS_SCOPE

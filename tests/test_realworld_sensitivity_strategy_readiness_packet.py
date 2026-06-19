@@ -44,13 +44,13 @@ def test_sensitivity_strategy_readiness_rows_classify_current_diagnostics() -> N
         "blocked_reduced_graph_scope_for_sensitivity_claims"
     )
     assert by_category["result_scope"]["readiness_status"] == (
-        "blocked_scaffold_or_not_calibrated_result_scope"
+        "needs_human_review_sensitivity_result_scope"
     )
     assert by_category["sobol_decision_requirement"]["readiness_status"] == (
         "blocked_missing_morris_vs_sobol_decision"
     )
     assert by_category["sensitivity_acceptance_record"]["readiness_status"] == (
-        "blocked_missing_sensitivity_acceptance_record"
+        "needs_human_review_sensitivity_acceptance_record"
     )
     assert {row["claim_boundary"] for row in rows} == {
         SENSITIVITY_STRATEGY_READINESS_SCOPE

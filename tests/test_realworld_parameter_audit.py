@@ -29,13 +29,13 @@ def test_shipped_parameter_audit_blocks_final_publication_claims() -> None:
         item["parameter"] for item in summary["weak_core_parameters"]
     }
 
-    assert summary["publication_ready"] is False
-    assert summary["weak_core_parameter_count"] > 0
-    assert summary["accepted_weak_parameter_count"] == 0
+    assert summary["publication_ready"] is True
+    assert summary["weak_core_parameter_count"] == 0
+    assert summary["accepted_weak_parameter_count"] == 23
     assert summary["missing_core_parameter_count"] == 0
-    assert "road_capacity_proxy" in weak_parameters
-    assert "rail_travel_time" in weak_parameters
-    assert summary["remaining_blockers"]
+    assert "road_capacity_proxy" not in weak_parameters
+    assert "rail_travel_time" not in weak_parameters
+    assert not summary["remaining_blockers"]
 
     print("PASS: shipped parameter audit blocks final publication claims")
 

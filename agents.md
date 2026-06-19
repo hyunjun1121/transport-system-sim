@@ -465,6 +465,7 @@ scripts/
   build_review_package.py
   write_expert_review_handoff.py
   write_seed_stream_manifest.py
+  apply_road_overrides_to_cache.py
   audit_crn_pairing.py
   audit_replication_adequacy.py
   write_acceptance_blocker_queue.py

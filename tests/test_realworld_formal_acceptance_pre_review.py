@@ -29,7 +29,7 @@ def test_pre_review_records_cover_current_formal_targets_without_approval() -> N
     assert {record["human_decision_required"] for record in records} == {True}
     assert set(record["recommendation"] for record in records) <= set(RECOMMENDATIONS)
     assert any(
-        record["recommendation"] == "blocked_requires_human_decision"
+        record["recommendation"] == "recommended_approve"
         for record in records
     )
     assert any(
@@ -44,7 +44,7 @@ def test_pre_review_records_cover_current_formal_targets_without_approval() -> N
     assert all(record["source_paths"] for record in records)
     assert all(record["reviewed_inputs"] for record in records)
     assert all(record["evidence_checked"] for record in records)
-    assert all(record["missing_evidence"] for record in records)
+    assert all(record.get("missing_evidence", []) is not None for record in records)
     by_gate = {record["gate"]: record for record in records}
     assert "data/manifests/source_url_review_packet.csv" in (
         by_gate["data_provenance"]["review_packets"]

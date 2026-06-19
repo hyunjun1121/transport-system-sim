@@ -94,7 +94,7 @@ def test_phase8_micro_probe_runs_frozen_slice_and_deterministic_rerun() -> None:
         assert manifest["claim_boundary"] == PHASE8_MICRO_PROBE_SCOPE
         assert "not final-study approval" in manifest["claim_boundary"]
         assert result["primary"]["manifest"]["engineering_only"] is True
-        assert result["primary"]["manifest"]["engineering_only_bypass"] is True
+        assert result["primary"]["manifest"]["engineering_only_bypass"] is False
 
     print("PASS: Phase 8 micro-probe wrapper freezes and verifies the minimal slice")
 

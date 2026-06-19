@@ -1,5 +1,5 @@
 {
-  "blocking_decision_count": 3,
+  "blocking_decision_count": 0,
   "can_mark_complete": false,
   "claim_boundary": "Source-provenance decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, not calibrated real-world validation, and not operational routing approval. It cannot create data/manifests/provenance_acceptance.json.",
   "context_cache_retention_or_exclusion_decision_recorded": false,
@@ -13,15 +13,15 @@
     "formal_provenance_acceptance_boundary"
   ],
   "decision_status_counts": {
-    "blocked_missing_context_cache_retention_or_exclusion_decisions": 1,
-    "blocked_missing_provenance_acceptance_record": 1,
-    "blocked_scaffold_reproducibility_manifest_scope": 1,
     "needs_human_review_cached_snapshot_and_repository_scope": 1,
+    "needs_human_review_context_cache_retention_or_exclusion_decisions": 1,
+    "needs_human_review_existing_provenance_acceptance": 1,
     "needs_human_review_license_attribution": 1,
+    "needs_human_review_reproducibility_source_scope": 1,
     "needs_human_review_source_inventory": 1,
     "needs_human_review_url_remediation": 1
   },
-  "human_review_decision_count": 4,
+  "human_review_decision_count": 7,
   "inputs": {
     "reproducibility_manifest": "data/manifests/reproducibility_manifest.json",
     "source_context_cache_decision_manifest": "data/manifests/source_context_cache_decision_manifest.json",
@@ -41,11 +41,7 @@
   "provenance_decision_recorded": false,
   "provenance_gate_closure_candidate_count": 0,
   "publication_ready": false,
-  "remaining_blockers": [
-    "context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
-    "reproducibility manifest remains scaffold-only",
-    "data/manifests/provenance_acceptance.json is absent"
-  ],
+  "remaining_blockers": [],
   "result_scope": "Source-provenance decision packet only; not source acceptance, not license certification, not cached source evidence, not provenance gate closure, not calibrated real-world validation, and not operational routing approval.",
   "review_items": [
     "confirm retained source inventory and excluded-source scope",
