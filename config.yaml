@@ -139,3 +139,16 @@ experiment:
   R: 30
   seed_base: 42
   time_limit: 1440
+
+# --- Goseong Mobilization Corridor ---
+# Full-scale experiment region: data/regions/goseong_mobilization.yaml
+# GraphML cache: data/cache/goseong_corridor_road.graphml
+# Scenarios: data/scenarios/goseong_disruption_scenarios.csv
+# Design: data/manifests/goseong_experiment_design.json
+# Run:
+#   .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample \
+#     --region-path data/regions/goseong_mobilization.yaml \
+#     --cache-path data/cache/goseong_corridor_road.graphml \
+#     --design-path data/manifests/goseong_experiment_design.json \
+#     --scenarios-path data/scenarios/goseong_disruption_scenarios.csv \
+#     --output-dir results/goseong_pilot

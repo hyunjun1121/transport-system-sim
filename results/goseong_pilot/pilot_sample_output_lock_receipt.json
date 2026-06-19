@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-19T04:09:05+00:00",
+    "lock_file_sha256": "c677a35e69fea8405faafbad3b1ee97770c838f27bb3fe36e0960166d01cf09a",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/goseong_pilot/pilot_sample.output.lock",
+    "output_prefix": "pilot_sample",
+    "pid": 34672,
+    "receipt_path": "results/goseong_pilot/pilot_sample_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/goseong_pilot/pilot_sample_manifest.json",
+    "manifest_sha256": "95f9c5faefe8568a87b060d201fce141dfae3da2af80541b76c3c7b2cf34af97",
+    "results": "results/goseong_pilot/pilot_sample_results.csv",
+    "results_sha256": "1c63581b1a1327261affa512e4098a5f7c76650298c00ec12fd31806bd95f3e7",
+    "summary": "results/goseong_pilot/pilot_sample_summary.csv",
+    "summary_sha256": "bf39274311a59abb825ba612b2dd48c26f4136123ca1469d72dd94b11f4e915c"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-19T04:09:05+00:00"
+  },
+  "schema_version": 1
+}

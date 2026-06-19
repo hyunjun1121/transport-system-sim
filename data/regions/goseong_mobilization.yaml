@@ -1,0 +1,85 @@
+region_id: goseong_mobilization
+name: "Songpa-Goseong Mobilization Corridor"
+sensitivity_level: non_sensitive
+boundary:
+  type: bbox
+  north: 38.35
+  south: 37.45
+  east: 128.95
+  west: 126.95
+assembly_zones:
+  - id: A
+    name: "Songpa Assembly Area (Olympic Park)"
+    lat: 37.5202
+    lon: 127.1210
+    metadata:
+      coordinate_class: public
+      role: assembly_zone
+      description: >
+        Capital-region mobilization assembly point.  Approx 1,000 reserve
+        personnel gather here before departing toward Gangwon Goseong.
+destination_zones:
+  - id: D
+    name: "Goseong Destination (22nd Infantry Division Area)"
+    lat: 38.3000
+    lon: 128.5500
+    metadata:
+      coordinate_class: public
+      role: destination_zone
+      description: >
+        Gangwon Goseong Tochon-myeon Hakya-ri.  Public administrative
+        centroid used as destination marker; actual unit facility
+        coordinates are not published.
+rail:
+  access:
+    id: S
+    name: "Cheongnyangni Station (Seoul)"
+    lat: 37.5806
+    lon: 127.0484
+    metadata:
+      coordinate_class: public
+      role: rail_access
+      description: >
+        Seoul rail departure point for Gangneung-bound KTX-Eum and
+        ITX-Cheongchun services.  Approx 30 min bus feeder from Songpa.
+  egress:
+    id: R
+    name: "Gangneung Station (Gangwon)"
+    lat: 37.7645
+    lon: 128.8996
+    metadata:
+      coordinate_class: public
+      role: rail_egress
+      description: >
+        Gangneung rail arrival point.  From here, last-mile bus moves
+        personnel to Goseong destination.
+  travel_time_min: 114
+  headway_min: 30
+  capacity_pax_per_train: 600
+  metadata:
+    source_class: public-data-derived
+    operational_claim: scheduled_service_proxy_not_emergency_availability
+    source_notes: >
+      KTX-Eum Seoul-Gangneung timetable: approx 114 min (2022 alignment).
+      Headway 30 min peak, 60 min off-peak; use 30 min for mobilization
+      scenario.  Capacity: KTX-Eum 6-car crush approx 600 pax.
+      Sources: KORAIL public timetable, namu.wiki 강릉선.
+metadata:
+  pilot_status: full_scale_mobilization
+  data_sensitivity: non_sensitive
+  coordinate_policy: public_or_synthetic_points_only
+  cache_path: data/cache/goseong_corridor_road.graphml
+  corridor_description: >
+    Seoul Songpa -> (bus 30 min) -> Cheongnyangni Station ->
+    (KTX-Eum 114 min) -> Gangneung Station ->
+    (bus 40 min) -> Goseong Tochon-myeon Hakya-ri.
+    Approx total 185 km, multimodal 3 h door-to-door under normal conditions.
+source_refs:
+  - source_id: goseong_region_spec
+    role: region_registry
+    local_artifact_path: data/regions/goseong_mobilization.yaml
+    review_status: repository_input_pending_review
+  - source_id: goseong_corridor_road_cache
+    role: road_network_snapshot
+    local_artifact_path: data/cache/goseong_corridor_road.graphml
+    review_status: generated_pending_review
