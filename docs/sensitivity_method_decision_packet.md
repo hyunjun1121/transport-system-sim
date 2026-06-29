@@ -23,7 +23,7 @@ Sensitivity method-decision packet only; not sensitivity acceptance, not a Sobol
 | index_handling_policy | needs_human_review_index_handling_policy | Document treatment of unavailable indices and zero-effect rows before ranking parameters | Decide whether unavailable p80/p95 rows are excluded, retained as unavailable diagnostics, or regenerated before manuscript use. |
 | graph_scope_dependency | blocked_reduced_graph_scope_dependency | Use sensitivity outputs only on the accepted graph-scale method | Close graph-scale acceptance or regenerate sensitivity outputs on the accepted graph method before final sensitivity claims. |
 | result_scope_boundary | needs_human_review_result_scope | Keep Morris output scoped as scaffold evidence unless accepted on final input and graph evidence | Keep manuscript/report claims bounded until the formal sensitivity record accepts scope and interpretation. |
-| formal_sensitivity_acceptance_boundary | needs_human_review_existing_sensitivity_acceptance | Record the reviewed Morris/Sobol, graph-scope, parameter-range, and index-handling decision only in the formal acceptance path | Create or check sensitivity acceptance record only after source-backed human review (not operational, not calibrated); do not copy this packet into the formal path. |
+| formal_sensitivity_acceptance_boundary | needs_human_review_existing_sensitivity_acceptance | Record the reviewed Morris/Sobol, graph-scope, parameter-range, and index-handling decision only in the formal acceptance path | Create or validate sensitivity_acceptance.json only after source-backed human review; do not copy this packet into the formal path. |
 
 ## Boundary
 

@@ -70,6 +70,12 @@ def run_scenario(
         sigma=params["sigma"],
         rng=rng_arrival,
     )
+    # Optional underestimation-correction multiplier (진학은 et al. 2022 report
+    # ~40% underestimation -> 1.67x). Defaults to 1.0 (raw anchor); applied as
+    # a documented opt-in stress knob, not by default (source composition
+    # unverified). CRN-preserving: same seed -> same raw sample -> scaled.
+    correction_factor = float(config.get("lateness", {}).get("correction_factor", 1.0))
+    delays = delays * correction_factor
     passengers = _make_passengers(assembly_time + delays)
 
     disruptions = _sample_disruptions(G, config, params, rng_failure)
@@ -78,6 +84,7 @@ def run_scenario(
         total_personnel=n_personnel,
         time_limit=time_limit,
         late_penalty_min=config.get("metrics", {}).get("late_penalty_min"),
+        success_deadline_min=config.get("experiment", {}).get("success_deadline_min"),
     )
     traffic = DynamicRoadTraffic.from_config(
         G,

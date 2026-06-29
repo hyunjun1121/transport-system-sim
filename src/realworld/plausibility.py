@@ -595,12 +595,12 @@ def evaluate_route_check(
             observed_value=time_min,
             unit="min",
             pass_min=0.01,
-            pass_max=30.0,
+            pass_max=360.0,
             warn_min=0.001,
-            warn_max=90.0,
-            reference_source="scaffold_local_trip_time_sanity_range",
+            warn_max=480.0,
+            reference_source="regional_corridor_free_flow_sanity_range",
             path=time_path,
-            notes="uses adapted edge t0 values only",
+            notes="uses adapted edge t0 values only; scale covers a 200km mobilization corridor",
         )
     )
 
@@ -615,12 +615,12 @@ def evaluate_route_check(
             observed_value=implied_speed,
             unit="kph",
             pass_min=10.0,
-            pass_max=70.0,
+            pass_max=110.0,
             warn_min=5.0,
-            warn_max=100.0,
-            reference_source="urban_road_free_flow_sanity_range",
+            warn_max=130.0,
+            reference_source="regional_corridor_free_flow_sanity_range",
             path=time_path,
-            notes="sanity range only not calibration",
+            notes="sanity range only not calibration; covers expressway free-flow",
         )
     )
     return tuple(records)

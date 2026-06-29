@@ -464,6 +464,49 @@ def test_censoring_penalty_prevents_failed_scenario_from_looking_better():
     print("PASS: censoring exposes incomplete delivery in penalized KPIs")
 
 
+def test_arrival_delay_correction_factor_scales_lateness():
+    """lateness.correction_factor multiplies sampled arrival delays (default 1.0).
+
+    The 1.67x underestimation correction (진학은 et al. 2022) is an opt-in knob
+    defaulting to 1.0; CRN is preserved (same seed -> same raw sample -> scaled).
+    """
+
+    def _run(correction_factor):
+        config = make_config(
+            total=2,
+            group_size=2,
+            bus_route_time=5.0,
+            dispatch_interval=10.0,
+            fleet_size=1,
+            turnaround=0.0,
+            time_limit=500.0,
+        )
+        if correction_factor is not None:
+            config["lateness"]["correction_factor"] = correction_factor
+        result = run_fixed(
+            config, "bus_only", GracePolicy(W=100.0, theta=1.0), [10.0, 10.0]
+        )
+        assert result["success_count"] == 2, (
+            f"expected both passengers delivered, got {result['success_count']}"
+        )
+        return result["makespan"]
+
+    makespan_default = _run(None)  # no key -> scenario defaults to 1.0
+    makespan_one = _run(1.0)
+    makespan_two = _run(2.0)
+
+    # default (no key) must equal explicit 1.0 -> knob defaults OFF
+    assert abs(makespan_default - makespan_one) <= 0.1, (
+        f"default correction_factor should equal 1.0: {makespan_default} vs {makespan_one}"
+    )
+    # 2.0 doubles the 10-min delay -> makespan rises by 10
+    delta = makespan_two - makespan_one
+    assert abs(delta - 10.0) <= 0.1, (
+        f"correction_factor=2.0 should shift makespan by +10 (doubled 10-min delay), got {delta}"
+    )
+    print("PASS: arrival-delay correction_factor scales lateness (default 1.0)")
+
+
 TESTS = [
     test_origin_schedule_defaults_to_assembly_time,
     test_origin_schedule_accepts_explicit_first_departure,
@@ -476,6 +519,7 @@ TESTS = [
     test_explicit_rail_first_departure_is_honored,
     test_lastmile_fleet_capacity_and_turnaround_create_bottleneck,
     test_censoring_penalty_prevents_failed_scenario_from_looking_better,
+    test_arrival_delay_correction_factor_scales_lateness,
 ]
 
 

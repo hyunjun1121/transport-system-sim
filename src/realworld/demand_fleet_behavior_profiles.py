@@ -184,8 +184,8 @@ def build_phase5_profile_rows(
             ),
             completion_denominator="total_scenario_demand",
             source_class="sensitivity-only",
-            source_name="Pilot fixture demand profile",
-            source_url_or_citation="src/realworld/pilot_experiments.py; data/manifests/pilot_experiment_design.json",
+            source_name="진학은 et al. (2022) arrival-delay anchor (pilot fixture scale)",
+            source_url_or_citation="진학은 et al. (2022) KCI; src/realworld/pilot_experiments.py; data/manifests/pilot_experiment_design.json",
             evidence_status="bounded_scenario_assumption_not_calibration",
             notes=(
                 "Fixture-scale demand used for fast pilot screening; not a "

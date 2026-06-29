@@ -1,0 +1,50 @@
+{
+  "schema": "ml_baseline_realgraph_v1",
+  "purpose": "Phase-1.5 real-graph ML re-baseline: replaces the stub-era ml_baseline_v1.json (which ran on the length-stubbed Goseong skeleton). Generated on the REAL Goseong OSM graph (197,819 nodes) at staged scale. NOT acceptance evidence; Phase-7 physics-feature ablation anchor.",
+  "predecessor": "results/ml_baseline_v1.json (stub-era, 15,870 rows, macro_f1 0.887, 3-class, KMeans/SHAP/NL unimplemented) — retained as the Phase-0 historical reference.",
+  "generated_at_note": "2026-06-29 (Phase 1.5 #2 ML re-baseline)",
+  "claim_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
+  "final_study_ready": false,
+  "input": {
+    "source_results_path": "results/_phase15_staged/pilot_staged_results.csv",
+    "source_results_sha256": "8ea5a2e55dcaf4e171ad788d2a7b83a718a850ce37d950c03feebd8188ee4b03",
+    "graph_source": "data/cache/goseong_corridor_road.graphml (live_overpass_osm_snapshot, 197,819 nodes / 298,012 edges) — real OSM, NOT the stub",
+    "row_count": 280,
+    "design": "staged_pilot profile, 7 policies x 8 scenarios x 5 seeds (the 9th scenario goseong_spatial_tancheon_corridor excluded: its spatial-hazard bbox selects no candidate edges on the single-corridor reduced analysis graph — a documented graph-reduction/spatial-scenario coupling gap, not an ML defect).",
+    "time_limit_min": 480,
+    "success_deadline_min": "None (defaults to time_limit=480, the 8h operational window; both alternatives complete in the no-disruption baseline at makespan ~288-291 min)."
+  },
+  "model": {
+    "package": "xgboost",
+    "version": "3.2.0",
+    "status": "xgboost_trained",
+    "classes": ["normal", "failure"],
+    "class_count": 2,
+    "class_count_note": "Bimodal at the 8h deadline: 210 rows completion>=0.95 (normal), 70 rows completion<0.05 (failure). No intermediate (주의/위험) classes populate at this scale — the label rule's populated-class count depends on the input completion distribution (CLAUDE.md). Intermediate classes would emerge from milder disruptions or a tighter success_deadline ladder (Phase 5).",
+    "feature_count": 22,
+    "leakage_boundary": "Features limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count used only for label derivation, not as model features."
+  },
+  "label_counts": {"normal": 210, "failure": 70},
+  "test_metrics": {"accuracy": 1.0, "macro_f1": 1.0, "row_count": 56},
+  "train_metrics": {"accuracy": 1.0, "macro_f1": 1.0, "row_count": 224},
+  "perfect_score_caveat": "macro_f1=1.0 is a SCALE/FEATURE ARTIFACT, not a robust model. At staged scale the failure class is perfectly determined by a single feature (scenario_type=blocked: gain 33.9, all other features gain 0; SHAP mean_abs 3.86, rest 0). The bimodal completion distribution makes the classes linearly separable. Discriminative power must be re-evaluated on the full 15,870-row design (Phase 6) with richer class diversity and the Phase-7 physics-feature set (threat_index / mode-mix / fallback / critical-link survival / corridor-id / BPR v,c / transfer / fleet).",
+  "top_features": ["scenario_type=blocked (gain 33.875)", "selected_edge_count", "policy_id=baseline_multimodal"],
+  "implemented_components": {
+    "xgboost_classifier": true,
+    "feature_importance": true,
+    "kmeans_clustering": true,
+    "kmeans_cluster_count": 4,
+    "shap_explainer": true,
+    "shap_status": "shap_computed (shap>=0.45 installed in env; TreeExplainer, no fallback)",
+    "natural_language_summary": true,
+    "note": "All four D-ML components now implemented and exercised on real-graph output. Contrast ml_baseline_v1.json where kmeans/shap/nl were false (Phase-0)."
+  },
+  "outputs": {
+    "manifest": "results/_phase15_ml/goseong_staged_realgraph_ml_manifest.json",
+    "metrics": "results/_phase15_ml/goseong_staged_realgraph_ml_metrics.json",
+    "clusters": "results/_phase15_ml/goseong_staged_realgraph_ml_clusters.csv",
+    "shap_importance": "results/_phase15_ml/goseong_staged_realgraph_ml_shap_importance.csv",
+    "analysis_doc": "results/_phase15_ml/goseong_staged_realgraph_ml_analysis.md"
+  },
+  "phase7_ablation_anchor": "Re-baseline this real-graph staged macro_f1=1.0 (2-class, bimodal, 22 features) against the Phase-7 physics-feature model on the full 15,870-row real-graph design. The current perfect score is uninformative about real discriminative structure; the ablation's value is comparative, not absolute."
+}

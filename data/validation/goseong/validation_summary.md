@@ -1,0 +1,75 @@
+# Pilot Route Plausibility Validation Summary
+
+Region ID: `goseong_mobilization`
+
+Evidence class: scaffold/sanity evidence for the committed offline pilot graph.
+This is not calibrated real-world validation and is not ground truth for
+emergency operations or public transport service.
+
+## Inputs
+
+- Region spec: `data/regions/pilot_region.yaml`
+- Cached road graph: `data/cache/goseong_corridor_road.graphml`
+- Validation helper: `src/realworld/plausibility.py`
+- Internal route plausibility table: `data/validation/goseong/route_plausibility.csv`
+- External/fallback benchmark table: `data/validation/goseong/external_route_benchmarks.csv`
+
+The adapted simulator graph filters pedestrian, cycling, platform,
+construction, track, living-street, and service-only OSM geometries before
+zone/rail-point snapping and route checks. These filtered geometries remain in
+the raw cache for provenance, but they are not treated as bus-practical vehicle
+routes.
+
+The checks load the cached GraphML and adapted simulator graph only. They do not
+call live OSM, OSRM, Valhalla, routingpy, R5, OpenTripPlanner, UXsim, or other
+web/external routing services. The current benchmark layer uses an executable
+documented fallback: endpoint-coordinate straight-line distance multiplied by a
+route-class detour factor, then converted to time using coarse urban speed
+assumptions. Cached OSRM/Valhalla/routingpy/R5/OpenTripPlanner/UXsim outputs
+can replace the fallback later, but any such value remains a plausibility
+benchmark and not ground truth.
+
+## Current Snapshot Results
+
+- Adapted graph nodes: 24
+- Adapted graph edges: 60
+- Internal checks: 21
+- Pass: 17
+- Warn: 1
+- Fail: 3
+- Benchmark checks: 3
+- Benchmark pass: 0
+- Benchmark warn: 0
+- Benchmark fail: 3
+
+## Assumptions
+
+- Route distance checks compare adapted graph path length with a straight-line
+  coordinate lower bound from the public or synthetic scaffold points.
+- Free-flow time checks use simulator `t0` values from the adapter and do not
+  include congestion, dispatch waiting, transfer handling, or disruption.
+- Implied speed checks use broad urban-road sanity ranges, not calibration.
+- Connector checks use `connector_distance_m` metadata from the zone snapping
+  layer.
+- Road speed and capacity checks inspect non-connector road edges only and use
+  coarse planning ranges.
+- The benchmark table currently uses a documented executable fallback because
+  no reviewed OSRM, Valhalla, routingpy, R5, OpenTripPlanner, or UXsim cache is
+  committed. This gives Workstream 6 an explicit external-benchmark interface
+  and reproducible comparison method without adding a live-service dependency.
+
+## Residual Risks
+
+- The current GraphML is an offline pilot snapshot for smoke and sanity testing.
+  It still requires review before publication-grade claims.
+- Road capacities, free-flow speeds, and disruption probabilities remain proxy
+  assumptions until parameter-source tables and benchmarking are completed.
+- The fallback benchmark is independent of adapted graph routing, but it is
+  still an assumption-based comparator. It should be replaced or supplemented
+  with cached third-party route-engine outputs before calibrated route-realism
+  claims are made.
+- Rail travel time, headway, and capacity remain documented assumptions for the
+  pilot scaffold.
+- Passing these checks means the adapted snapshot is internally plausible enough
+  for scaffold testing. It does not justify operational route planning claims
+  or calibrated real-world accuracy claims.

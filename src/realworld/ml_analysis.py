@@ -66,6 +66,7 @@ PREDICTION_COLUMNS = (
     "predicted_risk_label",
     "prediction_correct",
     "model_status",
+    "cluster_id",
 )
 IMPORTANCE_COLUMNS = (
     "feature",
@@ -74,6 +75,21 @@ IMPORTANCE_COLUMNS = (
     "model_status",
     "claim_scope",
 )
+CLUSTER_SUMMARY_COLUMNS = (
+    "cluster_id",
+    "row_count",
+    "mean_completion_rate",
+    "dominant_risk_label",
+    "status",
+    "claim_scope",
+)
+SHAP_IMPORTANCE_COLUMNS = (
+    "feature",
+    "mean_abs_shap",
+    "status",
+    "claim_scope",
+)
+DEFAULT_KMEANS_CLUSTERS = 4
 FEATURE_CATEGORICAL_COLUMNS = (
     "policy_id",
     "scenario_family",
@@ -133,17 +149,22 @@ def write_ml_analysis_outputs(
     source_manifest_path: str | Path = DEFAULT_SOURCE_MANIFEST,
     output_prefix: str = "pilot_staged_scoped",
     allow_xgboost: bool = True,
+    allow_kmeans: bool = True,
+    allow_shap: bool = True,
+    allow_nl_summary: bool = True,
     device: str = "cpu",
     command: Sequence[str] | None = None,
     claim_scope: str = ML_CLAIM_SCOPE,
 ) -> dict[str, Any]:
-    """Write label, prediction, feature-importance, and manifest artifacts."""
+    """Write label, prediction, feature-importance, cluster, SHAP, and manifest artifacts."""
 
     directory = Path(output_dir)
     directory.mkdir(parents=True, exist_ok=True)
     labels_path = directory / f"{output_prefix}_ml_labels.csv"
     predictions_path = directory / f"{output_prefix}_ml_predictions.csv"
     importance_path = directory / f"{output_prefix}_ml_feature_importance.csv"
+    clusters_path = directory / f"{output_prefix}_ml_clusters.csv"
+    shap_path = directory / f"{output_prefix}_ml_shap_importance.csv"
     metrics_path = directory / f"{output_prefix}_ml_metrics.json"
     manifest_path = directory / f"{output_prefix}_ml_manifest.json"
     doc_path = directory / f"{output_prefix}_ml_analysis.md"
@@ -157,16 +178,34 @@ def write_ml_analysis_outputs(
         allow_xgboost=allow_xgboost,
         device=device,
     )
+    kmeans_result = _fit_kmeans(
+        feature_frame["matrix"],
+        feature_frame["feature_names"],
+        allow=allow_kmeans,
+    )
+    shap_result = _compute_shap(model_result, feature_frame["matrix"], allow=allow_shap)
     prediction_rows = _prediction_rows(
         label_rows=label_rows,
         predictions=model_result["predictions"],
         splits=model_result["splits"],
         model_status=model_result["model_status"],
+        cluster_ids=kmeans_result["cluster_ids"],
     )
     importance_rows = _importance_rows(
         feature_names=feature_frame["feature_names"],
         importances=model_result["feature_importance"],
         model_status=model_result["model_status"],
+        claim_scope=claim_scope,
+    )
+    cluster_rows = _cluster_summary_rows(
+        label_rows=label_rows,
+        cluster_ids=kmeans_result["cluster_ids"],
+        kmeans_status=kmeans_result["status"],
+        claim_scope=claim_scope,
+    )
+    shap_rows = _shap_importance_rows(
+        feature_names=feature_frame["feature_names"],
+        shap_result=shap_result,
         claim_scope=claim_scope,
     )
     metrics = _metrics_payload(
@@ -180,14 +219,29 @@ def write_ml_analysis_outputs(
         command=command,
         claim_scope=claim_scope,
     )
+    nl_summary = _nl_summary(
+        metrics=metrics,
+        model_result=model_result,
+        kmeans=kmeans_result,
+        shap=shap_result,
+        allow=allow_nl_summary,
+    )
+    metrics["kmeans_status"] = kmeans_result["status"]
+    metrics["kmeans_cluster_count"] = kmeans_result["n_clusters"]
+    metrics["shap_status"] = shap_result["status"]
+    metrics["nl_summary"] = nl_summary
 
     _write_csv(labels_path, LABEL_COLUMNS, label_rows)
     _write_csv(predictions_path, PREDICTION_COLUMNS, prediction_rows)
     _write_csv(importance_path, IMPORTANCE_COLUMNS, importance_rows)
+    _write_csv(clusters_path, CLUSTER_SUMMARY_COLUMNS, cluster_rows)
+    _write_csv(shap_path, SHAP_IMPORTANCE_COLUMNS, shap_rows)
     metrics["outputs"] = {
         "labels": _display_path(labels_path),
         "predictions": _display_path(predictions_path),
         "feature_importance": _display_path(importance_path),
+        "clusters": _display_path(clusters_path),
+        "shap_importance": _display_path(shap_path),
         "metrics": _display_path(metrics_path),
         "manifest": _display_path(manifest_path),
         "doc": _display_path(doc_path),
@@ -218,6 +272,8 @@ def write_ml_analysis_outputs(
         "labels_path": labels_path,
         "predictions_path": predictions_path,
         "importance_path": importance_path,
+        "clusters_path": clusters_path,
+        "shap_path": shap_path,
         "metrics_path": metrics_path,
         "manifest_path": manifest_path,
         "doc_path": doc_path,
@@ -285,6 +341,8 @@ def _fit_or_fallback_model(
             "splits": splits,
             "predictions": predictions,
             "feature_importance": {name: 0.0 for name in feature_names},
+            "booster": None,
+            "feature_names": list(feature_names),
         }
     if not allow_xgboost:
         return _majority_fallback(labels, splits, feature_names, "disabled_by_request")
@@ -337,6 +395,8 @@ def _fit_or_fallback_model(
         "splits": splits,
         "predictions": [label_values[index] for index in predicted_ids],
         "feature_importance": {name: float(score.get(name, 0.0)) for name in feature_names},
+        "booster": booster,
+        "feature_names": list(feature_names),
     }
 
 
@@ -359,7 +419,185 @@ def _majority_fallback(
         "splits": list(splits),
         "predictions": [majority for _ in labels],
         "feature_importance": {name: 0.0 for name in feature_names},
+        "booster": None,
+        "feature_names": list(feature_names),
     }
+
+
+def _fit_kmeans(
+    matrix: Sequence[Sequence[float]],
+    feature_names: Sequence[str],
+    *,
+    allow: bool,
+    n_clusters: int = DEFAULT_KMEANS_CLUSTERS,
+) -> dict[str, Any]:
+    """Cluster rows into situation-types via KMeans on the feature matrix.
+
+    Decision-support only: clusters are descriptive groupings of policy/scenario
+    rows, not a validated taxonomy. Falls back gracefully if sklearn is absent.
+    """
+
+    if not allow:
+        return {"status": "disabled_by_request", "cluster_ids": [], "n_clusters": 0}
+    if len(matrix) == 0:
+        return {"status": "empty_matrix", "cluster_ids": [], "n_clusters": 0}
+    try:
+        import numpy as np
+        from sklearn.cluster import KMeans
+        from sklearn.preprocessing import StandardScaler
+    except Exception:
+        return {"status": "missing_sklearn", "cluster_ids": [], "n_clusters": 0}
+    k = max(1, min(n_clusters, len(matrix)))
+    arr = np.asarray(matrix, dtype=float)
+    if arr.ndim != 2 or arr.shape[1] == 0:
+        return {"status": "empty_features", "cluster_ids": [0] * len(matrix), "n_clusters": 1}
+    std = arr.std(axis=0)
+    keep = [i for i, s in enumerate(std) if s > 1e-12]
+    if not keep:
+        return {"status": "zero_variance", "cluster_ids": [0] * len(matrix), "n_clusters": 1}
+    scaled = StandardScaler().fit_transform(arr[:, keep])
+    labels = KMeans(n_clusters=k, n_init=10, random_state=1701).fit_predict(scaled)
+    return {
+        "status": "kmeans_fit",
+        "cluster_ids": [int(label) for label in labels],
+        "n_clusters": k,
+        "kept_feature_count": len(keep),
+    }
+
+
+def _compute_shap(
+    model_result: Mapping[str, Any],
+    matrix: Sequence[Sequence[float]],
+    *,
+    allow: bool,
+) -> dict[str, Any]:
+    """Mean(|SHAP|) per feature from a TreeExplainer on the trained booster.
+
+    Supplementary to gain importance; SHAP is optional. Any failure (shap not
+    installed, multiclass shape mismatch) falls back to 'not_available' and gain
+    importance remains the primary signal.
+    """
+
+    if not allow or model_result.get("model_status") != "xgboost_trained":
+        return {"status": "not_available", "importance": {}}
+    booster = model_result.get("booster")
+    feature_names = model_result.get("feature_names") or []
+    if booster is None or not feature_names:
+        return {"status": "not_available", "importance": {}}
+    try:
+        import numpy as np
+        import shap  # type: ignore
+    except Exception:
+        return {"status": "missing_shap", "importance": {}}
+    try:
+        arr = np.asarray(matrix, dtype=float)
+        explainer = shap.TreeExplainer(booster)
+        shap_values = explainer.shap_values(arr)
+        if isinstance(shap_values, list):
+            combined = np.sum([np.abs(sv) for sv in shap_values], axis=0)
+        else:
+            sv = np.asarray(shap_values)
+            combined = np.abs(sv).sum(axis=2) if sv.ndim == 3 else np.abs(sv)
+        mean_abs = combined.mean(axis=0)
+        importance = {
+            feature_names[i]: float(mean_abs[i])
+            for i in range(min(len(feature_names), len(mean_abs)))
+        }
+        return {"status": "shap_computed", "importance": importance}
+    except Exception as exc:  # pragma: no cover - defensive against shap version drift
+        return {"status": f"shap_error: {type(exc).__name__}", "importance": {}}
+
+
+def _nl_summary(
+    *,
+    metrics: Mapping[str, Any],
+    model_result: Mapping[str, Any],
+    kmeans: Mapping[str, Any],
+    shap: Mapping[str, Any],
+    allow: bool,
+) -> str:
+    """Templated, claim-disciplined Korean judgment brief (offline, no LLM).
+
+    Composes only from computed metrics + top features + cluster count; avoids
+    operational/forecast/calibrated/final-ready language by construction.
+    """
+
+    if not allow:
+        return ""
+    label_counts = metrics.get("label_counts", {})
+    test_metrics = metrics.get("test_metrics", {}) or {}
+    macro_f1 = test_metrics.get("macro_f1", "")
+    f1_text = f"{float(macro_f1):.3f}" if isinstance(macro_f1, (int, float)) else "N/A"
+    top_gain = sorted(
+        model_result.get("feature_importance", {}).items(),
+        key=lambda kv: -float(kv[1]),
+    )[:3]
+    gain_names = ", ".join(name for name, _ in top_gain if name) or "없음"
+    top_shap = sorted(shap.get("importance", {}).items(), key=lambda kv: -kv[1])[:3]
+    shap_names = ", ".join(name for name, _ in top_shap if name) or "없음"
+    n_clusters = kmeans.get("n_clusters", 0)
+    return (
+        "[준실험 의사결정지원 요약] "
+        f"test macro-F1={f1_text} (XGBoost {len(model_result.get('class_labels', []))}급, "
+        "gain feature_importance 기준). "
+        f"상위 gain 특성: {gain_names}. "
+        f"상위 SHAP 특성: {shap_names}. "
+        f"KMeans 상황군집 {n_clusters}종. "
+        "본 요약은 시뮬레이션 출력 기반 민감도 해석이며, 운용계획·예측·검증·최적경로가 아님. "
+        "final_study_ready=false."
+    )
+
+
+def _cluster_summary_rows(
+    *,
+    label_rows: Sequence[Mapping[str, Any]],
+    cluster_ids: Sequence[int],
+    kmeans_status: str,
+    claim_scope: str,
+) -> list[dict[str, str]]:
+    if not cluster_ids:
+        return []
+    buckets: dict[int, list[Mapping[str, Any]]] = {}
+    for row, cid in zip(label_rows, cluster_ids):
+        buckets.setdefault(int(cid), []).append(row)
+    rows: list[dict[str, str]] = []
+    for cid in sorted(buckets):
+        members = buckets[cid]
+        completions = [_float(m.get("completion_rate"), default=0.0) for m in members]
+        labels = [m.get("risk_label", "") for m in members]
+        dominant = max(set(labels), key=labels.count) if labels else ""
+        mean_completion = sum(completions) / len(completions) if completions else 0.0
+        rows.append(
+            {
+                "cluster_id": str(cid),
+                "row_count": str(len(members)),
+                "mean_completion_rate": f"{mean_completion:.6g}",
+                "dominant_risk_label": dominant,
+                "status": kmeans_status,
+                "claim_scope": claim_scope,
+            }
+        )
+    return rows
+
+
+def _shap_importance_rows(
+    *,
+    feature_names: Sequence[str],
+    shap_result: Mapping[str, Any],
+    claim_scope: str,
+) -> list[dict[str, str]]:
+    importance = shap_result.get("importance", {}) or {}
+    status = shap_result.get("status", "not_available")
+    rows = [
+        {
+            "feature": name,
+            "mean_abs_shap": f"{float(importance.get(name, 0.0)):.10g}",
+            "status": status,
+            "claim_scope": claim_scope,
+        }
+        for name in feature_names
+    ]
+    return sorted(rows, key=lambda r: (-_float(r["mean_abs_shap"], default=0.0), r["feature"]))
 
 
 def _prediction_rows(
@@ -368,9 +606,14 @@ def _prediction_rows(
     predictions: Sequence[str],
     splits: Sequence[str],
     model_status: str,
+    cluster_ids: Sequence[int] | None = None,
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
-    for label_row, prediction, split in zip(label_rows, predictions, splits):
+    cluster_lookup = list(cluster_ids) if cluster_ids else []
+    for index, (label_row, prediction, split) in enumerate(
+        zip(label_rows, predictions, splits)
+    ):
+        cluster_id = str(cluster_lookup[index]) if index < len(cluster_lookup) else ""
         rows.append(
             {
                 **dict(label_row),
@@ -378,6 +621,7 @@ def _prediction_rows(
                 "predicted_risk_label": prediction,
                 "prediction_correct": str(prediction == label_row["risk_label"]).lower(),
                 "model_status": model_status,
+                "cluster_id": cluster_id,
             }
         )
     return rows

@@ -427,6 +427,8 @@ scripts/
   audit_source_provenance.py
   audit_tracked_artifacts.py
   build_pilot_cache.py       # Preserves cache by default; explicit fixture/Overpass refresh
+  build_goseong_cache.py     # Live Overpass extraction of the Goseong case-study corridor (Phase 1 real graph; tiled or full-bbox)
+  build_goseong_corridor.py  # DEPRECATED synthetic corridor skeleton; fixture-only, must not overwrite the real cache
   cache_ktdb_gtfs_source.py  # Optional source-cache helper; not default acceptance evidence
   cache_metro9_capacity_source.py # Optional source-cache helper; not default acceptance evidence
   check_gpu_ml_runtime.py    # Optional GPU ML runtime preflight; not simulation acceleration evidence

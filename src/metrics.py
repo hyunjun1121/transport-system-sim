@@ -36,6 +36,14 @@ class MetricsCollector:
     total_personnel: int = 0
     time_limit: float = 1440.0
     late_penalty_min: float | None = None
+    # Success deadline decoupled from the simulation censor horizon. ``time_limit``
+    # is how long the simulation runs (and the censor cutoff); ``success_deadline_min``
+    # is the operational deadline by which an arrival counts as a success
+    # (completion_rate / censored_count). When None, it falls back to ``time_limit``
+    # so legacy behaviour is unchanged. The success_deadline ladder
+    # (5/6/7/8/10/12h) is the Phase-5 robustness sweep; the canonical run sets
+    # time_limit generously so both alternatives can complete and be compared.
+    success_deadline_min: float | None = None
 
     # Arrival records: (person_id, arrival_time_at_D)
     arrivals: list[tuple[int, float]] = field(default_factory=list)
@@ -71,9 +79,18 @@ class MetricsCollector:
         return max(t for _, t in self.arrivals)
 
     @property
+    def success_deadline(self) -> float:
+        """Effective success-deadline cutoff (falls back to time_limit)."""
+        return (
+            self.time_limit
+            if self.success_deadline_min is None
+            else self.success_deadline_min
+        )
+
+    @property
     def success_count(self) -> int:
-        """Personnel who arrived at D within time limit."""
-        return sum(1 for _, t in self.arrivals if t <= self.time_limit)
+        """Personnel who arrived at D within the success deadline."""
+        return sum(1 for _, t in self.arrivals if t <= self.success_deadline)
 
     @property
     def success_rate(self) -> float:

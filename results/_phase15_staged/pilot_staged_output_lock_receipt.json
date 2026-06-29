@@ -1,0 +1,28 @@
+{
+  "output_lock": {
+    "acquired": true,
+    "acquired_at_utc": "2026-06-29T11:44:57+00:00",
+    "lock_file_sha256": "00d54bc26f1d0aa21bdcb80218695e0213170292597caecc231c2d1b1938508b",
+    "lock_mechanism": "atomic_create_x_mode",
+    "lock_path": "results/_phase15_staged/pilot_staged.output.lock",
+    "output_prefix": "pilot_staged",
+    "pid": 21864,
+    "receipt_path": "results/_phase15_staged/pilot_staged_output_lock_receipt.json",
+    "release_policy": "released_after_successful_output_write_or_exception",
+    "schema_version": 1
+  },
+  "outputs": {
+    "manifest": "results/_phase15_staged/pilot_staged_manifest.json",
+    "manifest_sha256": "3d3f0f4c322a3731eeb58f23ff840e372c068c4f7b539d25915a4e207d834f34",
+    "results": "results/_phase15_staged/pilot_staged_results.csv",
+    "results_sha256": "8ea5a2e55dcaf4e171ad788d2a7b83a718a850ce37d950c03feebd8188ee4b03",
+    "summary": "results/_phase15_staged/pilot_staged_summary.csv",
+    "summary_sha256": "579d23200dcd2956fc9f53ffbc4217cac86569dad76f7e82a48acc63b4110524"
+  },
+  "release": {
+    "release_status": "released",
+    "released": true,
+    "released_at_utc": "2026-06-29T11:46:36+00:00"
+  },
+  "schema_version": 1
+}

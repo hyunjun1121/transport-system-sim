@@ -1,0 +1,36 @@
+{
+  "schema": "ml_baseline_v1",
+  "purpose": "Phase-0 G6 reference point: current ML layer state, for Phase-7 ablation comparison (thin XGBoost vs physics-feature model). NOT acceptance evidence.",
+  "generated_at_note": "2026-06-29 (Phase 0.5 G6)",
+  "claim_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
+  "final_study_ready": false,
+  "input": {
+    "source_results_path": "results/realworld_pilot/pilot_full_results.csv",
+    "source_results_sha256": "beb6aca8021d2e44a65d8fab346eaa16b902095ba61fd68b534ff79f17231901",
+    "row_count": 15870,
+    "caveat_graph_stub": "Input CSV predates the G5 finding: the Goseong case-study road graph is a length-stubbed skeleton (see docs/validation_anchor.md sec.3), so bus_only-derived features reflect the stub, not real transport. macro_f1 here measures the CURRENT pipeline, not a validated model."
+  },
+  "model": {
+    "package": "xgboost",
+    "version": "3.2.0",
+    "status": "xgboost_trained",
+    "classes": ["normal", "risk", "failure"],
+    "class_count": 3,
+    "class_count_note": "kci_redesign docs claimed 4 classes (jeongsang/juju/wihoe/silpae-wihoe); ACTUAL code = 3 classes. Corrected in kci_redesign 01/02 sec.5.",
+    "feature_count": 40,
+    "leakage_boundary": "Features limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count used only for label derivation, not as model features."
+  },
+  "label_counts": {"normal": 13191, "risk": 549, "failure": 2130},
+  "imbalance_note": "risk class = 3.5% of rows (549/15870); heavily imbalanced. macro_f1 weights the minority class, hence macro_f1 (0.887) << accuracy (0.949).",
+  "test_metrics": {"accuracy": 0.9486452425960933, "macro_f1": 0.8869661136997203, "row_count": 3174},
+  "train_metrics": {"accuracy": 0.9476212980466289, "macro_f1": 0.8822446910543432, "row_count": 12696},
+  "implemented_components": {
+    "xgboost_classifier": true,
+    "feature_importance": true,
+    "kmeans_clustering": false,
+    "shap_explainer": false,
+    "natural_language_summary": false,
+    "note": "kci_redesign 01/02 + CLAUDE.md over-claimed KMeans+SHAP+NL as implemented. ACTUAL: XGBoost + feature_importance only. KMeans/SHAP/NL are Phase-7 planned work. shap not installed in env."
+  },
+  "phase7_ablation_anchor": "Compare this thin-XGBoost macro_f1=0.887 (3-class, 40 non-physics features) against the Phase-7 physics-feature model (threat_index / mode-mix / fallback / critical-link survival / corridor-id / BPR v,c / transfer / fleet)."
+}

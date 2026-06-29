@@ -58,7 +58,7 @@ def test_pilot_demand_sigma_is_not_blank() -> None:
     rows = build_phase5_profile_rows()
     demand_by_id = {row["profile_id"]: row for row in rows["demand"]}
 
-    assert demand_by_id["pilot_default_demand"]["arrival_param_sigma"] == "0.25"
+    assert demand_by_id["pilot_default_demand"]["arrival_param_sigma"] == "0.75"
     assert demand_by_id["pilot_default_demand"][
         "evidence_status"
     ] == "bounded_scenario_assumption_not_calibration"

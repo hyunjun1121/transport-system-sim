@@ -101,6 +101,58 @@ def test_cli_help_renders() -> None:
     print("PASS: ML analysis CLI help renders")
 
 
+def test_kmeans_shap_and_nl_summary_artifacts() -> None:
+    """KMeans clustering, SHAP (optional), and templated NL summary are emitted."""
+    rows = [
+        _row("bus_only", "no_disruption", completion="1.0", censored="0", seed="1"),
+        _row("bus_only", "no_disruption", completion="1.0", censored="0", seed="2"),
+        _row("bus_only", "road_loss", completion="0.2", censored="8", seed="3"),
+        _row("bus_only", "road_loss", completion="0.1", censored="9", seed="4"),
+        _row("multimodal", "no_disruption", completion="1.0", censored="0", seed="5"),
+        _row("multimodal", "no_disruption", completion="1.0", censored="0", seed="6"),
+        _row("multimodal", "road_loss", completion="0.3", censored="7", seed="7"),
+        _row("multimodal", "road_loss", completion="0.2", censored="8", seed="8"),
+        _row("adaptive", "no_disruption", completion="1.0", censored="0", seed="9"),
+        _row("adaptive", "road_loss", completion="0.2", censored="8", seed="10"),
+    ]
+    with TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        source_results = root / "results.csv"
+        source_manifest = root / "manifest.json"
+        _write_source_results(source_results, rows)
+        source_manifest.write_text('{"row_count": 10}\n', encoding="utf-8")
+        result = write_ml_analysis_outputs(
+            rows=rows,
+            output_dir=root / "analysis",
+            source_results_path=source_results,
+            source_manifest_path=source_manifest,
+            allow_xgboost=True,
+            command=("fixture",),
+        )
+        manifest = json.loads(result["manifest_path"].read_text(encoding="utf-8"))
+        clusters = list(
+            csv.DictReader(result["clusters_path"].open("r", encoding="utf-8", newline=""))
+        )
+        shap_rows = list(
+            csv.DictReader(result["shap_path"].open("r", encoding="utf-8", newline=""))
+        )
+        predictions = list(
+            csv.DictReader(result["predictions_path"].open("r", encoding="utf-8", newline=""))
+        )
+
+    assert manifest["kmeans_status"] == "kmeans_fit"
+    assert manifest["kmeans_cluster_count"] >= 1
+    assert manifest["shap_status"] in {"shap_computed", "missing_shap", "not_available"}
+    assert manifest["nl_summary"].startswith("[준실험")
+    assert "final_study_ready=false" in manifest["nl_summary"]
+    assert clusters, "cluster summary must have rows"
+    assert shap_rows, "shap importance CSV must have rows"
+    assert all("cluster_id" in row for row in predictions)
+    assert any(row["cluster_id"] for row in predictions), "cluster_id must be populated"
+
+    print("PASS: KMeans + SHAP(optional) + NL summary artifacts emitted")
+
+
 def _row(
     policy: str,
     scenario: str,
@@ -136,4 +188,5 @@ if __name__ == "__main__":
     test_label_derivation_is_deterministic()
     test_write_ml_outputs_with_baseline_fallback()
     test_cli_help_renders()
+    test_kmeans_shap_and_nl_summary_artifacts()
     print("\n=== REALWORLD ML ANALYSIS TESTS PASSED ===")

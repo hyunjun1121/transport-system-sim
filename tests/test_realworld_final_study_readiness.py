@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.realworld.final_study_readiness import (  # noqa: E402
     FINAL_GATE_IDS,
+    _case_study_cache_is_real_osm,
     _data_provenance_gate,
     _experiment_count_blockers,
     _experiment_scope_is_blocked,
@@ -1819,8 +1820,50 @@ def _fake_gate(gate_id: str, *, ready: bool) -> dict[str, object]:
     }
 
 
+def test_case_study_cache_real_osm_check_rejects_stub_and_accepts_osm() -> None:
+    """The real-input smoke guard must reject a synthetic stub and accept OSM."""
+    import tempfile
+
+    tmp = Path(tempfile.mkdtemp(prefix="fsr_cache_"))
+
+    # synthetic corridor skeleton -> rejected
+    stub = tmp / "stub.graphml"
+    stub.write_text(
+        '<?xml version="1.0"?>\n<graphml><edge source="synthetic_corridor"/></graphml>',
+        encoding="utf-8",
+    )
+    real_stub, reason_stub = _case_study_cache_is_real_osm(stub)
+    assert real_stub is False
+    assert "synthetic" in reason_stub
+
+    # missing file -> rejected
+    real_missing, reason_missing = _case_study_cache_is_real_osm(tmp / "nope.graphml")
+    assert real_missing is False
+    assert "missing" in reason_missing
+
+    # real OSM extraction (large, osm_overpass marker, no synthetic) -> accepted
+    real_file = tmp / "real.graphml"
+    payload = '<?xml version="1.0"?>\n<graphml source="live_overpass_osm_snapshot">'
+    payload += '<edge source="osm_overpass"/>' * 4000  # well above 50KB
+    payload += "</graphml>"
+    real_file.write_text(payload, encoding="utf-8")
+    real_ok, reason_ok = _case_study_cache_is_real_osm(real_file)
+    assert real_ok is True
+    assert "osm" in reason_ok.lower()
+
+    # small file with no markers -> rejected (too small)
+    small = tmp / "small.graphml"
+    small.write_text('<?xml version="1.0"?><graphml></graphml>', encoding="utf-8")
+    real_small, reason_small = _case_study_cache_is_real_osm(small)
+    assert real_small is False
+    assert "too small" in reason_small
+
+    print("PASS: case-study cache real-OSM check rejects stub, accepts OSM")
+
+
 if __name__ == "__main__":
     test_current_final_study_readiness_is_ready()
+    test_case_study_cache_real_osm_check_rejects_stub_and_accepts_osm()
     test_audit_script_reports_final_blockers_without_default_failure()
     test_graph_scale_gate_requires_manifest_even_with_acceptance()
     test_graph_scale_gate_requires_matching_counts()

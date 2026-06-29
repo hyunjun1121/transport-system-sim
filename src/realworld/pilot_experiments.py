@@ -143,6 +143,7 @@ RESULT_COLUMNS = (
     "scenario_type",
     "disruption_mode",
     "seed",
+    "seed_stream_id",
     "mode",
     "completion_rate",
     "censored_count",
@@ -1149,23 +1150,48 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
         "metrics": {
             "late_penalty_min": 300.0,
         },
+        # BPR alpha=0.36 is the Korean-calibration-direction value (single
+        # run authority; the library default in models.py stays 0.15 FHWA).
+        # The previous 0.50 shadow value is retired for traceability.
         "bpr": {
-            "alpha": 0.50,
+            "alpha": 0.36,
             "beta": 4.0,
         },
+        # Arrival-delay lognormal anchored on 진학은 et al. (2022): mu=2.45,
+        # sigma=0.75. correction_factor defaults to 1.0 (raw anchor); the
+        # 1.67x underestimation correction (진학은, 40%低估 역산) is an opt-in
+        # stress knob — its composition with 2.45/0.75 is source-unverified,
+        # so it is NOT applied by default.
         "lateness": {
             "distribution": "lognormal_sample_fixture",
-            "mu": 1.2,
-            "sigma_levels": [0.25],
+            "mu": 2.45,
+            "sigma_levels": [0.75],
+            "correction_factor": 1.0,
         },
         "experiment": {
             "R": 1,
             "seed_base": 1,
-            "time_limit": 200.0,
+            # time_limit = simulation censor horizon. 200 was an arbitrary
+            # too-short value that censored both alternatives before completion
+            # (observed baseline makespan ~288-291 min for bus/multimodal on the
+            # real Goseong graph), making any bus-vs-multimodal delta meaningless.
+            # 480 min (8h) is the operational mobilization window: long enough to
+            # observe full baseline completion with headroom for disruption, while
+            # still censoring catastrophic cases (the robustness signal).
+            "time_limit": 480.0,
+            # success_deadline_min (default None -> time_limit) decouples the
+            # operational success deadline from the censor horizon. The Phase-5
+            # robustness ladder sweeps it across [300, 360, 480, 600, 720] min
+            # (5/6/8/10/12h); the canonical run leaves it unset so completion is
+            # measured against the 8h window.
+            "success_deadline_min": None,
         },
+        # Canonical baseline is deterministic (noise=0) for reproducible,
+        # claim-disciplined runs. The 0.05/0.2 exploratory noise values are
+        # opt-in stress (Morris profiles); CRN pairing holds at any level.
         "stochastic": {
-            "road_noise_sigma": 0.05,
-            "turnaround_noise_lambda": 0.2,
+            "road_noise_sigma": 0.0,
+            "turnaround_noise_lambda": 0.0,
         },
     }
 
@@ -1756,6 +1782,23 @@ def _config_with_case_failure(
     return run_config
 
 
+SEED_STREAM_OFFSETS = (0, 10_000, 20_000, 30_000)
+
+
+def _seed_stream_id(seed: int) -> str:
+    """Deterministic provenance id for the 4 CRN streams derived from ``seed``.
+
+    Encodes the four stream seeds declared in ``src/scenario.py`` (arrival=seed,
+    failure=seed+10_000, road=seed+20_000, turnaround=seed+30_000) so a reviewer
+    can verify common-random-number pairing from the result CSV alone: any two
+    rows that share ``seed`` share the same stream bundle (and hence the same id)
+    regardless of mode/policy. Pure function of ``seed``; not acceptance evidence.
+    Proven behaviorally by ``tests/test_realworld_crn_seed_stream.py``.
+    """
+    payload = "|".join(str(seed + offset) for offset in SEED_STREAM_OFFSETS)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]
+
+
 def _result_row(
     *,
     inputs: PilotInputs,
@@ -1775,6 +1818,7 @@ def _result_row(
         "scenario_type": case.scenario_type,
         "disruption_mode": case.scenario_type,
         "seed": seed,
+        "seed_stream_id": _seed_stream_id(seed),
         "mode": mode,
         "selected_edge_count": len(case.selected_edges),
         "selected_realworld_edge_ids": ";".join(case.selected_realworld_edge_ids),

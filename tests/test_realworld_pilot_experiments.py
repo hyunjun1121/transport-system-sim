@@ -229,8 +229,8 @@ def test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims() -> 
     assert config["personnel"]["group_size"] == 8
     assert config["personnel"]["assembly_time"] == 0.0
     assert config["lateness"]["distribution"] == "lognormal_sample_fixture"
-    assert config["lateness"]["mu"] == 1.2
-    assert config["lateness"]["sigma_levels"] == [0.25]
+    assert config["lateness"]["mu"] == 2.45
+    assert config["lateness"]["sigma_levels"] == [0.75]
     assert config["bus"]["fleet_size"] == 3
     assert config["bus"]["dispatch_interval_min"] == 5.0
     assert config["multimodal"]["shuttle_fleet_size"] == 3

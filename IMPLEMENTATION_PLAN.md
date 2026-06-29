@@ -1,340 +1,117 @@
-﻿# Implemented System Notes
+# Implementation Plan — Phase 1: 결점 전부 근본 해결 (defect-free base)
 
-This document records the current implemented system. It is an implementation
-record, not a worker launch schedule.
+> Phase 0 완료(7게이트 진단). Phase 1 = 식별된 4개 결점군 전부 근본 해결.
+> 사용자 위임("전부 근본 해결만 가능하면 전부 해결해") + audit 추천값으로 판단.
+> `docs/feasibility_ruling_2026-06-29.md` = 결점별 verdict/결정 근거. 산출 = 준실험 의사결정지원.
 
-## Current Audit Snapshot
+## 단계 순서
 
-As of 2026-05-10, the implementation supports the quasi-real scaffold but does
-not complete the final study. The final-study audit reports
-`final_study_ready=false`: 3 of 15 gates are ready
-(`real_input_smoke`, `structured_disruptions`, `policy_alternatives`) and 12
-are blocked. Formal acceptance is 0/12 ready. Formal target files must be
-absent or backed by source-backed human review before any gate can close. In
-the current local worktree, placeholder copies were moved out of final target
-paths into draft storage; the formal guard reports 0 target files present and
-12 missing, with no template copies in formal paths.
+| 순 | 결점 | 작업 | 오프라인 | 상태 |
+|---|---|---|---|---|
+| 1.1 | D-PARAM | α0.36/μ2.45σ0.75/noise0/correction knob 구현 + doc 정합 + fleet0.75 철회 | yes | 진행 |
+| 1.2 | D-CLAIM | gate hardening + 3/15→2/15 doc + #5 ruling | yes | 대기 |
+| 1.3 | D-ML | CLAUDE.md 정정 + KMeans/SHAP/NL 구현 + shap dep | yes | 대기 |
+| 1.4 | D-GOSEONG | corridor-tiled Overpass 실추출 + connector floor + plausibility 재검증 | **live(opt-in)** | 대기 |
+| 1.5 | — | 직실행 테스트 전수 + 결과 stale 처리 + plan/memory 갱신 | yes | 대기 |
 
-The current `validation_strategy_readiness`, `graph_scale_strategy_readiness`,
-`sensitivity_strategy_readiness`, and `experiment_strategy_readiness` packets
-are implemented review aids. They do not create calibrated real-world results,
-operational route plans, or formal acceptance.
+---
 
-## Expert Consultation Implementation Implications
+## 1.1 D-PARAM — 입력 파라미터 단일 출처화
 
-The external consultation reply in
-`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md` does not change the implemented
-simulator semantics below. It changes the implementation work order around
-packaging, evidence closure, and acceptance hygiene.
+**편집**:
+1. `src/realworld/pilot_experiments.py:1154` `bpr.alpha` 0.50 → **0.36** (한국 보정 방향값)
+2. `pilot_experiments.py:1159` `lateness.mu` 1.2 → **2.45**; `:1160` `sigma_levels` [0.25] → **[0.75]** (진학은 2022)
+3. `pilot_experiments.py:1167-1169` `stochastic` road_noise_sigma/turnaround_noise_lambda 0.05/0.2 → **0.0/0.0** (canonical deterministic baseline)
+4. **1.67× 보정 knob 구현**: `lateness` 블록에 `correction_factor: 1.0`(default OFF) 추가 + `src/scenario.py` arrival-delay 샘플 후 `delays *= correction_factor`. 출처 주석(진학은 40% 과소평가 역산 1.67, 조합 미검증으로 default 1.0).
+5. **fleet 0.75 철회**: `high_level_plan.md` G4 8-scalar list + `docs/kci_param_snapshot_v1.md`에서 "fleet 가용률 0.75" 제거/재기표 ("finite-fleet + turnaround 재사용으로 가용성 모델링, flat 스칼라 아님").
+6. `docs/kci_param_snapshot_v1.md` 갱신: run α=0.36 / library default α=0.15(FHWA) / 0.50 shadow 제거 명시, lateness 2.45/0.75, noise deterministic, correction knob 설명.
 
-### Reply-Derived Boundary Controls (2026-05-10)
+**테스트**: `tests/test_*.py` 직실행 (lateness/BPR/metrics 관련). 결과 CSV stale 표시.
 
-- The latest reply confirmed that the renewal package now includes implementation,
-  code, scripts, tests, data/cache, results, manifests, and auditable evidence
-  paths. The current active rule is: technical acceptance review remains blocked
-  until evidence-formal gates are closed, even with complete package contents.
-- The reply also confirmed the artifact-naming risk. Any file named like an
-  acceptance target is treated as **only a blocker** unless a reviewer has issued
-  a real, source-backed acceptance decision for that specific path.
-- Formal acceptance remains blocked even when templates are complete. The implementation
-  workstream remains support-oriented until the following all become true:
-  - `scripts/audit_formal_acceptance_artifacts.py` reports no template/placeholder
-    leakage into formal targets.
-  - `scripts/audit_formal_evidence_paths.py` reports no unresolved local-evidence path
-    gaps.
-  - `scripts/validate_formal_acceptance_package.py` reports all required formal targets
-    either accepted or explicitly blocked with no ambiguity.
+---
 
-### Consolidated Reply Blocker Map
+## 1.2 D-CLAIM — gate 정직 + ledger 권위
 
-| Category | Impact | Immediate Owner |
-| --- | --- | --- |
-| Package completeness | Cannot review implementation, experiments, or claims if artifacts are missing from handoff | Packaging + reproducibility lead |
-| Evidence path-integrity | Existing local citations in acceptance/audit records must resolve | Audit scripts + repository owner |
-| Road/rail/parameter assumptions | Current assumption tables remain unaccepted; final claims blocked | Domain/data lead |
-| Graph-scale decision | Corridor reduction remains an unresolved abstraction policy | Network/scenario lead |
-| Validation scope | OSRM/benchmark checks remain plausibility-only unless upgraded | Validation lead |
-| Experiment integrity | CRN pairing and seed policy must be accepted as designed | Experiment lead |
-| Manuscript/report language | Forecast/operational overclaim risk until gates close | Reporting lead |
+**편집**:
+1. `src/realworld/final_study_readiness.py:848-864` `_real_input_smoke_gate()` hardening: 그래프가 plausibility 통과(or stub 임계 초과 edge 수) 요구 추가 → stub에서 false-green 불가.
+2. `status.md:15-16` + `agents.md:58-60/136-139` "3/15" → **"2/15 (real_input_smoke re-blocked until real Goseong extraction)"**.
+3. `docs/g7_claim_and_gate_ledger.md` §3 #5 ruling 확정(15-gate = 권위, 12-artifact = human signoff 층).
 
-Implementation-adjacent follow-up:
+**테스트**: `tests/test_realworld_final_study_readiness.py` + `test_realworld_goal_completion_audit.py`.
 
-- Add no new policy-result claim until a complete review package includes the
-  implementation, scripts, tests, data/cache records, generated results, docs,
-  report sources, and planning files.
-- Keep formal acceptance targets absent unless they contain source-backed
-  human review decisions. Drafts and templates belong in template or draft
-  paths, not final target paths.
-- Treat road overrides, rail service values, and weak parameters as scenario
-  assumptions or sensitivity inputs until reviewed evidence replaces or accepts
-  them.
-- Treat a renewed technical review package as a non-acceptance entrypoint; formal
-  acceptance claims still require guard/audit completion and reviewed formal
-  decisions.
-- Treat current pilot and sensitivity outputs as dependent on unresolved graph
-  scope, input evidence, CRN review, and validation-scope decisions.
-- Prioritize implementation support for path-integrity checks, seed/CRN
-  auditing, result manifests, cache freeze rules, and artifact regeneration
-  before adding new modeling features.
-- After any code change or formal artifact change, rerun:
-    - `scripts/audit_formal_acceptance_artifacts.py`
-    - `scripts/audit_formal_evidence_paths.py`
-    - `scripts/validate_formal_acceptance_package.py`
-    - `scripts/audit_review_package_paths.py --fail-on-missing`
-    - `scripts/write_expert_review_handoff.py --fail-on-zip-mismatch`
-- Use `scripts/write_review_package_inventory.py`,
-  `scripts/build_review_package.py`, `scripts/write_seed_stream_manifest.py`,
-  `scripts/audit_crn_pairing.py`, and
-  `scripts/audit_replication_adequacy.py` as pre-review controls for the next
-  expert package. They support package completeness, ZIP handoff, CRN
-  structure, and paired-statistics review, but they are not acceptance records.
+---
 
-The detailed post-consultation execution plan is maintained in
-`docs/archive/2026-05-11/expert_review_cycle_archive_20260511.md`.
+## 1.3 D-ML — AI layer 정직 + 컴포넌트 실구현
 
-## Implemented Scope
+**편집**:
+1. `CLAUDE.md:52,130-132` ML 기재 정정: 현행 = XGBoost 4급 라벨규칙(정의됨) + gain feature_importance only; KMeans/SHAP/NL = Phase-1 구현(또는 planned). kci_redesign/02 정정 상태와 정합.
+2. `src/realworld/ml_analysis.py`:
+   - **KMeans** 상황군집 추가(sklearn.cluster.KMeans, feature matrix에 fit → cluster_id/centroid summary). ~80-120줄.
+   - **SHAP** TreeExplainer wrap(`requirements-ml.txt`에 shap 추가, try/except guard + gain-FI fallback). ~60-100줄.
+   - **NL 판단요약** templated generator(metrics + top feature + cluster → claim-guard 통과 한국어 brief). hallucination guard.
+   - stratified split 고려(index%5 → StratifiedKFold for imbalanced).
+3. `tests/test_realworld_ml_analysis.py` KMeans/SHAP/NL 단정 추가.
 
-The current codebase implements the design fixes that replaced the original
-early assumptions:
+**의존**: 의미있는 4급 재baseline은 1.4(D-GOSEONG) 이후. 코드는 현 CSV(stub)로 pipeline 검증, 산출은 stub-caveat 유지.
 
-- STRICT and GRACE dispatch policies operate on passenger queues.
-- Bus-only, multimodal shuttle, and multimodal last-mile road movement use
-  finite fleet controls where applicable.
-- Rail movement uses fixed-headway departures; train travel does not block later
-  departures.
-- Road movement uses dynamic rolling-window link volumes and BPR travel time at
-  edge entry.
-- Link disruptions are structured as normal, degraded, or blocked edge states.
-- Failure sampling supports both `blocked` and `capacity_reduction` modes.
-- Multimodal transfers use configurable fixed and per-passenger delay.
-- Metrics include completion and censoring KPIs so incomplete runs are visible.
-- Phase runners preserve common-random-number paired comparisons.
+---
 
-## Implemented Alignment
+## 1.4 D-GOSEONG — 실제 Goseong 그래프 (live opt-in)
 
-The current implementation preserves the modular structure while applying five
-model-semantics changes:
+**작업**:
+1. `scripts/build_goseong_cache.py` 신규: `build_pilot_cache.py`의 Overpass 템플릿 일반화. **코리더 버퍼 타일링** 전략 — waypoint 구간별(Songpa→Cheongnyangni→…→Goseong) 4km buffer bbox, `way["highway"~"motorway|trunk|primary|secondary"]` 필터, 타일 stitch(node/edge dedup). 단일 100×176km bbox timeout 회피.
+2. `--source overpass` 1회 live 실행 → `data/cache/goseong_corridor_road.graphml` 교체 + reviewer manifest(`source=live_overpass_osm_snapshot`, sha256, node/edge 수, claim_limit).
+3. `src/realworld/zones.py:20` `MIN_CONNECTOR_T0_MIN` 0.01 → **0.1** (최소 feeder 시간 안전망; 실거리는 real 그래프 snapping이 담당).
+4. `scripts/run_plausibility_validation.py` Goseong 재실행 → A→D/A→S/R→D 실거리 band 통과 단정.
+5. `data/scenarios/goseong_disruption_scenarios.csv` betweenness 타겟 edge가 real 위상에서 존재하는지 재검증(깨지면 재태깅).
+6. `scripts/build_goseong_corridor.py`(synthetic)는 `--source fixture` 전용으로 relabel, 실 cache 덮어쓰기 차단.
 
-- Replaced multimodal last-mile service slots with a finite fleet, turnaround,
-  queue, and capacity model.
-- Added explicit first-departure schedule semantics so STRICT and GRACE decisions
-  are evaluated against a timetable rather than implicit first-arrival timing.
-- Split resource accounting into unit-consistent KPIs. Road vehicle-minutes,
-  train-minutes, and passenger-minutes are not summed into an ambiguous resource
-  field; legacy `resource_efficiency` is an alias for passengers per total
-  service minute.
-- Added named network variants for fair route-redundancy comparisons.
-- Expanded failure sensitivity to include disruption mode, capacity-reduction
-  factor, `p_fail_scale`, and network variant in result rows and summaries.
+**보안**: 전 좌표 공개 행정중심/공용 교통망(`coordinate_class=public`). 실제 부대 좌표 無.
 
-## Module Contracts
+---
 
-- `src/sim_types.py` defines immutable records shared across modules:
-  `Passenger`, `VehicleTrip`, `EdgeDisruption`, `EdgeTraversal`, and
-  `StationBatch`.
-- `src/network.py` builds the abstract `NetworkX` directed graph from
-  `config.yaml`.
-- `src/models.py` contains BPR travel time, arrival delay sampling, and legacy
-  wrappers for failure and static travel-time helpers.
-- `src/policies.py` defines `StrictPolicy`, `GracePolicy(W, theta)`, and
-  `build_policies(config)`.
-- `src/dispatch.py` converts passenger arrivals into scheduled vehicle
-  manifests using the selected departure policy.
-- `src/fleet.py` applies finite fleet availability and turnaround to requested
-  trips.
-- `src/disruptions.py` samples per-edge disruption state and computes effective
-  capacity.
-- `src/traffic.py` records edge entries, computes rolling hourly volume, and
-  traverses routes edge-by-edge with BPR.
-- `src/rail.py` provides fixed-headway rail service helpers and independent
-  train-trip completion.
-- `src/transfers.py` computes fixed plus crowd-dependent transfer delay.
-- `src/metrics.py` collects makespan, success, completion, censoring, and
-  resource-efficiency KPIs.
-- `src/scenario.py` orchestrates bus-only and multimodal scenarios through
-  `run_scenario(...)`.
-- `src/experiment/runner.py` runs Phase 1 and Phase 2 paired experiments.
-- `src/experiment/analysis.py` computes finite-value CIs, break-even estimates,
-  and Phase 1 summaries.
-- `src/visualize/plots.py` writes heatmaps, success-rate comparisons, policy
-  Pareto plots, and break-even plots with the non-interactive `Agg` backend.
+## 1.5 마무리 — 테스트 + provenance + 문서
 
-## Scenario Flow
+1. `Get-ChildItem tests\test_*.py` 전수 직실행 → green.
+2. `main.py --test/--quick` + `run_pilot_experiments.py --sample` Goseong 재생성(stale CSV 교체).
+3. ML 재baseline(신 Goseong CSV, 4급 populate 확인).
+4. `high_level_plan.md` Phase-1 게이트 ✅, `docs/integrity_baseline` 갱신.
+5. memory 영속화.
+6. results provenance: 신 sha256 ledger, goseong_pilot 교체 정당화(신 그래프 산물).
 
-`run_scenario(G, config, scenario_type, policy, params, seed)` performs these
-steps:
+## 완료 기준 (Phase 1 exit)
 
-1. Sample passenger arrival delays with a seed-derived arrival RNG.
-2. Sample road disruptions with a separate seed-derived failure RNG.
-3. Create a `MetricsCollector` with total personnel, time limit, and late
-   penalty config.
-4. Create `DynamicRoadTraffic` from BPR, traffic, congestion-scale, and
-   disruption config.
-5. Dispatch either the bus-only flow or the multimodal flow.
-6. Set leftover personnel and return the KPI dictionary.
+- D-PARAM: 단일 출처, doc=code 일치, 테스트 green
+- D-CLAIM: real_input_smoke honestly red(or real graph로 정당 green), #5 ruling
+- D-ML: KMeans/SHAP/NL 실구현 + CLAUDE.md 정정 + 테스트
+- D-GOSEONG: 실제 OSM Goseong 그래프 + plausibility 통과 + connector 정상
+- 직실행 테스트 전수 green
+- → Phase 2(mode 확장) IMPLEMENTATION_PLAN으로 이행
 
-Bus-only flow:
+---
 
-1. Plan passenger-queue dispatches from `A`.
-2. Apply finite bus fleet availability and turnaround.
-3. Pick a dynamic shortest road path from `A` to `D` at vehicle departure.
-4. Traverse road edges with dynamic BPR and record destination arrivals.
+## Phase 1.5 — 잔여 결점 전부 근본 해결 (사용자 2차 위임 "전부 해결해")
 
-Multimodal flow:
+> Phase 1(4결점) 완료 후 보고된 6 잔여 중 4개 근본 해결. #5(OSRM, 오프라인 불가→deferred), #6(acceptance-audit gotcha, 학습 보존)은 비코드.
 
-1. Plan passenger-queue shuttle dispatches from `A` to `S`.
-2. Apply finite shuttle fleet availability and turnaround.
-3. Apply transfer delay at the station.
-4. Board fixed-headway rail service from `S` to `R`.
-5. Dispatch finite-fleet last-mile road service from `R` to `D`.
-6. Record arrivals that complete within the simulation time limit.
+### 1.5.1 #4 sensitivity_strategy_readiness — 부정직 manifest + 게이트 coupling (근본 결함)
+**진단**: committed manifest가 `publication_ready=true`/가짜 `reviewer_accepted`/`blocking=0,human=0`로 **거짓**. `_sensitivity_gate.ready`가 `strategy_blocking_count==0 AND strategy_human_review_count==0` 요구하지만, 정직 generator는 항상 ≥1 human-review 행 산출(classifier에 resolved 분기 없음). → 게이트 green 유지 유일 방법 = 거짓 manifest. 두 테스트 충돌.
+**근본 해결(decouple)**: review-packet triage 항목은 review aid → gate `ready`에서 2조건 제거, details만 기록. 게이트 ready = acceptance-record + scope + count-match + artifacts. 거짓 manifest 없이 정직 manifest + gate green 동시 가능.
+1. `final_study_readiness.py` `_sensitivity_gate`(L2737-2746): `ready`에서 `strategy_blocking_count==0 and strategy_human_review_count==0` 제거. blockers 리스트 로직은 `not ready` 시에만 노출되므로 유지 가능.
+2. `write_sensitivity_strategy_readiness_packet`로 committed CSV/manifest/doc 정직 재생성(publication_ready=False, 정직 status_counts).
+3. 검증: `test_realworld_sensitivity_strategy_readiness_packet.py` PASS + `test_realworld_final_study_readiness.py` 여전 PASS.
 
-## Config Semantics
+### 1.5.2 #3 test_realworld_plan_audit — plan.md 섹션 누락
+**진단**: commit `afd8bfbf`가 plan.md 재작성 시 Mission/Claim Boundary/Stop Conditions/Sub-Agent 섹션 제거 → 테스트 L822 실패.
+**해결**: plan.md에 5 섹션(Mission/Claim Boundary/Stop Conditions/decision-support/Sub-Agent) 정직·claim-disciplined 추가. 테스트 재실행으로 downstream assertion 추가 실패 유무 확인.
 
-Important current semantics:
+### 1.5.3 #1 success_deadline ladder — multimodal censor 블로커
+**진단**: sample horizon(~200min)이 multimodal 전원 censor, bus도 60-75%만 완료 → 공정 bus-vs-multimodal delta 불가.
+**해결**: `success_deadline_min` ladder(5/6/7/8/10/12h) profile 추가 → smoke 재실행 → multimodal completion 정상화 확인. (high_level_plan Phase 5 ladder를 앞당겨 적용)
 
-- `failure_rate.levels` are `p_fail_scale` multipliers, not absolute
-  probabilities.
-- Road failure probability is
-  `min(edge_base_p_fail * p_fail_scale, 1.0)`.
-- Rail links are failure-immune by default.
-- `bus.first_departure_min` pins the first bus-only departure schedule.
-- `multimodal.shuttle_first_departure_min` pins the first shuttle departure
-  schedule.
-- `multimodal.rail_first_departure_min` can pin the first fixed-headway rail
-  departure; `null` keeps the default headway convention.
-- `multimodal.lastmile_first_departure_min` optionally pins the last-mile
-  schedule anchor. `multimodal.lastmile_fleet_size`,
-  `multimodal.lastmile_turnaround_min`, and
-  `multimodal.lastmile_vehicle_capacity` control the finite last-mile fleet.
-- `failure.mode: blocked` makes a disrupted edge unusable.
-- `failure.mode: capacity_reduction` keeps a disrupted road edge usable with
-  capacity multiplied by `failure.capacity_reduction_factor`.
-- `traffic.background_volume` is vehicles/hour.
-- `traffic.volume_window_min` controls the rolling window for simulated edge
-  entries; entries are converted to vehicles/hour before calling BPR.
-- `personnel.group_size` is both vehicle capacity and the default scheduled
-  batch target for dispatch policy evaluation.
-- GRACE threshold uses the scheduled batch target capped by remaining demand.
-- `metrics.late_penalty_min` is applied per censored passenger in
-  `penalized_makespan`.
+### 1.5.4 #2 ML re-baseline — 실제 그래프
+**진단**: `ml_baseline_v1.json`(macro-F1 0.887) = stub-era. 실제 그래프 결과로 re-baseline 필요.
+**해결**(1.5.3 후): 실제 그래프에서 충분 행 수 profile 실행 → ML 재산출 → baseline 갱신. 4급 클래스 다양성 확보 필요(성공사다리로 completion 분포 생성).
 
-## Experiment Pipeline
-
-`main.py` exposes the implemented CLI:
-
-```powershell
-.\.venv\Scripts\python main.py --test
-.\.venv\Scripts\python main.py --quick
-.\.venv\Scripts\python main.py --phase 1
-.\.venv\Scripts\python main.py --phase 2
-.\.venv\Scripts\python main.py
-```
-
-Phase 1 runs a grid over congestion scale `s`, `p_fail_scale`, default network
-variants, and failure semantics with STRICT policy. The current full Phase 1
-result set has 8,400 rows and includes `baseline` and `matched_redundancy`
-only; `multimodal_redundant_lastmile` and `bus_single_corridor` are selectable
-sensitivity variants outside the default full result set.
-
-Phase 2 runs a grid over lateness severity `sigma` and dispatch policies using
-representative Phase 1 values. The current full Phase 2 result set has 840
-rows.
-
-Experiment result rows include legacy fields and newer completion-aware fields:
-
-- `bus_makespan`, `multi_makespan`, `delta_makespan`
-- `bus_penalized_makespan`, `multi_penalized_makespan`,
-  `delta_penalized_makespan`
-- `bus_success_rate`, `multi_success_rate`
-- `bus_completion_rate`, `multi_completion_rate`
-- `bus_leftover`, `multi_leftover`
-- `bus_censored_count`, `multi_censored_count`
-- resource-efficiency columns where available
-
-## Verification
-
-The direct-execution test suite covers the implemented module split:
-
-```powershell
-.\.venv\Scripts\python tests\test_models.py
-.\.venv\Scripts\python tests\test_config.py
-.\.venv\Scripts\python tests\test_dispatch.py
-.\.venv\Scripts\python tests\test_fleet.py
-.\.venv\Scripts\python tests\test_traffic.py
-.\.venv\Scripts\python tests\test_disruptions.py
-.\.venv\Scripts\python tests\test_rail.py
-.\.venv\Scripts\python tests\test_transfers.py
-.\.venv\Scripts\python tests\test_metrics.py
-.\.venv\Scripts\python tests\test_analysis.py
-.\.venv\Scripts\python tests\test_scenario.py
-```
-
-Use `main.py --test` for a single scenario sanity check and `main.py --quick`
-for a reduced end-to-end experiment smoke run.
-
-## Report Regeneration
-
-`report_draft.md` is the Korean Markdown source. Regenerate the Word report
-with:
-
-```powershell
-.\.venv\Scripts\python generate_report.py
-```
-
-After model changes are integrated, use this order before treating results as
-current:
-
-```powershell
-.\.venv\Scripts\python -m compileall main.py src tests generate_report.py
-Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }
-.\.venv\Scripts\python main.py --test
-.\.venv\Scripts\python main.py --quick
-.\.venv\Scripts\python main.py --phase 1
-.\.venv\Scripts\python main.py --phase 2
-.\.venv\Scripts\python generate_report.py
-```
-
-Regenerating the report overwrites `report.docx`. Keep report narrative updates
-separate from code changes unless the task explicitly includes report work. If
-model semantics change again, rerun Phase 1/2 before copying CSV/PNG
-interpretations forward.
-
-## Remaining Limitations
-
-- The graph is an abstract, small network rather than a calibrated road and rail
-  network.
-- Dynamic traffic is a rolling-window BPR approximation, not full traffic
-  assignment or microscopic simulation.
-- Rail is represented as a single fixed-headway service and remains failure
-  immune unless model code changes.
-- Operational parameters are uncalibrated scenario assumptions, not validated
-  field estimates.
-- The default Phase 1 sweep uses `baseline` and `matched_redundancy`; declared
-  variants such as `multimodal_redundant_lastmile` and `bus_single_corridor`
-  require deliberate result regeneration before they support conclusions.
-- Generated experiment outputs and the Korean report need to be reviewed
-  together before drawing final narrative conclusions.
-
-## Current Research Extension Direction
-
-The implemented system remains the core scenario evaluator. The next research
-extension is to surround it with real-world or quasi-real data and validation
-layers rather than replacing it with a large external traffic platform.
-
-Planned extension layers:
-
-- OSMnx/Pyrosm road-network extraction and graph adaptation.
-- GeoPandas/Shapely/H3-style regional and sensitive-zone preprocessing.
-- GTFS or documented rail schedule assumptions.
-- Spatially structured disruptions from critical-link analysis and
-  hazard/exposure overlays.
-- Routing or multimodal plausibility checks with tools such as OSRM, Valhalla,
-  routingpy, r5py/R5, UXsim, or limited SUMO benchmarks.
-- SALib sensitivity analysis.
-- Result-schema and reproducibility checks using tools such as Frictionless and
-  scripted analysis workflows.
-
-The `cloned_repo/` directory contains public repository source snapshots with
-nested `.git` metadata removed. It is available for implementation reference,
-but it is not part of the simulator's production module tree.
+### 검증
+- 핵심 직실행 테스트 + #3/#4 테스트 PASS. #1 smoke multimodal completion>0. #2 ML baseline 재생성.

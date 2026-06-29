@@ -145,5 +145,13 @@ def write_graphml(G: nx.DiGraph, path: Path) -> None:
 
 if __name__ == "__main__":
     out = Path("data/cache/goseong_corridor_road.graphml")
+    # DEPRECATED (Phase 1): this emits the synthetic corridor skeleton. Refuse
+    # to overwrite a real OSM-derived cache (build_goseong_cache.py --source
+    # overpass) so the synthetic stub cannot regress the case-study graph.
+    if out.exists() and out.stat().st_size > 50_000:
+        raise SystemExit(
+            f"REFUSING to overwrite real cache {out} with the deprecated synthetic "
+            "skeleton. Use scripts/build_goseong_cache.py --source overpass instead."
+        )
     graph = build_corridor_graph()
     write_graphml(graph, out)
