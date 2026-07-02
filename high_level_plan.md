@@ -54,6 +54,64 @@
 - `transfers.py` + 환승비용 table (bus→rail 45-60min 등, per-leg base+per-pax)
 - backward-compat goseong yaml loader + 164 직실행 테스트 green
 
+### Phase 1.5 — contract 확장 hardening (2026-07-01 defect-hunt 전수 감사 + 근본해결)
+
+> Phase 1(composable multi-service) verify 이후 6-lens finder + 3-skeptic adversarial verify
+> 워크플로(51 agent, 842 tool-call) + 독립 byte-identity 재현으로 결점 전수 탐색.
+> **판정: 시뮬 엔진 자체 CLEAN** — byte-identity·determinism·correctness 3 lens 결점 0.
+> oracle 6 runs 정밀 일치(sha `fe963e74`, bus 287.81 / mm 290.68). 결점 전부 =
+> defense-in-depth / contract-validation / test-quality 영역(엔진 아님).
+
+**확정 코드 결점 (6건, contract/test 양 lens 중복 1건 병합)**
+
+| ID | 심각 | 위치 | 결점 | 근본해결 |
+|---|---|---|---|---|
+| C1 | HIGH | `src/realworld/types.py:401,928` | `PortPointSpec.coordinate_class` 미값검사 + `assert_public_coordinate_policy`가 port 레벨 **전혀** 미검사. docstring "non-public port 거부" 약속 위반. `region_services[].access.coordinate_class='military_unit'`이 로드+guard 통과 → **보안경계(실좌표/OOB 차단) 미집행** | (a) `ALLOWED_PORT_COORDINATE_CLASSES={public,synthetic}` PortPointSpec 검사 (b) guard에 `region_services[].access/.egress` 순회 거부 (c) 허용집합 위반 거부 테스트 추가 |
+| C2 | HIGH | `tests/test_composable_service_pipeline.py:95` | byte-identity(#1 invariant)를 assert하는 테스트 **0개**. rail-default는 `train_trips>0`+`breakdown=={}`만. `oracle.json` 아무 코드도 안 읽음 → silent KPI drift green 유지 | oracle.json 로드 → 핀 seed(1101-1103) bus_only+multimodal 재실행 → KPI bit-equal(`abs<1e-9`) 단정 신규 테스트 |
+| C3 | MED | `src/realworld/types.py:725,920` | 동일 mode 중복 서비스 허용 → `simulator_node_ids` silent collide(첫 port 증발), boundary 에러 라벨 모호. consumer `tests/test_realworld_region_reusability.py:32`→`assert_graph_ready` 우회 가능 | `__post_init__`/`_validate_service_tuple` mode-uniqueness guard + boundary 라벨 인덱스화 |
+| C4 | MED | `src/realworld/types.py:928` | guard opt-in/단일호출(`pilot_experiments.py:949`만). `load_region_spec`/`build_simulator_graph` 우회 → restricted region이 공용 API로 시뮬 진입(2 confirmed/1 refuted = carry-vs-enter 설계 주장, 판단 분분) | guard를 `RegionSpec.__post_init__`로 승격 OR 모든 공용 진입점에 추가 + 기존 guard 테스트 패턴 조정 (대안: opt-in 설치로 문서화) |
+| C5 | MED | `tests/test_composable_service_pipeline.py:132` | `'service_mode' in str(exc) or 'service' in str(exc)` — 'service' 단어만으로 임의 에러 pass → guard 회귀 감지불가 | 구체 fragment `and` 결합 단정(`multimodal.service_mode` + `requires a multimodal.service`) |
+| C6 | LOW | `src/scenario.py:286-304` | `_resolve_service_spec` mode 집합 검사 무 → `service_mode='bus'/'xyz'` 무오류 실행, `service_breakdown['bus']` 작성(2 confirmed/1 refuted = defensive-only) | 비-rail 분기에 `{sea,air}` membership guard + ValueError |
+
+**리포 위생 (커밋 전 정리, 5건)**
+- H1 `kci/`→`previous-kci/` rename 정규화(`git mv`, 현재 246파일 D + 신경로 `??`)
+- H2 CLAUDE.md `kci/` 참조 → `kci_redesign/`/`previous-kci/` 갱신
+- H3 `_te.txt`(0바이트) 삭제
+- H4 `results/_shap_install.log`·`results/_phase15_staged.log` gitignore 또는 삭제
+- H5 `cloned_repo/osmnx/.../short.graphml` revert(무시대상 참조트리 변조)
+
+**완료 기준 (Phase 1.5 exit)**
+- C1–C6 전부 근본해결 + 단정 추가, 169+ 직실행 green, byte-identity 독립재현 유지(oracle 정밀 일치)
+- H1–H5 정리
+- claim discipline 유지(`final_study_ready=false`), security 경계(C1) 확실히 집행
+- 산출 framing = decision-support / quasi-real / sensitivity 유지
+
+**상태: 해결 완료 (2026-07-01)** — C1–C6 + C1/C3/C6 회귀단정 전부 근본해결. 사용자 "전부 근본 해결, 나머지는 판단에 맡김" 위임.
+
+**해결 내역**
+- **C4 설계 결정 = Design A (강제 집행)**: 보안경계는 opt-in이 될 수 없음. guard를 `RegionSpec.__post_init__`로 승격 → `load_region_spec`/`load_region_registry`/`get_region_spec`/`build_simulator_graph` 전 공용 진입점이 단일 지점에서 집행. 사전 조사: production/test 어디도 restricted `RegionSpec`을 "carry"하지 않음(privacy_review_packet은 raw dict metadata만 읽음) → carry-vs-enter 구분은 사실상 dead flexibility, 승격이 안전.
+- C1: `ALLOWED_PORT_COORDINATE_CLASSES={public,synthetic}` 상수 → `PortPointSpec.__post_init__` 구조 시점 허용집합 검사(non-public port 생성 자체 거부) + guard의 `metadata.coordinate_class` 검사도 동일 허용집합으로 통일. docstring 정정.
+- C2: `test_byte_identity_against_oracle` 신규 — `oracle.json` 로드 → base-config sha 단정(`fe963e74`) + 6 runs(bus_only/multimodal × 1101-1103) × 10 KPI bit-equal(`abs<1e-9`). 발견: `_base_config()`의 `time_limit=600` override가 sha drift 원인 → 제거(oracle=480 8h 작전창).
+- C3: `_validate_service_tuple` mode-uniqueness guard(동일 mode 중복 → last-wins collide 차단) + `_validate_points_inside_boundary` 라벨 인덱스화(`region_services[i].access`).
+- C5: `'service_mode' in str(exc) or 'service'` → `and 'multimodal.service'` 구체 fragment 결합. + 신규 `test_unsupported_service_mode_raises`(C6 회귀단정).
+- C6: `scenario.py` `_NON_RAIL_SERVICE_MODES={sea,air}` 로컬 상수(core→realworld 의존 무) + `_resolve_service_spec` 비-rail 분기 membership guard + ValueError.
+- 회귀단정: C1 hostile-repro port(`military_unit` 구조 거부) + restricted 구조 시점 거부 / C3 duplicate-mode 거부.
+
+**검증**: types + guard + composable 직실행 green. 느린 전수셋 + adversarial re-hunt 진행 중.
+
+**Adversarial re-hunt round (2026-07-01, workflow 17 agent / 742k tok)** — C1-C6 고친 코드를 6-lens finder + 3-skeptic verify로 재검증. 3 lens CLEAN(contract-validation/byte-identity/regression). C1-C6 자체는 전부 정상(엔진 무결점). 단 C2 oracle **test-quality** + 경량 hardening 영역 6건 추가 발견 → 전부 근본해결:
+
+| ID | 심각 | 결점 | 근본해결 |
+|---|---|---|---|
+| F2 | HIGH | oracle.json 미추적 → fresh clone FileNotFoundError + 가변(KPI checksum 무) → silent-regeneration 우회 가능(bypass_confirmed=true) | `scripts/generate_phase23_oracle.py` 신규(단일 출처, 결정론적) + oracle 재생성(full 27-key as_dict + `runs_sha256`) + `git add`(공유/불변). test가 `runs_sha256` 검증 → hand-edit 즉시 탐지 |
+| F3 | MED | C2가 27 key 중 10개만 pin, docstring "byte-identical" 과장 | oracle을 full `as_dict()` 27-key로 재동결 → 문자 그대로 전-key identity. docstring 정정("full-key rail/bus identity") |
+| F4 | MED | oracle 축소(키 삭제) 미감지(단방향 검사) | `set(result.keys()) == set(expected.keys())` 양방향 단정 → shrink/add 모두 탐지 |
+| F1 | LOW | legacy `rail:` 경로 `_region_service_from_legacy_rail`이 coordinate_class 미전달 → 'public' silent-normalize(region_services path와 불일치) | raw access/egress mapping에서 coordinate_class 전달 → PortPointSpec 검증 통과. legacy-rail hostile 거부 회귀단정 추가 |
+| F5 | LOW | sea test가 `trips>0` 만 → 2x minutes corruption 미탐지(widening 핵심이 least-pinned) | `breakdown['sea']['minutes'] == trips*travel_time` 구조단정 추가 |
+| F6 | LOW | `load_pilot_inputs:949` guard가 이제 dead(`__post_init__`에 승격) → 오해 유발 | fail-fast pre-check로 주석 정정(제한 region을 105MB graphml 로드 전 ms 단위로 거부; 권위는 `__post_init__`) |
+
+**최종 검증**: full 직실행 수트 green. claim audit 무변(40 blocker 전부 기존 docs, 편집/신규 파일 0건). `final_study_ready=False` 유지. byte-identity 독립재현 유지(oracle full-key, sha fe963e74/a248663b).
+
 ### Phase 2 — mode 확장 (leaf)
 - P2a rail electric→diesel fallback (L3 전철마비 시, service-list+fuel_type 소비)
 - P2b sea (LST/Ro-Ro, **조건부** default-OFF, 항만 수심/ASW 전제)

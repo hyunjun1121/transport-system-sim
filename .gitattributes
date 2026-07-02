@@ -1,1 +1,9 @@
+# Large OSM-derived road graphs (e.g. data/cache/goseong_corridor_road.graphml,
+# ~105MB) are stored via Git LFS to stay under GitHub's 100MB limit.
 *.graphml filter=lfs diff=lfs merge=lfs -text
+# Exception: small reference-tree fixtures that upstream repos commit as real
+# text (e.g. osmnx test data under cloned_repo/) are NOT LFS candidates.
+# Excluding them prevents the LFS clean filter from perpetually flagging real
+# content as a missing pointer (the cloned_repo/ tree is reference-only and is
+# not imported by the simulator — see CLAUDE.md).
+cloned_repo/osmnx/tests/input_data/short.graphml filter= diff= merge= text

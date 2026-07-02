@@ -18,9 +18,12 @@ docs/review_package_path_audit.md
 # Claude Code session data
 .claude/
 
-# KCI runtime artifacts (regenerable)
-kci/cache/
-kci/logs/
-kci/data/cache/
-kci/results/*.png
+# KCI archive: old kci/ was superseded by kci_redesign/ (active synthesis).
+# previous-kci/ is the local-only archive of the retired build scripts.
+previous-kci/
+
+# Scratch / regenerable run artifacts (do not commit)
+_te.txt
+results/_shap_install.log
+results/_phase15_staged.log
 

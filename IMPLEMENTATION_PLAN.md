@@ -115,3 +115,62 @@
 
 ### 검증
 - 핵심 직실행 테스트 + #3/#4 테스트 PASS. #1 smoke multimodal completion>0. #2 ML baseline 재생성.
+
+---
+
+## Phase 2 — contract 확장 (region_services / composable multi-service)
+
+> 사용자 "시간 많아" = 전체 로드맵. 결점 없는 2모드 기반(Phase 0+1.5) 완료 위에 모드/코리더 leaf 전제.
+> `.rail` 활성 참조 = 4파일(scenario/adapter/types/zones) ~14곳 → backward-compat `rail` alias로 contained.
+
+### 2.0 보안 guard 선행 (비공개 좌표 거부) — **전제, 모드 확장 전**
+`tests/test_public_coordinate_guard.py` + `types.py::assert_public_coordinate_policy(region)`:
+- RegionSpec 좌표가 공개 행정중심/공용교통망 only 강제. sensitivity_level ∈ {restricted, sensitive_review_required} 또는 coordinate_class != 'public' → 거부.
+- sea/air 모드 도입 전 military port/airfield 좌표 유입 차단.
+
+### 2.1 types.py contract
+- `PortPointSpec`(access/egress 일반화, mode·fuel_type·coordinate_class 포함) + `RegionServiceSpec`(mode∈{rail,sea,air}, access/egress PortPointSpec, travel_time/headway/capacity, fuel_type, fallback, metadata).
+- `RegionSpec.region_services: tuple[RegionServiceSpec,...]` 추가. `region.rail` → 첫 rail 서비스에서 파생하는 computed alias property(기존 ~14 참조 호환). `RailSpec`/`RailPointSpec` legacy 보존.
+- `canonical_ids`/`simulator_node_ids` → region_services 구동.
+
+### 2.2 adapter.py
+- canonical_ids 데이터 구동, `_validate_edge_attrs` mode-set → {road,rail,sea,air}, REQUIRED_ROUTES region 구동. rail S/R 노드 → service-list 일반화(모드별 access/egress 노드).
+
+### 2.3 scenario.py
+- composable multi-service pipeline(bus_only/multimodal legacy 보존). service-list 순회: A → shuttle → service[k].access → service-leg → service[k].egress → last-mile → D.
+
+### 2.4 pilot_experiments.py + transfers.py
+- service-list 기반 config build + case-failure 전 서비스 링크 변이.
+- transfers.py 환승비용 table(bus→rail 45-60min 등, per-leg base+per-pax).
+
+### 2.5 검증
+- backward-compat goseong yaml loader(`rail:` 키 그대로 로드 → region_services[0] rail로). 166 직실행 테스트 green 유지 + 신규 guard/contract 테스트.
+
+---
+
+## Phase 2.3-2.5 — composable multi-service pipeline (understand workflow 산출)
+
+> Workflow `phase2-composable-understand` (6 agent, 87 tool-call) 정밀 blueprint.
+> **이미 mode-generic(변경 불필)**: rail.py 고정headway核心, transfers.py 전체, routing engine(allowed_modes set), adapter.realworld_network_config(service_links), ALLOWED_EDGE_MODES, services_by_mode.
+> **핵심 invariant**: 단일 rail region → canonical_ids/route 정확히 ('A','D','S','R')/[(A,D),(A,S),(R,D)] (rail-first ordering). sea/air = `multimodal`+`service_mode`(신규 scenario_type 아님).
+
+### 8-step + 검증 protocol
+- **STEP 0** ✅ baseline freeze (`results/_phase23_baseline/oracle.json`, base_config_sha256 fe963e74… via `_json_sha256`, bus 287.81/mm 290.68)
+- **STEP 1** canonical 일반화: types.canonical_ids/simulator_node_ids(단일rail fast-path 유지) + zones.snap_region_points(전 포트) + adapter REQUIRED_ROUTES→required_routes_for(region) + _ensure_canonical_ids 구조화
+- **STEP 2** scenario: ServiceSpec 값객체 + `_run_rail_service`→`_run_fixed_headway_service(spec, resource_mode)` (dispatch loop 593/608/618-619/631 byte-identical)
+- **STEP 3** metrics: additive service_trips/service_minutes dict + service_breakdown (legacy key FROZEN, as_dict 245-254 불변)
+- **STEP 4** scenario: `_run_multimodal`→`_run_service_alternative(spec)` (A/D canonical, S/R→spec.access/egress_id). legacy `_run_multimodal` = rail shim
+- **STEP 5** network: service-edge pass(2-branch, rail_link fallback) + service_links 전파. ⚠ tuple-shape: rail 5-tuple vs service 6-tuple 분리
+- **STEP 6** pilot: service_links 전파 + service_mode + corridor pairs + case mutation. ⚠ service_links가 base_config_sha256 교란 금지(gate behind non-rail OR hash-scope 제외)
+- **STEP 7**(optional) policy_alternatives per-service knob (OPTIONAL column)
+- **STEP 8** VERIFY: 167 전수 + STEP0 oracle byte-diff
+
+### 5중 backward-compat 보장
+1. rail-first ordering(legacy `rail:`→region_services[0]=rail) 2. two-branch fallback(network/pilot) 3. dispatch 안정(scenario_type {bus_only,multimodal} 불변) 4. additive-only metrics(legacy key 동결) 5. dispatch-loop identity(KPI byte-identical)
+
+###高风险 (workflow risk_register)
+- metrics identity drift → dispatch loop byte-identical 유지 + STEP8 byte-diff
+- base_config_sha256 교란 → service_links hash-scope 제외/gate
+- node-ID mis-wire → rail shim이 rail_link[0][0]/[1]에서 access/egress_id 읽기
+- tuple-shape divergence(5 vs 6) → distinct branch + len assert
+- sea/air fixed-headway = modeling fiction → 전 output decision-support/sensitivity framing, fuel_type/fallback 미소비 명시

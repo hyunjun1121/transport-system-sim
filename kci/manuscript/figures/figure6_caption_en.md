@@ -1,9 +1,0 @@
-**Figure 6.** Phase 3 counterfactual lever sweep — Δ penalized_makespan at `p_fail_scale = 1.5` (headline figure).
-
-**Panel structure.** The Phase 3 counterfactual grid (3 × 3 × 3 × 3 = 81 cells, R = 15 paired CRN replications per cell) is rendered as a three-panel diverging heatmap at the disruption-stress level `p_fail_scale = 1.5`. The three panels correspond, left to right, to `rail_capacity_pax_per_train ∈ {500, 1000, 2000}`. Within each panel, the Y-axis is `rail_headway_min (min) ∈ {15, 7.5, 3}` (top → bottom) and the X-axis is `lastmile_fleet_size ∈ {23, 50, 100}` (left → right). Cell color uses the `RdBu_r` colormap diverging from zero: blue (Δ < 0) indicates direct-bus advantage, red (Δ > 0) indicates multimodal advantage.
-
-**Headline reading.** At the base setting (rail_headway = 15 min, lastmile = 23, rail_capacity = 500), Δ < 0 (bus dominance). The headline question is whether any cell shows Δ ≥ 0 (sign reversal to multimodal dominance). The `✕` marker tags cells whose 95% paired-t CI crosses zero (sign-reversal candidates).
-
-**Key figures.** Across the full 81 cells, classification yields 54 bus_dominant, 27 inconclusive, and **0 multi_dominant**: no multimodal-dominant cell is found within the surveyed infrastructure-lever space. The cell closest to sign reversal is `rail_headway = 3 min, lastmile_fleet = 23, rail_capacity = 500, p_fail_scale = 0.5` with mean Δ penalized_makespan = **−39.3 min** (95% CI [−50.7, −28.0]); it remains bus_dominant.
-
-**Notes.** Sidecar statistics (per-cell mean, 95% CI, classification labels) are in `manuscript/tables/table6_lever_conditions.md` and `manuscript/tables/table6_lever_conditions_summary.json`. Confidence intervals are paired-t (df = R − 1 = 14); non-finite values (±inf) are removed prior to mean and CI computation.

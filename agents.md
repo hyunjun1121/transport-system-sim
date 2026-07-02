@@ -167,6 +167,7 @@ config.yaml                # Network, BPR, stochastic, dispatch, DoE config
 requirements.txt           # Python dependencies for Windows/venv setup
 requirements-ml.txt        # Optional Phase 10 post-simulation ML/GPU deps
 generate_report.py         # Generates report.docx from report_draft.md
+generate_phase23_oracle.py # Regenerate the Phase 2.3 byte-identity oracle (single source)
 report_draft.md            # Korean narrative report source
 report.docx                # Generated Word document
 microsim_experiment_proposal_v3.docx  # Original proposal
