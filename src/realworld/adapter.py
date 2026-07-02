@@ -30,6 +30,11 @@ REQUIRED_ROUTES = (
     ("A", "S"),
     ("R", "D"),
 )
+# Edge modes the simulator graph may carry. ``road`` and ``rail`` are the
+# Phase-1 2-mode contract; ``sea`` / ``air`` are added by the multi-service
+# widening (Phase 2) and exercised once sea/air RegionServiceSpec entries and
+# their graph edges exist (Phase 3 mode leaves).
+ALLOWED_EDGE_MODES = frozenset({"road", "rail", "sea", "air"})
 
 
 def build_simulator_graph(
@@ -110,7 +115,7 @@ def build_simulator_graph(
     _add_rail_metadata(simulator, region_spec)
     _validate_required_edge_fields(simulator)
     if validate_routes:
-        _validate_required_routes(simulator)
+        _validate_required_routes(simulator, region_spec)
     return simulator
 
 
@@ -148,22 +153,44 @@ def _routeable_road_graph(
 
 
 def realworld_network_config(region: Mapping[str, Any] | RegionSpec) -> dict[str, Any]:
-    """Return config-compatible network metadata for the fixed rail link."""
+    """Return config-compatible network metadata for the region's services.
+
+    Emits ``service_links`` (one tuple per RegionServiceSpec: mode, access,
+    egress, travel_time, headway, capacity) for the composable multi-service
+    pipeline, plus a backward-compatible ``rail_link`` derived from the first
+    rail service so legacy single-rail callers keep working.
+    """
 
     region_spec = load_region_spec(region)
     nodes = list(region_spec.canonical_ids)
-    rail = region_spec.rail
-    return {
-        "nodes": nodes,
-        "rail_link": [
+    service_links = [
+        (
+            svc.mode,
+            svc.access.id,
+            svc.egress.id,
+            svc.travel_time_min,
+            svc.headway_min,
+            svc.capacity_pax_per_unit,
+        )
+        for svc in region_spec.region_services
+    ]
+    rail_services = region_spec.services_by_mode("rail")
+    rail_link: list[tuple] = []
+    if rail_services:
+        rail = rail_services[0]
+        rail_link = [
             (
                 rail.access.id,
                 rail.egress.id,
                 rail.travel_time_min,
                 rail.headway_min,
-                rail.capacity_pax_per_train,
+                rail.capacity_pax_per_unit,
             )
-        ],
+        ]
+    return {
+        "nodes": nodes,
+        "service_links": service_links,
+        "rail_link": rail_link,
     }
 
 
@@ -262,17 +289,57 @@ def _edge_choice_key(attrs: Mapping[str, Any]) -> tuple[float, float, float, str
     )
 
 
-def _add_rail_metadata(graph: nx.DiGraph, region: RegionSpec) -> None:
-    graph.graph["rail_link"] = realworld_network_config(region)["rail_link"]
+def _add_service_metadata(graph: nx.DiGraph, region: RegionSpec) -> None:
+    config = realworld_network_config(region)
+    graph.graph["rail_link"] = config["rail_link"]
+    graph.graph["service_links"] = config["service_links"]
+
+
+# Backward-compatible alias; callers that attach rail metadata now also attach
+# the full multi-service link set.
+_add_rail_metadata = _add_service_metadata
 
 
 def _ensure_canonical_ids(region: RegionSpec) -> None:
-    expected = ("A", "D", "S", "R")
-    if region.canonical_ids != expected:
+    """Validate the canonical-id structure for single- and multi-service regions.
+
+    A single-rail region yields exactly ``("A","D","S","R")`` (unchanged legacy
+    contract). A multi-service region appends extra ``<access,egress>`` pairs.
+    The rail service, when present, must be declared first so the legacy rail
+    alias and the first service pair stay stable.
+    """
+
+    ids = region.canonical_ids
+    if len(ids) < 4 or len(ids) % 2 != 0:
         raise ValueError(
-            "Worker 4 adapter currently targets canonical simulator IDs "
-            f"{expected}; got {region.canonical_ids!r}."
+            "canonical_ids must be (assembly, destination, <access,egress> "
+            f"pairs); got {ids!r}"
         )
+    services = region.region_services
+    has_rail = any(svc.mode == "rail" for svc in services)
+    if has_rail and services[0].mode != "rail":
+        raise ValueError(
+            "rail service must be declared first in region_services "
+            "(legacy rail alias requires it)"
+        )
+
+
+def required_routes_for(region: RegionSpec) -> tuple[tuple[str, str], ...]:
+    """Return the required road routes for a region's services.
+
+    Always includes ``assembly -> destination``; each service adds
+    ``assembly -> service.access`` and ``service.egress -> destination``. A
+    single-rail region yields exactly ``[(A,D),(A,S),(R,D)]`` (identical to the
+    legacy ``REQUIRED_ROUTES``).
+    """
+
+    assembly = region.primary_assembly_id
+    destination = region.primary_destination_id
+    routes: list[tuple[str, str]] = [(assembly, destination)]
+    for svc in region.region_services:
+        routes.append((assembly, svc.access.id))
+        routes.append((svc.egress.id, destination))
+    return tuple(routes)
 
 
 def _validate_required_edge_fields(graph: nx.DiGraph) -> None:
@@ -300,12 +367,15 @@ def _validate_edge_attrs(attrs: Mapping[str, Any]) -> None:
         if not isfinite(probability) or not 0.0 <= probability <= 1.0:
             raise ValueError(f"{field} must satisfy 0 <= p <= 1")
 
-    if attrs.get("mode") not in {"road", "rail"}:
-        raise ValueError(f"mode must be routeable by the simulator, got {attrs.get('mode')!r}")
+    if attrs.get("mode") not in ALLOWED_EDGE_MODES:
+        raise ValueError(
+            f"mode must be routeable by the simulator (one of "
+            f"{sorted(ALLOWED_EDGE_MODES)}), got {attrs.get('mode')!r}"
+        )
 
 
-def _validate_required_routes(graph: nx.DiGraph) -> None:
-    for source, target in REQUIRED_ROUTES:
+def _validate_required_routes(graph: nx.DiGraph, region: RegionSpec) -> None:
+    for source, target in required_routes_for(region):
         try:
             if not nx.has_path(graph, source, target):
                 raise ValueError(f"Simulator graph has no route {source} -> {target}.")

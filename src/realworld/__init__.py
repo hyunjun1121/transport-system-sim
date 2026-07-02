@@ -887,15 +887,21 @@ from .road_override_audit import (
 )
 from .types import (
     ALLOWED_BOUNDARY_TYPES,
+    ALLOWED_FUEL_TYPES,
     ALLOWED_SENSITIVITY_LEVELS,
+    ALLOWED_SERVICE_MODES,
+    PUBLIC_COORDINATE_LEVELS,
     BoundarySpec,
     Metadata,
     MetadataValue,
+    PortPointSpec,
     RailPointSpec,
     RailSpec,
+    RegionServiceSpec,
     RegionSpec,
     SourceRefSpec,
     ZoneSpec,
+    assert_public_coordinate_policy,
     validate_metadata,
 )
 from .validation import assert_graph_ready, validate_graph_readiness
@@ -1174,6 +1180,8 @@ __all__ = [
     "RailSpec",
     "RailStationBinding",
     "RailTimetableEvent",
+    "PortPointSpec",
+    "RegionServiceSpec",
     "RegionSpec",
     "ReviewAgentDefinition",
     "RouteCheck",

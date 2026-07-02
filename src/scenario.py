@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Callable, Sequence
+from dataclasses import dataclass
 
 import networkx as nx
 import numpy as np
@@ -34,6 +35,14 @@ from src.sim_types import (
 )
 from src.traffic import DynamicRoadTraffic
 from src.transfers import compute_transfer_delay
+
+# Non-rail fixed-headway service modes the composable pipeline accepts. This
+# mirrors src.realworld.types.ALLOWED_SERVICE_MODES minus 'rail'; kept local so
+# the core simulator does not depend on the realworld package. Rail is the
+# default multimodal service_mode and resolves from network.rail_link, so it is
+# intentionally excluded here — an unsupported service_mode must fail loudly
+# rather than silently run as a misleading service_breakdown entry.
+_NON_RAIL_SERVICE_MODES = frozenset({"sea", "air"})
 
 
 RouteTraveler = Callable[[float], tuple[float, tuple[str, ...]]]
@@ -167,7 +176,7 @@ def _run_bus_only(
     )
 
 
-def _run_multimodal(
+def _run_service_alternative(
     G: nx.DiGraph,
     config: dict,
     passengers: tuple[Passenger, ...],
@@ -175,10 +184,17 @@ def _run_multimodal(
     traffic: DynamicRoadTraffic,
     metrics: MetricsCollector,
     *,
+    spec: ServiceSpec,
     turnaround_noise_lambda: float = 0.0,
     rng_turnaround: np.random.Generator | None = None,
 ) -> None:
-    """Run shuttle -> rail -> last-mile multimodal transport."""
+    """Run the composable service alternative.
+
+    Pipeline: ``A -> shuttle(road) -> spec.access_id -> transfer ->
+    fixed-headway service leg -> spec.egress_id -> last-mile(road) -> D``. Mode
+    is carried by ``spec`` (rail / sea / air). Node IDs are spec-driven; A and
+    D stay canonical (assembly is always origin, destination always sink).
+    """
     if not passengers:
         return
 
@@ -188,7 +204,7 @@ def _run_multimodal(
     rerouting_conf = config.get("failure", {}).get("rerouting", {})
 
     shuttle_traveler = _make_route_traveler(
-        G, traffic, "A", "S",
+        G, traffic, "A", spec.access_id,
         allowed_modes={"road"},
         rerouting_config=rerouting_conf,
         metrics=metrics,
@@ -207,7 +223,7 @@ def _run_multimodal(
             assembly_time,
         ),
         mode="shuttle",
-        route=("A", "S"),
+        route=("A", spec.access_id),
     )
     station_batches = _execute_vehicle_trips(
         shuttle_plan,
@@ -229,16 +245,18 @@ def _run_multimodal(
         base_min=multimodal_conf.get("transfer_time_min", 0.0),
         per_passenger_min=multimodal_conf.get("transfer_per_passenger_min", 0.0),
     )
-    rail_arrivals = _run_rail_service(config, transfer_batches, metrics)
+    service_arrivals = _run_fixed_headway_service(
+        config, transfer_batches, metrics, spec=spec
+    )
 
     lastmile_traveler = _make_route_traveler(
-        G, traffic, "R", "D",
+        G, traffic, spec.egress_id, "D",
         allowed_modes={"road"},
         rerouting_config=rerouting_conf,
         metrics=metrics,
     )
     _execute_lastmile_batches(
-        rail_arrivals,
+        service_arrivals,
         traveler=lastmile_traveler,
         dispatch_interval=multimodal_conf.get("lastmile_dispatch_interval_min", 0.0),
         vehicle_capacity=multimodal_conf.get("lastmile_vehicle_capacity", group_size),
@@ -256,6 +274,71 @@ def _run_multimodal(
             0.0,
         ),
         metrics=metrics,
+        egress_id=spec.egress_id,
+        turnaround_noise_lambda=turnaround_noise_lambda,
+        rng_turnaround=rng_turnaround,
+    )
+
+
+def _resolve_service_spec(config: dict) -> ServiceSpec:
+    """Resolve the service spec for the multimodal alternative.
+
+    Default ``service_mode='rail'`` builds the spec from the legacy
+    ``rail_link[0]`` (byte-identical to the pre-widening runner). A non-rail
+    ``service_mode`` (sea / air) builds the spec from
+    ``config['multimodal']['service']`` — the bridge to Phase 3 sea/air
+    execution; rail configs never carry that key, so they are unchanged.
+    """
+
+    multimodal_conf = config.get("multimodal", {})
+    mode = multimodal_conf.get("service_mode", "rail")
+    if mode == "rail":
+        return _service_spec_from_legacy_rail(config)
+    if mode not in _NON_RAIL_SERVICE_MODES:
+        raise ValueError(
+            f"multimodal.service_mode={mode!r} is not a supported service mode; "
+            f"non-rail modes must be one of {sorted(_NON_RAIL_SERVICE_MODES)} "
+            "(rail is the default and resolves from network.rail_link)"
+        )
+    service = multimodal_conf.get("service")
+    if not isinstance(service, dict):
+        raise ValueError(
+            f"multimodal.service_mode={mode!r} requires a multimodal.service "
+            "mapping (access_id, egress_id, travel_time_min, headway_min, "
+            "capacity)"
+        )
+    return ServiceSpec(
+        mode=str(mode),
+        access_id=str(service["access_id"]),
+        egress_id=str(service["egress_id"]),
+        travel_time_min=float(service["travel_time_min"]),
+        headway_min=float(service["headway_min"]),
+        capacity=int(service["capacity"]),
+        first_departure_min=service.get("first_departure_min"),
+    )
+
+
+def _run_multimodal(
+    G: nx.DiGraph,
+    config: dict,
+    passengers: tuple[Passenger, ...],
+    policy: DeparturePolicy,
+    traffic: DynamicRoadTraffic,
+    metrics: MetricsCollector,
+    *,
+    turnaround_noise_lambda: float = 0.0,
+    rng_turnaround: np.random.Generator | None = None,
+) -> None:
+    """Run the multimodal alternative (service spec resolved from config)."""
+
+    _run_service_alternative(
+        G,
+        config,
+        passengers,
+        policy,
+        traffic,
+        metrics,
+        spec=_resolve_service_spec(config),
         turnaround_noise_lambda=turnaround_noise_lambda,
         rng_turnaround=rng_turnaround,
     )
@@ -375,15 +458,17 @@ def _execute_lastmile_batches(
     turnaround_time: float,
     first_depart_time: float,
     metrics: MetricsCollector,
+    egress_id: str = "R",
     turnaround_noise_lambda: float = 0.0,
     rng_turnaround: np.random.Generator | None = None,
 ) -> None:
-    """Move rail-arrived passengers through a finite last-mile fleet."""
+    """Move service-arrived passengers through a finite last-mile fleet."""
     planned = _plan_lastmile_dispatches(
         batches,
         vehicle_capacity=vehicle_capacity,
         dispatch_interval=dispatch_interval,
         first_depart_time=first_depart_time,
+        egress_id=egress_id,
     )
     _execute_vehicle_trips(
         planned,
@@ -404,8 +489,9 @@ def _plan_lastmile_dispatches(
     vehicle_capacity: int,
     dispatch_interval: float,
     first_depart_time: float,
+    egress_id: str = "R",
 ) -> list[VehicleTrip]:
-    """Plan last-mile manifests from the R-station passenger queue."""
+    """Plan last-mile manifests from the service-egress passenger queue."""
     passengers = _station_batches_to_passengers(batches)
     if not passengers:
         return []
@@ -434,13 +520,14 @@ def _plan_lastmile_dispatches(
             first_depart_time=first_depart_time,
             expected_passengers_per_dispatch=vehicle_capacity,
             mode="lastmile",
-            route=("R", "D"),
+            route=(egress_id, "D"),
         )
 
     return _plan_on_demand_lastmile_dispatches(
         passengers,
         vehicle_capacity=vehicle_capacity,
         first_depart_time=first_depart_time,
+        egress_id=egress_id,
     )
 
 
@@ -461,6 +548,7 @@ def _plan_on_demand_lastmile_dispatches(
     *,
     vehicle_capacity: int,
     first_depart_time: float,
+    egress_id: str = "R",
 ) -> list[VehicleTrip]:
     """Plan immediate last-mile departures when no interval is configured."""
     queue = list(passengers)
@@ -482,7 +570,7 @@ def _plan_on_demand_lastmile_dispatches(
                 depart_time=depart_time,
                 arrival_time=depart_time,
                 passenger_ids=tuple(passenger.id for passenger in boarded),
-                route=("R", "D"),
+                route=(egress_id, "D"),
             )
         )
 
@@ -560,22 +648,96 @@ def _apply_transfer_batches(
     return sorted(ready, key=lambda batch: batch.ready_time)
 
 
-def _run_rail_service(
+@dataclass(frozen=True)
+class ServiceSpec:
+    """A composable fixed-headway service leg (rail / sea / air).
+
+    Carries the node IDs and timing the pipeline needs to compose
+    ``assembly -> shuttle -> service.access -> service-leg -> service.egress ->
+    last-mile -> destination`` for any mode. ``first_departure_min`` is the
+    legacy ``rail_first_departure_min`` knob, generalized.
+    """
+
+    mode: str
+    access_id: str
+    egress_id: str
+    travel_time_min: float
+    headway_min: float
+    capacity: int
+    first_departure_min: float | None = None
+
+
+def _service_spec_from_legacy_rail(config: dict) -> ServiceSpec:
+    """Build a rail ``ServiceSpec`` from ``rail_link[0]`` + multimodal config.
+
+    Keeps the legacy rail path feeding the exact same values into the
+    generalized runner (KPI byte-identity).
+    """
+
+    rail_link = config.get("network", {}).get("rail_link") or []
+    if not rail_link:
+        raise ValueError(
+            "default multimodal service_mode='rail' requires a non-empty "
+            "network.rail_link; this region has none — set "
+            "multimodal.service_mode to a configured non-rail service"
+        )
+    rail = rail_link[0]
+    return ServiceSpec(
+        mode="rail",
+        access_id=str(rail[0]),
+        egress_id=str(rail[1]),
+        travel_time_min=float(rail[2]),
+        headway_min=float(rail[3]),
+        capacity=int(rail[4]),
+        first_departure_min=config.get("multimodal", {}).get("rail_first_departure_min"),
+    )
+
+
+def _record_service_trip(
+    metrics: MetricsCollector,
+    mode: str,
+    travel_time: float,
+    *,
+    passenger_count: int,
+) -> None:
+    """Accumulate a fixed-headway service trip.
+
+    Rail writes the legacy ``train_trips`` / ``train_minutes`` counters
+    (byte-identical to the legacy runner); non-rail modes write the additive
+    ``service_trips`` / ``service_minutes`` dicts. All modes advance
+    ``passenger_travel_minutes``.
+    """
+
+    metrics.passenger_travel_minutes += travel_time * passenger_count
+    if mode == "rail":
+        metrics.train_trips += 1
+        metrics.train_minutes += travel_time
+        return
+    metrics.service_trips[mode] = metrics.service_trips.get(mode, 0) + 1
+    metrics.service_minutes[mode] = metrics.service_minutes.get(mode, 0.0) + travel_time
+
+
+def _run_fixed_headway_service(
     config: dict,
     station_batches: list[StationBatch],
     metrics: MetricsCollector,
+    *,
+    spec: ServiceSpec,
 ) -> list[StationBatch]:
-    """Move station-ready batches through fixed-headway rail service."""
+    """Move station-ready batches through a fixed-headway service leg.
+
+    Mode-generic (rail / sea / air). The dispatch loop — first-departure
+    seeding, ``queue[:capacity]`` boarding, ``depart_time += headway`` advance
+    — is byte-identical to the legacy rail runner so the rail path produces
+    identical KPIs.
+    """
+
     if not station_batches:
         return []
 
-    rail = config["network"]["rail_link"][0]
-    rail_time = float(rail[2])
-    headway = float(rail[3])
-    capacity = int(rail[4])
-    rail_first_departure = config.get("multimodal", {}).get(
-        "rail_first_departure_min",
-    )
+    service_time = spec.travel_time_min
+    headway = spec.headway_min
+    capacity = spec.capacity
     if headway <= 0 or capacity <= 0:
         return []
 
@@ -588,16 +750,16 @@ def _run_rail_service(
 
     queue: list[Passenger] = []
     next_idx = 0
-    delivered_to_r = 0
+    delivered = 0
     n = len(ready_passengers)
     depart_time = next_departure_time(
         ready_passengers[0].arrival_time,
         headway,
-        first_departure_min=rail_first_departure,
+        first_departure_min=spec.first_departure_min,
     )
-    rail_arrivals: list[StationBatch] = []
+    arrivals: list[StationBatch] = []
 
-    while delivered_to_r < n:
+    while delivered < n:
         while next_idx < n and ready_passengers[next_idx].arrival_time <= depart_time:
             queue.append(ready_passengers[next_idx])
             next_idx += 1
@@ -608,7 +770,7 @@ def _run_rail_service(
             depart_time = next_departure_time(
                 ready_passengers[next_idx].arrival_time,
                 headway,
-                first_departure_min=rail_first_departure,
+                first_departure_min=spec.first_departure_min,
             )
             continue
 
@@ -617,20 +779,33 @@ def _run_rail_service(
 
         boarded = queue[:capacity]
         queue = queue[capacity:]
-        delivered_to_r += len(boarded)
-        metrics.train_trips += 1
-        metrics.train_minutes += rail_time
-        metrics.passenger_travel_minutes += rail_time * len(boarded)
+        delivered += len(boarded)
+        _record_service_trip(metrics, spec.mode, service_time, passenger_count=len(boarded))
 
-        rail_arrivals.append(
+        arrivals.append(
             StationBatch(
-                ready_time=depart_time + rail_time,
+                ready_time=depart_time + service_time,
                 passenger_ids=tuple(passenger.id for passenger in boarded),
             )
         )
         depart_time += headway
 
-    return rail_arrivals
+    return arrivals
+
+
+def _run_rail_service(
+    config: dict,
+    station_batches: list[StationBatch],
+    metrics: MetricsCollector,
+) -> list[StationBatch]:
+    """Backward-compatible rail-service runner (rail ``ServiceSpec`` shim)."""
+
+    return _run_fixed_headway_service(
+        config,
+        station_batches,
+        metrics,
+        spec=_service_spec_from_legacy_rail(config),
+    )
 
 
 def _make_route_traveler(

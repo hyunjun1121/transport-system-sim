@@ -62,6 +62,31 @@ def build_network(config: dict, variant: str | None = None) -> nx.DiGraph:
             mode="rail",
         )
 
+    # Multi-service edges (sea / air). Distinct 6-tuple shape
+    # (mode, access, egress, travel, headway, capacity) — NOT the 5-tuple
+    # rail_link. Structurally inert for the runtime (service legs run via the
+    # fixed-headway service runner, not the road router); present for
+    # topological completeness and future routing. Empty for legacy configs.
+    for service in spec.get("service_links", []):
+        if len(service) != 6:
+            raise ValueError(
+                "service_link must be a 6-tuple "
+                "(mode, access, egress, travel, headway, capacity); "
+                f"got {service!r}"
+            )
+        mode, access, egress, travel, headway, capacity = service
+        G.add_node(access)
+        G.add_node(egress)
+        G.add_edge(
+            access,
+            egress,
+            t0=travel,
+            headway=headway,
+            capacity=capacity,
+            p_fail=0.0,
+            mode=mode,
+        )
+
     return G
 
 
@@ -74,6 +99,7 @@ def config_for_network_variant(config: dict, variant: str | None = None) -> dict
     network["nodes"] = deepcopy(spec["nodes"])
     network["road_links"] = deepcopy(spec["road_links"])
     network["rail_link"] = deepcopy(spec["rail_link"])
+    network["service_links"] = deepcopy(spec["service_links"])
     return resolved
 
 
@@ -121,6 +147,9 @@ def resolve_network_spec(config: dict, variant: str | None = None) -> dict:
         "nodes": variant_config.get("nodes", network["nodes"]),
         "road_links": variant_config.get("road_links", network["road_links"]),
         "rail_link": variant_config.get("rail_link", network["rail_link"]),
+        "service_links": variant_config.get(
+            "service_links", network.get("service_links", [])
+        ),
     }
 
 

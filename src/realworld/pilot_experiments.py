@@ -29,6 +29,8 @@ import yaml
 from src import scenario as scenario_module
 from src.policies import StrictPolicy
 from src.realworld.adapter import build_simulator_graph, realworld_network_config
+from src.realworld.regions import load_region_spec
+from src.realworld.types import assert_public_coordinate_policy
 from src.realworld.artifact_invalidation_matrix import (
     DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_ACTION_QUEUE,
     DEFAULT_ARTIFACT_INVALIDATION_CLOSEOUT_MANIFEST,
@@ -940,6 +942,14 @@ def load_pilot_inputs(
     region_file = Path(region_path)
     cache_file = Path(cache_path)
     region = _load_yaml_mapping(region_file)
+    # Security precondition (fail-fast): mobilization corridors use only public
+    # administrative centroids / public transport networks. The authoritative
+    # enforcement lives in RegionSpec.__post_init__ (every entry path hits it),
+    # but this explicit check rejects a restricted region BEFORE the expensive
+    # GraphML load below, so a misconfigured region fails in milliseconds.
+    assert_public_coordinate_policy(
+        load_region_spec(region), context="pilot experiment region"
+    )
     road_graph = load_graphml(cache_file, normalize=True)
     highway_defaults = None
     road_class_override_metadata = None

@@ -22,6 +22,21 @@ ALLOWED_SENSITIVITY_LEVELS = frozenset(
         "restricted",
     }
 )
+# Sensitivity levels permitted for mobilization corridors. The data type
+# (ALLOWED_SENSITIVITY_LEVELS) accepts restricted / review-pending records so
+# they can be CARRIED, but the simulator's public-coordinate policy REJECTS
+# them before any mode/corridor expansion (no military unit coordinates, OOB,
+# or movement schedules). See assert_public_coordinate_policy.
+PUBLIC_COORDINATE_LEVELS = frozenset(
+    {"unspecified", "non_sensitive", "public", "synthetic"}
+)
+# Coordinate classes permitted on a service port (station / port / airfield)
+# and on the region ``metadata.coordinate_class`` marker. Mobilization
+# corridors use only public administrative centroids / public transport
+# networks, or declared synthetic fixtures — never military-unit coordinates,
+# OOB, or movement schedules. Enforced at ``PortPointSpec`` construction AND by
+# the public-coordinate policy guard (see ``assert_public_coordinate_policy``).
+ALLOWED_PORT_COORDINATE_CLASSES = frozenset({"public", "synthetic"})
 
 
 def _require_mapping(value: Any, path: str) -> Mapping[str, Any]:
@@ -362,16 +377,180 @@ class RailSpec:
         object.__setattr__(self, "metadata", validate_metadata(self.metadata, "rail.metadata"))
 
 
+ALLOWED_SERVICE_MODES = frozenset({"rail", "sea", "air"})
+ALLOWED_FUEL_TYPES = frozenset({"electric", "diesel", "lng", "none", "unspecified"})
+
+
+@dataclass(frozen=True)
+class PortPointSpec:
+    """A mode-agnostic service access or egress port (station / port / airfield).
+
+    Generalizes ``RailPointSpec`` for the multi-service contract (rail / sea /
+    air). ``coordinate_class`` defaults to ``public`` and must be one of
+    ``ALLOWED_PORT_COORDINATE_CLASSES`` (``public`` administrative centroid or
+    a declared ``synthetic`` fixture); a non-public coordinate class (e.g.
+    ``military_unit``) is rejected at construction, before any region build or
+    simulator entry. The public-coordinate policy guard is the redundant
+    region-level backstop (see ``assert_public_coordinate_policy``).
+    """
+
+    id: str
+    lat: float
+    lon: float
+    name: str | None = None
+    coordinate_class: str = "public"
+    metadata: Metadata | None = None
+
+    @classmethod
+    def from_mapping(cls, value: Mapping[str, Any], path: str) -> "PortPointSpec":
+        mapping = _require_mapping(value, path)
+        return cls(
+            id=_require_string(mapping.get("id"), f"{path}.id"),
+            lat=_require_lat(mapping.get("lat"), f"{path}.lat"),
+            lon=_require_lon(mapping.get("lon"), f"{path}.lon"),
+            name=_require_optional_string(mapping.get("name"), f"{path}.name"),
+            coordinate_class=_require_string(
+                mapping.get("coordinate_class", "public"), f"{path}.coordinate_class"
+            ),
+            metadata=validate_metadata(mapping.get("metadata"), f"{path}.metadata"),
+        )
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "id", _require_string(self.id, "port.id"))
+        object.__setattr__(self, "lat", _require_lat(self.lat, f"port {self.id}.lat"))
+        object.__setattr__(self, "lon", _require_lon(self.lon, f"port {self.id}.lon"))
+        object.__setattr__(
+            self,
+            "name",
+            _require_optional_string(self.name, f"port {self.id}.name"),
+        )
+        coordinate_class = _require_string(
+            self.coordinate_class, f"port {self.id}.coordinate_class"
+        )
+        if coordinate_class not in ALLOWED_PORT_COORDINATE_CLASSES:
+            raise ValueError(
+                f"port {self.id}.coordinate_class={coordinate_class!r}; "
+                f"only {sorted(ALLOWED_PORT_COORDINATE_CLASSES)} are permitted "
+                "(public administrative centroids / synthetic fixtures only; "
+                "military-unit, OOB, and movement-schedule coordinates are "
+                "rejected at construction)"
+            )
+        object.__setattr__(self, "coordinate_class", coordinate_class)
+        object.__setattr__(
+            self,
+            "metadata",
+            validate_metadata(self.metadata, f"port {self.id}.metadata"),
+        )
+
+
+@dataclass(frozen=True)
+class RegionServiceSpec:
+    """A composable transport service in a mobilization corridor.
+
+    One ``RegionServiceSpec`` per fixed-headway service (rail / sea / air). The
+    simulator composes ``assembly -> shuttle -> service.access -> service-leg ->
+    service.egress -> last-mile -> destination`` for the runtime ``ServiceSpec``
+    (mode / access_id / egress_id / travel / headway / capacity).
+
+    ``fuel_type``, ``fallback``, and ``service_id`` are DECLARED-ONLY inputs
+    carried for the future L3 power-loss electric->diesel rail fallback and
+    service-degradation substitution (planned for Phase 3 mode leaves). They
+    are validated here and otherwise inert — the current runtime does not read
+    them. Sea/air run as fixed-headway services, which is a modeling proxy, not
+    a validated sea/air reliability model (decision-support / sensitivity only).
+    """
+
+    mode: str
+    access: PortPointSpec
+    egress: PortPointSpec
+    travel_time_min: float
+    headway_min: float
+    capacity_pax_per_unit: int
+    service_id: str | None = None
+    fuel_type: str | None = None
+    fallback: str | None = None
+    metadata: Metadata | None = None
+
+    @classmethod
+    def from_mapping(cls, value: Mapping[str, Any], path: str) -> "RegionServiceSpec":
+        mapping = _require_mapping(value, path)
+        mode = _require_string(mapping.get("mode"), f"{path}.mode")
+        if mode not in ALLOWED_SERVICE_MODES:
+            raise ValueError(
+                f"{path}.mode must be one of {sorted(ALLOWED_SERVICE_MODES)}"
+            )
+        return cls(
+            mode=mode,
+            access=PortPointSpec.from_mapping(mapping.get("access"), f"{path}.access"),
+            egress=PortPointSpec.from_mapping(mapping.get("egress"), f"{path}.egress"),
+            travel_time_min=_require_positive_number(
+                mapping.get("travel_time_min"), f"{path}.travel_time_min"
+            ),
+            headway_min=_require_positive_number(
+                mapping.get("headway_min"), f"{path}.headway_min"
+            ),
+            capacity_pax_per_unit=_require_int_at_least(
+                mapping.get("capacity_pax_per_unit"),
+                f"{path}.capacity_pax_per_unit",
+                1,
+            ),
+            service_id=_require_optional_string(
+                mapping.get("service_id"), f"{path}.service_id"
+            ),
+            fuel_type=_require_optional_string(
+                mapping.get("fuel_type"), f"{path}.fuel_type"
+            ),
+            fallback=_require_optional_string(
+                mapping.get("fallback"), f"{path}.fallback"
+            ),
+            metadata=validate_metadata(mapping.get("metadata"), f"{path}.metadata"),
+        )
+
+    def __post_init__(self) -> None:
+        if self.mode not in ALLOWED_SERVICE_MODES:
+            raise ValueError(
+                f"service.mode must be one of {sorted(ALLOWED_SERVICE_MODES)}"
+            )
+        if not isinstance(self.access, PortPointSpec):
+            raise ValueError("service.access must be a PortPointSpec")
+        if not isinstance(self.egress, PortPointSpec):
+            raise ValueError("service.egress must be a PortPointSpec")
+        object.__setattr__(
+            self,
+            "travel_time_min",
+            _require_positive_number(self.travel_time_min, "service.travel_time_min"),
+        )
+        object.__setattr__(
+            self,
+            "headway_min",
+            _require_positive_number(self.headway_min, "service.headway_min"),
+        )
+        object.__setattr__(
+            self,
+            "capacity_pax_per_unit",
+            _require_int_at_least(
+                self.capacity_pax_per_unit, "service.capacity_pax_per_unit", 1
+            ),
+        )
+        if self.fuel_type is not None and self.fuel_type not in ALLOWED_FUEL_TYPES:
+            raise ValueError(
+                f"service.fuel_type must be one of {sorted(ALLOWED_FUEL_TYPES)} or null"
+            )
+        object.__setattr__(
+            self, "metadata", validate_metadata(self.metadata, "service.metadata")
+        )
+
+
 @dataclass(frozen=True)
 class RegionSpec:
-    """Validated region, zone, and rail-service inputs."""
+    """Validated region, zone, and service inputs."""
 
     region_id: str
     name: str
     boundary: BoundarySpec
     assembly_zones: tuple[ZoneSpec, ...]
     destination_zones: tuple[ZoneSpec, ...]
-    rail: RailSpec
+    region_services: tuple[RegionServiceSpec, ...]
     metadata: Metadata | None = None
     sensitivity_level: str = "unspecified"
     source_refs: tuple[SourceRefSpec, ...] = ()
@@ -392,7 +571,7 @@ class RegionSpec:
                 mapping.get("destination_zones"),
                 f"{path}.destination_zones",
             ),
-            rail=RailSpec.from_mapping(mapping.get("rail"), f"{path}.rail"),
+            region_services=_load_region_services(mapping, f"{path}"),
             metadata=validate_metadata(mapping.get("metadata"), f"{path}.metadata"),
             sensitivity_level=_region_sensitivity_level(mapping),
             source_refs=_load_source_refs(mapping.get("source_refs"), f"{path}.source_refs"),
@@ -413,8 +592,13 @@ class RegionSpec:
             "destination_zones",
             _validate_zone_tuple(self.destination_zones, "region.destination_zones"),
         )
-        if not isinstance(self.rail, RailSpec):
-            raise ValueError("region.rail must be a RailSpec")
+        if not isinstance(self.region_services, tuple):
+            raise ValueError("region.region_services must be a tuple of RegionServiceSpec")
+        object.__setattr__(
+            self,
+            "region_services",
+            _validate_service_tuple(self.region_services, "region.region_services"),
+        )
         object.__setattr__(self, "metadata", validate_metadata(self.metadata, "region.metadata"))
         object.__setattr__(
             self,
@@ -431,6 +615,16 @@ class RegionSpec:
         )
         _validate_unique_ids(self)
         _validate_points_inside_boundary(self)
+        # Security boundary (C4): enforce the public-coordinate policy at
+        # construction so NO public API can bypass it. load_region_spec /
+        # load_region_registry / get_region_spec / build_simulator_graph all
+        # route through RegionSpec.from_mapping -> __post_init__, so a
+        # restricted / sensitive / privacy-review-pending coordinate source
+        # cannot ENTER the simulator under any entry path (no real-unit
+        # coordinates, OOB, or movement schedules). The schema vocabulary still
+        # CARRIES such levels (ALLOWED_SENSITIVITY_LEVELS) for raw-dict review
+        # packets, but a validated RegionSpec is public-coordinate only.
+        assert_public_coordinate_policy(self, context=f"region {self.region_id!r}")
 
     @property
     def label(self) -> str:
@@ -456,6 +650,54 @@ class RegionSpec:
 
         return self.destination_zones[0]
 
+    def services_by_mode(self, mode: str) -> tuple[RegionServiceSpec, ...]:
+        """Return the region's services of a given mode (rail / sea / air)."""
+
+        return tuple(svc for svc in self.region_services if svc.mode == mode)
+
+    @property
+    def rail_service(self) -> RegionServiceSpec:
+        """Return the first rail service (raises if the region has no rail)."""
+
+        for svc in self.region_services:
+            if svc.mode == "rail":
+                return svc
+        raise ValueError(
+            f"region {self.region_id!r} has no rail service; "
+            f"modes present: {[svc.mode for svc in self.region_services]}"
+        )
+
+    @property
+    def rail(self) -> RailSpec:
+        """Backward-compatible ``RailSpec`` view of the first rail service.
+
+        Composes a legacy ``RailSpec`` (with ``RailPointSpec`` access/egress)
+        from the first rail ``RegionServiceSpec`` so existing callers that read
+        ``region.rail`` keep working after the multi-service contract widening.
+        """
+
+        svc = self.rail_service
+        return RailSpec(
+            access=RailPointSpec(
+                id=svc.access.id,
+                lat=svc.access.lat,
+                lon=svc.access.lon,
+                name=svc.access.name,
+                metadata=svc.access.metadata,
+            ),
+            egress=RailPointSpec(
+                id=svc.egress.id,
+                lat=svc.egress.lat,
+                lon=svc.egress.lon,
+                name=svc.egress.name,
+                metadata=svc.egress.metadata,
+            ),
+            travel_time_min=svc.travel_time_min,
+            headway_min=svc.headway_min,
+            capacity_pax_per_train=svc.capacity_pax_per_unit,
+            metadata=svc.metadata,
+        )
+
     @property
     def primary_assembly_id(self) -> str:
         return self.primary_assembly.id
@@ -473,26 +715,47 @@ class RegionSpec:
         return self.rail.egress.id
 
     @property
-    def canonical_ids(self) -> tuple[str, str, str, str]:
-        """Return simulator-friendly IDs as ``(assembly, destination, access, egress)``."""
+    def canonical_ids(self) -> tuple[str, ...]:
+        """Return simulator-friendly node IDs.
 
-        return (
-            self.primary_assembly_id,
-            self.primary_destination_id,
-            self.rail_access_id,
-            self.rail_egress_id,
-        )
+        ``(assembly, destination, <service access/egress pairs in declaration
+        order, rail first>)``. A single-rail region yields exactly
+        ``(A, D, S, R)`` for backward compatibility; a multi-service region
+        appends the extra service ports (e.g. ``(A, D, S, R, sea_acc,
+        sea_egr)``).
+        """
+
+        ids: list[str] = [self.primary_assembly_id, self.primary_destination_id]
+        for svc in self.region_services:
+            ids.append(svc.access.id)
+            ids.append(svc.egress.id)
+        return tuple(ids)
 
     @property
     def simulator_node_ids(self) -> dict[str, str]:
-        """Return named node IDs for adapter and validation modules."""
+        """Return named node IDs for adapter and validation modules.
 
-        return {
+        Always includes ``assembly`` / ``destination``. ``rail_access`` /
+        ``rail_egress`` are emitted only when a rail service exists (a
+        sea/air-only region has none). Every non-rail service emits
+        ``<mode>_access`` / ``<mode>_egress``. A single-rail region yields
+        exactly the legacy 4-key mapping.
+        """
+
+        nodes: dict[str, str] = {
             "assembly": self.primary_assembly_id,
             "destination": self.primary_destination_id,
-            "rail_access": self.rail_access_id,
-            "rail_egress": self.rail_egress_id,
         }
+        rail = next((svc for svc in self.region_services if svc.mode == "rail"), None)
+        if rail is not None:
+            nodes["rail_access"] = rail.access.id
+            nodes["rail_egress"] = rail.egress.id
+        for svc in self.region_services:
+            if svc.mode == "rail":
+                continue
+            nodes[f"{svc.mode}_access"] = svc.access.id
+            nodes[f"{svc.mode}_egress"] = svc.egress.id
+        return nodes
 
 
 def _load_zones(value: Any, path: str) -> tuple[ZoneSpec, ...]:
@@ -527,6 +790,113 @@ def _validate_zone_tuple(value: Any, path: str) -> tuple[ZoneSpec, ...]:
         if not isinstance(zone, ZoneSpec):
             raise ValueError(f"{path}[{index}] must be a ZoneSpec")
     return zones
+
+
+def _load_region_services(
+    mapping: Mapping[str, Any], path: str
+) -> tuple[RegionServiceSpec, ...]:
+    """Load services from a ``region_services`` list or the legacy ``rail`` key.
+
+    Backward compatibility: a region YAML may still define a top-level ``rail``
+    mapping; it is normalized into a single rail ``RegionServiceSpec``. New
+    multi-service regions (rail + sea + air) use the explicit
+    ``region_services`` list.
+    """
+
+    if "region_services" in mapping:
+        value = mapping.get("region_services")
+        if isinstance(value, Mapping):
+            return (
+                RegionServiceSpec.from_mapping(value, f"{path}.region_services"),
+            )
+        if not isinstance(value, list | tuple):
+            raise ValueError(
+                f"{path}.region_services must be a list of service mappings"
+            )
+        if not value:
+            raise ValueError(f"{path}.region_services must be non-empty")
+        return tuple(
+            RegionServiceSpec.from_mapping(item, f"{path}.region_services[{index}]")
+            for index, item in enumerate(value)
+        )
+    if "rail" in mapping:
+        return (
+            _region_service_from_legacy_rail(mapping.get("rail"), f"{path}.rail"),
+        )
+    raise ValueError(f"{path} must define region_services or a legacy rail service")
+
+
+def _region_service_from_legacy_rail(
+    value: Mapping[str, Any], path: str
+) -> RegionServiceSpec:
+    """Normalize a legacy ``rail`` mapping into a rail ``RegionServiceSpec``."""
+
+    rail = RailSpec.from_mapping(value, path)
+    # RailPointSpec has no coordinate_class field, so a hostile
+    # coordinate_class on a legacy ``rail.access``/``rail.egress`` mapping would
+    # otherwise be silently dropped (port normalized to 'public') — diverging
+    # from the region_services path, which rejects it loudly. Forward the raw
+    # marker so PortPointSpec.__post_init__ validates it the same way.
+    access_raw = _require_mapping(value.get("access"), f"{path}.access")
+    egress_raw = _require_mapping(value.get("egress"), f"{path}.egress")
+    return RegionServiceSpec(
+        mode="rail",
+        access=PortPointSpec(
+            id=rail.access.id,
+            lat=rail.access.lat,
+            lon=rail.access.lon,
+            name=rail.access.name,
+            coordinate_class=access_raw.get("coordinate_class", "public"),
+            metadata=rail.access.metadata,
+        ),
+        egress=PortPointSpec(
+            id=rail.egress.id,
+            lat=rail.egress.lat,
+            lon=rail.egress.lon,
+            name=rail.egress.name,
+            coordinate_class=egress_raw.get("coordinate_class", "public"),
+            metadata=rail.egress.metadata,
+        ),
+        travel_time_min=rail.travel_time_min,
+        headway_min=rail.headway_min,
+        capacity_pax_per_unit=rail.capacity_pax_per_train,
+        metadata=rail.metadata,
+    )
+
+
+def _validate_service_tuple(
+    value: Any, path: str
+) -> tuple[RegionServiceSpec, ...]:
+    if isinstance(value, RegionServiceSpec):
+        services = (value,)
+    elif isinstance(value, tuple):
+        services = value
+    elif isinstance(value, list):
+        services = tuple(value)
+    else:
+        raise ValueError(f"{path} must contain RegionServiceSpec records")
+    if not services:
+        raise ValueError(f"{path} must contain at least one service")
+    for index, svc in enumerate(services):
+        if not isinstance(svc, RegionServiceSpec):
+            raise ValueError(f"{path}[{index}] must be a RegionServiceSpec")
+    # At most one service per mode: the simulator resolves a single
+    # fixed-headway ServiceSpec per run and keys simulator_node_ids by mode, so
+    # two same-mode services would silently collide (last-wins, first port
+    # evaporates) and produce ambiguous boundary error labels.
+    modes_seen: set[str] = set()
+    duplicate_modes: list[str] = []
+    for svc in services:
+        if svc.mode in modes_seen and svc.mode not in duplicate_modes:
+            duplicate_modes.append(svc.mode)
+        modes_seen.add(svc.mode)
+    if duplicate_modes:
+        raise ValueError(
+            f"{path} must contain at most one service per mode; duplicate "
+            f"modes: {', '.join(duplicate_modes)} (use distinct modes "
+            "rail / sea / air, or split corridors across regions)"
+        )
+    return services
 
 
 def _load_source_refs(value: Any | None, path: str) -> tuple[SourceRefSpec, ...]:
@@ -578,9 +948,10 @@ def _validate_unique_ids(region: RegionSpec) -> None:
     ids = [
         *(zone.id for zone in region.assembly_zones),
         *(zone.id for zone in region.destination_zones),
-        region.rail.access.id,
-        region.rail.egress.id,
     ]
+    for svc in region.region_services:
+        ids.append(svc.access.id)
+        ids.append(svc.egress.id)
     seen: set[str] = set()
     duplicates: list[str] = []
     for node_id in ids:
@@ -592,30 +963,70 @@ def _validate_unique_ids(region: RegionSpec) -> None:
 
 
 def _validate_points_inside_boundary(region: RegionSpec) -> None:
-    points = [
+    points: list[tuple[str, float, float]] = [
         *((f"assembly_zones[{index}]", zone.lat, zone.lon) for index, zone in enumerate(region.assembly_zones)),
         *(
             (f"destination_zones[{index}]", zone.lat, zone.lon)
             for index, zone in enumerate(region.destination_zones)
         ),
-        ("rail.access", region.rail.access.lat, region.rail.access.lon),
-        ("rail.egress", region.rail.egress.lat, region.rail.egress.lon),
     ]
+    for index, svc in enumerate(region.region_services):
+        points.append((f"region_services[{index}].access", svc.access.lat, svc.access.lon))
+        points.append((f"region_services[{index}].egress", svc.egress.lat, svc.egress.lon))
     for path, lat, lon in points:
         if not region.boundary.contains(lat, lon):
             raise ValueError(f"{path} must fall inside region.boundary")
 
 
+def assert_public_coordinate_policy(
+    region: RegionSpec,
+    *,
+    context: str = "mobilization region",
+) -> None:
+    """Reject non-public coordinate sources before mode/corridor expansion.
+
+    Mobilization corridors must use only public administrative centroids and
+    public transport networks (per CLAUDE.md security boundary). A region may
+    CARRY a restricted / sensitive / privacy-review-pending sensitivity level,
+    but it cannot ENTER the simulator until cleared. Also rejects an explicit
+    non-public ``metadata.coordinate_class`` marker. This is the precondition
+    guard for sea/air mode and multi-corridor expansion.
+    """
+
+    level = region.sensitivity_level
+    if level not in PUBLIC_COORDINATE_LEVELS:
+        raise ValueError(
+            f"{context} {region.region_id!r} uses a non-public coordinate source "
+            f"(sensitivity_level={level!r}); only {sorted(PUBLIC_COORDINATE_LEVELS)} "
+            f"are permitted. Clear privacy/sensitivity review or restrict the "
+            f"region to public administrative centroids."
+        )
+    coordinate_class = (region.metadata or {}).get("coordinate_class")
+    if coordinate_class is not None and coordinate_class not in ALLOWED_PORT_COORDINATE_CLASSES:
+        raise ValueError(
+            f"{context} {region.region_id!r} metadata.coordinate_class="
+            f"{coordinate_class!r}; only {sorted(ALLOWED_PORT_COORDINATE_CLASSES)} "
+            f"coordinate classes are permitted."
+        )
+
+
 __all__ = [
     "ALLOWED_BOUNDARY_TYPES",
+    "ALLOWED_FUEL_TYPES",
+    "ALLOWED_PORT_COORDINATE_CLASSES",
     "ALLOWED_SENSITIVITY_LEVELS",
+    "ALLOWED_SERVICE_MODES",
+    "PUBLIC_COORDINATE_LEVELS",
     "BoundarySpec",
     "Metadata",
     "MetadataValue",
+    "PortPointSpec",
     "RailPointSpec",
     "RailSpec",
+    "RegionServiceSpec",
     "RegionSpec",
     "SourceRefSpec",
     "ZoneSpec",
+    "assert_public_coordinate_policy",
     "validate_metadata",
 ]

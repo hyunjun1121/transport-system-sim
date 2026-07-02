@@ -64,6 +64,12 @@ class MetricsCollector:
     lastmile_vehicle_minutes: float = 0.0
     rerouting_events: int = 0
     passenger_travel_minutes: float = 0.0
+    # Per-service (non-rail) counters for the composable multi-service pipeline.
+    # Rail stays on train_trips/train_minutes (legacy KPI identity); sea/air
+    # accumulate here. ``service_breakdown`` rolls them up for as_dict. These
+    # are additive-only: legacy keys in as_dict are never renamed or removed.
+    service_trips: dict[str, int] = field(default_factory=dict)
+    service_minutes: dict[str, float] = field(default_factory=dict)
 
     # Personnel still waiting at end
     leftover_count: int = 0
@@ -267,4 +273,11 @@ class MetricsCollector:
             "median_arrival_time": self.median_arrival_time,
             "p80_arrival_time": self.p80_arrival_time,
             "p95_arrival_time": self.p95_arrival_time,
+            "service_breakdown": {
+                mode: {
+                    "trips": self.service_trips.get(mode, 0),
+                    "minutes": round(self.service_minutes.get(mode, 0.0), 2),
+                }
+                for mode in sorted(set(self.service_trips) | set(self.service_minutes))
+            },
         }

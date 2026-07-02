@@ -182,7 +182,7 @@ def test_zone_validation_rejects_bad_coordinates_and_empty_lists():
     spec["rail"]["access"]["lat"] = 37.54
     assert_value_error_contains(
         lambda: load_region_spec(spec),
-        "rail.access must fall inside region.boundary",
+        "region_services[0].access must fall inside region.boundary",
     )
 
     print("PASS: Invalid zones fail clearly")
@@ -305,12 +305,15 @@ def test_metadata_validator_accepts_scalar_records_only():
 def test_direct_dataclass_construction_validates_values():
     """Records constructed directly should enforce the same value rules."""
 
-    rail = RailSpec(
-        access=RailPointSpec("S", 37.51, 127.11),
-        egress=RailPointSpec("R", 37.52, 127.12),
+    from src.realworld import PortPointSpec, RegionServiceSpec
+
+    service = RegionServiceSpec(
+        mode="rail",
+        access=PortPointSpec("S", 37.51, 127.11),
+        egress=PortPointSpec("R", 37.52, 127.12),
         travel_time_min=40,
         headway_min=10,
-        capacity_pax_per_train=500,
+        capacity_pax_per_unit=500,
     )
 
     region = RegionSpec(
@@ -319,10 +322,13 @@ def test_direct_dataclass_construction_validates_values():
         boundary=BoundarySpec("bbox", 37.53, 37.49, 127.14, 127.08),
         assembly_zones=(ZoneSpec("A", 37.51, 127.10),),
         destination_zones=(ZoneSpec("D", 37.52, 127.13),),
-        rail=rail,
+        region_services=(service,),
     )
 
     assert region.canonical_ids == ("A", "D", "S", "R")
+    # backward-compatible rail alias derives from the rail service
+    assert region.rail.access.id == "S"
+    assert region.rail.capacity_pax_per_train == 500
 
     print("PASS: Direct dataclass construction validates values")
 
@@ -345,6 +351,89 @@ def test_region_registry_loads_lists_and_keyed_mappings():
     print("PASS: Region registry helpers load specs")
 
 
+def test_multi_service_region_generalizes_canonical_ids_and_node_map():
+    """A rail+sea region must carry both services' ports in canonical/node maps."""
+
+    from src.realworld import PortPointSpec, RegionServiceSpec
+
+    rail = RegionServiceSpec(
+        mode="rail",
+        access=PortPointSpec("S", 37.51, 127.11),
+        egress=PortPointSpec("R", 37.52, 127.12),
+        travel_time_min=40,
+        headway_min=10,
+        capacity_pax_per_unit=500,
+    )
+    sea = RegionServiceSpec(
+        mode="sea",
+        access=PortPointSpec("sea_acc", 37.50, 127.10),
+        egress=PortPointSpec("sea_egr", 37.53, 127.13),
+        travel_time_min=200,
+        headway_min=60,
+        capacity_pax_per_unit=300,
+    )
+    region = RegionSpec(
+        region_id="multi_probe",
+        name="Multi Probe",
+        boundary=BoundarySpec("bbox", 37.53, 37.49, 127.14, 127.08),
+        assembly_zones=(ZoneSpec("A", 37.51, 127.10),),
+        destination_zones=(ZoneSpec("D", 37.52, 127.13),),
+        region_services=(rail, sea),
+    )
+
+    # rail-first ordering: canonical_ids appends sea ports after the rail pair
+    assert region.canonical_ids == ("A", "D", "S", "R", "sea_acc", "sea_egr")
+    assert region.simulator_node_ids == {
+        "assembly": "A",
+        "destination": "D",
+        "rail_access": "S",
+        "rail_egress": "R",
+        "sea_access": "sea_acc",
+        "sea_egress": "sea_egr",
+    }
+    assert region.services_by_mode("sea") == (sea,)
+    assert region.rail_service == rail
+    # rail alias still resolves to the rail service
+    assert region.rail.access.id == "S"
+    print("PASS: multi-service region generalizes canonical_ids + node map (rail-first)")
+
+
+def test_duplicate_mode_services_are_rejected() -> None:
+    """Two services of the same mode are ambiguous and must be rejected (C3)."""
+
+    from src.realworld import PortPointSpec, RegionServiceSpec
+
+    rail1 = RegionServiceSpec(
+        mode="rail",
+        access=PortPointSpec("S1", 37.51, 127.11),
+        egress=PortPointSpec("R1", 37.52, 127.12),
+        travel_time_min=40,
+        headway_min=10,
+        capacity_pax_per_unit=500,
+    )
+    rail2 = RegionServiceSpec(
+        mode="rail",
+        access=PortPointSpec("S2", 37.505, 127.115),
+        egress=PortPointSpec("R2", 37.515, 127.125),
+        travel_time_min=50,
+        headway_min=12,
+        capacity_pax_per_unit=400,
+    )
+    try:
+        RegionSpec(
+            region_id="dup_mode",
+            name="Dup Mode",
+            boundary=BoundarySpec("bbox", 37.53, 37.49, 127.14, 127.08),
+            assembly_zones=(ZoneSpec("A", 37.51, 127.10),),
+            destination_zones=(ZoneSpec("D", 37.52, 127.13),),
+            region_services=(rail1, rail2),
+        )
+        raise AssertionError("expected ValueError for duplicate rail modes")
+    except ValueError as exc:
+        assert "at most one service per mode" in str(exc), f"unexpected: {exc!r}"
+    print("PASS: duplicate-mode services rejected (mode-uniqueness guard)")
+
+
 if __name__ == "__main__":
     test_minimal_region_spec_loads()
     test_multiple_zones_preserve_lists_and_primary_ids()
@@ -357,4 +446,6 @@ if __name__ == "__main__":
     test_metadata_validator_accepts_scalar_records_only()
     test_direct_dataclass_construction_validates_values()
     test_region_registry_loads_lists_and_keyed_mappings()
+    test_multi_service_region_generalizes_canonical_ids_and_node_map()
+    test_duplicate_mode_services_are_rejected()
     print("\n=== REALWORLD TYPE TESTS PASSED ===")

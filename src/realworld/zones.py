@@ -68,15 +68,26 @@ def nearest_road_node(graph: nx.Graph, point: PointSpec) -> SnappedPoint:
 
 
 def snap_region_points(graph: nx.Graph, region: Mapping[str, Any] | RegionSpec) -> dict[str, SnappedPoint]:
-    """Snap the simulator-canonical region points to nearest road nodes."""
+    """Snap the simulator-canonical region points to nearest road nodes.
+
+    Snaps the assembly + destination plus every service access/egress port. A
+    single-rail region yields exactly the legacy ``{A, D, S, R}`` mapping; a
+    multi-service region adds the extra service ports. Shared ports are deduped
+    by id (first occurrence wins).
+    """
 
     region_spec = load_region_spec(region)
-    points: tuple[PointSpec, ...] = (
-        region_spec.primary_assembly,
-        region_spec.primary_destination,
-        region_spec.rail.access,
-        region_spec.rail.egress,
-    )
+    ordered: list[Any] = [region_spec.primary_assembly, region_spec.primary_destination]
+    for svc in region_spec.region_services:
+        ordered.append(svc.access)
+        ordered.append(svc.egress)
+    seen: set[str] = set()
+    points: list[Any] = []
+    for point in ordered:
+        if point.id in seen:
+            continue
+        seen.add(point.id)
+        points.append(point)
     return {point.id: nearest_road_node(graph, point) for point in points}
 
 
