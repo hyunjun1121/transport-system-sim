@@ -1,0 +1,34 @@
+{
+  "region_id": "goseong_mobilization",
+  "cache_path": "data\\cache\\goseong_nodelink_road.graphml",
+  "region_path": "data\\regions\\goseong_mobilization.yaml",
+  "source": "korean_nodelink_official",
+  "source_label": "korean_nodelink",
+  "created_utc_note": "one-time explicit build; timestamp omitted for deterministic replay",
+  "extraction": {
+    "network_source": "Korean 표준노드링크 (MOCT_LINK / MOCT_NODE SHP)",
+    "corridor_bbox_south_west_north_east": [
+      37.0,
+      126.6,
+      38.9,
+      129.2
+    ],
+    "crs": "ITRF2000 Central Belt 60 (.prj WKT) -> WGS84 (EPSG:4326)",
+    "road_rank_histogram": {
+      "101": 28341,
+      "102": 3028,
+      "103": 141467,
+      "104": 253571,
+      "105": 41718,
+      "106": 140144,
+      "107": 946889
+    }
+  },
+  "node_count": 360562,
+  "edge_count": 972134,
+  "graph_type": "MultiDiGraph",
+  "graphml_sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+  "live_services_required_for_default_tests": false,
+  "coordinate_policy": "public_administrative_centroids_and_public_road_network_only",
+  "claim_limit": "Official Korean 표준노드링크 road snapshot along the public corridor; supports offline decision-support / quasi-real simulation only. NOT calibrated, NOT an operational route plan, NOT final-study evidence. final_study_ready=false."
+}

@@ -26,4 +26,16 @@ previous-kci/
 _te.txt
 results/_shap_install.log
 results/_phase15_staged.log
+results/_full_rerun*.log
+results/_fullgraph_rerun.log
+results/_suite_failures*.txt
+
+# Korean official road-data collection: raw V-World downloads (~1 GB SHP/zip).
+# Regenerable from V-World; never commit. Rebuild cache via
+# scripts/build_goseong_nodelink_cache.py (needs requirements-geodata.txt).
+data-collections/
+
+# Regenerable nodelink-derived GraphML cache (~475 MB). Rebuilt from
+# data-collections/ by scripts/build_goseong_nodelink_cache.py.
+data/cache/goseong_nodelink_road.graphml
 

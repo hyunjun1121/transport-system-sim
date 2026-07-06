@@ -1,0 +1,11 @@
+# Optional geodata dependencies for the Korean official road-network source
+# (표준노드링크 / Standard Node-Link SHP). Separate from the core
+# requirements.txt so the simulator and its offline tests never require these.
+#
+# Install only when building the one-time Korean network cache:
+#   .\.venv\Scripts\python -m pip install -r requirements-geodata.txt
+#
+# These deps are lazily imported inside src/realworld/nodelink_network.py and
+# tests skip cleanly (mirroring the osmnx opt-in pattern) when absent.
+pyshp>=2.3      # pure-Python ESRI SHP/DBF reader; no native build deps
+pyproj>=3.6     # PROJ coordinate transforms (binary wheel ships PROJ data)
