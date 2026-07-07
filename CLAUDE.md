@@ -43,11 +43,20 @@ All run from repo root on Windows PowerShell. Python 3.11. Use the local venv:
 # Goseong full-scale wartime experiment (the competition case study)
 .\.venv\Scripts\python scripts\run_pilot_experiments.py --sample `
   --region-path  data/regions/goseong_mobilization.yaml `
-  --cache-path   data/cache/goseong_corridor_road.graphml `
+  --cache-path   data/cache/goseong_nodelink_road.graphml `
+  --road-class-overrides-path data/parameters/road_class_overrides.csv `
   --design-path  data/manifests/goseong_experiment_design.json `
   --scenarios-path data/scenarios/goseong_disruption_scenarios.csv `
   --output-dir   results/goseong_pilot
 # profile flags: --sample | --staged | --multi-corridor | --multi-corridor-full | --full | --full-graph
+# --road-class-overrides-path is REQUIRED for the Goseong case study: without it
+# the runner falls back to raw HIGHWAY_DEFAULTS instead of the evidenced override
+# table (Goseong runs must always apply data/parameters/road_class_overrides.csv).
+# Phase 2: the Korean 표준노드링크 cache (goseong_nodelink_road.graphml) is the
+# canonical Goseong network source (official road network; 972k edges); the OSM
+# cache (goseong_corridor_road.graphml) is a documented archived alternative
+# source (rebuilt via scripts/build_goseong_cache.py). Both are decision-support /
+# quasi-real only.
 
 # ML/AI analysis layer (XGBoost risk classification, KMeans, SHAP, NL summary)
 .\.venv\Scripts\python -m pip install -r requirements-ml.txt   # optional, separate from core

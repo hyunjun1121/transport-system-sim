@@ -58,17 +58,26 @@ rail:
   capacity_pax_per_train: 600
   metadata:
     source_class: public-data-derived
-    operational_claim: scheduled_service_proxy_not_emergency_availability
+    service_model: wartime_chartered_nonstop_express
+    operational_claim: wartime_chartered_nonstop_planning_assumption_not_emergency_availability
     source_notes: >
-      KTX-Eum Seoul-Gangneung timetable: approx 114 min (2022 alignment).
-      Headway 30 min peak, 60 min off-peak; use 30 min for mobilization
-      scenario.  Capacity: KTX-Eum 6-car crush approx 600 pax.
-      Sources: KORAIL public timetable, namu.wiki 강릉선.
+      Wartime mobilization model: rail is CHARTERED and runs NON-STOP from
+      Cheongnyangni (S) to Gangneung (R); last-mile bus then moves personnel
+      R -> D over the road network. The public-timetable headway concept does
+      NOT apply: headway_min here is a charter DISPATCH INTERVAL planning
+      assumption (sensitivity-tested via the policy rail-stress ladder), not a
+      public-schedule median. travel_time_min is the KTX-Eum Cheongnyangni to
+      Gangneung running time (~114 min, 2022 alignment; a chartered non-stop
+      run is <= the scheduled-with-stops time, so 114 is a conservative bound).
+      capacity_pax_per_train is the chartered KTX-Eum train-set capacity
+      (~600 pax). Decision-support planning assumption; not operational, not
+      calibrated, not a public-schedule derivation. Sources: KORAIL public
+      timetable / rolling-stock, namu.wiki 강릉선.
 metadata:
   pilot_status: full_scale_mobilization
   data_sensitivity: non_sensitive
   coordinate_policy: public_or_synthetic_points_only
-  cache_path: data/cache/goseong_corridor_road.graphml
+  cache_path: data/cache/goseong_nodelink_road.graphml
   corridor_description: >
     Seoul Songpa -> (bus 30 min) -> Cheongnyangni Station ->
     (KTX-Eum 114 min) -> Gangneung Station ->
@@ -82,4 +91,8 @@ source_refs:
   - source_id: goseong_corridor_road_cache
     role: road_network_snapshot
     local_artifact_path: data/cache/goseong_corridor_road.graphml
+    review_status: generated_pending_review
+  - source_id: goseong_nodelink_road_cache
+    role: road_network_snapshot
+    local_artifact_path: data/cache/goseong_nodelink_road.graphml
     review_status: generated_pending_review

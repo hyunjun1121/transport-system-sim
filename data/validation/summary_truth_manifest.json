@@ -1,9 +1,9 @@
 {
-  "source_file": "results/realworld_pilot/pilot_full_summary.csv",
-  "source_sha256": "63d49f753803f3dbc522fbf8d279ef5211e97fa4954fc02c30189136e6978cb2",
-  "row_count": 529,
+  "source_file": "results/realworld_pilot_nodelink/pilot_full_summary.csv",
+  "source_sha256": "2ca71ff6c7a1eee7ef54f7828022db18ecc2945a9c79b51c7ad180cec0788811",
+  "row_count": 414,
   "unique_policy_count": 23,
-  "unique_scenario_count": 23,
-  "expected_cross_product": 529,
+  "unique_scenario_count": 18,
+  "expected_cross_product": 414,
   "cross_product_matches": true
 }

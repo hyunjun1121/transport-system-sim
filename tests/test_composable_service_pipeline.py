@@ -25,15 +25,25 @@ from src.scenario import ServiceSpec, run_scenario  # noqa: E402
 from src.policies import StrictPolicy  # noqa: E402
 
 REGION = "data/regions/goseong_mobilization.yaml"
-CACHE = "data/cache/goseong_corridor_road.graphml"
+# Phase 2: must stay in lockstep with scripts/generate_phase23_oracle.py::CACHE
+# (both = the 표준노드링크 canonical cache). If they diverge, the oracle holds
+# nodelink KPIs while this test re-runs on a different graph -> mismatch.
+CACHE = "data/cache/goseong_nodelink_road.graphml"
+OVERRIDES = "data/parameters/road_class_overrides.csv"
 
 
 def _base_config():
-    inputs = load_pilot_inputs(region_path=REGION, cache_path=CACHE)
+    inputs = load_pilot_inputs(
+        region_path=REGION,
+        cache_path=CACHE,
+        road_class_overrides_path=OVERRIDES,
+    )
     # Canonical pilot base config — must match the frozen oracle
-    # (results/_phase23_baseline/oracle.json, sha fe963e74). make_pilot_base_config
-    # sets experiment.time_limit=480 (8h operational window); do NOT override it
-    # or the byte-identity sha drifts. See test_byte_identity_against_oracle.
+    # (results/_phase23_baseline/oracle.json). make_pilot_base_config sets
+    # experiment.time_limit=480 (8h operational window); do NOT override it or
+    # the byte-identity sha drifts. road_class_overrides_path must match the
+    # oracle generator so the test graph and the oracle share the same evidenced
+    # road inputs. See test_byte_identity_against_oracle.
     base = apply_pilot_demand_fleet_profiles(make_pilot_base_config(inputs.region))[0]
     return inputs, base
 
