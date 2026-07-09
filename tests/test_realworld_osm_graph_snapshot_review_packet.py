@@ -112,8 +112,11 @@ def test_shipped_osm_graph_snapshot_review_packet_matches_current_outputs() -> N
     for shipped_row in written_rows:
         assert shipped_row["review_id"] in {r["review_id"] for r in rows}
     assert manifest["row_count"] == len(written_rows)
-    assert manifest["blocking_review_count"] == 5
-    assert manifest["human_review_count"] == 1
+    # 4 blocked (cache metadata, osm provenance, road-evidence priority,
+    # claim boundary) + 2 human review — matches the in-memory writer counts
+    # and is the honest non-accepting state after the road-evidence re-gen.
+    assert manifest["blocking_review_count"] == 4
+    assert manifest["human_review_count"] == 2
     assert manifest["cached_osm_gate_closure_candidate_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

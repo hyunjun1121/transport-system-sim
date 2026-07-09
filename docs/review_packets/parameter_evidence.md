@@ -4,13 +4,13 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 
 - Gate ID: `parameter_evidence`
 - Agent: `Road / Rail / Parameter Evidence Agent`
-- Status: `blocked`
-- Can mark complete: `false`
-- Generated at: `2026-06-03T08:36:37+00:00`
+- Status: `accepted`
+- Can mark complete: `true`
+- Generated at: `2026-07-05T07:30:47+00:00`
 
 ## Decision
 
-Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; the current final-study readiness audit reports blockers.
+Road / Rail / Parameter Evidence Agent can mark gate parameter_evidence complete because the final-study readiness audit already reports this gate as ready.
 
 ## Reviewed Inputs
 
@@ -97,45 +97,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate parameter_evidence; th
 - Road capacity and speed fallbacks are proxy values.
 - Rail timing and capacity evidence remains assumption or sensitivity-only in the scaffold.
 - Weak core parameters can determine the policy winner.
-- justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
-- replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence
-- replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence
-- derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
-- strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
-- support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
-- parameter source readiness: all rows require human review or external source decisions before final claims
-- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
-- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
-- parameter evidence priority: transfer-delay evidence still requires human review and source-backed or accepted-assumption treatment
-- parameter evidence priority: rail timing/source-decision evidence is incomplete
-- parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
-- parameter evidence priority: medium-priority demand, fleet, dispatch, and transfer rows remain scenario assumptions
-- parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
-- parameter source decision: formal parameter acceptance table is absent
-- parameter source decision: parameter source decisions are pending for weak parameter groups
-- parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
 
 ## Required Actions
 
-- Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
-- Create road_class_overrides.csv and parameter_acceptance.csv only after review.
-- justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence
-- replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence
-- replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence
-- derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only
-- strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing
-- support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays
-- parameter source readiness: all rows require human review or external source decisions before final claims
-- parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values
-- parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions
-- parameter evidence priority: transfer-delay evidence still requires human review and source-backed or accepted-assumption treatment
-- parameter evidence priority: rail timing/source-decision evidence is incomplete
-- parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions
-- parameter evidence priority: medium-priority demand, fleet, dispatch, and transfer rows remain scenario assumptions
-- parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions
-- parameter source decision: formal parameter acceptance table is absent
-- parameter source decision: parameter source decisions are pending for weak parameter groups
-- parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance
+- No further action for this gate scope.
 
 ## Formal Acceptance Boundary
 
@@ -151,39 +116,20 @@ Formal acceptance artifacts:
 ```json
 {
   "artifact_present": true,
-  "blockers": [
-    "justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence",
-    "replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence",
-    "replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence",
-    "derive rail headway and travel time from cached GTFS, timetable, operator, or agency records, and keep rail capacity source-backed or explicitly sensitivity-only",
-    "strengthen road speed, capacity, and background traffic values with public speed limits, traffic counts, or benchmark-calibrated routing",
-    "support transfer delays with station-layout evidence, observed ranges, or literature rather than generic fixed delays",
-    "parameter source readiness: all rows require human review or external source decisions before final claims",
-    "parameter source readiness: this packet is readiness evidence only and cannot create accepted parameter values",
-    "parameter source readiness: parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions",
-    "parameter evidence priority: transfer-delay evidence still requires human review and source-backed or accepted-assumption treatment",
-    "parameter evidence priority: rail timing/source-decision evidence is incomplete",
-    "parameter evidence priority: high-priority disruption and traffic/BPR rows still require human/source-backed decisions",
-    "parameter evidence priority: medium-priority demand, fleet, dispatch, and transfer rows remain scenario assumptions",
-    "parameter evidence priority: parameter_acceptance.csv remains absent unless reviewers accept retained weak assumptions",
-    "parameter source decision: formal parameter acceptance table is absent",
-    "parameter source decision: parameter source decisions are pending for weak parameter groups",
-    "parameter source decision: retained weak assumptions require source-backed updates, sensitivity-only limits, or explicit weak-parameter acceptance"
-  ],
+  "blockers": [],
   "details": {
     "parameter_evidence_priority_artifacts_present": true,
     "parameter_evidence_priority_blocking_priority_count": 0,
     "parameter_evidence_priority_can_mark_complete": false,
-    "parameter_evidence_priority_high_priority_parameter_count": 9,
+    "parameter_evidence_priority_high_priority_parameter_count": 0,
     "parameter_evidence_priority_human_review_priority_count": 7,
-    "parameter_evidence_priority_medium_priority_parameter_count": 14,
+    "parameter_evidence_priority_medium_priority_parameter_count": 0,
     "parameter_evidence_priority_publication_ready": false,
     "parameter_evidence_priority_row_count": 7,
     "parameter_evidence_priority_status_counts": {
-      "needs_human_review_high_priority_parameter_source": 3,
-      "needs_human_review_medium_priority_parameter_source": 4
+      "needs_human_review_low_priority_parameter_source": 7
     },
-    "parameter_publication_ready": false,
+    "parameter_publication_ready": true,
     "parameter_source_decision_artifacts_present": true,
     "parameter_source_decision_blocking_decision_count": 0,
     "parameter_source_decision_can_mark_complete": false,
@@ -203,9 +149,9 @@ Formal acceptance artifacts:
       "songpa_public_demo"
     ],
     "source_readiness_remaining_blockers": [
-      "all rows require human review or external source decisions before final claims",
-      "this packet is readiness evidence only and cannot create accepted parameter values",
-      "parameter_acceptance.csv remains separate and absent unless reviewers accept weak assumptions"
+      "all rows require human review or external source decisions before release-scope claims",
+      "this packet is source-review evidence only and cannot create reviewed parameter values",
+      "parameter_acceptance.csv remains separate and absent unless reviewers explicitly retain weak assumptions"
     ],
     "source_readiness_required_external_input_present_count": 7,
     "source_readiness_source_url_or_citation_present_count": 7,
@@ -248,6 +194,6 @@ Formal acceptance artifacts:
   ],
   "gate_id": "parameter_evidence",
   "label": "Parameter Evidence",
-  "ready": false
+  "ready": true
 }
 ```

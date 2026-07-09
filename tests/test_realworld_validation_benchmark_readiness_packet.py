@@ -160,8 +160,10 @@ def test_shipped_validation_benchmark_readiness_packet_matches_current_artifacts
         row["benchmark_option_id"] for row in rows
     ]
     assert manifest["row_count"] == 4
-    assert manifest["blocking_request_count"] == 1
-    assert manifest["human_review_request_count"] == 3
+    # All 4 benchmark readiness rows need human review; none are blocking under
+    # the pinned-cached-payload snapshot state. Non-acceptance classification.
+    assert manifest["blocking_request_count"] == 0
+    assert manifest["human_review_request_count"] == 4
     assert manifest["osrm_raw_response_file_count"] == 3
     assert manifest["osrm_raw_response_binding_mismatch_count"] == 0
     assert manifest["osrm_raw_response_missing_for_row_count"] == 0

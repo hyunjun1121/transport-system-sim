@@ -3,8 +3,8 @@
   "accepted_by": "REVIEW_REQUIRED",
   "accepted_date": "REVIEW_REQUIRED",
   "alternate_corridor_sensitivity_reviewed": false,
-  "analysis_graph_edges": 246,
-  "analysis_graph_nodes": 164,
+  "analysis_graph_edges": 3002,
+  "analysis_graph_nodes": 2850,
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "corridor_reduction_accepted": false,
   "evidence_paths": [
@@ -50,7 +50,7 @@
   "graph_scale_decision": "corridor_abstraction",
   "record_type": "formal_acceptance_template_not_approval",
   "region_id": "songpa_public_demo",
-  "source_graph_edges": 9148,
-  "source_graph_nodes": 4608,
+  "source_graph_edges": 298020,
+  "source_graph_nodes": 197823,
   "template_only": true
 }

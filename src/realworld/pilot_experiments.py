@@ -237,6 +237,7 @@ class PilotDisruptionCase:
     capacity_factor: float
     p_fail_scale: float
     selected_edges: tuple[ScenarioEdge, ...] = ()
+    road_travel_time_multiplier: float | None = None
     rail_travel_time_multiplier: float | None = None
     rail_headway_multiplier: float | None = None
     rail_capacity_multiplier: float | None = None
@@ -1256,7 +1257,23 @@ def select_disruption_cases(
             continue
         if scenario_id not in by_id:
             raise KeyError(f"unknown scenario_id: {scenario_id!r}")
-        cases.append(_case_from_scenario(graph, by_id[scenario_id]))
+        try:
+            cases.append(_case_from_scenario(graph, by_id[scenario_id]))
+        except ValueError as exc:
+            # Spatial bbox hazards may target roads pruned by graph reduction
+            # (e.g. assembly-zone local roads not on the reduced corridor). Skip
+            # such scenarios on the reduced graph rather than aborting the run;
+            # the executed scenario set is recorded in the result manifest.
+            if "selected no candidate edges" in str(exc):
+                import sys as _skip_sys
+
+                print(
+                    f"SKIP scenario {scenario_id!r}: inapplicable to this graph "
+                    f"({exc})",
+                    file=_skip_sys.stderr,
+                )
+                continue
+            raise
     return tuple(cases)
 
 
@@ -1758,6 +1775,7 @@ def _case_from_scenario(
         capacity_factor=scenario.capacity_factor,
         p_fail_scale=scenario.p_fail_scale if selected_edges else 0.0,
         selected_edges=selected_edges,
+        road_travel_time_multiplier=scenario.road_travel_time_multiplier,
         rail_travel_time_multiplier=scenario.rail_travel_time_multiplier,
         rail_headway_multiplier=scenario.rail_headway_multiplier,
         rail_capacity_multiplier=scenario.rail_capacity_multiplier,
@@ -1776,6 +1794,13 @@ def _config_with_case_failure(
         run_config["failure"]["capacity_reduction_factor"] = case.capacity_factor
     else:
         run_config["failure"]["capacity_reduction_factor"] = 1.0
+    # Direct-slowdown lever for damaged roads (wartime BPR no-op complement): threads
+    # through _sample_disruptions -> per-edge travel_time_multiplier. None/1.0 = no effect.
+    run_config["failure"]["road_travel_time_multiplier"] = (
+        case.road_travel_time_multiplier
+        if case.road_travel_time_multiplier is not None
+        else 1.0
+    )
     if case.rail_travel_time_multiplier is not None or case.rail_headway_multiplier is not None or case.rail_capacity_multiplier is not None:
         network = run_config.setdefault("network", {})
         rail_links = network.get("rail_link")

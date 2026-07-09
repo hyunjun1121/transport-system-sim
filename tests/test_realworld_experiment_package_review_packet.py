@@ -28,10 +28,13 @@ def test_experiment_package_rows_summarize_current_full_outputs() -> None:
     by_category = {row["category_id"]: row for row in rows}
 
     assert len(rows) == 9
-    assert by_category["results_row_count"]["row_count"] == "15870"
-    assert by_category["results_row_count"]["expected_row_count"] == "15870"
-    assert by_category["summary_row_count"]["row_count"] == "529"
-    assert by_category["scenario_policy_seed_design"]["expected_row_count"] == "15870"
+    # engineering_only full_pilot on the REDUCED corridor graph: 23 policies x
+    # 18 scenarios x 30 seeds = 12,420 rows (5 off-corridor bbox scenarios
+    # skipped). Summary truth table = 23 policies x 18 scenarios = 414 rows.
+    assert by_category["results_row_count"]["row_count"] == "12420"
+    assert by_category["results_row_count"]["expected_row_count"] == "12420"
+    assert by_category["summary_row_count"]["row_count"] == "414"
+    assert by_category["scenario_policy_seed_design"]["expected_row_count"] == "12420"
     assert by_category["graph_scope_dependency"]["review_status"] == (
         "blocked_until_graph_scale_acceptance"
     )

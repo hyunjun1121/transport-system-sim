@@ -1,6 +1,5 @@
 {
-  "blocking_decision_count": 0,
-  "blocking_request_count": 2,
+  "blocking_request_count": 1,
   "can_mark_complete": false,
   "claim_boundary": "Graph-scale strategy review packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication approval. This packet cannot close data/manifests/graph_scale_acceptance.json.",
   "full_graph_runtime_readiness": {
@@ -17,8 +16,7 @@
     "row_count": 4
   },
   "graph_scale_gate_closure_candidate_count": 0,
-  "human_review_decision_count": 0,
-  "human_review_request_count": 3,
+  "human_review_request_count": 4,
   "inputs": {
     "full_graph_runtime_readiness_manifest": "data/validation/full_graph_runtime_readiness_manifest.json",
     "graph_scale_result_comparison_manifest": "data/validation/graph_scale_result_comparison_manifest.json",
@@ -32,12 +30,17 @@
   "publication_ready": false,
   "readiness_status_counts": {
     "blocked_missing_full_graph_experiment_outputs": 1,
-    "blocked_missing_graph_scale_acceptance_record": 1,
+    "needs_human_review_graph_scale_acceptance_record": 1,
     "needs_human_review_multi_corridor_result_deltas": 1,
     "needs_human_review_multi_corridor_sample_scope": 1,
     "needs_human_review_reduced_corridor_alternate_route_warnings": 1
   },
-  "remaining_blockers": [],
+  "remaining_blockers": [
+    "full bus-practical graph has smoke evidence only",
+    "current reduced-corridor output has alternate-route warnings",
+    "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+  ],
   "result_scope": "Graph-scale strategy review packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, not operational routing evidence, and not publication approval.",
   "review_items": [
     "decide whether the 118-node reduced corridor is acceptable or only a smoke shortcut",

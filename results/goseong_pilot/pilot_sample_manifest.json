@@ -15,30 +15,30 @@
   "command": "scripts/run_pilot_experiments.py --sample",
   "common_random_numbers": "Rows with the same seed use the existing run_scenario seed split for arrival and failure streams across compared policies.",
   "config_hashes": {
-    "base_config_sha256": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
+    "base_config_sha256": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
     "effective_policy_scenario_config_sha256s": {
-      "baseline_multimodal::goseong_critical_link_blockage": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "baseline_multimodal::goseong_last_mile_station_to_destination": "12b856bbf99761d61e6dc3ea6e490d7e30e643229b8c1aa3379eac8d3aa3ef2e",
-      "baseline_multimodal::goseong_random_capacity_reduction": "6aa6f91d08cd825db1e9ecce823c1375696b40a7412b9a8af4f5a318c61ffe08",
-      "baseline_multimodal::no_disruption": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "bus_only::goseong_critical_link_blockage": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "bus_only::goseong_last_mile_station_to_destination": "12b856bbf99761d61e6dc3ea6e490d7e30e643229b8c1aa3379eac8d3aa3ef2e",
-      "bus_only::goseong_random_capacity_reduction": "6aa6f91d08cd825db1e9ecce823c1375696b40a7412b9a8af4f5a318c61ffe08",
-      "bus_only::no_disruption": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "multimodal_lastmile_redundancy::goseong_critical_link_blockage": "68bdf0acd1f21b33ce129d893bcc605d1465f6dc22e00aada29d54db612e924d",
-      "multimodal_lastmile_redundancy::goseong_last_mile_station_to_destination": "6d0b2492833ca76d00924662cb40ec22574a29b7bc456b1ee580b22c9e7eb4a5",
-      "multimodal_lastmile_redundancy::goseong_random_capacity_reduction": "759f07853dfd5a110b4b0405598485fd60054ff82c44c2e0311b666e8d116c60",
-      "multimodal_lastmile_redundancy::no_disruption": "68bdf0acd1f21b33ce129d893bcc605d1465f6dc22e00aada29d54db612e924d",
-      "staggered_or_adaptive_dispatch::goseong_critical_link_blockage": "197088cee8cb53e8e43ebd76fca5fb8c10c408eff8124df80c1fe617881e0838",
-      "staggered_or_adaptive_dispatch::goseong_last_mile_station_to_destination": "616b3d3622975badfd369221434c7269883e128c07e18cfb31e7e44034ab7188",
-      "staggered_or_adaptive_dispatch::goseong_random_capacity_reduction": "8d33dd67077aa15f017dd5110be4fc58c4a0f9fc4e91b62b863cb6acd8bf3a7b",
-      "staggered_or_adaptive_dispatch::no_disruption": "197088cee8cb53e8e43ebd76fca5fb8c10c408eff8124df80c1fe617881e0838"
+      "baseline_multimodal::goseong_critical_link_blockage": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "baseline_multimodal::goseong_last_mile_station_to_destination": "6d4c8aaaec261a62512b7ca30db8977cc90ddb174132cd37cebc946d1d3d2821",
+      "baseline_multimodal::goseong_random_capacity_reduction": "9d8198df3a62e8246751185754da415bed0b8e37e9d8c24b0fdccb7b3d78c69d",
+      "baseline_multimodal::no_disruption": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "bus_only::goseong_critical_link_blockage": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "bus_only::goseong_last_mile_station_to_destination": "6d4c8aaaec261a62512b7ca30db8977cc90ddb174132cd37cebc946d1d3d2821",
+      "bus_only::goseong_random_capacity_reduction": "9d8198df3a62e8246751185754da415bed0b8e37e9d8c24b0fdccb7b3d78c69d",
+      "bus_only::no_disruption": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "multimodal_lastmile_redundancy::goseong_critical_link_blockage": "327ae12326f3d4b5fdcb75a6e2fe2f9793f644d192e5977e79392807ac7b0bb9",
+      "multimodal_lastmile_redundancy::goseong_last_mile_station_to_destination": "f394b50444da921127ecd2a23c1191a59db0ce9f49c58cefadfd0b3ce0e584e2",
+      "multimodal_lastmile_redundancy::goseong_random_capacity_reduction": "745b7ee031436aa7df127940774cb46140c1a1cbe8c3d3bbc368c3edc3234781",
+      "multimodal_lastmile_redundancy::no_disruption": "327ae12326f3d4b5fdcb75a6e2fe2f9793f644d192e5977e79392807ac7b0bb9",
+      "staggered_or_adaptive_dispatch::goseong_critical_link_blockage": "96987e5ccf1595fd735605b9272c3a057eef2f31b07e1af2ea1b76a197144087",
+      "staggered_or_adaptive_dispatch::goseong_last_mile_station_to_destination": "52aa309246b55162e0e5f8491062af53348f056aecef1c28e7996bec772e6bf2",
+      "staggered_or_adaptive_dispatch::goseong_random_capacity_reduction": "9a80692b085ed2c86c0d9487c8290854f08140cfe61e5376b8ed1c001e048c40",
+      "staggered_or_adaptive_dispatch::no_disruption": "96987e5ccf1595fd735605b9272c3a057eef2f31b07e1af2ea1b76a197144087"
     },
     "policy_config_sha256s": {
-      "baseline_multimodal": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "bus_only": "6b46cdfb01b4279a03a8034e12926318b9c50f2f07fdef7099850c6fc6362672",
-      "multimodal_lastmile_redundancy": "68bdf0acd1f21b33ce129d893bcc605d1465f6dc22e00aada29d54db612e924d",
-      "staggered_or_adaptive_dispatch": "197088cee8cb53e8e43ebd76fca5fb8c10c408eff8124df80c1fe617881e0838"
+      "baseline_multimodal": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "bus_only": "fe963e74f0ea5e5252c06687096e03b28d163a1fba4d483b5fe105b1f967fd60",
+      "multimodal_lastmile_redundancy": "327ae12326f3d4b5fdcb75a6e2fe2f9793f644d192e5977e79392807ac7b0bb9",
+      "staggered_or_adaptive_dispatch": "96987e5ccf1595fd735605b9272c3a057eef2f31b07e1af2ea1b76a197144087"
     },
     "scenario_failure_config_sha256s": {
       "goseong_critical_link_blockage": {
@@ -46,21 +46,21 @@
         "failure_mode": "blocked",
         "p_fail_scale": 1.0,
         "selected_edge_count": 3,
-        "sha256": "0a514246efbf426292c027164ea207c48c8be5a008afa87e7556f217ab181344"
+        "sha256": "9b4d74b0bd4eb61b3d5522707bea40178319141eefc6944fa57e281209d38159"
       },
       "goseong_last_mile_station_to_destination": {
         "capacity_factor": 0.4,
         "failure_mode": "capacity_reduction",
         "p_fail_scale": 1.0,
-        "selected_edge_count": 5,
-        "sha256": "f19ec88371c9786194ef334d3d2a6de2cbec7c6bdc8700b26de837fd5263910d"
+        "selected_edge_count": 1282,
+        "sha256": "8a6861181738806d16e42465bf185435090115f451c67f4d95876c8ee23da2fd"
       },
       "goseong_random_capacity_reduction": {
         "capacity_factor": 0.3,
         "failure_mode": "capacity_reduction",
         "p_fail_scale": 1.0,
         "selected_edge_count": 8,
-        "sha256": "eaddd367a7a72ed622617f7ea2de3c163b54ed4a838d6f144371dbbdb96e5308"
+        "sha256": "bd4ca411f0f9071eca42f6fe4f263b0ca6332d0a639a62be064b359332ae991c"
       },
       "no_disruption": {
         "capacity_factor": 1.0,
@@ -90,7 +90,7 @@
   "excluded_policy_ids": {
     "bus_corridor_redundancy": "Excluded: matched_redundancy network variant not defined for goseong corridor."
   },
-  "executed_command": "scripts/run_pilot_experiments.py --sample --output-dir results/goseong_pilot --region-path data/regions/goseong_mobilization.yaml --cache-path data/cache/goseong_corridor_road.graphml --scenarios-path data/scenarios/goseong_disruption_scenarios.csv --design-path data/manifests/goseong_experiment_design.json",
+  "executed_command": "scripts/run_pilot_experiments.py --sample --output-dir results/goseong_pilot --region-path data/regions/goseong_mobilization.yaml --cache-path data/cache/goseong_corridor_road.graphml --scenarios-path data/scenarios/goseong_disruption_scenarios.csv --design-path data/manifests/goseong_experiment_design.json --road-class-overrides-path data/parameters/road_class_overrides.csv",
   "executed_policy_count": 4,
   "executed_row_count": 32,
   "executed_scenario_count": 4,
@@ -98,31 +98,31 @@
   "expected_row_count": 32,
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
-  "graph_edges": 28,
-  "graph_nodes": 15,
+  "graph_edges": 2899,
+  "graph_nodes": 2772,
   "graph_reduction_strategy": "single_corridor",
   "graph_scale": {
     "analysis": {
       "corridor_path_count": 1,
-      "edges": 28,
+      "edges": 2899,
       "graph_corridor_path_count": 1,
       "graph_corridor_strategy": "single_shortest_time_route_corridor",
       "graph_reduction_strategy": "single_corridor",
-      "nodes": 15,
+      "nodes": 2772,
       "reduced": true,
       "strategy": "route_corridor_reduced_for_fast_smoke_and_sample_execution"
     },
     "source": {
-      "edges": 60,
-      "nodes": 24
+      "edges": 298020,
+      "nodes": 197823
     }
   },
-  "graph_source": "cached_graphml:data/cache/goseong_corridor_road.graphml",
+  "graph_source": "cached_graphml:data/cache/goseong_corridor_road.graphml;road_class_overrides:data/parameters/road_class_overrides.csv",
   "inputs": {
     "cache_path": "data/cache/goseong_corridor_road.graphml",
-    "cache_sha256": "c27963452048fcae2bcb5bc4fa676990065e39760065521bde4c30b6936ae57c",
+    "cache_sha256": "27b5e569967c2907714e4872444db4c148bc1746a23e7526754b19f129302a58",
     "demand_profiles_path": "data/scenarios/demand_profiles.csv",
-    "demand_profiles_sha256": "976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+    "demand_profiles_sha256": "f56dfb33d5979245bd54c9420d99056101b731639431283839b41116fa84413b",
     "disruption_scenarios_path": "data/scenarios/goseong_disruption_scenarios.csv",
     "disruption_scenarios_sha256": "11bb5d6cf69519cec24c759922ede7e6eb870b94769f331a29410d7a8fb1fae8",
     "fleet_profiles_path": "data/scenarios/fleet_profiles.csv",
@@ -133,8 +133,8 @@
     "policy_alternatives_sha256": "e0484b1f1414b00be08f130090663498c5a2dd6ce8e263d58e469d8963fac3e8",
     "region_path": "data/regions/goseong_mobilization.yaml",
     "region_sha256": "af8e342b797b869b10712c46c38c27cdf61130ca71b2951cc9a9b43b4e08e082",
-    "road_class_overrides_path": null,
-    "road_class_overrides_sha256": null
+    "road_class_overrides_path": "data/parameters/road_class_overrides.csv",
+    "road_class_overrides_sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889"
   },
   "metric_columns": [
     "completion_rate",
@@ -164,20 +164,20 @@
         "sha256_record_location": "output_lock_receipt.outputs.manifest_sha256"
       },
       "results": {
-        "byte_count": 21659,
+        "byte_count": 166612,
         "csv_data_row_count": 32,
         "exists": true,
         "path": "results/goseong_pilot/pilot_sample_results.csv",
         "readable": true,
-        "sha256": "1c63581b1a1327261affa512e4098a5f7c76650298c00ec12fd31806bd95f3e7"
+        "sha256": "0513664ae9c1b6269666c86e2654f53065f013cd0977b901a73e28b7a3917ec8"
       },
       "summary": {
-        "byte_count": 6124,
+        "byte_count": 7137,
         "csv_data_row_count": 16,
         "exists": true,
         "path": "results/goseong_pilot/pilot_sample_summary.csv",
         "readable": true,
-        "sha256": "bf39274311a59abb825ba612b2dd48c26f4136123ca1469d72dd94b11f4e915c"
+        "sha256": "9c3f72c916835ac98074e5802d2ab9d5e8035c6e35970699ae23f110f10e8420"
       }
     },
     "manifest_self_hash_policy": "Final manifest SHA256 is recorded in the separate output-lock receipt to avoid self-referential manifest hashing.",
@@ -185,12 +185,12 @@
   },
   "output_lock": {
     "acquired": true,
-    "acquired_at_utc": "2026-06-19T04:09:05+00:00",
-    "lock_file_sha256": "c677a35e69fea8405faafbad3b1ee97770c838f27bb3fe36e0960166d01cf09a",
+    "acquired_at_utc": "2026-07-03T00:50:24+00:00",
+    "lock_file_sha256": "3f84c7f838db670ddb81c4de6493b464a02350bd4fc75dd5ab0b4b7dd6e242e6",
     "lock_mechanism": "atomic_create_x_mode",
     "lock_path": "results/goseong_pilot/pilot_sample.output.lock",
     "output_prefix": "pilot_sample",
-    "pid": 34672,
+    "pid": 40864,
     "receipt_path": "results/goseong_pilot/pilot_sample_output_lock_receipt.json",
     "release_policy": "released_after_successful_output_write_or_exception",
     "schema_version": 1
@@ -198,7 +198,7 @@
   "output_lock_release": {
     "release_status": "released",
     "released": true,
-    "released_at_utc": "2026-06-19T04:09:05+00:00"
+    "released_at_utc": "2026-07-03T00:51:26+00:00"
   },
   "output_prefix": "pilot_sample",
   "outputs": {
@@ -318,7 +318,7 @@
     "claim_boundary": "Phase 5 profile CSV consumption only; not calibrated demand, not agency fleet validation, not no-show behavior, not publication readiness, and not final-study readiness.",
     "demand_profile_id": "pilot_default_demand",
     "demand_profiles_path": "data/scenarios/demand_profiles.csv",
-    "demand_profiles_sha256": "976f0e60c90928d5eaeaf6a242b577af8d61f120f2a75e33bb6748090b617cf0",
+    "demand_profiles_sha256": "f56dfb33d5979245bd54c9420d99056101b731639431283839b41116fa84413b",
     "demand_row_count": 1,
     "evidence_statuses": [
       "bounded_scenario_assumption_not_calibration",
@@ -358,32 +358,32 @@
   "rail_source_decisions_pending": false,
   "region_id": "goseong_mobilization",
   "result_scope": "Pilot scaffold sample output only; not calibrated real-world results or an operational forecast.",
-  "road_class_overrides_applied": false,
+  "road_class_overrides_applied": true,
   "row_count": 32,
   "run_profile": "sample_scaffold",
   "run_stage": "sample",
   "runtime": {
     "actual_worker_count": 1,
     "cpu_simulation_engine": "SimPy/NetworkX via src.scenario.run_scenario",
-    "finished_at_utc": "2026-06-19T04:09:05+00:00",
+    "finished_at_utc": "2026-07-03T00:51:26+00:00",
     "gpu_use_scope": "none_for_cpu_simulation",
     "gpu_used_for_simulation": false,
     "memory_after": {
       "available": true,
-      "available_physical_bytes": 38851043328,
-      "memory_load_percent": 43,
+      "available_physical_bytes": 37735804928,
+      "memory_load_percent": 45,
       "method": "GlobalMemoryStatusEx",
       "total_physical_bytes": 68629401600
     },
     "memory_before": {
       "available": true,
-      "available_physical_bytes": 38851469312,
+      "available_physical_bytes": 38609190912,
       "memory_load_percent": 43,
       "method": "GlobalMemoryStatusEx",
       "total_physical_bytes": 68629401600
     },
-    "started_at_utc": "2026-06-19T04:09:05+00:00",
-    "wall_time_seconds": 0.25537,
+    "started_at_utc": "2026-07-03T00:50:24+00:00",
+    "wall_time_seconds": 61.633314,
     "worker_count_control": "none_serial_current_runner"
   },
   "sample_scaffold": true,
@@ -406,7 +406,7 @@
     1101,
     1102
   ],
-  "source_graph_edges": 60,
-  "source_graph_nodes": 24,
+  "source_graph_edges": 298020,
+  "source_graph_nodes": 197823,
   "summary_row_count": 16
 }

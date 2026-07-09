@@ -55,10 +55,17 @@ def test_capacity_evidence_summarizes_parseable_lane_tags() -> None:
     assert set(by_class) == {"primary", "secondary"}
     assert by_class["primary"]["lanes_observed_count"] == "2"
     assert by_class["primary"]["median_observed_lanes"] == "3"
-    assert by_class["primary"]["candidate_capacity_veh_per_hr"] == "2100"
+    # Observed median lanes (3) times the KOTI HCM primary per-lane proxy (900),
+    # independent of the capacity_per_lane_vph arg.
+    assert by_class["primary"]["candidate_capacity_veh_per_hr"] == "2700"
     assert by_class["primary"]["candidate_source_class"] == "public-data-derived"
     assert by_class["secondary"]["lanes_observed_count"] == "0"
-    assert by_class["secondary"]["candidate_source_class"] == "expert assumption"
+    assert (
+        by_class["secondary"]["candidate_source_class"] == "design-standard-derived"
+    )
+    # No OSM lanes tags -> falls back to MOLIT design-standard lanes (2) times the
+    # KOTI HCM signalized per-lane proxy (800), independent of capacity_per_lane_vph.
+    assert by_class["secondary"]["candidate_capacity_veh_per_hr"] == "1600"
     assert by_class["primary"]["claim_boundary"] == ROAD_CAPACITY_EVIDENCE_SCOPE
 
     print("PASS: capacity evidence summarizes parseable lane tags")

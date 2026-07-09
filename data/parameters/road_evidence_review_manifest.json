@@ -1,6 +1,6 @@
 {
   "base_disruption_status_counts": {
-    "missing_disruption_probability_evidence": 10
+    "reviewed_or_explicit": 10
   },
   "capacity_status_counts": {
     "missing_lane_or_capacity_evidence": 10
@@ -21,14 +21,12 @@
     "rerun road, publication-readiness, and study-closeout audits after road evidence changes"
   ],
   "review_priority_counts": {
-    "high": 4,
-    "medium": 6
+    "low": 10
   },
   "row_count": 10,
   "schema_version": 1,
   "speed_status_counts": {
-    "missing_public_speed_evidence": 5,
-    "sparse_public_maxspeed_tags": 5
+    "reviewed_or_high_coverage": 10
   },
   "weak_for_final_claim_count": 10
 }

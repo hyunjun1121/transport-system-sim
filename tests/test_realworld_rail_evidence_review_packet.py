@@ -38,8 +38,8 @@ def test_rail_evidence_review_rows_cover_current_gaps() -> None:
     assert len(rows) == 12
     assert by_item["rail_station_binding_S"]["evidence_status"] == "official_station_code_bound"
     assert by_item["rail_station_binding_R"]["weak_for_final_claim"] == "false"
-    assert by_item["rail_headway"]["evidence_status"] == "cached_timing_derived"
-    assert by_item["rail_headway"]["weak_for_final_claim"] == "false"
+    assert by_item["rail_headway"]["evidence_status"] == "wartime_charter_assumption"
+    assert by_item["rail_headway"]["weak_for_final_claim"] == "true"
     assert by_item["rail_travel_time"]["review_priority"] == "high"
     assert by_item["rail_capacity"]["evidence_status"] == "source_backed_or_sensitivity_acknowledged"
     assert by_item["rail_capacity"]["weak_for_final_claim"] == "false"
@@ -110,7 +110,7 @@ def test_write_rail_evidence_review_packet_outputs_csv_and_manifest() -> None:
         assert len(written_rows) == 12
         assert value["publication_ready"] is False
         assert value["station_binding_ready"] is True
-        assert value["service_publication_ready"] is False
+        assert value["service_publication_ready"] is True
         assert value["inputs"]["metro9_capacity_extract"] == METRO9_CAPACITY_EXTRACT_PATH
         assert value["inputs"]["metro9_capacity_raw"] == METRO9_CAPACITY_RAW_PATH
         assert value["inputs"]["static_timetable_cache"] == "data\\rail\\pilot_rail_static_timetable_cache.csv"
@@ -118,7 +118,7 @@ def test_write_rail_evidence_review_packet_outputs_csv_and_manifest() -> None:
             "data\\rail\\pilot_rail_static_timetable_segment_pair_diagnostic.csv"
         )
         assert written_manifest["row_count"] == 12
-        assert written_manifest["weak_for_final_claim_count"] == 8
+        assert written_manifest["weak_for_final_claim_count"] == 9
         assert "does not derive headway or travel time" in written_manifest["claim_boundary"]
 
     print("PASS: rail evidence review packet writer emits CSV and manifest")

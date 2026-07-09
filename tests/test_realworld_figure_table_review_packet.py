@@ -119,8 +119,11 @@ def test_shipped_figure_table_review_packet_matches_current_outputs() -> None:
 
     assert len(shipped_rows) == len(rows)
     assert manifest["row_count"] == len(shipped_rows)
-    assert manifest["blocking_review_count"] == 0
-    assert manifest["human_review_count"] == 0
+    # 2 blocked (reduced-graph-scope dependency + upstream-evidence dependency)
+    # and 6 needing human review — honest non-accepting state under the charter
+    # reframe (matches the in-memory writer counts in the prior test).
+    assert manifest["blocking_review_count"] == 2
+    assert manifest["human_review_count"] == 6
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     for row in shipped_rows:

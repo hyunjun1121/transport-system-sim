@@ -18,7 +18,7 @@ Source URL remediation packet only; it does not certify sources, licenses, field
 | osm_overpass_road_snapshot | reachable | reachable_needs_license_review |  | 6 | medium | verify source identity, terms, attribution, and retained-snapshot policy before provenance decision record |
 | osm_overpass_road_snapshot | reachable | reachable_needs_license_review |  | 6 | medium | verify source identity, terms, attribution, and retained-snapshot policy before provenance decision record |
 | pilot_region_spec | no_url_detected | local_citation_needs_review |  | 2 | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
-| parameter_source_tables | no_url_detected | local_citation_needs_review |  | 12 | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
+| parameter_source_tables | no_url_detected | local_citation_needs_review |  | 18 | medium | confirm the local citation is sufficient for project-owned input and privacy scope |
 | seoul_station_binding_cache | reachable | reachable_needs_license_review |  | 2 | medium | verify source identity, terms, attribution, and retained-snapshot policy before provenance decision record |
 | seoul_shortest_path_api_context | reachable | reachable_needs_license_review |  | 3 | medium | verify source identity, terms, attribution, and retained-snapshot policy before provenance decision record |
 | seoul_shortest_path_api_context | network_error | alternate_reachable_url_needs_review | https://data.seoul.go.kr/dataList/OA-22724/A/1/datasetView.do | 3 | medium | verify whether the reachable URL and retained local artifacts are sufficient, then replace or remove the failed alternate citation before provenance decision record |

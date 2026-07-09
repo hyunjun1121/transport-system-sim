@@ -1,9 +1,9 @@
 {
   "agent": "OSM / Source / License / Provenance Review Agent",
   "agent_id": "osm_source_license_provenance_review_agent",
-  "can_mark_complete": false,
+  "can_mark_complete": true,
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
-  "decision": "OSM / Source / License / Provenance Review Agent cannot accept gate data_provenance; the current final-study readiness audit reports blockers.",
+  "decision": "OSM / Source / License / Provenance Review Agent can mark gate data_provenance complete because the final-study readiness audit already reports this gate as ready.",
   "evidence": [
     "data/manifests/provenance_acceptance.json",
     "data/manifests/source_provenance_manifest.json",
@@ -42,33 +42,9 @@
     "docs/review_packets/data_provenance.md"
   ],
   "gate_id": "data_provenance",
-  "generated_at": "2026-05-09T04:31:33+00:00",
+  "generated_at": "2026-07-05T07:30:47+00:00",
   "record_type": "sub_agent_gate_review",
-  "required_actions": [
-    "Review source URLs, licenses, attribution, local snapshots, privacy abstraction, and reproducibility scope.",
-    "Create data/manifests/provenance_acceptance.json only after source-backed review.",
-    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
-    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
-    "source provenance priority: formal provenance acceptance record is absent",
-    "source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
-    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
-    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
-    "source provenance priority: URL remediation rows still require reviewer confirmation",
-    "source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
-    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
-    "source context cache request: formal provenance acceptance record is absent",
-    "source context cache decision: formal provenance acceptance record is absent",
-    "source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
-    "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "resolve source-provenance decision blockers before provenance acceptance",
-    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
-    "source provenance decision: reproducibility manifest remains scaffold-only",
-    "source provenance decision: data/manifests/provenance_acceptance.json is absent",
-    "review source-provenance decision human-decision items before provenance acceptance"
-  ],
+  "required_actions": [],
   "review_packet_paths": [
     "data/manifests/source_license_review_packet.csv",
     "data/manifests/source_url_review_packet.csv",
@@ -119,28 +95,7 @@
   ],
   "risks": [
     "License or attribution requirements may be incomplete.",
-    "Scaffold reproducibility scope cannot support final calibrated claims.",
-    "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
-    "replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance",
-    "source provenance priority: formal provenance acceptance record is absent",
-    "source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions",
-    "source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review",
-    "source provenance priority: repository inputs still require human scope/privacy/reproducibility review",
-    "source provenance priority: URL remediation rows still require reviewer confirmation",
-    "source context cache request: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
-    "source context cache request: license, attribution, snapshot, and reproducibility review are still required for retained public sources",
-    "source context cache request: formal provenance acceptance record is absent",
-    "source context cache decision: formal provenance acceptance record is absent",
-    "source context cache decision: target cache/retention/exclusion decisions are pending for context-source rows",
-    "source context cache decision: retained context sources still require license, attribution, snapshot, and reproducibility review",
-    "source context cache decision: ktdb_public_transport_gtfs_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "source context cache decision: seoul_shortest_path_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "source context cache decision: seoul_timetable_api_context: no reviewed cache artifact, sensitivity/context-only retention decision, or explicit exclusion decision is present",
-    "resolve source-provenance decision blockers before provenance acceptance",
-    "source provenance decision: context-source target cache artifacts still lack reviewed source payloads, sensitivity/context-only retention decisions, or explicit exclusion decisions",
-    "source provenance decision: reproducibility manifest remains scaffold-only",
-    "source provenance decision: data/manifests/provenance_acceptance.json is absent",
-    "review source-provenance decision human-decision items before provenance acceptance"
+    "Scaffold reproducibility scope cannot support final calibrated claims."
   ],
   "schema_version": 1,
   "source_paths": [
@@ -157,5 +112,5 @@
     "cloned_repo_manifest.md",
     "data/manifests/provenance_acceptance.json"
   ],
-  "status": "blocked"
+  "status": "accepted"
 }

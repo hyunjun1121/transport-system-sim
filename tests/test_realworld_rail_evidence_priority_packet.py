@@ -146,8 +146,10 @@ def test_shipped_rail_evidence_priority_packet_matches_current_outputs() -> None
     assert manifest["row_count"] == len(rows)
     assert manifest["timing_closure_candidate_count"] == 1
     assert manifest["station_binding_prerequisite_ready"] is True
-    assert manifest["publication_ready"] is True
-    assert manifest["can_mark_complete"] is True
+    # Rail is now a wartime_charter_assumption proxy; the priority packet ships in
+    # the honest non-accepting state (final_study_ready=False invariant).
+    assert manifest["publication_ready"] is False
+    assert manifest["can_mark_complete"] is False
 
     print("PASS: shipped rail evidence priority packet matches current outputs")
 

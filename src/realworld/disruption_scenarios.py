@@ -67,6 +67,7 @@ CSV_COLUMNS = (
     "target_segment",
     "disruption_mode",
     "capacity_factor",
+    "road_travel_time_multiplier",
     "p_fail_scale",
     "max_edges",
     "hazard_bbox_west",
@@ -136,6 +137,7 @@ class DisruptionScenario:
     disruption_mode: str
     capacity_factor: float
     p_fail_scale: float
+    road_travel_time_multiplier: float | None = None
     max_edges: int | None = None
     hazard_bbox: HazardBbox | None = None
     rail_travel_time_multiplier: float | None = None
@@ -217,7 +219,16 @@ class DisruptionScenario:
 
         if self.disruption_mode == "blocked":
             return EdgeDisruption(status="blocked", capacity_factor=0.0)
-        return EdgeDisruption(status="degraded", capacity_factor=self.capacity_factor)
+        multiplier = (
+            1.0
+            if self.road_travel_time_multiplier is None
+            else self.road_travel_time_multiplier
+        )
+        return EdgeDisruption(
+            status="degraded",
+            capacity_factor=self.capacity_factor,
+            travel_time_multiplier=multiplier,
+        )
 
 
 @dataclass(frozen=True)
@@ -551,6 +562,9 @@ def _scenario_from_row(row: Mapping[str, str], row_number: int) -> DisruptionSce
         disruption_mode=_required_row_text(row, "disruption_mode", row_number),
         capacity_factor=_row_float(row, "capacity_factor", row_number),
         p_fail_scale=_row_float(row, "p_fail_scale", row_number),
+        road_travel_time_multiplier=_optional_row_float(
+            row, "road_travel_time_multiplier", row_number,
+        ),
         max_edges=_optional_row_int(row, "max_edges", row_number),
         hazard_bbox=bbox,
         rail_travel_time_multiplier=_optional_row_float(

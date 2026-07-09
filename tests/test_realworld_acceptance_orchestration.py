@@ -1018,7 +1018,8 @@ def test_acceptance_orchestration_writes_records_and_manifest() -> None:
                 ),
             ),
         )
-        assert manifest["final_study_ready"] is True
+        # Orchestration aggregates non-approval records; NOT final-ready.
+        assert manifest["final_study_ready"] is False
         assert manifest["record_count"] >= 10
         assert manifest["blocked_or_review_record_count"] >= 0
         assert manifest["can_mark_complete_count"] >= 1

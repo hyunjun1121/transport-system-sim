@@ -41,11 +41,14 @@ def test_experiment_design_decision_rows_classify_current_state() -> None:
     assert by_id["graph_scope_dependency"]["decision_status"] == (
         "blocked_graph_scale_dependency"
     )
+    # Rail reframed as wartime_charter_assumption (no longer public-schedule
+    # derived): input-evidence dependency is now BLOCKED, and result scope is
+    # blocked as scaffold/non-calibrated. Honest state under charter reframe.
     assert by_id["input_evidence_dependency"]["decision_status"] == (
-        "needs_human_review_input_evidence_dependency"
+        "blocked_input_evidence_dependency"
     )
     assert by_id["result_scope_boundary"]["decision_status"] == (
-        "needs_human_review_result_scope"
+        "blocked_scaffold_or_not_calibrated_experiment_scope"
     )
     assert by_id["regenerate_or_retain_outputs"]["decision_status"] == (
         "needs_human_review_regenerate_or_retain_outputs"
@@ -117,8 +120,10 @@ def test_shipped_experiment_design_decision_packet_matches_current_outputs() -> 
     for shipped_row in written_rows:
         assert shipped_row["decision_id"] in {r["decision_id"] for r in rows}
     assert manifest["row_count"] == len(written_rows)
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    # 3 blocked (graph scale, input-evidence charter dependency, result scope)
+    # and 5 needing human review — honest non-accepting state under charter reframe.
+    assert manifest["blocking_decision_count"] == 3
+    assert manifest["human_review_decision_count"] == 5
     assert manifest["publication_ready"] is False
 
     print("PASS: shipped experiment design decision packet matches outputs")

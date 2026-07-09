@@ -8,20 +8,20 @@ This packet prioritizes existing road evidence gaps by canonical route exposure.
 - Can mark complete: `false`
 - Priority rows: 11
 - Exposed highways: 7
-- Blocking priority rows: 5
-- Status counts: `{'blocked_exposed_connector_assumption': 1, 'blocked_exposed_high_priority_road_evidence_gap': 4, 'needs_review_exposed_medium_priority_road_evidence_gap': 2, 'queued_no_current_canonical_route_exposure': 4}`
+- Blocking priority rows: 1
+- Status counts: `{'blocked_exposed_connector_assumption': 1, 'needs_review_exposed_medium_priority_road_evidence_gap': 6, 'queued_no_current_canonical_route_exposure': 4}`
 
 ## Priority Rows
 
 | Highway | Status | Exposure Rows | Route Candidates | Time min | Max Time Share | Required Action |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| primary | blocked_exposed_high_priority_road_evidence_gap | 12 | 12 | 16.805672 | 0.534293 | prioritize reviewed or explicitly accepted speed, capacity, and disruption values for this exposed road class |
-| tertiary | blocked_exposed_high_priority_road_evidence_gap | 12 | 12 | 16.433714 | 0.619774 | prioritize reviewed or explicitly accepted speed, capacity, and disruption values for this exposed road class |
-| secondary | blocked_exposed_high_priority_road_evidence_gap | 14 | 14 | 11.73236 | 0.723862 | prioritize reviewed or explicitly accepted speed, capacity, and disruption values for this exposed road class |
-| residential | blocked_exposed_high_priority_road_evidence_gap | 12 | 12 | 2.026716 | 0.107683 | prioritize reviewed or explicitly accepted speed, capacity, and disruption values for this exposed road class |
-| connector | blocked_exposed_connector_assumption | 18 | 18 | 20.394984 | 0.364842 | review connector snapping distances, connector travel times, capacity assumptions, and zero-failure treatment before route-level claims |
-| primary_link | needs_review_exposed_medium_priority_road_evidence_gap | 6 | 6 | 1.142592 | 0.077431 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
-| tertiary_link | needs_review_exposed_medium_priority_road_evidence_gap | 2 | 2 | 0.292616 | 0.030176 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| connector | blocked_exposed_connector_assumption | 18 | 18 | 20.394984 | 0.357065 | review connector snapping distances, connector travel times, capacity assumptions, and zero-failure treatment before route-level claims |
+| primary | needs_review_exposed_medium_priority_road_evidence_gap | 12 | 12 | 16.805672 | 0.522917 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| tertiary | needs_review_exposed_medium_priority_road_evidence_gap | 12 | 12 | 16.433714 | 0.634218 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| secondary | needs_review_exposed_medium_priority_road_evidence_gap | 14 | 14 | 13.82773 | 0.734715 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| residential | needs_review_exposed_medium_priority_road_evidence_gap | 12 | 12 | 1.638994 | 0.097149 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| primary_link | needs_review_exposed_medium_priority_road_evidence_gap | 6 | 6 | 1.142592 | 0.079272 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
+| tertiary_link | needs_review_exposed_medium_priority_road_evidence_gap | 2 | 2 | 0.292616 | 0.028936 | review after exposed high-priority classes, or sooner if graph-scale selection makes this class claim-relevant |
 | secondary_link | queued_no_current_canonical_route_exposure | 0 | 0 | 0 | 0 | keep this class in the road override review backlog unless graph-scale or route-candidate changes expose it |
 | trunk | queued_no_current_canonical_route_exposure | 0 | 0 | 0 | 0 | keep this class in the road override review backlog unless graph-scale or route-candidate changes expose it |
 | trunk_link | queued_no_current_canonical_route_exposure | 0 | 0 | 0 | 0 | keep this class in the road override review backlog unless graph-scale or route-candidate changes expose it |

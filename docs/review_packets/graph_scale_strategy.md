@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Graph Scale Method Review Agent`
 - Status: `needs_human_review`
 - Can mark complete: `false`
-- Generated at: `2026-05-10T08:28:03+00:00`
+- Generated at: `2026-07-05T07:30:47+00:00`
 
 ## Decision
 
@@ -99,37 +99,13 @@ Graph Scale Method Review Agent cannot accept gate graph_scale_strategy; the cur
 
 - Reduced corridor may omit detours or alternate-route behavior.
 - Full graph may be computationally expensive without accepted sampling strategy.
-- create an explicit graph-scale acceptance record after source-vs-analysis graph review
-- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
-- graph-scale strategy readiness: full bus-practical graph has smoke evidence only
-- graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent
-- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
-- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
-- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
-- resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
-- graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
-- review graph-scale method-decision human-decision items before graph-scale acceptance
+- graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002
 
 ## Required Actions
 
 - Choose and document reduced-corridor, multi-corridor, or full-graph strategy.
 - Create graph_scale_acceptance.json with matching graph counts and evidence paths.
-- create an explicit graph-scale acceptance record after source-vs-analysis graph review
-- resolve graph-scale strategy-readiness blockers before graph-scale acceptance
-- graph-scale strategy readiness: full bus-practical graph has smoke evidence only
-- graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent
-- graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings
-- graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
-- review graph-scale strategy-readiness human-decision items before graph-scale acceptance
-- resolve graph-scale method-decision blockers before graph-scale acceptance
-- graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output
-- graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation
-- graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent
-- review graph-scale method-decision human-decision items before graph-scale acceptance
+- graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002
 
 ## Formal Acceptance Boundary
 
@@ -145,72 +121,58 @@ Formal acceptance artifacts:
 {
   "artifact_present": true,
   "blockers": [
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-    "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
-    "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
-    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
-    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
-    "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
-    "review graph-scale method-decision human-decision items before graph-scale acceptance"
+    "graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002"
   ],
   "details": {
-    "acceptance_analysis_graph_edges": null,
-    "acceptance_analysis_graph_nodes": null,
-    "acceptance_graph_scale_decision": "",
+    "acceptance_analysis_graph_edges": 246,
+    "acceptance_analysis_graph_nodes": 164,
+    "acceptance_graph_scale_decision": "corridor_abstraction",
     "acceptance_path": "data/manifests/graph_scale_acceptance.json",
-    "acceptance_record_present": false,
-    "acceptance_source_graph_edges": null,
-    "acceptance_source_graph_nodes": null,
-    "analysis_graph_edges": 174,
-    "analysis_graph_nodes": 118,
+    "acceptance_record_present": true,
+    "acceptance_source_graph_edges": 9148,
+    "acceptance_source_graph_nodes": 4608,
+    "analysis_graph_edges": 3002,
+    "analysis_graph_nodes": 2850,
     "analysis_graph_reduced": true,
-    "analysis_graph_strategy": "route_corridor_reduced_with_source_and_analysis_graph_scale_recorded_until_full_network_method_is_accepted",
+    "analysis_graph_strategy": "multi_corridor_for_realistic_route_alternatives",
     "method_decision_artifacts_present": true,
-    "method_decision_blocking_decision_count": 3,
+    "method_decision_blocking_decision_count": 2,
     "method_decision_can_mark_complete": false,
     "method_decision_downstream_regeneration_decision_recorded": false,
-    "method_decision_human_review_decision_count": 4,
+    "method_decision_human_review_decision_count": 5,
     "method_decision_manifest_present": true,
     "method_decision_publication_ready": false,
     "method_decision_remaining_blockers": [
       "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-      "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-      "data/manifests/graph_scale_acceptance.json is absent"
+      "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
     ],
     "method_decision_row_count": 7,
     "method_decision_selected_graph_method_recorded": false,
     "method_decision_status_counts": {
       "blocked_missing_downstream_regeneration_decision": 1,
       "blocked_missing_full_graph_full_profile_outputs": 1,
-      "blocked_missing_graph_scale_acceptance_record": 1,
+      "needs_human_review_existing_graph_scale_acceptance": 1,
       "needs_human_review_graph_sensitive_result_deltas": 1,
       "needs_human_review_multi_corridor_result_delta_policy": 1,
       "needs_human_review_multi_corridor_sample_scope": 1,
       "needs_human_review_reduced_corridor_warning_policy": 1
     },
-    "source_graph_edges": 9148,
-    "source_graph_nodes": 4608,
-    "strategy_readiness_blocking_request_count": 2,
+    "source_graph_edges": 298020,
+    "source_graph_nodes": 197823,
+    "strategy_readiness_blocking_request_count": 1,
     "strategy_readiness_can_mark_complete": false,
-    "strategy_readiness_human_review_request_count": 3,
+    "strategy_readiness_human_review_request_count": 4,
     "strategy_readiness_manifest_present": true,
     "strategy_readiness_publication_ready": false,
     "strategy_readiness_remaining_blockers": [
       "full bus-practical graph has smoke evidence only",
-      "data/manifests/graph_scale_acceptance.json is absent",
       "current reduced-corridor output has alternate-route warnings",
       "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-      "accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+      "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
     ],
     "strategy_readiness_status_counts": {
       "blocked_missing_full_graph_experiment_outputs": 1,
-      "blocked_missing_graph_scale_acceptance_record": 1,
+      "needs_human_review_graph_scale_acceptance_record": 1,
       "needs_human_review_multi_corridor_result_deltas": 1,
       "needs_human_review_multi_corridor_sample_scope": 1,
       "needs_human_review_reduced_corridor_alternate_route_warnings": 1

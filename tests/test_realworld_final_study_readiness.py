@@ -38,13 +38,23 @@ AUDIT_SCRIPT_PATH = ROOT / "scripts" / "audit_final_study_readiness.py"
 
 
 def test_current_final_study_readiness_is_ready() -> None:
-    """All 15 plan gates satisfied with acceptance records present."""
+    """15 plan gates audited; final-study claims stay BLOCKED (project invariant).
+
+    Phase-1 input retune replaced the songpa stub graph with the REAL Goseong OSM
+    corridor graph, rebuilt road inputs (observed OSM lanes x KOTI per-lane proxy),
+    and reframed rail as a WARTIME CHARTERED NON-STOP assumption. Several gates
+    are now correctly BLOCKED under the honest non-acceptance state
+    (rail source decisions not recorded; graph-scale acceptance counts stale vs.
+    the real graph; full experiment re-run as engineering_only reduced-corridor).
+    final_study_ready=False is the PROJECT INVARIANT and is asserted here.
+    """
 
     summary = audit_final_study_readiness()
     gate_map = {gate["gate_id"]: gate for gate in summary["gates"]}
 
-    assert summary["final_study_ready"] is True
-    assert summary["verdict"] == "final_real_world_study_ready"
+    # Honest invariant: final-study claims stay blocked; do NOT inflate to True.
+    assert summary["final_study_ready"] is False
+    assert summary["verdict"] == "final_real_world_study_blocked"
     assert summary["gate_count"] == len(FINAL_GATE_IDS)
     assert summary["missing_gate_ids"] == []
     assert set(gate_map) == set(FINAL_GATE_IDS)
@@ -56,231 +66,62 @@ def test_current_final_study_readiness_is_ready() -> None:
     assert pilot_details["pilot_region_decision_artifacts_present"] is True
     assert pilot_details["pilot_region_decision_row_count"] == 6
     assert pilot_details["pilot_region_decision_blocking_decision_count"] == 0
-    assert pilot_details["pilot_region_decision_human_review_decision_count"] == 0
+    assert pilot_details["pilot_region_decision_human_review_decision_count"] == 6
     assert pilot_details["pilot_region_decision_recorded"] is False
     assert pilot_details["pilot_region_decision_privacy_completion_recorded"] is False
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "source_readiness_source_url_or_citation_present_count"
-        ]
-        == 5
+    cached = gate_map["cached_osm_input"]["details"]
+    assert cached["source_readiness_source_url_or_citation_present_count"] == 5
+    assert cached["source_readiness_required_external_input_present_count"] == 5
+    assert cached["source_readiness_region_ids"] == ["songpa_public_demo"]
+    assert cached["road_source_decision_artifacts_present"] is True
+    assert cached["road_source_decision_row_count"] == 5
+    assert cached["road_source_decision_blocking_decision_count"] == 0
+    assert cached["road_source_decision_human_review_decision_count"] == 5
+    assert cached["road_source_decision_region_ids"] == ["songpa_public_demo"]
+    assert cached["road_source_decision_recorded"] is False
+    assert cached["road_attribute_evidence_artifacts_present"] is True
+    assert cached["road_attribute_evidence_manifest_present"] is True
+    assert cached["road_attribute_evidence_row_count"] == cached["edge_count"]
+    assert cached["road_attribute_evidence_weak_for_final_claim_count"] == cached[
+        "road_attribute_evidence_row_count"
+    ]
+    assert cached["road_attribute_evidence_capacity_class_counts"]["expert proxy"] == (
+        cached["road_attribute_evidence_row_count"]
     )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "source_readiness_required_external_input_present_count"
-        ]
-        == 5
-    )
-    assert gate_map["cached_osm_input"]["details"][
-        "source_readiness_region_ids"
-    ] == ["songpa_public_demo"]
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_source_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_source_decision_row_count"
-        ]
-        == 5
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_source_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_source_decision_human_review_decision_count"
-        ]
-        == 0
-    )
-    assert gate_map["cached_osm_input"]["details"][
-        "road_source_decision_region_ids"
-    ] == ["songpa_public_demo"]
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_source_decision_recorded"
-        ]
-        is False
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_manifest_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_row_count"
-        ]
-        == gate_map["cached_osm_input"]["details"]["edge_count"]
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_weak_for_final_claim_count"
-        ]
-        == gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_row_count"
-        ]
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_capacity_class_counts"
-        ]["expert proxy"]
-        == gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_row_count"
-        ]
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_disruption_class_counts"
-        ]["sensitivity-only"]
-        == gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_row_count"
-        ]
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_publication_ready"
-        ]
-        is False
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_formal_acceptance_created"
-        ]
-        is False
-    )
-    assert (
-        gate_map["cached_osm_input"]["details"][
-            "road_attribute_evidence_can_mark_complete"
-        ]
-        is False
-    )
-    assert gate_map["graph_scale_strategy"]["ready"] is True
-    assert (
-        gate_map["graph_scale_strategy"]["details"][
-            "method_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["graph_scale_strategy"]["details"]["method_decision_row_count"]
-        == 7
-    )
-    assert (
-        gate_map["graph_scale_strategy"]["details"][
-            "method_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["graph_scale_strategy"]["details"][
-            "method_decision_human_review_decision_count"
-        ]
-        == 0
-    )
+    assert cached["road_attribute_evidence_disruption_class_counts"][
+        "sensitivity-only"
+    ] == cached["road_attribute_evidence_row_count"]
+    assert cached["road_attribute_evidence_publication_ready"] is False
+    assert cached["road_attribute_evidence_formal_acceptance_created"] is False
+    assert cached["road_attribute_evidence_can_mark_complete"] is False
+    # graph_scale_strategy is now BLOCKED: acceptance counts are stale against the
+    # real Goseong OSM source graph (197,823 nodes), and downstream regeneration
+    # has not been recorded. Honest non-acceptance state.
+    assert gate_map["graph_scale_strategy"]["ready"] is False
+    gs = gate_map["graph_scale_strategy"]["details"]
+    assert gs["method_decision_artifacts_present"] is True
+    assert gs["method_decision_row_count"] == 7
+    assert gs["method_decision_blocking_decision_count"] == 2
+    assert gs["method_decision_human_review_decision_count"] == 5
+    assert gs["method_decision_selected_graph_method_recorded"] is False
+    assert gs["method_decision_downstream_regeneration_decision_recorded"] is False
     assert gate_map["data_provenance"]["ready"] is True
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_priority_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_priority_row_count"
-        ]
-        == 11
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_priority_blocking_source_count"
-        ]
-        == 2
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_priority_context_only_source_count"
-        ]
-        == 2
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_request_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_request_row_count"
-        ]
-        == 3
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_request_blocking_request_count"
-        ]
-        == 3
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_decision_row_count"
-        ]
-        == 3
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_context_cache_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_decision_row_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_decision_human_review_decision_count"
-        ]
-        > 0
-    )
-    assert (
-        gate_map["data_provenance"]["details"][
-            "source_provenance_decision_recorded"
-        ]
-        is False
-    )
+    dp = gate_map["data_provenance"]["details"]
+    assert dp["source_provenance_priority_artifacts_present"] is True
+    assert dp["source_provenance_priority_row_count"] == 11
+    assert dp["source_provenance_priority_blocking_source_count"] == 2
+    assert dp["source_provenance_priority_context_only_source_count"] == 2
+    assert dp["source_context_cache_request_artifacts_present"] is True
+    assert dp["source_context_cache_request_row_count"] == 3
+    assert dp["source_context_cache_request_blocking_request_count"] == 3
+    assert dp["source_context_cache_decision_artifacts_present"] is True
+    assert dp["source_context_cache_decision_row_count"] == 3
+    assert dp["source_context_cache_decision_blocking_decision_count"] == 3
+    assert dp["source_provenance_decision_artifacts_present"] is True
+    assert dp["source_provenance_decision_row_count"] == 7
+    assert dp["source_provenance_decision_blocking_decision_count"] == 1
+    assert dp["source_provenance_decision_human_review_decision_count"] == 6
+    assert dp["source_provenance_decision_recorded"] is False
     assert any(
         "source provenance priority: context-source target artifacts still need"
         in item
@@ -297,340 +138,121 @@ def test_current_final_study_readiness_is_ready() -> None:
         for item in gate_map["data_provenance"]["blockers"]
     )
     assert gate_map["parameter_evidence"]["ready"] is True
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "source_readiness_source_url_or_citation_present_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "source_readiness_required_external_input_present_count"
-        ]
-        == 7
-    )
-    assert gate_map["parameter_evidence"]["details"][
-        "source_readiness_region_ids"
-    ] == ["songpa_public_demo"]
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_evidence_priority_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_evidence_priority_row_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_evidence_priority_blocking_priority_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_evidence_priority_high_priority_parameter_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_evidence_priority_medium_priority_parameter_count"
-        ]
-        == 14
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_source_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_source_decision_row_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_source_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "parameter_source_decision_human_review_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["parameter_evidence"]["details"][
-            "transfer_evidence_review_artifacts_present"
-        ]
-        is True
-    )
-    assert gate_map["rail_evidence"]["ready"] is True
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "fetch_readiness_source_url_or_citation_present_count"
-        ]
-        == 6
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "fetch_readiness_required_external_input_present_count"
-        ]
-        == 3
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "fetch_readiness_required_external_input_specified_count"
-        ]
-        == 6
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "fetch_readiness_required_external_input_text_present_count"
-        ]
-        == 6
-    )
-    assert gate_map["rail_evidence"]["details"]["fetch_readiness_region_ids"] == [
-        "songpa_public_demo"
-    ]
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_evidence_priority_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["rail_evidence"]["details"]["rail_evidence_priority_row_count"] == 7
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_evidence_priority_blocking_priority_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_evidence_priority_human_review_priority_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_evidence_priority_timing_closure_candidate_count"
-        ]
-        == 1
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_source_decision_artifacts_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["rail_evidence"]["details"]["rail_source_decision_row_count"] == 6
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_source_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_source_decision_human_review_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["rail_evidence"]["details"][
-            "rail_source_decision_timing_source_decision_count"
-        ]
-        == 4
-    )
-    assert gate_map["rail_evidence"]["details"][
-        "rail_source_decision_region_ids"
-    ] == ["songpa_public_demo"]
-    assert (
-        gate_map["rail_evidence"]["details"]["rail_source_decision_recorded"]
-        is True
-    )
-    assert (
-        gate_map["rail_evidence"]["details"]["fetch_readiness_remaining_blockers"]
-        == []
-    )
+    pe = gate_map["parameter_evidence"]["details"]
+    assert pe["source_readiness_source_url_or_citation_present_count"] == 7
+    assert pe["source_readiness_required_external_input_present_count"] == 7
+    assert pe["source_readiness_region_ids"] == ["songpa_public_demo"]
+    assert pe["parameter_evidence_priority_artifacts_present"] is True
+    assert pe["parameter_evidence_priority_row_count"] == 7
+    assert pe["parameter_evidence_priority_blocking_priority_count"] == 0
+    assert pe["parameter_evidence_priority_human_review_priority_count"] == 7
+    assert pe["parameter_source_decision_artifacts_present"] is True
+    assert pe["parameter_source_decision_row_count"] == 7
+    assert pe["parameter_source_decision_blocking_decision_count"] == 0
+    assert pe["parameter_source_decision_human_review_decision_count"] == 7
+    assert pe["transfer_evidence_review_artifacts_present"] is True
+    # rail_evidence is now BLOCKED: rail is a wartime-charter assumption, so rail
+    # source decisions are NOT recorded (timetable/shortest-path/GTFS requests
+    # still blocked on DATA_GO_KR_KEY / reviewed GTFS). Honest non-acceptance.
+    assert gate_map["rail_evidence"]["ready"] is False
+    rail = gate_map["rail_evidence"]["details"]
+    assert rail["fetch_readiness_source_url_or_citation_present_count"] == 6
+    assert rail["fetch_readiness_required_external_input_present_count"] == 3
+    assert rail["fetch_readiness_required_external_input_specified_count"] == 6
+    assert rail["fetch_readiness_required_external_input_text_present_count"] == 6
+    assert rail["fetch_readiness_region_ids"] == ["songpa_public_demo"]
+    assert rail["rail_evidence_priority_artifacts_present"] is True
+    assert rail["rail_evidence_priority_row_count"] == 7
+    assert rail["rail_evidence_priority_blocking_priority_count"] == 3
+    assert rail["rail_evidence_priority_human_review_priority_count"] == 2
+    assert rail["rail_evidence_priority_timing_closure_candidate_count"] == 1
+    assert rail["rail_source_decision_artifacts_present"] is True
+    assert rail["rail_source_decision_row_count"] == 6
+    assert rail["rail_source_decision_blocking_decision_count"] == 3
+    assert rail["rail_source_decision_human_review_decision_count"] == 3
+    assert rail["rail_source_decision_timing_source_decision_count"] == 4
+    assert rail["rail_source_decision_region_ids"] == ["songpa_public_demo"]
+    assert rail["rail_source_decision_recorded"] is False
+    assert rail["rail_source_decision_ready"] is False
+    assert rail["fetch_readiness_remaining_blockers"] != []
     assert gate_map["validation_package"]["ready"] is True
-    assert gate_map["validation_package"]["details"]["review_packet_row_count"] == 7
-    assert (
-        gate_map["validation_package"]["details"][
-            "route_road_evidence_exposure_row_count"
-        ]
-        == 76
-    )
-    assert (
-        gate_map["validation_package"]["details"][
-            "review_packet_acceptance_gate_closure_candidate_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["validation_package"]["details"][
-            "review_packet_osrm_manifest_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["validation_package"]["details"][
-            "review_packet_osrm_unpinned_row_count"
-        ]
-        == 0
-    )
-    assert gate_map["validation_package"]["details"]["osrm_unpinned_row_count"] == 0
-    assert (
-        gate_map["validation_package"]["details"]["osrm_raw_response_file_count"]
-        == 3
-    )
+    vp = gate_map["validation_package"]["details"]
+    assert vp["review_packet_row_count"] == 7
+    assert vp["route_road_evidence_exposure_row_count"] == 76
+    assert vp["review_packet_acceptance_gate_closure_candidate_count"] == 0
+    assert vp["review_packet_osrm_manifest_present"] is True
+    assert vp["review_packet_osrm_unpinned_row_count"] == 0
+    assert vp["osrm_unpinned_row_count"] == 0
+    assert vp["osrm_raw_response_file_count"] == 3
     assert not any(
         "raw OSRM response payloads" in item
-        for item in gate_map["validation_package"]["details"][
-            "strategy_readiness_remaining_blockers"
-        ]
+        for item in vp["strategy_readiness_remaining_blockers"]
     )
     assert not any(
         "live/unpinned" in item
-        for item in gate_map["validation_package"]["details"][
-            "strategy_readiness_remaining_blockers"
-        ]
+        for item in vp["strategy_readiness_remaining_blockers"]
     )
     assert not any(
         "raw OSRM response payloads" in item
         for item in gate_map["validation_package"]["blockers"]
     )
-    assert (
-        gate_map["validation_package"]["details"][
-            "benchmark_decision_blocking_decision_count"
-        ]
-        > 0
-    )
-    assert (
-        gate_map["validation_package"]["details"][
-            "benchmark_decision_human_review_decision_count"
-        ]
-        > 0
-    )
+    assert vp["benchmark_decision_blocking_decision_count"] > 0
+    assert vp["benchmark_decision_human_review_decision_count"] > 0
     assert not any(
         "Validation Package: validation strategy readiness: retained raw OSRM response payloads"
         in item
         for item in summary["remaining_blockers"]
     )
     assert gate_map["sensitivity_analysis"]["ready"] is True
-    assert gate_map["full_experiment_output"]["ready"] is True
-    assert (
-        gate_map["full_experiment_output"]["details"][
-            "design_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["full_experiment_output"]["details"][
-            "design_decision_human_review_decision_count"
-        ]
-        == 0
-    )
-    assert gate_map["manuscript_report_alignment"]["ready"] is True
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "figure_table_review_blocking_review_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "figure_table_review_human_review_count"
-        ]
-        == 0
-    )
+    # full_experiment_output is now BLOCKED: re-run as engineering_only on the
+    # reduced corridor graph (12,420 rows, 18 scenarios), which diverges from the
+    # recorded 15,870-row acceptance. Honest non-acceptance scope.
+    assert gate_map["full_experiment_output"]["ready"] is False
+    fe = gate_map["full_experiment_output"]["details"]
+    assert fe["row_count"] == 12420
+    assert fe["summary_row_count"] == 414
+    assert fe["scope_blocked"] is True
+    assert fe["design_decision_blocking_decision_count"] == 3
+    assert fe["design_decision_human_review_decision_count"] == 5
+    # manuscript_report_alignment is now BLOCKED: figures/tables depend on the
+    # reduced analysis graph and unselected graph method; claim-alignment packet
+    # has overclaim candidates. Honest non-acceptance.
+    assert gate_map["manuscript_report_alignment"]["ready"] is False
+    mr = gate_map["manuscript_report_alignment"]["details"]
+    assert mr["figure_table_review_blocking_review_count"] == 2
+    assert mr["figure_table_review_human_review_count"] == 6
     claim_alignment_manifest = json.loads(
         (ROOT / "data" / "manifests" / "claim_alignment_review_manifest.json")
         .read_text(encoding="utf-8")
     )
     expected_overclaim_count = claim_alignment_manifest["overclaim_candidate_count"]
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "claim_alignment_overclaim_candidate_count"
-        ]
-        == expected_overclaim_count
-    )
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "manuscript_report_decision_row_count"
-        ]
-        == 7
-    )
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "manuscript_report_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["manuscript_report_alignment"]["details"][
-            "manuscript_report_decision_human_review_decision_count"
-        ]
-        == 0
-    )
+    assert mr["claim_alignment_overclaim_candidate_count"] == expected_overclaim_count
+    assert mr["manuscript_report_decision_row_count"] == 7
+    assert mr["manuscript_report_decision_blocking_decision_count"] == 3
+    assert mr["manuscript_report_decision_human_review_decision_count"] == 4
     reproducibility_decision_manifest = _read_json(
         ROOT / "data" / "validation" / "reproducibility_decision_manifest.json"
     )
-    assert (
-        gate_map["reproducibility"]["details"][
-            "reproducibility_decision_row_count"
-        ]
-        == reproducibility_decision_manifest["row_count"]
+    rd_gate = gate_map["reproducibility"]["details"]
+    assert rd_gate["reproducibility_decision_row_count"] == (
+        reproducibility_decision_manifest["row_count"]
     )
-    assert (
-        gate_map["reproducibility"]["details"][
-            "reproducibility_decision_blocking_decision_count"
-        ]
-        == reproducibility_decision_manifest["blocking_decision_count"]
+    assert rd_gate["reproducibility_decision_blocking_decision_count"] == (
+        reproducibility_decision_manifest["blocking_decision_count"]
     )
-    assert (
-        gate_map["reproducibility"]["details"][
-            "reproducibility_decision_human_review_decision_count"
-        ]
-        == reproducibility_decision_manifest["human_review_decision_count"]
+    assert rd_gate["reproducibility_decision_human_review_decision_count"] == (
+        reproducibility_decision_manifest["human_review_decision_count"]
     )
-    assert gate_map["final_audit"]["ready"] is True
-    assert (
-        gate_map["final_audit"]["details"][
-            "final_audit_decision_manifest_present"
-        ]
-        is True
-    )
-    assert (
-        gate_map["final_audit"]["details"]["final_audit_decision_row_count"] == 7
-    )
-    assert (
-        gate_map["final_audit"]["details"][
-            "final_audit_decision_blocking_decision_count"
-        ]
-        == 0
-    )
-    assert (
-        gate_map["final_audit"]["details"][
-            "final_audit_decision_human_review_decision_count"
-        ]
-        == 0
-    )
+    # final_audit is BLOCKED: it cannot close while pre-final gates are blocked.
+    assert gate_map["final_audit"]["ready"] is False
+    fa = gate_map["final_audit"]["details"]
+    assert fa["final_audit_decision_manifest_present"] is True
+    assert fa["final_audit_decision_row_count"] == 7
+    assert fa["final_audit_decision_blocking_decision_count"] == 1
+    assert fa["final_audit_decision_human_review_decision_count"] == 6
     assert summary["remaining_blockers"]
 
-    print("PASS: all 15 final-study gates are ready")
+    print("PASS: final-study readiness audit reports the honest blocked state")
 
 
 def test_audit_script_reports_final_blockers_without_default_failure() -> None:
@@ -639,7 +261,8 @@ def test_audit_script_reports_final_blockers_without_default_failure() -> None:
     module = _load_audit_script()
     summary = module.audit_final_study_readiness()
 
-    assert summary["final_study_ready"] is True
+    # Audit reports the honest BLOCKED state without defaulting to failure.
+    assert summary["final_study_ready"] is False
     assert "final-study gates" in summary["claim_boundary"]
 
     print("PASS: final-study readiness script reports ready state")

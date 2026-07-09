@@ -128,6 +128,7 @@ class EdgeDisruption:
 
     status: DisruptionStatus = "normal"
     capacity_factor: float = 1.0
+    travel_time_multiplier: float = 1.0
 
     def __post_init__(self) -> None:
         if self.status not in _DISRUPTION_STATUSES:
@@ -140,6 +141,16 @@ class EdgeDisruption:
         if capacity_factor > 1.0:
             raise ValueError("disruption capacity_factor must be at most 1")
         object.__setattr__(self, "capacity_factor", capacity_factor)
+
+        # Direct free-flow slowdown lever, orthogonal to capacity. Under the
+        # wartime V~0 frame the BPR volume-delay term is a near-no-op, so a
+        # capacity_reduction disruption barely slows a damaged road; this
+        # multiplier scales t0 directly (decoupled from BPR). 1.0 = unchanged.
+        travel_time_multiplier = require_positive(
+            self.travel_time_multiplier,
+            "disruption travel_time_multiplier",
+        )
+        object.__setattr__(self, "travel_time_multiplier", travel_time_multiplier)
 
     @property
     def is_blocked(self) -> bool:

@@ -182,6 +182,58 @@ def test_non_road_edges_use_t0_without_dynamic_bpr() -> None:
     print("PASS: non-road edges use free-flow t0")
 
 
+def test_travel_time_multiplier_scales_road_freeflow() -> None:
+    """A damaged road (travel_time_multiplier) slows traversal directly.
+
+    Wartime fix: under V~0 the BPR volume-delay term is a near-no-op, so a
+    capacity_reduction disruption barely slows a damaged road. The multiplier
+    scales free-flow t0 itself (decoupled from BPR). alpha=0 isolates it so
+    travel_time == t0 * multiplier exactly.
+    """
+    graph = make_graph()
+    normal = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+        disruptions={("A", "B"): EdgeDisruption(travel_time_multiplier=1.0)},
+    )
+    damaged = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+        disruptions={("A", "B"): EdgeDisruption(travel_time_multiplier=2.0)},
+    )
+
+    assert_close(normal.enter_edge(("A", "B"), 0.0).travel_time, 10.0)
+    assert_close(damaged.enter_edge(("A", "B"), 0.0).travel_time, 20.0)
+    print("PASS: travel_time_multiplier scales road free-flow directly")
+
+
+def test_travel_time_multiplier_ignored_for_rail_and_blocked() -> None:
+    """Multiplier must not affect rail (free-flow short-circuit) or blocked (inf) edges."""
+    graph = make_graph()
+    traffic = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+        disruptions={
+            ("C", "D"): EdgeDisruption(travel_time_multiplier=2.0),
+            ("A", "B"): EdgeDisruption(
+                status="blocked", capacity_factor=0.0, travel_time_multiplier=2.0
+            ),
+        },
+    )
+
+    rail = traffic.enter_edge(("C", "D"), 0.0)
+    assert_close(rail.travel_time, 30.0)
+    blocked = traffic.enter_edge(("A", "B"), 0.0)
+    assert math.isinf(blocked.travel_time)
+    print("PASS: travel_time_multiplier ignored for rail/blocked edges")
+
+
 def test_traffic_validation_rejects_invalid_times_and_routes() -> None:
     """Traffic helpers should reject non-finite times and malformed routes."""
     graph = make_graph()
@@ -217,6 +269,8 @@ TESTS = [
     test_congestion_scale_monotonically_increases_travel_time,
     test_blocked_disruption_stops_route_without_recording_entry,
     test_non_road_edges_use_t0_without_dynamic_bpr,
+    test_travel_time_multiplier_scales_road_freeflow,
+    test_travel_time_multiplier_ignored_for_rail_and_blocked,
     test_traffic_validation_rejects_invalid_times_and_routes,
 ]
 

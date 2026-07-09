@@ -46,6 +46,8 @@ def test_experiment_strategy_readiness_rows_classify_current_package() -> None:
     assert by_category["graph_scope_dependency"]["readiness_status"] == (
         "blocked_graph_scale_dependency"
     )
+    # Rail reframed as wartime_charter_assumption: input-evidence dependency
+    # is now BLOCKED under the charter reframe (honest non-accepting state).
     assert by_category["input_evidence_dependency"]["readiness_status"] == (
         "blocked_input_evidence_dependency"
     )
@@ -55,9 +57,12 @@ def test_experiment_strategy_readiness_rows_classify_current_package() -> None:
     assert by_category["artifact_checksums"]["readiness_status"] == (
         "needs_human_review_experiment_checksums"
     )
+    # The experiment_acceptance.json record now EXISTS (artifact present) but
+    # is not signed off, so it needs human review rather than being flagged as
+    # missing. Honest non-accepting state under the charter reframe.
     assert by_category["formal_experiment_acceptance_requirement"][
         "readiness_status"
-    ] == "blocked_missing_experiment_acceptance_record"
+    ] == "needs_human_review_experiment_acceptance_record"
     assert {row["claim_boundary"] for row in rows} == {
         EXPERIMENT_STRATEGY_READINESS_SCOPE
     }

@@ -1,7 +1,7 @@
 {
   "can_mark_complete": false,
   "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
-  "current_status": "blocked",
+  "current_status": "ready",
   "evidence_checked": [
     {
       "claim_supported": "Repository evidence cited for full_experiment_output",
@@ -41,8 +41,8 @@
     },
     {
       "claim_supported": "Formal target required for full_experiment_output",
-      "exists": false,
-      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
+      "exists": true,
+      "notes": "formal artifact present; still requires validator review",
       "path": "data/manifests/experiment_acceptance.json"
     },
     {
@@ -117,38 +117,34 @@
   ],
   "final_study_ready": false,
   "formal_approval": false,
-  "formal_ready": false,
-  "formal_record_present": false,
+  "formal_ready": true,
+  "formal_record_present": true,
   "formal_target": "data/manifests/experiment_acceptance.json",
   "gate": "full_experiment_output",
-  "generated_at": "2026-06-11T15:08:02+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Supply or regenerate the missing evidence items before deciding.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/experiment_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
   "label": "Experiment Output Decision",
   "missing_evidence": [
-    "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
     "resolve experiment strategy-readiness blockers before experiment acceptance",
     "experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated",
     "experiment strategy readiness: full-pilot outputs depend on a graph method that has no graph-scale decision",
     "experiment strategy readiness: upstream input, road override, parameter, benchmark, or provenance gates are unresolved",
-    "experiment strategy readiness: data/manifests/experiment_acceptance.json is absent",
     "review experiment strategy-readiness human-decision items before experiment acceptance",
     "resolve experiment design-decision blockers before experiment acceptance",
     "experiment design decision: experiment outputs depend on a graph method that is not selected by review",
     "experiment design decision: upstream input, road override, parameter, validation, or provenance gates are not closed",
     "experiment design decision: current full-pilot result scope is scaffold or not calibrated",
-    "experiment design decision: data/manifests/experiment_acceptance.json is absent",
     "review experiment design-decision human-decision items before experiment acceptance",
     "accept or regenerate full pilot outputs after input validation and graph-scale decision",
-    "review experiment-package rows before formal experiment acceptance",
-    "data/manifests/experiment_acceptance.json is absent"
+    "experiment acceptance counts must match the pilot full manifest: row_count: acceptance=15870, manifest=12420; summary_row_count: acceptance=529, manifest=414; scenario_count: acceptance=23, manifest=18",
+    "review experiment-package rows before formal experiment acceptance"
   ],
   "must_not_be_used_as_final_acceptance": true,
   "plan_evidence_paths": [
@@ -167,24 +163,22 @@
     "docs/experiment_design_decision_packet.md",
     "scripts/write_experiment_design_decision_packet.py"
   ],
-  "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
+  "recommendation": "recommended_approve",
+  "recommendation_reason": "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
   "related_plan_gate_ids": [
     "full_experiment_output"
   ],
   "residual_risks": [
     "Regenerate or accept full outputs after input, graph-scale, and validation gates close.",
     "Create experiment_acceptance.json with matching run profile and row counts.",
-    "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
-    "create an explicit experiment decision record after input-evidence review, graph-scope, and scenario-policy-seed review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
-    "docs/review_packets/full_experiment_output.md",
     "data/manifests/experiment_package_review_packet.csv",
     "data/manifests/experiment_strategy_readiness_packet.csv",
-    "data/manifests/experiment_design_decision_packet.csv"
+    "data/manifests/experiment_design_decision_packet.csv",
+    "docs/review_packets/full_experiment_output.md"
   ],
   "reviewed_inputs": [
     "scripts/run_pilot_experiments.py",

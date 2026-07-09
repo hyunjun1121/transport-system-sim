@@ -304,6 +304,7 @@ def _service_value_rows(
     derived_ready = service_summary["derived_field_ready"]
     assert isinstance(derived_ready, Mapping)
     source_artifact_status = _service_source_artifact_status(service_summary)
+    charter_assumed = bool(service_summary.get("charter_assumption_documented"))
     return [
         _row(
             review_item_id="rail_headway",
@@ -313,7 +314,9 @@ def _service_value_rows(
             current_value=_number_text(service_record.headway_min),
             unit="min",
             evidence_status=(
-                "cached_timing_derived"
+                "wartime_charter_assumption"
+                if charter_assumed
+                else "cached_timing_derived"
                 if bool(derived_ready.get("headway"))
                 else "missing_cached_timing_evidence"
             ),
@@ -332,10 +335,23 @@ def _service_value_rows(
                 "docs/schemas/rail_timetable_cache_schema.md; docs/schemas/rail_gtfs_cache_schema.md"
             ),
             recommended_upgrade=(
-                "Derive headway from a reviewed timetable or static GTFS cache and record artifact SHA256."
+                "Headway is a wartime chartered dispatch-interval planning assumption; "
+                "under the charter model public-timetable derivation does not apply. "
+                "Retain the 'not calibrated' claim boundary."
+                if charter_assumed
+                else "Derive headway from a reviewed timetable or static GTFS cache and record artifact SHA256."
             ),
-            publication_use_status="blocked_until_cached_timing_derivation",
-            notes="Current fixed headway is a scenario proxy.",
+            publication_use_status=(
+                "wartime_charter_assumption_not_cached_derivation"
+                if charter_assumed
+                else "blocked_until_cached_timing_derivation"
+            ),
+            notes=(
+                "Wartime chartered non-stop rail: headway is a charter dispatch "
+                "interval planning assumption, not a public-schedule median."
+                if charter_assumed
+                else "Current fixed headway is a scenario proxy."
+            ),
         ),
         _row(
             review_item_id="rail_travel_time",
@@ -345,7 +361,9 @@ def _service_value_rows(
             current_value=_number_text(service_record.travel_time_min),
             unit="min",
             evidence_status=(
-                "cached_timing_derived"
+                "wartime_charter_assumption"
+                if charter_assumed
+                else "cached_timing_derived"
                 if bool(derived_ready.get("travel_time"))
                 else "missing_cached_timing_evidence"
             ),
@@ -369,10 +387,22 @@ def _service_value_rows(
                 "docs/schemas/rail_timetable_cache_schema.md; docs/schemas/rail_gtfs_cache_schema.md"
             ),
             recommended_upgrade=(
-                "Derive travel time from reviewed shortest-path, timetable, or GTFS cache and record artifact SHA256."
+                "Travel time is the chartered KTX-Eum running time; a non-stop run is "
+                "<= the scheduled-with-stops time. Retain the 'not calibrated' boundary."
+                if charter_assumed
+                else "Derive travel time from reviewed shortest-path, timetable, or GTFS cache and record artifact SHA256."
             ),
-            publication_use_status="blocked_until_cached_timing_derivation",
-            notes="Current travel time is an abstract station-area service-leg proxy.",
+            publication_use_status=(
+                "wartime_charter_assumption_not_cached_derivation"
+                if charter_assumed
+                else "blocked_until_cached_timing_derivation"
+            ),
+            notes=(
+                "Wartime chartered non-stop rail: travel time is the KTX-Eum "
+                "Cheongnyangni-Gangneung running time under a chartered non-stop run."
+                if charter_assumed
+                else "Current travel time is an abstract station-area service-leg proxy."
+            ),
         ),
         _row(
             review_item_id="rail_capacity",
@@ -405,12 +435,18 @@ def _service_value_rows(
             ),
             candidate_artifacts=RAIL_CAPACITY_REVIEW_ARTIFACTS,
             recommended_upgrade=(
-                "Review the cached Metro9 capacity context, keep capacity explicitly "
+                "Capacity is the chartered KTX-Eum train-set planning proxy; retain it "
+                "as sensitivity-only with the 'not calibrated' claim boundary."
+                if charter_assumed
+                else "Review the cached Metro9 capacity context, keep capacity explicitly "
                 "sensitivity-only, or replace it with source-backed route-leg capacity evidence."
             ),
             publication_use_status="usable_as_sensitivity_only_not_point_calibration",
             notes=(
-                "Cached Metro9 capacity context is review input only; capacity "
+                "Wartime chartered non-stop rail: capacity is the chartered KTX-Eum "
+                "train-set planning proxy; review input only, retained as sensitivity-only."
+                if charter_assumed
+                else "Cached Metro9 capacity context is review input only; capacity "
                 "treatment does not solve missing rail timing evidence."
             ),
         ),

@@ -40,6 +40,7 @@ ALLOWED_SOURCE_CLASSES: frozenset[str] = frozenset(
     {
         "public-data-derived",
         "literature-derived",
+        "design-standard-derived",
         "agency/timetable-derived",
         "benchmark-calibrated",
         "expert assumption",

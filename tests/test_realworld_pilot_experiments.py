@@ -114,6 +114,52 @@ def test_disruption_case_preserves_scenario_p_fail_scale() -> None:
     print("PASS: scenario p_fail_scale survives disruption-case conversion")
 
 
+def test_road_travel_time_multiplier_threads_to_case_and_failure_config() -> None:
+    """road_travel_time_multiplier: scenario -> PilotDisruptionCase -> failure config.
+
+    This is the actual pilot-run path: _config_with_case_failure sets
+    failure.road_travel_time_multiplier so _sample_disruptions threads it to the
+    per-edge direct-slowdown lever. Default (None) resolves to 1.0 in config.
+    """
+    from src.realworld.pilot_experiments import _config_with_case_failure
+
+    _assert_cached_inputs_exist()
+    inputs = load_pilot_inputs()
+    scenario = DisruptionScenario(
+        scenario_id="damage_thread_test",
+        region_id=inputs.region_id,
+        family="access_road",
+        label="Damaged access road scenario",
+        selection_method="shortest_path",
+        target_segment="A->S",
+        disruption_mode="capacity_reduction",
+        capacity_factor=1.0,
+        p_fail_scale=0.25,
+        road_travel_time_multiplier=2.0,
+        max_edges=1,
+        evidence_class="scenario_based",
+        observed_disaster_data=False,
+    )
+
+    case = select_disruption_cases(
+        inputs.graph,
+        (scenario,),
+        scenario_ids=("damage_thread_test",),
+    )[0]
+    assert case.road_travel_time_multiplier == 2.0
+
+    base_config = apply_pilot_demand_fleet_profiles(
+        make_pilot_base_config(inputs.region)
+    )[0]
+    run_config = _config_with_case_failure(base_config, case)
+    assert run_config["failure"]["road_travel_time_multiplier"] == 2.0
+    # mode/capacity unchanged by the multiplier
+    assert run_config["failure"]["mode"] == "capacity_reduction"
+    assert run_config["failure"]["capacity_reduction_factor"] == 1.0
+
+    print("PASS: road_travel_time_multiplier threads to case + failure config")
+
+
 def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
     """The sample runner should write separated conservative pilot outputs."""
 
@@ -159,7 +205,10 @@ def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
         assert manifest["formal_acceptance_evidence"] is False
         assert manifest["design_status_is_approval"] is False
         assert manifest["phase8_preflight"]["status"] == "sample_skipped"
-        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is False
+        # Rail is now reframed as a wartime_charter_assumption (charter dispatch
+        # interval, not a public-schedule median), so source decisions remain
+        # genuinely pending even for the sample scaffold run.
+        assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
         assert manifest["outputs"]["results"].endswith("pilot_sample_results.csv")
         assert manifest["region_id"] == "songpa_public_demo"
         disruption_path = manifest["inputs"]["disruption_scenarios_path"].replace(
@@ -382,7 +431,11 @@ def test_engineering_only_bypass_labels_rows_and_manifest() -> None:
         assert manifest["engineering_only"] is True
         assert manifest["phase8_preflight"]["status"] == "engineering_only_bypass"
         assert manifest["phase8_preflight"]["rail_source_decisions_pending"] is True
-        assert manifest["phase8_preflight"]["artifact_invalidation_blocks_phase9"] is False
+        # The Phase-1 input retune (road/rail) invalidated downstream artifacts,
+        # so the shipped artifact-invalidation matrix reports Phase 9 blockers.
+        # Engineering-only bypass runs despite this, but the honest blocker flag
+        # is True (Phase 9 promotion is blocked until the matrix is closed).
+        assert manifest["phase8_preflight"]["artifact_invalidation_blocks_phase9"] is True
         assert manifest["publication_ready"] is False
         assert manifest["final_study_ready"] is False
         assert manifest["operational_use_allowed"] is False
@@ -1083,6 +1136,7 @@ def _file_sha256(path: Path) -> str:
 if __name__ == "__main__":
     test_forced_disruption_probabilities_are_deterministic_and_non_mutating()
     test_disruption_case_preserves_scenario_p_fail_scale()
+    test_road_travel_time_multiplier_threads_to_case_and_failure_config()
     test_sample_pilot_experiment_writes_csvs_and_manifest()
     test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims()
     test_pending_rail_source_decisions_block_non_sample_profiles()

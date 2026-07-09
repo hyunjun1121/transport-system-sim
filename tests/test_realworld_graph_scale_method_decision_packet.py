@@ -120,8 +120,11 @@ def test_shipped_graph_scale_method_decision_packet_matches_current_outputs() ->
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 7
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    # Honest current state: full-graph full-profile outputs and downstream
+    # regeneration are still missing (2 blockers); 5 rows need human review.
+    # Non-acceptance classification — graph-scale gate stays blocked.
+    assert manifest["blocking_decision_count"] == 2
+    assert manifest["human_review_decision_count"] == 5
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

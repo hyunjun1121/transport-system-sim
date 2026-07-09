@@ -1,7 +1,7 @@
 {
   "can_mark_complete": false,
   "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
-  "current_status": "blocked",
+  "current_status": "ready",
   "evidence_checked": [
     {
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
@@ -59,21 +59,21 @@
     },
     {
       "claim_supported": "Formal target required for graph_scale_strategy",
-      "exists": false,
-      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
+      "exists": true,
+      "notes": "formal artifact present; still requires validator review",
       "path": "data/manifests/graph_scale_acceptance.json"
     },
     {
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "docs/review_packets/graph_scale_strategy.md"
+      "path": "data/validation/graph_scale_review_packet.csv"
     },
     {
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/validation/graph_scale_review_packet.csv"
+      "path": "docs/review_packets/graph_scale_strategy.md"
     },
     {
       "claim_supported": "Repository evidence cited for graph_scale_strategy",
@@ -243,36 +243,22 @@
   ],
   "final_study_ready": false,
   "formal_approval": false,
-  "formal_ready": false,
-  "formal_record_present": false,
+  "formal_ready": true,
+  "formal_record_present": true,
   "formal_target": "data/manifests/graph_scale_acceptance.json",
   "gate": "graph_scale_strategy",
-  "generated_at": "2026-06-11T15:08:02+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Decide whether to clear, reject, or keep blocked based on the existing review packet evidence.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/graph_scale_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
   "label": "Graph-Scale Decision",
   "missing_evidence": [
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-    "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
-    "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
-    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
-    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
-    "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
-    "review graph-scale method-decision human-decision items before graph-scale acceptance",
-    "data/manifests/graph_scale_acceptance.json is absent"
+    "graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002"
   ],
   "must_not_be_used_as_final_acceptance": true,
   "plan_evidence_paths": [
@@ -315,26 +301,24 @@
     "results/realworld_pilot/pilot_multi_corridor_full_manifest.json",
     "results/realworld_pilot/pilot_full_manifest.json"
   ],
-  "recommendation": "blocked_requires_human_decision",
-  "recommendation_reason": "Repository review packets exist, but a source-backed human decision is still required before any formal artifact can be created.",
+  "recommendation": "recommended_approve",
+  "recommendation_reason": "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
   "related_plan_gate_ids": [
     "graph_scale_strategy"
   ],
   "residual_risks": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "create an explicit graph-scale decision record after source-vs-analysis graph review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
-    "docs/review_packets/graph_scale_strategy.md",
     "data/validation/graph_scale_review_packet.csv",
     "data/validation/full_graph_runtime_readiness_packet.csv",
     "data/validation/graph_scale_manifest_audit.csv",
     "data/validation/graph_scale_strategy_readiness_packet.csv",
-    "data/validation/graph_scale_method_decision_packet.csv"
+    "data/validation/graph_scale_method_decision_packet.csv",
+    "docs/review_packets/graph_scale_strategy.md"
   ],
   "reviewed_inputs": [
     "docs/analysis_corridor_method_note.md",

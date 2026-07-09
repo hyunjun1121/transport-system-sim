@@ -1,13 +1,19 @@
 {
-  "can_mark_complete": false,
+  "schema_version": 1,
   "claim_boundary": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval. A reviewer must still create data/manifests/manuscript_acceptance.json after evidence gates and result claims are reviewed.",
+  "result_scope": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval.",
+  "row_count": 89,
+  "source_counts": {
+    "paper/paper_draft.md": 81,
+    "results/realworld_pilot/tables/figure_table_manifest.json": 8
+  },
   "claim_category_counts": {
     "acceptance_claim": 7,
     "calibration_claim": 23,
     "causal_or_superiority_claim": 5,
     "figure_caption_boundary": 6,
     "figure_table_boundary": 2,
-    "operational_claim": 19,
+    "operational_claim": 18,
     "publication_claim": 5,
     "readiness_claim": 9,
     "real_world_claim": 10,
@@ -15,40 +21,37 @@
   },
   "gate_dependency_counts": {
     "final_audit": 7,
-    "manuscript_report_alignment": 56,
+    "manuscript_report_alignment": 55,
     "parameter_evidence": 23,
     "validation_package": 4
   },
-  "guardrail_language_count": 35,
+  "review_status_counts": {
+    "guardrail_language": 34,
+    "requires_revision_or_review": 55
+  },
+  "overclaim_candidate_count": 55,
+  "guardrail_language_count": 34,
+  "publication_ready": false,
+  "can_mark_complete": false,
   "inputs": {
-    "figure_table_manifest": "results/realworld_pilot/tables/figure_table_manifest.json",
     "paper_draft": "paper/paper_draft.md",
-    "report_draft": "report_draft.md"
+    "report_draft": "report_draft.md",
+    "figure_table_manifest": "results/realworld_pilot/tables/figure_table_manifest.json"
   },
   "outputs": {
     "csv": "data/manifests/claim_alignment_review_packet.csv",
-    "doc": "docs/claim_alignment_review_packet.md",
-    "manifest": "data/manifests/claim_alignment_review_manifest.json"
+    "manifest": "data/manifests/claim_alignment_review_manifest.json",
+    "doc": "docs/claim_alignment_review_packet.md"
   },
-  "overclaim_candidate_count": 0,
-  "publication_ready": false,
-  "remaining_blockers": [],
-  "result_scope": "Claim-alignment review packet only; not manuscript acceptance, not calibrated real-world validation, and not operational routing approval.",
   "review_items": [
     "review all non-guardrail real-world, calibration, benchmark, gate-closure, deployment, and superiority language",
     "keep figure/table captions within scaffold-only claim boundaries until reviewer gates close",
     "revise Korean report text after fixing encoding/readability issues before formal manuscript review",
     "create data/manifests/manuscript_acceptance.json only after claim-by-claim review"
   ],
-  "review_status_counts": {
-    "guardrail_language": 35,
-    "requires_revision_or_review": 55
-  },
-  "row_count": 90,
-  "schema_version": 1,
-  "source_counts": {
-    "paper/paper_draft.md": 81,
-    "report_draft.md": 1,
-    "results/realworld_pilot/tables/figure_table_manifest.json": 8
-  }
+  "remaining_blockers": [
+    "formal manuscript/report review record is absent",
+    "claim-alignment rows are review aids and do not approve manuscript claims",
+    "evidence gates remain blocked, so result claims cannot be treated as target-study claims"
+  ]
 }

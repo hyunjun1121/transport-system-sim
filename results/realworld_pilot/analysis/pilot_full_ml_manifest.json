@@ -1,0 +1,70 @@
+{
+  "class_labels": [
+    "failure",
+    "normal",
+    "risk",
+    "watch"
+  ],
+  "command": [
+    "scripts\\run_ml_analysis.py",
+    "--input",
+    "results/realworld_pilot/pilot_full_results.csv",
+    "--source-manifest",
+    "results/realworld_pilot/pilot_full_manifest.json",
+    "--output-dir",
+    "results/realworld_pilot/analysis",
+    "--output-prefix",
+    "pilot_full"
+  ],
+  "feature_importance_row_count": 40,
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "generated_at": "2026-07-05T07:28:47+00:00",
+  "kmeans_cluster_count": 4,
+  "kmeans_status": "kmeans_fit",
+  "label_counts": {
+    "failure": 2802,
+    "normal": 7819,
+    "risk": 823,
+    "watch": 976
+  },
+  "label_row_count": 12420,
+  "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
+  "model_device": "cpu",
+  "model_package": "xgboost",
+  "model_status": "xgboost_trained",
+  "nl_summary": "[준실험 의사결정지원 요약] test macro-F1=0.685 (XGBoost 4급, gain feature_importance 기준). 상위 gain 특성: scenario_type=blocked, policy_id=heavy_congestion_bus, policy_id=severe_congestion_bus. 상위 SHAP 특성: scenario_type=blocked, policy_id=fleet_shortage_severe, selected_edge_count. KMeans 상황군집 4종. 본 요약은 시뮬레이션 출력 기반 민감도 해석이며, 운용계획·예측·검증·최적경로가 아님. final_study_ready=false.",
+  "output_prefix": "pilot_full",
+  "outputs": {
+    "clusters": "results/realworld_pilot/analysis/pilot_full_ml_clusters.csv",
+    "doc": "results/realworld_pilot/analysis/pilot_full_ml_analysis.md",
+    "feature_importance": "results/realworld_pilot/analysis/pilot_full_ml_feature_importance.csv",
+    "labels": "results/realworld_pilot/analysis/pilot_full_ml_labels.csv",
+    "manifest": "results/realworld_pilot/analysis/pilot_full_ml_manifest.json",
+    "metrics": "results/realworld_pilot/analysis/pilot_full_ml_metrics.json",
+    "predictions": "results/realworld_pilot/analysis/pilot_full_ml_predictions.csv",
+    "shap_importance": "results/realworld_pilot/analysis/pilot_full_ml_shap_importance.csv"
+  },
+  "prediction_row_count": 12420,
+  "publication_ready": false,
+  "result_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
+  "row_count": 12420,
+  "schema_version": 1,
+  "shap_status": "shap_computed",
+  "source_manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
+  "source_manifest_sha256": "20963cc620079530b68abfeb8b725fabb9a99a7d148141e841effeae370df396",
+  "source_results_path": "results/realworld_pilot/pilot_full_results.csv",
+  "source_results_sha256": "01e67cdd5fd46ef46a538abafb5fc117067cf66114fd91d629f3d9eedf579263",
+  "test_metrics": {
+    "accuracy": 0.8188405797101449,
+    "macro_f1": 0.6853212863471315,
+    "row_count": 2484
+  },
+  "test_row_count": 2484,
+  "train_metrics": {
+    "accuracy": 0.8603059581320451,
+    "macro_f1": 0.7518737098530042,
+    "row_count": 9936
+  },
+  "train_row_count": 9936
+}

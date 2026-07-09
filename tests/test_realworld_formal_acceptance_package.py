@@ -24,7 +24,8 @@ def test_formal_acceptance_package_blocks_current_scaffold() -> None:
     assert summary["ready_gate_count"] == 11
     assert summary["blocked_gate_count"] == 1
     assert summary["formal_acceptance_ready"] is False
-    assert summary["final_study_ready"] is True
+    # The formal package blocks; the study is NOT final-ready (project invariant).
+    assert summary["final_study_ready"] is False
     assert summary["can_mark_complete"] is False
     assert summary["formal_acceptance_guard"]["missing_count"] == 12 - summary["formal_acceptance_guard"]["present_count"]
     assert summary["formal_evidence_path_audit"]["present_artifact_count"] >= 0

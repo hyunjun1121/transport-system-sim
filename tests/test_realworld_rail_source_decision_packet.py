@@ -600,19 +600,22 @@ def test_shipped_rail_source_decision_packet_matches_current_outputs() -> None:
     for shipped_row in written_rows:
         assert shipped_row["request_id"] in {r["request_id"] for r in rows}
     assert manifest["row_count"] == len(written_rows)
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
-    assert manifest["rail_source_decision_recorded"] is True
-    assert manifest["completed_source_decision_count"] == 6
-    assert manifest["publication_ready"] is True
+    # Rail is reframed as a wartime_charter_assumption proxy; the source-decision
+    # ledger ships in the honest non-accepting state (rail gates blocked under
+    # charter, final_study_ready=False project invariant). Asserting False here.
+    assert manifest["blocking_decision_count"] == 3
+    assert manifest["human_review_decision_count"] == 3
+    assert manifest["rail_source_decision_recorded"] is False
+    assert manifest["completed_source_decision_count"] == 0
+    assert manifest["publication_ready"] is False
     assert manifest["final_study_ready"] is False
-    assert manifest["can_mark_complete"] is True
-    assert manifest["can_support_publication_gate"] is True
+    assert manifest["can_mark_complete"] is False
+    assert manifest["can_support_publication_gate"] is False
     assert manifest["can_support_final_study_gate"] is False
-    assert manifest["can_support_rail_evidence_gate"] is True
-    assert manifest["can_support_acceptance_gate"] is True
-    assert manifest["formal_acceptance_evidence"] is True
-    assert manifest["completed_action_ledger_is_acceptance"] is True
+    assert manifest["can_support_rail_evidence_gate"] is False
+    assert manifest["can_support_acceptance_gate"] is False
+    assert manifest["formal_acceptance_evidence"] is False
+    assert manifest["completed_action_ledger_is_acceptance"] is False
 
     print("PASS: shipped rail source-decision packet matches outputs")
 

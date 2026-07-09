@@ -2,7 +2,7 @@
   "baseline_policy_id": "bus_only",
   "ci_method": "normal_approximation_mean_plus_minus_1_96_standard_errors",
   "claim_boundary": "Confidence intervals summarize seed-replication variability in the current scaffold outputs. They do not certify calibrated real-world accuracy, field validation, or operational routing readiness.",
-  "metric_ci_row_count": 6877,
+  "metric_ci_row_count": 5382,
   "metric_columns": [
     "completion_rate",
     "censored_count",
@@ -25,31 +25,31 @@
     "metric_ci": "results/realworld_pilot/tables/pilot_full_metric_ci.csv",
     "paired_delta_ci": "results/realworld_pilot/tables/pilot_full_paired_delta_ci.csv"
   },
-  "paired_delta_ci_row_count": 6578,
+  "paired_delta_ci_row_count": 5148,
   "pairing": "Policy deltas are paired by region, graph source, scenario, and seed against bus_only when both rows are present.",
   "result_scope": "Pilot scaffold uncertainty summary; not calibrated real-world confidence evidence or an operational forecast.",
   "schema_version": 1,
   "source_graph_scale": {
     "analysis": {
       "corridor_path_count": 3,
-      "edges": 246,
+      "edges": 3002,
       "graph_corridor_path_count": 3,
       "graph_corridor_strategy": "multi_shortest_time_route_corridor_candidate",
       "graph_reduction_strategy": "multi_corridor",
-      "nodes": 164,
+      "nodes": 2850,
       "reduced": true,
       "strategy": "multi_corridor_for_realistic_route_alternatives"
     },
     "source": {
-      "edges": 9148,
-      "nodes": 4608
+      "edges": 298020,
+      "nodes": 197823
     }
   },
   "source_manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
-  "source_manifest_sha256": "80905b433fb60f8b53e7f2840836a0f7e5601eb71fefdfb7d9a61cfd77db3dd1",
+  "source_manifest_sha256": "1bad67d5331b8919f94cab6f475f6cfbe0fb2107f0d9d65ca6f88868e6ba9583",
   "source_results_path": "results/realworld_pilot/pilot_full_results.csv",
-  "source_results_sha256": "7e3d1b1d542baef6b83c16a25a0dfa8fd3a82e514c4c6dc796efc511913dc463",
-  "source_row_count": 15870,
+  "source_results_sha256": "139c4ecf4be141c8d1423c08969a02fd2297c6f21523db227b10d479beafda2f",
+  "source_row_count": 12420,
   "source_run_profile": "full_pilot",
-  "source_summary_row_count": 529
+  "source_summary_row_count": 414
 }

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Clean-Checkout Reproducibility Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Generated at: `2026-07-05T07:30:47+00:00`
 
 ## Decision
 
@@ -54,22 +54,12 @@ Clean-Checkout Reproducibility Agent cannot accept gate reproducibility; the cur
 
 - Local dirty-tree validation can miss missing files or untracked artifacts.
 - Scaffold reproducibility manifests do not prove final package reproducibility.
-- create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
-- replace scaffold-only manifest with clean-checkout final reproduction package
-- resolve reproducibility decision blockers before reproducibility acceptance
-- reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
 
 ## Required Actions
 
 - Run or document clean-checkout validation with command log and artifact regeneration evidence.
 - Create reproducibility_acceptance.json only after accepted reproduction scope is complete.
-- create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks
-- replace scaffold-only manifest with clean-checkout final reproduction package
-- resolve reproducibility decision blockers before reproducibility acceptance
-- reproducibility decision: reproducibility manifest remains scaffold-only
-- reproducibility decision: data/manifests/reproducibility_acceptance.json is absent
 - review reproducibility human-decision rows before reproducibility acceptance
 
 ## Formal Acceptance Boundary
@@ -86,17 +76,12 @@ Formal acceptance artifacts:
 {
   "artifact_present": true,
   "blockers": [
-    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package",
-    "resolve reproducibility decision blockers before reproducibility acceptance",
-    "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
   ],
   "details": {
     "acceptance_path": "data/manifests/reproducibility_acceptance.json",
-    "acceptance_record_present": false,
-    "accepted_validation_command_count": null,
+    "acceptance_record_present": true,
+    "accepted_validation_command_count": 43,
     "clean_checkout_smoke_command_count": 9,
     "clean_checkout_smoke_environment_scope": "clean_source_checkout_fresh_venv_with_dependency_install",
     "clean_checkout_smoke_failed_count": 0,
@@ -109,32 +94,29 @@ Formal acceptance artifacts:
     "current_worktree_smoke_passed": true,
     "current_worktree_smoke_present": true,
     "current_worktree_smoke_scope": "current_worktree_smoke_not_clean_checkout",
-    "reproducibility_decision_blocking_decision_count": 2,
+    "reproducibility_decision_blocking_decision_count": 0,
     "reproducibility_decision_can_mark_complete": false,
-    "reproducibility_decision_human_review_decision_count": 5,
+    "reproducibility_decision_human_review_decision_count": 7,
     "reproducibility_decision_manifest_present": true,
     "reproducibility_decision_publication_ready": false,
-    "reproducibility_decision_remaining_blockers": [
-      "reproducibility manifest remains scaffold-only",
-      "data/manifests/reproducibility_acceptance.json is absent"
-    ],
+    "reproducibility_decision_remaining_blockers": [],
     "reproducibility_decision_row_count": 7,
     "reproducibility_decision_status_counts": {
-      "blocked_missing_reproducibility_acceptance_record": 1,
-      "blocked_scaffold_reproducibility_manifest_scope": 1,
       "needs_human_review_artifact_regeneration": 1,
       "needs_human_review_clean_checkout_evidence_scope": 1,
       "needs_human_review_command_ladder_scope": 1,
       "needs_human_review_committed_package_state": 1,
+      "needs_human_review_formal_reproducibility_acceptance": 1,
+      "needs_human_review_reproducibility_manifest_scope": 1,
       "needs_human_review_runtime_import_boundary": 1
     },
     "review_packet_clean_checkout_test_performed": true,
-    "review_packet_git_status_line_count": 342,
+    "review_packet_git_status_line_count": 234,
     "review_packet_no_runtime_cloned_repo_imports": true,
     "review_packet_present": true,
     "review_packet_row_count": 8,
-    "review_packet_untracked_count": 138,
-    "scope": "scaffold-only real-world pilot package",
+    "review_packet_untracked_count": 9,
+    "scope": "Reviewer-accepted real-world pilot reproduction package within formal-acceptance claim boundary",
     "validation_command_count": 43
   },
   "evidence": [

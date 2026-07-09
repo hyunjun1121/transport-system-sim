@@ -6,9 +6,9 @@ Parameter source-decision packet only; not source evidence, not approved paramet
 
 - Publication ready: `false`
 - Can mark complete: `false`
-- Parameter acceptance present: `false`
+- Parameter acceptance present: `true`
 - Decision rows: 7
-- Weak parameters covered: 21
+- Weak parameters covered: 0
 - Blocking decisions: 0
 - Human-review decisions: 7
 

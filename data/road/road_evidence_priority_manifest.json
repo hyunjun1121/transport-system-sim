@@ -1,5 +1,5 @@
 {
-  "blocking_priority_count": 5,
+  "blocking_priority_count": 1,
   "can_mark_complete": false,
   "claim_boundary": "This packet prioritizes existing road evidence gaps by canonical route exposure. It does not create road_class_overrides.csv, does not certify source sufficiency, and does not close road, validation, graph-scale, or final-study gates.",
   "exposed_highway_count": 7,
@@ -13,8 +13,6 @@
     "reviewed_road_class_override_application_request",
     "road_background_traffic_benchmark_request",
     "road_capacity_lane_count_source_request",
-    "road_disruption_probability_source_request",
-    "road_speed_limit_source_request",
     "route_plausibility_connector_review"
   ],
   "outputs": {
@@ -24,8 +22,7 @@
   },
   "priority_status_counts": {
     "blocked_exposed_connector_assumption": 1,
-    "blocked_exposed_high_priority_road_evidence_gap": 4,
-    "needs_review_exposed_medium_priority_road_evidence_gap": 2,
+    "needs_review_exposed_medium_priority_road_evidence_gap": 6,
     "queued_no_current_canonical_route_exposure": 4
   },
   "publication_ready": false,

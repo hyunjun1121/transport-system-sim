@@ -50,13 +50,19 @@ def test_shipped_rail_service_evidence_validates_with_mixed_evidence() -> None:
     ]
     assert len(assumption_rows) >= 1
     assert "not calibrated" in assumption_rows[0].claim_scope
-    assert summary["publication_ready"] is False
-    assert summary["remaining_blockers"]
-    assert summary["derived_record_count"] >= 1
-    assert summary["derived_field_ready"]["headway"] is True
+    # Wartime chartered non-stop assumption: rail evidence review is unblocked
+    # at the assumption level (the charter model makes public-timetable
+    # derivation inapplicable). This is NOT cached-derived calibration and NOT
+    # formal acceptance.
+    assert summary["charter_assumption_documented"] is True
+    assert summary["publication_ready"] is True
+    # The wrong-service songpa_public_demo derivation (Seoul Metro Line 9 at
+    # Olympic Park / Metro9) was discarded; no cached-derived rows remain.
+    assert summary["derived_record_count"] == 0
+    assert summary["derived_field_ready"]["headway"] is False
     assert summary["derived_field_ready"]["travel_time"] is False
 
-    print("PASS: shipped rail evidence validates with mixed derived + assumption rows")
+    print("PASS: shipped rail evidence validates as a wartime charter assumption")
 
 
 def test_derived_fixture_can_be_publication_ready() -> None:
@@ -195,7 +201,7 @@ def test_audit_script_reports_cached_derivation_path() -> None:
         and (ROOT / "docs" / "schemas" / "rail_gtfs_cache_schema.md").exists()
     )
 
-    assert summary["publication_ready"] is False
+    assert summary["publication_ready"] is True
     assert summary["cached_timetable_derivation_path_available"] is True
     assert summary["cached_shortest_path_derivation_path_available"] is True
     assert summary["cached_gtfs_derivation_path_available"] is True

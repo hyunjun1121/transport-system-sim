@@ -46,24 +46,12 @@
     "docs/review_packets/graph_scale_strategy.md"
   ],
   "gate_id": "graph_scale_strategy",
-  "generated_at": "2026-05-10T08:28:03+00:00",
+  "generated_at": "2026-07-05T07:30:47+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Choose and document reduced-corridor, multi-corridor, or full-graph strategy.",
     "Create graph_scale_acceptance.json with matching graph counts and evidence paths.",
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-    "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
-    "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
-    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
-    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
-    "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
-    "review graph-scale method-decision human-decision items before graph-scale acceptance"
+    "graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002"
   ],
   "review_packet_paths": [
     "data/validation/graph_scale_review_packet.csv",
@@ -116,19 +104,7 @@
   "risks": [
     "Reduced corridor may omit detours or alternate-route behavior.",
     "Full graph may be computationally expensive without accepted sampling strategy.",
-    "create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "resolve graph-scale strategy-readiness blockers before graph-scale acceptance",
-    "graph-scale strategy readiness: full bus-practical graph has smoke evidence only",
-    "graph-scale strategy readiness: data/manifests/graph_scale_acceptance.json is absent",
-    "graph-scale strategy readiness: current reduced-corridor output has alternate-route warnings",
-    "graph-scale strategy readiness: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale strategy readiness: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "review graph-scale strategy-readiness human-decision items before graph-scale acceptance",
-    "resolve graph-scale method-decision blockers before graph-scale acceptance",
-    "graph-scale method decision: full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
-    "graph-scale method decision: accepted graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation",
-    "graph-scale method decision: data/manifests/graph_scale_acceptance.json is absent",
-    "review graph-scale method-decision human-decision items before graph-scale acceptance"
+    "graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002"
   ],
   "schema_version": 1,
   "source_paths": [

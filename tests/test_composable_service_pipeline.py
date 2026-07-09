@@ -156,6 +156,9 @@ def test_byte_identity_against_oracle() -> None:
 
     from src.realworld.pilot_experiments import _json_sha256
 
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from generate_phase23_oracle import ORACLE_RUN_SPECS  # noqa: E402
+
     oracle_path = ROOT / "results" / "_phase23_baseline" / "oracle.json"
     if not oracle_path.exists():
         raise AssertionError(
@@ -185,25 +188,30 @@ def test_byte_identity_against_oracle() -> None:
         f"{oracle['base_config_sha256'][:8]}...)"
     )
 
-    params = {"s": 1.0, "p_fail_scale": 0.0, "sigma": 0.75}
-    run_matrix = (
-        ("bus_only", 1101),
-        ("bus_only", 1102),
-        ("bus_only", 1103),
-        ("multimodal", 1101),
-        ("multimodal", 1102),
-        ("multimodal", 1103),
+    # Run specs are the SINGLE SOURCE (shared with the generator) so the test
+    # re-runs exactly the frozen set: 6 clean baseline + 2 road-damage runs.
+    assert set(runs.keys()) == {spec["key"] for spec in ORACLE_RUN_SPECS}, (
+        "oracle run keys do not match ORACLE_RUN_SPECS; regenerate the oracle"
     )
-    for scenario_type, seed in run_matrix:
+    for spec in ORACLE_RUN_SPECS:
+        cfg = copy.deepcopy(base)
+        failure = spec.get("failure")
+        if failure:
+            cfg["failure"] = copy.deepcopy(failure)
+        params = {
+            "s": 1.0,
+            "p_fail_scale": spec.get("p_fail_scale", 0.0),
+            "sigma": 0.75,
+        }
         result = run_scenario(
             G=inputs.graph,
-            config=copy.deepcopy(base),
-            scenario_type=scenario_type,
+            config=cfg,
+            scenario_type=spec["scenario_type"],
             policy=StrictPolicy(),
             params=params,
-            seed=seed,
+            seed=spec["seed"],
         )
-        key = f"{scenario_type}_s{seed}"
+        key = spec["key"]
         expected = runs[key]
         # (c) full key-set identity: oracle weakened (drop) OR engine changed a
         # key (add/rename) both fail loudly here.
@@ -221,7 +229,7 @@ def test_byte_identity_against_oracle() -> None:
                 )
     print(
         f"PASS: full-key identity vs oracle holds "
-        f"(6 runs x {len(next(iter(runs.values())))} keys; runs_sha {runs_sha[:8]}..., "
+        f"({len(runs)} runs x {len(next(iter(runs.values())))} keys; runs_sha {runs_sha[:8]}..., "
         f"cfg {actual_sha[:8]}...)"
     )
 

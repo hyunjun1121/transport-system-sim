@@ -110,7 +110,7 @@ def test_manifest_records_source_inputs_and_claim_scope() -> None:
         assert manifest["source_commands"]["sensitivity"].endswith("--method morris --all")
         assert "non-finite" in manifest["morris_index_handling"]["figures"]
         assert "counts blank" in manifest["morris_index_handling"]["audit"]
-        assert manifest["graph_scale"]["pilot"]["source"]["nodes"] == 4608
+        assert manifest["graph_scale"]["pilot"]["source"]["nodes"] == 197823
         assert manifest["graph_scale"]["pilot"]["analysis"]["nodes"] >= 118
         assert manifest["graph_scale"]["sensitivity"]["source"]["nodes"] == 4608
         assert manifest["graph_scale"]["sensitivity"]["analysis"]["nodes"] >= 118

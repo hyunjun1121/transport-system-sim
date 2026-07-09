@@ -43,7 +43,7 @@ def test_source_provenance_decision_rows_surface_current_blockers() -> None:
     ]
     assert by_id["context_source_cache_retention_or_exclusion_decision"][
         "decision_status"
-    ] == "needs_human_review_context_cache_retention_or_exclusion_decisions"
+    ] == "blocked_missing_context_cache_retention_or_exclusion_decisions"
     assert "sensitivity/context-only" in by_id[
         "context_source_cache_retention_or_exclusion_decision"
     ]["candidate_decision"]
@@ -97,8 +97,8 @@ def test_source_provenance_decision_writer_outputs_artifacts() -> None:
     assert manifest["can_mark_complete"] is False
     assert manifest["provenance_decision_recorded"] is False
     assert manifest["provenance_gate_closure_candidate_count"] == 0
-    assert written_manifest["blocking_decision_count"] == 0
-    assert written_manifest["human_review_decision_count"] == 7
+    assert written_manifest["blocking_decision_count"] == 1
+    assert written_manifest["human_review_decision_count"] == 6
     assert "Source Provenance Decision Packet" in doc_text
     assert "It does not certify licenses" in doc_text
 
@@ -129,8 +129,8 @@ def test_shipped_source_provenance_decision_packet_matches_current_outputs() -> 
         row["decision_id"] for row in rows
     ]
     assert manifest["row_count"] == 7
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 7
+    assert manifest["blocking_decision_count"] == 1
+    assert manifest["human_review_decision_count"] == 6
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

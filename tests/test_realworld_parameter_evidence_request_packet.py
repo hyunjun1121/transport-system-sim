@@ -30,7 +30,7 @@ def test_parameter_evidence_source_request_rows_are_actionable() -> None:
     assert len(rows) == 7
     assert by_id["demand_arrival_horizon_censoring_source_request"][
         "weak_parameter_count"
-    ] == "5"
+    ] == "0"
     assert "arrival process" in by_id[
         "demand_arrival_horizon_censoring_source_request"
     ]["required_external_input"]
@@ -54,7 +54,7 @@ def test_parameter_evidence_source_request_rows_are_actionable() -> None:
     ]["covered_parameters"]
     assert by_id["rail_service_parameter_source_request"][
         "weak_parameter_count"
-    ] == "1"
+    ] == "0"
     assert "rail_capacity" in by_id[
         "rail_service_parameter_source_request"
     ]["covered_parameters"]

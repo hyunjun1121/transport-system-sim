@@ -28,7 +28,12 @@ def test_road_evidence_source_request_rows_are_actionable() -> None:
     by_id = {row["request_id"]: row for row in rows}
 
     assert len(rows) == 5
-    assert "residential" in by_id["road_speed_limit_source_request"][
+    # Speed evidence is now observed-maxspeed-median based (no per-class
+    # acquisition prioritization), so the speed row's prioritized classes are
+    # empty. The class-prioritized acquisition lives on the capacity/lane-count
+    # row, which still carries "residential".
+    assert by_id["road_speed_limit_source_request"]["prioritized_highway_classes"] == ""
+    assert "residential" in by_id["road_capacity_lane_count_source_request"][
         "prioritized_highway_classes"
     ]
     assert by_id["road_speed_limit_source_request"]["expected_derived_fields"] == "speed_kph"

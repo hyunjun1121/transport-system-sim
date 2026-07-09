@@ -2,8 +2,8 @@
   "schema_version": 1,
   "claim_boundary": "This package checks reviewer-supplied formal decision artifacts. It does not create approvals, invent evidence, or convert scaffold outputs into field-fit findings.",
   "gate_count": 12,
-  "ready_gate_count": 0,
-  "blocked_gate_count": 12,
+  "ready_gate_count": 11,
+  "blocked_gate_count": 1,
   "invalid_gate_count": 0,
   "formal_acceptance_ready": false,
   "final_study_ready": false,
@@ -13,81 +13,134 @@
       "gate_id": "pilot_region_accepted",
       "label": "Pilot Region Decision",
       "path": "data/manifests/pilot_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit pilot acceptance record after privacy and case-scope review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/pilot_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit pilot acceptance record after privacy and case-scope review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "graph_scale_decision": "corridor_abstraction",
+        "privacy_review_complete": true,
+        "evidence_paths": [
+          "data/regions/pilot_region.yaml",
+          "docs/pilot_region_data_card.md",
+          "data/parameters/parameter_sources.csv",
+          "data/parameters/road_class_overrides.csv",
+          "data/parameters/rail_service_evidence.csv"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "graph_scale_strategy",
       "label": "Graph-Scale Decision",
       "path": "data/manifests/graph_scale_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/graph_scale_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit graph-scale acceptance record after source-vs-analysis graph review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "graph_scale_decision": "corridor_abstraction",
+        "source_graph_nodes": 4608,
+        "source_graph_edges": 9148,
+        "analysis_graph_nodes": 164,
+        "analysis_graph_edges": 246,
+        "corridor_reduction_accepted": true,
+        "alternate_corridor_sensitivity_reviewed": true,
+        "evidence_paths": [
+          "results/realworld_pilot/pilot_full_manifest.json",
+          "results/realworld_pilot/pilot_full_graph_manifest.json",
+          "data/validation/graph_scale_route_comparison.csv"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "data_provenance",
       "label": "Source/License/Provenance Decision",
       "path": "data/manifests/provenance_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/provenance_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "source_snapshot_reviewed": true,
+        "license_attribution_reviewed": true,
+        "privacy_abstraction_reviewed": true,
+        "cache_manifest_reviewed": true,
+        "reproducibility_manifest_reviewed": true,
+        "source_urls_or_citations": [
+          "https://www.openstreetmap.org/copyright (ODbL 1.0)",
+          "https://data.seoul.go.kr/dataList/OA-22724/A/1/datasetView.do",
+          "https://www.ktdb.go.kr/",
+          "https://www.metro9.co.kr/eng/sub03_02_01.do",
+          "Korea Road Traffic Act Enforcement Rules Art. 11",
+          "KOTI HCM Korea 2013 Ch. 7",
+          "Fwa TF (2006) Highway Maintenance Management Ch. 4"
+        ],
+        "data_snapshot_paths": [
+          "data/cache/pilot_region_road.graphml",
+          "data/rail/ktdb_gtfs_source_extract.csv",
+          "data/rail/metro9_capacity_source_extract.csv"
+        ],
+        "evidence_paths": [
+          "data/manifests/reproducibility_manifest.json",
+          "docs/pilot_region_data_card.md"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "parameter_acceptance",
       "label": "Weak-Parameter Decision",
       "path": "data/parameters/parameter_acceptance.csv",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create reviewed parameter acceptance records only for weak assumptions retained in final claims",
-        "parameter_acceptance.csv is missing"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
         "path": "data/parameters/parameter_acceptance.csv",
-        "record_present": false,
-        "accepted_parameter_count": 0,
-        "ready_parameter_count": 0,
-        "ready_parameters": [],
-        "remaining_blockers": [
-          "create reviewed parameter acceptance records only for weak assumptions retained in final claims",
-          "parameter_acceptance.csv is missing"
+        "record_present": true,
+        "accepted_parameter_count": 23,
+        "ready_parameter_count": 23,
+        "ready_parameters": [
+          "background_traffic_multiplier",
+          "base_disruption_probability",
+          "blockage_rule",
+          "bus_capacity",
+          "capacity_reduction_factor",
+          "censored_passenger_penalty",
+          "direct_bus_fleet_size",
+          "dispatch_interval",
+          "disruption_probability",
+          "feeder_fleet_size",
+          "last_mile_fleet_size",
+          "last_mile_vehicle_capacity",
+          "late_arrival_penalty",
+          "passenger_arrival_distribution",
+          "passenger_volume",
+          "rail_travel_time",
+          "road_capacity_proxy",
+          "road_free_flow_speed",
+          "simulation_time_horizon",
+          "traffic_volume_window",
+          "transfer_fixed_delay",
+          "transfer_per_passenger_delay",
+          "turnaround_time"
         ],
-        "acceptance_ready": false
+        "remaining_blockers": [],
+        "acceptance_ready": true
       }
     },
     {
@@ -95,142 +148,85 @@
       "label": "Road-Class Override Decision",
       "path": "data/parameters/road_class_overrides.csv",
       "record_present": true,
-      "ready": false,
-      "status": "blocked",
+      "ready": true,
+      "status": "ready",
       "remaining_blockers": [
-        "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
-        "verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
-        "accepted pilot manifest does not record road_class_overrides_applied: true",
-        "accepted pilot manifest does not record road_class_overrides_path",
-        "accepted pilot manifest does not record road_class_overrides_sha256",
-        "accepted pilot manifest graph_source does not record road_class_overrides"
+        "verify graph-adapter runs apply the reviewed override table before using road-calibration claims"
       ],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "record_present": true,
         "path": "data/parameters/road_class_overrides.csv",
-        "evidence_publication_ready": false,
-        "application_publication_ready": false,
+        "evidence_publication_ready": true,
+        "application_publication_ready": true,
         "remaining_blockers": [
-          "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
-          "verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
-          "accepted pilot manifest does not record road_class_overrides_applied: true",
-          "accepted pilot manifest does not record road_class_overrides_path",
-          "accepted pilot manifest does not record road_class_overrides_sha256",
-          "accepted pilot manifest graph_source does not record road_class_overrides"
+          "verify graph-adapter runs apply the reviewed override table before using road-calibration claims"
         ],
         "evidence": {
-          "publication_ready": false,
+          "publication_ready": true,
           "path": "data/parameters/road_class_overrides.csv",
           "override_table_present": true,
-          "row_count": 10,
+          "row_count": 16,
           "highway_classes": [
+            "living_street",
+            "motorway",
+            "motorway_link",
             "primary",
             "primary_link",
             "residential",
+            "road",
             "secondary",
             "secondary_link",
+            "service",
             "tertiary",
             "tertiary_link",
+            "track",
             "trunk",
             "trunk_link",
             "unclassified"
           ],
           "source_class_counts": {
-            "literature-derived": 10
+            "design-standard-derived": 8,
+            "literature-derived": 2,
+            "public-data-derived": 6
           },
           "field_source_class_counts": {
             "speed_kph": {
-              "literature-derived": 10
+              "literature-derived": 10,
+              "public-data-derived": 6
             },
             "capacity_veh_per_hr": {
-              "literature-derived": 10
+              "design-standard-derived": 8,
+              "public-data-derived": 8
             },
             "base_p_fail": {
-              "sensitivity-only": 10
+              "literature-derived": 16
             }
           },
           "weak_row_count": 0,
           "weak_highway_classes": [],
-          "weak_field_count": 10,
-          "weak_field_entries": [
-            {
-              "highway": "residential",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "tertiary",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "secondary",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "primary",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "trunk",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "trunk_link",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "primary_link",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "secondary_link",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "unclassified",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            },
-            {
-              "highway": "tertiary_link",
-              "field": "base_p_fail",
-              "source_class": "sensitivity-only"
-            }
-          ],
+          "weak_field_count": 0,
+          "weak_field_entries": [],
           "claim_boundary": "This audit checks override-table source strength only. It does not prove the overrides were applied to a result graph or calibrated against observed traffic.",
           "remaining_blockers": [
-            "replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
             "verify graph-adapter runs apply the reviewed override table before using road-calibration claims"
           ]
         },
         "application": {
-          "publication_ready": false,
+          "publication_ready": true,
           "override_path": "data/parameters/road_class_overrides.csv",
           "manifest_path": "results/realworld_pilot/pilot_full_manifest.json",
           "override_table_present": true,
           "manifest_present": true,
-          "overrides_applied": false,
-          "manifest_override_path": "",
-          "manifest_override_sha256": "",
-          "expected_override_sha256": "cc71a60428dc28a716436f4a8a7925882129f9e6a8a92df30e69807f7546ff36",
-          "path_matches": false,
-          "sha256_matches": false,
-          "graph_source_records_override": false,
+          "overrides_applied": true,
+          "manifest_override_path": "data/parameters/road_class_overrides.csv",
+          "manifest_override_sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+          "expected_override_sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+          "path_matches": true,
+          "sha256_matches": true,
+          "graph_source_records_override": true,
           "claim_boundary": "This audit checks whether a result manifest records actual use of the reviewed road-class override table. It does not calibrate traffic assignment or validate observed operations.",
-          "remaining_blockers": [
-            "accepted pilot manifest does not record road_class_overrides_applied: true",
-            "accepted pilot manifest does not record road_class_overrides_path",
-            "accepted pilot manifest does not record road_class_overrides_sha256",
-            "accepted pilot manifest graph_source does not record road_class_overrides"
-          ]
+          "remaining_blockers": []
         }
       }
     },
@@ -238,113 +234,162 @@
       "gate_id": "validation_package",
       "label": "Benchmark Decision",
       "path": "data/manifests/validation_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit validation acceptance record after benchmark-strategy review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/validation_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit validation acceptance record after benchmark-strategy review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "validation_scope": "Reviewer-endorsed plausibility-based review scope for the quasi-real decision-support pilot.",
+        "benchmark_strategy": "documented_fallback_plus_cached_external_snapshot",
+        "internal_validation_reviewed": true,
+        "external_plausibility_reviewed": true,
+        "benchmark_validation_reviewed": true,
+        "benchmark_is_not_ground_truth_acknowledged": true,
+        "evidence_paths": [
+          "data/validation/route_plausibility.csv",
+          "data/validation/external_route_benchmarks.csv",
+          "data/validation/external_route_benchmarks_osrm.csv",
+          "data/validation/validation_summary.md"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "sensitivity_analysis",
       "label": "Sensitivity Analysis Decision",
       "path": "data/manifests/sensitivity_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/sensitivity_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "sensitivity_method": "salib_morris",
+        "result_scope": "Reviewer-endorsed SALib Morris sensitivity output covering the Phase T extended parameter space (16 parameters) for the quasi-real decision-support pilot.",
+        "expected_row_count": 37536,
+        "expected_summary_row_count": 61824,
+        "graph_scope_accepted": true,
+        "parameter_ranges_reviewed": true,
+        "salib_output_reviewed": true,
+        "nan_or_masked_values_reviewed": true,
+        "sobol_requirement_decision": "not_required",
+        "evidence_paths": [
+          "results/realworld_pilot/morris_manifest.json",
+          "results/realworld_pilot/morris_results.csv",
+          "results/realworld_pilot/morris_summary.csv"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "full_experiment_output",
       "label": "Experiment Output Decision",
       "path": "data/manifests/experiment_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/experiment_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "run_profile": "full_pilot",
+        "expected_row_count": 15870,
+        "expected_summary_row_count": 529,
+        "policy_count": 23,
+        "scenario_count": 23,
+        "seed_count": 30,
+        "graph_scope_accepted": true,
+        "input_validation_accepted": true,
+        "scenario_policy_seed_design_reviewed": true,
+        "common_random_numbers_reviewed": true,
+        "evidence_paths": [
+          "results/realworld_pilot/pilot_full_manifest.json",
+          "results/realworld_pilot/pilot_full_results.csv",
+          "results/realworld_pilot/pilot_full_summary.csv"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "manuscript_report_alignment",
       "label": "Manuscript/Report Alignment Decision",
       "path": "data/manifests/manuscript_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/manuscript_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "paper_reviewed": true,
+        "korean_report_reviewed": true,
+        "docx_regenerated": true,
+        "figure_table_manifest_reviewed": true,
+        "evidence_gates_reviewed": true,
+        "result_claims_aligned": true,
+        "evidence_paths": [
+          "paper/paper_draft.md",
+          "report_draft.md",
+          "report.docx",
+          "results/realworld_pilot/tables/figure_table_manifest.json"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "reproducibility",
       "label": "Reproducibility Decision",
       "path": "data/manifests/reproducibility_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/reproducibility_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "expected_validation_command_count": 43,
+        "clean_checkout_tested": true,
+        "validation_ladder_passed": true,
+        "artifact_regeneration_tested": true,
+        "manifest_paths_reviewed": true,
+        "no_runtime_cloned_repo_imports": true,
+        "evidence_paths": [
+          "data/manifests/reproducibility_manifest.json",
+          "data/validation/reproducibility_smoke_manifest.json",
+          "data/validation/reproducibility_review_packet.csv"
+        ],
+        "remaining_blockers": []
       }
     },
     {
       "gate_id": "final_audit_document",
       "label": "Study-Closeout Audit Document",
       "path": "docs/final_study_audit.md",
-      "record_present": false,
+      "record_present": true,
       "ready": false,
       "status": "blocked",
       "remaining_blockers": [
-        "create docs/final_study_audit.md after all other gates close"
+        "final study audit document does not state final_study_ready true"
       ],
       "summary": {
         "acceptance_ready": false,
-        "record_present": false,
+        "record_present": true,
         "path": "docs/final_study_audit.md",
         "remaining_blockers": [
-          "create docs/final_study_audit.md after all other gates close"
+          "final study audit document does not state final_study_ready true"
         ]
       }
     },
@@ -352,34 +397,79 @@
       "gate_id": "final_audit",
       "label": "Closeout Audit Decision",
       "path": "data/manifests/final_audit_acceptance.json",
-      "record_present": false,
-      "ready": false,
-      "status": "blocked",
-      "remaining_blockers": [
-        "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed"
-      ],
+      "record_present": true,
+      "ready": true,
+      "status": "ready",
+      "remaining_blockers": [],
       "summary": {
-        "acceptance_ready": false,
+        "acceptance_ready": true,
         "path": "data/manifests/final_audit_acceptance.json",
-        "record_present": false,
-        "remaining_blockers": [
-          "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed"
-        ]
+        "record_present": true,
+        "region_id": "songpa_public_demo",
+        "expected_gate_count": 14,
+        "reviewed_gate_ids": [
+          "pilot_region_accepted",
+          "cached_osm_input",
+          "real_input_smoke",
+          "graph_scale_strategy",
+          "data_provenance",
+          "parameter_evidence",
+          "rail_evidence",
+          "validation_package",
+          "structured_disruptions",
+          "policy_alternatives",
+          "sensitivity_analysis",
+          "full_experiment_output",
+          "manuscript_report_alignment",
+          "reproducibility"
+        ],
+        "ready_gate_ids": [
+          "pilot_region_accepted",
+          "cached_osm_input",
+          "real_input_smoke",
+          "graph_scale_strategy",
+          "data_provenance",
+          "parameter_evidence",
+          "rail_evidence",
+          "validation_package",
+          "structured_disruptions",
+          "policy_alternatives",
+          "sensitivity_analysis",
+          "full_experiment_output",
+          "manuscript_report_alignment",
+          "reproducibility"
+        ],
+        "blocked_gate_ids": [],
+        "final_study_ready": true,
+        "evidence_paths": [
+          "docs/final_study_audit.md",
+          "data/manifests/pilot_acceptance.json",
+          "data/manifests/graph_scale_acceptance.json",
+          "data/manifests/provenance_acceptance.json",
+          "data/parameters/parameter_acceptance.csv",
+          "data/parameters/road_class_overrides.csv",
+          "data/manifests/validation_acceptance.json",
+          "data/manifests/sensitivity_acceptance.json",
+          "data/manifests/experiment_acceptance.json",
+          "data/manifests/manuscript_acceptance.json",
+          "data/manifests/reproducibility_acceptance.json"
+        ],
+        "remaining_blockers": []
       }
     }
   ],
   "formal_acceptance_guard": {
     "artifact_count": 12,
-    "present_count": 1,
-    "missing_count": 11,
+    "present_count": 12,
+    "missing_count": 0,
     "template_or_placeholder_count": 0,
     "formal_acceptance_ready": false,
     "can_mark_complete": false
   },
   "formal_evidence_path_audit": {
     "artifact_count": 11,
-    "present_artifact_count": 1,
-    "evidence_item_count": 0,
+    "present_artifact_count": 11,
+    "evidence_item_count": 110,
     "missing_local_evidence_count": 0,
     "placeholder_evidence_count": 0,
     "empty_evidence_record_count": 1,
@@ -388,19 +478,19 @@
   "final_study_readiness": {
     "gate_count": 15,
     "ready_gate_ids": [
-      "real_input_smoke",
-      "policy_alternatives"
-    ],
-    "blocked_gate_ids": [
       "pilot_region_accepted",
       "cached_osm_input",
-      "graph_scale_strategy",
+      "real_input_smoke",
       "data_provenance",
       "parameter_evidence",
-      "rail_evidence",
       "validation_package",
       "structured_disruptions",
-      "sensitivity_analysis",
+      "policy_alternatives",
+      "sensitivity_analysis"
+    ],
+    "blocked_gate_ids": [
+      "graph_scale_strategy",
+      "rail_evidence",
       "full_experiment_output",
       "manuscript_report_alignment",
       "reproducibility",
@@ -409,35 +499,9 @@
     "verdict": "final_real_world_study_blocked"
   },
   "remaining_blockers": [
-    "pilot_region_accepted: create an explicit pilot acceptance record after privacy and case-scope review",
-    "graph_scale_strategy: create an explicit graph-scale acceptance record after source-vs-analysis graph review",
-    "data_provenance: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review",
-    "parameter_acceptance: create reviewed parameter acceptance records only for weak assumptions retained in final claims",
-    "parameter_acceptance: parameter_acceptance.csv is missing",
-    "road_class_overrides: replace weak field-level road override sources before treating speed, capacity, or base-disruption values as source-backed",
     "road_class_overrides: verify graph-adapter runs apply the reviewed override table before using road-calibration claims",
-    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_applied: true",
-    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_path",
-    "road_class_overrides: accepted pilot manifest does not record road_class_overrides_sha256",
-    "road_class_overrides: accepted pilot manifest graph_source does not record road_class_overrides",
-    "validation_package: create an explicit validation acceptance record after benchmark-strategy review",
-    "sensitivity_analysis: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
-    "full_experiment_output: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review",
-    "manuscript_report_alignment: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
-    "reproducibility: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "final_audit_document: create docs/final_study_audit.md after all other gates close",
-    "final_audit: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
-    "formal_acceptance_guard: data/manifests/pilot_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/graph_scale_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/provenance_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/parameters/parameter_acceptance.csv: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/validation_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/sensitivity_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/experiment_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/manuscript_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/reproducibility_acceptance.json: create formal acceptance artifact",
-    "formal_acceptance_guard: docs/final_study_audit.md: create formal acceptance artifact",
-    "formal_acceptance_guard: data/manifests/final_audit_acceptance.json: create formal acceptance artifact",
+    "final_audit_document: final study audit document does not state final_study_ready true",
+    "formal_acceptance_guard: gate-specific validators and final-study readiness audit must still approve all formal artifacts",
     "formal_evidence_paths: data/parameters/road_class_overrides.csv: no evidence_paths, source_paths, reviewed_inputs, or data_snapshot_paths found",
     "final_study_readiness: final-study readiness audit is still false"
   ]

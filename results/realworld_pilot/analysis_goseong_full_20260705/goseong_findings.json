@@ -1,0 +1,352 @@
+{
+  "row_count": 12420,
+  "scenario_count": 18,
+  "policy_count": 23,
+  "seed_count_per_cell": 30,
+  "modes": [
+    "bus_only",
+    "multimodal"
+  ],
+  "scenario_families": {
+    "access_road": [
+      "goseong_access_origin_to_destination",
+      "goseong_access_origin_to_station",
+      "goseong_combo_access_rail_capacity"
+    ],
+    "critical_link": [
+      "goseong_critical_link_blockage"
+    ],
+    "last_mile": [
+      "goseong_last_mile_station_to_destination"
+    ],
+    "no_disruption": [
+      "no_disruption"
+    ],
+    "rail_service": [
+      "goseong_rail_capacity_reduction",
+      "goseong_rail_combined_stress",
+      "goseong_rail_combined_stress_mild",
+      "goseong_rail_combined_stress_severe",
+      "goseong_rail_delay",
+      "goseong_rail_delay_mild",
+      "goseong_rail_delay_severe",
+      "goseong_rail_unavailable"
+    ],
+    "rail_station_access": [
+      "goseong_rail_station_access"
+    ],
+    "random": [
+      "goseong_random_blockage",
+      "goseong_random_capacity_reduction"
+    ],
+    "spatial_hazard_overlay": [
+      "goseong_spatial_assembly_egress"
+    ]
+  },
+  "no_disruption_baseline": {
+    "bus_only": {
+      "n": 30,
+      "makespan_mean": 369.40933333333334,
+      "penalized_makespan_mean": 416.8693333333333,
+      "completion_rate_mean": 0.9946666666666667,
+      "censored_count_mean": 0.13333333333333333
+    },
+    "multimodal": {
+      "n": 30,
+      "makespan_mean": 339.4893333333333,
+      "penalized_makespan_mean": 339.4893333333333,
+      "completion_rate_mean": 1.0,
+      "censored_count_mean": 0.0
+    }
+  },
+  "baseline_bus_vs_multimodal_by_scenario": {
+    "goseong_access_origin_to_destination": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 376.40133333333335,
+        "penalized_makespan_mean": 422.788,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 343.06533333333334,
+        "penalized_makespan_mean": 343.06533333333334,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_access_origin_to_station": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.4216666666667,
+        "penalized_makespan_mean": 416.879,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.4893333333333,
+        "penalized_makespan_mean": 339.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_combo_access_rail_capacity": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 376.40133333333335,
+        "penalized_makespan_mean": 422.788,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 343.06533333333334,
+        "penalized_makespan_mean": 343.06533333333334,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_critical_link_blockage": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": Infinity,
+        "penalized_makespan_mean": 7680.0,
+        "completion_rate_mean": 0.0,
+        "censored_count_mean": 24.0
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": Infinity,
+        "penalized_makespan_mean": 7680.0,
+        "completion_rate_mean": 0.0,
+        "censored_count_mean": 24.0
+      }
+    },
+    "goseong_last_mile_station_to_destination": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 372.97566666666665,
+        "penalized_makespan_mean": 419.8876666666667,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 345.19866666666667,
+        "penalized_makespan_mean": 345.19866666666667,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_capacity_reduction": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.4893333333333,
+        "penalized_makespan_mean": 339.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_combined_stress": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 382.448,
+        "penalized_makespan_mean": 382.448,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_combined_stress_mild": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 334.76,
+        "penalized_makespan_mean": 334.76,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_combined_stress_severe": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 435.716,
+        "penalized_makespan_mean": 470.30400000000003,
+        "completion_rate_mean": 0.996,
+        "censored_count_mean": 0.1
+      }
+    },
+    "goseong_rail_delay": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 397.20433333333335,
+        "penalized_makespan_mean": 409.115,
+        "completion_rate_mean": 0.9986666666666667,
+        "censored_count_mean": 0.03333333333333333
+      }
+    },
+    "goseong_rail_delay_mild": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 364.4893333333333,
+        "penalized_makespan_mean": 364.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_delay_severe": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 451.20433333333335,
+        "penalized_makespan_mean": 471.52566666666667,
+        "completion_rate_mean": 0.9973333333333333,
+        "censored_count_mean": 0.06666666666666667
+      }
+    },
+    "goseong_rail_station_access": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.4893333333333,
+        "penalized_makespan_mean": 339.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_rail_unavailable": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": Infinity,
+        "penalized_makespan_mean": 7680.0,
+        "completion_rate_mean": 0.0,
+        "censored_count_mean": 24.0
+      }
+    },
+    "goseong_random_blockage": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": Infinity,
+        "penalized_makespan_mean": 7680.0,
+        "completion_rate_mean": 0.0,
+        "censored_count_mean": 24.0
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": Infinity,
+        "penalized_makespan_mean": 7680.0,
+        "completion_rate_mean": 0.0,
+        "censored_count_mean": 24.0
+      }
+    },
+    "goseong_random_capacity_reduction": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.414,
+        "penalized_makespan_mean": 416.87266666666665,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.49333333333334,
+        "penalized_makespan_mean": 339.49333333333334,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "goseong_spatial_assembly_egress": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.426,
+        "penalized_makespan_mean": 416.8833333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.4893333333333,
+        "penalized_makespan_mean": 339.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    },
+    "no_disruption": {
+      "bus_only": {
+        "n": 30,
+        "makespan_mean": 369.40933333333334,
+        "penalized_makespan_mean": 416.8693333333333,
+        "completion_rate_mean": 0.9946666666666667,
+        "censored_count_mean": 0.13333333333333333
+      },
+      "multimodal": {
+        "n": 30,
+        "makespan_mean": 339.4893333333333,
+        "penalized_makespan_mean": 339.4893333333333,
+        "completion_rate_mean": 1.0,
+        "censored_count_mean": 0.0
+      }
+    }
+  }
+}

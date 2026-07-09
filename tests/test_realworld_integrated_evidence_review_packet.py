@@ -29,17 +29,23 @@ def test_integrated_evidence_review_rows_classify_current_state() -> None:
     by_id = {row["review_id"]: row for row in rows}
 
     assert len(rows) == 5
+    # Rail reframed as wartime_charter_assumption: source-backed rail decisions
+    # are now pending, so the E2 dependency is BLOCKED (no longer
+    # "ready_for_review_no_blocking_rows"). Honest non-accepting state.
     assert by_id["e2_rail_timing_capacity_dependency"]["integration_status"] == (
-        "ready_for_review_no_blocking_rows"
+        "blocked_rail_source_decisions_pending"
     )
     assert by_id["e3_external_benchmark_dependency"]["integration_status"] == (
         "blocked_validation_benchmark_decisions_pending"
     )
+    # Validation-strategy + experiment-profile dependencies are now BLOCKED
+    # because their underlying source/benchmark/evidence rows regressed to
+    # blocked under the charter reframe. Honest non-accepting state.
     assert by_id["validation_strategy_dependency"]["integration_status"] == (
-        "ready_for_review_no_blocking_rows"
+        "blocked_validation_strategy_dependencies"
     )
     assert by_id["e5_experiment_profile_dependency"]["integration_status"] == (
-        "ready_for_review_no_blocking_rows"
+        "blocked_experiment_design_dependencies"
     )
     assert by_id["integrated_claim_boundary"]["integration_status"] == (
         "blocked_integrated_claim_boundary"
@@ -128,8 +134,11 @@ def test_shipped_integrated_evidence_review_packet_matches_current_outputs() -> 
     assert manifest["row_count"] == len(written_rows)
     assert manifest["blocking_review_count"] == 5
     assert manifest["human_review_row_count"] == 0
-    assert manifest["underlying_human_review_count"] == 14
-    assert manifest["human_review_count"] == 14
+    # Underlying human-review count regressed 14 -> 16 as source/benchmark/
+    # experiment-evidence rows regressed to blocked under the charter reframe.
+    # Honest non-accepting state.
+    assert manifest["underlying_human_review_count"] == 16
+    assert manifest["human_review_count"] == 16
     assert manifest["integrated_gate_closure_candidate_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False

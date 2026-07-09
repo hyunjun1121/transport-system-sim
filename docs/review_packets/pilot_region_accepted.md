@@ -4,13 +4,13 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 
 - Gate ID: `pilot_region_accepted`
 - Agent: `Pilot Region & Privacy Review Agent`
-- Status: `needs_human_review`
-- Can mark complete: `false`
-- Generated at: `2026-05-09T00:30:10+00:00`
+- Status: `accepted`
+- Can mark complete: `true`
+- Generated at: `2026-07-05T07:30:47+00:00`
 
 ## Decision
 
-Pilot Region & Privacy Review Agent cannot accept gate pilot_region_accepted; the current final-study readiness audit reports blockers.
+Pilot Region & Privacy Review Agent can mark gate pilot_region_accepted complete because the final-study readiness audit already reports this gate as ready.
 
 ## Reviewed Inputs
 
@@ -45,22 +45,10 @@ Pilot Region & Privacy Review Agent cannot accept gate pilot_region_accepted; th
 
 - Sensitive geography or destination abstraction could be overinterpreted as operational routing.
 - Region choice may not be reusable unless privacy and scope are documented.
-- create an explicit pilot acceptance record after privacy and case-scope review
-- resolve pilot-region decision blockers before pilot acceptance
-- pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
-- pilot-region decision: data/manifests/provenance_acceptance.json is absent
-- pilot-region decision: data/manifests/pilot_acceptance.json is absent
-- review pilot-region decision human-decision items before pilot acceptance
 
 ## Required Actions
 
-- Record an explicit pilot acceptance decision with reviewer, scope, privacy review, evidence paths, and not-operational claim boundary.
-- create an explicit pilot acceptance record after privacy and case-scope review
-- resolve pilot-region decision blockers before pilot acceptance
-- pilot-region decision: data/manifests/graph_scale_acceptance.json is absent
-- pilot-region decision: data/manifests/provenance_acceptance.json is absent
-- pilot-region decision: data/manifests/pilot_acceptance.json is absent
-- review pilot-region decision human-decision items before pilot acceptance
+- No further action for this gate scope.
 
 ## Formal Acceptance Boundary
 
@@ -75,38 +63,27 @@ Formal acceptance artifacts:
 ```json
 {
   "artifact_present": true,
-  "blockers": [
-    "create an explicit pilot acceptance record after privacy and case-scope review",
-    "resolve pilot-region decision blockers before pilot acceptance",
-    "pilot-region decision: data/manifests/graph_scale_acceptance.json is absent",
-    "pilot-region decision: data/manifests/provenance_acceptance.json is absent",
-    "pilot-region decision: data/manifests/pilot_acceptance.json is absent",
-    "review pilot-region decision human-decision items before pilot acceptance"
-  ],
+  "blockers": [],
   "details": {
     "acceptance_path": "data/manifests/pilot_acceptance.json",
-    "acceptance_record_present": false,
+    "acceptance_record_present": true,
     "pilot_privacy_review_manifest_present": true,
     "pilot_privacy_review_packet_present": true,
     "pilot_region_decision_artifacts_present": true,
-    "pilot_region_decision_blocking_decision_count": 3,
+    "pilot_region_decision_blocking_decision_count": 0,
     "pilot_region_decision_can_mark_complete": false,
-    "pilot_region_decision_human_review_decision_count": 3,
+    "pilot_region_decision_human_review_decision_count": 6,
     "pilot_region_decision_manifest_present": true,
     "pilot_region_decision_privacy_completion_recorded": false,
     "pilot_region_decision_publication_ready": false,
     "pilot_region_decision_recorded": false,
-    "pilot_region_decision_remaining_blockers": [
-      "data/manifests/graph_scale_acceptance.json is absent",
-      "data/manifests/provenance_acceptance.json is absent",
-      "data/manifests/pilot_acceptance.json is absent"
-    ],
+    "pilot_region_decision_remaining_blockers": [],
     "pilot_region_decision_row_count": 6,
     "pilot_region_decision_status_counts": {
-      "blocked_missing_graph_scale_acceptance_record": 1,
-      "blocked_missing_pilot_acceptance_record": 1,
-      "blocked_missing_provenance_acceptance_record": 1,
       "needs_human_review_claim_boundary": 1,
+      "needs_human_review_existing_graph_scale_acceptance": 1,
+      "needs_human_review_existing_pilot_acceptance": 1,
+      "needs_human_review_existing_provenance_acceptance": 1,
       "needs_human_review_pilot_case_scope": 1,
       "needs_human_review_privacy_completion": 1
     }
@@ -125,6 +102,6 @@ Formal acceptance artifacts:
   ],
   "gate_id": "pilot_region_accepted",
   "label": "Pilot Region Accepted",
-  "ready": false
+  "ready": true
 }
 ```

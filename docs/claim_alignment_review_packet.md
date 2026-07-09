@@ -6,9 +6,9 @@ Claim-alignment review packet only; not manuscript acceptance, not calibrated re
 
 - Publication ready: `false`
 - Can mark complete: `false`
-- Claim rows: 90
+- Claim rows: 89
 - Overclaim candidates: 55
-- Guardrail rows: 35
+- Guardrail rows: 34
 
 ## Review Rows
 
@@ -94,7 +94,7 @@ Claim-alignment review packet only; not manuscript acceptance, not calibrated re
 | claim_review_0078 | paper/paper_draft.md:1923 | benchmark-check wording | requires revision or review | revise or hold benchmark-check language until the review artifact exists |
 | claim_review_0079 | paper/paper_draft.md:1954 | gate-closure wording | requires revision or review | revise or hold gate-closure language until formal reviewer records exist |
 | claim_review_0080 | paper/paper_draft.md:1955 | closeout wording | requires revision or review | review claim against current evidence gates before manuscript gate review |
-| ... | ... | ... | ... | 10 additional rows in CSV |
+| ... | ... | ... | ... | 9 additional rows in CSV |
 
 ## Required Reviewer Actions
 

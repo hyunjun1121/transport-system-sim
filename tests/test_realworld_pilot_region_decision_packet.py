@@ -116,7 +116,9 @@ def test_shipped_pilot_region_decision_packet_matches_current_outputs() -> None:
     ]
     assert manifest["row_count"] == 6
     assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    # All 6 pilot-region rows need human review; none are blocking. This is the
+    # honest non-acceptance classification (no formal pilot acceptance recorded).
+    assert manifest["human_review_decision_count"] == 6
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

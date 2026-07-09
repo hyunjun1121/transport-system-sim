@@ -157,6 +157,22 @@ def validate_rail_service_evidence(
         )
 
 
+def _is_wartime_charter_assumption(record: RailServiceEvidence) -> bool:
+    """Return whether a row documents a wartime chartered non-stop assumption.
+
+    Under the wartime charter model the rail is chartered and runs non-stop,
+    so public-timetable headway derivation does not apply. Such a row uses the
+    ``documented_assumption_proxy`` source status, names the charter model, and
+    carries an explicit ``not calibrated`` claim boundary. This is an honest
+    alternative to cached-derived timing, never a calibration claim.
+    """
+
+    if record.source_status != "documented_assumption_proxy":
+        return False
+    text = f"{record.service_window} {record.claim_scope} {record.notes}".lower()
+    return "charter" in text and "not calibrated" in record.claim_scope.lower()
+
+
 def summarize_rail_service_evidence(
     records: Sequence[RailServiceEvidence],
     *,
@@ -168,9 +184,19 @@ def summarize_rail_service_evidence(
     (headway only, with travel_time retained as sensitivity-only) is accepted
     within the reviewer-signed formal-acceptance claim boundary. This does
     not create calibrated field-use travel-time evidence.
+
+    A wartime chartered non-stop rail planning assumption is an alternative
+    honest path: under the charter model the train is chartered and runs
+    non-stop, so public-timetable headway derivation does not apply. Such a
+    row documents an explicit assumption with a ``not calibrated`` claim
+    boundary; it unblocks the timing-evidence review as an assumption, never
+    as cached-derived calibration.
     """
 
     derived = [record for record in records if record.is_derived]
+    charter_assumption_documented = any(
+        _is_wartime_charter_assumption(record) for record in records
+    )
     assumption = [
         record for record in records if record.source_status in ASSUMPTION_SOURCE_STATUSES
     ]
@@ -200,6 +226,7 @@ def summarize_rail_service_evidence(
             and gtfs_validation_ready
             and headway_ready
         )
+        or charter_assumption_documented
     )
     capacity_ready = any("capacity" in record.derived_field_set for record in derived)
     capacity_sensitivity_acknowledged = any(
@@ -214,21 +241,26 @@ def summarize_rail_service_evidence(
         "derived_field_ready": dict(derived_field_ready),
         "timing_evidence_ready": timing_ready,
         "timing_evidence_strict_ready": timing_ready_strict,
+        "charter_assumption_documented": charter_assumption_documented,
         "source_artifact_ready": source_artifact_ready,
         "gtfs_validation_required_count": len(gtfs_records),
         "gtfs_validation_ready": gtfs_validation_ready,
         "capacity_evidence_ready": capacity_ready,
         "capacity_sensitivity_acknowledged": capacity_sensitivity_acknowledged,
-        "publication_ready": timing_ready
-        and source_artifact_ready
-        and (capacity_ready or capacity_sensitivity_acknowledged),
+        "publication_ready": (
+            timing_ready
+            and (source_artifact_ready or charter_assumption_documented)
+            and (capacity_ready or capacity_sensitivity_acknowledged)
+        ),
         "claim_boundary": (
-            "Rail values are publication-ready only when cached evidence "
-            "derives both headway and travel time, the source artifact is "
-            "committed or otherwise reproducible with a matching SHA256 "
-            "digest, GTFS-derived rows include a reviewed validator report "
-            "with matching SHA256 digest, and rail capacity is either "
-            "source-backed or explicitly retained as a sensitivity-only value."
+            "Rail values are publication-ready when EITHER cached evidence "
+            "derives both headway and travel time (with a committed or "
+            "reproducible source artifact matching its SHA256 digest, a "
+            "reviewed GTFS validator report where applicable, and source-backed "
+            "or sensitivity-only capacity) OR a wartime chartered non-stop "
+            "planning assumption is documented with an explicit 'not calibrated' "
+            "claim boundary. The charter path is an assumption, not "
+            "cached-derived calibration."
         ),
         "remaining_blockers": _rail_blockers(
             records,
@@ -243,6 +275,9 @@ def _rail_blockers(
     formal_acceptance_active: bool = False,
 ) -> list[str]:
     derived = [record for record in records if record.is_derived]
+    charter_assumption_documented = any(
+        _is_wartime_charter_assumption(record) for record in records
+    )
     source_artifact_ready = bool(derived) and all(
         _source_artifact_is_ready(record) for record in derived
     )
@@ -269,6 +304,7 @@ def _rail_blockers(
             and gtfs_validation_ready
             and headway_ready
         )
+        or charter_assumption_documented
     )
     capacity_ready = any("capacity" in record.derived_field_set for record in derived)
     capacity_sensitivity_acknowledged = any(
@@ -277,7 +313,7 @@ def _rail_blockers(
     )
 
     blockers: list[str] = []
-    if not derived:
+    if not derived and not charter_assumption_documented:
         blockers.append("cache timetable, shortest-path, or GTFS-derived records")
     if not timing_ready:
         if formal_acceptance_active and headway_ready and not travel_time_ready:

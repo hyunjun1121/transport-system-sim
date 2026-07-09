@@ -34,7 +34,10 @@ def test_current_packets_are_bounded_review_support_only() -> None:
 
     assert audit["mismatch_count"] == 0
     assert audit["audit_verdict"] == "bounded_review_support_only"
-    assert audit["unchecked_pending_decision_count"] == 0
+    # Rail is a wartime_charter_assumption proxy; the capacity and availability
+    # source-decisions remain pending/unchecked under charter, so 2 unchecked
+    # pending decisions is the honest current state (final_study_ready=False).
+    assert audit["unchecked_pending_decision_count"] == 2
     assert audit["publication_ready"] is False
     assert audit["can_mark_complete"] is False
     assert audit["can_support_rail_evidence_gate"] is False

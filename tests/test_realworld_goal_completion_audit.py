@@ -24,8 +24,8 @@ def test_goal_completion_audit_blocks_current_scaffold() -> None:
     assert "Region-Scope Review Metadata" in text
     assert "songpa_public_demo" in text
     assert "Rail Evidence" in text
-    assert "Final-study ready: `true`" in text
-    assert "final_real_world_study_ready" in text
+    assert "Final-study ready: `false`" in text
+    assert "final_real_world_study_blocked" in text
     assert "docs/final_study_audit.md" in text
     assert "not an acceptance record" in text
     assert "Formal Acceptance Artifact Guard" in text
@@ -112,16 +112,18 @@ def test_goal_completion_audit_lists_final_acceptance_artifacts() -> None:
 def test_goal_completion_manifest_blocks_current_scaffold() -> None:
     manifest = build_goal_completion_audit_manifest()
     assert manifest["schema_version"] == 1
-    assert manifest["final_study_ready"] is True
-    assert manifest["can_mark_complete"] is True
-    assert manifest["blocked_gate_count"] == 0
+    # Honest state after Phase-1 input retune: rail reframed as wartime charter,
+    # graph-scale/experiment gates blocked by stale acceptance counts. NOT final-ready.
+    assert manifest["final_study_ready"] is False
+    assert manifest["can_mark_complete"] is False
+    assert manifest["blocked_gate_count"] == 6
     assert manifest["missing_acceptance_artifact_count"] == 0
     checklist = {
         row["gate_id"]: row
         for row in manifest["prompt_to_artifact_checklist"]
     }
     assert checklist["real_input_smoke"]["current_status"] == "scaffold_unblocked"
-    assert checklist["final_audit"]["current_status"] == "scaffold_unblocked"
+    assert checklist["final_audit"]["current_status"] == "blocked"
     assert "not_final_acceptance" in manifest["result_scope"]
     package_audit = manifest["review_package_path_audit"]
     assert package_audit["zip_present"] is True
@@ -151,11 +153,11 @@ def test_goal_completion_audit_writer_emits_markdown() -> None:
         audit = write_goal_completion_audit(output, manifest_path)
         text = output.read_text(encoding="utf-8")
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    assert audit["final_study_ready"] is True
+    assert audit["final_study_ready"] is False
     assert "Current Goal Completion Audit" in text
     assert "Proxy Signals Rejected" in text
     assert manifest["objective"]
-    assert manifest["can_mark_complete"] is True
+    assert manifest["can_mark_complete"] is False
     assert manifest["outputs"]["markdown"] == str(output)
     assert manifest["outputs"]["manifest"] == str(manifest_path)
 

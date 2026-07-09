@@ -1,6 +1,5 @@
 {
-  "blocking_decision_count": 0,
-  "blocking_request_count": 0,
+  "blocking_decision_count": 3,
   "can_mark_complete": false,
   "claim_boundary": "Experiment design-decision packet only; not experiment acceptance, not calibrated real-world results, not graph-scale acceptance, and not operational routing evidence. It cannot create data/manifests/experiment_acceptance.json.",
   "decision_ids": [
@@ -16,18 +15,15 @@
   "decision_status_counts": {
     "blocked_graph_scale_dependency": 1,
     "blocked_input_evidence_dependency": 1,
+    "blocked_scaffold_or_not_calibrated_experiment_scope": 1,
     "needs_human_review_current_full_profile_scope": 1,
     "needs_human_review_existing_experiment_acceptance": 1,
     "needs_human_review_multi_corridor_profile_scope": 1,
     "needs_human_review_regenerate_or_retain_outputs": 1,
-    "needs_human_review_result_scope": 1,
     "needs_human_review_scenario_policy_seed_design": 1
   },
   "experiment_gate_closure_candidate_count": 0,
-  "formal_acceptance_override_applied": true,
-  "formal_acceptance_path": "data/manifests/experiment_acceptance.json",
-  "human_review_decision_count": 0,
-  "human_review_request_count": 0,
+  "human_review_decision_count": 5,
   "inputs": {
     "experiment_package_review_manifest": "data/manifests/experiment_package_review_manifest.json",
     "experiment_strategy_readiness_manifest": "data/manifests/experiment_strategy_readiness_manifest.json",
@@ -44,7 +40,11 @@
     "manifest": "data/manifests/experiment_design_decision_manifest.json"
   },
   "publication_ready": false,
-  "remaining_blockers": [],
+  "remaining_blockers": [
+    "experiment outputs depend on a graph method that is not selected by review",
+    "upstream input, road override, parameter, validation, or provenance gates are not closed",
+    "current full-pilot result scope is scaffold or not calibrated"
+  ],
   "result_scope": "Experiment design-decision packet only; not experiment acceptance, not calibrated real-world results, not graph-scale acceptance, and not operational routing evidence.",
   "review_items": [
     "choose whether the current full_pilot or multi-corridor full candidate is the run profile to review",

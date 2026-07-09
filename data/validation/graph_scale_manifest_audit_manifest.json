@@ -1,11 +1,13 @@
 {
   "analysis_graph_edge_counts": [
     174,
-    246
+    246,
+    3002
   ],
   "analysis_graph_node_counts": [
     118,
-    164
+    164,
+    2850
   ],
   "artifact_family_counts": {
     "deterministic_sensitivity": 1,
@@ -56,9 +58,11 @@
   "row_count": 13,
   "schema_version": 1,
   "source_graph_edge_counts": [
-    9148
+    9148,
+    298020
   ],
   "source_graph_node_counts": [
-    4608
+    4608,
+    197823
   ]
 }

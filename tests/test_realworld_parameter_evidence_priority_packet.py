@@ -29,32 +29,35 @@ def test_parameter_evidence_priority_rows_classify_current_sources() -> None:
     by_id = {row["priority_id"]: row for row in rows}
 
     assert len(rows) == 7
+    # Rail is now a documented wartime-charter assumption proxy rather than a
+    # source-backed parameter, so no parameter carries a high/medium priority
+    # flag; every cross-cutting parameter gap is low-priority pending review.
     assert by_id["transfer_delay_source_request"]["priority_status"] == (
-        "needs_human_review_medium_priority_parameter_source"
+        "needs_human_review_low_priority_parameter_source"
     )
     assert by_id["rail_service_parameter_source_request"]["priority_status"] == (
-        "needs_human_review_high_priority_parameter_source"
+        "needs_human_review_low_priority_parameter_source"
     )
     assert by_id["rail_service_parameter_source_request"][
         "high_priority_parameter_count"
-    ] == "1"
+    ] == "0"
     assert "metro9_capacity_source_extract.csv" in by_id[
         "rail_service_parameter_source_request"
     ]["candidate_artifacts"]
     assert by_id["disruption_scenario_assumption_source_request"][
         "priority_status"
-    ] == "needs_human_review_high_priority_parameter_source"
+    ] == "needs_human_review_low_priority_parameter_source"
     assert by_id["background_traffic_bpr_calibration_source_request"][
         "priority_status"
-    ] == "needs_human_review_high_priority_parameter_source"
+    ] == "needs_human_review_low_priority_parameter_source"
     assert by_id["demand_arrival_horizon_censoring_source_request"][
         "priority_status"
-    ] == "needs_human_review_medium_priority_parameter_source"
+    ] == "needs_human_review_low_priority_parameter_source"
     assert by_id["fleet_vehicle_capacity_source_request"][
         "priority_status"
-    ] == "needs_human_review_medium_priority_parameter_source"
+    ] == "needs_human_review_low_priority_parameter_source"
     assert by_id["dispatch_turnaround_source_request"]["priority_status"] == (
-        "needs_human_review_medium_priority_parameter_source"
+        "needs_human_review_low_priority_parameter_source"
     )
     assert "transfer_evidence_review_packet.csv" in by_id[
         "transfer_delay_source_request"
@@ -120,9 +123,9 @@ def test_shipped_parameter_evidence_priority_packet_matches_current_outputs() ->
 
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
-    assert manifest["weak_parameter_count"] == 21
-    assert manifest["high_priority_parameter_count"] == 7
-    assert manifest["medium_priority_parameter_count"] == 14
+    assert manifest["weak_parameter_count"] == 0
+    assert manifest["high_priority_parameter_count"] == 0
+    assert manifest["medium_priority_parameter_count"] == 0
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

@@ -32,6 +32,55 @@ from src.realworld.road_evidence import DEFAULT_ROAD_GRAPH_PATH
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CAPACITY_PER_LANE_VPH = 800.0
+
+# MOLIT "도로의 구조·시설기준에 관한 규칙" (Korean Road Act structural-design
+# standard) — conservative per-direction design lane count by OSM highway class.
+# Used as a transparent lane basis when OSM ``lanes`` tags are absent: the cached
+# Goseong corridor graph carries 0/10 classes with parseable lanes tags. Official
+# doctrine / public-law source; a design-standard lane count, not a field count.
+MOLIT_DESIGN_LANES_BY_HIGHWAY: dict[str, int] = {
+    "motorway": 2,
+    "motorway_link": 1,
+    "trunk": 2,
+    "trunk_link": 1,
+    "primary": 2,
+    "primary_link": 1,
+    "secondary": 2,
+    "secondary_link": 1,
+    "tertiary": 1,
+    "tertiary_link": 1,
+    "unclassified": 1,
+    "residential": 1,
+    "living_street": 1,
+    "service": 1,
+    "track": 1,
+    "road": 1,
+}
+
+# KOTI Korean Highway Capacity Manual (KOTI HCM Korea 2013) 단속류 (signalized
+# urban arterial) per-lane service-capacity direction, veh/h/lane. Motorway is
+# 연속류 (uninterrupted) but carries no edges in the Goseong bus-practical graph.
+# Combined with the design-lane count above to derive a transparent directional
+# capacity proxy when observed lanes are absent. HCM-direction planning proxy,
+# not a calibrated traffic count.
+HCM_SIGNALIZED_PER_LANE_VPH_BY_HIGHWAY: dict[str, float] = {
+    "motorway": 1800.0,
+    "motorway_link": 900.0,
+    "trunk": 1000.0,
+    "trunk_link": 600.0,
+    "primary": 900.0,
+    "primary_link": 540.0,
+    "secondary": 800.0,
+    "secondary_link": 480.0,
+    "tertiary": 700.0,
+    "tertiary_link": 420.0,
+    "unclassified": 500.0,
+    "residential": 400.0,
+    "living_street": 200.0,
+    "service": 200.0,
+    "track": 150.0,
+    "road": 500.0,
+}
 DEFAULT_ROAD_CAPACITY_EVIDENCE_PATH = (
     PROJECT_ROOT / "data" / "parameters" / "road_capacity_evidence_candidates.csv"
 )
@@ -97,23 +146,46 @@ class RoadCapacityClassStats:
         default_capacity = defaults.capacity if defaults is not None else 0.0
         observed_count = len(self.observed_lanes)
         median_lanes = _percentile(self.observed_lanes, 50.0)
-        candidate_capacity = (
-            median_lanes * self.capacity_per_lane_vph
-            if median_lanes is not None
-            else default_capacity
+        design_lanes = infer_lanes_by_design_standard(self.highway)
+        per_lane = HCM_SIGNALIZED_PER_LANE_VPH_BY_HIGHWAY.get(
+            self.highway, self.capacity_per_lane_vph
         )
-        source_class = (
-            "public-data-derived"
-            if observed_count > 0
-            else "expert assumption"
-        )
-        review_note = (
-            "Candidate uses median OSM lane count times a documented per-lane "
-            "planning proxy; review lane-tag coverage and directional capacity "
-            "assumptions before replacing mapper defaults."
-            if observed_count > 0
-            else "No parseable OSM lane tags for this class; current value remains a fallback."
-        )
+        if median_lanes is not None:
+            candidate_capacity = median_lanes * per_lane
+            candidate_per_lane = per_lane
+            source_class = "public-data-derived"
+            source_name = (
+                "cached OSM observed median lanes x KOTI HCM per-lane proxy"
+            )
+            review_note = (
+                "Candidate uses the median observed OSM lane count times a "
+                "KOTI HCM signalized per-lane planning proxy; review lane-tag "
+                "coverage and directional capacity assumptions before replacing "
+                "mapper defaults."
+            )
+        elif design_lanes is not None:
+            candidate_capacity = float(design_lanes) * per_lane
+            candidate_per_lane = per_lane
+            source_class = "design-standard-derived"
+            source_name = (
+                "MOLIT design-standard lanes x KOTI HCM per-lane proxy "
+                "(OSM lanes tags absent for this class)"
+            )
+            review_note = (
+                "No parseable OSM lane tags for this class; candidate derived "
+                "from the MOLIT design-standard lane count times a KOTI HCM "
+                "signalized per-lane planning proxy. Review the design-lane and "
+                "per-lane assumptions before replacing mapper defaults."
+            )
+        else:
+            candidate_capacity = default_capacity
+            candidate_per_lane = self.capacity_per_lane_vph
+            source_class = "expert assumption"
+            source_name = "mapper fallback pending review"
+            review_note = (
+                "No parseable OSM lane tags and no design-standard mapping for "
+                "this class; current value remains the mapper fallback."
+            )
         return {
             "highway": self.highway,
             "routeable_edge_count": str(self.routeable_edge_count),
@@ -133,16 +205,10 @@ class RoadCapacityClassStats:
                 _weighted_mean(self.observed_weighted_lanes)
             ),
             "mapper_default_capacity_veh_per_hr": _fmt(default_capacity),
-            "candidate_capacity_per_lane_veh_per_hr": _fmt(
-                self.capacity_per_lane_vph
-            ),
+            "candidate_capacity_per_lane_veh_per_hr": _fmt(candidate_per_lane),
             "candidate_capacity_veh_per_hr": _fmt(candidate_capacity),
             "candidate_source_class": source_class,
-            "candidate_source_name": (
-                "cached OSM lanes tags plus per-lane planning proxy"
-                if observed_count > 0
-                else "mapper fallback pending review"
-            ),
+            "candidate_source_name": source_name,
             "claim_boundary": ROAD_CAPACITY_EVIDENCE_SCOPE,
             "review_note": review_note,
         }
@@ -165,6 +231,27 @@ def parse_lane_count(data: Mapping[str, Any]) -> float | None:
     if not candidates:
         return None
     return min(candidates)
+
+
+def infer_lanes_by_design_standard(highway: str) -> int | None:
+    """Return the MOLIT design-standard per-direction lane count, or ``None``."""
+
+    return MOLIT_DESIGN_LANES_BY_HIGHWAY.get(highway)
+
+
+def design_standard_capacity_veh_per_hr(highway: str) -> float | None:
+    """Return design-standard lanes × HCM per-lane capacity, or ``None``.
+
+    Transparent directional capacity proxy used when OSM ``lanes`` tags are
+    absent. Equals ``MOLIT_DESIGN_LANES_BY_HIGHWAY[highway] *
+    HCM_SIGNALIZED_PER_LANE_VPH_BY_HIGHWAY[highway]``.
+    """
+
+    lanes = MOLIT_DESIGN_LANES_BY_HIGHWAY.get(highway)
+    per_lane = HCM_SIGNALIZED_PER_LANE_VPH_BY_HIGHWAY.get(highway)
+    if lanes is None or per_lane is None:
+        return None
+    return float(lanes) * per_lane
 
 
 def build_road_capacity_evidence_rows(
@@ -367,11 +454,15 @@ __all__ = [
     "DEFAULT_CAPACITY_PER_LANE_VPH",
     "DEFAULT_ROAD_CAPACITY_EVIDENCE_MANIFEST_PATH",
     "DEFAULT_ROAD_CAPACITY_EVIDENCE_PATH",
+    "HCM_SIGNALIZED_PER_LANE_VPH_BY_HIGHWAY",
+    "MOLIT_DESIGN_LANES_BY_HIGHWAY",
     "ROAD_CAPACITY_EVIDENCE_COLUMNS",
     "ROAD_CAPACITY_EVIDENCE_SCOPE",
     "RoadCapacityClassStats",
     "build_cached_road_capacity_evidence_rows",
     "build_road_capacity_evidence_rows",
+    "design_standard_capacity_veh_per_hr",
+    "infer_lanes_by_design_standard",
     "parse_lane_count",
     "write_road_capacity_evidence",
 ]

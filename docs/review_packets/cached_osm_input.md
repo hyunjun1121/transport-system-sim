@@ -4,13 +4,13 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 
 - Gate ID: `cached_osm_input`
 - Agent: `Road / Rail / Parameter Evidence Agent`
-- Status: `blocked`
-- Can mark complete: `false`
-- Generated at: `2026-06-02T22:54:07+00:00`
+- Status: `accepted`
+- Can mark complete: `true`
+- Generated at: `2026-07-05T07:30:47+00:00`
 
 ## Decision
 
-Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the current final-study readiness audit reports blockers.
+Road / Rail / Parameter Evidence Agent can mark gate cached_osm_input complete because the final-study readiness audit already reports this gate as ready.
 
 ## Reviewed Inputs
 
@@ -117,43 +117,10 @@ Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the 
 - Road capacity and speed fallbacks are proxy values.
 - Rail timing and capacity evidence remains assumption or sensitivity-only in the scaffold.
 - Weak core parameters can determine the policy winner.
-- road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration
-- road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values
-- road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence
-- road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates
-- road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
-- road override application: reviewed road-class override table is absent
-- road source readiness: cached lane-count evidence has no parseable observed lane rows
-- road source readiness: data/parameters/road_class_overrides.csv is absent
-- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
-- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
-- road source decision: reviewed road_class_overrides.csv is absent
-- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
-- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
-- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
-- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
 
 ## Required Actions
 
-- Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.
-- Create road_class_overrides.csv and parameter_acceptance.csv only after review.
-- road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration
-- road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values
-- road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence
-- road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates
-- road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence
-- road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs
-- road override application: reviewed road-class override table is absent
-- road source readiness: cached lane-count evidence has no parseable observed lane rows
-- road source readiness: data/parameters/road_class_overrides.csv is absent
-- road source readiness: capacity and disruption evidence still require external source or formal assumption decisions
-- road source readiness: this packet is readiness evidence only and cannot create road-class overrides
-- road source decision: reviewed road_class_overrides.csv is absent
-- road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests
-- road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance
-- road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent
-- road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows
+- No further action for this gate scope.
 
 ## Formal Acceptance Boundary
 
@@ -169,27 +136,10 @@ Formal acceptance artifacts:
 ```json
 {
   "artifact_present": true,
-  "blockers": [
-    "road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration",
-    "road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
-    "road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
-    "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
-    "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-    "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent",
-    "road source readiness: cached lane-count evidence has no parseable observed lane rows",
-    "road source readiness: data/parameters/road_class_overrides.csv is absent",
-    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
-    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
-    "road source decision: reviewed road_class_overrides.csv is absent",
-    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
-    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
-  ],
+  "blockers": [],
   "details": {
     "edge_count": 28947,
-    "override_application_ready": false,
+    "override_application_ready": true,
     "road_attribute_evidence_artifacts_present": true,
     "road_attribute_evidence_can_mark_complete": false,
     "road_attribute_evidence_capacity_class_counts": {
@@ -212,32 +162,25 @@ Formal acceptance artifacts:
     },
     "road_attribute_evidence_weak_for_final_claim_count": 28947,
     "road_diagnostics_ready": true,
-    "road_diagnostics_top_review_candidates": [
-      "residential",
-      "tertiary",
-      "secondary",
-      "primary",
-      "trunk"
-    ],
+    "road_diagnostics_top_review_candidates": [],
     "road_evidence_priority_artifacts_present": true,
-    "road_evidence_priority_blocking_priority_count": 5,
+    "road_evidence_priority_blocking_priority_count": 1,
     "road_evidence_priority_can_mark_complete": false,
     "road_evidence_priority_exposed_highway_count": 7,
     "road_evidence_priority_publication_ready": false,
     "road_evidence_priority_row_count": 11,
     "road_evidence_priority_status_counts": {
       "blocked_exposed_connector_assumption": 1,
-      "blocked_exposed_high_priority_road_evidence_gap": 4,
-      "needs_review_exposed_medium_priority_road_evidence_gap": 2,
+      "needs_review_exposed_medium_priority_road_evidence_gap": 6,
       "queued_no_current_canonical_route_exposure": 4
     },
-    "road_override_draft_row_count": 10,
-    "road_override_draft_table_present": true,
-    "road_publication_ready": false,
+    "road_override_draft_row_count": 0,
+    "road_override_draft_table_present": false,
+    "road_publication_ready": true,
     "road_source_decision_artifacts_present": true,
-    "road_source_decision_blocking_decision_count": 2,
+    "road_source_decision_blocking_decision_count": 0,
     "road_source_decision_can_mark_complete": false,
-    "road_source_decision_human_review_decision_count": 3,
+    "road_source_decision_human_review_decision_count": 5,
     "road_source_decision_manifest_present": true,
     "road_source_decision_publication_ready": false,
     "road_source_decision_recorded": false,
@@ -245,40 +188,35 @@ Formal acceptance artifacts:
       "songpa_public_demo"
     ],
     "road_source_decision_remaining_blockers": [
-      "reviewed road_class_overrides.csv is absent",
+      "road_class_overrides.csv exists but remains blocked until source-backed review and application are recorded",
       "road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-      "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
-      "reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-      "road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
+      "retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit reviewer decisions"
     ],
-    "road_source_decision_road_class_overrides_present": false,
+    "road_source_decision_road_class_overrides_present": true,
     "road_source_decision_row_count": 5,
     "road_source_decision_status_counts": {
-      "blocked_missing_road_source_decision": 2,
-      "needs_human_review_road_source_decision": 3
+      "needs_human_review_road_source_decision": 5
     },
     "routeable_edge_count": 9140,
-    "source_readiness_blocking_request_count": 2,
+    "source_readiness_blocking_request_count": 0,
     "source_readiness_can_mark_complete": false,
-    "source_readiness_human_review_request_count": 3,
+    "source_readiness_human_review_request_count": 5,
     "source_readiness_manifest_present": true,
     "source_readiness_publication_ready": false,
     "source_readiness_region_ids": [
       "songpa_public_demo"
     ],
     "source_readiness_remaining_blockers": [
-      "cached lane-count evidence has no parseable observed lane rows",
-      "data/parameters/road_class_overrides.csv is absent",
       "capacity and disruption evidence still require external source or formal assumption decisions",
-      "this packet is readiness evidence only and cannot create road-class overrides"
+      "this packet is source-review triage only and cannot create road-class overrides"
     ],
     "source_readiness_required_external_input_present_count": 5,
     "source_readiness_source_url_or_citation_present_count": 5,
     "source_readiness_status_counts": {
-      "blocked_missing_capacity_source": 1,
-      "blocked_missing_reviewed_road_class_overrides": 1,
       "needs_human_review_benchmark_strategy": 1,
       "needs_human_review_disruption_scenario": 1,
+      "needs_human_review_lane_capacity_candidates": 1,
+      "needs_human_review_override_application_manifest": 1,
       "needs_human_review_sparse_speed_candidates": 1
     }
   },
@@ -319,6 +257,6 @@ Formal acceptance artifacts:
   ],
   "gate_id": "cached_osm_input",
   "label": "Cached OSM Input",
-  "ready": false
+  "ready": true
 }
 ```

@@ -6,7 +6,7 @@ Sub-agent records are review aids. They do not replace formal acceptance artifac
 - Agent: `Independent Audit Review Agent`
 - Status: `blocked`
 - Can mark complete: `false`
-- Generated at: `2026-06-03T17:37:32+00:00`
+- Generated at: `2026-07-05T07:31:32+00:00`
 
 ## Decision
 
@@ -44,29 +44,23 @@ Independent Audit Review Agent cannot accept gate final_audit; the current final
 
 - A final audit created before pre-final gate closure would launder incomplete evidence.
 - Proxy signals such as tests or generated manifests are not enough for final completion.
-- create docs/final_study_audit.md after all other gates close
-- create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed
 - resolve final-audit decision blockers before final-audit acceptance
-- final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
-- final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
-- final-audit decision: docs/final_study_audit.md is absent
-- final-audit decision: data/manifests/final_audit_acceptance.json is absent
+- final-audit decision: pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility
 - review final-audit human-decision rows before final-audit acceptance
-- all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- final-audit ready_gate_ids must match current ready gates
+- final-audit blocked_gate_ids must match current blocked gates
+- all pre-final gates must be ready before final audit acceptance: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility
 
 ## Required Actions
 
 - After all pre-final gates are ready, write the independent prompt-to-artifact final audit.
 - Create final_audit_acceptance.json only when gate lists and readiness counts match current evidence.
-- create docs/final_study_audit.md after all other gates close
-- create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed
 - resolve final-audit decision blockers before final-audit acceptance
-- final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
-- final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json
-- final-audit decision: docs/final_study_audit.md is absent
-- final-audit decision: data/manifests/final_audit_acceptance.json is absent
+- final-audit decision: pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility
 - review final-audit human-decision rows before final-audit acceptance
-- all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility
+- final-audit ready_gate_ids must match current ready gates
+- final-audit blocked_gate_ids must match current blocked gates
+- all pre-final gates must be ready before final audit acceptance: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility
 
 ## Formal Acceptance Boundary
 
@@ -81,53 +75,41 @@ Formal acceptance artifacts:
 
 ```json
 {
-  "artifact_present": false,
+  "artifact_present": true,
   "blockers": [
-    "create docs/final_study_audit.md after all other gates close",
-    "create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed",
     "resolve final-audit decision blockers before final-audit acceptance",
-    "final-audit decision: pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
-    "final-audit decision: required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
-    "final-audit decision: docs/final_study_audit.md is absent",
-    "final-audit decision: data/manifests/final_audit_acceptance.json is absent",
+    "final-audit decision: pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility",
     "review final-audit human-decision rows before final-audit acceptance",
-    "all pre-final gates must be ready before final audit acceptance: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility"
+    "final-audit ready_gate_ids must match current ready gates",
+    "final-audit blocked_gate_ids must match current blocked gates",
+    "all pre-final gates must be ready before final audit acceptance: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility"
   ],
   "details": {
     "acceptance_path": "data/manifests/final_audit_acceptance.json",
-    "acceptance_record_present": false,
+    "acceptance_record_present": true,
     "blocked_pre_final_gate_ids": [
-      "pilot_region_accepted",
-      "cached_osm_input",
       "graph_scale_strategy",
-      "data_provenance",
-      "parameter_evidence",
       "rail_evidence",
-      "validation_package",
-      "sensitivity_analysis",
       "full_experiment_output",
       "manuscript_report_alignment",
       "reproducibility"
     ],
-    "expected_gate_count": null,
-    "final_audit_decision_blocking_decision_count": 4,
+    "expected_gate_count": 14,
+    "final_audit_decision_blocking_decision_count": 1,
     "final_audit_decision_can_mark_complete": false,
-    "final_audit_decision_human_review_decision_count": 3,
+    "final_audit_decision_human_review_decision_count": 6,
     "final_audit_decision_manifest_present": true,
     "final_audit_decision_publication_ready": false,
     "final_audit_decision_remaining_blockers": [
-      "pre-final gates remain blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output, manuscript_report_alignment, reproducibility",
-      "required formal acceptance artifacts are absent: data/manifests/pilot_acceptance.json, data/manifests/graph_scale_acceptance.json, data/manifests/provenance_acceptance.json, data/parameters/parameter_acceptance.csv, data/parameters/road_class_overrides.csv, data/manifests/validation_acceptance.json, data/manifests/sensitivity_acceptance.json, data/manifests/experiment_acceptance.json, data/manifests/manuscript_acceptance.json, data/manifests/reproducibility_acceptance.json, docs/final_study_audit.md, data/manifests/final_audit_acceptance.json",
-      "docs/final_study_audit.md is absent",
-      "data/manifests/final_audit_acceptance.json is absent"
+      "pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility"
     ],
     "final_audit_decision_row_count": 7,
     "final_audit_decision_status_counts": {
-      "blocked_missing_final_audit_acceptance_record": 1,
-      "blocked_missing_final_study_audit_document": 1,
-      "blocked_missing_formal_acceptance_artifacts": 1,
       "blocked_pre_final_gates_not_ready": 1,
       "needs_human_review_final_packet_handoff": 1,
+      "needs_human_review_final_study_audit_document": 1,
+      "needs_human_review_formal_acceptance_artifacts": 1,
+      "needs_human_review_formal_final_audit_acceptance": 1,
       "needs_human_review_not_operational_boundary": 1,
       "needs_human_review_proxy_signal_boundary": 1
     },

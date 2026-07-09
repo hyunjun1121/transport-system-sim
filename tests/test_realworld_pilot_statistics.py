@@ -137,9 +137,12 @@ def test_shipped_full_pilot_statistics_are_reproducible() -> None:
     metric_rows = build_metric_ci_rows(rows)
     delta_rows = build_paired_delta_ci_rows(rows)
 
-    assert len(rows) == 15870
-    assert len(metric_rows) == 6877
-    assert len(delta_rows) == 6578
+    # engineering_only full-pilot re-run on the REDUCED Goseong corridor graph:
+    # 23 policies x 18 scenarios x 30 seeds = 12,420 rows (5 off-corridor
+    # spatial-bbox scenarios are skipped as inapplicable to the reduced corridor).
+    assert len(rows) == 12420
+    assert len(metric_rows) == 5382
+    assert len(delta_rows) == 5148
 
     print("PASS: shipped full-pilot statistics match current scaffold dimensions")
 

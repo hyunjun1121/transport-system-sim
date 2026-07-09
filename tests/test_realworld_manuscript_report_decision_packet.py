@@ -37,13 +37,13 @@ def test_manuscript_report_decision_rows_classify_current_state() -> None:
         "needs_human_review_korean_report_scope"
     )
     assert by_id["figure_table_use_decision"]["decision_status"] == (
-        "needs_human_review_figure_table_use"
+        "blocked_figure_table_review_dependency"
     )
     assert by_id["result_claim_alignment_decision"]["decision_status"] == (
-        "needs_human_review_claim_alignment"
+        "blocked_claim_alignment_review_dependency"
     )
     assert by_id["upstream_evidence_gate_dependency"]["decision_status"] == (
-        "needs_human_review_upstream_gate_scope"
+        "blocked_upstream_evidence_gate_dependency"
     )
     assert by_id["docx_regeneration_decision"]["decision_status"] == (
         "needs_human_review_docx_regeneration"
@@ -94,8 +94,9 @@ def test_manuscript_report_decision_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 7
-    assert written_manifest["blocking_decision_count"] == 0
-    assert written_manifest["human_review_decision_count"] == 7
+    # Upstream gates blocked -> 3 blocked rows + 4 needs-human-review rows.
+    assert written_manifest["blocking_decision_count"] == 3
+    assert written_manifest["human_review_decision_count"] == 4
     assert written_manifest["manuscript_gate_closure_candidate_count"] == 0
     assert "Manuscript/Report Decision Packet" in doc_text
 
@@ -125,8 +126,8 @@ def test_shipped_manuscript_report_decision_packet_matches_current_outputs() -> 
     for shipped_row in written_rows:
         assert shipped_row["decision_id"] in {r["decision_id"] for r in rows}
     assert manifest["row_count"] == len(written_rows)
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    assert manifest["blocking_decision_count"] == 3
+    assert manifest["human_review_decision_count"] == 4
     assert manifest["paper_review_decision_recorded"] is False
     assert manifest["korean_report_review_decision_recorded"] is False
     assert manifest["docx_regeneration_decision_recorded"] is False

@@ -1,7 +1,7 @@
 {
   "can_mark_complete": false,
   "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
-  "current_status": "blocked",
+  "current_status": "ready",
   "evidence_checked": [
     {
       "claim_supported": "Repository evidence cited for manuscript_report_alignment",
@@ -47,8 +47,8 @@
     },
     {
       "claim_supported": "Formal target required for manuscript_report_alignment",
-      "exists": false,
-      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
+      "exists": true,
+      "notes": "formal artifact present; still requires validator review",
       "path": "data/manifests/manuscript_acceptance.json"
     },
     {
@@ -117,41 +117,36 @@
   ],
   "final_study_ready": false,
   "formal_approval": false,
-  "formal_ready": false,
-  "formal_record_present": false,
+  "formal_ready": true,
+  "formal_record_present": true,
   "formal_target": "data/manifests/manuscript_acceptance.json",
   "gate": "manuscript_report_alignment",
-  "generated_at": "2026-06-11T15:08:02+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Supply or regenerate the missing evidence items before deciding.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/manuscript_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
   "label": "Manuscript/Report Alignment Decision",
   "missing_evidence": [
-    "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "close evidence gates before final paper/report claims",
     "revise figure/table claim boundary from scaffold to accepted study scope",
     "resolve figure/table review blockers before manuscript acceptance",
     "figure/table review: figure/table outputs depend on reduced analysis graph scope",
     "figure/table review: figure/table source outputs remain scaffold or not calibrated",
-    "figure/table review: data/manifests/manuscript_acceptance.json is absent",
     "review figure/table human-review rows before manuscript acceptance",
     "review or revise claim-alignment overclaim candidates before manuscript acceptance",
     "claim alignment: formal manuscript/report review record is absent",
     "claim alignment: claim-alignment rows are review aids and do not approve manuscript claims",
     "claim alignment: evidence gates remain blocked, so result claims cannot be treated as target-study claims",
     "resolve manuscript/report decision blockers before manuscript acceptance",
-    "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated; data/manifests/manuscript_acceptance.json is absent",
-    "manuscript/report decision: claim-alignment packet has 52 rows requiring revision or explicit retention",
-    "manuscript/report decision: upstream evidence gates blocked: pilot_region_accepted, cached_osm_input, graph_scale_strategy, data_provenance, parameter_evidence, rail_evidence, validation_package, sensitivity_analysis, full_experiment_output",
-    "manuscript/report decision: data/manifests/manuscript_acceptance.json is absent",
-    "review manuscript/report human-decision rows before manuscript acceptance",
-    "data/manifests/manuscript_acceptance.json is absent"
+    "manuscript/report decision: figure/table outputs depend on reduced analysis graph scope; figure/table source outputs remain scaffold or not calibrated",
+    "manuscript/report decision: claim-alignment packet has 55 rows requiring revision or explicit retention",
+    "manuscript/report decision: upstream evidence gates blocked: graph_scale_strategy, rail_evidence, full_experiment_output",
+    "review manuscript/report human-decision rows before manuscript acceptance"
   ],
   "must_not_be_used_as_final_acceptance": true,
   "plan_evidence_paths": [
@@ -170,24 +165,22 @@
     "data/manifests/manuscript_report_decision_manifest.json",
     "docs/manuscript_report_decision_packet.md"
   ],
-  "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
+  "recommendation": "recommended_approve",
+  "recommendation_reason": "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
   "related_plan_gate_ids": [
     "manuscript_report_alignment"
   ],
   "residual_risks": [
     "Revise or hold claims until all supporting evidence gates are accepted.",
     "Create manuscript_acceptance.json after claim-by-claim review.",
-    "create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
-    "create an explicit manuscript/report decision record after evidence gates, figures, paper, report, and claim boundaries are reviewed",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
-    "docs/review_packets/manuscript_report_alignment.md",
     "data/manifests/claim_alignment_review_packet.csv",
     "data/manifests/figure_table_review_packet.csv",
-    "data/manifests/manuscript_report_decision_packet.csv"
+    "data/manifests/manuscript_report_decision_packet.csv",
+    "docs/review_packets/manuscript_report_alignment.md"
   ],
   "reviewed_inputs": [
     "scripts/audit_publication_readiness.py",

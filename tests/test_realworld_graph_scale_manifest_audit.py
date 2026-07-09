@@ -145,8 +145,8 @@ def test_shipped_graph_scale_manifest_audit_matches_current_outputs() -> None:
     assert len(written_rows) == len(rows)
     assert manifest["row_count"] == 13
     assert manifest["missing_or_incomplete_row_count"] == 0
-    assert manifest["source_graph_node_counts"] == [4608]
-    assert manifest["analysis_graph_node_counts"] == [118, 164]
+    assert manifest["source_graph_node_counts"] == [4608, 197823]
+    assert manifest["analysis_graph_node_counts"] == [118, 164, 2850]
     assert manifest["publication_ready"] is False
 
     print("PASS: shipped graph-scale manifest audit matches current outputs")

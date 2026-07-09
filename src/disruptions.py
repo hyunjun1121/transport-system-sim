@@ -29,15 +29,24 @@ def sample_edge_disruptions(
     mode: DisruptionMode = "blocked",
     capacity_reduction_factor: float = 0.5,
     rail_immune: bool = True,
+    road_travel_time_multiplier: float = 1.0,
 ) -> dict[Edge, EdgeDisruption]:
     """Sample per-edge disruptions using scaled Bernoulli probabilities.
 
     The sampled probability for each eligible edge is
     ``min(edge.p_fail * p_fail_scale, 1.0)``. Rail edges are normal by default
     and do not consume random draws unless ``rail_immune`` is disabled.
+
+    ``road_travel_time_multiplier`` is an orthogonal direct-slowdown lever: a
+    disrupted (degraded) edge carries it so ``enter_edge`` scales free-flow t0
+    directly. It is mode-orthogonal and defaults to 1.0 (no effect); only
+    degraded edges inherit it (blocked -> inf, normal -> 1.0).
     """
     _validate_mode(mode)
     p_fail_scale = _validate_scale(p_fail_scale)
+    road_travel_time_multiplier = _validate_road_travel_time_multiplier(
+        road_travel_time_multiplier
+    )
     if mode == "none":
         return {(u, v): EdgeDisruption() for u, v in G.edges()}
     if mode == "capacity_reduction":
@@ -54,7 +63,9 @@ def sample_edge_disruptions(
 
         probability = scaled_failure_probability(data, p_fail_scale)
         if rng.random() < probability:
-            disruptions[edge] = _disrupted_state(mode, capacity_reduction_factor)
+            disruptions[edge] = _disrupted_state(
+                mode, capacity_reduction_factor, road_travel_time_multiplier
+            )
         else:
             disruptions[edge] = EdgeDisruption()
 
@@ -69,6 +80,7 @@ def sample_disruptions(
     mode: DisruptionMode = "blocked",
     capacity_reduction_factor: float = 0.5,
     rail_immune: bool = True,
+    road_travel_time_multiplier: float = 1.0,
 ) -> dict[Edge, EdgeDisruption]:
     """Alias for ``sample_edge_disruptions`` with a shorter public name."""
     return sample_edge_disruptions(
@@ -78,6 +90,7 @@ def sample_disruptions(
         mode=mode,
         capacity_reduction_factor=capacity_reduction_factor,
         rail_immune=rail_immune,
+        road_travel_time_multiplier=road_travel_time_multiplier,
     )
 
 
@@ -151,12 +164,14 @@ def edge_effective_capacity(
 def _disrupted_state(
     mode: DisruptionMode,
     capacity_reduction_factor: float,
+    road_travel_time_multiplier: float = 1.0,
 ) -> EdgeDisruption:
     if mode == "blocked":
         return EdgeDisruption(status="blocked", capacity_factor=0.0)
     return EdgeDisruption(
         status="degraded",
         capacity_factor=capacity_reduction_factor,
+        travel_time_multiplier=road_travel_time_multiplier,
     )
 
 
@@ -183,6 +198,19 @@ def _validate_capacity_reduction_factor(capacity_reduction_factor: float) -> flo
             f"got {capacity_reduction_factor!r}"
         )
     return capacity_reduction_factor
+
+
+def _validate_road_travel_time_multiplier(road_travel_time_multiplier: float) -> float:
+    road_travel_time_multiplier = require_non_negative(
+        road_travel_time_multiplier,
+        "road_travel_time_multiplier",
+    )
+    if road_travel_time_multiplier <= 0.0:
+        raise ValueError(
+            "road_travel_time_multiplier must be > 0, "
+            f"got {road_travel_time_multiplier!r}"
+        )
+    return road_travel_time_multiplier
 
 
 def _node_coordinates(
@@ -265,6 +293,7 @@ def sample_correlated_failures(
     rail_immune: bool = True,
     correlation_radius_m: float = 0.0,
     correlation_strength: float = 1.0,
+    road_travel_time_multiplier: float = 1.0,
 ) -> dict[Edge, EdgeDisruption]:
     """Sample disruptions with optional spatial correlation between nearby edges.
 
@@ -284,6 +313,9 @@ def sample_correlated_failures(
 
     _validate_mode(mode)
     p_fail_scale = _validate_scale(p_fail_scale)
+    road_travel_time_multiplier = _validate_road_travel_time_multiplier(
+        road_travel_time_multiplier
+    )
     if mode == "capacity_reduction":
         capacity_reduction_factor = _validate_capacity_reduction_factor(
             capacity_reduction_factor
@@ -300,6 +332,7 @@ def sample_correlated_failures(
             mode=mode,
             capacity_reduction_factor=capacity_reduction_factor,
             rail_immune=rail_immune,
+            road_travel_time_multiplier=road_travel_time_multiplier,
         )
 
     coords = _node_coordinates(G)
@@ -321,7 +354,9 @@ def sample_correlated_failures(
         p_correlated = max(0.0, min(p_base + correlation_boost, 1.0))
 
         if rng.random() < p_correlated:
-            disruptions[edge] = _disrupted_state(mode, capacity_reduction_factor)
+            disruptions[edge] = _disrupted_state(
+                mode, capacity_reduction_factor, road_travel_time_multiplier
+            )
         else:
             disruptions[edge] = EdgeDisruption()
 

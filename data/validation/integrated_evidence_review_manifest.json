@@ -2,7 +2,7 @@
   "blocking_review_count": 5,
   "can_mark_complete": false,
   "claim_boundary": "Integrated evidence review packet only; not rail evidence acceptance, not validation acceptance, not experiment acceptance, not calibrated real-world evidence, and not operational routing evidence. It cannot create formal acceptance artifacts.",
-  "human_review_count": 14,
+  "human_review_count": 16,
   "human_review_row_count": 0,
   "inputs": {
     "experiment_design_decision_manifest": "data/manifests/experiment_design_decision_manifest.json",
@@ -50,7 +50,7 @@
   },
   "row_count": 5,
   "schema_version": 1,
-  "underlying_human_review_count": 14,
+  "underlying_human_review_count": 16,
   "worker_ids": [
     "E2",
     "E3",

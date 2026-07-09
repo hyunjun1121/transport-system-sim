@@ -7,9 +7,9 @@ Graph-scale strategy review packet only; not graph-scale acceptance, not calibra
 - Publication ready: `false`
 - Can mark complete: `false`
 - Review rows: 5
-- Blocking requests: 2
-- Human-review requests: 3
-- Status counts: `{'blocked_missing_full_graph_experiment_outputs': 1, 'blocked_missing_graph_scale_acceptance_record': 1, 'needs_human_review_multi_corridor_result_deltas': 1, 'needs_human_review_multi_corridor_sample_scope': 1, 'needs_human_review_reduced_corridor_alternate_route_warnings': 1}`
+- Blocking requests: 1
+- Human-review requests: 4
+- Status counts: `{'blocked_missing_full_graph_experiment_outputs': 1, 'needs_human_review_graph_scale_acceptance_record': 1, 'needs_human_review_multi_corridor_result_deltas': 1, 'needs_human_review_multi_corridor_sample_scope': 1, 'needs_human_review_reduced_corridor_alternate_route_warnings': 1}`
 
 ## Full-Graph Runtime Review
 
@@ -26,7 +26,7 @@ Graph-scale strategy review packet only; not graph-scale acceptance, not calibra
 | multi_corridor_candidate | needs_human_review_multi_corridor_sample_scope | top-3 route candidates are preserved; small separated candidate experiment output exists | treat the separated candidate as route-preservation/smoke evidence and review the full-profile candidate before method selection |
 | multi_corridor_full_candidate | needs_human_review_multi_corridor_result_deltas | top-3 route candidates are preserved; full scenario-policy-seed candidate output exists on the multi-corridor graph | review candidate_worsens and nonfinite result differences before selecting this graph method |
 | full_bus_practical_graph | blocked_missing_full_graph_experiment_outputs | full graph smoke manifest reports 2 rows on 4608 nodes / 9148 edges; full scenario-policy-seed outputs have not been generated on the full graph | generate full-graph outputs or explicitly bound release-scope claims away from full-graph execution |
-| graph_scale_acceptance_record | blocked_missing_graph_scale_acceptance_record | data/manifests/graph_scale_acceptance.json | record the selected graph-scale method only after source-vs-analysis graph review |
+| graph_scale_acceptance_record | needs_human_review_graph_scale_acceptance_record | data/manifests/graph_scale_acceptance.json | review the existing graph-scale decision record |
 
 ## Required Reviewer Actions
 

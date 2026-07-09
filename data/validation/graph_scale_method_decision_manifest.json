@@ -1,5 +1,5 @@
 {
-  "blocking_decision_count": 0,
+  "blocking_decision_count": 2,
   "can_mark_complete": false,
   "claim_boundary": "Graph-scale method-decision packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, and not operational routing evidence. It cannot create data/manifests/graph_scale_acceptance.json.",
   "decision_ids": [
@@ -22,7 +22,7 @@
   },
   "downstream_regeneration_decision_recorded": false,
   "graph_scale_gate_closure_candidate_count": 0,
-  "human_review_decision_count": 0,
+  "human_review_decision_count": 5,
   "inputs": {
     "full_graph_runtime_readiness_manifest": "data/validation/full_graph_runtime_readiness_manifest.json",
     "graph_scale_result_comparison_manifest": "data/validation/graph_scale_result_comparison_manifest.json",
@@ -36,7 +36,10 @@
     "manifest": "data/validation/graph_scale_method_decision_manifest.json"
   },
   "publication_ready": false,
-  "remaining_blockers": [],
+  "remaining_blockers": [
+    "full bus-practical graph has smoke/runtime evidence only, not full scenario-policy-seed output",
+    "selected graph choice still requires downstream regeneration decisions for sensitivity, figures, tables, and manuscript interpretation"
+  ],
   "result_scope": "Graph-scale method-decision packet only; not graph-scale acceptance, not calibrated real-world validation, not traffic model validation, and not operational routing evidence.",
   "review_items": [
     "decide whether current reduced-corridor alternate-route warnings are review-scoped tolerances",

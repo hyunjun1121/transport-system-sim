@@ -5,12 +5,12 @@
   "formal_acceptance_path_warning": "Draft records live under data/manifests/draft_acceptance and must not be copied into formal acceptance paths without replacing them with real source-backed reviewer decisions.",
   "formal_acceptance_ready": false,
   "formal_approval": false,
-  "generated_at": "2026-05-09T00:29:30+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required_count": 12,
   "must_not_be_used_as_final_acceptance": true,
   "recommendation_counts": {
-    "blocked_missing_evidence": 8,
-    "blocked_requires_human_decision": 4
+    "blocked_missing_evidence": 1,
+    "recommended_approve": 11
   },
   "record_count": 12,
   "record_dir": "data/manifests/draft_acceptance",

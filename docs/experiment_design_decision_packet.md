@@ -9,9 +9,9 @@ Experiment design-decision packet only; not experiment acceptance, not calibrate
 - Selected run profile recorded: `false`
 - Scenario-policy-seed decision recorded: `false`
 - Decision rows: 8
-- Blocking decisions: 2
-- Human-review decisions: 6
-- Status counts: `{'blocked_graph_scale_dependency': 1, 'blocked_input_evidence_dependency': 1, 'needs_human_review_current_full_profile_scope': 1, 'needs_human_review_existing_experiment_acceptance': 1, 'needs_human_review_multi_corridor_profile_scope': 1, 'needs_human_review_regenerate_or_retain_outputs': 1, 'needs_human_review_result_scope': 1, 'needs_human_review_scenario_policy_seed_design': 1}`
+- Blocking decisions: 3
+- Human-review decisions: 5
+- Status counts: `{'blocked_graph_scale_dependency': 1, 'blocked_input_evidence_dependency': 1, 'blocked_scaffold_or_not_calibrated_experiment_scope': 1, 'needs_human_review_current_full_profile_scope': 1, 'needs_human_review_existing_experiment_acceptance': 1, 'needs_human_review_multi_corridor_profile_scope': 1, 'needs_human_review_regenerate_or_retain_outputs': 1, 'needs_human_review_scenario_policy_seed_design': 1}`
 
 ## Decision Rows
 
@@ -22,9 +22,9 @@ Experiment design-decision packet only; not experiment acceptance, not calibrate
 | scenario_policy_seed_design | needs_human_review_scenario_policy_seed_design | Use the current 7-policy, 9-scenario, 30-seed common-random-number full design as the candidate reviewed design | Review policy exclusions, scenario scope, seed count, CRN pairing, and row-count multiplication before experiment-gate review. |
 | graph_scope_dependency | blocked_graph_scale_dependency | Use experiment outputs only on the graph-scale method chosen by formal graph-scale review | Provide graph-scale review record or regenerate outputs on the selected graph method before experiment-output review. |
 | input_evidence_dependency | blocked_input_evidence_dependency | Use current experiment outputs only after upstream input, road override, parameter, validation, and provenance gates close | Close upstream evidence gates or document why current outputs remain scaffold-only. |
-| result_scope_boundary | needs_human_review_result_scope | Keep current full-pilot outputs scoped as scaffold or decision-support evidence until formal review (not approval, not calibrated) revises the claim boundary | Keep manuscript/report claims bounded until experiment review record covers the reviewed result scope. |
+| result_scope_boundary | blocked_scaffold_or_not_calibrated_experiment_scope | Keep current full-pilot outputs scoped as scaffold or decision-support evidence until formal acceptance revises the claim boundary | Keep manuscript/report claims bounded until experiment acceptance records the reviewed result scope. |
 | regenerate_or_retain_outputs | needs_human_review_regenerate_or_retain_outputs | Decide whether to retain current outputs, regenerate after graph/input review, or keep them only as review evidence | Record whether reviewed outputs should use the current full_pilot run, a multi-corridor/full-graph rerun, or a later regenerated package. |
-| formal_experiment_review_boundary | needs_human_review_existing_experiment_review | Record the selected run profile, graph scope, design, CRN, counts, checksums, and claim boundary only in the formal experiment review record path | Create or check experiment_review_record.json only after source-backed human review; do not copy this packet into the formal path. |
+| formal_experiment_acceptance_boundary | needs_human_review_existing_experiment_acceptance | Record the selected run profile, graph scope, design, CRN, counts, checksums, and claim boundary only in the formal experiment acceptance path | Create or validate experiment_acceptance.json only after source-backed human review; do not copy this packet into the formal path. |
 
 ## Boundary
 

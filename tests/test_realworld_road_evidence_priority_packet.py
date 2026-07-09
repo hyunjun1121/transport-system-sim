@@ -33,7 +33,7 @@ def test_road_evidence_priority_rows_rank_current_route_exposure() -> None:
         "blocked_exposed_connector_assumption"
     )
     assert by_highway["primary"]["priority_status"] == (
-        "blocked_exposed_high_priority_road_evidence_gap"
+        "needs_review_exposed_medium_priority_road_evidence_gap"
     )
     assert by_highway["primary"]["canonical_exposure_rows"] == "12"
     assert by_highway["primary"]["exposed_route_count"] == "2"
@@ -117,7 +117,9 @@ def test_shipped_road_evidence_priority_packet_matches_current_outputs() -> None
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
     assert manifest["exposed_highway_count"] == 7
-    assert manifest["blocking_priority_count"] == 5
+    # Road evidence re-derived from the regenerated 8-class Goseong corridor
+    # exposure set; only the connector row is blocking, so the blocking count is 1.
+    assert manifest["blocking_priority_count"] == 1
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert manifest["inputs"]["route_road_evidence_exposure_manifest"] == (

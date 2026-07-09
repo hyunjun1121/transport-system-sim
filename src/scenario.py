@@ -358,6 +358,9 @@ def _sample_disruptions(
         rng,
         mode=failure_conf.get("mode", "blocked"),
         capacity_reduction_factor=failure_conf.get("capacity_reduction_factor", 0.5),
+        road_travel_time_multiplier=failure_conf.get(
+            "road_travel_time_multiplier", 1.0
+        ),
     )
 
 

@@ -14,15 +14,15 @@ Experiment-package review packet only; not experiment acceptance, not calibrated
 
 | Category | Artifact | Status | Rows | Required Action |
 | --- | --- | --- | --- | --- |
-| manifest_scope | results/realworld_pilot/pilot_full_manifest.json | review_required_scaffold_or_not_calibrated_scope | 15870 / 15870 | Confirm result_scope is bounded to decision support and update only through formal experiment acceptance. |
-| results_row_count | results/realworld_pilot/pilot_full_results.csv | ready_for_review_count_matches | 15870 / 15870 | Verify full result rows match the manifest and were regenerated after the reviewer-selected graph/input scope was documented. |
-| summary_row_count | results/realworld_pilot/pilot_full_summary.csv | ready_for_review_count_matches | 529 / 529 | Verify summary rows match the manifest and summarize only the review-selected run profile. |
-| scenario_policy_seed_design | data/manifests/pilot_experiment_design.json | ready_for_review_design_counts_match | 15870 / 15870 | Confirm policies, scenarios, seeds, exclusions, and row-count multiplication before accepting the experiment package. |
-| graph_scope_dependency | data/manifests/graph_scale_acceptance.json | blocked_until_graph_scale_acceptance | 164 / 4608 | Close graph-scale method review or regenerate outputs on the selected graph method before using full experiment outputs. |
-| input_evidence_dependency | data/manifests/experiment_acceptance.json | blocked_until_input_evidence_acceptance | 16 / 5 | Confirm all input source, road override, parameter, validation, and provenance gates before accepting current outputs. |
+| manifest_scope | results/realworld_pilot/pilot_full_manifest.json | review_required_scaffold_or_not_calibrated_scope | 12420 / 12420 | Confirm result_scope is bounded to decision support and update only through formal experiment acceptance. |
+| results_row_count | results/realworld_pilot/pilot_full_results.csv | ready_for_review_count_matches | 12420 / 12420 | Verify full result rows match the manifest and were regenerated after the reviewer-selected graph/input scope was documented. |
+| summary_row_count | results/realworld_pilot/pilot_full_summary.csv | ready_for_review_count_matches | 414 / 414 | Verify summary rows match the manifest and summarize only the review-selected run profile. |
+| scenario_policy_seed_design | data/manifests/goseong_experiment_design.json | ready_for_review_design_counts_match | 12420 / 12420 | Confirm policies, scenarios, seeds, exclusions, and row-count multiplication before accepting the experiment package. |
+| graph_scope_dependency | data/manifests/graph_scale_acceptance.json | blocked_until_graph_scale_acceptance | 2850 / 197823 | Close graph-scale method review or regenerate outputs on the selected graph method before using full experiment outputs. |
+| input_evidence_dependency | data/manifests/experiment_acceptance.json | review_required_input_evidence_acceptance | 16 / 5 | Confirm all input source, road override, parameter, validation, and provenance gates before accepting current outputs. |
 | common_random_numbers | results/realworld_pilot/pilot_full_manifest.json | ready_for_review_crn_declared | 30 / 30 | Confirm same-seed paired comparisons and scenario runner seed splitting before accepting paired policy claims. |
 | artifact_checksums | results/realworld_pilot/pilot_full_manifest.json | ready_for_review_checksums_available | 3 / 3 | Record these checksums or regenerated equivalents in the formal experiment decision evidence. |
-| formal_experiment_acceptance_requirement | data/manifests/experiment_acceptance.json | blocked_formal_acceptance_absent | 0 / 1 | Create or review experiment_acceptance.json only after graph scope, input checks, scenario-policy-seed design, CRN, counts, and claim boundary are genuinely reviewed. |
+| formal_experiment_acceptance_requirement | data/manifests/experiment_acceptance.json | review_required_formal_acceptance_present | 1 / 1 | Create or review experiment_acceptance.json only after graph scope, input checks, scenario-policy-seed design, CRN, counts, and claim boundary are genuinely reviewed. |
 
 ## Required Reviewer Actions
 

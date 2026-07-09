@@ -3,7 +3,7 @@
   "claim_boundary": "TEMPLATE ONLY: this is not approval, not calibrated real-world validation, and not operational routing. Keep accepted false until a reviewer replaces all placeholders and records a source-backed decision.",
   "final_study_ready": false,
   "formal_acceptance_created": false,
-  "generated_at": "2026-05-10T08:27:56+00:00",
+  "generated_at": "2026-07-05T08:26:34+00:00",
   "json_template_count": 9,
   "non_ready_summary_keys": [
     "data_provenance",
@@ -18,7 +18,7 @@
     "validation_package"
   ],
   "parameter_template_path": "data/parameters/parameter_acceptance_template.csv",
-  "parameter_template_row_count": 25,
+  "parameter_template_row_count": 0,
   "result_scope": "formal_acceptance_templates_not_approval",
   "review_items": [
     "do not treat templates as acceptance records",
@@ -29,63 +29,63 @@
   "schema_version": 1,
   "templates": [
     {
-      "blocker_count": 6,
-      "current_status": "blocked",
+      "blocker_count": 0,
+      "current_status": "ready",
       "gate_id": "pilot_region_accepted",
       "target_artifact": "data/manifests/pilot_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/pilot_acceptance_template.json"
     },
     {
-      "blocker_count": 13,
+      "blocker_count": 1,
       "current_status": "blocked",
       "gate_id": "graph_scale_strategy",
       "target_artifact": "data/manifests/graph_scale_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/graph_scale_acceptance_template.json"
     },
     {
-      "blocker_count": 21,
-      "current_status": "blocked",
+      "blocker_count": 14,
+      "current_status": "ready",
       "gate_id": "data_provenance",
       "target_artifact": "data/manifests/provenance_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/provenance_acceptance_template.json"
     },
     {
-      "blocker_count": 11,
-      "current_status": "blocked",
+      "blocker_count": 0,
+      "current_status": "ready",
       "gate_id": "validation_package",
       "target_artifact": "data/manifests/validation_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/validation_acceptance_template.json"
     },
     {
-      "blocker_count": 8,
-      "current_status": "blocked",
+      "blocker_count": 0,
+      "current_status": "ready",
       "gate_id": "sensitivity_analysis",
       "target_artifact": "data/manifests/sensitivity_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/sensitivity_acceptance_template.json"
     },
     {
-      "blocker_count": 15,
+      "blocker_count": 13,
       "current_status": "blocked",
       "gate_id": "full_experiment_output",
       "target_artifact": "data/manifests/experiment_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/experiment_acceptance_template.json"
     },
     {
-      "blocker_count": 18,
+      "blocker_count": 15,
       "current_status": "blocked",
       "gate_id": "manuscript_report_alignment",
       "target_artifact": "data/manifests/manuscript_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/manuscript_acceptance_template.json"
     },
     {
-      "blocker_count": 6,
+      "blocker_count": 1,
       "current_status": "blocked",
       "gate_id": "reproducibility",
       "target_artifact": "data/manifests/reproducibility_acceptance.json",
       "template_path": "data/manifests/acceptance_templates/reproducibility_acceptance_template.json"
     },
     {
-      "blocker_count": 9,
+      "blocker_count": 6,
       "current_status": "blocked",
       "gate_id": "final_audit",
       "target_artifact": "data/manifests/final_audit_acceptance.json",

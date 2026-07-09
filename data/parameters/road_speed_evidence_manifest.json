@@ -11,8 +11,8 @@
     "compare candidate speeds with public speed limits, agency data, or routing benchmarks",
     "move accepted values into data/parameters/road_class_overrides.csv only after review"
   ],
-  "row_count": 10,
-  "rows_with_observed_maxspeed": 5,
+  "row_count": 8,
+  "rows_with_observed_maxspeed": 8,
   "schema_version": 1,
-  "source_graph_path": "data/cache/pilot_region_road.graphml"
+  "source_graph_path": "data/cache/goseong_corridor_road.graphml"
 }

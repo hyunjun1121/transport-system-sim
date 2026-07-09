@@ -21,16 +21,11 @@
     "docs/review_packets/reproducibility.md"
   ],
   "gate_id": "reproducibility",
-  "generated_at": "2026-05-09T00:30:10+00:00",
+  "generated_at": "2026-07-05T07:30:47+00:00",
   "record_type": "sub_agent_gate_review",
   "required_actions": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
     "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
-    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package",
-    "resolve reproducibility decision blockers before reproducibility acceptance",
-    "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
   ],
   "review_packet_paths": [
@@ -59,11 +54,6 @@
   "risks": [
     "Local dirty-tree validation can miss missing files or untracked artifacts.",
     "Scaffold reproducibility manifests do not prove final package reproducibility.",
-    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package",
-    "resolve reproducibility decision blockers before reproducibility acceptance",
-    "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
     "review reproducibility human-decision rows before reproducibility acceptance"
   ],
   "schema_version": 1,

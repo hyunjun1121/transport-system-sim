@@ -1,5 +1,5 @@
 {
-  "claim_boundary": "Reviewer-accepted decision-support artifacts within formal-acceptance claim boundary. Not operational routing, not calibrated real-world outputs.",
+  "claim_boundary": "All generated artifacts are scaffold-only outputs and must not be described as calibrated real-world or operational outputs.",
   "command": "scripts/make_pilot_figures.py",
   "evidence_label": "scaffold-only",
   "figures": {
@@ -32,17 +32,17 @@
     "pilot": {
       "analysis": {
         "corridor_path_count": 3,
-        "edges": 246,
+        "edges": 3002,
         "graph_corridor_path_count": 3,
         "graph_corridor_strategy": "multi_shortest_time_route_corridor_candidate",
         "graph_reduction_strategy": "multi_corridor",
-        "nodes": 164,
+        "nodes": 2850,
         "reduced": true,
         "strategy": "multi_corridor_for_realistic_route_alternatives"
       },
       "source": {
-        "edges": 9148,
-        "nodes": 4608
+        "edges": 298020,
+        "nodes": 197823
       }
     },
     "sensitivity": {
@@ -50,7 +50,7 @@
         "edges": 174,
         "nodes": 118,
         "reduced": true,
-        "strategy": "route_corridor_reduced_for_sensitivity_scaffold_execution"
+        "strategy": "route_corridor_reduced_for_reviewer_accepted_sensitivity_execution"
       },
       "source": {
         "edges": 9148,
@@ -71,10 +71,10 @@
   },
   "result_scope": "Generated from current pilot scaffold CSVs only; not calibrated real-world results or an operational forecast.",
   "row_counts": {
-    "bottleneck_attribution_table": 529,
+    "bottleneck_attribution_table": 414,
     "claim_boundary_table": 3,
-    "main_result_table": 529,
-    "policy_regime_table": 69,
+    "main_result_table": 414,
+    "policy_regime_table": 54,
     "sensitivity_result_table": 61824
   },
   "schema_version": 1,
@@ -85,7 +85,7 @@
   },
   "source_result_scopes": {
     "pilot": "Engineering-only pilot output for quasi-real decision-support method review (non-publication, non-acceptance, non-operational); not publication evidence, not final-study evidence, not formal acceptance evidence, not calibrated real-world results, and not an operational route plan or forecast. Base profile scope: Pilot full scenario-policy-seed output for quasi-real decision-support evaluation; not calibrated real-world results or an operational forecast.",
-    "sensitivity": "Pilot scaffold SALib Morris sensitivity output; not calibrated real-world sensitivity evidence or an operational forecast."
+    "sensitivity": "Reviewer-accepted SALib Morris sensitivity output for quasi-real decision-support evaluation within formal-acceptance claim boundary."
   },
   "tables": {
     "bottleneck_attribution_table": "results/realworld_pilot/tables/bottleneck_attribution_table.csv",

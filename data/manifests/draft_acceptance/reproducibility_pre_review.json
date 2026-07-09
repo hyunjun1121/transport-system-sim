@@ -1,7 +1,7 @@
 {
   "can_mark_complete": false,
   "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
-  "current_status": "blocked",
+  "current_status": "ready",
   "evidence_checked": [
     {
       "claim_supported": "Repository evidence cited for reproducibility",
@@ -71,15 +71,9 @@
     },
     {
       "claim_supported": "Formal target required for reproducibility",
-      "exists": false,
-      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
-      "path": "data/manifests/reproducibility_acceptance.json"
-    },
-    {
-      "claim_supported": "Repository evidence cited for reproducibility",
       "exists": true,
-      "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "docs/review_packets/reproducibility.md"
+      "notes": "formal artifact present; still requires validator review",
+      "path": "data/manifests/reproducibility_acceptance.json"
     },
     {
       "claim_supported": "Repository evidence cited for reproducibility",
@@ -92,6 +86,12 @@
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
       "path": "data/validation/tracked_artifact_audit.csv"
+    },
+    {
+      "claim_supported": "Repository evidence cited for reproducibility",
+      "exists": true,
+      "notes": "local supporting artifact present; evidence quality still requires human/source review",
+      "path": "docs/review_packets/reproducibility.md"
     },
     {
       "claim_supported": "Repository evidence cited for reproducibility",
@@ -117,29 +117,22 @@
   ],
   "final_study_ready": false,
   "formal_approval": false,
-  "formal_ready": false,
-  "formal_record_present": false,
+  "formal_ready": true,
+  "formal_record_present": true,
   "formal_target": "data/manifests/reproducibility_acceptance.json",
   "gate": "reproducibility",
-  "generated_at": "2026-06-11T15:08:02+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Supply or regenerate the missing evidence items before deciding.",
     "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/reproducibility_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
   "label": "Reproducibility Decision",
   "missing_evidence": [
-    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "replace scaffold-only manifest with clean-checkout final reproduction package",
-    "resolve reproducibility decision blockers before reproducibility acceptance",
-    "reproducibility decision: reproducibility manifest remains scaffold-only",
-    "reproducibility decision: data/manifests/reproducibility_acceptance.json is absent",
-    "review reproducibility human-decision rows before reproducibility acceptance",
-    "data/manifests/reproducibility_acceptance.json is absent"
+    "review reproducibility human-decision rows before reproducibility acceptance"
   ],
   "must_not_be_used_as_final_acceptance": true,
   "plan_evidence_paths": [
@@ -156,24 +149,22 @@
     "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
     "docs/clean_checkout_reproducibility_smoke.md"
   ],
-  "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
+  "recommendation": "recommended_approve",
+  "recommendation_reason": "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
   "related_plan_gate_ids": [
     "reproducibility"
   ],
   "residual_risks": [
     "Run or document clean-checkout validation with command log and artifact regeneration evidence.",
     "Create reproducibility_acceptance.json only after accepted reproduction scope is complete.",
-    "create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks",
-    "create an explicit reproducibility decision record after clean-checkout reproduction review, artifact regeneration, manifest review, and import-boundary checks",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
-    "docs/review_packets/reproducibility.md",
     "data/validation/reproducibility_review_packet.csv",
     "data/validation/reproducibility_decision_packet.csv",
-    "data/validation/tracked_artifact_audit.csv"
+    "data/validation/tracked_artifact_audit.csv",
+    "docs/review_packets/reproducibility.md"
   ],
   "reviewed_inputs": [
     "docs/reproducibility_package.md",

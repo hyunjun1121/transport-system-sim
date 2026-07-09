@@ -162,8 +162,16 @@ class DynamicRoadTraffic:
             )
 
         effective_volume = self._record_entry_and_volume(edge, entry_time)
+        # Direct free-flow slowdown for a damaged road, decoupled from BPR.
+        # Under the wartime V~0 frame BPR is a near-no-op, so a damaged road
+        # must slow traversal via t0 itself rather than via capacity. Applies
+        # only to the road branch (rail is short-circuited above; blocked is inf).
+        effective_t0 = (
+            require_non_negative(data["t0"], "edge t0")
+            * disruption.travel_time_multiplier
+        )
         travel_time = bpr_travel_time(
-            t0=require_non_negative(data["t0"], "edge t0"),
+            t0=effective_t0,
             volume=effective_volume,
             capacity=effective_capacity,
             alpha=self.alpha,

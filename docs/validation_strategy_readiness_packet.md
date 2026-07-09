@@ -21,7 +21,7 @@ Validation strategy review packet only; not validation acceptance, not benchmark
 | accessibility_loss_coverage | needs_human_review_accessibility_disconnections | present | review disconnected accessibility cases as fragility diagnostics, not observed outages |
 | route_road_evidence_exposure | blocked_weak_route_road_evidence_exposure | present | close or bound road evidence before validation claims use route exposure |
 | validation_summary_scope | needs_human_review_validation_summary_scope | present | keep validation summary in scaffold scope until a formal decision record chooses strategy |
-| benchmark_strategy_decision_requirement | blocked_missing_validation_acceptance_record | absent | record release-scope benchmark strategy only after reviewer decision |
+| benchmark_strategy_decision_requirement | blocked_missing_validation_acceptance_record | present | record release-scope benchmark strategy only after reviewer decision |
 
 ## Required Reviewer Actions
 

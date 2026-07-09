@@ -7,11 +7,11 @@ This packet supports benchmark-strategy review only. It does not create validati
 - Publication ready: `false`
 - Can mark complete: `false`
 - Benchmark rows: 4
-- Blocking requests: 1
-- Human-review requests: 3
+- Blocking requests: 0
+- Human-review requests: 4
 - OSRM raw response files: 3
 - OSRM unpinned rows: 0
-- Status counts: `{'blocked_missing_validation_acceptance_record': 1, 'needs_human_review_alternative_benchmark_decision': 1, 'needs_human_review_fallback_warn_rows': 1, 'needs_human_review_osrm_snap_distance': 1}`
+- Status counts: `{'needs_human_review_alternative_benchmark_decision': 1, 'needs_human_review_existing_validation_acceptance': 1, 'needs_human_review_fallback_warn_rows': 1, 'needs_human_review_osrm_snap_distance': 1}`
 
 ## Rows
 
@@ -20,7 +20,7 @@ This packet supports benchmark-strategy review only. It does not create validati
 | fallback_detour_speed_benchmark | 3 | needs_human_review_fallback_warn_rows | decide whether fallback warning rows are acceptable placeholders or must be replaced |
 | cached_osrm_route_snapshot | 3 | needs_human_review_osrm_snap_distance | review OSRM waypoint snap distances before relying on route-comparison wording |
 | alternative_route_engine_decision | 0 | needs_human_review_alternative_benchmark_decision | decide whether OSRM/fallback checks are sufficient or whether Valhalla, routingpy, R5/OpenTripPlanner, UXsim, or agency benchmark evidence is needed |
-| validation_acceptance_record | 0 | blocked_missing_validation_acceptance_record | record final benchmark strategy only after reviewer decision |
+| validation_acceptance_record | 0 | needs_human_review_existing_validation_acceptance | review the existing validation acceptance record |
 
 ## Boundary
 

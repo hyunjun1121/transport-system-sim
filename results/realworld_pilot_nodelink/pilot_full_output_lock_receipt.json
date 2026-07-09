@@ -1,28 +1,28 @@
 {
   "output_lock": {
     "acquired": true,
-    "acquired_at_utc": "2026-07-07T00:31:47+00:00",
-    "lock_file_sha256": "df2e00bd35575ab407dbf8a115cf3be6155ba19369911fc1e78050409c167cc3",
+    "acquired_at_utc": "2026-07-08T04:32:52+00:00",
+    "lock_file_sha256": "71ecd326ce37e5316cffea2010e6bfb7b70dadd65673d381a495ffcef3e97c68",
     "lock_mechanism": "atomic_create_x_mode",
     "lock_path": "results/realworld_pilot_nodelink/pilot_full.output.lock",
     "output_prefix": "pilot_full",
-    "pid": 41120,
+    "pid": 16356,
     "receipt_path": "results/realworld_pilot_nodelink/pilot_full_output_lock_receipt.json",
     "release_policy": "released_after_successful_output_write_or_exception",
     "schema_version": 1
   },
   "outputs": {
     "manifest": "results/realworld_pilot_nodelink/pilot_full_manifest.json",
-    "manifest_sha256": "4eb6808807dc0115539074ae17e6816a46f4c8b84cd90f3f5e7e66aa7eb37cd8",
+    "manifest_sha256": "26a76d9c1592087502ce2902f7ab05af39bd0afa5a3b836dd615fd439f19c546",
     "results": "results/realworld_pilot_nodelink/pilot_full_results.csv",
-    "results_sha256": "e52f74227caf736f257da5e57d7ae9620ae06821379aceca5783bbc642c5393f",
+    "results_sha256": "0d130218cfc4838ca0a19944f3ccc3367b0447bd5466427115a4edeee8bfa8ad",
     "summary": "results/realworld_pilot_nodelink/pilot_full_summary.csv",
-    "summary_sha256": "2ca71ff6c7a1eee7ef54f7828022db18ecc2945a9c79b51c7ad180cec0788811"
+    "summary_sha256": "94194056ed7db989acb82d7a53b5a212313dfb7ef2779198e3c71df3ee410634"
   },
   "release": {
     "release_status": "released",
     "released": true,
-    "released_at_utc": "2026-07-07T00:51:14+00:00"
+    "released_at_utc": "2026-07-08T04:56:21+00:00"
   },
   "schema_version": 1
 }

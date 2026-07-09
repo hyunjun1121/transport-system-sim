@@ -1,7 +1,7 @@
 {
   "can_mark_complete": false,
   "claim_boundary": "Draft pre-review recommendations only. These records classify remaining formal acceptance gates for human reviewers; they do not create formal approval, certify evidence, validate licenses, calibrate results, or mark the final study complete.",
-  "current_status": "blocked",
+  "current_status": "ready",
   "evidence_checked": [
     {
       "claim_supported": "Repository evidence cited for sensitivity_analysis",
@@ -41,21 +41,21 @@
     },
     {
       "claim_supported": "Formal target required for sensitivity_analysis",
-      "exists": false,
-      "notes": "formal artifact absent; expected until a source-backed reviewer decision exists",
+      "exists": true,
+      "notes": "formal artifact present; still requires validator review",
       "path": "data/manifests/sensitivity_acceptance.json"
     },
     {
       "claim_supported": "Repository evidence cited for sensitivity_analysis",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "docs/review_packets/sensitivity_analysis.md"
+      "path": "data/validation/sensitivity_review_packet.csv"
     },
     {
       "claim_supported": "Repository evidence cited for sensitivity_analysis",
       "exists": true,
       "notes": "local supporting artifact present; evidence quality still requires human/source review",
-      "path": "data/validation/sensitivity_review_packet.csv"
+      "path": "docs/review_packets/sensitivity_analysis.md"
     },
     {
       "claim_supported": "Repository evidence cited for sensitivity_analysis",
@@ -141,32 +141,20 @@
   ],
   "final_study_ready": false,
   "formal_approval": false,
-  "formal_ready": false,
-  "formal_record_present": false,
+  "formal_ready": true,
+  "formal_record_present": true,
   "formal_target": "data/manifests/sensitivity_acceptance.json",
   "gate": "sensitivity_analysis",
-  "generated_at": "2026-06-11T15:08:02+00:00",
+  "generated_at": "2026-07-05T07:30:46+00:00",
   "human_decision_required": true,
   "human_reviewer_action_required": [
     "Inspect the listed review packets and evidence paths.",
     "Record an explicit source-backed reviewer decision; do not use this draft record as approval.",
-    "Supply or regenerate the missing evidence items before deciding.",
-    "Resolve each missing-evidence item listed in this record.",
     "After a real decision, create or update data/manifests/sensitivity_acceptance.json.",
     "Rerun scripts/validate_formal_acceptance_package.py."
   ],
   "label": "Sensitivity Analysis Decision",
-  "missing_evidence": [
-    "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
-    "resolve sensitivity strategy-readiness blockers before sensitivity acceptance",
-    "sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph",
-    "sensitivity strategy readiness: current sensitivity result scope is scaffold or not calibrated",
-    "sensitivity strategy readiness: Morris-vs-Sobol method decision is not recorded in formal acceptance",
-    "sensitivity strategy readiness: data/manifests/sensitivity_acceptance.json is absent",
-    "review sensitivity strategy-readiness human-decision items before sensitivity acceptance",
-    "accept sensitivity outputs on final graph/evidence scope; current Morris outputs are scaffold-level",
-    "data/manifests/sensitivity_acceptance.json is absent"
-  ],
+  "missing_evidence": [],
   "must_not_be_used_as_final_acceptance": true,
   "plan_evidence_paths": [
     "data/manifests/sensitivity_acceptance.json",
@@ -191,25 +179,23 @@
     "scripts/write_sensitivity_strategy_readiness_packet.py",
     "scripts/write_sensitivity_method_decision_packet.py"
   ],
-  "recommendation": "blocked_missing_evidence",
-  "recommendation_reason": "The gate still lacks source-backed, reviewer-decided, or upstream-complete evidence required by the current study audit.",
+  "recommendation": "recommended_approve",
+  "recommendation_reason": "The formal package reports the gate as reviewer-cleared; a human should still verify the record before release use.",
   "related_plan_gate_ids": [
     "sensitivity_analysis"
   ],
   "residual_risks": [
     "Review parameter ranges and decide whether Morris is enough or Sobol is required.",
     "Create sensitivity_acceptance.json after final input and graph scope are accepted.",
-    "create an explicit sensitivity acceptance record after SALib output and Sobol-decision review",
-    "create an explicit sensitivity decision record after SALib output and Sobol-decision review",
     "Draft recommendation could be overread as permission if copied into a target path.",
     "Study gate status remains false until reviewers record source-backed decisions."
   ],
   "review_packets": [
-    "docs/review_packets/sensitivity_analysis.md",
     "data/validation/sensitivity_review_packet.csv",
     "data/validation/sensitivity_index_review_packet.csv",
     "data/validation/sensitivity_strategy_readiness_packet.csv",
-    "data/validation/sensitivity_method_decision_packet.csv"
+    "data/validation/sensitivity_method_decision_packet.csv",
+    "docs/review_packets/sensitivity_analysis.md"
   ],
   "reviewed_inputs": [
     "data/validation/sensitivity_review_packet.csv",

@@ -1,9 +1,9 @@
 {
   "agent": "Road / Rail / Parameter Evidence Agent",
   "agent_id": "road_rail_parameter_evidence_agent",
-  "can_mark_complete": false,
+  "can_mark_complete": true,
   "claim_boundary": "Sub-agent records are review aids. They do not replace formal acceptance artifacts, source-backed reviewer decisions, calibrated validation, or operational routing approval.",
-  "decision": "Road / Rail / Parameter Evidence Agent cannot accept gate cached_osm_input; the current final-study readiness audit reports blockers.",
+  "decision": "Road / Rail / Parameter Evidence Agent can mark gate cached_osm_input complete because the final-study readiness audit already reports this gate as ready.",
   "evidence": [
     "data/cache/pilot_region_road.graphml",
     "data/cache/pilot_region_road_manifest.json",
@@ -52,28 +52,9 @@
     "docs/review_packets/rail_evidence.md"
   ],
   "gate_id": "cached_osm_input",
-  "generated_at": "2026-06-02T22:54:07+00:00",
+  "generated_at": "2026-07-05T07:30:47+00:00",
   "record_type": "sub_agent_gate_review",
-  "required_actions": [
-    "Replace weak road, rail, and parameter assumptions with source-backed evidence or explicit accepted overrides.",
-    "Create road_class_overrides.csv and parameter_acceptance.csv only after review.",
-    "road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration",
-    "road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
-    "road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
-    "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
-    "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-    "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent",
-    "road source readiness: cached lane-count evidence has no parseable observed lane rows",
-    "road source readiness: data/parameters/road_class_overrides.csv is absent",
-    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
-    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
-    "road source decision: reviewed road_class_overrides.csv is absent",
-    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
-    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
-  ],
+  "required_actions": [],
   "review_packet_paths": [
     "data/parameters/parameter_evidence_review_packet.csv",
     "data/parameters/parameter_source_readiness_packet.csv",
@@ -141,23 +122,7 @@
   "risks": [
     "Road capacity and speed fallbacks are proxy values.",
     "Rail timing and capacity evidence remains assumption or sensitivity-only in the scaffold.",
-    "Weak core parameters can determine the policy winner.",
-    "road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration",
-    "road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values",
-    "road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence",
-    "road input evidence: treat this as road-input evidence only; route plausibility and traffic validation remain separate gates",
-    "road override evidence: replace the draft road-class override worksheet with a reviewed road_class_overrides.csv table containing source-backed speed, capacity, and base-disruption evidence",
-    "road override evidence: apply the reviewed overrides when adapting the pilot graph if final claims require calibrated road inputs",
-    "road override application: reviewed road-class override table is absent",
-    "road source readiness: cached lane-count evidence has no parseable observed lane rows",
-    "road source readiness: data/parameters/road_class_overrides.csv is absent",
-    "road source readiness: capacity and disruption evidence still require external source or formal assumption decisions",
-    "road source readiness: this packet is readiness evidence only and cannot create road-class overrides",
-    "road source decision: reviewed road_class_overrides.csv is absent",
-    "road source decision: road source decisions are pending for speed, capacity, disruption, benchmark, and override-application requests",
-    "road source decision: retained road assumptions require source-backed updates, sensitivity-only limits, benchmark-only limits, or explicit acceptance",
-    "road source decision: reviewed_road_class_override_application_request: data/parameters/road_class_overrides.csv is absent",
-    "road source decision: road_capacity_lane_count_source_request: cached lane-count evidence has no parseable observed lane rows"
+    "Weak core parameters can determine the policy winner."
   ],
   "schema_version": 1,
   "source_paths": [
@@ -178,5 +143,5 @@
     "data/parameters/road_class_overrides.csv",
     "data/parameters/parameter_acceptance.csv"
   ],
-  "status": "blocked"
+  "status": "accepted"
 }

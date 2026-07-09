@@ -1,6 +1,6 @@
 # Current Goal Completion Audit
 
-Audit date: 2026-06-18
+Audit date: 2026-07-05
 
 ## Objective
 
@@ -10,8 +10,8 @@ Implement every requirement planned in plan.md for the closeout real-world or qu
 
 - Final-study ready: `false`
 - Verdict: `final_real_world_study_blocked`
-- Ready gates: 3 / 15
-- Blocked gates: 12 / 15
+- Ready gates: 9 / 15
+- Blocked gates: 6 / 15
 
 This document is a current-state completion gap audit. It is not docs/final_study_audit.md, not an acceptance record, not calibrated real-world validation, and not operational routing approval.
 
@@ -23,21 +23,21 @@ The active objective is complete only when every final-study gate below is ready
 
 | Gate | Current Status | Evidence Inspected | Missing Or Weak Requirement |
 | --- | --- | --- | --- |
-| Pilot Region Accepted | blocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+6 more | blocked requirement: create an explicit pilot acceptance record after privacy and case-scope review<br>blocked requirement: resolve pilot-region decision blockers before pilot acceptance<br>blocked requirement: pilot-region decision: data/manifests/graph_scale_acceptance.json is absent<br>+3 more |
-| Cached OSM Input | blocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+29 more | blocked requirement: road input evidence: review OSM maxspeed coverage and replace fallback free-flow speeds where final claims require calibration<br>blocked requirement: road input evidence: replace road-class capacity proxies with traffic counts, agency capacity references, or benchmark-calibrated values<br>blocked requirement: road input evidence: replace road-class base disruption probabilities with hazard, incident, or accepted scenario evidence<br>+13 more |
-| Real Input Smoke | scaffold_unblocked | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json | none recorded |
-| Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | blocked requirement: create an explicit graph-scale acceptance record after source-vs-analysis graph review<br>blocked requirement: resolve graph-scale strategy-readiness blockers before graph-scale acceptance<br>blocked requirement: graph-scale strategy readiness: full bus-practical graph has smoke evidence only<br>+10 more |
-| Data Provenance | blocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+30 more | blocked requirement: create an explicit provenance acceptance record after source, license, snapshot, privacy, and reproducibility review<br>blocked requirement: replace scaffold-only reproducibility manifest with accepted source/license/snapshot provenance<br>blocked requirement: source provenance priority: formal provenance acceptance record is absent<br>+18 more |
-| Parameter Evidence | blocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/transfer_evidence_review_packet.csv<br>+20 more | blocked requirement: justify demand scale, arrival process, time horizon, and censoring penalties with planning assumptions or sensitivity-bound evidence<br>blocked requirement: replace scenario-only disruption probabilities and degradation rules with public hazard, incident, literature, or expert-reviewed evidence<br>blocked requirement: replace generic fleet and vehicle-capacity assumptions with agency, planning, literature, or accepted scenario evidence<br>+14 more |
-| Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+31 more | blocked requirement: rail service evidence: derive headway and travel time from the cached records<br>blocked requirement: rail fetch readiness: source-backed rail timing evidence remains incomplete until every required timing source is reviewed and retained<br>blocked requirement: rail fetch readiness: API-key rows require DATA_GO_KR_KEY or reviewed cached API payloads<br>+31 more |
-| Validation Package | blocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+25 more | blocked requirement: create an explicit validation acceptance record after benchmark-strategy review<br>blocked requirement: resolve validation strategy-readiness blockers before validation acceptance<br>blocked requirement: validation strategy readiness: validation_acceptance.json is absent<br>+8 more |
+| Pilot Region Accepted | scaffold_unblocked | data/regions/pilot_region.yaml<br>docs/pilot_region_data_card.md<br>data/manifests/pilot_privacy_review_packet.csv<br>data/manifests/pilot_privacy_review_manifest.json<br>+6 more | none recorded |
+| Cached OSM Input | scaffold_unblocked | data/cache/pilot_region_road.graphml<br>data/cache/pilot_region_road_manifest.json<br>scripts/audit_road_evidence.py<br>scripts/audit_road_evidence_diagnostics.py<br>+29 more | none recorded |
+| Real Input Smoke | scaffold_unblocked | scripts/run_pilot_smoke.py<br>scripts/run_full_graph_smoke.py<br>data/validation/full_graph_smoke_manifest.json<br>results/realworld_pilot/pilot_full_manifest.json<br>+1 more | none recorded |
+| Graph-Scale Strategy | blocked | data/manifests/graph_scale_acceptance.json<br>docs/analysis_corridor_method_note.md<br>docs/graph_scale_diagnostics.md<br>data/validation/graph_scale_route_comparison.csv<br>+34 more | blocked requirement: graph-scale acceptance counts must match the pilot full manifest counts: source_graph_nodes: acceptance=4608, manifest=197823; source_graph_edges: acceptance=9148, manifest=298020; analysis_graph_nodes: acceptance=164, manifest=2850; analysis_graph_edges: acceptance=246, manifest=3002 |
+| Data Provenance | scaffold_unblocked | data/manifests/provenance_acceptance.json<br>data/manifests/source_provenance_manifest.json<br>data/manifests/source_license_review_packet.csv<br>data/manifests/source_license_review_manifest.json<br>+30 more | blocked requirement: source provenance priority: formal provenance acceptance record is absent<br>blocked requirement: source provenance priority: context-source target artifacts still need reviewed payloads, sensitivity/context-only retention decisions, or exclusion decisions<br>blocked requirement: source provenance priority: cached public snapshots still require license, attribution, snapshot, and reproducibility review<br>+11 more |
+| Parameter Evidence | scaffold_unblocked | data/parameters/parameter_sources.csv<br>data/parameters/parameter_evidence_review_packet.csv<br>data/parameters/parameter_evidence_review_manifest.json<br>data/parameters/transfer_evidence_review_packet.csv<br>+20 more | none recorded |
+| Rail Evidence | blocked | data/parameters/rail_service_evidence.csv<br>data/parameters/rail_station_bindings.csv<br>data/parameters/rail_evidence_review_packet.csv<br>data/parameters/rail_evidence_review_manifest.json<br>+31 more | blocked requirement: rail fetch readiness: source-backed rail timing evidence remains incomplete until every required timing source is reviewed and retained<br>blocked requirement: rail fetch readiness: API-key rows require DATA_GO_KR_KEY or reviewed cached API payloads<br>blocked requirement: rail fetch readiness: reviewed-GTFS row requires a reviewed GTFS input and validator report<br>+16 more |
+| Validation Package | scaffold_unblocked | data/manifests/validation_acceptance.json<br>data/validation/validation_summary.md<br>data/validation/external_route_benchmarks.csv<br>data/validation/external_route_benchmarks_osrm.csv<br>+25 more | none recorded |
 | Structured Disruptions | scaffold_unblocked | data/scenarios/disruption_scenarios.csv<br>data/scenarios/disruption_scenarios_manifest.json | none recorded |
 | Policy Alternatives | scaffold_unblocked | data/scenarios/policy_alternatives.csv | none recorded |
-| Sensitivity Analysis | blocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+17 more | blocked requirement: create an explicit sensitivity acceptance record after SALib output and Sobol-decision review<br>blocked requirement: resolve sensitivity strategy-readiness blockers before sensitivity acceptance<br>blocked requirement: sensitivity strategy readiness: sensitivity outputs use a reduced analysis graph<br>+5 more |
-| Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+10 more | blocked requirement: create an explicit experiment acceptance record after input validation, graph-scope, and scenario-policy-seed review<br>blocked requirement: resolve experiment strategy-readiness blockers before experiment acceptance<br>blocked requirement: experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated<br>+12 more |
-| Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+10 more | blocked requirement: close evidence gates before final paper/report claims<br>blocked requirement: create an explicit manuscript/report acceptance record after evidence gates, figures, paper, report, and claim boundaries are reviewed<br>blocked requirement: revise figure/table claim boundary from scaffold to accepted study scope<br>+15 more |
-| Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+8 more | blocked requirement: create an explicit reproducibility acceptance record after clean-checkout validation, artifact regeneration, manifest review, and import-boundary checks<br>blocked requirement: replace scaffold-only manifest with clean-checkout final reproduction package<br>blocked requirement: resolve reproducibility decision blockers before reproducibility acceptance<br>+3 more |
-| Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json<br>data/manifests/final_audit_decision_packet.csv<br>data/manifests/final_audit_decision_manifest.json<br>+1 more | blocked requirement: create docs/final_study_audit.md after all other gates close<br>blocked requirement: create an explicit final-audit acceptance record only after prompt-to-artifact review confirms every final gate is closed<br>blocked requirement: resolve final-audit decision blockers before final-audit acceptance<br>+6 more |
+| Sensitivity Analysis | scaffold_unblocked | data/manifests/sensitivity_acceptance.json<br>results/realworld_pilot/morris_results.csv<br>results/realworld_pilot/morris_summary.csv<br>results/realworld_pilot/morris_manifest.json<br>+17 more | none recorded |
+| Full Experiment Output | blocked | data/manifests/experiment_acceptance.json<br>results/realworld_pilot/pilot_full_results.csv<br>results/realworld_pilot/pilot_full_summary.csv<br>results/realworld_pilot/pilot_full_manifest.json<br>+10 more | blocked requirement: resolve experiment strategy-readiness blockers before experiment acceptance<br>blocked requirement: experiment strategy readiness: current full-pilot result scope is scaffold or not calibrated<br>blocked requirement: experiment strategy readiness: full-pilot outputs depend on a graph method that has no graph-scale decision<br>+10 more |
+| Manuscript Report Alignment | blocked | data/manifests/manuscript_acceptance.json<br>paper/paper_draft.md<br>report_draft.md<br>report.docx<br>+10 more | blocked requirement: close evidence gates before final paper/report claims<br>blocked requirement: revise figure/table claim boundary from scaffold to accepted study scope<br>blocked requirement: resolve figure/table review blockers before manuscript acceptance<br>+12 more |
+| Reproducibility | blocked | data/manifests/reproducibility_acceptance.json<br>docs/reproducibility_package.md<br>data/manifests/reproducibility_manifest.json<br>data/validation/reproducibility_review_packet.csv<br>+8 more | blocked requirement: review reproducibility human-decision rows before reproducibility acceptance |
+| Final Audit | blocked | docs/final_study_audit.md<br>data/manifests/final_audit_acceptance.json<br>data/manifests/final_audit_decision_packet.csv<br>data/manifests/final_audit_decision_manifest.json<br>+1 more | blocked requirement: resolve final-audit decision blockers before final-audit acceptance<br>blocked requirement: final-audit decision: pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility<br>blocked requirement: review final-audit human-decision rows before final-audit acceptance<br>+3 more |
 
 ## Region-Scope Review Metadata
 
@@ -56,18 +56,18 @@ These files are required before closeout completion can be claimed. Missing file
 
 | Artifact | Current State |
 | --- | --- |
-| `data/manifests/pilot_acceptance.json` | missing or intentionally absent |
-| `data/manifests/graph_scale_acceptance.json` | missing or intentionally absent |
-| `data/manifests/provenance_acceptance.json` | missing or intentionally absent |
-| `data/parameters/parameter_acceptance.csv` | missing or intentionally absent |
-| `data/parameters/road_class_overrides.csv` | missing or intentionally absent |
-| `data/manifests/validation_acceptance.json` | missing or intentionally absent |
-| `data/manifests/sensitivity_acceptance.json` | missing or intentionally absent |
-| `data/manifests/experiment_acceptance.json` | missing or intentionally absent |
-| `data/manifests/manuscript_acceptance.json` | missing or intentionally absent |
-| `data/manifests/reproducibility_acceptance.json` | missing or intentionally absent |
-| `docs/final_study_audit.md` | missing or intentionally absent |
-| `data/manifests/final_audit_acceptance.json` | missing or intentionally absent |
+| `data/manifests/pilot_acceptance.json` | present |
+| `data/manifests/graph_scale_acceptance.json` | present |
+| `data/manifests/provenance_acceptance.json` | present |
+| `data/parameters/parameter_acceptance.csv` | present |
+| `data/parameters/road_class_overrides.csv` | present |
+| `data/manifests/validation_acceptance.json` | present |
+| `data/manifests/sensitivity_acceptance.json` | present |
+| `data/manifests/experiment_acceptance.json` | present |
+| `data/manifests/manuscript_acceptance.json` | present |
+| `data/manifests/reproducibility_acceptance.json` | present |
+| `docs/final_study_audit.md` | present |
+| `data/manifests/final_audit_acceptance.json` | present |
 
 ## Non-Approval Sub-Agent Acceptance Orchestration
 
@@ -76,9 +76,9 @@ The orchestration records below are review aids. They do not replace formal acce
 - Manifest present: `true`
 - Manifest path: `data/manifests/acceptance_orchestration_manifest.json`
 - Review record count: 12
-- Status counts: `{'blocked': 9, 'needs_human_review': 3}`
-- Can-mark-complete records: 0
-- Blocked or human-review records: 12
+- Status counts: `{'accepted': 6, 'blocked': 5, 'needs_human_review': 1}`
+- Can-mark-complete records: 6
+- Blocked or human-review records: 6
 
 ## Non-Approval Formal Acceptance Decision Templates
 
@@ -87,7 +87,7 @@ The generated templates are copy/edit worksheets for reviewers. They intentional
 - Manifest present: `true`
 - Manifest path: `data/manifests/acceptance_decision_template_manifest.json`
 - JSON template count: 9
-- Parameter template rows: 25
+- Parameter template rows: 0
 - Can mark complete: `false`
 - Formal acceptance created: `false`
 
@@ -101,7 +101,7 @@ The blocker queue converts the formal package blockers into one CSV row per unre
 
 - Manifest present: `true`
 - Manifest path: `data/manifests/formal_acceptance_blocker_queue_manifest.json`
-- Queue rows: 18
+- Queue rows: 2
 - Formal acceptance ready: `false`
 - Can mark complete: `false`
 
@@ -111,9 +111,9 @@ The task assignment table maps each unresolved formal blocker to a deterministic
 
 - Manifest present: `true`
 - Manifest path: `data/manifests/acceptance_task_assignments_manifest.json`
-- Task rows: 18
-- Assigned agents: 10
-- Human-review tasks: 18
+- Task rows: 2
+- Assigned agents: 2
+- Human-review tasks: 2
 - Formal acceptance ready: `false`
 - Can mark complete: `false`
 
@@ -125,7 +125,7 @@ The evidence matrix joins each required formal target with its assigned review a
 - Manifest path: `data/manifests/formal_acceptance_evidence_matrix_manifest.json`
 - Matrix rows: 12
 - Formal gates: 12
-- Human decisions required: 12
+- Human decisions required: 1
 - Formal acceptance ready: `false`
 - Can mark complete: `false`
 
@@ -136,7 +136,7 @@ The pre-review package classifies each remaining formal target as a draft recomm
 - Manifest present: `true`
 - Manifest path: `data/manifests/draft_acceptance/formal_acceptance_pre_review_manifest.json`
 - Draft records: 12
-- Recommendation counts: `{'blocked_missing_evidence': 8, 'blocked_requires_human_decision': 4}`
+- Recommendation counts: `{'blocked_missing_evidence': 1, 'recommended_approve': 11}`
 - Human decisions required: 12
 - Formal approval made: `false`
 - Final-study ready: `false`
@@ -148,7 +148,7 @@ This audit checks whether sub-agent records cite existing local review inputs or
 
 - Review records: 12
 - Missing required paths: 0
-- Missing formal targets: 36
+- Missing formal targets: 0
 - Agent review paths ready: `true`
 - Can mark complete: `false`
 
@@ -177,7 +177,7 @@ The handoff sidecar records the final ZIP checksum and send-list outside the ZIP
 - ZIP SHA256: recorded in `review_packages/expert_review_handoff_20260510.md` and `review_packages/expert_review_handoff_20260510.json` outside the ZIP
 - Mirror ZIP matches: `true`
 - Formal acceptance ready: `false`
-- Missing formal targets: 12 / 12
+- Missing formal targets: 0 / 12
 - Can mark complete: `false`
 
 This handoff note identifies the external review ZIP and sidecar files. It does not validate evidence quality, approve formal acceptance records, certify calibration, or close final-study gates.
@@ -187,8 +187,8 @@ This handoff note identifies the external review ZIP and sidecar files. It does 
 The guard checks that formal acceptance paths do not contain copied templates, placeholders, draft overrides, or current-state audit text masquerading as final approval.
 
 - Formal artifact count: 12
-- Present formal artifacts: 0
-- Missing formal artifacts: 12
+- Present formal artifacts: 12
+- Missing formal artifacts: 0
 - Template or placeholder artifacts detected: 0
 - Formal acceptance ready: `false`
 - Can mark complete: `false`
@@ -200,11 +200,11 @@ This guard detects placeholder/template misuse in formal acceptance paths. It do
 The evidence-path audit checks reviewer-supplied formal artifacts for missing local evidence, unresolved placeholders, empty evidence records, and external references that still require source/license review. It is necessary hygiene only and cannot certify evidence sufficiency.
 
 - Formal artifact paths checked: 11
-- Present formal artifacts checked: 0
-- Evidence items found: 0
+- Present formal artifacts checked: 11
+- Evidence items found: 110
 - Missing local evidence paths: 0
 - Placeholder evidence values: 0
-- Empty evidence records: 0
+- Empty evidence records: 1
 - Formal evidence paths ready: `false`
 - Can mark complete: `false`
 
@@ -215,8 +215,8 @@ This audit checks whether formal target artifacts point to concrete local eviden
 The package intake checks reviewer-supplied formal acceptance artifacts as a group. It does not create approvals and cannot override missing source-backed evidence.
 
 - Formal package gates: 12
-- Ready formal package gates: 0
-- Blocked formal package gates: 12
+- Ready formal package gates: 11
+- Blocked formal package gates: 1
 - Invalid formal package gates: 0
 - Formal package ready: `false`
 - Can mark complete: `false`
@@ -286,10 +286,10 @@ This audit lists changed reproducibility artifacts that a clean checkout of the 
 
 - Manifest present: `true`
 - Manifest path: `data/validation/tracked_artifact_audit_manifest.json`
-- Changed reproducibility artifacts: 538
-- Blocking changed artifacts: 538
-- Untracked artifacts: 165
-- Modified or staged artifacts: 373
+- Changed reproducibility artifacts: 210
+- Blocking changed artifacts: 210
+- Untracked artifacts: 4
+- Modified or staged artifacts: 206
 - Clean-checkout reproducibility ready: `false`
 - Can mark complete: `false`
 

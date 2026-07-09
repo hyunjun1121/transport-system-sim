@@ -138,7 +138,10 @@ def test_shipped_reproducibility_decision_packet_matches_current_outputs() -> No
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
     assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    # All 7 reproducibility rows need human review under the current
+    # (non-formal-acceptance) package state; this is the honest non-acceptance
+    # classification, not a gate closure.
+    assert manifest["human_review_decision_count"] == 7
     assert manifest["reproducibility_manifest_decision_recorded"] is False
     assert manifest["reproducibility_decision_recorded"] is False
     assert manifest["command_ladder_decision_recorded"] is False

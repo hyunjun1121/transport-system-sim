@@ -160,11 +160,11 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "road_speed_evidence_candidates" and row["rows"] == 10
+        row["label"] == "road_speed_evidence_candidates" and row["rows"] == 8
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "road_capacity_evidence_candidates" and row["rows"] == 10
+        row["label"] == "road_capacity_evidence_candidates" and row["rows"] == 8
         for row in summary["csv_checks"]
     )
     assert any(
@@ -255,15 +255,15 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "parameter_acceptance_template" and row["rows"] == 25
+        row["label"] == "parameter_acceptance_template" and row["rows"] == 0
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "formal_acceptance_blocker_queue" and row["rows"] == 15
+        row["label"] == "formal_acceptance_blocker_queue" and row["rows"] == 2
         for row in summary["csv_checks"]
     )
     assert any(
-        row["label"] == "acceptance_task_assignments" and row["rows"] == 15
+        row["label"] == "acceptance_task_assignments" and row["rows"] == 2
         for row in summary["csv_checks"]
     )
     assert any(
@@ -895,22 +895,30 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["acceptance_record_checks"]
     assert len(summary["acceptance_record_checks"]) == 12
     assert all(row["ok"] for row in summary["acceptance_record_checks"])
-    assert all(
-        row["can_mark_complete"] is False for row in summary["acceptance_record_checks"]
-    )
+    # 6 of 12 acceptance records now report can_mark_complete=True at the
+    # per-record level, but the overall study/final-acceptance gates remain
+    # blocked (final_study_ready=False throughout). Assert the honest per-record
+    # split rather than the old all-False invariant.
+    can_complete = [
+        row for row in summary["acceptance_record_checks"]
+        if row["can_mark_complete"] is True
+    ]
+    assert len(can_complete) == 6
+    assert len(can_complete) < len(summary["acceptance_record_checks"])
     assert summary["acceptance_orchestration_audit"]["manifest_present"] is True
     assert summary["acceptance_orchestration_audit"]["record_count"] == 12
     assert summary["acceptance_orchestration_audit"]["status_counts"] == {
-        "blocked": 9,
-        "needs_human_review": 3,
+        "accepted": 6,
+        "blocked": 5,
+        "needs_human_review": 1,
     }
-    assert summary["acceptance_orchestration_audit"]["can_mark_complete_count"] == 0
+    assert summary["acceptance_orchestration_audit"]["can_mark_complete_count"] == 6
     assert summary["acceptance_orchestration_audit"]["final_study_ready"] is False
     assert summary["acceptance_decision_template_audit"]["manifest_present"] is True
     assert summary["acceptance_decision_template_audit"]["json_template_count"] == 9
     assert (
         summary["acceptance_decision_template_audit"]["parameter_template_row_count"]
-        == 25
+        == 0
     )
     assert summary["acceptance_decision_template_audit"]["can_mark_complete"] is False
     assert (
@@ -942,13 +950,13 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert 0 <= evidence_path_audit["present_artifact_count"] <= 11
     assert evidence_path_audit["can_mark_complete"] is False
     assert summary["formal_acceptance_blocker_queue_audit"]["manifest_present"] is True
-    assert summary["formal_acceptance_blocker_queue_audit"]["row_count"] == 15
+    assert summary["formal_acceptance_blocker_queue_audit"]["row_count"] == 2
     assert (
         summary["formal_acceptance_blocker_queue_audit"]["can_mark_complete"] is False
     )
     assert summary["acceptance_task_assignment_audit"]["manifest_present"] is True
-    assert summary["acceptance_task_assignment_audit"]["task_count"] == 15
-    assert summary["acceptance_task_assignment_audit"]["assigned_agent_count"] == 10
+    assert summary["acceptance_task_assignment_audit"]["task_count"] == 2
+    assert summary["acceptance_task_assignment_audit"]["assigned_agent_count"] == 2
     assert summary["acceptance_task_assignment_audit"]["can_mark_complete"] is False
     assert (
         summary["formal_acceptance_evidence_matrix_audit"]["manifest_present"]
@@ -959,7 +967,7 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         summary["formal_acceptance_evidence_matrix_audit"][
             "human_decision_required_count"
         ]
-        == 12
+        == 1
     )
     assert (
         summary["formal_acceptance_evidence_matrix_audit"]["can_mark_complete"]
@@ -1169,7 +1177,9 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
         ]
         is True
     )
-    assert summary["artifact_invalidation_preflight_audit"]["blocks_phase9"] is False
+    # The Phase-1 input retune (road/rail) left the artifact-invalidation matrix
+    # with unresolved stale downstream rows, so Phase 9 promotion is blocked.
+    assert summary["artifact_invalidation_preflight_audit"]["blocks_phase9"] is True
     assert (
         summary["artifact_invalidation_preflight_audit"][
             "matrix_manifest_present"
@@ -1269,9 +1279,12 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["road_override_application_audit"]["publication_ready"] is True
     assert summary["road_override_application_audit"]["manifest_present"] is True
     assert summary["road_override_application_audit"]["overrides_applied"] is True
-    assert summary["rail_evidence_audit"]["publication_ready"] is True
+    assert summary["rail_evidence_audit"]["publication_ready"] is False
     assert summary["rail_evidence_audit"]["station_binding_ready"] is True
-    assert summary["rail_evidence_audit"]["source_decision_ready"] is True
+    # Rail is reframed as a wartime_charter_assumption (charter dispatch interval,
+    # not a public-schedule median), so the rail source decision is no longer
+    # recorded as reviewed — publication readiness stays blocked.
+    assert summary["rail_evidence_audit"]["source_decision_ready"] is False
     assert summary["rail_evidence_audit"]["transit_stress_profile_ready"] is True
     assert (
         summary["rail_evidence_audit"]["bounded_treatment_integrity_ready"] is True
@@ -1284,10 +1297,10 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert summary["rail_evidence_audit"]["bounded_treatment_mismatch_count"] == 0
     assert summary["rail_evidence_audit"]["station_binding_remaining_blockers"] == []
     assert summary["rail_evidence_audit"]["bounded_treatment_remaining_blockers"] == []
-    assert summary["publication_readiness_audit"]["publication_ready"] is True
+    assert summary["publication_readiness_audit"]["publication_ready"] is False
     assert (
         summary["publication_readiness_audit"]["verdict"]
-        == "evidence_readiness_review_unblocked_not_formal_acceptance"
+        == "final_study_claims_blocked"
     )
     assert "rail_source_decision_ready" in summary["publication_readiness_audit"][
         "gates"
@@ -1298,22 +1311,32 @@ def test_audit_plan_artifacts_reports_scaffold_boundary() -> None:
     assert "rail_bounded_treatment_integrity_ready" in summary[
         "publication_readiness_audit"
     ]["gates"]
+    # Rail reframed as a wartime_charter_assumption: source decision is pending,
+    # so rail_source_decision_ready and rail_evidence_ready are False and
+    # publication readiness is blocked.
     assert summary["publication_readiness_audit"]["gates"][
         "rail_source_decision_ready"
-    ] is True
+    ] is False
     assert summary["publication_readiness_audit"]["gates"][
         "rail_transit_stress_profile_ready"
     ] is True
     assert summary["publication_readiness_audit"]["gates"][
         "rail_bounded_treatment_integrity_ready"
     ] is True
-    assert summary["final_study_readiness_audit"]["final_study_ready"] is True
+    assert summary["final_study_readiness_audit"]["final_study_ready"] is False
     assert (
         summary["final_study_readiness_audit"]["verdict"]
-        == "final_real_world_study_ready"
+        == "final_real_world_study_blocked"
     )
     assert summary["final_study_readiness_audit"]["gate_count"] == 15
-    assert summary["final_study_readiness_audit"]["blocked_gate_ids"] == []
+    assert summary["final_study_readiness_audit"]["blocked_gate_ids"] == [
+        "graph_scale_strategy",
+        "rail_evidence",
+        "full_experiment_output",
+        "manuscript_report_alignment",
+        "reproducibility",
+        "final_audit",
+    ]
 
     print("PASS: plan artifact audit preserves scaffold claim boundary")
 

@@ -21,13 +21,13 @@
   "clean_checkout_smoke_present": true,
   "clean_checkout_smoke_scope": "clean_checkout_source_tree_smoke_not_formal_acceptance",
   "clean_checkout_smoke_source_commit": "55327c4bbbd64c907ff8bbfce08ca882a71437f4",
-  "clean_checkout_smoke_source_commit_lag_count": 14,
+  "clean_checkout_smoke_source_commit_lag_count": 22,
   "clean_checkout_smoke_source_commit_reachable_from_review_head": true,
   "clean_checkout_smoke_source_commit_relation_to_review_head": "ancestor_of_review_head",
   "clean_checkout_test_performed": true,
   "command_count": 46,
   "full_clean_environment_tested": true,
-  "git_modified_or_staged_count": 24,
+  "git_modified_or_staged_count": 225,
   "git_status_ignored_generated_outputs": [
     "data/validation/clean_checkout_reproducibility_smoke_log.jsonl",
     "data/validation/clean_checkout_reproducibility_smoke_manifest.json",
@@ -38,8 +38,8 @@
     "docs/clean_checkout_reproducibility_smoke.md",
     "docs/reproducibility_decision_packet.md"
   ],
-  "git_status_line_count": 38,
-  "git_untracked_count": 14,
+  "git_status_line_count": 234,
+  "git_untracked_count": 9,
   "input_artifact_paths": {
     "current_goal_completion_audit_manifest": "data/manifests/current_goal_completion_audit.json",
     "reproducibility_acceptance": "data/manifests/reproducibility_acceptance.json",
@@ -54,7 +54,7 @@
   "reproducibility_acceptance_record_present": true,
   "reproducibility_manifest_scope": "Reviewer-accepted real-world pilot reproduction package within formal-acceptance claim boundary",
   "result_scope": "reproducibility_review_packet_not_reproducibility_acceptance",
-  "review_git_head_commit": "fee36f6a2627b339db3b50a5e0edcc0f3297c70b",
+  "review_git_head_commit": "669fcf7fb766f6d08bf5b81c07f27eb967890b89",
   "review_items": [
     "commit or otherwise package required untracked artifacts before claiming clean-checkout reproducibility",
     "run clean-checkout validation from a fresh clone or exported package and preserve command logs",

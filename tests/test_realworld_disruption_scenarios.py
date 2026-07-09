@@ -302,6 +302,137 @@ def test_blocked_mode_maps_to_blocked_edge_disruption() -> None:
     print("PASS: blocked scenario maps to blocked edge disruption")
 
 
+def test_road_travel_time_multiplier_threads_through_loader_and_property() -> None:
+    """road_travel_time_multiplier: CSV column -> DisruptionScenario -> edge_disruption.
+
+    Direct-slowdown lever for damaged roads (wartime BPR no-op complement). A blank
+    cell resolves to None and the edge_disruption property defaults to 1.0
+    (no effect); a value threads into the degraded EdgeDisruption consumed by
+    build_scenario_disruption_map.
+    """
+    from src.realworld.disruption_scenarios import _scenario_from_row
+
+    assert "road_travel_time_multiplier" in CSV_COLUMNS
+
+    base_row = {col: "" for col in CSV_COLUMNS}
+    base_row.update(
+        {
+            "scenario_id": "synthetic_damage",
+            "region_id": "synthetic_region",
+            "family": "critical_link",
+            "label": "damage test",
+            "selection_method": "edge_betweenness",
+            "target_segment": "all_road",
+            "disruption_mode": "capacity_reduction",
+            "capacity_factor": "1.0",
+            "p_fail_scale": "1.0",
+            "evidence_class": "scenario_based",
+            "observed_disaster_data": "false",
+            "road_travel_time_multiplier": "2.0",
+        }
+    )
+    scenario = _scenario_from_row(base_row, row_number=2)
+    assert scenario.road_travel_time_multiplier == 2.0
+    assert scenario.edge_disruption.travel_time_multiplier == 2.0
+    assert scenario.edge_disruption.status == "degraded"
+
+    # blank cell -> None -> property resolves to 1.0
+    base_row["road_travel_time_multiplier"] = ""
+    scenario_default = _scenario_from_row(base_row, row_number=2)
+    assert scenario_default.road_travel_time_multiplier is None
+    assert scenario_default.edge_disruption.travel_time_multiplier == 1.0
+
+    print("PASS: road_travel_time_multiplier threads through loader + edge_disruption property")
+
+
+def test_goseong_segment_damage_rows_parse() -> None:
+    """Committed goseong CSV carries SEGMENT-TARGETED road-damage rows.
+
+    Replaces the retired globally-targeted (edge_betweenness/all_road) damage
+    ladder, which was multimodal-inert because the betweenness edges fell off the
+    rail-bound corridor. The new rows target the multimodal road legs directly:
+    access A->S and last-mile R->D (bite BOTH alternatives) plus a long-haul S->R
+    trunk row (bites bus_only; multimodal is rail-immune = the rail-substitution
+    finding). All use selection_method=shortest_path + capacity_factor=1.0 to
+    isolate the road_travel_time_multiplier direct-slowdown lever.
+    """
+    goseong_path = Path("data/scenarios/goseong_disruption_scenarios.csv")
+    scenarios = {s.scenario_id: s for s in load_disruption_scenarios(str(goseong_path))}
+
+    # Retired globally-targeted rows must be gone (multimodal-inert artifact).
+    for retired in (
+        "goseong_road_damage_mild",
+        "goseong_road_damage_severe",
+        "goseong_road_damage_extreme",
+    ):
+        assert retired not in scenarios, f"retired betweenness row still present: {retired}"
+
+    # (scenario_id, family, target_segment, multiplier)
+    expected = [
+        ("goseong_access_road_damage_mild", "access_road", "A->S", 1.5),
+        ("goseong_access_road_damage_severe", "access_road", "A->S", 3.0),
+        ("goseong_access_road_damage_extreme", "access_road", "A->S", 8.0),
+        ("goseong_last_mile_damage_mild", "last_mile", "R->D", 1.5),
+        ("goseong_last_mile_damage_severe", "last_mile", "R->D", 3.0),
+        ("goseong_last_mile_damage_extreme", "last_mile", "R->D", 8.0),
+        ("goseong_long_haul_damage_severe", "access_road", "S->R", 3.0),
+    ]
+    for sid, family, target_segment, mult in expected:
+        assert sid in scenarios, f"missing segment-damage scenario {sid}"
+        scenario = scenarios[sid]
+        assert scenario.family == family, f"{sid} family={scenario.family!r} want {family!r}"
+        assert scenario.selection_method == "shortest_path", f"{sid} method={scenario.selection_method!r}"
+        assert scenario.target_segment == target_segment, f"{sid} target={scenario.target_segment!r}"
+        assert scenario.disruption_mode == "capacity_reduction"
+        assert scenario.capacity_factor == 1.0
+        assert scenario.road_travel_time_multiplier == mult
+        assert scenario.edge_disruption.travel_time_multiplier == mult
+        assert scenario.edge_disruption.status == "degraded"
+        assert not scenario.edge_disruption.is_blocked
+    print("PASS: goseong segment-targeted damage rows parse + thread multiplier")
+
+
+def test_goseong_segment_damage_targets_canonical_paths() -> None:
+    """Bite-verification guard: segment damage rows target the canonical road legs.
+
+    Direct negation of the retired multimodal-inert defect (where globally-targeted
+    betweenness edges fell off the rail-bound corridor). select_candidate_edges must
+    return the access A->S / last-mile R->D / long-haul S->R road path (path starts
+    at the canonical start node and ends at the canonical end node), and
+    build_scenario_disruption_map must mark those edges degraded with the
+    road_travel_time_multiplier applied. Permanently guards that the damage lever
+    reaches the multimodal road legs (so the paired comparison is valid).
+    """
+    goseong_path = Path("data/scenarios/goseong_disruption_scenarios.csv")
+    inputs = load_pilot_inputs(
+        region_path="data/regions/goseong_mobilization.yaml",
+        cache_path="data/cache/goseong_nodelink_road.graphml",
+        road_class_overrides_path="data/parameters/road_class_overrides.csv",
+    )
+    graph = inputs.graph
+    scenarios = {s.scenario_id: s for s in load_disruption_scenarios(str(goseong_path))}
+
+    # (scenario_id, path-start canonical node, path-end canonical node, multiplier)
+    checks = [
+        ("goseong_access_road_damage_severe", "A", "S", 3.0),
+        ("goseong_last_mile_damage_severe", "R", "D", 3.0),
+        ("goseong_long_haul_damage_severe", "S", "R", 3.0),
+    ]
+    for sid, start, end, mult in checks:
+        scenario = scenarios[sid]
+        selected = select_candidate_edges(graph, scenario)
+        assert selected, f"{sid} selected no edges"
+        assert selected[0].edge[0] == start, f"{sid} path start {selected[0].edge[0]!r} want {start!r}"
+        assert selected[-1].edge[1] == end, f"{sid} path end {selected[-1].edge[1]!r} want {end!r}"
+        disruption_map = build_scenario_disruption_map(graph, scenario)
+        assert disruption_map, f"{sid} built empty disruption map"
+        disruption = disruption_map[selected[0].edge]
+        assert disruption.status == "degraded"
+        assert disruption.travel_time_multiplier == mult
+        assert not disruption.is_blocked
+    print("PASS: goseong segment damage rows target canonical road legs + apply multiplier")
+
+
 def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
     """Committed Songpa scenarios should map offline on the analysis graph."""
 
@@ -403,6 +534,9 @@ if __name__ == "__main__":
     test_deterministic_hash_and_critical_link_mapping()
     test_route_station_spatial_mapping_and_edge_marking()
     test_blocked_mode_maps_to_blocked_edge_disruption()
+    test_road_travel_time_multiplier_threads_through_loader_and_property()
+    test_goseong_segment_damage_rows_parse()
+    test_goseong_segment_damage_targets_canonical_paths()
     test_committed_pilot_scenarios_map_offline_to_all_families()
     test_disruption_manifest_records_checksums_and_temporal_scope()
     print("\n=== REALWORLD DISRUPTION SCENARIO TESTS PASSED ===")

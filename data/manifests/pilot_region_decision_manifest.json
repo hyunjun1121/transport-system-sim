@@ -18,7 +18,7 @@
     "needs_human_review_pilot_case_scope": 1,
     "needs_human_review_privacy_completion": 1
   },
-  "human_review_decision_count": 0,
+  "human_review_decision_count": 6,
   "inputs": {
     "data_card": "docs/pilot_region_data_card.md",
     "pilot_privacy_review_manifest": "data/manifests/pilot_privacy_review_manifest.json",

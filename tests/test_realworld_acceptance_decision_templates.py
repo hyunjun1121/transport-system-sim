@@ -62,7 +62,8 @@ def test_write_acceptance_decision_templates_outputs_non_ready_files() -> None:
             parameter_template_path=root / "parameter_acceptance_template.csv",
         )
 
-        assert manifest["final_study_ready"] is True
+        # Templates are non-approval scaffolding; the study is NOT final-ready.
+        assert manifest["final_study_ready"] is False
         assert manifest["can_mark_complete"] is False
         assert manifest["formal_acceptance_created"] is False
         assert manifest["json_template_count"] == 9

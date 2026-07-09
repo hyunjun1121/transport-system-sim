@@ -6,18 +6,18 @@ These files are copy/edit starting points for human reviewers. They are not form
 
 - Final-study ready at generation: `false`
 - JSON templates: 9
-- Parameter acceptance template rows: 25
+- Parameter acceptance template rows: 0
 - Can mark complete: `false`
 
 ## JSON Templates
 
 | Gate | Template | Formal Target | Current Status |
 | --- | --- | --- | --- |
-| `pilot_region_accepted` | `data/manifests/acceptance_templates/pilot_acceptance_template.json` | `data/manifests/pilot_acceptance.json` | `blocked` |
+| `pilot_region_accepted` | `data/manifests/acceptance_templates/pilot_acceptance_template.json` | `data/manifests/pilot_acceptance.json` | `ready` |
 | `graph_scale_strategy` | `data/manifests/acceptance_templates/graph_scale_acceptance_template.json` | `data/manifests/graph_scale_acceptance.json` | `blocked` |
-| `data_provenance` | `data/manifests/acceptance_templates/provenance_acceptance_template.json` | `data/manifests/provenance_acceptance.json` | `blocked` |
-| `validation_package` | `data/manifests/acceptance_templates/validation_acceptance_template.json` | `data/manifests/validation_acceptance.json` | `blocked` |
-| `sensitivity_analysis` | `data/manifests/acceptance_templates/sensitivity_acceptance_template.json` | `data/manifests/sensitivity_acceptance.json` | `blocked` |
+| `data_provenance` | `data/manifests/acceptance_templates/provenance_acceptance_template.json` | `data/manifests/provenance_acceptance.json` | `ready` |
+| `validation_package` | `data/manifests/acceptance_templates/validation_acceptance_template.json` | `data/manifests/validation_acceptance.json` | `ready` |
+| `sensitivity_analysis` | `data/manifests/acceptance_templates/sensitivity_acceptance_template.json` | `data/manifests/sensitivity_acceptance.json` | `ready` |
 | `full_experiment_output` | `data/manifests/acceptance_templates/experiment_acceptance_template.json` | `data/manifests/experiment_acceptance.json` | `blocked` |
 | `manuscript_report_alignment` | `data/manifests/acceptance_templates/manuscript_acceptance_template.json` | `data/manifests/manuscript_acceptance.json` | `blocked` |
 | `reproducibility` | `data/manifests/acceptance_templates/reproducibility_acceptance_template.json` | `data/manifests/reproducibility_acceptance.json` | `blocked` |

@@ -430,6 +430,8 @@ scripts/
   build_pilot_cache.py       # Preserves cache by default; explicit fixture/Overpass refresh
   build_goseong_cache.py     # Live Overpass extraction of the Goseong case-study corridor (Phase 1 real graph; tiled or full-bbox)
   build_goseong_corridor.py  # DEPRECATED synthetic corridor skeleton; fixture-only, must not overwrite the real cache
+  build_goseong_nodelink_cache.py  # Korean 표준노드링크 (SHP) -> Goseong GraphML cache; official parallel network source (decision-support, not calibrated)
+  build_vds_override.py            # VDS expressway observations -> road_class_overrides sensitivity fragment (public-data-derived, not calibrated)
   cache_ktdb_gtfs_source.py  # Optional source-cache helper; not default acceptance evidence
   cache_metro9_capacity_source.py # Optional source-cache helper; not default acceptance evidence
   check_gpu_ml_runtime.py    # Optional GPU ML runtime preflight; not simulation acceleration evidence
@@ -446,6 +448,8 @@ scripts/
   record_gtfs_derivation_attempt.py # Document cached-GTFS feed-absent attempt
   make_pilot_figures.py
   make_pilot_statistics.py
+  make_goseong_report_figures.py # Goseong report figures 1-3 from pilot summary
+  extract_goseong_findings.py    # Goseong findings digest for report prose
   run_acceptance_audit.py
   run_accessibility_loss_analysis.py
   audit_deterministic_rerun.py
@@ -459,6 +463,7 @@ scripts/
   run_phase8_micro_probe.py
   run_pilot_experiments.py
   run_pilot_smoke.py
+  run_bpr_noop_sweep.py
   run_plausibility_validation.py
   run_reproducibility_smoke.py
   run_sensitivity.py

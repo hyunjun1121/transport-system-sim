@@ -1,19 +1,8 @@
 {
-  "blocking_request_count": 0,
-  "can_mark_complete": false,
+  "schema_version": 1,
   "claim_boundary": "Validation strategy review packet only; not validation acceptance, not benchmark ground truth, not calibrated traffic validation, not operational routing evidence, and not publication approval. This packet cannot close data/manifests/validation_acceptance.json.",
-  "formal_acceptance_override_applied": true,
-  "formal_acceptance_path": "data/manifests/validation_acceptance.json",
-  "human_review_request_count": 0,
-  "inputs": {
-    "validation_review_packet": "data/validation/validation_review_packet.csv"
-  },
-  "outputs": {
-    "csv": "data/validation/validation_strategy_readiness_packet.csv",
-    "doc": "docs/validation_strategy_readiness_packet.md",
-    "manifest": "data/validation/validation_strategy_readiness_manifest.json"
-  },
-  "publication_ready": false,
+  "result_scope": "Validation strategy review packet only; not validation acceptance, not benchmark ground truth, not calibrated traffic validation, not operational routing evidence, and not publication approval.",
+  "row_count": 7,
   "readiness_status_counts": {
     "blocked_fallback_benchmark_failures": 1,
     "blocked_missing_validation_acceptance_record": 1,
@@ -23,8 +12,19 @@
     "needs_human_review_internal_plausibility_warnings": 1,
     "needs_human_review_validation_summary_scope": 1
   },
-  "remaining_blockers": [],
-  "result_scope": "Validation strategy review packet only; not validation acceptance, not benchmark ground truth, not calibrated traffic validation, not operational routing evidence, and not publication approval.",
+  "blocking_request_count": 3,
+  "human_review_request_count": 4,
+  "validation_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
+  "inputs": {
+    "validation_review_packet": "data/validation/validation_review_packet.csv"
+  },
+  "outputs": {
+    "csv": "data/validation/validation_strategy_readiness_packet.csv",
+    "manifest": "data/validation/validation_strategy_readiness_manifest.json",
+    "doc": "docs/validation_strategy_readiness_packet.md"
+  },
   "review_items": [
     "review internal warning rows and fallback benchmark warning rows",
     "review cached external route-engine snapshots before release-scope benchmark use",
@@ -32,7 +32,8 @@
     "review accessibility-loss and route road-evidence exposure as diagnostics only",
     "choose the release-scope benchmark strategy only in data/manifests/validation_acceptance.json"
   ],
-  "row_count": 7,
-  "schema_version": 1,
-  "validation_gate_closure_candidate_count": 0
+  "remaining_blockers": [
+    "validation_acceptance.json is absent",
+    "route-level road evidence exposure remains weak until road evidence gates close"
+  ]
 }

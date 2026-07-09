@@ -30,6 +30,8 @@ results/_full_rerun*.log
 results/_fullgraph_rerun.log
 results/_suite_failures*.txt
 results/_phase2_*.log
+results/_*.log
+*.output.lock
 
 # Korean official road-data collection: raw V-World downloads (~1 GB SHP/zip).
 # Regenerable from V-World; never commit. Rebuild cache via

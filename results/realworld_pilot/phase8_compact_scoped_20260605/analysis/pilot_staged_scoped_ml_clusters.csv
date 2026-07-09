@@ -1,0 +1,5 @@
+cluster_id,row_count,mean_completion_rate,dominant_risk_label,status,claim_scope
+0,8,1,normal,kmeans_fit,"Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting."
+1,8,1,normal,kmeans_fit,"Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting."
+2,8,0,failure,kmeans_fit,"Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting."
+3,8,1,normal,kmeans_fit,"Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting."

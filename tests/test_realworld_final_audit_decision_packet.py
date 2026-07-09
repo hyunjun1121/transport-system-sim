@@ -33,7 +33,7 @@ def test_final_audit_decision_rows_classify_current_state() -> None:
         "blocked_pre_final_gates_not_ready"
     )
     assert by_id["formal_acceptance_artifact_decision"]["decision_status"] == (
-        "blocked_missing_formal_acceptance_artifacts"
+        "needs_human_review_formal_acceptance_artifacts"
     )
     assert by_id["final_study_audit_document_decision"]["decision_status"] == (
         "needs_human_review_final_study_audit_document"
@@ -50,7 +50,7 @@ def test_final_audit_decision_rows_classify_current_state() -> None:
     assert by_id["not_operational_claim_boundary_decision"]["decision_status"] == (
         "needs_human_review_not_operational_boundary"
     )
-    assert "blocked_pre_final_gate_count=11" in by_id[
+    assert "blocked_pre_final_gate_count=5" in by_id[
         "pre_final_gate_closure_decision"
     ]["current_evidence"]
     assert {row["claim_boundary"] for row in rows} == {FINAL_AUDIT_DECISION_SCOPE}
@@ -113,14 +113,15 @@ def test_shipped_final_audit_decision_packet_matches_current_outputs() -> None:
     for shipped_row in written_rows:
         assert shipped_row["decision_id"] in {r["decision_id"] for r in rows}
     assert manifest["row_count"] == len(written_rows)
-    assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    # Pre-final gates remain blocked (rail/graph-scale), so 1 blocking + 6 review rows.
+    assert manifest["blocking_decision_count"] == 1
+    assert manifest["human_review_decision_count"] == 6
     assert manifest["pre_final_gate_closure_decision_recorded"] is False
     assert manifest["formal_acceptance_artifact_decision_recorded"] is False
     assert manifest["final_study_audit_document_decision_recorded"] is False
     assert manifest["final_audit_decision_recorded"] is False
-    assert manifest["final_study_audit_document_present"] is False
-    assert manifest["final_audit_acceptance_record_present"] is False
+    assert manifest["final_study_audit_document_present"] is True
+    assert manifest["final_audit_acceptance_record_present"] is True
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
 

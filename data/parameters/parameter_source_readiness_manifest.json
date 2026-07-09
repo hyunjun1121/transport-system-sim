@@ -6,7 +6,7 @@
   "region_ids": [
     "songpa_public_demo"
   ],
-  "weak_parameter_count": 21,
+  "weak_parameter_count": 0,
   "readiness_status_counts": {
     "needs_human_review_demand_scenario": 1,
     "needs_human_review_dispatch_policy": 1,

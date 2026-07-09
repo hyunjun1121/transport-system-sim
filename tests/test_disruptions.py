@@ -191,6 +191,63 @@ def test_invalid_disruption_parameters_raise_value_error():
     print("PASS: invalid disruption parameters raise ValueError")
 
 
+def test_edge_disruption_travel_time_multiplier_field():
+    """travel_time_multiplier is an orthogonal direct-slowdown lever.
+
+    Under the wartime V~0 frame the BPR volume-delay term is a near-no-op, so a
+    capacity_reduction disruption barely slows a damaged road. travel_time_multiplier
+    scales free-flow t0 directly (decoupled from BPR) so a damaged road is actually
+    slower. Default 1.0 leaves traversal unchanged (baseline non-regression).
+    """
+    assert EdgeDisruption().travel_time_multiplier == 1.0
+    degraded = EdgeDisruption(
+        status="degraded", capacity_factor=0.5, travel_time_multiplier=2.0
+    )
+    assert degraded.travel_time_multiplier == 2.0
+    # orthogonal to existing fields
+    assert degraded.capacity_factor == 0.5
+    assert not degraded.is_blocked
+    # strictly positive (0 would zero travel time = teleport)
+    assert_raises_value_error(lambda: EdgeDisruption(travel_time_multiplier=0.0))
+    assert_raises_value_error(lambda: EdgeDisruption(travel_time_multiplier=-1.0))
+    print("PASS: EdgeDisruption.travel_time_multiplier field + validation")
+
+
+def test_road_travel_time_multiplier_threads_to_disrupted_edges():
+    """road_travel_time_multiplier threads from the sampler to disrupted edges only.
+
+    Disrupted (failed) edges carry the multiplier; normal edges stay at the
+    default 1.0. This is how a damaged-road scenario reaches the per-edge
+    direct-slowdown lever in enter_edge.
+    """
+    G = make_graph()  # (A,B) p_fail=1.0 (fails), (B,C) p_fail=0.0 (normal)
+    disruptions = sample_edge_disruptions(
+        G,
+        p_fail_scale=1.0,
+        rng=np.random.default_rng(7),
+        mode="capacity_reduction",
+        capacity_reduction_factor=0.5,
+        road_travel_time_multiplier=2.0,
+    )
+    ab = disruptions[("A", "B")]
+    assert not ab.is_blocked
+    assert ab.capacity_factor == 0.5
+    assert ab.travel_time_multiplier == 2.0
+    # normal edge keeps the default
+    assert disruptions[("B", "C")].travel_time_multiplier == 1.0
+
+    # default (param omitted) -> all edges at 1.0
+    disruptions_default = sample_edge_disruptions(
+        G,
+        1.0,
+        np.random.default_rng(7),
+        mode="capacity_reduction",
+        capacity_reduction_factor=0.5,
+    )
+    assert disruptions_default[("A", "B")].travel_time_multiplier == 1.0
+    print("PASS: road_travel_time_multiplier threads to disrupted edges only")
+
+
 def test_correlated_zero_radius_matches_independent():
     """Zero correlation radius should produce identical results to independent."""
     G = nx.DiGraph()
@@ -338,6 +395,8 @@ TESTS = [
     test_failure_probability_uses_multiplier_semantics,
     test_legacy_sample_link_failures_returns_blocked_edges_only,
     test_invalid_disruption_parameters_raise_value_error,
+    test_edge_disruption_travel_time_multiplier_field,
+    test_road_travel_time_multiplier_threads_to_disrupted_edges,
     test_correlated_zero_radius_matches_independent,
     test_correlated_nonzero_radius_produces_disruptions,
     test_correlated_rail_immune_with_coordinates,

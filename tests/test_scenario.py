@@ -507,6 +507,42 @@ def test_arrival_delay_correction_factor_scales_lateness():
     print("PASS: arrival-delay correction_factor scales lateness (default 1.0)")
 
 
+def test_sample_disruptions_threads_road_travel_time_multiplier():
+    """failure.road_travel_time_multiplier config -> sampled disrupted edges."""
+    import networkx as nx
+    import numpy as np
+    from src.scenario import _sample_disruptions
+
+    G = nx.DiGraph()
+    G.add_edge("A", "B", t0=10.0, capacity=100.0, p_fail=1.0, mode="road")
+    G.add_edge("B", "C", t0=20.0, capacity=100.0, p_fail=0.0, mode="road")
+
+    config = {
+        "failure": {
+            "mode": "capacity_reduction",
+            "capacity_reduction_factor": 0.5,
+            "road_travel_time_multiplier": 2.0,
+        }
+    }
+    params = {"p_fail_scale": 1.0}
+    disruptions = _sample_disruptions(G, config, params, np.random.default_rng(7))
+
+    ab = disruptions[("A", "B")]
+    assert not ab.is_blocked
+    assert ab.capacity_factor == 0.5
+    assert ab.travel_time_multiplier == 2.0
+    assert disruptions[("B", "C")].travel_time_multiplier == 1.0
+
+    disruptions_default = _sample_disruptions(
+        G,
+        {"failure": {"mode": "capacity_reduction", "capacity_reduction_factor": 0.5}},
+        params,
+        np.random.default_rng(7),
+    )
+    assert disruptions_default[("A", "B")].travel_time_multiplier == 1.0
+    print("PASS: _sample_disruptions threads road_travel_time_multiplier from config")
+
+
 TESTS = [
     test_origin_schedule_defaults_to_assembly_time,
     test_origin_schedule_accepts_explicit_first_departure,
@@ -520,6 +556,7 @@ TESTS = [
     test_lastmile_fleet_capacity_and_turnaround_create_bottleneck,
     test_censoring_penalty_prevents_failed_scenario_from_looking_better,
     test_arrival_delay_correction_factor_scales_lateness,
+    test_sample_disruptions_threads_road_travel_time_multiplier,
 ]
 
 

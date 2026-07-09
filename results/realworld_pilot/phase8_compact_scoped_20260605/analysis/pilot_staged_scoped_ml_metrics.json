@@ -1,51 +1,55 @@
 {
   "class_labels": [
     "failure",
-    "normal",
-    "risk"
+    "normal"
   ],
   "command": [
     "scripts\\run_ml_analysis.py",
     "--input",
-    "results/realworld_pilot/pilot_full_results.csv"
+    "results/goseong_pilot/pilot_sample_results.csv"
   ],
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
+  "kmeans_cluster_count": 4,
+  "kmeans_status": "kmeans_fit",
   "label_counts": {
-    "failure": 2130,
-    "normal": 13191,
-    "risk": 549
+    "failure": 8,
+    "normal": 24
   },
   "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
   "model_device": "cpu",
   "model_package": "xgboost",
   "model_status": "xgboost_trained",
+  "nl_summary": "[준실험 의사결정지원 요약] test macro-F1=1.000 (XGBoost 2급, gain feature_importance 기준). 상위 gain 특성: scenario_family=critical_link, selected_edge_count, policy_id=baseline_multimodal. 상위 SHAP 특성: scenario_family=critical_link, selected_edge_count, policy_id=baseline_multimodal. KMeans 상황군집 4종. 본 요약은 시뮬레이션 출력 기반 민감도 해석이며, 운용계획·예측·검증·최적경로가 아님. final_study_ready=false.",
   "output_prefix": "pilot_staged_scoped",
   "outputs": {
+    "clusters": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_clusters.csv",
     "doc": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_analysis.md",
     "feature_importance": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_feature_importance.csv",
     "labels": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_labels.csv",
     "manifest": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_manifest.json",
     "metrics": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_metrics.json",
-    "predictions": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_predictions.csv"
+    "predictions": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_predictions.csv",
+    "shap_importance": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_shap_importance.csv"
   },
   "publication_ready": false,
   "result_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
-  "row_count": 15870,
+  "row_count": 32,
+  "shap_status": "shap_computed",
   "source_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
   "source_manifest_sha256": "07cd065794a546f33df7ffa0493a993715131efed7148d0d19a1a1c3a098e288",
-  "source_results_path": "results/realworld_pilot/pilot_full_results.csv",
-  "source_results_sha256": "beb6aca8021d2e44a65d8fab346eaa16b902095ba61fd68b534ff79f17231901",
+  "source_results_path": "results/goseong_pilot/pilot_sample_results.csv",
+  "source_results_sha256": "c0af610dd66ac532197d60ec48e0aeade0dfffc5e03096c938f110945a24dd67",
   "test_metrics": {
-    "accuracy": 0.9486452425960933,
-    "macro_f1": 0.8869661136997203,
-    "row_count": 3174
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 7
   },
-  "test_row_count": 3174,
+  "test_row_count": 7,
   "train_metrics": {
-    "accuracy": 0.9476212980466289,
-    "macro_f1": 0.8822446910543432,
-    "row_count": 12696
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "row_count": 25
   },
-  "train_row_count": 12696
+  "train_row_count": 25
 }

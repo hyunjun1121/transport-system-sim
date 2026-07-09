@@ -40,11 +40,17 @@ task units executed:
   evidence, not formal acceptance).
 - **U2**: Clean-checkout reproducibility smoke regenerated (20 commands,
   `clean_checkout_test_performed=false` stays — worktree smoke only).
-- **U3**: Rail headway derived from KTDB GTFS timetable cache: 3.583 min
-  (median of 240 adjacent gaps at station 4136, 241 access events).
-  Source SHA256 verified.
-- **U4**: Rail capacity derived from Metro9 operator page: 922 pax
-  (306 seats + 616 standing, 6 cars). Source SHA256 verified.
+- **U3**: Rail headway derivation REJECTED. The 3.583 min figure was derived
+  from Seoul Metro Line 9 at Olympic Park (station 4136) under region
+  `songpa_public_demo` — wrong region AND wrong service type for the Goseong
+  KTX-Eum corridor. The source cache manifest itself declared
+  `can_support_rail_evidence_gate: false`. Discarded; Goseong rail reframed as a
+  wartime chartered non-stop express (headway = charter dispatch interval
+  assumption, not a public-schedule median).
+- **U4**: Rail capacity derivation REJECTED. The 922 pax figure came from the
+  Metro9 (Line 9 subway) operator page — wrong service type. Discarded;
+  Goseong rail capacity is the chartered KTX-Eum train-set planning proxy
+  (~600 pax).
 - **U5**: GTFS derivation attempt documented as failed
   (`input_is_gtfs_feed=false`, KTDB extract is metadata only).
 - **U6**: Road override draft refined: 5/10 classes now
@@ -89,12 +95,16 @@ executed successfully:
 
 - Road speed: OSM `maxspeed` coverage sparse (5/10 classes have observed tags)
 - Road capacity: OSM `lanes` tags absent (0/10 classes observed)
-- Rail headway: derived from cached KTDB timetable (3.583 min); simulation
-  config still uses 10 min until config update and re-experimentation
-- Rail capacity: derived from Metro9 operator page (922 pax); simulation
-  config still uses 500 pax until config update and re-experimentation
-- Rail travel time: still expert assumption (GTFS derivation attempted but
-  cached extract was metadata-only, not a real feed)
+- Rail headway (Goseong): wartime charter dispatch-interval planning assumption
+  (30 min nominal); NOT a public-schedule derivation. The earlier 3.583 min
+  figure (Line 9 / songpa_public_demo) was rejected as wrong region + wrong
+  service and discarded. Sensitivity-tested via the policy rail-stress ladder.
+- Rail capacity (Goseong): chartered KTX-Eum train-set planning proxy (~600 pax);
+  the earlier 922 pax Metro9 figure was rejected as wrong service and discarded.
+- Rail travel time (Goseong): KTX-Eum Cheongnyangni-Gangneung running time
+  (~114 min, public 2022 alignment citation); wartime model assumes a chartered
+  non-stop run (<= scheduled-with-stops). GTFS derivation was attempted but the
+  cached extract was metadata-only, not a real feed.
 - Reproducibility: `clean_checkout_test_performed=false` (current-worktree
   smoke only; clean-checkout smoke regenerated but stays non-acceptance)
 - Within-scenario noise parameters (sigma, lambda) are exploratory sensitivity
@@ -139,7 +149,7 @@ audit_review_package_paths.py, audit_road_evidence.py,
 audit_road_evidence_diagnostics.py, audit_road_overrides.py,
 audit_sensitivity_diagnostics.py, audit_source_context_hashes.py,
 audit_source_provenance.py, audit_tracked_artifacts.py, build_pilot_cache.py,
-build_goseong_cache.py, build_goseong_corridor.py, build_review_package.py,
+build_goseong_cache.py, build_goseong_corridor.py, build_goseong_nodelink_cache.py, build_vds_override.py, build_review_package.py,
 cache_ktdb_gtfs_source.py, cache_metro9_capacity_source.py,
 check_gpu_ml_runtime.py, derive_rail_capacity_evidence.py,
 derive_rail_gtfs_evidence.py, derive_rail_headway_evidence.py,
@@ -147,13 +157,14 @@ derive_rail_service_evidence.py,
 derive_rail_shortest_path_evidence.py, derive_rail_station_bindings.py,
 fetch_rail_shortest_path_cache.py, fetch_rail_timetable_cache.py,
 generate_phase23_oracle.py,
-make_pilot_figures.py, make_pilot_statistics.py,
+make_pilot_figures.py, make_goseong_report_figures.py, make_pilot_statistics.py,
+extract_goseong_findings.py,
 normalize_rail_timetable_cache.py, record_gtfs_derivation_attempt.py,
 run_acceptance_audit.py, run_accessibility_loss_analysis.py,
 run_clean_checkout_smoke.py, run_full_graph_smoke.py,
 run_graph_scale_diagnostics.py, run_ml_analysis.py, run_osrm_route_benchmark.py,
 run_phase8_micro_probe.py, run_pilot_experiments.py, run_pilot_smoke.py,
-run_plausibility_validation.py, run_reproducibility_smoke.py, run_sensitivity.py,
+run_bpr_noop_sweep.py, run_plausibility_validation.py, run_reproducibility_smoke.py, run_sensitivity.py,
 run_variance_diagnostic.py, regenerate_truth_table.py,
 validate_formal_acceptance_package.py, write_acceptance_blocker_queue.py,
 write_acceptance_decision_templates.py, write_acceptance_task_assignments.py,

@@ -7,10 +7,10 @@
     "songpa_public_demo"
   ],
   "readiness_status_counts": {
-    "blocked_missing_capacity_source": 1,
-    "blocked_missing_reviewed_road_class_overrides": 1,
     "needs_human_review_benchmark_strategy": 1,
     "needs_human_review_disruption_scenario": 1,
+    "needs_human_review_lane_capacity_candidates": 1,
+    "needs_human_review_override_application_manifest": 1,
     "needs_human_review_sparse_speed_candidates": 1
   },
   "source_type_counts": {
@@ -22,8 +22,8 @@
   },
   "source_url_or_citation_present_count": 5,
   "required_external_input_present_count": 5,
-  "blocking_request_count": 2,
-  "human_review_request_count": 3,
+  "blocking_request_count": 0,
+  "human_review_request_count": 5,
   "road_evidence_gate_closure_candidate_count": 0,
   "road_application_gate_closure_candidate_count": 0,
   "publication_ready": false,
@@ -44,8 +44,6 @@
     "rerun pilot outputs with reviewed overrides before bounded road-input claims"
   ],
   "remaining_blockers": [
-    "cached lane-count evidence has no parseable observed lane rows",
-    "data/parameters/road_class_overrides.csv is absent",
     "capacity and disruption evidence still require external source or formal assumption decisions",
     "this packet is source-review triage only and cannot create road-class overrides"
   ]

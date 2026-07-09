@@ -1,15 +1,14 @@
 {
   "claim_boundary": "This packet organizes rail-evidence review. It does not derive headway or travel time from a cached timetable, GTFS feed, or shortest-path artifact, and it does not certify emergency rail availability or route-use feasibility.",
   "evidence_status_counts": {
-    "cached_timing_derived": 1,
     "derivation_path_available_no_default_cache": 3,
-    "missing_cached_timing_evidence": 1,
     "official_station_code_bound": 2,
     "scheduled_public_service_proxy": 1,
     "source_backed_or_sensitivity_acknowledged": 1,
     "static_segment_pair_diagnostic_retained_not_evidence": 1,
     "static_timetable_cache_retained_not_evidence": 1,
-    "uncalibrated_availability_rule": 1
+    "uncalibrated_availability_rule": 1,
+    "wartime_charter_assumption": 2
   },
   "inputs": {
     "metro9_capacity_extract": "data/rail/metro9_capacity_source_extract.csv",
@@ -43,11 +42,11 @@
   },
   "row_count": 12,
   "schema_version": 1,
-  "service_publication_ready": false,
+  "service_publication_ready": true,
   "source_artifact_status_counts": {
-    "cached_source_artifact_verified": 2,
     "capacity_retained_as_sensitivity_axis": 1,
     "diagnostic_manifest_retained_non_evidence": 1,
+    "no_cached_timing_artifact": 2,
     "no_disruption_or_availability_artifact": 1,
     "no_emergency_service_artifact": 1,
     "no_reviewed_default_source_cache": 3,
@@ -55,5 +54,5 @@
     "station_binding_cache_committed": 2
   },
   "station_binding_ready": true,
-  "weak_for_final_claim_count": 8
+  "weak_for_final_claim_count": 9
 }

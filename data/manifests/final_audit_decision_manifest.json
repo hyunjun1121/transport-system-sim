@@ -1,40 +1,41 @@
 {
-  "blocking_decision_count": 0,
-  "can_mark_complete": false,
+  "schema_version": 1,
   "claim_boundary": "Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence. It cannot create or replace docs/final_study_audit.md or data/manifests/final_audit_acceptance.json.",
+  "result_scope": "Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence.",
+  "row_count": 7,
   "decision_status_counts": {
-    "blocked_missing_final_audit_acceptance_record": 1,
-    "blocked_missing_final_study_audit_document": 1,
-    "blocked_missing_formal_acceptance_artifacts": 1,
     "blocked_pre_final_gates_not_ready": 1,
     "needs_human_review_final_packet_handoff": 1,
+    "needs_human_review_final_study_audit_document": 1,
+    "needs_human_review_formal_acceptance_artifacts": 1,
+    "needs_human_review_formal_final_audit_acceptance": 1,
     "needs_human_review_not_operational_boundary": 1,
     "needs_human_review_proxy_signal_boundary": 1
   },
-  "final_audit_acceptance_record_present": false,
-  "final_audit_decision_recorded": false,
-  "final_audit_gate_closure_candidate_count": 0,
-  "final_study_audit_document_decision_recorded": false,
-  "final_study_audit_document_present": false,
+  "blocking_decision_count": 1,
+  "human_review_decision_count": 6,
+  "pre_final_gate_closure_decision_recorded": false,
   "formal_acceptance_artifact_decision_recorded": false,
-  "human_review_decision_count": 0,
+  "final_study_audit_document_decision_recorded": false,
+  "final_audit_decision_recorded": false,
+  "final_study_audit_document_present": true,
+  "final_audit_acceptance_record_present": true,
+  "final_audit_gate_closure_candidate_count": 0,
+  "publication_ready": false,
+  "can_mark_complete": false,
   "inputs": {
-    "acceptance_orchestration_manifest": "data/manifests/acceptance_orchestration_manifest.json",
-    "final_audit_acceptance": "data/manifests/final_audit_acceptance.json",
-    "final_study_audit": "docs/final_study_audit.md",
-    "formal_acceptance_evidence_matrix_manifest": "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+    "goal_completion_audit": "data/manifests/current_goal_completion_audit.json",
     "formal_acceptance_package_audit": "data/manifests/formal_acceptance_package_audit.json",
-    "goal_completion_audit": "data/manifests/current_goal_completion_audit.json"
+    "formal_acceptance_evidence_matrix_manifest": "data/manifests/formal_acceptance_evidence_matrix_manifest.json",
+    "acceptance_orchestration_manifest": "data/manifests/acceptance_orchestration_manifest.json",
+    "final_study_audit": "docs/final_study_audit.md",
+    "final_audit_acceptance": "data/manifests/final_audit_acceptance.json"
   },
   "outputs": {
     "csv": "data/manifests/final_audit_decision_packet.csv",
-    "doc": "docs/final_audit_decision_packet.md",
-    "manifest": "data/manifests/final_audit_decision_manifest.json"
+    "manifest": "data/manifests/final_audit_decision_manifest.json",
+    "doc": "docs/final_audit_decision_packet.md"
   },
-  "pre_final_gate_closure_decision_recorded": false,
-  "publication_ready": false,
-  "remaining_blockers": [],
-  "result_scope": "Final-audit decision packet only; not final-audit acceptance, not docs/final_study_audit.md, not calibrated real-world validation, not final-study approval, and not operational routing evidence.",
   "review_items": [
     "confirm all pre-final gates are ready before final audit",
     "confirm every required formal acceptance artifact is reviewed and non-template",
@@ -42,6 +43,7 @@
     "record final_audit_acceptance.json only after prompt-to-artifact review",
     "preserve the not-operational claim boundary in final-audit wording"
   ],
-  "row_count": 7,
-  "schema_version": 1
+  "remaining_blockers": [
+    "pre-final gates remain blocked: graph_scale_strategy, rail_evidence, full_experiment_output, manuscript_report_alignment, reproducibility"
+  ]
 }

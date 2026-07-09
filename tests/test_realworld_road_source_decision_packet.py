@@ -37,20 +37,17 @@ def test_road_source_decision_rows_classify_current_requests() -> None:
         "road_disruption_probability_source_request",
         "road_speed_limit_source_request",
     }
+    # All five road source requests are pending reviewer decision; none is
+    # auto-blocked now that the road evidence priority packet classifies every
+    # road-source gap uniformly as needing human review.
     assert by_id["road_capacity_lane_count_source_request"]["decision_status"] == (
-        "blocked_missing_road_source_decision"
+        "needs_human_review_road_source_decision"
     )
     assert by_id["reviewed_road_class_override_application_request"][
         "decision_status"
-    ] == "blocked_missing_road_source_decision"
+    ] == "needs_human_review_road_source_decision"
     assert {
-        row["decision_status"]
-        for row in rows
-        if row["request_id"]
-        not in {
-            "road_capacity_lane_count_source_request",
-            "reviewed_road_class_override_application_request",
-        }
+        row["decision_status"] for row in rows
     } == {"needs_human_review_road_source_decision"}
     assert {row["provisional_decision"] for row in rows} == {
         "pending_reviewer_decision"
@@ -99,8 +96,8 @@ def test_road_source_decision_writer_outputs_artifacts() -> None:
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
     assert written_manifest["row_count"] == 5
-    assert written_manifest["blocking_decision_count"] == 2
-    assert written_manifest["human_review_decision_count"] == 3
+    assert written_manifest["blocking_decision_count"] == 0
+    assert written_manifest["human_review_decision_count"] == 5
     assert (
         written_manifest["road_class_overrides_present"]
         is DEFAULT_ROAD_CLASS_OVERRIDE_PATH.exists()
@@ -130,7 +127,7 @@ def test_shipped_road_source_decision_packet_matches_current_outputs() -> None:
     assert written_rows == rows
     assert manifest["row_count"] == len(rows)
     assert manifest["blocking_decision_count"] == 0
-    assert manifest["human_review_decision_count"] == 0
+    assert manifest["human_review_decision_count"] == 5
     assert manifest["road_source_decision_recorded"] is False
     assert manifest["publication_ready"] is False
     assert manifest["can_mark_complete"] is False
