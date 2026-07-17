@@ -380,11 +380,13 @@ def run_pilot_experiments(
             policy_ids=resolved_policy_ids,
             sample=profile.sample_scaffold,
         )
+        skipped_scenarios: list[str] = []
         cases = select_disruption_cases(
             inputs.graph,
             load_disruption_scenarios(scenarios_path, region_id=inputs.region_id),
             scenario_ids=resolved_scenario_ids,
             sample=profile.sample_scaffold,
+            skipped_scenario_ids=skipped_scenarios,
         )
         rows = run_pilot_rows(
             inputs=inputs,
@@ -446,6 +448,7 @@ def run_pilot_experiments(
                 phase8_preflight=phase8_preflight,
                 runtime=runtime_metadata,
                 output_lock=output_lock,
+                skipped_scenario_ids=skipped_scenarios,
             ),
         )
         release = _release_output_lock(output_lock)
@@ -1115,7 +1118,7 @@ def _road_mode_view(graph: nx.DiGraph) -> nx.DiGraph:
 
 
 def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
-    """Return the compact pilot experiment config before policy variants."""
+    """Return the wartime-scale pilot experiment base config (1,000 personnel, 23-vehicle fleets, 24h window) before policy variants."""
 
     network = realworld_network_config(region)
     return {
@@ -1126,33 +1129,33 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
             "variant": "cached_pilot_fixture",
         },
         "personnel": {
-            "total": 24,
-            "group_size": 8,
+            "total": 1000,
+            "group_size": 45,
             "assembly_time": 0.0,
         },
         "bus": {
             "first_departure_min": 0.0,
             "dispatch_interval_min": 5.0,
-            "fleet_size": 3,
+            "fleet_size": 23,
             "turnaround_min": 8.0,
         },
         "multimodal": {
             "shuttle_first_departure_min": 0.0,
             "shuttle_dispatch_interval_min": 5.0,
-            "shuttle_fleet_size": 3,
+            "shuttle_fleet_size": 23,
             "shuttle_turnaround_min": 8.0,
             "transfer_time_min": 3.0,
             "transfer_per_passenger_min": 0.02,
             "rail_first_departure_min": 0.0,
             "lastmile_first_departure_min": 0.0,
             "lastmile_dispatch_interval_min": 5.0,
-            "lastmile_fleet_size": 2,
+            "lastmile_fleet_size": 23,
             "lastmile_turnaround_min": 8.0,
-            "lastmile_vehicle_capacity": 8,
+            "lastmile_vehicle_capacity": 45,
         },
         "traffic": {
             "volume_window_min": 60.0,
-            "background_volume": 300.0,
+            "background_volume": 100.0,
         },
         "failure": {
             "mode": "blocked",
@@ -1186,10 +1189,12 @@ def make_pilot_base_config(region: Mapping[str, Any]) -> dict[str, Any]:
             # too-short value that censored both alternatives before completion
             # (observed baseline makespan ~288-291 min for bus/multimodal on the
             # real Goseong graph), making any bus-vs-multimodal delta meaningless.
-            # 480 min (8h) is the operational mobilization window: long enough to
-            # observe full baseline completion with headroom for disruption, while
-            # still censoring catastrophic cases (the robustness signal).
-            "time_limit": 480.0,
+            # 1440 min (24h) is the wartime mobilization window: long enough to
+            # observe full 1,000-pax baseline completion with headroom for
+            # disruption, while still censoring catastrophic cases (the robustness
+            # signal). (Earlier 480 min / 8h and 200 min were fixture-scale
+            # screening horizons, not the wartime run.)
+            "time_limit": 1440.0,
             # success_deadline_min (default None -> time_limit) decouples the
             # operational success deadline from the censor horizon. The Phase-5
             # robustness ladder sweeps it across [300, 360, 480, 600, 720] min
@@ -1232,6 +1237,7 @@ def select_disruption_cases(
     *,
     scenario_ids: Sequence[str] | None = None,
     sample: bool = True,
+    skipped_scenario_ids: list[str] | None = None,
 ) -> tuple[PilotDisruptionCase, ...]:
     """Return no-disruption plus selected structured disruption cases."""
 
@@ -1272,6 +1278,8 @@ def select_disruption_cases(
                     f"({exc})",
                     file=_skip_sys.stderr,
                 )
+                if skipped_scenario_ids is not None:
+                    skipped_scenario_ids.append(scenario_id)
                 continue
             raise
     return tuple(cases)
@@ -1477,6 +1485,7 @@ def build_result_manifest(
     runtime: Mapping[str, Any] | None = None,
     output_lock: Mapping[str, Any] | None = None,
     sample: bool | None = None,
+    skipped_scenario_ids: Sequence[str] | None = None,
 ) -> dict[str, Any]:
     """Return deterministic metadata for generated pilot experiment outputs."""
 
@@ -1736,6 +1745,8 @@ def build_result_manifest(
         "executed_policy_count": len(policies),
         "executed_scenario_count": len(cases),
         "executed_seed_count": len(seeds),
+        "skipped_scenarios": list(skipped_scenario_ids or ()),
+        "skipped_scenario_count": len(skipped_scenario_ids or ()),
         "executed_row_count": len(rows),
         "scenario_policy_seed_design": {
             "policy_count": len(policies),

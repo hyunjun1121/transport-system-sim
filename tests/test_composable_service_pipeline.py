@@ -40,8 +40,9 @@ def _base_config():
     )
     # Canonical pilot base config — must match the frozen oracle
     # (results/_phase23_baseline/oracle.json). make_pilot_base_config sets
-    # experiment.time_limit=480 (8h operational window); do NOT override it or
-    # the byte-identity sha drifts. road_class_overrides_path must match the
+    # experiment.time_limit=1440 (24h wartime mobilization window); do NOT
+    # override it or the byte-identity sha drifts. road_class_overrides_path
+    # must match the
     # oracle generator so the test graph and the oracle share the same evidenced
     # road inputs. See test_byte_identity_against_oracle.
     base = apply_pilot_demand_fleet_profiles(make_pilot_base_config(inputs.region))[0]

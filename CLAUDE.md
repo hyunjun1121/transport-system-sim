@@ -199,7 +199,7 @@ simulator: the Korean planning doc
 (`국방AI_활용_아이디어_경연대회/...공모기획서.md`), `report_draft.md`→`report.docx`
 (Korean report), `paper/` (English manuscript scaffold), `kci_redesign/` (한국군사학논집 figure/table
 redesign synthesis; the retired `previous-kci/` build scripts are a local archive), and `web_demo/` (Vercel-deployed Palantir-style UI at
-mobilization-transport-ai.vercel.app). Phase-1 input re-tuning (road speed/capacity, rail
+defense-ai-mobility-demo.vercel.app). Phase-1 input re-tuning (road speed/capacity, rail
 timing/headway/capacity, assembly delay, fleet) has a stated target of 2026-06-30. Long-term
 roadmap (`high_level_plan.md`): FTA/FM/FA fault-tree disruption modeling, multi-corridor
 ensembles, field-validation benchmarks, GPU Monte Carlo, RL dispatch policy.

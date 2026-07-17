@@ -1,0 +1,94 @@
+{
+  "behavior_implementation_status_counts": {
+    "not_implemented_contract_pending": 1,
+    "represented_by_lognormal_sigma_sensitivity": 2,
+    "represented_by_policy_alternative": 1,
+    "represented_by_sensitivity_design": 1,
+    "represented_by_transfer_delay_sensitivity": 1
+  },
+  "can_mark_complete": false,
+  "can_support_acceptance_gate": false,
+  "can_support_final_study_gate": false,
+  "can_support_parameter_evidence_gate": false,
+  "can_support_publication_gate": false,
+  "claim_boundary": "Phase 5 demand/fleet/behavior profile packet only; bounded scenario inputs for decision-support simulation, not calibrated OD demand, not an agency fleet roster, not observed no-show behavior, not an operational transport plan, not a public-agency forecast, not publication readiness, not final-study readiness, and not formal acceptance.",
+  "demand_origin_share_sums": {
+    "config_default_demand": "1",
+    "pilot_default_demand": "1"
+  },
+  "evidence_status_counts": {
+    "blocked_until_behavior_contract": 1,
+    "bounded_scenario_assumption_not_calibration": 1,
+    "bounded_scenario_assumption_not_inventory": 3,
+    "bounded_sensitivity_not_demand_forecast": 1,
+    "bounded_sensitivity_not_observed_behavior": 2,
+    "proxy_only_not_boarding_observation": 1,
+    "review_required_fleet_assumption": 3,
+    "review_required_scenario_assumption": 1,
+    "scenario_policy_not_behavior_calibration": 1
+  },
+  "final_study_ready": false,
+  "formal_acceptance_evidence": false,
+  "inputs": {
+    "config.yaml": "a521bdd4746e419f8aad8a8ae68bc62d1eb8841469e6191860ec0d36da166afd",
+    "data\\manifests\\pilot_experiment_design.json": "c3a6d5f5b58749b43d27b724b7ad72c48735fda70e5b26926f03e5680140c49b",
+    "data\\parameters\\fleet_assumptions.csv": "5bcabcc5f292aa5edf38f2878d3fff7282e1bf475104c26bb290f7ec595a90c2",
+    "data\\regions\\pilot_region.yaml": "eddda7a312c09bca47fa30a608779f6ec526a22b1722c6849a99fb914ee15dc0",
+    "data\\scenarios\\policy_alternatives.csv": "e0484b1f1414b00be08f130090663498c5a2dd6ce8e263d58e469d8963fac3e8",
+    "data\\scenarios\\sensitivity_design.csv": "a7b8869e16a000de9004020e211c697c601640d223963ccbdea26c67234a516c",
+    "docs\\recovery\\transport_core_reconstruction_decision_20260602.md": "d0e5297d5fec72a19cef557ff758197f8de4e936b1a4ab4988fd59a4ffdb16fd",
+    "src\\realworld\\pilot_experiments.py": "cf83f6fd7462930d1acf3148fca5e8c231573e1d096dcaa792b2a1080769d119"
+  },
+  "outputs": {
+    "behavior_profiles": "data\\scenarios\\behavior_profiles.csv",
+    "demand_profiles": "data\\scenarios\\demand_profiles.csv",
+    "doc": "data\\manifests\\phase5_profile_doc.md",
+    "fleet_profiles": "data\\scenarios\\fleet_profiles.csv",
+    "manifest": "data\\manifests\\phase5_profile_manifest.json"
+  },
+  "profile_ids": {
+    "behavior": [
+      "pilot_default_behavior"
+    ],
+    "demand": [
+      "config_default_demand",
+      "pilot_default_demand"
+    ],
+    "fleet": [
+      "config_default_fleet",
+      "pilot_default_fleet"
+    ]
+  },
+  "publication_ready": false,
+  "remaining_blockers": [
+    "demand profiles are not calibrated OD demand",
+    "fleet profiles are not agency fleet rosters or operating timetables",
+    "partial non-arrival semantics are not implemented in the scenario engine",
+    "formal parameter acceptance remains absent"
+  ],
+  "result_scope": "Phase 5 demand/fleet/behavior profile packet only; bounded scenario inputs for decision-support simulation, not calibrated OD demand, not an agency fleet roster, not observed no-show behavior, not an operational transport plan, not a public-agency forecast, not publication readiness, not final-study readiness, and not formal acceptance.",
+  "review_items": [
+    "review total demand, origin split, and arrival distribution before compact results consume final claims",
+    "review fleet counts, vehicle capacities, dispatch intervals, and turnaround by role",
+    "define no-show and partial non-arrival denominator semantics before reimplementing compact non-arrival scripts",
+    "keep profile rows bounded scenario assumptions unless source-backed evidence or formal parameter acceptance is added",
+    "verify any non-default profile before it is consumed by pilot_experiments.py"
+  ],
+  "row_counts": {
+    "behavior": 6,
+    "demand": 2,
+    "fleet": 6
+  },
+  "runtime_profile_consumption": {
+    "consumption_scope": "pilot_default demand and fleet rows are consumed as bounded runtime inputs; this is not calibration, operating roster evidence, publication readiness, final-study readiness, or formal acceptance",
+    "pilot_experiments_consumes_profiles": true,
+    "runtime_consumer": "src/realworld/pilot_experiments.py"
+  },
+  "schema_version": 1,
+  "source_class_counts": {
+    "expert assumption": 4,
+    "not_implemented": 1,
+    "scenario-only": 1,
+    "sensitivity-only": 8
+  }
+}

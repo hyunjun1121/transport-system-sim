@@ -140,16 +140,7 @@
         "goseong_spatial_feeder_east",
         "goseong_spatial_lastmile_west",
         "goseong_spatial_assembly_egress",
-        "goseong_rail_delay",
-        "goseong_rail_delay_mild",
-        "goseong_rail_delay_severe",
         "goseong_rail_unavailable",
-        "goseong_rail_capacity_reduction",
-        "goseong_rail_combined_stress",
-        "goseong_rail_combined_stress_mild",
-        "goseong_rail_combined_stress_severe",
-        "goseong_combo_tancheon_rail_delay",
-        "goseong_combo_access_rail_capacity",
         "goseong_transfer_point_blockage",
         "goseong_access_road_damage_mild",
         "goseong_access_road_damage_severe",
@@ -157,7 +148,11 @@
         "goseong_last_mile_damage_mild",
         "goseong_last_mile_damage_severe",
         "goseong_last_mile_damage_extreme",
-        "goseong_long_haul_damage_severe"
+        "goseong_long_haul_damage_severe",
+        "goseong_long_haul_damage_mild",
+        "goseong_long_haul_damage_moderate",
+        "goseong_access_road_damage_severe_plus50",
+        "goseong_last_mile_damage_severe_plus50"
       ],
       "seeds": [
         3101,
@@ -191,7 +186,7 @@
         3129,
         3130
       ],
-      "description": "Full pilot design with R4 reinforcement: 23 policies (4 fleet/capacity new), 30 scenarios (segment-targeted road-damage decomposition added: access A->S, last-mile R->D, long-haul S->R), 30 seeds = 20700 nominal rows. Covers the decision-support pillars with graduated severity ladders: access roads, rail service, transfer handling, last-mile capacity, fleet availability, and segment-targeted road damage (direct free-flow slowdown on the multimodal road legs). Quasi-real decision support only; not calibrated, validated, or operational."
+      "description": "Full pilot design (v3, wartime-assumption-driven): 23 policies, 25 scenarios (rail gradual-degradation ladders removed per the wartime rail-reliability assumption A1; rail_unavailable retained as the binary assumption-failure stress; +/-50% road-damage multiplier stability rugs added on the access and last-mile legs), 30 seeds = 17250 nominal rows. Segment-targeted road-damage decomposition on the multimodal road legs (access A->S, last-mile R->D, long-haul S->R) with severity ladders. Quasi-real decision-support sensitivity analysis only; outside the scope of deployment planning or single-route prescription."
     },
     "multi_corridor_candidate": {
       "profile_id": "multi_corridor_candidate",
@@ -354,16 +349,7 @@
         "goseong_spatial_feeder_east",
         "goseong_spatial_lastmile_west",
         "goseong_spatial_assembly_egress",
-        "goseong_rail_delay",
-        "goseong_rail_delay_mild",
-        "goseong_rail_delay_severe",
         "goseong_rail_unavailable",
-        "goseong_rail_capacity_reduction",
-        "goseong_rail_combined_stress",
-        "goseong_rail_combined_stress_mild",
-        "goseong_rail_combined_stress_severe",
-        "goseong_combo_tancheon_rail_delay",
-        "goseong_combo_access_rail_capacity",
         "goseong_transfer_point_blockage"
       ],
       "seeds": [
@@ -398,7 +384,7 @@
         3129,
         3130
       ],
-      "description": "Full bus-practical graph (4,608 nodes / 9,148 edges) feasibility probe using the same 23-policy, 23-scenario, 30-seed matrix and common-random-number seed block as the full pilot. Supports graph-scale review of full-graph execution without replacing the current reduced-corridor or multi-corridor outputs."
+      "description": "Full bus-practical graph (4,608 nodes / 9,148 edges) feasibility probe using the same 23-policy, 14-scenario, 30-seed matrix and common-random-number seed block as the full pilot. v3: rail gradual-degradation scenarios removed per the wartime rail-reliability assumption. Supports graph-scale review of full-graph execution without replacing the current reduced-corridor or multi-corridor outputs."
     }
   }
 }

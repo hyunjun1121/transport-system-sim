@@ -107,7 +107,7 @@ def build_oracle() -> dict:
         cache_path=CACHE,
         road_class_overrides_path=OVERRIDES,
     )
-    # Canonical pilot base config (experiment.time_limit=480, the 8h window).
+    # Canonical pilot base config (experiment.time_limit=1440, the 24h wartime window).
     # Mirrors tests/test_composable_service_pipeline.py::_base_config exactly,
     # including the road_class_overrides_path so the byte-identity baseline and
     # the Goseong case-study runs share the same evidenced road inputs.

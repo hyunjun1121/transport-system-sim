@@ -160,6 +160,43 @@ def test_road_travel_time_multiplier_threads_to_case_and_failure_config() -> Non
     print("PASS: road_travel_time_multiplier threads to case + failure config")
 
 
+def test_select_disruption_cases_records_skipped_scenarios() -> None:
+    """Inapplicable scenarios (no candidate edges on the reduced graph) must be
+    skipped, not abort the run, and their ids captured in skipped_scenario_ids so the
+    result manifest records why executed_scenario_count < profile_design_scenario_count.
+    """
+
+    _assert_cached_inputs_exist()
+    inputs = load_pilot_inputs()
+    far_bbox = DisruptionScenario(
+        scenario_id="songpa_skip_probe",
+        region_id=inputs.region_id,
+        family="spatial_hazard_overlay",
+        label="far-bbox skip probe",
+        selection_method="bbox_midpoint",
+        target_segment="bbox",
+        disruption_mode="capacity_reduction",
+        capacity_factor=0.5,
+        p_fail_scale=1.0,
+        max_edges=3,
+        hazard_bbox=(999.0, 999.0, 999.1, 999.1),
+        evidence_class="scenario_based",
+        observed_disaster_data=False,
+    )
+
+    skipped: list[str] = []
+    cases = select_disruption_cases(
+        inputs.graph,
+        (far_bbox,),
+        scenario_ids=("songpa_skip_probe",),
+        skipped_scenario_ids=skipped,
+    )
+    assert cases == ()
+    assert skipped == ["songpa_skip_probe"]
+
+    print("PASS: inapplicable scenarios are skipped and recorded in skipped_scenario_ids")
+
+
 def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
     """The sample runner should write separated conservative pilot outputs."""
 
@@ -205,6 +242,7 @@ def test_sample_pilot_experiment_writes_csvs_and_manifest() -> None:
         assert manifest["formal_acceptance_evidence"] is False
         assert manifest["design_status_is_approval"] is False
         assert manifest["phase8_preflight"]["status"] == "sample_skipped"
+        assert manifest["skipped_scenarios"] == []
         # Rail is now reframed as a wartime_charter_assumption (charter dispatch
         # interval, not a public-schedule median), so source decisions remain
         # genuinely pending even for the sample scaffold run.
@@ -274,18 +312,18 @@ def test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims() -> 
         fleet_profile_id="pilot_default_fleet",
     )
 
-    assert config["personnel"]["total"] == 24
-    assert config["personnel"]["group_size"] == 8
+    assert config["personnel"]["total"] == 1000
+    assert config["personnel"]["group_size"] == 45
     assert config["personnel"]["assembly_time"] == 0.0
     assert config["lateness"]["distribution"] == "lognormal_sample_fixture"
     assert config["lateness"]["mu"] == 2.45
     assert config["lateness"]["sigma_levels"] == [0.75]
-    assert config["bus"]["fleet_size"] == 3
+    assert config["bus"]["fleet_size"] == 23
     assert config["bus"]["dispatch_interval_min"] == 5.0
-    assert config["multimodal"]["shuttle_fleet_size"] == 3
+    assert config["multimodal"]["shuttle_fleet_size"] == 23
     assert config["multimodal"]["shuttle_turnaround_min"] == 8.0
-    assert config["multimodal"]["lastmile_fleet_size"] == 2
-    assert config["multimodal"]["lastmile_vehicle_capacity"] == 8
+    assert config["multimodal"]["lastmile_fleet_size"] == 23
+    assert config["multimodal"]["lastmile_vehicle_capacity"] == 45
 
     assert metadata["runtime_profile_inputs_consumed"] is True
     assert metadata["demand_profiles_sha256"] == _file_sha256(
@@ -1137,6 +1175,7 @@ if __name__ == "__main__":
     test_forced_disruption_probabilities_are_deterministic_and_non_mutating()
     test_disruption_case_preserves_scenario_p_fail_scale()
     test_road_travel_time_multiplier_threads_to_case_and_failure_config()
+    test_select_disruption_cases_records_skipped_scenarios()
     test_sample_pilot_experiment_writes_csvs_and_manifest()
     test_phase5_profiles_apply_to_pilot_runtime_config_without_gate_claims()
     test_pending_rail_source_decisions_block_non_sample_profiles()

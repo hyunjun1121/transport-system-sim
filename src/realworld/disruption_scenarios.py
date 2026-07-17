@@ -99,6 +99,7 @@ SCENARIO_EDGE_ATTRS = (
     "disruption_selection_rank",
     "disruption_mode",
     "disruption_capacity_factor",
+    "disruption_travel_time_multiplier",
 )
 DEFAULT_SCENARIO_PATH = (
     Path(__file__).resolve().parents[2]
@@ -544,6 +545,9 @@ def mark_scenario_edges(
         edge_data["disruption_selection_rank"] = selected.rank
         edge_data["disruption_mode"] = scenario.disruption_mode
         edge_data["disruption_capacity_factor"] = scenario.edge_disruption.capacity_factor
+        edge_data["disruption_travel_time_multiplier"] = (
+            scenario.edge_disruption.travel_time_multiplier
+        )
     return target
 
 

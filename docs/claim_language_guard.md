@@ -10,9 +10,9 @@ Lexical claim-language guard only; not manuscript acceptance, not formal approva
 - Publication ready: `false`
 - Final-study ready: `false`
 - Can mark complete: `false`
-- Findings: 5039
-- Blocking findings: 96
-- Bounded guardrail findings: 4943
+- Findings: 5052
+- Blocking findings: 102
+- Bounded guardrail findings: 4950
 
 ## Findings
 
@@ -138,7 +138,7 @@ Lexical claim-language guard only; not manuscript acceptance, not formal approva
 | claim_language_0118 | README.md:496 | accepted | explicit_non_approval | verify this non-approval boundary remains accurate and does not imply approval |
 | claim_language_0119 | README.md:497 | approved | explicit_non_approval | verify this non-approval boundary remains accurate and does not imply approval |
 | claim_language_0120 | README.md:497 | accepted | explicit_non_approval | verify this non-approval boundary remains accurate and does not imply approval |
-| ... | ... | ... | ... | 4919 additional rows in CSV |
+| ... | ... | ... | ... | 4932 additional rows in CSV |
 
 ## Required Use
 

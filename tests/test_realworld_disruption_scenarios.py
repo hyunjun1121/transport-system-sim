@@ -17,6 +17,7 @@ from src.realworld.disruption_scenarios import (
     DEFAULT_TEMPORAL_SCOPE,
     build_disruption_scenario_manifest,
     REQUIRED_FAMILIES,
+    SCENARIO_EDGE_ATTRS,
     DisruptionScenario,
     assert_required_family_coverage,
     build_scenario_disruption_map,
@@ -272,6 +273,40 @@ def test_route_station_spatial_mapping_and_edge_marking() -> None:
     print("PASS: route, station, spatial, and marking helpers work")
 
 
+def test_mark_scenario_edges_records_travel_time_multiplier() -> None:
+    """mark_scenario_edges should annotate selected edges with the direct-slowdown
+    multiplier symmetric with disruption_capacity_factor (provenance: a damaged road's
+    time penalty must be recorded on the edge, not only the capacity factor)."""
+
+    graph = synthetic_simulator_graph()
+    scenario = DisruptionScenario(
+        scenario_id="synthetic_damage_mark",
+        region_id="synthetic_region",
+        family="access_road",
+        label="access damage marking test",
+        selection_method="shortest_path",
+        target_segment="A->S",
+        disruption_mode="capacity_reduction",
+        capacity_factor=1.0,
+        p_fail_scale=1.0,
+        road_travel_time_multiplier=3.0,
+        max_edges=3,
+        evidence_class="scenario_based",
+        observed_disaster_data=False,
+    )
+
+    assert "disruption_travel_time_multiplier" in SCENARIO_EDGE_ATTRS
+    marked = mark_scenario_edges(graph, scenario)
+    selected = select_candidate_edges(graph, scenario)
+    assert selected, "fixture should select access A->S edges"
+    for picked in selected:
+        edge_data = marked.edges[picked.edge]
+        assert edge_data["disruption_capacity_factor"] == 1.0
+        assert edge_data["disruption_travel_time_multiplier"] == 3.0
+
+    print("PASS: mark_scenario_edges records travel_time_multiplier symmetric with capacity_factor")
+
+
 def test_blocked_mode_maps_to_blocked_edge_disruption() -> None:
     """Blocked scenarios should produce blocked simulator disruption states."""
 
@@ -376,6 +411,8 @@ def test_goseong_segment_damage_rows_parse() -> None:
         ("goseong_last_mile_damage_severe", "last_mile", "R->D", 3.0),
         ("goseong_last_mile_damage_extreme", "last_mile", "R->D", 8.0),
         ("goseong_long_haul_damage_severe", "access_road", "S->R", 3.0),
+        ("goseong_long_haul_damage_mild", "access_road", "S->R", 1.2),
+        ("goseong_long_haul_damage_moderate", "access_road", "S->R", 1.5),
     ]
     for sid, family, target_segment, mult in expected:
         assert sid in scenarios, f"missing segment-damage scenario {sid}"
@@ -417,6 +454,8 @@ def test_goseong_segment_damage_targets_canonical_paths() -> None:
         ("goseong_access_road_damage_severe", "A", "S", 3.0),
         ("goseong_last_mile_damage_severe", "R", "D", 3.0),
         ("goseong_long_haul_damage_severe", "S", "R", 3.0),
+        ("goseong_long_haul_damage_mild", "S", "R", 1.2),
+        ("goseong_long_haul_damage_moderate", "S", "R", 1.5),
     ]
     for sid, start, end, mult in checks:
         scenario = scenarios[sid]
@@ -533,6 +572,7 @@ if __name__ == "__main__":
     test_spatial_hazard_rows_must_not_claim_observed_data()
     test_deterministic_hash_and_critical_link_mapping()
     test_route_station_spatial_mapping_and_edge_marking()
+    test_mark_scenario_edges_records_travel_time_multiplier()
     test_blocked_mode_maps_to_blocked_edge_disruption()
     test_road_travel_time_multiplier_threads_through_loader_and_property()
     test_goseong_segment_damage_rows_parse()

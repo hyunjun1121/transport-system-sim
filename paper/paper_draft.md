@@ -1,6 +1,52 @@
-﻿# A Region-Reusable Decision Framework for Disrupted Regional Personnel Transport Resilience
+﻿# A Wartime-Assumption-Driven Simulation Framework for Reserve-Force Mobilization Transport: Bus-Only vs Rail-Bus Multimodal Comparison on the National Road Network
 
-> Current project status (2026-05-09): `final_study_ready=false`. Preflight-pass gates are `3/15` (`real_input_smoke`, `structured_disruptions`, `policy_alternatives`), blocked gates are `12/15`, and formal signoff is `0/12` complete. This document is current-state or review support only; it does not create formal signoff, fit-to-observed-data real-world results, or field-use routing guidance.
+> **v3 manuscript scaffold (2026-07-09).** Target venue: **한국경영공학회 (KIIE)** — contribution =
+> road-network-based discrete-event simulation + a structured wartime-scenario taxonomy +
+> common-random-number (CRN) paired bus-only vs rail-bus multimodal comparison. `final_study_ready=false`,
+> formal acceptance 0/12 (by design). Decision-support / quasi-real / sensitivity only; not deployment
+> guidance and not a prescribed single route. Coordinates are public administrative centroids / public
+> transport networks only — no real unit coordinates, OOB, or movement schedules.
+
+> **Core reframe — wartime as a license to assume, not to fight.** The system is partitioned into
+> (A) assumable-away layers treated by explicit wartime-doctrine assumptions, (B) a real-data core
+> built from the official Korean 표준노드링크 national road network (972k edges), and (C) a comparison
+> *arena* — the road legs on which bus-only and rail-bus multimodal actually diverge (access A→S,
+> last-mile R→D, and the bus-only A→D trunk). Wartime assumptions:
+> **A1** rail = max-speed / no-stop / reliable (military-priority dispatch) → the S→R rail leg is
+> disruption-immune *by assumption*, not a measured result;
+> **A2** civilian traffic ≈ 0 on the military axis via *directional asymmetry* (troops move north ↑
+> while civilians evacuate south ↓), giving the BPR volume-delay term a physical mechanism for being
+> a near-no-op (<2%; canonical makespan delay 0.0024%);
+> **A3** fleet = military-allocated, fixed;
+> **A4** disruption severity = a doctrinal sensitivity ladder, defended by ±50% ranking stability
+> rather than a single asserted multiplier.
+
+> **Headline result — the assumption-failure edge.** Under the 1000-pax wartime re-experiment (23
+> policies × 21 ran scenarios × 30 seeds = 14,490 rows; 1,000 reservists, 23-vehicle fleets, 24h window)
+> on the Songpa→Goseong corridor, completion saturates at 1.000 for nearly every scenario, so the
+> discriminating signal is makespan. In the baseline, bus-only is ~81 min *faster* than multimodal
+> (283 vs 364 min) — the rail leg's fixed overhead (114-min leg + headway + transfer) exceeds a direct
+> road move when the 24h window and 23-bus fleet absorb the demand. The rail leg is reliable by
+> assumption A1, so multimodal's makespan stays flat at 364 min across long-haul road damage that
+> drives bus-only to 671 min. The binary `rail_unavailable` scenario (assumption A1 fails: line
+> destruction or power loss) collapses multimodal to **completion 0.000** while bus-only holds 1.000 —
+> the legitimate, non-circular stress that bounds the multimodal design. Segment-targeted road damage
+> decomposes the arena cleanly: access A→S damage bites multimodal harder (371→464 min; bus-only only
+> shares early edges, 285→311 min); last-mile R→D damage is a *shared* monotonic bottleneck hitting
+> both modes (bus 294→458 min, multimodal 395→**976 min**).
+
+> **AI/ML layer — removed from this academic path.** Per author decision the XGBoost/SHAP judgment
+> layer is not used or cited in this KIIE manuscript (retained on disk only for the separate 국방AI
+> competition track). Reasons: the ML label was the simulator's own completion threshold (a compressed
+> lookup, not classification) and the train/test split leaked CRN-correlated rows.
+
+> **SUPERSEDED CONTENT BELOW.** From the *Draft Status* section onward, this file retains the earlier
+> v1/v2 *Songpa civilian-emergency* scaffold (≈500 personnel, 164-node OSM graph, 15,870 rows,
+> BPR α=0.50, rail delay/capacity/combined ladders, ML/Morris scaffolding, 3/15 preflight framing).
+> Those sections are kept as historical context only and are **superseded** by the v3 design: see
+> `docs/experiment_design_v2.md` (canonical design) and `docs/project_overview.md` (canonical summary).
+> In particular the v1/v2 rail-degradation ladders contradict assumption A1 and must not be cited as
+> current results.
 
 
 ## Draft Status
@@ -202,7 +248,53 @@ The paper should not be framed as:
 The strongest framing is a reusable methodology with a guarded regional case
 demonstration.
 
-## Abstract Draft
+## Abstract Draft (v3)
+
+Wartime mobilization of reserve forces requires moving a large personnel cohort from an assembly
+zone to a destination zone under conditions — road damage, rail service stress, fleet scarcity,
+staggered dispatch — that peacetime transport models are not built to represent. A naive response is
+to demand full real-world calibration of every layer; this paper argues the opposite. In a wartime
+frame, much of the system can be *assumed away* by explicit doctrine, which simplifies the model and
+concentrates the empirical burden on the layers that cannot be assumed.
+
+We partition the system into (A) assumable-away layers (long-haul rail reliability, civilian
+background traffic), (B) a real-data core built from the official Korean 표준노드링크 national road
+network (972k edges) with grade-based free-flow speeds, and (C) a comparison *arena* — the road legs
+on which bus-only and rail-bus multimodal actually diverge (access A→S, last-mile R→D, and the
+bus-only A→D trunk). Two wartime-doctrine assumptions carry the simplification: **A1**, rail runs at
+maximum speed without stopping and is reliable under military-priority dispatch, so the S→R rail leg
+is disruption-immune *by assumption* (not a measured result); **A2**, civilian traffic on the
+military axis is approximately zero because troops move north while civilians evacuate south
+(directional asymmetry), which makes the BPR volume-delay term a near-no-op (<2%) without requiring
+civilian traffic-volume data.
+
+We simulate ~1,000 reservists on the Songpa→Goseong corridor and compare bus-only vs rail-bus
+multimodal under a CRN paired design (same seed ⇒ deltas attributable to transport structure, not
+noise; pairing auditable from the result CSV via a `seed_stream_id` hash), across 9 doctrine-grounded
+disruption families (access / last-mile / long-haul road damage, critical-link blockage, random
+degradation, spatial bbox overlays, rail unavailability, a severity ladder with ±50% stability rugs,
+and multi-hazard combinations) crossed with 23 policy alternatives over 30 seeds (14,490 executed
+rows; t-based confidence intervals, df=29 → 2.045, rather than the normal z=1.96).
+
+The defensible finding is a *road-exposure-profile* comparison under the rail-reliability assumption,
+not a measurement of rail-substitution robustness. At the 1000-pax / 24h wartime scale, completion
+saturates at 1.000 for nearly every scenario, so the discriminating signal is makespan rather than
+completion. In the baseline, bus-only is ~81 min faster than multimodal (283 vs 364 min): the rail
+leg's fixed overhead exceeds a direct road move when the 24h window and 23-bus fleet absorb the
+demand. Segment-targeted road damage then decomposes the arena cleanly: access A→S damage bites
+multimodal harder (371→464 min; bus-only only shares early edges near A, 285→311 min); last-mile R→D
+damage is a shared monotonic bottleneck hitting both modes (bus 294→458 min, multimodal 395→976 min);
+long-haul road damage drives bus-only makespan to 671 min while multimodal holds 364 min flat by
+assumption A1. The headline stress is the binary `rail_unavailable` case — assumption A1 fails (line
+destruction or power loss) — which collapses multimodal completion to 0.000 while bus-only remains
+1.000, bounding the multimodal design without circularity. These are decision-support / quasi-real /
+sensitivity outputs, not deployment guidance or a prescribed route, and all claims are conditional on
+the Goseong corridor.
+
+---
+
+*Legacy v1/v2 abstract (Songpa civilian-emergency framing, superseded — see the v3 banner at the top
+of this file):*
 
 Large-scale personnel movement during regional disruption depends on the joint
 availability of road corridors, transit access, fleet resources, transfer
@@ -265,18 +357,18 @@ ranking of transport modes, but a decision framework that identifies the
 disruption-location regimes in which multimodal personnel transport is robust,
 competitive, or fragile.
 
-## Keywords
+## Keywords (v3)
 
-- transport resilience
-- disrupted logistics
-- emergency personnel movement
-- multimodal simulation
-- road-rail integration
-- network degradation
-- finite fleet dispatch
-- critical-link analysis
-- sensitivity analysis
-- OpenStreetMap
+- wartime mobilization transport
+- reserve-force movement simulation
+- road-network discrete-event micro-simulation
+- 표준노드링크 (national road network)
+- bus-only vs rail-bus multimodal
+- wartime-assumption-driven modeling
+- disruption scenario taxonomy
+- common-random-number paired design
+- BPR volume-delay no-op
+- decision-support sensitivity analysis
 
 ## 1. Introduction
 

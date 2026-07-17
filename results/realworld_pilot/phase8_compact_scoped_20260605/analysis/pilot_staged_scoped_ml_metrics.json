@@ -1,26 +1,30 @@
 {
   "class_labels": [
     "failure",
-    "normal"
+    "normal",
+    "risk",
+    "watch"
   ],
   "command": [
     "scripts\\run_ml_analysis.py",
     "--input",
-    "results/goseong_pilot/pilot_sample_results.csv"
+    "results/realworld_pilot_nodelink/pilot_full_results.csv"
   ],
   "final_study_ready": false,
   "formal_acceptance_evidence": false,
   "kmeans_cluster_count": 4,
   "kmeans_status": "kmeans_fit",
   "label_counts": {
-    "failure": 8,
-    "normal": 24
+    "failure": 4728,
+    "normal": 10702,
+    "risk": 1488,
+    "watch": 1712
   },
   "leakage_boundary": "Features are limited to policy/scenario/mode fields and selected edge count; completion_rate and censored_count are used only for label derivation, not as model features.",
   "model_device": "cpu",
   "model_package": "xgboost",
   "model_status": "xgboost_trained",
-  "nl_summary": "[준실험 의사결정지원 요약] test macro-F1=1.000 (XGBoost 2급, gain feature_importance 기준). 상위 gain 특성: scenario_family=critical_link, selected_edge_count, policy_id=baseline_multimodal. 상위 SHAP 특성: scenario_family=critical_link, selected_edge_count, policy_id=baseline_multimodal. KMeans 상황군집 4종. 본 요약은 시뮬레이션 출력 기반 민감도 해석이며, 운용계획·예측·검증·최적경로가 아님. final_study_ready=false.",
+  "nl_summary": "[준실험 의사결정지원 요약] test macro-F1=0.645 (XGBoost 4급, gain feature_importance 기준). 상위 gain 특성: policy_id=severe_congestion_multimodal, policy_id=peak_congestion_multimodal, policy_id=peak_congestion_bus. 상위 SHAP 특성: policy_id=fleet_shortage_severe, mode=bus_only, scenario_family=last_mile. KMeans 상황군집 4종. 본 요약은 시뮬레이션 출력 기반 민감도 해석이며, 운용계획·예측·검증·최적경로가 아님. final_study_ready=false.",
   "output_prefix": "pilot_staged_scoped",
   "outputs": {
     "clusters": "results/realworld_pilot/phase8_compact_scoped_20260605/analysis/pilot_staged_scoped_ml_clusters.csv",
@@ -34,22 +38,22 @@
   },
   "publication_ready": false,
   "result_scope": "Phase 10 post-simulation ML decision-support analysis only; labels are derived from simulation outputs and do not prove real-world calibration, publication readiness, final-study readiness, formal acceptance, or operational forecasting.",
-  "row_count": 32,
+  "row_count": 18630,
   "shap_status": "shap_computed",
   "source_manifest_path": "results/realworld_pilot/phase8_compact_scoped_20260605/pilot_staged_manifest.json",
   "source_manifest_sha256": "07cd065794a546f33df7ffa0493a993715131efed7148d0d19a1a1c3a098e288",
-  "source_results_path": "results/goseong_pilot/pilot_sample_results.csv",
-  "source_results_sha256": "c0af610dd66ac532197d60ec48e0aeade0dfffc5e03096c938f110945a24dd67",
+  "source_results_path": "results/realworld_pilot_nodelink/pilot_full_results.csv",
+  "source_results_sha256": "b610c0752086f009e97958d503c291fb4c3cef722e921abbf36b78dd6bf3a23a",
   "test_metrics": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "row_count": 7
+    "accuracy": 0.7903918411164788,
+    "macro_f1": 0.6447144217100822,
+    "row_count": 3726
   },
-  "test_row_count": 7,
+  "test_row_count": 3726,
   "train_metrics": {
-    "accuracy": 1.0,
-    "macro_f1": 1.0,
-    "row_count": 25
+    "accuracy": 0.8137412775093934,
+    "macro_f1": 0.6781507401264245,
+    "row_count": 14904
   },
-  "train_row_count": 25
+  "train_row_count": 14904
 }
