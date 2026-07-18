@@ -1,7 +1,7 @@
 {
   "blocking_finding_count": 15,
-  "bounded_finding_count": 358,
-  "bounded_non_claim_reference_count": 82,
+  "bounded_finding_count": 359,
+  "bounded_non_claim_reference_count": 83,
   "can_mark_complete": false,
   "claim_boundary": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
   "claim_language_guard_ready": false,
@@ -45,8 +45,8 @@
     "data/manifests/publication_readiness_audit.json:0 missing requires boundary review",
     "data/manifests/current_goal_completion_audit.json:0 missing requires boundary review",
     "data/manifests/phase_gate_ledger_audit.json:0 missing requires boundary review",
-    "agents.md:13 accepted requires boundary review",
-    "agents.md:179 calibrated requires boundary review",
+    "agents.md:19 accepted requires boundary review",
+    "agents.md:198 calibrated requires boundary review",
     "paper/paper_draft.md:256 calibrated requires boundary review",
     "docs/project_overview.md:113 operational requires boundary review",
     "docs/project_overview.md:113 forecast requires boundary review",
@@ -55,20 +55,20 @@
     "docs/project_overview.md:113 final requires boundary review",
     "docs/project_overview.md:113 ready requires boundary review"
   ],
-  "reserved_match_count": 373,
+  "reserved_match_count": 374,
   "result_scope": "Lexical claim-language guard only; not manuscript acceptance, not formal approval, not calibrated validation, and not operational readiness.",
   "review_items": [
     "downgrade unbounded final, ready, accepted, validated, calibrated, operational, forecast, real-time, and approved language",
     "preserve explicit non-approval and decision-support boundary language",
     "rerun this guard before public/package/report release"
   ],
-  "row_count": 373,
+  "row_count": 374,
   "scan_complete": false,
   "scanned_file_count": 9,
   "schema_version": 1,
   "source_counts": {
     "README.md": 187,
-    "agents.md": 23,
+    "agents.md": 24,
     "data/manifests/current_goal_completion_audit.json": 1,
     "data/manifests/goseong_experiment_design.json": 20,
     "data/manifests/phase_gate_ledger_audit.json": 1,
@@ -84,7 +84,7 @@
     "status.md": 1
   },
   "status_counts": {
-    "bounded_non_claim_reference": 82,
+    "bounded_non_claim_reference": 83,
     "explicit_non_approval": 276,
     "missing_scan_target": 6,
     "release_blocking_unbounded": 9
@@ -99,7 +99,7 @@
     "missing": 6,
     "operational": 35,
     "ready": 52,
-    "validated": 65
+    "validated": 66
   },
   "unreadable_target_count": 0
 }
