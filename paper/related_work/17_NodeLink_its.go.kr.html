@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    
+    <title>전국표준노드링크 | ITS 국가교통정보센터(National Transport Information Center)</title>
+    
+        <!-- 타이틀을 페이지별로 동적으로 설정 -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ITS 국가교통정보센터">
+    <meta property="og:description" content="ITS 국가교통정보센터">
+    <meta property="og:image" content="https://its.go.kr/css/images/main/shortcut_bg02.png">
+    <meta property="og:url" content="https://its.go.kr">
+    <meta name="theme-color" content="#000000">
+    <meta name="robots" content="ALL">
+    <meta name="title" content="ITS 국가교통정보센터">
+    <meta name="keywords" content="ITS 국가교통정보센터">
+    <meta name="description" content="ITS 국가교통정보센터">
+    <meta name="content-language" content="kr">
+    <meta name="ctx"
+          content="/">
+    <meta name="_csrf" content="b3500f69-59aa-4a8e-9c61-771da410c4d5">
+    <meta name="_csrf_header" content="X-XSRF-TOKEN">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" >
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" >
+    <link rel="preconnect" href="//its.go.kr">
+    <link rel="preconnect" href="//its.go.kr:9443">
+    <!--<link rel="preconnect" href="//firebase.googleapis.com">
+    <link rel="preconnect" href="//www.qstatic.com">
+    <link rel="preconnect" href="//www.googletagmanager.com">
+    <link rel="preconnect" href="//d-collector.jennifersoft.com">-->
+    <link rel="preconnect" href="//nrbe.pstatic.net">
+    <link rel="preconnect" href="//oapi.map.naver.com">
+    <link rel="preconnect" href="//api.vworld.kr">
+    <link rel="canonical" href="https://its.go.kr">
+    <link rel="preload" as="font" href="/css/design/font/NotoSansCJKkr-Regular.woff2" type="font/woff2" crossorigin="anonymous">
+    <!-- Black 폰트: 메인 페이지 사용 빈도 낮아 preload 제거, CSS에서 필요 시 자동 로드 -->
+    <!--<link rel="preload" as="font" th:href="@{/css/design/font/NotoSansCJKkr-Black.woff2}" type="font/woff2" crossorigin="anonymous">-->
+    <link rel="preload" as="font" href="/css/design/font/NotoSansCJKkr-Medium.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="/css/design/font/NotoSansCJKkr-Bold.woff2" type="font/woff2" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/webjars/jquery-ui/1.13.2/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="/webjars/jquery-ui/1.13.2/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="/js/lib/swiper/css/swiper.min.css">
+    <link type="text/css" rel="stylesheet" href="/webjars/toastr/2.1.2/build/toastr.min.css">
+    <link rel="stylesheet" href="/css/design/font.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
+    
+    <link rel="stylesheet" href="/css/design/sub.css"/>
+    <link rel="stylesheet" href="/css/custom.css"/>
+    <link rel="stylesheet" href="/css/design/tooltip.css"/>
+
+    <!--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
+    <!-- es6-promise: 모든 모던 브라우저가 Promise 네이티브 지원하므로 제거 -->
+    <!--<script th:src="@{/webjars/es6-promise/dist/es6-promise.min.js}"></script>-->
+    <!--<script th:src="@{/webjars/async/3.2.0/dist/async.min.js}"></script>-->
+    <script src="/js/lib/Notification.min.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!--<script defer src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js"></script>-->
+    <!--<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-analytics.js"></script>-->
+
+    <!-- service-worker는 header.js에서 navigator.serviceWorker.register()로 등록되므로 script 태그 불필요 -->
+    <!--<script th:src="@{/service-worker.js}"></script>-->
+    <script src="/webjars/mustache/4.2.0/mustache.min.js"></script>
+    <script src="/webjars/jquery/3.7.0/dist/jquery.min.js"></script>
+    <script src="/webjars/jquery-ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="/webjars/jquery-blockui/2.70/jquery.blockUI.js"></script>
+    <!-- slick: 메인 페이지 미사용, opendata.html에서만 로드 -->
+    <!--<script th:src="@{/webjars/slick/slick.min.js}"></script>-->
+    <script src="/webjars/toastr/2.1.2/build/toastr.min.js"></script>
+    <script src="/js/lib/swiper/js/swiper.min.js"></script>
+    <script src="/js/design/common.js"></script>
+    <script src="/js/common/common.js"></script>
+    <!--
+    <script>
+        (function(j,ennifer) {
+            j['dmndata']=[];j['jenniferFront']=function(args){window.dmndata.push(args)};
+            j['dmnaid']=ennifer;j['dmnatime']=new Date();j['dmnanocookie']=false;j['dmnajennifer']='JENNIFER_FRONT@INTG';
+        }(window, '37d08100'));
+    </script>
+    <script async src="//d-collect.jennifersoft.com/37d08100/demian.js"></script>
+    
+    <script>
+        jenniferFront({
+            set: {
+                filter: {
+                    localhost: true
+                }
+            }
+        });
+    </script>
+    -->
+    <!--<script src="//wcs.naver.net/wcslog.js"></script>
+    <script>
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "13d9f8e2bc6c0a0";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>-->
+    
+    <!--<script th:src="@{/js/design/board.js}"></script>
+    <script th:src="@{/js/nodelink/nodelinkRef.js}"></script>-->
+
+    <script src="/js/opendata/nodelinkService.js"></script>
+    <script src="/js/opendata/opendataCommon.js"></script>
+
+    
+  <script id="acdnt_marker_popup_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    <div class="" id="{{popId}}">
+      {{^isPc}}
+      <button type="button" id="{{btnId}}" class="btn type2" style="width: 100%">닫기</button>
+      {{/isPc}}
+      {{#isPc}}
+      <button type="button" id="{{btnId}}" class="close"></button>
+      {{/isPc}}
+    <div class="title_box">
+      {{#acdnt}}
+      <span class="label red">{{titleType}}</span>
+      {{/acdnt}}
+      {{^acdnt}}
+      <span class="label blue">{{titleType}}</span>
+      {{/acdnt}}
+      <strong class="title">{{title}}</strong>
+      </div>
+    {{^isSpcnws}}
+    <div class="contents_box">
+      <div class="tit_box">
+        <div class="cont">{{mssageCn}}</div>
+        <div class="tit">{{intrcpAt}}</div>
+        <div class="tit">{{lcInfo}}</div>
+      </div>
+    </div>
+    {{/isSpcnws}}
+    <div class="put_box">
+      <p>시작일시: {{occrrncTm}}</p>
+      <p>종료일시: {{edDt}}</p>
+      </div>
+    </div>
+    {{/data}}
+  </script>
+  <script id="constrct_marker_popup_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    <div class="" id="{{popId}}">
+      {{^isPc}}
+      <button type="button" id="{{btnId}}" class="btn type2" style="width: 100%">닫기</button>
+      {{/isPc}}
+      {{#isPc}}
+      <button type="button" id="{{btnId}}" class="close"></button>
+      {{/isPc}}
+      <div class="title_box">
+        <span class="tit">{{outbrkTyNm}}</span>
+        <strong class="title">{{title}}</strong>
+      </div>
+      <div class="contents_box border">
+        <div class="tit_box">
+          <div class="cont">{{mssageCn}}</div>
+          <div class="tit">{{intrcpAt}}</div>
+          <div class="tit">{{lcInfo}}</div>
+        </div>
+      </div>
+      <div class="put_box inner">
+        <p>시작일시: {{occrrncTm}}</p>
+        <p>종료일시: {{edDt}}</p>
+      </div>
+    </div>
+    {{/data}}
+  </script>
+  <script id="disaster_marker_popup_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    <div class="disaster-overlay" id="{{popId}}">
+      {{^isPc}}
+        <button type="button" id="{{btnId}}" class="btn type2" style="width:100%">닫기</button>
+      {{/isPc}}
+      {{#isPc}}
+        <button type="button" id="{{btnId}}" class="close" aria-label="닫기 버튼"></button>
+      {{/isPc}}
+      <div class="title_box">
+        <span class="label pink">{{titleType}}</span>
+        <strong class="title">{{title}}</strong>
+      </div>
+      <div class="contents_box border">
+        <div class="tit_box">
+          {{#rows.length}}
+          <dl class="desc">
+            {{#rows}}
+              <dt class="cont">{{label}}</dt>
+              <dd>{{value}}</dd>
+            {{/rows}}
+          </dl>
+          {{/rows.length}}
+          <div class="cont">도로명</div>
+          <div class="tit" id="{{roadNamesId}}" data-field="roadNames">{{roadNames}}</div>
+          <div class="tag_more_wrap">
+            <button class="tag_more" id="{{moreBtnId}}" data-state="collapsed" style="display:none;">더보기</button>
+          </div>
+        </div>
+      </div>
+      <div class="put_box inner">
+        <p>시작일시: {{occrrncTm}}</p>
+        <p>종료일시: {{endTm}}</p>
+      </div>
+    </div>
+    {{/data}}
+  </script>
+  <script id="vms_marker_popup_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    <div class="" id="{{popId}}">
+      <div class="" id="{{popId}}">
+      {{^isPc}}
+      <button type="button" id="{{btnId}}" class="btn type2" style="width: 100%">닫기</button>
+      {{/isPc}}
+      {{#isPc}}
+      <button type="button" id="{{btnId}}" class="close"></button>
+      {{/isPc}}
+      <div class="title_box">
+        <span class="label grey">VMS</span>
+        <strong class="title">{{title}}</strong>
+      </div>
+      <div class="contents_box scroll">
+        <div class="tit_box">
+          {{#mssageCn}}
+          <div class="cont" style="padding: 8px;
+              border-radius: 4px;
+              background-image: linear-gradient(105deg, #222 27%, #888 99%);
+              color: #fcff51;
+              text-align: center;">{{{epressCn}}}</div>
+          {{/mssageCn}}
+        </div>
+        <div class="tit"></div>
+      </div>
+    </div>
+      {{#isPc}}
+      <button type="button" id="{{btnId}}" class="close"></button>
+      {{/isPc}}
+      <div class="title_box">
+        <span class="label grey">VMS</span>
+        <strong class="title">{{title}}</strong>
+      </div>
+      <div class="contents_box scroll">
+        <div class="tit_box">
+          {{#mssageCn}}
+          <div class="cont" style="padding: 8px;
+              border-radius: 4px;
+              background-image: linear-gradient(105deg, #222 27%, #888 99%);
+              color: #fcff51;
+              text-align: center;">{{{epressCn}}}</div>
+          {{/mssageCn}}
+        </div>
+        <div class="tit"></div>
+      </div>
+    </div>
+    {{/data}}
+  </script>
+
+    <script id="cctv_marker_popup_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div class="map_layer cctv" id="{{popId}}">
+            <div>
+                <button type="button" id="{{btnId}}" aria-label="닫기 버튼" class="close"></button>
+                <div class="title_box">
+                    <span class="label blue">CCTV</span>
+                    <strong class="title">{{title}}</strong>
+                </div>
+                <div class="contents_box">
+                    <div class="cctv_center">
+                        <button type="button" class="cctv_prev">
+                            <span class="skip">이전버튼</span>
+                        </button>
+                        <video id="video_{{cctvId}}_{{idx}}" controls poster="{{imgUrl}}" crossorigin="anonymous"></video>
+                        <button type="button" class="cctv_next">
+                            <span class="skip">다음버튼</span>
+                        </button>
+                    </div>
+                    <div class="side-txt">
+                        <span>← {{beginDrcNm}}</span>
+                        <span>{{endDrcNm}} →</span>
+                    </div>
+                </div>
+                <div class="put_box">
+                    <button class="thumb-toggle"></button>
+                    <div class="thumb-area">
+                        <div class="thumb">
+                            <div class="name left">
+                                {{#prev.instlLcDc}}
+                                    <span class="custom-cctv-text-elips">{{prev.instlLcDc}}</span>
+                                {{/prev.instlLcDc}}
+                                {{^prev.instlLcDc}}
+                                    <span>이전 CCTV 없음</span>
+                                {{/prev.instlLcDc}}
+                            </div>
+                            {{#prev.imgUrl}}
+                                <img src="{{prev.imgUrl}}" alt="">
+                            {{/prev.imgUrl}}
+                        </div>
+                        <div class="thumb">
+                            <div class="name right">
+                                {{#next.instlLcDc}}
+                                    <span class="custom-cctv-text-elips">{{next.instlLcDc}}</span>
+                                {{/next.instlLcDc}}
+                                {{^next.instlLcDc}}
+                                    <span>다음 CCTV 없음</span>
+                                {{/next.instlLcDc}}
+                            </div>
+                            {{#next.instlLcDc}}
+                                <img src="{{next.imgUrl}}" alt="">
+                            {{/next.instlLcDc}}
+                        </div>
+                    </div>
+                    <div class="control-btn">
+                        <div class="select">
+                            <select id="cctvDivider" title="분할유형 선택">
+                                <option value="" class="default">분할재생</option>
+                                <option id="divide2" value="2">2분할</option>
+                                <option id="divide4" value="4">4분할</option>
+                            </select>
+                        </div>
+                        <button class="cctvIssue" id="btn_issue_{{cctvId}}_{{idx}}" onclick="openReportPopup('{{popup}}')">재생신고</button>
+                        <button id="ctSingleFS" class="cctvFull">전체화면</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_marker_single_full_screen_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div id="ctSingleFSP" class="map_overlay">
+            <div class="cctv_display">
+                <div class="cctv_grid_wrap">
+                    <div id="ctSingleFSP_container" class="cctv_grid">
+                        <div class="cctv_item">
+                            <video id="video_fs_{{cctvId}}_{{idx}}" controls poster="{{imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>{{title}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cctv_control">
+                    <button id="ctSingleFSP_prev" type="button" class="cctv_prev">
+                        <span class="skip">이전버튼</span>
+                    </button>
+                    <button id="ctSingleFSP_next" type="button" class="cctv_next">
+                        <span class="skip">다음버튼</span>
+                    </button>
+                    <button type="button" aria-label="닫기 버튼" class="close" onclick="$(this).parent().parent().parent().remove()"></button>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_marker_single_full_screen_sub_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+            <div class="cctv_item">
+                <video id="video_fs_{{cctvId}}_{{idx}}" controls poster="{{imgUrl}}" crossorigin="anonymous"></video>
+                <div class="name">
+                    <span>{{instlLcDc}}</span>
+                </div>
+            </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_separate2_marker_popup_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div id="cctv_separate2_popup" class="map_layer cctv dv2" style="position: absolute; pointer-events: auto; top: 50%; left: calc(50% + 195px); transform: translate(-50%, -50%); z-index: 12;">
+            <div>
+                <button type="button" id="cctv_separate2_popup_close" aria-label="닫기 버튼" class="close"></button>
+                <div class="title_box">
+                    <strong class="title">2분할 CCTV</strong>
+                </div>
+                <div class="contents_box">
+                    <div id="cctv_grid_wrap_2" class="cctv_grid_wrap">
+                        <ul class="cctv_grid">
+                            <li class="cctv_item">
+                                <video id="video_{{cctv1.cctvId}}_{{cctv1.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv1.imgUrl}}" crossorigin="anonymous"></video>
+                                <div class="name">
+                                    <span>1- {{cctv1.instlLcDc}}</span>
+                                </div>
+                            </li>
+                            <li class="cctv_item">
+                                <video id="video_{{cctv2.cctvId}}_{{cctv2.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv2.imgUrl}}" crossorigin="anonymous"></video>
+                                <div class="name">
+                                    <span>2- {{cctv2.instlLcDc}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="put_box">
+                    <button id="ctDoubleFS">전체화면</button>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_marker_double_full_screen_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div id="ctDoubleFSP" class="map_overlay">
+            <div class="cctv_display">
+                <div class="cctv_grid_wrap division dv2">
+                    <ul class="cctv_grid">
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv1.cctvId}}_{{cctv1.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv1.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>1- {{cctv1.instlLcDc}}</span>
+                            </div>
+                        </li>
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv2.cctvId}}_{{cctv2.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv2.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>2- {{cctv2.instlLcDc}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cctv_control">
+                    <button type="button" aria-label="닫기 버튼" class="close" onclick="$(this).parent().parent().parent().remove()"></button>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_separate4_marker_popup_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div id="cctv_separate4_popup" class="map_layer cctv dv4" style="position: absolute; pointer-events: auto; top: 50%; left: calc(50% + 195px); transform: translate(-50%, -50%); z-index: 12;">
+            <div>
+                <button type="button" id="cctv_separate4_popup_close" aria-label="닫기 버튼" class="close"></button>
+                <div class="title_box">
+                    <strong class="title">4분할 CCTV</strong>
+                </div>
+                <div class="contents_box">
+                    <div class="cctv_grid_wrap">
+                        <ul class="cctv_grid">
+                            <li class="cctv_item">
+                                    <video id="video_{{cctv1.cctvId}}_{{cctv1.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv1.imgUrl}}" crossorigin="anonymous"></video>                                <div class="name">
+                                    <span>1- {{cctv1.instlLcDc}}</span>
+                                </div>
+                            </li>
+                            <li class="cctv_item">
+                                    <video id="video_{{cctv2.cctvId}}_{{cctv2.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv2.imgUrl}}" crossorigin="anonymous"></video>                                <div class="name">
+                                    <span>2- {{cctv2.instlLcDc}}</span>
+                                </div>
+                            </li>
+                            <li class="cctv_item">
+                                    <video id="video_{{cctv3.cctvId}}_{{cctv3.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv3.imgUrl}}" crossorigin="anonymous"></video>                                <div class="name">
+                                    <span>3- {{cctv3.instlLcDc}}</span>
+                                </div>
+                            </li>
+                            <li class="cctv_item">
+                                    <video id="video_{{cctv4.cctvId}}_{{cctv4.idx}}" controls muted playsinline webkit-playsinline x-webkit-airplay="deny" disablePictureInPicture poster="{{cctv4.imgUrl}}" crossorigin="anonymous"></video>                                <div class="name">
+                                    <span>4- {{cctv4.instlLcDc}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="put_box">
+                    <button id="ctQuadrupleFS">전체화면</button>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script id="cctv_marker_quadruple_full_screen_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+        <div id="ctQuadrupleFSP" class="map_overlay">
+            <div class="cctv_display">
+                <div class="cctv_grid_wrap division dv4">
+                    <ul class="cctv_grid">
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv1.cctvId}}_{{cctv1.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv1.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>1- {{cctv1.instlLcDc}}</span>
+                            </div>
+                        </li>
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv2.cctvId}}_{{cctv2.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv2.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>2- {{cctv2.instlLcDc}}</span>
+                            </div>
+                        </li>
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv3.cctvId}}_{{cctv3.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv3.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>3- {{cctv3.instlLcDc}}</span>
+                            </div>
+                        </li>
+                        <li class="cctv_item">
+                            <video id="video_fs_{{cctv4.cctvId}}_{{cctv4.idx}}" controls muted playsinline webkit-playsinline autoplay poster="{{cctv4.imgUrl}}" crossorigin="anonymous"></video>
+                            <div class="name">
+                                <span>4- {{cctv4.instlLcDc}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="cctv_control">
+                    <button type="button" aria-label="닫기 버튼" class="close" onclick="$(this).parent().parent().parent().remove()"></button>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+  <script id="doLogin_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+      <div class="popup-dimm"></div>
+        <div class="popup-wrap">
+          <div class="popup-head">
+            <h1>CCTV 재생 오류 신고</h1>
+            <a href="#" class="btn-close" onClick="closePopup('{{cctvId}}')">닫기</a>
+          </div>
+          <div class="popup-container">
+            <div class="popup-content">
+              <p style="text-align:center;">로그인 후 이용이 필요합니다.</p>
+            </div>
+            <div class="popup-foot">
+              <div class="btns-wrap">
+                <a href="javascript:;" onClick="movePage(null, null, '/user/login')" id="btn-cancel"><span>로그인 화면 이동</span></a>
+                <a href="javascript:;" onClick="closePopup('{{cctvId}}')" id="btn-cancel"><span class="ico cancel">닫기</span></a>
+              </div>
+            </div>
+          </div>
+         </div>
+      </div>
+    {{/data}}
+  </script>
+  <script id="confirm_template" type="javascript/x-tmpl-mustache">
+      {{#data}}
+        <div class="popup-dimm" style="z-index: 14;"></div>
+        <div class="popup-wrap">
+          <div class="popup-head">
+            <h1>CCTV 재생 오류 신고</h1>
+            <a href="#" class="btn-close" onClick="closePopup()">닫기</a>
+          </div>
+          <div class="popup-container">
+            <div class="popup-content">
+              <p style="text-align:center;">{{data}}</p>
+            </div>
+            <div class="popup-foot">
+              <div class="btns-wrap">
+                <a href="javascript:;" onClick="closePopup()" id="btn-cancel"><span class="ico cancel">닫기</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/data}}
+  </script>
+  <!-- cctv 오류 신고 팝업 -->
+  <script id="issue_table_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+     <div class="popup-dimm"></div>
+    <div class="popup-wrap">
+        <div class="popup-head">
+          <h1>CCTV 재생 오류 신고</h1>
+          <a href="#" onClick="closePopup('{{cctvId}}')" class="btn-close">닫기</a>
+        </div>
+        <div class="popup-container">
+          <div class="popup-content">
+            <dl class="detail-info">
+              <dt>
+                <img style="height: 100%; width: 100%" alt="cctvReportImage" id="imgUrl" src="{{imgUrl}}" data-id="{{cctvId}}">
+              </dt>
+              <dd>
+                <ul class="form-list">
+                  <li>
+                    <label for="cctvNm">CCTV명</label>
+                    <div class="input-wrap">
+                      <input type="text" value="{{title}}" id="cctvNm" name="cctvNm" disabled />
+                    </div>
+                  </li>
+                  <li>
+                    <label for="streDt">신고일시</label>
+                    <div class="input-wrap">
+                      <input type="text" id="streDt" name="streDt" value="{{date}}" disabled />
+                    </div>
+                  </li>
+                  <li>
+                    <label for="cctvIssue">오류유형</label>
+                    <div class="input-wrap">
+                      <select name="cctvErrorTy" id="cctvIssue">
+                        <option value="" selected disabled>선택</option>
+                        <option value="001">점검중</option>
+                        <option value="002">신호없음</option>
+                        <option value="003">화질저하/노이즈</option>
+                        <option value="004">기타</option>
+                      </select>
+                    </div>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <div class="text-info-wrap">
+              <textarea class="text-info" id="cctvErrorCn" name="cctvErrorCn" maxlength="300" placeholder="최대 300자까지 입력가능합니다.
+CCTV 화면 이동을 원하시는 경우 국가교통정보센터 (Tel : 044-862-4333)로 유선연락 부탁드립니다. 관련 CCTV 관리 기관으로 안내드리겠습니다."></textarea>
+            </div>
+          </div>
+          <div class="popup-foot">
+            <div class="btns-wrap">
+              <a href="javascript:;" onClick="closePopup('{{cctvId}}')" id="btn-cancel"><span class="ico cancel">취소</span></a>
+              <a href="javascript:;" onClick="addReportCctv(this, '{{cctvId}}')"><span class="ico report">신고등록</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/data}}
+  </script>
+  <script id="over_marker_popup_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    <div class="" id="{{popId}}">
+      <div class="title_box">
+        <button type="button" class="map_tag_close close" aria-label="태그 닫기"></button>
+        <span class="tit" style="{{stClr}}">{{titleType}}</span>
+        <strong class="title">{{title}}</strong>
+      </div>
+    </div>
+    {{/data}}
+  </script>
+
+  <script id="notification_table_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+          <li>
+            <a href="javascript:{{func}}({{seq}})" class="contents_box" title="{{seq}}번 게시글">
+              <span class="title_box">
+                <span class="tit">{{manageTyNm}}</span>
+                <strong class="title">{{title}}</strong>
+              </span>
+              <span class="cont_box">
+                <span class="con">{{content}}</span>
+                <span class="other_box">
+                  <span>{{regDt}}</span>
+                  <span>관리자</span>
+                </span>
+              </span>
+            </a>
+          </li>
+        {{/data}}
+  </script>
+
+  <script id="faq_table_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+          <li>
+            <button type="button" class="bbs_question" title="{{title}}" aria-expanded="false">
+              <span>질문</span><strong>{{manageTyNm}}</strong>{{title}}
+            </button>
+            <div class="bbs_answer_area" style="display: none">
+              <div class="bbs_answer">
+                <span class="answer_tit">답변</span>
+                {{{answer}}}
+                {{#files}}
+                  <div class="bbs_answer_file">
+                    <img src="{{fileSrc}}" alt="{{fileStreNm}}">
+                  </div>
+                {{/files}}
+              </div>
+
+            </div>
+          </li>
+        {{/data}}
+  </script>
+
+  <script id="qna_table_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    {{^reqAnswer}}
+      <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="q" style="cursor: pointer">
+        <td>{{reqSttusTy}}</td>
+        <td class="subject">
+          <a href="javascript:{{func}}({{seq}})" title="{{title}}">{{title}}</a>
+        </td>
+        <td>{{regDt}}</td>
+      </tr>
+    {{/reqAnswer}}
+    {{#reqAnswer}}
+      <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="a" style="cursor: pointer">
+        <td>{{reqSttusTy}}</td>
+        <td class="subject">
+          <a href="javascript:{{aFunc}}({{seq}})" title="{{title}}">{{title}}</a>
+        </td>
+        <td>{{regDt}}</td>
+      </tr>
+      <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="a" style="cursor: pointer">
+        <td></td>
+        <td class="subject">
+          <span class="bbs_ico reply">댓글</span>
+          <a href="javascript:{{aFunc}}({{seq}})" title="답글: {{title}}">re: {{title}}</a>
+        </td>
+        <td>{{reqAnswerDt}}</td>
+      </tr>
+    {{/reqAnswer}}
+    {{/data}}
+  </script>
+
+  <script id="nodelink_qna_table_template" type="javascript/x-tmpl-mustache">
+    {{#data}}
+    {{^reqAnswer}}
+    <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="q" style="cursor: pointer">
+      <td>{{reqSttusTy}}</td>
+      <td class="subject">
+        <a href="javascript:{{func}}({{seq}})" title="{{title}}">{{title}}</a>
+      </td>
+      <td>{{location}}</td>
+      <td>{{roadRank}}</td>
+      <td>{{roadName}}</td>
+      <td>{{regDt}}</td>
+    </tr>
+    {{/reqAnswer}}
+    {{#reqAnswer}}
+    <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="a" style="cursor: pointer">
+      <td>{{reqSttusTy}}</td>
+      <td class="subject">
+        <a href="javascript:{{aFunc}}({{seq}})" title="{{title}}">{{title}}</a>
+      </td>
+      <td>{{location}}</td>
+      <td>{{roadRank}}</td>
+      <td>{{roadName}}</td>
+      <td>{{regDt}}</td>
+    </tr>
+    <tr onclick="onclickRow(this)" data-seq="{{seq}}" data-stype="a" style="cursor: pointer">
+      <td></td>
+      <td class="subject">
+        <span class="bbs_ico reply">댓글</span>
+        <a href="javascript:{{aFunc}}({{seq}})" title="답글: {{title}}">re: {{title}}</a>
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>{{reqAnswerDt}}</td>
+    </tr>
+    {{/reqAnswer}}
+    {{/data}}
+  </script>
+
+  <script id="homepage_table_paging_template" type="javascript/x-tmpl-mustache">
+        {{#data}}
+          <a href="javascript:{{func}}({{firstPage}})" class="prev_end">처음 페이지</a>
+          <a href="javascript:{{func}}({{prevPage}})" class="prev_one">이전 페이지</a>
+          {{#pages}}
+            {{#current}}
+              <strong title="현재 {{page}}페이지">{{page}}</strong>
+            {{/current}}
+            {{^current}}
+              <a href="javascript:{{func}}({{page}})" title="{{page}}페이지 이동">{{page}}</a>
+            {{/current}}
+          {{/pages}}
+          <a href="javascript:{{func}}({{nextPage}})" class="next_one">다음 페이지</a>
+          <a href="javascript:{{func}}({{lastPage}})" class="next_end">끝 페이지</a>
+        {{/data}}
+  </script>
+  <script id="map_side_template" type="javascript/x-tmpl-mustache">
+    <div class="map_side">
+      <h3 class="skip">교통지도 메뉴</h3>
+      <button type="button" class="open">교통지도 메뉴 열기</button>
+      <ul class="clearfix">
+        <li><a href="/map/searchLocation">검색</a></li>
+        <li><a href="/?mapTab=cctv">CCTV</a></li>
+        <li><a href="/?mapTab=traffic">교통정보</a></li>
+        <li><a href="/?mapTab=outbreak">돌발정보</a></li>
+        <li><a href="/?mapTab=detour">우회도로</a></li>
+        <li><a href="/map/travelTime">도시간 소요시간</a></li>
+        <li><a href="/?mapTab=favorite">관심구간 설정</a></li>
+        <li><a href="/?mapTab=statistics">통계정보</a></li>
+      </ul>
+      <button type="button" class="close">교통지도 메뉴 닫기</button>
+    </div>
+  </script>
+  <script id="map_location_template" type="javascript/x-tmpl-mustache">
+    <div class="map_location">
+            <div class="title_box">
+                <h3 class="skip">위치정보</h3>
+                <button type="button" class="open">위치정보 선택 상자 열기</button>
+                <span class="cont_box">
+                                        <span class="cont" id="span_location"></span>
+                                        <span class="weather">
+                                            <img id="img_temp" src="/css/images/template/tab_off.png" alt="기상이미지">
+                                            <span class="temp" id="spn_temp"></span>
+                                        </span>
+                                    </span>
+            </div>
+            <div class="contents_box">
+                <ul id="ul_cityList">
+                </ul>
+            </div>
+        </div>
+  </script>
+  <script id="map_detail_template" type="javascript/x-tmpl-mustache">
+    <div class="map_detail">
+      <div class="title_box">
+        <h3 class="skip">지도 세부사항 설정</h3>
+        <button type="button" class="open">지도 세부사항 선택 상자 열기</button>
+      </div>
+      <div class="contents_box">
+        <ul class="clearfix">
+          <li class="list1" style="display: none;">
+            <button type="button" id="btn_temp">소통정보</button>
+          </li>
+          <li class="list2" style="display: none;">
+            <button type="button" id="btn_cctv" onclick="toggleCctvMarker(false,this)">CCTV</button>
+          </li>
+          <li class="list3">
+            <button type="button" id="btn_area" onclick="toggleRegionBoundariesLayer(this)">지역경계</button>
+          </li>
+          <li class="list4">
+            <button type="button" id="btn_label" onclick="toggleLabelLayer(this)" class="on">명칭</button>
+          </li>
+          <li class="list5">
+            <button type="button" id="btn_constrt" role="checkbox" aria-checked="false" onclick="toggleSelection(this); toggleConstrctMarker(false,this);">공사정보</button>
+          </li>
+          <li class="list6">
+            <button type="button" id="btn_acdnt" role="checkbox" aria-checked="false" onclick="toggleSelection(this); toggleAccidentMarker(false,this);">사고정보</button>
+          </li>
+          <li class="list7">
+            <button type="button" id="btn_vms" role="checkbox" aria-checked="false" onclick="toggleSelection(this); toggleVmsMarker(false,this);">VMS</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </script>
+  <script id="map_choose_template" type="javascript/x-tmpl-mustache">
+    <div class="map_choose">
+      <h3 class="skip">지도 선택</h3>
+      <ul class="clearfix">
+        <li>
+          <button type="button" class="on" onclick="normalMaptype(this)">일반지도</button>
+        </li>
+        <li>
+          <button type="button" onclick="satelliteMaptype(this)">위성지도</button>
+        </li>
+      </ul>
+    </div>
+  </script>
+  <script id="map_cctv_template" type="javascript/x-tmpl-mustache">
+    <div class="map_cctv">
+    <div class="title_box">
+      <h3 class="skip">CCTV</h3>
+      <button type="button" id="btn_cctv2" class="open" onclick="toggleCctvMarker(false,this)">CCTV 열기</button>
+    </div>
+  </div>
+  </script>
+  <script id="map_communication_template" type="javascript/x-tmpl-mustache">
+    <div class="map_communication">
+          <div class="title_box">
+              <h3 class="skip">소통정보</h3>
+              <button type="button" class="open">소통정보 선택 상자 열기</button>
+          </div>
+          <div class="contents_box">
+              <ul class="clearfix">
+                  <li>
+                      <button type="button" id="btn_traffic" onclick="setRoadRank(this,'ALL')" class="on">전체</button>
+                  </li>
+                  <li>
+                      <button type="button" id="btn_trafficH" onclick="setRoadRank(this,'HIGHWAY')">고속도로</button>
+                  </li>
+                  <li>
+                      <button type="button" id="btn_trafficN" onclick="setRoadRank(this,'NATIONAL')">국도</button>
+                  </li>
+                  <li>
+                      <button type="button" id="btn_trafficL" onclick="setRoadRank(this,'LOCAL')">지방도</button>
+                  </li>
+                  <li>
+                      <button type="button" id="btn_trafficE" onclick="setRoadRank(this,'ETC')">일반도로</button>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </script>
+  <script id="map_service_template" type="javascript/x-tmpl-mustache">
+    <div class="map_service">
+        <h3 class="skip">지도 서비스</h3>
+        <div class="operation">
+            <button type="button" id="btn_current" class="current" onclick="getLocation()">현재 위치</button>
+            <ul class="clearfix">
+                <li>
+                    <button type="button" onclick="plusZoom()">지도 확대</button>
+                </li>
+                <li>
+                    <button type="button" onclick="minusZoom()">지도 축소</button>
+                </li>
+            </ul>
+        </div>
+        <div class="link">
+            <ul class="clearfix">
+                <li>
+                    <button type="button" id="btn_capture" onclick="startCapture()" style="display:block;">저장</button>
+                </li>
+                <li>
+                    <button type="button" id="btn_share" onclick="shareUrl()">URL복사</button>
+                </li>
+                <li>
+                    <button type="button" id="area" onclick="toggleAreaButton()">면적</button>
+                </li>
+                <li>
+                    <button type="button" id="distance" onclick="toggleDistanceButton()">거리</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </script>
+  <script id="map_legend_template" type="javascript/x-tmpl-mustache">
+    <div class="map_legend">
+      <h3 class="skip">지도 범례</h3>
+      <button class="open">지도범례</button>
+      <div class="contents_box">
+        <table>
+          <caption>지도범례 - 제한속도 기준 안내</caption>
+          <colgroup>
+            <col style="width:25%;">
+            <col style="width:25%;">
+            <col style="width:25%;">
+            <col style="width:25%;">
+          </colgroup>
+          <thead>
+          <tr>
+            <th scope="col">구분</th>
+            <th scope="col" class="legend-smooth"><span>원활</span></th>
+            <th scope="col" class="legend-slow"><span>서행</span></th>
+            <th scope="col" class="legend-jam"><span>정체</span></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">제한속도<br>기준</th>
+            <td>80% 이상</td>
+            <td>40% 이상 ~<br>80% 미만</td>
+            <td>40% 미만</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </script>
+
+
+</head>
+<!-- config fragment 사용 -->
+<body id="sub01" onload="pages.onpageload()">
+<script src="/js/design/sub.js"></script>
+<div class="accessibility">
+    <a href="#container">본문 바로가기</a>
+</div>
+<div id="div_topHeader" class="top_header">
+    <img src="/css/images/common/img_korea.png" alt="전자정부" width="24" height="16">
+    <p>이 누리집은 대한민국 공식 전자정부 누리집입니다.</p>
+</div>
+<hr>
+<div id="wrapper">
+    <!-- header fragment 사용 -->
+    <header id="header" class="close_popup" data-html2canvas-ignore="true">
+    <script src="/js/common/header.js?v=1"></script>
+    
+    <!--<th:block th:switch="${@environment.getActiveProfiles()[0]}">
+        <script  th:case="'prdt'"
+                 th:src="@{/js/firebase/init-prdt-firebase.js}"></script>
+        <script  th:case="'stg'"
+                 th:src="@{/js/firebase/init-local-firebase.js}"></script>
+        <script  th:case="'local'"
+                 th:src="@{/js/firebase/init-local-firebase.js}"></script>
+    </th:block>-->
+    <script src="/js/common/ws.js"></script>
+    <div class="wrap">
+        <h1 class="logo"><a href="/">ITS 국가교통정보센터(National Transport Information Center)</a></h1>
+        <div class="gnb_box">
+            <div class="gnb"><!-- 로그인되었을 경우 아래 주석된 태그 사용(클래스 변경됩니다.) -->
+                <ul>
+                    <li><a class="login" href="/user/login" rel="nofollow"><span>로그인</span></a></li>
+                    <li><a class="join" href="/user/signUp" rel="nofollow"><span>회원가입</span></a></li>
+                    <li><a class="kakao" href="http://pf.kakao.com/_VGAYn/chat " target="_blank"><img src="/css/images/main/logo-kakako.png" alt="카카오"/> <span>상담하기</span></a></li>
+                </ul>
+<!--                <ul sec:authorize="!hasAuthority('ROLE_MEMBER')">-->
+<!--&lt;!&ndash;                    <li><button type="button" class="add-home-screen" style="display: none" title="홈 화면 추가">홈 화면 추가</button></li>&ndash;&gt;-->
+<!--                    <li><a class="login" th:href="@{/user/login}" rel="nofollow"><span>로그인</span></a></li>-->
+<!--                    <li><a class="join" th:href="@{/user/signUp}" rel="nofollow"><span>회원가입</span></a></li>-->
+<!--&lt;!&ndash;                    <li><a class="authmail" th:href="@{/user/tempAuthEmail}" rel="nofollow" sec:authorize="isAuthenticated()"><span>이메일 인증</span></a></li>&ndash;&gt;-->
+<!--                    <li><a class="kakao" href="http://pf.kakao.com/_VGAYn/chat " target="_blank"><img th:src="@{/css/images/main/logo-kakako.png}" alt="카카오"/> <span>상담하기</span></a></li>-->
+<!--                    &lt;!&ndash; <li class="eng"><a th:href="@{/Eng/}"><span>ENG</span></a></li> &ndash;&gt;-->
+<!--                </ul>-->
+                
+            </div>
+        </div>
+        <!-- //gnb_box -->
+
+        <nav id="lnb_box">
+            <h2 class="skip">주메뉴</h2>
+            <a class="kakao" href="http://pf.kakao.com/_VGAYn/chat " target="_blank"><img src="/css/images/main/logo-kakako.png" alt="카카오"/></a>
+            <button type="button" class="lnb_open">전체메뉴 열기</button>
+            <!--<button type="button" class="add-button">Add to home screen</button>-->
+            <div id="lnb">
+                <strong class="sitemap-txt">사이트맵</strong>
+                <ul>
+                    <li class="depth1">
+                        <a href="/map/main" class="tit">교통지도</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/map/searchLocation">검색</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/traffic">교통정보</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/outbreak">돌발검색</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/detour">우회도로</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/travelTime">도시간소요시간</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/favorite">관심구간</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/statistics">통계정보</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/map/cctv">CCTV</a>
+                                        
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="depth1">
+                        <a href="/opendata/" class="tit">오픈데이터</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/opendata/">오픈데이터 소개</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/opendata/opendataList">오픈데이터 목록</a>
+                                        
+                                        
+                                            <div class="depth3">
+                                                <ul>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=traffic">교통소통정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=event">돌발상황정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=cctv">CCTV 화상자료</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=fcTraffic">교통예측정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=detectorInfo">차량검지정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=vms">도로전광표지(VMS) 정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=safeDriving">주의운전구간 정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=vsl">가변형 속도제한표지정보(VSL)</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=weakSection">취약구간정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=nodelink">표준노드링크</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=dangerousCarInfo">위험물질 운송차량 사고정보</a></li>
+                                                    <li>
+                                                        <a href="/opendata/opendataList?service=disaster">재난상황정보</a></li>
+                                                </ul>
+                                            </div>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/opendata/reqOpendataQnaStatus">Q&amp;A</a>
+                                        
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="depth1">
+                        <a href="/nodelink/" class="tit">표준노드링크</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/nodelink/">노드링크 소개</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/nodelink/nodelinkStatus">노드링크 현황</a>
+                                        
+                                        
+                                            <div class="depth3">
+                                                <ul>
+                                                    <li>
+                                                        <a href="/nodelink/nodelinkStatus?service=spawnPoint">생성지점</a></li>
+                                                    <li>
+                                                        <a href="/nodelink/nodelinkStatus?service=creteriaForITS">지능형교통체계 구축기준</a></li>
+                                                    <li>
+                                                        <a href="/nodelink/nodelinkStatus?service=inquiryNodelink">표준노드링크 조회</a></li>
+                                                </ul>
+                                            </div>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/nodelink/nodelinkRef">노드링크 자료실</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/nodelink/reqModifyNodelinkStatus">Q&amp;A</a>
+                                        
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="depth1">
+                        <a href="/notification/notification" class="tit">알림마당</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/notification/notification">공지사항</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/notification/faq">FAQ</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/notification/information">정보마당</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/notification/useInformation">이용정보</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/notification/relatedSites">관련사이트</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/notification/reqQnaStatus">Q&amp;A</a>
+                                        
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="depth1">
+                        <a href="/information/introTrafficInfoCenter" class="tit">정보센터</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/information/introTrafficInfoCenter">국가교통정보센터</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/information/introProvinceCenter">지방국토관리청</a>
+                                        
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        
+                                        <a target="_blank"
+                                           href="https://intl.its.go.kr/">ITS 국제협력센터</a>
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="depth1">
+                        <a href="/knowledge/introKnowledgeInfoCenter" class="tit">지식센터</a>
+                        <div class="depth2">
+                            <ul>
+                                
+                                    
+                                
+                                    <li>
+                                        <a href="/knowledge/introKnowledgeInfoCenter">지식정보센터</a>
+                                        
+                                        
+                                            <div class="depth3">
+                                                <ul>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=introITS">ITS소개</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=eduITS">ITS교육</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=policyITS">ITS정책</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=domesticStandardITS">ITS국내표준</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=standardITS">ITS국제표준</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/introKnowledgeInfoCenter?service=standardLibraryITS">ITS표준자료실</a></li>
+                                                    
+                                                    
+                                                    
+                                                </ul>
+                                            </div>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/knowledge/termSearchITS">ITS용어검색</a>
+                                        
+                                        
+                                            <div class="depth3">
+                                                <ul>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    <li>
+                                                        <a href="/knowledge/architectureITS?service=introITSArchitecture">ITS아키텍처 소개</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/architectureITS?service=nationalITSArchStruct">국가ITS아키텍쳐 구성</a></li>
+                                                    <li>
+                                                        <a href="/knowledge/architectureITS?service=serviceDefineITS">서비스정의</a></li>
+                                                </ul>
+                                            </div>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        <a href="/knowledge/architectureITS">ITS아키텍처</a>
+                                        
+                                        
+                                    </li>
+                                
+
+                            </ul>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+            <button type="button" class="lnb_close">전체메뉴 닫기</button>
+        </nav>
+        <!-- //lnb -->
+        <div class="header_popup" style="display: none;">
+            <!-- 상단 팝업 노출을 원하지 않을 경우 header에 클래스 close_popup 클래스 추가( <header id="header" class="close_popup"> ) -->
+            <h2 class="skip">교통정보 팝업</h2>
+            <button type="button" class="button_popup" title="팝업 닫힘">교통정보 팝업 열고 닫기</button>
+            <div class="popup_box">
+                <div class="date_box">
+                    <h3 class="skip">날짜정보</h3>
+                    <span class="date">2026.07.18</span>
+                    <!--<button type="button" class="add-button" title="Add to Home Screen">Add to home screen</button>-->
+                </div>
+                <div class="traffic_box">
+                    <h3 class="skip">교통정보</h3>
+                    <div class="contents_box">
+                        <ul class="clearfix">
+                            <li class="clearfix" id="li_acdnt">
+
+                            </li>
+                            <li id="li_constrt">
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- //header_popup -->
+    </div>
+</header>
+    <hr>
+    
+    <div class="sub_visual" id="div_sub_nodelink">
+        <div class="wrap">
+        </div>
+    </div>
+
+    <!--
+        content fragment 사용
+        현재 layout을 사용하는 content fragment의 내용을 삽입한다.
+    -->
+    <div id="container">
+        <div class="wrap clearfix">
+            
+    <div id="side">
+        <nav class="side_menu clearfix">
+            <h2 class="skip">서브메뉴</h2>
+            <a href="/" class="home">메인으로</a>
+            <div class="side_box"><!-- 1차메뉴 -->
+                <span>표준노드링크</span>
+            </div>
+            <div class="side_box">
+                <!-- 2차메뉴 -->
+                <button type="button" aria-expanded="false">노드링크 자료실</button>
+                <div class="side_cont">
+                    <ul class="clearfix">
+                        <li><a href="/nodelink/intro">노드링크 소개</a></li>
+                        <li><a href="/nodelink/nodelinkStatus">노드링크 현황</a></li>
+                        <li><a href="/nodelink/nodelinkRef">노드링크 자료실</a></li>
+                        <li><a href="/nodelink/reqModifyNodelinkStatus">Q&A</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- //side_menu -->
+    </div>
+    <!-- //side -->
+
+
+            <main class="colgroup" id="colgroup">
+                <article>
+                    
+    <header class="sub_head">
+        <div class="sub_title">
+            <h2>전국표준노드링크</h2>
+        </div>
+
+        <div class="temp_title">
+            <div class="cont_box">
+                <p>전국 표준노드링크 및 회전, 중용정보를 제공합니다.</p>
+            </div>
+        </div>
+
+    </header>
+
+                    <div id="contents">
+    <!-- data file 시작 -->
+    <h3 id="moveData">Data File</h3>
+
+    <div class="temp_search">
+        <form onsubmit="return false;">
+            <input type="hidden" name="_csrf"
+                   value="b3500f69-59aa-4a8e-9c61-771da410c4d5">
+            <fieldset>
+                <legend>검색</legend>
+                <span class="calendar_box">
+                        <label for="inp_trafficDate" class="skip">날짜 입력</label>
+				        <input type="text" id="inp_trafficDate" title="검색 시작일 선택" placeholder="YYYY.MM.DD"/>
+<!--				        <button type="button" onclick="$('#inp_trafficDate').datepicker('show')">달력에서 선택</button>-->
+			        </span>
+                ~
+                <span class="calendar_box">
+                        <label for="inp_trafficDate" class="skip">날짜 입력</label>
+				        <input type="text" id="inp_trafficDate_endDate" title="검색 종료일 선택" placeholder="YYYY.MM.DD"/>
+<!--				        <button type="button" onclick="$('#inp_trafficDate_endDate').datepicker('show')">달력에서 선택</button>-->
+			        </span>
+
+                <input type="submit" value="조회" class="submit" onclick="pages.getDataFile(this)" data-code="-1"/>
+            </fieldset>
+        </form>
+    </div>
+
+
+    <div class="custom-grid-table">
+
+        <div class="grid-row">
+            <div class="grid-th">자료 제공기간</div>
+            <div class="grid-td full-width">2008년 11월 이후</div>
+        </div>
+
+        <div class="grid-row multi-col">
+            <div class="grid-col">
+                <div class="grid-th">기준일자</div>
+                <div class="grid-td" id="standardDate"></div>
+            </div>
+            <div class="grid-col">
+                <div class="grid-th">파일크기</div>
+                <div class="grid-td" id="totalFilesSize"></div>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="grid-th">구축기준</div>
+            <div class="grid-td full-width" id="itsStdLink"></div>
+        </div>
+
+        <div class="grid-row">
+            <div class="grid-th">첨부파일</div>
+            <div class="grid-td full-width">
+                <div class="data_file_list">
+                    <div id="data_file_list_result"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- // data file 끝 -->
+    <div class="cont_box" style="margin-top: 10px;font-weight: bold;text-decoration: underline;">※ 서비스 불편 사항 문의는
+        itscenter2@korea.kr 이나 044-862-4333으로 연락해주세요.
+    </div>
+</div>
+                </article>
+            </main>
+        </div>
+    </div>
+    <hr>
+    <!-- footer fragment 사용 -->
+    <div id="skip-nav">
+        <a href="#container">본문 바로가기</a>
+    </div>
+    <footer id="footer">
+    <script src="/js/common/footer.js"></script>
+    <div class="wrap">
+
+        <div class="footer_left">
+            <div class="footer_logo">
+                <img alt="국토교통부" src="/css/images/common/footer_logo.png"/>
+            </div>
+            <div class="footer_util">
+                <ul class="footer_nav">
+                    <li><a href="/common/infoPolicyPage?service=rejectEmailHarvestPolicy">메일주소무단수집거부</a></li>
+                    <li><a href="/common/infoPolicyPage?service=privacyPolicy" class="po">개인정보처리방침</a></li>
+                    <li><a href="#" onclick="openImagePopup();">개인정보처리방침(easy)</a></li>
+                    <li><a href="/common/infoPolicyPage?service=copyrightPolicy">저작권보호</a></li>
+                    <li><a href="/notification/reqQnaStatus">Q&A</a></li>
+                    <li>
+                        <a href="https://stat.molit.go.kr/portal/quality/qualityCenterWrite.do?system_id=S0064" target="_blank">품질오류신고</a>
+                    </li>
+                    <li><a href="https://stat.molit.go.kr/portal/quality/qualityCenterList.do?system_id=S0064" target="_blank">품질오류신고확인</a></li>
+                </ul>
+                <div class="footer_info">
+                    <div class="add">
+                        <address>30064 세종특별자치시 도움6로 11 정부세종청사(6동)</address>
+                        <span>Tel : 044-862-4333</span>
+                    </div>
+                    <p class="copy">Copyright ⓒ MOLIT All Right Reserved.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer_right">
+            <div class="foot_shortcut">
+                <h2 class="skip">소속기관 및 관련사이트 바로가기</h2>
+                <button type="button" class="open" data-id="ControlID-5">소속기관 및 관련사이트 바로가기 <span>열기</span></button>
+                <div class="contents_box">
+                    <div class="scroll">
+                        <span class="tit">소속기관</span>
+                        <ul>
+                            <li><a href="https://www.ngii.go.kr/kor/main.do" target="_blank" title="새창">국토지리정보원</a></li>
+                            <li><a href="http://www.molit.go.kr/srocm/intro.do" target="_blank" title="새창">서울지방국토관리청</a></li>
+                            <li><a href="http://www.molit.go.kr/wrocm/intro.do" target="_blank" title="새창">원주지방국토관리청</a></li>
+                            <li><a href="http://www.molit.go.kr/drocm/intro.do" target="_blank" title="새창">대전지방국토관리청</a></li>
+                            <li><a href="http://www.molit.go.kr/irocm/intro.do" target="_blank" title="새창">익산지방국토관리청</a></li>
+                            <li><a href="http://www.molit.go.kr/brocm/intro.do" target="_blank" title="새창">부산지방국토관리청</a></li>
+                            <li><a href="http://www.molit.go.kr/atmo/intro.do" target="_blank" title="새창">항공교통본부</a></li>
+                            <li><a href="http://www.molit.go.kr/iatcro/USR/WPGE0201/m_16184/DTL.jsp" target="_blank" title="새창">인천항공교통관제소</a></li>
+                            <li><a href="https://www.nakdongriver.go.kr/sumun/brief.do" target="_blank" title="새창">낙동강홍수통제소</a></li>
+                            <li><a href="http://www.geumriver.go.kr/html/index.jsp" target="_blank" title="새창">금강홍수통제소</a></li>
+                            <li><a href="http://oclt.molit.go.kr/USR/WPGE0201/m_16208/DTL.jsp" target="_blank" title="새창">중앙토지수용위원회</a></li>
+                            <li><a href="https://araib.molit.go.kr/intro.do" target="_blank" title="새창">항공철도사고조사위원회</a></li>
+                            <li><a href="http://police.molit.go.kr/intro.do" target="_blank" title="새창">철도특별사법경찰대</a></li>
+                        </ul>
+                        <span class="tit">관련사이트</span>
+                        <ul>
+                            <li><a href="https://its.go.kr:9003" target="_blank" title="새창">ITS 현장시설물 관리시스템</a></li>
+                            <!-- <li><a href="https://its.go.kr:9001" target="_blank" title="새창">소통정보 품질관리시스템</a></li> -->
+                            <li><a href="http://its.go.kr:18088/" target="_blank" title="새창">ITS 데이터 분석시스템</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a
+                    title="새창"
+                    href="http://www.wa.or.kr/board/list.asp?BoardID=0006"
+                    target="_blank"
+            >
+                <img
+                        class="wa"
+                        alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"
+                        src="/css/images/common/251218_WA.png"
+                        width="66"
+                        height="48"
+                        style="display: inline-block; vertical-align: middle;"
+                />
+            </a>
+        </div>
+
+
+
+
+
+
+    </div>
+</footer>
+</div>
+</body>
+</html>
