@@ -5,201 +5,218 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A **wartime reserve-force (전시 동원예비군) mobilization transport micro-simulation**. The
-core value of the project — the thing the rest exists to support — is this: build a
-**traffic network**, construct **realistic wartime / contingency scenarios**, and
-**simulate** how ~1,000 mobilized reservists move from an assembly zone to a destination
-zone, comparing a **bus-only** alternative against a **rail-bus multimodal** alternative
-under the same disruption conditions. The active case study is the
-**Songpa → Gangwon Goseong (22nd Infantry Division area)** mobilization corridor.
+core of the project: build a **traffic network** from official Korean road data, construct
+**wartime / contingency disruption scenarios**, and **simulate** how ~1,000 mobilized
+reservists move from an assembly zone to a destination zone, comparing a **bus-only**
+alternative against a **rail-bus multimodal** alternative under the same disruption
+conditions. The active case study is the **Songpa → Gangwon Goseong (22nd Infantry
+Division area)** mobilization corridor. The current research target is a **KIIE
+(한국경영공학회)** academic paper; AI/ML is out of scope for this path.
 
-This is a **decision-support / quasi-real research framework**, explicitly NOT an
-operational route plan, a calibrated forecast, or "final-study-ready". Keep that framing
-in every claim and output (see Constraints).
+This is a **decision-support / quasi-real sensitivity framework**, explicitly NOT an
+operational route plan, a calibrated forecast, or "final-study-ready" (`final_study_ready=false`
+by design). Keep that framing in every claim and output (see Constraints).
 
-The repository has two very different layers. Learn to tell them apart before editing:
+For the full experiment writeup (data provenance, methodology, headline results) see
+**`agents.md`** — it is current and authoritative. This file covers how to work in the repo.
 
-1. **The simulator** (`src/` core + `src/realworld/` real-world pipeline + `src/experiment/`
-   + `src/visualize/` + ML analysis). This is the product.
-2. **Acceptance / review-integrity machinery** (`src/realworld/*_acceptance.py`,
-   `*_review_packet.py`, `*_decision_packet.py`, and ~90 of the 141 `scripts/`). This is
-   research-integrity scaffolding (formal gate closure, evidence provenance, claim-boundary
-   guards). It does **not** drive the simulation. Do not confuse closing a "gate" with
-   running an experiment.
+## Repository state (post-cleanup, 2026-07-18)
+
+The repo was aggressively decluttered to the current experiment context. Surviving scope:
+- `src/realworld/`: **21 .py** — 20 KEEP modules + a slim `__init__.py` (see Architecture).
+- `tests/`: **36** directly-executable tests (all PASS; incl. oracle byte-identity).
+- `scripts/`: **16** (the run-path + a few data writers).
+- `data/`: **52** files (current experiment inputs + truth table only).
+- `docs/`: **3** (project_overview, experiment_design_v2, claim_language_guard).
+
+`_archive/` (moved, preserved, not active): `web_demo`, `국방AI_활용_아이디어_경연대회`,
+`kci_redesign`, `previous-kci`, `cloned_repo`, `.tmp_intake_list`, `.tmp_phase4_source_probe`,
+submission zips, and the OSM-era `realworld_pilot_osm` results. The acceptance/review-packet
+machinery, the abstract-network `main.py`/`config.yaml`/`src/experiment`/`src/visualize`,
+the AI/ML layer, and the songpa/OSM previous-experiment code were **deleted** (git history:
+`44a007c9` snapshot → `cb08c522` r1 → `6600dd3c` r2 → `686c65b6` r3).
+
+**If an older note/memory references `*_acceptance.py`, ~90 `scripts/`, `main.py`, `ml_analysis`,
+or `kci_redesign/` as present — it is stale.** Trust `agents.md`, `git log`, and `ls`.
 
 ## Run commands
 
-All run from repo root on Windows PowerShell. Python 3.11. Use the local venv:
+All run from repo root on Windows PowerShell. Python 3.11 via the local venv:
 `.\.venv\Scripts\python ...` (setup: `py -3.11 -m venv .venv` then
 `.\.venv\Scripts\python -m pip install -r requirements.txt`).
 
 ```powershell
-# Core abstract-network simulator (legacy config.yaml network, H/A/S/R/D nodes)
-.\.venv\Scripts\python main.py --test       # single paired bus vs multimodal debug
-.\.venv\Scripts\python main.py --quick      # reduced grid, R=3, still writes results/
-.\.venv\Scripts\python main.py --phase 1    # Phase 1 only (congestion × failure grid)
-.\.venv\Scripts\python main.py --phase 2    # Phase 2 only (lateness × policy trade-off)
-.\.venv\Scripts\python main.py              # full configured experiment
-
-# Goseong full-scale wartime experiment (the competition case study)
-.\.venv\Scripts\python scripts\run_pilot_experiments.py --sample `
-  --region-path  data/regions/goseong_mobilization.yaml `
-  --cache-path   data/cache/goseong_nodelink_road.graphml `
+# Goseong full-scale wartime experiment (the case study; ~2-3 h wall on the 752-node graph)
+.\.venv\Scripts\python scripts\run_pilot_experiments.py --engineering-only --full `
+  --region-path            data/regions/goseong_mobilization.yaml `
+  --cache-path             data/cache/goseong_nodelink_road.graphml `
   --road-class-overrides-path data/parameters/road_class_overrides.csv `
-  --design-path  data/manifests/goseong_experiment_design.json `
-  --scenarios-path data/scenarios/goseong_disruption_scenarios.csv `
-  --output-dir   results/goseong_pilot
+  --design-path            data/manifests/goseong_experiment_design.json `
+  --scenarios-path         data/scenarios/goseong_disruption_scenarios.csv `
+  --output-dir             results/realworld_pilot_nodelink
 # profile flags: --sample | --staged | --multi-corridor | --multi-corridor-full | --full | --full-graph
-# --road-class-overrides-path is REQUIRED for the Goseong case study: without it
-# the runner falls back to raw HIGHWAY_DEFAULTS instead of the evidenced override
-# table (Goseong runs must always apply data/parameters/road_class_overrides.csv).
-# Phase 2: the Korean 표준노드링크 cache (goseong_nodelink_road.graphml) is the
-# canonical Goseong network source (official road network; 972k edges); the OSM
-# cache (goseong_corridor_road.graphml) is a documented archived alternative
-# source (rebuilt via scripts/build_goseong_cache.py). Both are decision-support /
-# quasi-real only.
+# --road-class-overrides-path is REQUIRED for Goseong (else raw HIGHWAY_DEFAULTS fallback).
+# --engineering-only bypasses the pending-source gate for non-sample profiles (labels only).
 
-# ML/AI analysis layer (XGBoost risk classification, KMeans, SHAP, NL summary)
-.\.venv\Scripts\python -m pip install -r requirements-ml.txt   # optional, separate from core
-.\.venv\Scripts\python scripts\run_ml_analysis.py --input results/goseong_pilot/pilot_sample_results.csv
+# Refresh outputs after a re-run, in order:
+.\.venv\Scripts\python scripts\regenerate_truth_table.py --source results/realworld_pilot_nodelink/pilot_full_summary.csv
+.\.venv\Scripts\python scripts\generate_phase23_oracle.py        # byte-identity oracle guard
+.\.venv\Scripts\python scripts\run_bpr_noop_sweep.py             # A2 BPR no-op proof
+.\.venv\Scripts\python scripts\audit_claim_language.py --fail-on-blockers   # claim guard
+.\.venv\Scripts\python generate_report.py                        # report_draft.md -> report.docx
 
-# Korean report (report_draft.md -> report.docx)
-.\.venv\Scripts\python generate_report.py
-
-# Web demo (Palantir-style decision-support UI; React + Vite + Leaflet + Blueprint)
-cd web_demo; npm install; npm run dev      # build: npm run build, lint: npm run lint
+# Network cache rebuild (only if data-collections/ SHP is present; cache is already committed):
+.\.venv\Scripts\python scripts\build_goseong_nodelink_cache.py
+.\.venv\Scripts\python scripts\build_vds_override.py
+.\.venv\Scripts\python scripts\apply_road_overrides_to_cache.py
 ```
 
-### Tests — direct execution, NO pytest required
+### Tests — direct execution, NO pytest
 
-Each `tests/test_*.py` is **directly executable** (`if __name__ == "__main__"`). Run one
-or batch them; the project deliberately does not depend on pytest.
+Each `tests/test_*.py` is **directly executable** (`if __name__ == "__main__"`); the project
+deliberately does not depend on pytest.
 
 ```powershell
 .\.venv\Scripts\python tests\test_scenario.py                    # single test
-Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }   # all 164
-Get-ChildItem tests\test_realworld_*.py | Sort-Object Name | ForEach-Object { .\.venv\Scripts\python $_.FullName }
+.\.venv\Scripts\python tests\test_realworld_pilot_experiments.py  # realworld runner test
+Get-ChildItem tests\test_*.py | ForEach-Object { .\.venv\Scripts\python $_.FullName }   # all 36
 ```
 
-After changing model semantics, refresh outputs in order:
-`compileall` → run all `tests\test_*.py` → `main.py --test/--quick/--phase 1/--phase 2` →
-`generate_report.py`. If schedule/fleet/KPI/network/failure semantics change, treat
-existing `results/` CSV/PNG as stale.
+Note: `test_composable_service_pipeline.py` (oracle byte-identity, 8 runs on the 972k-edge
+graph) takes ~11 min cold — run it standalone with a long timeout, not in a tight batch.
+
+After changing engine/fleet/KPI/network/disruption semantics: `compileall` → run all
+`tests\test_*.py` → `generate_phase23_oracle.py` (oracle must stay bit-identical) →
+re-run the pilot → `regenerate_truth_table.py` → treat prior `results/` as stale.
 
 ## Architecture — the simulator
 
-**Dataflow (core):**
-`config.yaml` → `src/network.build_network()` (NetworkX `DiGraph`) →
-`src/scenario.run_scenario(G, config, scenario_type, policy, params, seed)` → KPI `dict`.
-Two scenario types share one runner:
+**Dataflow:**
+`data/regions/goseong_mobilization.yaml` + `data/cache/goseong_nodelink_road.graphml` +
+`road_class_overrides.csv` → `src/realworld/adapter.build_simulator_graph()` (NetworkX
+`DiGraph`) → `src/scenario.run_scenario(G, config, scenario_type, policy, params, seed)` →
+KPI `dict`. Two scenario types share one runner:
 - `bus_only`: assembly `A` → road network → destination `D`.
 - `multimodal`: `A` → shuttle → rail access `S` → rail → rail egress `R` → last-mile road → `D`.
 
-**Core modules** (`src/`, each a single concern):
-- `network.py` — builds the DiGraph from `config.yaml` (nodes, road/rail links, variants).
-- `models.py` — BPR link travel time, arrival-delay sampling, legacy failure helpers.
-- `policies.py` — `StrictPolicy` (depart on time, arrived pax only) vs
-  `GracePolicy(W, theta)` (wait up to max-wait / arrival threshold / capacity).
-- `dispatch.py` — queue-based departure-m manifest planning per policy.
+**Core engine** (`src/`, each a single concern):
+- `network.py` — builds the DiGraph (now driven by the realworld adapter, not config.yaml).
+- `models.py` — BPR link travel time, arrival-delay sampling, failure helpers.
+- `policies.py` — `StrictPolicy` (depart on time, arrived pax only) vs `GracePolicy(W, theta)`.
+- `dispatch.py` — queue-based departure-manifest planning per policy.
 - `fleet.py` — `FleetAvailability` (finite fleet, turnaround reuse, optional noise).
 - `traffic.py` — `DynamicRoadTraffic`: rolling-window volume → hourly BPR, per-edge entry,
   optional rerouting around blocked edges.
-- `disruptions.py` — `sample_edge_disruptions`: per-edge blocked or capacity-reduction state.
+- `disruptions.py` — `sample_edge_disruptions`: per-edge blocked / capacity-reduction /
+  travel-time-multiplier state.
 - `rail.py` / `transfers.py` — fixed-headway rail departure; transfer delay = base + per-passenger.
 - `metrics.py` — makespan, `completion_rate`, `censored_count`, `penalized_makespan`,
-  unit-consistent resource KPIs (vehicle-min, train-min, pax-min, pax/service-min).
+  unit-consistent resource KPIs.
 - `scenario.py` — orchestrator; the stable public API everything calls.
+- `sim_types.py` — shared immutable records (`ServiceSpec`, `EdgeDisruption`, …).
 
-**Experiment layer** (`src/experiment/`):
-- `doe.py` — Phase 1 grid (`congestion_scale.levels` × `failure_rate.levels`) and Phase 2
-  grid (`lateness.sigma_levels` × policies).
-- `runner.py` — **CRN (common random numbers) paired runner**: bus-only and multimodal run
-  under the **same seed** so deltas are attributable to transport structure, not noise.
-- `analysis.py` — confidence intervals, break-even search, Phase 1 summaries.
-- `visualize/plots.py` — delta heatmap, success-rate, Pareto, break-even line.
-
-**Real-world pipeline** (`src/realworld/`) converts an OSM-derived road graph into the
-simulator contract and runs quasi-real experiments:
-- `osm_network.py` — optional/lazy OSMnx bbox extraction + GraphML cache load/save. Offline
-  by default; tests use cached `.graphml` or synthetic fixtures.
-- `attributes.py` / `adapter.py` — normalize OSM edge attrs (`highway`, `maxspeed`, `lanes`,
-  `p_fail`) into simulator fields (`t0`, `capacity`, `base_p_fail`, `mode`); filter out
-  pedestrian/cycle/service geometries for "bus-practical" routes; snap zones + rail points
-  to nearest nodes with connector edges; `build_simulator_graph()` → DiGraph for `run_scenario`.
+**Real-world pipeline** (`src/realworld/`, 20 KEEP modules) — converts the official Korean
+표준노드링크 road graph into the simulator contract and runs the wartime experiment:
+- `nodelink_network.py` — Korean 표준노드링크 SHP → GraphML (the canonical Goseong source).
+- `osm_network.py` — GraphML cache load/save (offline; OSM is an archived alternative source).
+- `vds_calibration.py` — VDS expressway observations → road-class override fragment.
+- `attributes.py` / `adapter.py` — normalize edge attrs (`highway`, `maxspeed`, `lanes`,
+  `p_fail`) into simulator fields (`t0`, `capacity`, `base_p_fail`, `mode`); filter
+  pedestrian/cycle/service geometries; snap zones + rail points; `build_simulator_graph()`.
+- `road_overrides.py` — applies the evidenced per-class speed/capacity/p_fail override table.
 - `regions.py` / `types.py` — region registry (`RegionSpec`, assembly/destination zones,
-  rail access `S` / egress `R`).
+  rail access `S` / egress `R`, public-coordinate policy).
 - `validation.py` — `assert_graph_ready()` / `validate_graph_readiness()` pre-run checks.
 - `disruption_scenarios.py` — loads the **wartime scenario table** (see Domain model).
-- `policy_alternatives.py` — policy-variant table (fleet reinforcement, congestion stress,
-  transfer stress, rail delay/unavailability, adaptive dispatch).
-- `pilot_experiments.py` — the **real-world runner**: joins cache + scenarios + policies +
-  design profiles → calls `run_scenario` over CRN seed blocks → writes separated CSV/manifest
-  outputs. Named design profiles (`sample` / `staged` / `full` / `multi-corridor` /
-  `full-graph`) fix the policy×scenario×seed matrix; the Goseong full profile is
-  **23 policies × 23 scenarios × 30 seeds = 15,870 rows**.
-- `ml_analysis.py` — the **AI layer**: XGBoost multi-class risk classification
-  (label rule 정상/주의/위험/실패위험; how many classes populate depends on the input
-  completion distribution), gain feature_importance, **optional** SHAP TreeExplainer
-  (requires `shap`; falls back to gain importance if absent), KMeans situation-type
-  clustering, and a templated claim-disciplined Korean judgment summary. Driven by
-  `scripts/run_ml_analysis.py`.
+- `policy_alternatives.py` — policy-variant table (congestion/transfer/fleet stress, etc.).
+- `parameters.py` — shipped parameter tables (speed/capacity/pfail source classes).
+- `pilot_experiments.py` — the **runner**: joins cache + scenarios + policies + design
+  profiles → `run_scenario` over CRN seed blocks → separated CSV/manifest outputs. Named
+  profiles (`sample`/`staged`/`full`/`multi-corridor`/`multi-corridor-full`/`full-graph`)
+  fix the policy×scenario×seed matrix; Goseong full = **23 policies × 21 executed scenarios
+  × 30 seeds = 14,490 rows** (4 bbox spatial scenarios skip as inapplicable).
+- `artifact_invalidation_matrix.py` (+ `manifest_timestamp.py`, `source_artifacts.py`) —
+  runtime provenance the runner writes into its manifest (KEEP: `pilot_experiments` imports it).
+- `claim_language_guard.py` — lexical claim-boundary guard backing `audit_claim_language.py`.
+- `phase_gate_ledger.py`, `plausibility.py` — retained ledger + route-plausibility helpers.
+
+`src/realworld/__init__.py` is **slim**: it imports only the 20 KEEP modules and re-exports
+just the package-level names KEEP code uses (`build_simulator_graph`, `load_graphml`,
+`load_region_spec`, `PortPointSpec`/`RegionSpec`/…, `pilot_experiments`/`osm_network`
+submodule access). Do **not** re-add eager imports of removed modules.
 
 ## Domain model — the wartime scenario
 
 The Goseong region spec (`data/regions/goseong_mobilization.yaml`) and the disruption
 scenario table (`data/scenarios/goseong_disruption_scenarios.csv`) ARE the
-"전시상황과 유사한 시나리오" the project is built around. Canonical nodes:
-`A` Songpa assembly (Olympic Park, ~1000 reservists) → `S` Cheongnyangni Station (rail
-access) → rail (KTX-Eum, 114 min, 600 pax/train, 30 min headway) → `R` Gangneung Station
-(rail egress) → `D` Goseong Tochon-myeon Hakya-ri destination. Coordinates are public
-administrative centroids only — never real facility coordinates.
+"전시상황과 유사한 시나리오". Canonical nodes: `A` Songpa assembly (Olympic Park, ~1000
+reservists) → `S` Cheongnyangni Station → rail (KTX-Eum chartered nonstop, 114 min, 600
+pax/train, 30 min dispatch interval) → `R` Gangneung Station → `D` Goseong Tochon-myeon
+Hakya-ri. Coordinates are **public administrative centroids / public rail stations only** —
+never real unit facility coordinates.
 
-Disruption scenario families in the CSV (deterministic, `force_deterministic=True`): random
-hash-ranked blockage/capacity-reduction, critical-link blockage (edge betweenness),
-access-road degradation (`A→S`, `A→D`), last-mile degradation (`R→D`), rail-station-access
-road degradation, spatial hazard bbox overlays (Tancheon/feeder/last-mile corridors), rail
-service stress (delay / capacity / combined / unavailable severity ladders), and multi-hazard
-combos. Each row carries `capacity_factor`, `p_fail_scale`, `max_edges`, rail multipliers,
-`evidence_class`, and claim-boundary metadata.
+**Wartime assumptions A1–A4** organize the experiment (stated scope conditions, not measured):
+- **A1 rail reliability** — rail is chartered/non-stop/reliable and disruption-immune; rail
+  gradual-degradation scenarios are removed; `goseong_rail_unavailable` (rail×100) is the
+  binary assumption-failure stress.
+- **A2 civilian traffic ≈ 0** — directional asymmetry (mobilization corridor runs opposite
+  civilian evacuation) → V≈0 → **BPR is a no-op** (delay <2% of free-flow; proven by
+  `run_bpr_noop_sweep.py`). Makespan is driven by distance + free-flow + disruption, not
+  congestion. BPR α/β calibration is therefore a peacetime concern, downscoped here.
+- **A3 military-fixed fleet** — 3 roles × 23 vehicles (45 pax each), not a market response.
+- **A4 doctrinal disruption ladder** — mild/severe/extreme multipliers with ±50% stability rugs.
 
-Config semantics worth remembering: `failure_rate.levels` are `p_fail_scale` **multipliers**
-(`min(edge_base_p_fail * level, 1.0)`), not absolute probabilities; rail links are
-failure-immune by default; `policies.GRACE.W/theta` is the wait/threshold grid; BPR
-`alpha=0.36` is a Korean-calibration-direction value (not the US FHWA 0.15 default).
+Disruption families in the CSV (deterministic, `force_deterministic=True`): random hash-ranked
+blockage/capacity-reduction, critical-link blockage (edge betweenness), access-road
+(`A→S`/`A→D`), last-mile (`R→D`), rail-station-access, spatial bbox overlays,
+`rail_unavailable`, and **segment-targeted road-damage ladders** (`A→S` access,
+`R→D` last-mile, `S→R` long-haul) via a direct-slowdown lever
+(`road_travel_time_multiplier` on free-flow `t0`, `capacity_factor=1.0`). Each row carries
+`capacity_factor`, `p_fail_scale`, `max_edges`, rail multipliers, `evidence_class`, and
+claim-boundary metadata.
+
+**Headline regime (1000-pax/24h):** completion rate saturates at 1.000 nearly everywhere →
+**makespan is the discriminator**. Bus-only is the faster baseline (~283 vs ~364 min);
+multimodal's advantage is conditional (rail-substitution when road damage hits a trunk the
+bus must use but rail bypasses; collapses if A1 is removed). See `agents.md` §5 for the table.
 
 ## Constraints and conventions
 
-- **Claim discipline (non-negotiable).** `final_study_ready=false` and formal acceptance is
-  `0/12` by design until a human reviewer signs off. Describe outputs as "decision-support",
-  "quasi-real", "scaffold", or "sensitivity" — never "operational", "forecast", "calibrated",
-  "validated", "final-ready", or "optimal route". A claim-language guard
-  (`scripts/audit_claim_language.py`, `final_study_readiness`) enforces this. Templates,
-  copied drafts, generated review packets, and smoke runs are **not** acceptance evidence.
-- **Offline by default.** Do not make live OSM/Overpass or data.go.kr calls in tests or the
-  default path. Live extraction is opt-in via explicit `osmnx` calls or `--source overpass`
-  / key-gated rail fetchers. Tests must use cached GraphML or `tests/fixtures/`.
-- **Deterministic within-scenario.** Pilot experiments use `force_deterministic=True`; the
-  only within-scenario variance sources are optional `road_noise_sigma` /
-  `turnaround_noise_lambda` (exploratory Morris parameters, default 0).
-- **Windows + long paths.** Short checkout paths (e.g. `C:\tss`) and `core.longpaths=true`
-  because `cloned_repo/` snapshots have deep paths. `.editorconfig` and PowerShell-first.
-- **Ignore these trees** unless explicitly asked: `cloned_repo/` (public source snapshots of
-  osmnx, networkx, UXsim, OR-Tools, SALib, r5py, etc. — references, NOT imported by the sim),
-  `.tmp_intake_list/` and `.tmp_phase4_source_probe/` (intake/probe workspaces),
-  `.venv/`. They bloat file searches.
-- `cloned_repo_manifest.md`, `status.md`, `plan.md`, `high_level_plan.md`,
-  `IMPLEMENTATION_PLAN.md`, `agents.md`/`AGENTS.md`, and the 80+ `docs/*.md` are research
-  state/audit records — read for context, but they describe scaffold/claim-boundary state,
-  not necessarily current code behavior.
+- **Claim discipline (non-negotiable).** `final_study_ready=false`; describe outputs as
+  "decision-support", "quasi-real", or "sensitivity" — never "operational", "forecast",
+  "calibrated", "validated", "final-ready", or "optimal route". Korean "검증" is a reserved
+  tripwire. Enforced by `scripts/audit_claim_language.py`. Smoke runs and generated artifacts
+  are not acceptance evidence.
+- **Security.** NEVER use real unit coordinates, OOB lines, or movement schedules — public
+  administrative centroids / public transport networks / official doctrine only. The V-World
+  API key is a **credential** — never commit/hardcode; store in `.env` (gitignored).
+- **Offline by default.** No live OSM/Overpass/data.go.kr calls in tests or the default path.
+  The network cache is built once and committed; live extraction is opt-in only.
+- **Deterministic within-scenario.** `force_deterministic=True`; the only variance is across
+  the 30 CRN seeds (Cornish-Fisher t-CI, df=29). `road_noise_sigma`/`turnaround_noise_lambda`
+  are exploratory Morris parameters, default 0.
+- **CRN pairing.** `bus_only` and `baseline_multimodal` (and paired policies) run under the
+  same seed (block 3101–3130); separate arrival + failure RNG streams per seed.
+- **Windows + long paths.** Short checkout paths and `core.longpaths=true`; `.editorconfig`
+  and PowerShell-first.
+- **Ignore these trees** unless explicitly asked: `_archive/` (archived deliverables +
+  `cloned_repo` reference snapshots — large, not active), `data-collections/` (3 GB gitignored
+  표준노드링크 SHP; regenerable, the `.graphml` cache is already committed), `.venv/`.
 
-## Competition / deliverable context
+## Deliverable context
 
-This work backs the **2026 국방AI 활용 아이디어 경연대회** submission
-("AI 기반 전시 동원예비군 수송대안 분석·판단지원 체계", 김현준). Deliverables that wrap the
-simulator: the Korean planning doc
-(`국방AI_활용_아이디어_경연대회/...공모기획서.md`), `report_draft.md`→`report.docx`
-(Korean report), `paper/` (English manuscript scaffold), `kci_redesign/` (한국군사학논집 figure/table
-redesign synthesis; the retired `previous-kci/` build scripts are a local archive), and `web_demo/` (Vercel-deployed Palantir-style UI at
-defense-ai-mobility-demo.vercel.app). Phase-1 input re-tuning (road speed/capacity, rail
-timing/headway/capacity, assembly delay, fleet) has a stated target of 2026-06-30. Long-term
-roadmap (`high_level_plan.md`): FTA/FM/FA fault-tree disruption modeling, multi-corridor
-ensembles, field-validation benchmarks, GPU Monte Carlo, RL dispatch policy.
+Current research target: **KIIE (한국경영공학회)** paper. Active deliverables that wrap the
+simulator: `report_draft.md` → `report.docx` (Korean report, via `generate_report.py`) and
+`paper/paper_draft.md` (English manuscript). AI/ML is dropped from this path.
+
+Earlier targets are **archived** in `_archive/`: the 2026 국방AI 경연대회 submission
+(`국방AI_활용_아이디어_경연대회/`, `web_demo/`), and the KCI/한국군사학논집 redesign
+(`kci_redesign/`, `previous-kci/`). They are preserved but not part of the current build.
+
+## Conventions
+
+- Code comments/docstrings in English; report files (`report_draft.md`, `report.docx`) in Korean.
+- Keep text files UTF-8; no emojis unless requested.
+- Keep changes minimal; do not refactor beyond what was asked.
+- After realworld-module changes, re-confirm the oracle stays bit-identical
+  (`generate_phase23_oracle.py` + `test_composable_service_pipeline.py`).
