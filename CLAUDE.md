@@ -25,8 +25,8 @@ For the full experiment writeup (data provenance, methodology, headline results)
 The repo was aggressively decluttered to the current experiment context. Surviving scope:
 - `src/realworld/`: **21 .py** — 20 KEEP modules + a slim `__init__.py` (see Architecture).
 - `tests/`: **36** directly-executable tests (all PASS; incl. oracle byte-identity).
-- `scripts/`: **16** (the run-path + a few data writers).
-- `data/`: **52** files (current experiment inputs + truth table only).
+- `scripts/`: **11** (the run-path + a few data writers / provenance CLIs).
+- `data/`: **53** files (current experiment inputs + truth table only).
 - `docs/`: **3** (project_overview, experiment_design_v2, claim_language_guard).
 
 `_archive/` (moved, preserved, not active): `web_demo`, `국방AI_활용_아이디어_경연대회`,
