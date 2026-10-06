@@ -1,0 +1,45 @@
+{
+ "experiment": "fullgraph_breakeven_v1",
+ "graph": "full (360556 nodes, 971680 edges)",
+ "band": {
+  "count": 3582,
+  "sha256": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518"
+ },
+ "grid_matched": [
+  1.5,
+  1.6,
+  1.7,
+  1.74,
+  1.75,
+  1.8,
+  2.0
+ ],
+ "grid_extra_bus": [
+  1.1,
+  1.2,
+  1.3,
+  1.4
+ ],
+ "sanity_configured": [
+  1.0,
+  3.0
+ ],
+ "splits": [
+  6,
+  12
+ ],
+ "findings": {
+  "n_f12_crossing_full": 1.761,
+  "n_f12_ci": [
+   1.555,
+   1.989
+  ],
+  "n_f6_crossing_full": 1.15,
+  "n_f6_ci": [
+   1.106,
+   1.389
+  ],
+  "multimodal_invariant_full": true,
+  "band_checksum_matches_top10": true
+ }
+}
