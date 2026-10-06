@@ -1,0 +1,786 @@
+{
+  "analyses": {
+    "adaptive_policies": {
+      "campaign_id": "adaptive_policies",
+      "input_row_count": 1260,
+      "output_row_count": 42,
+      "status": "available"
+    },
+    "break_even": {
+      "campaign_id": "break_even",
+      "input_row_count": 1920,
+      "output_row_count": 2,
+      "status": "available"
+    },
+    "corridor_target_scope_metrics": {
+      "input_row_count": 32,
+      "output_row_count": 32,
+      "stage_independent": true,
+      "status": "available"
+    },
+    "demand_fleet": {
+      "campaign_id": "demand_fleet",
+      "input_row_count": 1920,
+      "output_row_count": 32,
+      "status": "available"
+    },
+    "graph_scope_route_metrics": {
+      "input_row_count": 16,
+      "output_row_count": 16,
+      "stage_independent": true,
+      "status": "available"
+    },
+    "graph_scope_stability": {
+      "campaign_id": "graph_scope",
+      "input_row_count": 1330,
+      "output_row_count": 4,
+      "status": "available"
+    },
+    "morris_effects": {
+      "campaign_id": "morris",
+      "input_row_count": 1400,
+      "output_row_count": 14,
+      "status": "available"
+    },
+    "paired_summary": {
+      "campaign_id": "paired_reanalysis",
+      "input_row_count": 2520,
+      "output_row_count": 42,
+      "status": "available"
+    },
+    "random_threat_crossed": {
+      "campaign_id": "random_threat_outer",
+      "input_row_count": 6000,
+      "output_row_count": 1,
+      "status": "available"
+    },
+    "random_threat_hierarchical": {
+      "campaign_id": "random_threat_outer",
+      "input_row_count": 6000,
+      "output_row_count": 1,
+      "status": "available"
+    },
+    "replicate_convergence": {
+      "campaign_id": "paired_reanalysis",
+      "input_row_count": 2520,
+      "output_row_count": 160,
+      "status": "available"
+    },
+    "road_rail_map": {
+      "campaign_id": "road_rail_map",
+      "input_row_count": 3600,
+      "output_row_count": 60,
+      "status": "available"
+    }
+  },
+  "analysis_complete_full": true,
+  "analysis_completeness_blockers": [],
+  "analysis_directory": "C:\\project\\transport-system-sim\\results\\paper_revision_top10_corridor_v4_20260721\\analysis\\full",
+  "analysis_implementation_artifacts": {
+    "requirements.txt": {
+      "path": "C:\\project\\transport-system-sim\\requirements.txt",
+      "sha256": "0bb985001e333795e45c34f3ed10ba11543849e5ec3282e06af255d159be0aa5",
+      "size_bytes": 128
+    },
+    "scripts/analyze_paper_revision_results.py": {
+      "path": "C:\\project\\transport-system-sim\\scripts\\analyze_paper_revision_results.py",
+      "sha256": "7f1768a12b782eb617c999716507b0a431fd34788305ecc10b0fba9ccf54e100",
+      "size_bytes": 121648
+    },
+    "src/__init__.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\__init__.py",
+      "sha256": "6d2b9e0c83c90c0362b4c61a3a92cca147f2260e433aab9dd088dbf557a8228b",
+      "size_bytes": 15
+    },
+    "src/dispatch.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\dispatch.py",
+      "sha256": "cb796028fb9abf486ca5070258638b1790ee848a6b4c6f6a2012df9dd76ac81c",
+      "size_bytes": 10334
+    },
+    "src/disruptions.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\disruptions.py",
+      "sha256": "c3a4a01561acc6e89a947c0bb9bfd65bab79c12ce9e1b46b8d821c45b06e24bc",
+      "size_bytes": 13302
+    },
+    "src/fleet.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\fleet.py",
+      "sha256": "e5c4c7c94e9d4b1e3354efa9a23d5556b0db06f37fbcc329e514a48f7e0e6bb5",
+      "size_bytes": 6468
+    },
+    "src/metrics.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\metrics.py",
+      "sha256": "34b669da88994c516dfc54ab698d187ab399f5fbbdc45afb7051cfa85097cccb",
+      "size_bytes": 25168
+    },
+    "src/models.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\models.py",
+      "sha256": "b36db0e7cf62e086b7ea6aacc991c2e5205a7c226d7547adf9631042f8d7a3a8",
+      "size_bytes": 4657
+    },
+    "src/network.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\network.py",
+      "sha256": "2f34fc6e95d86a66269ce5e2a7d55d213f9057a174c6ad414e030813a4081e34",
+      "size_bytes": 6397
+    },
+    "src/policies.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\policies.py",
+      "sha256": "e99e8a266198c3d7319f214edc5ee3cf739afcaeb10cab767eb6d88ac3df1f58",
+      "size_bytes": 2760
+    },
+    "src/rail.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\rail.py",
+      "sha256": "70c8e9a71e52d1462391cfd587c805ccd7e7d224290b3488573e9a08185ee7c2",
+      "size_bytes": 10438
+    },
+    "src/realworld/__init__.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\__init__.py",
+      "sha256": "97f340e5c638a6867a8a79e08c93c90ee628396e7fbdc8f76f9c5e32b57cb314",
+      "size_bytes": 5542
+    },
+    "src/realworld/adapter.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\adapter.py",
+      "sha256": "97f523d49a21bb364f96961423bd970337f8a0878412fb6a86e9fd1d5d251301",
+      "size_bytes": 14841
+    },
+    "src/realworld/artifact_invalidation_matrix.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\artifact_invalidation_matrix.py",
+      "sha256": "011c558c058112cf36bba1c594bce0bba0d632594d9f354cb1a0cda56a88f018",
+      "size_bytes": 333402
+    },
+    "src/realworld/attributes.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\attributes.py",
+      "sha256": "a5f929e802cbb314fc3572d1d4a97d97e80dae886ace0c7f3bd47048128e5787",
+      "size_bytes": 12506
+    },
+    "src/realworld/claim_language_guard.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\claim_language_guard.py",
+      "sha256": "54a0738a55eb2805bd935129352817008590e3d1ecb251b1537ea2e5d5020e51",
+      "size_bytes": 35797
+    },
+    "src/realworld/disruption_scenarios.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\disruption_scenarios.py",
+      "sha256": "4a46650f767a8ab71be722ee1d5dd55deb8ebe7fa0ec173605264e25cece42b0",
+      "size_bytes": 56988
+    },
+    "src/realworld/manifest_timestamp.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\manifest_timestamp.py",
+      "sha256": "cdb37a45e0d72ddffe199b4f431f240f387995bd752211fa896881e3f70c6157",
+      "size_bytes": 2684
+    },
+    "src/realworld/nodelink_network.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\nodelink_network.py",
+      "sha256": "5f5cba4b39940bc4fb87c1de6d72ed58e5e62aa8d4e3e45f33327774622f009c",
+      "size_bytes": 12637
+    },
+    "src/realworld/osm_network.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\osm_network.py",
+      "sha256": "d195c8f128d6494a1edd63349f75179e519babf447b4eed9ccdc3502f831e7e8",
+      "size_bytes": 11225
+    },
+    "src/realworld/parameters.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\parameters.py",
+      "sha256": "9e4480a18b7473c74e608e485cb909514661102d202f71d27f7265aa2009e6a4",
+      "size_bytes": 10936
+    },
+    "src/realworld/phase_gate_ledger.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\phase_gate_ledger.py",
+      "sha256": "325da0a2e0a0ab3b8a6c0f7792e0d9bbe8bacc0146baf5c59ddaaaa4c0ea3b2a",
+      "size_bytes": 33008
+    },
+    "src/realworld/pilot_experiments.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\pilot_experiments.py",
+      "sha256": "b71233350245f10ff09da79b396f5b574cc506f5688bf1697e315e81568cb1c4",
+      "size_bytes": 121636
+    },
+    "src/realworld/plausibility.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\plausibility.py",
+      "sha256": "ddeef0b2a89ebc7fc12cc7152e5cbd9c9eae80c0ac9f06f9f4d214a94c943508",
+      "size_bytes": 36397
+    },
+    "src/realworld/policy_alternatives.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\policy_alternatives.py",
+      "sha256": "011ad969e13bb2134e841289a718ce0f4acad51b30c1982e92f14b20b92628ef",
+      "size_bytes": 22626
+    },
+    "src/realworld/regions.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\regions.py",
+      "sha256": "034e5f8e6842374c61c9df59e2fec4cc5a446a2c0a673deb8ad4d3a57cffb5bf",
+      "size_bytes": 2679
+    },
+    "src/realworld/revision_analysis.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_analysis.py",
+      "sha256": "79b17d0f277157bee4354fddd844516a672e8f952d82161832f096eadf63769c",
+      "size_bytes": 48321
+    },
+    "src/realworld/revision_campaign.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_campaign.py",
+      "sha256": "ff5a02a9f6f4f6309035ac32213b6d2d2a767a3420b9c25002bfc85e81a24628",
+      "size_bytes": 16721
+    },
+    "src/realworld/revision_design.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_design.py",
+      "sha256": "29a77e75944066fbd81e13444945f80339c1606009c7014df7d5649fcfcb3d70",
+      "size_bytes": 26914
+    },
+    "src/realworld/revision_execution.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_execution.py",
+      "sha256": "b2d5215e2a9fc26c3b7898594baf411301d991bc0bd13df9e8ac12f7d6e1f1c7",
+      "size_bytes": 12508
+    },
+    "src/realworld/revision_graph_scope_cache.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_graph_scope_cache.py",
+      "sha256": "78410a410fe6ee871afaccfe9a1d6491b972548d1711d6369feed30244613758",
+      "size_bytes": 15189
+    },
+    "src/realworld/revision_graph_validation.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_graph_validation.py",
+      "sha256": "c8e05b8606c1ac7d191f5df27d15a9fcf7c6f4c7da3cf01b58480a233d76ba85",
+      "size_bytes": 26608
+    },
+    "src/realworld/revision_morris.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_morris.py",
+      "sha256": "3030aa3ca7ea80f46c51c54c1848b1516217af684003bcda71faff2acecc3920",
+      "size_bytes": 20359
+    },
+    "src/realworld/revision_planner.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_planner.py",
+      "sha256": "724d79359c3a89e5aaa86c81014f88c43cbac2997f43893ecf8cdd1e67e284e0",
+      "size_bytes": 29750
+    },
+    "src/realworld/revision_policies.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_policies.py",
+      "sha256": "cd203eaf71f910346686e203d98051dc386856a45d3c25cd183ca59e4406d88b",
+      "size_bytes": 11051
+    },
+    "src/realworld/revision_runner.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_runner.py",
+      "sha256": "6e05b0a72b9819dfaa977ec34874de6c5b17fa33d8f94408a1383a703c6cea1e",
+      "size_bytes": 12324
+    },
+    "src/realworld/revision_statistics.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_statistics.py",
+      "sha256": "c0dad576658406ad38d06fab1d8ee8b99a0b186cf6d9f40a1a4f574254c6cf8c",
+      "size_bytes": 28052
+    },
+    "src/realworld/road_overrides.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\road_overrides.py",
+      "sha256": "514e6cb4ce712c34199fdeda3d64d3627c183dce7e3e5dda0aac210c96b301e0",
+      "size_bytes": 9755
+    },
+    "src/realworld/source_artifacts.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\source_artifacts.py",
+      "sha256": "3608c2d0b547c6efb252ca911411ffc56aaa1141f0244ffeafc3a171b644a4c0",
+      "size_bytes": 3365
+    },
+    "src/realworld/types.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\types.py",
+      "sha256": "ded4633aec07ee3ad3d25f3f6f4a15dd3c427398ca2ef59b8e2043c7534cce43",
+      "size_bytes": 41203
+    },
+    "src/realworld/validation.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\validation.py",
+      "sha256": "38cc138549763d72e65c7c328202698a9c7913c31b75d11ab2aaa68f921e41d2",
+      "size_bytes": 8005
+    },
+    "src/realworld/vds_calibration.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\vds_calibration.py",
+      "sha256": "266959d3c03dcdd7f52609f1651c4ec3dda4bd0e1e6994d033068c4120fc0833",
+      "size_bytes": 9090
+    },
+    "src/realworld/zones.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\zones.py",
+      "sha256": "30e95fa8ab71f9778accbaa7babb8a7f2b8ca6484f5d99952747a37f506f4b0b",
+      "size_bytes": 6716
+    },
+    "src/scenario.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\scenario.py",
+      "sha256": "36e9f2f66bcccbc7ac354507fa1fa0b3bec5afe88967e1b5a1b1d5c500d14082",
+      "size_bytes": 57458
+    },
+    "src/sim_types.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\sim_types.py",
+      "sha256": "3b99f88347f20b3f2fb0853253b498a9379359b2513600af7cfb6136bc1cc997",
+      "size_bytes": 7724
+    },
+    "src/traffic.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\traffic.py",
+      "sha256": "9302a1dff7b0e54599743ee8aee0a4fca7c65ec86517650566b1deb5107328c3",
+      "size_bytes": 11772
+    },
+    "src/transfers.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\transfers.py",
+      "sha256": "3ee907eeaf694859a4ef347e422c9e53d11f968d2491ea4cf9f83fb1d24998fe",
+      "size_bytes": 9038
+    }
+  },
+  "analysis_implementation_fingerprint": "5b4d6d752bbd1a604a74bada8c2c5f8a5f8c8b613abc58b71f44040876b2d64f",
+  "analysis_runtime_environment": {
+    "executable": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
+    "fingerprint": "811b39f8fa5c2852de375726f280beb1c7d5e8fca2771e8c37e0ec68fce7bdc8",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "SALib": "1.5.2",
+      "networkx": "3.6.1",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1"
+    },
+    "python": {
+      "implementation": "CPython",
+      "version": "3.12.10"
+    }
+  },
+  "analysis_runtime_fingerprint": "811b39f8fa5c2852de375726f280beb1c7d5e8fca2771e8c37e0ec68fce7bdc8",
+  "available_campaigns": [
+    "paired_reanalysis",
+    "graph_scope",
+    "break_even",
+    "break_even_fine",
+    "demand_fleet",
+    "road_rail_map",
+    "random_threat_outer",
+    "adaptive_policies",
+    "morris",
+    "scale_sensitivity",
+    "path_interdiction_threat"
+  ],
+  "blank_numeric_value_count": 41560,
+  "bootstrap": {
+    "confidence": 0.95,
+    "replicates": 10000,
+    "seed": 20260721
+  },
+  "campaign_manifests": [
+    {
+      "campaign_id": "paired_reanalysis",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 2520,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 2520,
+      "sha256": "052de1a8da79f00cc03127692d98ed6713f1d7621f48b2c1e9a7a7732c54ee21",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "graph_scope",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 1330,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 1330,
+      "sha256": "e5156a732e16d6a755a6c3ec594eed13cadaba2e8a3271c62b7be3609f49880c",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "break_even",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 1920,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 1920,
+      "sha256": "b5b56333b53a4675df8dba3c04eb74a2dc5ee7a5dc3400e570486002ace1589c",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "break_even_fine",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 2040,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 2040,
+      "sha256": "acb9382303afba307063f6c6d4c04fe3be0b8834170c60b6589c6dcce5145caa",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "demand_fleet",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 1920,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 1920,
+      "sha256": "85e5b4702a19461b8cedc19ec9cbc6f4189275cc409131fa9874e9b2acdd036f",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "road_rail_map",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 3600,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 3600,
+      "sha256": "3d41f07b8e212cd460e282ef2098340389accfa497963a7e2c980c92a0efee9c",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "random_threat_outer",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 6000,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 6000,
+      "sha256": "e9f19c0f4e73dc0b5e3fa0c15d3708e6294f1e8948f2b3866ae53022a996bc1f",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "adaptive_policies",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 1260,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 1260,
+      "sha256": "ed33651c32591f219e7c9d3a9904d9fab19162e9cdc295aa56d4d959b03410d6",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "morris",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 1400,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 1400,
+      "sha256": "41b57a91c906deb8c62c4b70b0207fada368e3c22071e40307387d9283de43ad",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "scale_sensitivity",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 240,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 240,
+      "sha256": "3a59dfa8874639f17d658fa0e4d2bf37df29ca7c99a8943117139e739d8d9b02",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "path_interdiction_threat",
+      "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+      "completed_run_count": 2400,
+      "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+      "path": "full_manifest.json",
+      "planned_run_count": 2400,
+      "sha256": "23ec11770d3f0fccb96b55969b6edadd3f47b29befbb9d4cdbca309b3b505637",
+      "stage": "full",
+      "status": "complete"
+    }
+  ],
+  "central_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+  "claim_boundary": "Public-data-based conditional scenario simulation for decision support; not a field-calibrated prediction or route prescription.",
+  "comparison_definition": "bus_only minus static_multimodal; makespan inference uses only finite pairs with equal completion rates",
+  "corridor_target_scope_evidence_manifest": {
+    "final_study_ready": false,
+    "input_artifacts": {
+      "cache": {
+        "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+        "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+        "size_bytes": 497224671
+      },
+      "demand_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+        "sha256": "ca91fde4aed7567b30cd2fc06ae9b99ae66abfe360c63133868051a6959d1c5c",
+        "size_bytes": 2709
+      },
+      "design": {
+        "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+        "sha256": "a85304d917e1ab4684447ff48e1f79796e6601b25ddebb7260491dbc4819b6f3",
+        "size_bytes": 10447
+      },
+      "fleet_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+        "sha256": "2d956a5df63c2818294aba5199e6972802d3d70f89f52170fa29ae9df2f01242",
+        "size_bytes": 4612
+      },
+      "overrides": {
+        "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+        "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+        "size_bytes": 17872
+      },
+      "region": {
+        "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+        "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+        "size_bytes": 3764
+      },
+      "scenarios": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+        "sha256": "44b574242678d91de67468c43968a1cc924495226e0a986495e64d5d259a256b",
+        "size_bytes": 13495
+      }
+    },
+    "path": "corridor_target_scope_metrics_manifest.json",
+    "row_count": 32,
+    "selected_target_checksum": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518",
+    "sha256": "4c58779aa6bbbc7ac4cbc70c2c7752aa920e372f0c7435fb27d30d09cf62f6f2",
+    "stage_independent": true
+  },
+  "design_id": "paper_revision_top10_corridor_v4_20260721",
+  "final_study_ready": false,
+  "generated_csv_files": [
+    {
+      "data_row_count": 16,
+      "path": "graph_scope_route_metrics.csv",
+      "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541"
+    },
+    {
+      "data_row_count": 32,
+      "path": "corridor_target_scope_metrics.csv",
+      "sha256": "c169ae85453b36df7d60bd4507060c541a1e3bf9731174113eb8367793ed8384"
+    },
+    {
+      "data_row_count": 42,
+      "path": "paired_summary.csv",
+      "sha256": "59fe35b21414384ffe980ec225209964d9b07d67d33f83fd86091eb9cc2a9f97"
+    },
+    {
+      "data_row_count": 160,
+      "path": "replicate_convergence.csv",
+      "sha256": "f6979940b0ea97658076c0bfa8320e0a9bd7fb1d85d8b7b1e671bb8115b4f01b"
+    },
+    {
+      "data_row_count": 2,
+      "path": "break_even.csv",
+      "sha256": "4201035944c00d30fb1b600c74559a0729c1876b9afd524dd5545c14b4334cc9"
+    },
+    {
+      "data_row_count": 4,
+      "path": "graph_scope_stability.csv",
+      "sha256": "123a2d0d2c77e316b7a837eb0d501eca3bdb998e36f7b182a14436392aaa121b"
+    },
+    {
+      "data_row_count": 1,
+      "path": "random_threat_hierarchical.csv",
+      "sha256": "10b06830e0699fa978534115031e0c9ab6ec9bf70e20aa5df7c307b7d972d532"
+    },
+    {
+      "data_row_count": 1,
+      "path": "random_threat_crossed.csv",
+      "sha256": "d22d3ea34b3caae9d25926ae6fb11e2460a7cfd635ba85a172bd213c455aa951"
+    },
+    {
+      "data_row_count": 32,
+      "path": "demand_fleet.csv",
+      "sha256": "b164367d45470ef9b64193b68e829bda73e117c0bc0ce3543873e1fd6a700bd7"
+    },
+    {
+      "data_row_count": 60,
+      "path": "road_rail_map.csv",
+      "sha256": "6e5fe7445ea33c381f708d3a070d5485a92d7ec2696a6a71da61f6c358c71ddb"
+    },
+    {
+      "data_row_count": 42,
+      "path": "adaptive_policies.csv",
+      "sha256": "54079840d4656eb152f6206ee633804299a8258c275248a4603e2bacbdf02ae6"
+    },
+    {
+      "data_row_count": 14,
+      "path": "morris_effects.csv",
+      "sha256": "19dea8519682eabdd8851571363b379c9234a6d52e6c661571159a872c7d1ec3"
+    }
+  ],
+  "graph_scope_route_evidence_manifest": {
+    "final_study_ready": false,
+    "input_artifacts": {
+      "cache": {
+        "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+        "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+        "size_bytes": 497224671
+      },
+      "demand_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+        "sha256": "ca91fde4aed7567b30cd2fc06ae9b99ae66abfe360c63133868051a6959d1c5c",
+        "size_bytes": 2709
+      },
+      "design": {
+        "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+        "sha256": "a85304d917e1ab4684447ff48e1f79796e6601b25ddebb7260491dbc4819b6f3",
+        "size_bytes": 10447
+      },
+      "fleet_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+        "sha256": "2d956a5df63c2818294aba5199e6972802d3d70f89f52170fa29ae9df2f01242",
+        "size_bytes": 4612
+      },
+      "overrides": {
+        "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+        "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+        "size_bytes": 17872
+      },
+      "region": {
+        "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+        "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+        "size_bytes": 3764
+      },
+      "scenarios": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+        "sha256": "44b574242678d91de67468c43968a1cc924495226e0a986495e64d5d259a256b",
+        "size_bytes": 13495
+      }
+    },
+    "path": "graph_scope_route_metrics_manifest.json",
+    "row_count": 16,
+    "sha256": "db19fe3eab0bf3ad33e46bf0952e2e7a85d8aebb30900f7ca862fd5709b64a8b",
+    "stage_independent": true
+  },
+  "implementation_fingerprint": "3d9b432f41c55c94c79d5ecb86909db40ff6ea92bebb030323ab9a7847f9539c",
+  "inference_definitions": {
+    "adaptive_ranking": "dense_rank_with_exact_ties_and_co_winners",
+    "descriptive_winner": "lexicographic point-estimate label; separate from confidence-interval statistical resolution",
+    "paired_completion_rate": "all seed-paired valid completion-rate differences; paired t and seeded percentile-bootstrap confidence intervals",
+    "random_threat_nested_sample_sizes": "completion_threat_draw_count and completion_observation_count describe completion-delta bootstrap input; completion_empty_threat_draws lists draws without paired valid completion results; probability_proxy_observation_count counts paired valid result observations used by every probability proxy",
+    "random_threat_probability_proxies": "empirical result frequencies from two-level threat-draw/arrival-seed bootstrap; not event probabilities"
+  },
+  "input_artifacts": {
+    "cache": {
+      "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+      "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+      "size_bytes": 497224671
+    },
+    "demand_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+      "sha256": "ca91fde4aed7567b30cd2fc06ae9b99ae66abfe360c63133868051a6959d1c5c",
+      "size_bytes": 2709
+    },
+    "design": {
+      "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+      "sha256": "a85304d917e1ab4684447ff48e1f79796e6601b25ddebb7260491dbc4819b6f3",
+      "size_bytes": 10447
+    },
+    "fleet_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+      "sha256": "2d956a5df63c2818294aba5199e6972802d3d70f89f52170fa29ae9df2f01242",
+      "size_bytes": 4612
+    },
+    "overrides": {
+      "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+      "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+      "size_bytes": 17872
+    },
+    "region": {
+      "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+      "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+      "size_bytes": 3764
+    },
+    "scenarios": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+      "sha256": "44b574242678d91de67468c43968a1cc924495226e0a986495e64d5d259a256b",
+      "size_bytes": 13495
+    }
+  },
+  "input_fingerprint": "6fc18936c0e008b208f37a6d884a863b578c4edc1ae6c60cb45396b66276b412",
+  "missing_campaigns": [],
+  "morris": {
+    "confidence": 0.95,
+    "resamples": 1000,
+    "seed": 20260722
+  },
+  "output_root": "C:\\project\\transport-system-sim\\results\\paper_revision_top10_corridor_v4_20260721",
+  "runtime_environment": {
+    "executable": "C:\\project\\transport-system-sim\\.venv\\Scripts\\python.exe",
+    "fingerprint": "811b39f8fa5c2852de375726f280beb1c7d5e8fca2771e8c37e0ec68fce7bdc8",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "SALib": "1.5.2",
+      "networkx": "3.6.1",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1"
+    },
+    "python": {
+      "implementation": "CPython",
+      "version": "3.12.10"
+    }
+  },
+  "runtime_fingerprint": "811b39f8fa5c2852de375726f280beb1c7d5e8fca2771e8c37e0ec68fce7bdc8",
+  "schema_version": 2,
+  "skipped_source_files": [],
+  "source_files": [
+    {
+      "accepted_row_count": 2520,
+      "data_row_count": 2520,
+      "path": "paired_reanalysis/full_results.csv",
+      "sha256": "f9f95333fa92439878b058764fa730c552a2f85cbb6890b5c0db243b392edd79"
+    },
+    {
+      "accepted_row_count": 1330,
+      "data_row_count": 1330,
+      "path": "graph_scope/full_results.csv",
+      "sha256": "96fc6f0578275b751106aad90e3bb59a9070e0751d5261d08463610b6678510b"
+    },
+    {
+      "accepted_row_count": 1920,
+      "data_row_count": 1920,
+      "path": "break_even/full_results.csv",
+      "sha256": "ef17a61d11fa8e6bf8bba79b3f48d2bd11e83196dd7d2a4da8fff815fd0adca8"
+    },
+    {
+      "accepted_row_count": 2040,
+      "data_row_count": 2040,
+      "path": "break_even_fine/full_results.csv",
+      "sha256": "12ee68866ba0884ab0c13a6530bd478bcfe13fd5c1aa3b54dd8926f895ed1c7b"
+    },
+    {
+      "accepted_row_count": 1920,
+      "data_row_count": 1920,
+      "path": "demand_fleet/full_results.csv",
+      "sha256": "612f18ec6295de97d38d0cf921a649428b63269925429b77422f535b9faafbe7"
+    },
+    {
+      "accepted_row_count": 3600,
+      "data_row_count": 3600,
+      "path": "road_rail_map/full_results.csv",
+      "sha256": "4cc7a44a3ab98d42d15e0f0f695d93feb3887a8d0e8508c1f7459c5a53580d73"
+    },
+    {
+      "accepted_row_count": 6000,
+      "data_row_count": 6000,
+      "path": "random_threat_outer/full_results.csv",
+      "sha256": "ec980bb970ef798c5246f8951bdf6d92bb1bdf82baeceb45833e5ba9c69cf32f"
+    },
+    {
+      "accepted_row_count": 1260,
+      "data_row_count": 1260,
+      "path": "adaptive_policies/full_results.csv",
+      "sha256": "72f7871c7f54d04f03279554ef0039121396f35cacfa5e61eafb6ed86f9a0b01"
+    },
+    {
+      "accepted_row_count": 1400,
+      "data_row_count": 1400,
+      "path": "morris/full_results.csv",
+      "sha256": "090499345f90d86ca2c7db911f6e4441eec0b69035d6c60fbfc36520130a47e2"
+    },
+    {
+      "accepted_row_count": 240,
+      "data_row_count": 240,
+      "path": "scale_sensitivity/full_results.csv",
+      "sha256": "0a2f65f296668170231af54651459f17871f3fff54208554f782b153bc63d4b2"
+    },
+    {
+      "accepted_row_count": 2400,
+      "data_row_count": 2400,
+      "path": "path_interdiction_threat/full_results.csv",
+      "sha256": "eb653a2f16fed9f98d50118b4b4aead88fc63c221b9ad43e6e4c0fa957250781"
+    },
+    {
+      "accepted_row_count": 16,
+      "data_row_count": 16,
+      "evidence_type": "coordinate_free_graph_scope_route_metrics",
+      "path": "graph_scope_route_metrics.csv",
+      "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541"
+    },
+    {
+      "accepted_row_count": 32,
+      "data_row_count": 32,
+      "evidence_type": "fixed_corridor_target_graph_scope_response",
+      "path": "corridor_target_scope_metrics.csv",
+      "sha256": "c169ae85453b36df7d60bd4507060c541a1e3bf9731174113eb8367793ed8384"
+    }
+  ],
+  "stage": "full",
+  "written_at_utc": "2026-10-06T02:08:24.393200+00:00"
+}
