@@ -1,0 +1,43 @@
+{
+ "experiment": "allocation_sweep_v1",
+ "graph": "top10 (9089 nodes, 18602 edges), checksum-verified execution graph",
+ "edge_set": {
+  "count": 3582,
+  "sha256": "de3c7dae1e74c705a5cfb1a3e2de5d353776c3db4872151f860ec39e09741518"
+ },
+ "seeds": [
+  3101,
+  3102,
+  3103,
+  3104,
+  3105,
+  3106,
+  3107,
+  3108,
+  3109,
+  3110,
+  3111,
+  3112,
+  3113,
+  3114,
+  3115,
+  3116,
+  3117,
+  3118,
+  3119,
+  3120,
+  3121,
+  3122,
+  3123,
+  3124,
+  3125,
+  3126,
+  3127,
+  3128,
+  3129,
+  3130
+ ],
+ "policy": "static_multimodal, strict, reverse_network, rail available",
+ "demand": 1000,
+ "wall_s": 255.4
+}
