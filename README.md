@@ -3,6 +3,15 @@
 Disrupted regional personnel-transport micro-simulation comparing **bus-only**
 and **rail-bus multimodal** movement for approximately 1,000 people.
 
+> **Current archival release (2026-10-06):** the IEEE Access submission state is
+> the paper-revision top-10 corridor program (16 campaign sets, 32,790 runs) with
+> engine modules `src/realworld/revision_*.py`, the runner
+> `scripts/run_paper_revision_experiments.py`, the design manifest
+> `data/manifests/paper_revision_experiment_design.json`, and the analysis CSVs
+> mapped to manuscript tables in "Manuscript table to analysis-CSV map" at the
+> end of this file. The audit-snapshot and consultation sections below are
+> historical context from earlier project phases.
+
 The implemented baseline was originally developed for a reserve-force transport
 case. The active research direction is now broader: evolve the model into an
 open-data, region-reusable, real-world or quasi-real transport-resilience study
@@ -1304,3 +1313,40 @@ The intended paper thesis is:
 > performance depends on the joint reliability of access roads, rail service,
 > transfer handling, last-mile capacity, and finite fleet availability under
 > regional network disruption.
+
+## Manuscript table to analysis-CSV map (IEEE Access submission, 2026-10-06)
+
+Every path below is included in the Zenodo data/code bundle. `v4root`
+abbreviates `results/paper_revision_top10_corridor_v4_20260721`.
+
+| Manuscript table (label) | Supporting archived file(s) |
+|---|---|
+| tab:priorart (prior-art matrix) | positioning table; sources cited in the bibliography |
+| tab:scenarios (scenario families) | `data/scenarios/goseong_disruption_scenarios.csv` |
+| tab:frames (resource frames) | `data/manifests/paper_revision_experiment_design.json` |
+| tab:legtimes / tab:scopelegs (segment times, detour ratios) | `v4root/analysis/full/graph_scope_route_metrics.csv` |
+| tab:campaigns (campaign inventory) | `data/manifests/paper_revision_experiment_design.json` |
+| tab:baseline (frame baselines) | `v4root/analysis/full/paired_summary.csv` |
+| tab:alloc (22-split surface) | `results/allocation_sweep_v1/allocation_surface.csv`, `results/allocation_sweep_v1/sweep_results.csv` |
+| tab:selection (selection correction) | `results/review_response_v1/nested_selection.json`, `results/review_response_v1/holdout_summary.json`, `results/review_response_v1/band_definition.json` |
+| tab:empties (empty-return KPIs) | `v4root/paired_reanalysis/full_results.csv` (per-run KPI columns), `results/allocation_sweep_v1/sweep_results.csv` |
+| tab:scope (graph-scope agreement) | `v4root/analysis/full/graph_scope_stability.csv` |
+| tab:stress / tab:stressconf (stress ladders) | `v4root/analysis/full/paired_summary.csv` |
+| tab:be (coarse+fine grids) | `v4root/analysis/full/break_even.csv`, `v4root/break_even_fine/full_results.csv` |
+| tab:band (allocation crossings) | `results/review_response_v1/replicate_counts.json`, `results/review_response_v1/band_definition.json`, `v4root/analysis/full/break_even.csv` |
+| tab:fullbe (full-graph confirmation) | `results/fullgraph_breakeven_v1/fullgraph_summary.csv`, `results/fullgraph_breakeven_v1/fullgraph_results.csv`, `results/review_response_v1/fullendpoints_summary.json` |
+| tab:sens (OAT sensitivity) | `results/sensitivity_v1/sensitivity_crossings.csv`, `results/sensitivity_v1/sensitivity_results.csv` |
+| tab:joint (factorial) | `results/review_response_v1/joint_summary.json`, `results/review_response_v1/joint_results.csv` |
+| tab:verify (analytic cases) | `tests/test_verification_suite.py` |
+| tab:roadrail (road-rail map) | `v4root/analysis/full/road_rail_map.csv` |
+| tab:df (demand-fleet) | `v4root/analysis/full/demand_fleet.csv` |
+| tab:scale (scale sensitivity) | `v4root/scale_sensitivity/full_results.csv` |
+| tab:adaptive (policy packages) | `v4root/analysis/full/adaptive_policies.csv` |
+| tab:ablation (allocation ablation) | `results/review_response_v1/ablation_results.csv`, `results/review_response_v1/ablation_summary.json` |
+| tab:path (path interdiction) | `v4root/path_interdiction_threat/full_results.csv` |
+| tab:corridor2 (second corridor) | `results/corridor2_yangyang_v1/corridor2_results.csv`, `results/corridor2_yangyang_v1/manifest.json` |
+| tab:replicate (half-widths) | `v4root/analysis/full/replicate_convergence.csv` |
+| tab:fullroad (coarse delta series) | `v4root/analysis/full/break_even.csv` |
+| fig7 data | `results/fig7_data.csv` |
+| runtime frontiers | `results/compute_frontier.csv` |
+| bootstrap seeds and validity | seed 20260721 throughout; valid-replicate counts in `results/review_response_v1/replicate_counts.json` |

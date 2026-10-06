@@ -12,7 +12,7 @@ import sys
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT_NAME = "transport-system-sim_zenodo_v4_data_code.zip"
+OUT_NAME = "transport-system-sim_zenodo_v6_data_code.zip"
 
 RESULT_FILES = [
     # Original paper-revision analysis products.
@@ -58,6 +58,12 @@ RESULT_FILES = [
     "results/review_response_v1/ablation_results.csv",
     "results/review_response_v1/ablation_summary.json",
     "results/review_response_v1/replicate_counts.json",
+    # Campaign raw rows cited by manuscript tables (fine grid, scale,
+    # path interdiction, paired reanalysis incl. empty-return KPIs).
+    "results/paper_revision_top10_corridor_v4_20260721/break_even_fine/full_results.csv",
+    "results/paper_revision_top10_corridor_v4_20260721/scale_sensitivity/full_results.csv",
+    "results/paper_revision_top10_corridor_v4_20260721/path_interdiction_threat/full_results.csv",
+    "results/paper_revision_top10_corridor_v4_20260721/paired_reanalysis/full_results.csv",
     # Summary tables.
     "results/fig7_data.csv",
     "results/compute_frontier.csv",

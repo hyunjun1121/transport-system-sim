@@ -1,0 +1,357 @@
+{
+  "schema_version": 1,
+  "design_id": "paper_revision_top10_corridor_v4_20260721",
+  "output_root": "results/paper_revision_top10_corridor_v4_20260721",
+  "claim_boundary": "Public-data-based conditional scenario simulation for decision support; not a field-calibrated prediction or route prescription.",
+  "canonical_results_read_only": "results/realworld_pilot_nodelink",
+  "seed_blocks": {
+    "arrival": {
+      "start": 3101,
+      "stop": 3130
+    },
+    "threat": {
+      "start": 5101,
+      "stop": 5200
+    },
+    "bootstrap": 20260721,
+    "morris": 20260722
+  },
+  "defaults": {
+    "graph_scope": "top10",
+    "corridor_path_count": 10,
+    "graph_scope_method": "exact_top3_plus_deterministic_penalty_diversification",
+    "graph_scope_interpretation": "Expanded corridor sensitivity envelope built from three exact shortest paths plus deterministic penalty diversification; not exact global top-10 shortest paths. Multipliers through 2.0 are the primary corridor-envelope range; 3.0 is an extreme graph-scope sensitivity boundary.",
+    "departure_policy_id": "strict",
+    "resource_frame": "configured_bundle",
+    "return_strategy": "reverse_network",
+    "rail_status": "available",
+    "bootstrap_replicates": 10000,
+    "confidence": 0.95
+  },
+  "campaigns": {
+    "paired_reanalysis": {
+      "purpose": "Re-estimate paired bus-minus-multimodal differences on the expanded top10 corridor sensitivity envelope and their confidence intervals under the currently executed scenario set.",
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ],
+      "scenario_ids": [
+        "no_disruption",
+        "goseong_random_capacity_reduction",
+        "goseong_random_blockage",
+        "goseong_critical_link_blockage",
+        "goseong_access_origin_to_station",
+        "goseong_access_origin_to_destination",
+        "goseong_last_mile_station_to_destination",
+        "goseong_rail_station_access",
+        "goseong_spatial_assembly_egress",
+        "goseong_rail_unavailable",
+        "goseong_access_road_damage_mild",
+        "goseong_access_road_damage_severe",
+        "goseong_access_road_damage_extreme",
+        "goseong_last_mile_damage_mild",
+        "goseong_last_mile_damage_severe",
+        "goseong_last_mile_damage_extreme",
+        "goseong_long_haul_damage_mild",
+        "goseong_long_haul_damage_moderate",
+        "goseong_long_haul_damage_severe",
+        "goseong_access_road_damage_severe_plus50",
+        "goseong_last_mile_damage_severe_plus50"
+      ]
+    },
+    "graph_scope": {
+      "purpose": "Measure travel-time, connectivity, and alternative-ranking stability across corridor sensitivity envelopes and the full bus-practical graph; top5 and top10 are deterministic penalty-diversified expansions, not exact global k-shortest-path sets.",
+      "graph_scopes": [
+        {
+          "id": "top3",
+          "corridor_path_count": 3
+        },
+        {
+          "id": "top5",
+          "corridor_path_count": 5
+        },
+        {
+          "id": "top10",
+          "corridor_path_count": 10
+        },
+        {
+          "id": "full",
+          "corridor_path_count": null
+        }
+      ],
+      "scenario_ids": [
+        "no_disruption",
+        "goseong_long_haul_damage_severe",
+        "goseong_critical_link_blockage",
+        "goseong_random_blockage",
+        "goseong_access_road_damage_severe",
+        "goseong_last_mile_damage_severe",
+        "goseong_random_capacity_reduction"
+      ],
+      "freeze_selected_edges_from": "top3",
+      "smoke_arrival_seed_count": 2,
+      "full_arrival_seed_count": 30,
+      "full_graph_arrival_seed_count": 5
+    },
+    "break_even": {
+      "purpose": "Estimate the finite paired makespan response to corridor-envelope slowdown and report a sign-change interval only if one is bracketed; treat 3.0 as an extreme graph-scope sensitivity boundary.",
+      "road_multipliers": [
+        1.0,
+        1.1,
+        1.2,
+        1.25,
+        1.3,
+        1.35,
+        1.4,
+        1.425,
+        1.45,
+        1.475,
+        1.5,
+        1.6,
+        1.8,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "target_segment": "A_to_D_corridor_time_band_20_80",
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ]
+    },
+    "demand_fleet": {
+      "purpose": "Expose queueing and vehicle-reuse effects as demand grows and the road fleet contracts. Demand levels span 2000-8000 agents against the 1000-pax paper baseline.",
+      "demand": [
+        2000,
+        4000,
+        6000,
+        8000
+      ],
+      "road_fleet_total": [
+        10,
+        15,
+        20,
+        23
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ],
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ]
+    },
+    "road_rail_map": {
+      "purpose": "Estimate the conditional decision boundary over road slowdown and explicit rail service state.",
+      "road_multipliers": [
+        1.0,
+        1.2,
+        1.4,
+        1.6,
+        2.0,
+        3.0
+      ],
+      "rail_conditions": [
+        {
+          "status": "available",
+          "multiplier": 1.0
+        },
+        {
+          "status": "degraded",
+          "multiplier": 1.25
+        },
+        {
+          "status": "degraded",
+          "multiplier": 1.5
+        },
+        {
+          "status": "degraded",
+          "multiplier": 2.0
+        },
+        {
+          "status": "unavailable",
+          "multiplier": null
+        }
+      ],
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ]
+    },
+    "random_threat_outer": {
+      "purpose": "Separate uncertainty over damaged-edge sets from uncertainty over assembly delays.",
+      "threat_draw_count": 100,
+      "arrival_seed_count": 30,
+      "blocked_edge_count": 8,
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ]
+    },
+    "adaptive_policies": {
+      "purpose": "Compare static, split, pre-check switch, and station-fallback responses under rail service states.",
+      "policy_ids": [
+        "bus_only",
+        "static_multimodal",
+        "precheck_switch",
+        "split_600_400",
+        "station_fallback_30",
+        "station_fallback_60",
+        "station_fallback_90"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ],
+      "rail_conditions": [
+        {
+          "status": "available",
+          "multiplier": 1.0
+        },
+        {
+          "status": "degraded",
+          "multiplier": 1.5
+        },
+        {
+          "status": "unavailable",
+          "multiplier": null
+        }
+      ]
+    },
+    "morris": {
+      "purpose": "Screen input influence with genuine Morris elementary effects rather than one-at-a-time labels.",
+      "trajectories": 20,
+      "levels": 6,
+      "arrival_seed_count": 5,
+      "factors": {
+        "road_longhaul_multiplier": [
+          1.0,
+          3.0
+        ],
+        "rail_travel_multiplier": [
+          1.0,
+          2.0
+        ],
+        "demand": [
+          500.0,
+          6000.0
+        ],
+        "road_fleet_total": [
+          10.0,
+          23.0
+        ],
+        "transfer_time_min": [
+          1.0,
+          15.0
+        ],
+        "arrival_sigma": [
+          0.5,
+          1.0
+        ]
+      },
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ]
+    },
+    "break_even_fine": {
+      "purpose": "Estimate the finite paired makespan response to corridor-envelope slowdown at 0.1 granularity; detect sign-change interval with precision. Replaces the coarse [1.0..3.0] ladder with targeted search around the crossing.",
+      "road_multipliers": [
+        1.0,
+        1.2,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.72,
+        1.74,
+        1.75,
+        1.76,
+        1.78,
+        1.8,
+        1.9,
+        2.0,
+        2.2,
+        2.5,
+        3.0
+      ],
+      "target_segment": "A_to_D_corridor_time_band_20_80",
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ],
+      "demand_pax": 1000,
+      "arrival_seed_count": 30,
+      "source": "Israeli & Wood (2002); Smith & Song (EJOR 2019) interdiction survey"
+    },
+    "scale_sensitivity": {
+      "purpose": "Test whether the break-even multiplier is scale-invariant by comparing 2k/6k/8k/12k agent queues under identical disruption.",
+      "demand_levels": [
+        2000,
+        6000,
+        8000,
+        12000
+      ],
+      "target_segment": "A_to_D_corridor_time_band_20_80",
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle"
+      ],
+      "arrival_seed_count": 15,
+      "source": "병무청 2025 병력동원 대상 45만여 명; 8.1만/13일≈6,200/일 분산 배치 추정",
+      "road_multipliers": [
+        1.742
+      ]
+    },
+    "path_interdiction_threat": {
+      "purpose": "Replace hash-rank random threat with principle-based shortest-path interdiction (Israeli & Wood budget-k) to test whether the break-even conclusion survives against an adversary who targets critical edges.",
+      "interdiction_k": [
+        3,
+        5
+      ],
+      "road_multipliers": [
+        1.0,
+        1.2,
+        1.4,
+        1.5,
+        1.6,
+        1.74,
+        1.8,
+        2.0,
+        2.5,
+        3.0
+      ],
+      "policies": [
+        "bus_only",
+        "static_multimodal"
+      ],
+      "resource_frames": [
+        "configured_bundle",
+        "matched_road_fleet"
+      ],
+      "arrival_seed_count": 30,
+      "threat_draw_count": 50,
+      "source": "Israeli & Wood 2002; Smith & Song EJOR 2019 survey; Sarhadi 철도 방어 3단계"
+    }
+  }
+}
