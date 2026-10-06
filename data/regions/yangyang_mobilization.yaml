@@ -1,0 +1,83 @@
+region_id: yangyang_mobilization
+name: "Songpa-Yangyang Mobilization Corridor"
+sensitivity_level: non_sensitive
+boundary:
+  type: bbox
+  north: 38.35
+  south: 37.45
+  east: 128.95
+  west: 126.95
+assembly_zones:
+  - id: A
+    name: "Songpa Assembly Area (Olympic Park)"
+    lat: 37.5202
+    lon: 127.1210
+    metadata:
+      coordinate_class: public
+      role: assembly_zone
+      description: >
+        Capital-region mobilization assembly point.  Approx 1,000 reserve
+        personnel gather here before departing toward Gangwon Yangyang.
+destination_zones:
+  - id: D
+    name: "Yangyang Destination (County Office centroid)"
+    lat: 38.0756
+    lon: 128.6190
+    metadata:
+      coordinate_class: public
+      role: destination_zone
+      description: >
+        Gangwon Yangyang-eup public administrative centroid (county-office
+        area) used as destination marker; actual unit facility coordinates
+        are not published.  Second-corridor transferability case: same
+        assembly/rail anchors as the Songpa-Goseong corridor, different
+        last-mile topology.
+rail:
+  access:
+    id: S
+    name: "Cheongnyangni Station (Seoul)"
+    lat: 37.5806
+    lon: 127.0484
+    metadata:
+      coordinate_class: public
+      role: rail_access
+      description: >
+        Seoul rail departure point for Gangneung-bound KTX-Eum services.
+  egress:
+    id: R
+    name: "Gangneung Station (Gangwon)"
+    lat: 37.7645
+    lon: 128.8996
+    metadata:
+      coordinate_class: public
+      role: rail_egress
+      description: >
+        Gangneung rail arrival point.  From here, last-mile bus moves
+        personnel to the Yangyang destination (longer last-mile leg than
+        the Goseong case).
+  travel_time_min: 114
+  headway_min: 30
+  capacity_pax_per_train: 600
+  metadata:
+    source_class: public-data-derived
+    service_model: wartime_chartered_nonstop_express
+    operational_claim: wartime_chartered_nonstop_planning_assumption_not_emergency_availability
+    source_notes: >
+      Same chartered-rail planning assumption as the Goseong corridor
+      (S -> R identical anchors); only the last-mile road leg differs.
+metadata:
+  pilot_status: second_corridor_transferability_case
+  data_sensitivity: non_sensitive
+  coordinate_policy: public_or_synthetic_points_only
+  cache_path: data/cache/goseong_nodelink_road.graphml
+  corridor_description: >
+    Seoul Songpa -> (bus) -> Cheongnyangni Station ->
+    (KTX-Eum 114 min) -> Gangneung Station ->
+    (bus, longer last mile) -> Yangyang-eup county-office centroid.
+    Shares the national road cache and rail anchors with the
+    Songpa-Goseong corridor; tests protocol transferability.
+source_refs:
+  - source_id: yangyang_region_spec
+    role: region_registry
+    local_artifact_path: data/regions/yangyang_mobilization.yaml
+    review_status: repository_input_pending_review

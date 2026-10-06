@@ -1,0 +1,58 @@
+{
+ "experiment": "corridor2_yangyang_v1",
+ "region": "yangyang_mobilization (D=Yangyang county-office centroid)",
+ "scopes": {
+  "top3": {
+   "nodes": 626,
+   "edges": 1262
+  },
+  "top5": {
+   "nodes": 2040,
+   "edges": 4124
+  },
+  "top10": {
+   "nodes": 7916,
+   "edges": 16126
+  },
+  "full": {
+   "nodes": 360556,
+   "edges": 971680
+  }
+ },
+ "frozen_from": "corridor-2 top3",
+ "frozen_missing_on_execution_scope": {
+  "yangyang_long_haul_damage_severe@top3": 0,
+  "yangyang_long_haul_damage_severe@top5": 0,
+  "yangyang_long_haul_damage_severe@top10": 0,
+  "yangyang_long_haul_damage_severe@full": 0,
+  "yangyang_critical_link_blockage@top3": 0,
+  "yangyang_critical_link_blockage@top5": 0,
+  "yangyang_critical_link_blockage@top10": 0,
+  "yangyang_critical_link_blockage@full": 0,
+  "yangyang_random_blockage@top3": 0,
+  "yangyang_random_blockage@top5": 0,
+  "yangyang_random_blockage@top10": 0,
+  "yangyang_random_blockage@full": 0,
+  "yangyang_access_road_damage_severe@top3": 0,
+  "yangyang_access_road_damage_severe@top5": 0,
+  "yangyang_access_road_damage_severe@top10": 0,
+  "yangyang_access_road_damage_severe@full": 0,
+  "yangyang_last_mile_damage_severe@top3": 0,
+  "yangyang_last_mile_damage_severe@top5": 0,
+  "yangyang_last_mile_damage_severe@top10": 0,
+  "yangyang_last_mile_damage_severe@full": 0,
+  "yangyang_random_capacity_reduction@top3": 0,
+  "yangyang_random_capacity_reduction@top5": 0,
+  "yangyang_random_capacity_reduction@top10": 0,
+  "yangyang_random_capacity_reduction@full": 0
+ },
+ "best_split": {
+  "n_feeder": 8,
+  "mean_makespan": 342.6
+ },
+ "band": {
+  "count": 3036,
+  "sha256": "cf4ba397792d69f875df2f965afe454e29b1e27cc4714f3e6d89946ce6f2711b"
+ },
+ "wall_s": 1238.9
+}
