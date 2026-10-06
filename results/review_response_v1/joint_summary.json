@@ -1,0 +1,108 @@
+{
+ "combos": 16,
+ "crossing_min": 1.017,
+ "crossing_max": 1.451,
+ "oat_range_reference": [
+  1.077,
+  1.259
+ ],
+ "per_combo": [
+  {
+   "combo_id": "r102.6_h20.0_t1.0_ta12.0",
+   "multi_mean": 379.47,
+   "turnaround": 12.0,
+   "crossing": 1.0171674490956322
+  },
+  {
+   "combo_id": "r102.6_h20.0_t1.0_ta8.0",
+   "multi_mean": 382.37,
+   "turnaround": 8.0,
+   "crossing": 1.0607126720651012
+  },
+  {
+   "combo_id": "r102.6_h20.0_t15.0_ta12.0",
+   "multi_mean": 391.17,
+   "turnaround": 12.0,
+   "crossing": 1.102583494706417
+  },
+  {
+   "combo_id": "r102.6_h20.0_t15.0_ta8.0",
+   "multi_mean": 388.18,
+   "turnaround": 8.0,
+   "crossing": 1.1030743460058303
+  },
+  {
+   "combo_id": "r102.6_h45.0_t1.0_ta8.0",
+   "multi_mean": 396.07,
+   "turnaround": 8.0,
+   "crossing": 1.1606604472793591
+  },
+  {
+   "combo_id": "r102.6_h45.0_t1.0_ta12.0",
+   "multi_mean": 400.47,
+   "turnaround": 12.0,
+   "crossing": 1.1703914393508439
+  },
+  {
+   "combo_id": "r125.4_h20.0_t1.0_ta12.0",
+   "multi_mean": 404.47,
+   "turnaround": 12.0,
+   "crossing": 1.1996184409747233
+  },
+  {
+   "combo_id": "r125.4_h20.0_t1.0_ta8.0",
+   "multi_mean": 407.37,
+   "turnaround": 8.0,
+   "crossing": 1.2431636659076444
+  },
+  {
+   "combo_id": "r102.6_h45.0_t15.0_ta12.0",
+   "multi_mean": 412.8,
+   "turnaround": 12.0,
+   "crossing": 1.2604000767297532
+  },
+  {
+   "combo_id": "r102.6_h45.0_t15.0_ta8.0",
+   "multi_mean": 410.9,
+   "turnaround": 8.0,
+   "crossing": 1.2689131203754511
+  },
+  {
+   "combo_id": "r125.4_h20.0_t15.0_ta12.0",
+   "multi_mean": 416.17,
+   "turnaround": 12.0,
+   "crossing": 1.2850344869009436
+  },
+  {
+   "combo_id": "r125.4_h20.0_t15.0_ta8.0",
+   "multi_mean": 413.18,
+   "turnaround": 8.0,
+   "crossing": 1.28552533781733
+  },
+  {
+   "combo_id": "r125.4_h45.0_t1.0_ta8.0",
+   "multi_mean": 421.07,
+   "turnaround": 8.0,
+   "crossing": 1.343111439088085
+  },
+  {
+   "combo_id": "r125.4_h45.0_t1.0_ta12.0",
+   "multi_mean": 425.47,
+   "turnaround": 12.0,
+   "crossing": 1.3528424415931
+  },
+  {
+   "combo_id": "r125.4_h45.0_t15.0_ta12.0",
+   "multi_mean": 437.8,
+   "turnaround": 12.0,
+   "crossing": 1.4428510833397457
+  },
+  {
+   "combo_id": "r125.4_h45.0_t15.0_ta8.0",
+   "multi_mean": 435.9,
+   "turnaround": 8.0,
+   "crossing": 1.4513641269838653
+  }
+ ],
+ "wall_s": 432.1
+}

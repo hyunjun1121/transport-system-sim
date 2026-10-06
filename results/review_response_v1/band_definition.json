@@ -1,0 +1,54 @@
+{
+ "criterion": "mean makespan <= 1.05 x minimum split mean",
+ "threshold_min": 414.29,
+ "min_mean": 394.57,
+ "argmin_split": 6,
+ "band_splits": [
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "band_means": {
+  "5": 401.6,
+  "6": 394.57,
+  "7": 400.9,
+  "8": 402.73,
+  "9": 407.4,
+  "10": 412.07
+ },
+ "band_point_crossings": {
+  "5": 1.2010241392223653,
+  "6": 1.1497134321243578,
+  "7": 1.1959358977582502,
+  "8": 1.2093176863660062,
+  "9": 1.2433753996319212,
+  "10": 1.277434065144972
+ },
+ "band_crossing_range": [
+  1.1497134321243578,
+  1.277434065144972
+ ],
+ "endpoint_joint_intervals": {
+  "5": {
+   "estimate": 1.2010241392223655,
+   "lower": 1.0477104454768131,
+   "upper": 1.41584040796649,
+   "complete_seed_count": 30,
+   "excluded_seeds": [],
+   "successful_replicates": 9952,
+   "replicates": 10000
+  },
+  "10": {
+   "estimate": 1.2774340651449716,
+   "lower": 1.1152937233322648,
+   "upper": 1.4991069401600472,
+   "complete_seed_count": 30,
+   "excluded_seeds": [],
+   "successful_replicates": 10000,
+   "replicates": 10000
+  }
+ }
+}

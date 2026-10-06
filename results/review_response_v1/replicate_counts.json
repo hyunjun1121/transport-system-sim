@@ -1,0 +1,38 @@
+{
+ "top10_12_11_campaign": {
+  "estimate": 1.742251657724361,
+  "lower": 1.549813560106231,
+  "upper": 2.003387714520536,
+  "complete_seed_count": 30,
+  "excluded_seeds": [],
+  "successful_replicates": 10000,
+  "replicates": 10000
+ },
+ "top10_6_17_flat": {
+  "estimate": 1.149713432124358,
+  "lower": 1.017913631433956,
+  "upper": 1.361533310579493,
+  "complete_seed_count": 30,
+  "excluded_seeds": [],
+  "successful_replicates": 9698,
+  "replicates": 10000
+ },
+ "full_6_flat": {
+  "estimate": 1.1497134321217013,
+  "lower": 1.1040507678047535,
+  "upper": 1.3826292322212346,
+  "complete_seed_count": 30,
+  "excluded_seeds": [],
+  "successful_replicates": 7053,
+  "replicates": 10000
+ },
+ "full_12_flat": {
+  "estimate": 1.7612804398530681,
+  "lower": 1.5606196538613872,
+  "upper": 1.9653838178542493,
+  "complete_seed_count": 30,
+  "excluded_seeds": [],
+  "successful_replicates": 9622,
+  "replicates": 10000
+ }
+}

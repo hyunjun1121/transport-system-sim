@@ -1,0 +1,165 @@
+{
+ "cells": [
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 5,
+   "n_lastmile": 18,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 401.6
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 5,
+   "n_lastmile": 18,
+   "rail_status": "unavailable",
+   "completion_rate": 1.0,
+   "mean_makespan": 374.05
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 6,
+   "n_lastmile": 17,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 394.57
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 6,
+   "n_lastmile": 17,
+   "rail_status": "unavailable",
+   "completion_rate": 1.0,
+   "mean_makespan": 374.05
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 8,
+   "n_lastmile": 15,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 402.73
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 8,
+   "n_lastmile": 15,
+   "rail_status": "unavailable",
+   "completion_rate": 1.0,
+   "mean_makespan": 374.05
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 10,
+   "n_lastmile": 13,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 412.07
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 10,
+   "n_lastmile": 13,
+   "rail_status": "unavailable",
+   "completion_rate": 1.0,
+   "mean_makespan": 374.05
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 12,
+   "n_lastmile": 11,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 475.76
+  },
+  {
+   "policy_id": "precheck_switch",
+   "n_feeder": 12,
+   "n_lastmile": 11,
+   "rail_status": "unavailable",
+   "completion_rate": 1.0,
+   "mean_makespan": 374.05
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 5,
+   "n_lastmile": 18,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 401.6
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 5,
+   "n_lastmile": 18,
+   "rail_status": "unavailable",
+   "completion_rate": 0.0,
+   "mean_makespan": null
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 6,
+   "n_lastmile": 17,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 394.57
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 6,
+   "n_lastmile": 17,
+   "rail_status": "unavailable",
+   "completion_rate": 0.0,
+   "mean_makespan": null
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 8,
+   "n_lastmile": 15,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 402.73
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 8,
+   "n_lastmile": 15,
+   "rail_status": "unavailable",
+   "completion_rate": 0.0,
+   "mean_makespan": null
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 10,
+   "n_lastmile": 13,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 412.07
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 10,
+   "n_lastmile": 13,
+   "rail_status": "unavailable",
+   "completion_rate": 0.0,
+   "mean_makespan": null
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 12,
+   "n_lastmile": 11,
+   "rail_status": "available",
+   "completion_rate": 1.0,
+   "mean_makespan": 475.76
+  },
+  {
+   "policy_id": "static_multimodal",
+   "n_feeder": 12,
+   "n_lastmile": 11,
+   "rail_status": "unavailable",
+   "completion_rate": 0.0,
+   "mean_makespan": null
+  }
+ ],
+ "wall_s": 144.3
+}

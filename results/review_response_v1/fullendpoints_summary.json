@@ -1,0 +1,27 @@
+{
+ "endpoints": [
+  5,
+  10
+ ],
+ "endpoint_intervals_full_graph": {
+  "5": {
+   "estimate": 1.2010525270537178,
+   "lower": 1.1075843188808354,
+   "upper": 1.431242386500454,
+   "complete_seed_count": 30,
+   "excluded_seeds": [],
+   "successful_replicates": 8754,
+   "replicates": 10000
+  },
+  "10": {
+   "estimate": 1.2795804304343625,
+   "lower": 1.1281958158360943,
+   "upper": 1.5101069400956049,
+   "complete_seed_count": 30,
+   "excluded_seeds": [],
+   "successful_replicates": 9849,
+   "replicates": 10000
+  }
+ },
+ "wall_s": 419.3
+}

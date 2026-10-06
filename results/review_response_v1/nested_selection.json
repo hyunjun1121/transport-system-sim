@@ -1,0 +1,31 @@
+{
+ "replicates": 10000,
+ "seed": 20260721,
+ "original_best_split": 6,
+ "original_best_mean": 394.57,
+ "selection_frequency_top": [
+  {
+   "n_feeder": 6,
+   "count": 10000,
+   "share": 1.0
+  }
+ ],
+ "original_best_reselected_share": 1.0,
+ "selected_mean_distribution": {
+  "p2_5": 385.79,
+  "p50": 393.57,
+  "p97_5": 408.98
+ },
+ "selection_adjusted_delta": {
+  "p2_5": -44.82,
+  "p50": -20.01,
+  "p97_5": 0.67
+ },
+ "selection_adjusted_crossing": {
+  "valid_replicates": 9698,
+  "valid_share": 0.9698,
+  "p2_5": 1.018,
+  "p50": 1.149,
+  "p97_5": 1.362
+ }
+}

@@ -12,7 +12,7 @@ import sys
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT_NAME = "transport-system-sim_zenodo_v3_data_code.zip"
+OUT_NAME = "transport-system-sim_zenodo_v4_data_code.zip"
 
 RESULT_FILES = [
     # Original paper-revision analysis products.
@@ -44,6 +44,20 @@ RESULT_FILES = [
     # Second corridor.
     "results/corridor2_yangyang_v1/corridor2_results.csv",
     "results/corridor2_yangyang_v1/manifest.json",
+    # Review-response set (selection correction, band definition,
+    # full-graph endpoints, joint factorial, policy-allocation ablation,
+    # replicate counts).
+    "results/review_response_v1/holdout_results.csv",
+    "results/review_response_v1/holdout_summary.json",
+    "results/review_response_v1/nested_selection.json",
+    "results/review_response_v1/band_definition.json",
+    "results/review_response_v1/fullendpoints_results.csv",
+    "results/review_response_v1/fullendpoints_summary.json",
+    "results/review_response_v1/joint_results.csv",
+    "results/review_response_v1/joint_summary.json",
+    "results/review_response_v1/ablation_results.csv",
+    "results/review_response_v1/ablation_summary.json",
+    "results/review_response_v1/replicate_counts.json",
     # Summary tables.
     "results/fig7_data.csv",
     "results/compute_frontier.csv",
