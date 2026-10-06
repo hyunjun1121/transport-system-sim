@@ -262,6 +262,47 @@ def test_traffic_validation_rejects_invalid_times_and_routes() -> None:
     print("PASS: traffic validation rejects invalid inputs")
 
 
+def test_out_of_order_queries_never_count_future_entries() -> None:
+    """Parallel policy arms must not leak future traffic into earlier events."""
+    graph = make_graph()
+    traffic = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+    )
+    traffic.enter_edge(("A", "B"), 100.0)
+
+    assert_close(traffic.current_volume(("A", "B"), 10.0), 0.0)
+    traffic.enter_edge(("A", "B"), 10.0)
+    assert traffic.entry_count(("A", "B"), 100.0) == 1
+    print("PASS: future edge entries never contaminate earlier volume")
+
+
+def test_clone_empty_preserves_inputs_but_not_mutable_history() -> None:
+    """Parallel A2 arms need identical inputs and independent event histories."""
+    graph = make_graph()
+    disruption = EdgeDisruption(status="degraded", capacity_factor=0.5)
+    traffic = DynamicRoadTraffic(
+        graph,
+        volume_window_min=30.0,
+        background_volume=7.0,
+        alpha=0.2,
+        beta=3.0,
+        scale=1.5,
+        disruptions={("A", "B"): disruption},
+    )
+    traffic.enter_edge(("A", "B"), 5.0)
+    cloned = traffic.clone_empty()
+
+    assert cloned.graph is graph
+    assert cloned.disruptions[("A", "B")] == disruption
+    assert cloned.entry_count(("A", "B"), 5.0) == 0
+    assert traffic.entry_count(("A", "B"), 5.0) == 1
+    assert_close(cloned.current_volume(("A", "B"), 5.0), 7.0)
+    print("PASS: empty traffic clone isolates parallel histories")
+
+
 TESTS = [
     test_edge_entries_feed_rolling_volume,
     test_route_traversal_uses_edge_exit_as_next_entry,
@@ -272,6 +313,8 @@ TESTS = [
     test_travel_time_multiplier_scales_road_freeflow,
     test_travel_time_multiplier_ignored_for_rail_and_blocked,
     test_traffic_validation_rejects_invalid_times_and_routes,
+    test_out_of_order_queries_never_count_future_entries,
+    test_clone_empty_preserves_inputs_but_not_mutable_history,
 ]
 
 

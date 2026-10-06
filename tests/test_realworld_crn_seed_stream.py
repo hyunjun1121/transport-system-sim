@@ -1,4 +1,4 @@
-"""G3 common-random-number (CRN) 4-stream contract proof.
+"""G3 common-random-number (CRN) family and role-stream contract proof.
 
 Proves the CRN pairing that makes bus_only vs multimodal deltas attributable to
 transport structure, not RNG drift. The four streams (declared in
@@ -6,16 +6,19 @@ transport structure, not RNG drift. The four streams (declared in
 
     Stream 1 arrival : np.random.default_rng(seed)            -- shared demand
     Stream 2 failure : np.random.default_rng(seed + 10_000)   -- shared disruptions
-    Stream 3 road    : np.random.default_rng(seed + 20_000)   -- road-link noise
-    Stream 4 turn    : np.random.default_rng(seed + 30_000)   -- turnaround noise
+    Family 3 road    : SeedSequence(seed, 20_000, role) -- road-link noise
+    Family 4 turn    : SeedSequence(seed, 30_000, role) -- turnaround noise
+
+Road and turnaround families contain stable direct-bus, feeder-shuttle,
+last-mile, and fallback-bus role streams. This preserves policy pairing while
+preventing one adaptive arm's draw count from shifting another arm.
 
 Layered proof (behavioral, not just source-string grep):
 
-  (a) source contract  -- all 4 offsets declared in the REAL ``src/scenario.py``;
+  (a) source contract  -- shared families and role partition declared in real code;
   (b) mode-independence -- streams 1-2 sampled BEFORE the mode branch, and both
                            samplers are mode-agnostic (no scenario_type arg);
-  (c) numpy primitives  -- default_rng(seed) reproducible; the 4 offset streams
-                           are mutually distinct (no collision);
+  (c) numpy primitives  -- named role streams reproducible and mutually distinct;
   (d) behavioral        -- real paired run on a synthetic graph with stochastic ON:
                            same (seed, mode) is bit-identical across repeats, and
                            the shared arrival-delay vector is identical regardless
@@ -136,20 +139,25 @@ _REPRO_KEYS = (
 
 
 # --------------------------------------------------------------------------
-# (a) source contract: all 4 offsets in the real scenario.py
+# (a) source contract: shared streams plus named role families
 # --------------------------------------------------------------------------
 
-def test_four_stream_offsets_declared_in_real_scenario_source():
+def test_shared_and_role_stream_families_declared_in_real_scenario_source():
     text = SCENARIO_SOURCE.read_text(encoding="utf-8")
     expected_markers = [
         "np.random.default_rng(seed)",            # arrival (stream 1)
         "np.random.default_rng(seed + 10_000)",   # failure (stream 2)
-        "np.random.default_rng(seed + 20_000)",   # road    (stream 3)
-        "np.random.default_rng(seed + 30_000)",   # turn    (stream 4)
+        "family_offset=20_000",                   # road family
+        "family_offset=30_000",                   # turnaround family
+        "np.random.SeedSequence([int(seed), int(family_offset), role_id])",
+        '"direct_bus"',
+        '"feeder_shuttle"',
+        '"last_mile"',
+        '"fallback_bus"',
     ]
     missing = [m for m in expected_markers if m not in text]
     assert not missing, f"missing stream markers in scenario.py: {missing}"
-    print("PASS: all 4 stream offsets declared in src/scenario.py")
+    print("PASS: shared families and named role streams declared in scenario.py")
 
 
 # --------------------------------------------------------------------------
@@ -190,20 +198,28 @@ def test_samplers_are_mode_agnostic():
 # (c) numpy CRN primitives: reproducible + 4-way distinct
 # --------------------------------------------------------------------------
 
-def test_numpy_rng_reproducible_and_four_streams_distinct():
+def test_named_role_rngs_are_reproducible_and_distinct():
     seed = 42
     # reproducibility: two generators seeded identically -> identical draws
     a = np.random.default_rng(seed).lognormal(0.0, 0.5, size=20)
     b = np.random.default_rng(seed).lognormal(0.0, 0.5, size=20)
     assert np.array_equal(a, b), "default_rng(seed) not reproducible across instances"
 
-    # 4-way distinctness: the 4 offset streams must not collide
-    streams = [
-        tuple(np.random.default_rng(seed + off).random(size=8))
-        for off in (0, 10_000, 20_000, 30_000)
-    ]
-    assert len(set(streams)) == 4, "the 4 offset streams collided (not distinct)"
-    print("PASS: default_rng reproducible; 4 offset streams mutually distinct")
+    first = scenario_module._named_role_rngs(
+        seed,
+        family_offset=20_000,
+        active=True,
+    )
+    second = scenario_module._named_role_rngs(
+        seed,
+        family_offset=20_000,
+        active=True,
+    )
+    first_draws = {role: tuple(rng.random(size=8)) for role, rng in first.items()}
+    second_draws = {role: tuple(rng.random(size=8)) for role, rng in second.items()}
+    assert first_draws == second_draws
+    assert len(set(first_draws.values())) == len(first_draws)
+    print("PASS: named role streams reproducible and mutually distinct")
 
 
 # --------------------------------------------------------------------------
@@ -271,16 +287,16 @@ def test_seed_stream_id_pairs_modes_at_same_seed():
     assert _seed_stream_id(7) != _seed_stream_id(8)
     # same seed across modes/policies -> SAME id (that is the pairing proof)
     assert _seed_stream_id(7) == _seed_stream_id(7)
-    # encodes the 4 documented stream seeds, not just `seed`
+    # encodes the four documented family roots, not just `seed`
     assert _seed_stream_id(7) != _seed_stream_id(7 - 10_000)  # arrival vs failure-shifted
     print("PASS: seed_stream_id is a pure seed->id pairing marker (CSV-verifiable)")
 
 
 TESTS = [
-    test_four_stream_offsets_declared_in_real_scenario_source,
+    test_shared_and_role_stream_families_declared_in_real_scenario_source,
     test_shared_streams_sampled_before_mode_branch,
     test_samplers_are_mode_agnostic,
-    test_numpy_rng_reproducible_and_four_streams_distinct,
+    test_named_role_rngs_are_reproducible_and_distinct,
     test_arrival_delay_vector_identical_regardless_of_caller,
     test_real_paired_run_is_seed_reproducible_per_mode,
     test_crun_pairing_makes_delta_attributable_to_structure,

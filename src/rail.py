@@ -10,6 +10,7 @@ from __future__ import annotations
 from collections import deque
 from collections.abc import MutableSequence
 from dataclasses import dataclass
+from enum import Enum
 from math import ceil
 from typing import Any, Callable, Generic, TypeVar
 
@@ -18,6 +19,71 @@ from src.sim_types import require_int_at_least, require_non_negative, require_po
 
 T = TypeVar("T")
 TrainCallback = Callable[["TrainTrip[T]"], None]
+
+
+class RailServiceState(str, Enum):
+    """Explicit planning state for a rail service."""
+
+    AVAILABLE = "available"
+    DEGRADED = "degraded"
+    UNAVAILABLE = "unavailable"
+
+
+@dataclass(frozen=True)
+class ResolvedRailService:
+    """Effective rail availability and travel time for one service state."""
+
+    state: RailServiceState
+    base_travel_time_min: float
+    effective_travel_time_min: float | None
+    degradation_multiplier: float
+
+    @property
+    def is_available(self) -> bool:
+        """Whether passengers may use the rail service."""
+
+        return self.state is not RailServiceState.UNAVAILABLE
+
+
+def resolve_rail_service(
+    travel_time_min: float,
+    state: RailServiceState | str = RailServiceState.AVAILABLE,
+    degradation_multiplier: float = 1.0,
+) -> ResolvedRailService:
+    """Resolve explicit rail state into availability and effective travel time.
+
+    ``unavailable`` is represented by ``effective_travel_time_min=None`` rather
+    than an artificial large travel-time multiplier.
+    """
+
+    base_travel_time = require_non_negative(travel_time_min, "travel_time_min")
+    try:
+        resolved_state = RailServiceState(state)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"unknown rail service state: {state!r}") from exc
+
+    if resolved_state is RailServiceState.DEGRADED:
+        multiplier = require_positive(
+            degradation_multiplier,
+            "degradation_multiplier",
+        )
+        if multiplier < 1.0:
+            raise ValueError("degradation_multiplier must be at least 1")
+        effective_travel_time = base_travel_time * multiplier
+    else:
+        multiplier = 1.0
+        effective_travel_time = (
+            None
+            if resolved_state is RailServiceState.UNAVAILABLE
+            else base_travel_time
+        )
+
+    return ResolvedRailService(
+        state=resolved_state,
+        base_travel_time_min=base_travel_time,
+        effective_travel_time_min=effective_travel_time,
+        degradation_multiplier=multiplier,
+    )
 
 
 @dataclass(frozen=True)
@@ -254,6 +320,9 @@ rail_dispatcher = fixed_headway_dispatcher
 
 
 __all__ = [
+    "RailServiceState",
+    "ResolvedRailService",
+    "resolve_rail_service",
     "RailServiceConfig",
     "TrainTrip",
     "board_passengers",

@@ -14,6 +14,7 @@ from contextlib import contextmanager
 import os
 import sys
 
+import networkx as nx
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,10 +23,40 @@ from src import scenario as scenario_module
 from src.network import build_network
 from src.policies import GracePolicy, StrictPolicy
 from src.sim_types import EdgeDisruption
+from src.traffic import DynamicRoadTraffic
 
 
 PARAMS = {"s": 1.0, "p_fail_scale": 0.0, "sigma": 0.0}
 HIGH_CAPACITY = 1_000_000_000
+LEGACY_RESULT_KEYS = {
+    "makespan",
+    "success_count",
+    "success_rate",
+    "total_personnel",
+    "bus_trips",
+    "train_trips",
+    "bus_minutes",
+    "train_minutes",
+    "lastmile_minutes",
+    "lastmile_vehicle_minutes",
+    "road_vehicle_service_minutes",
+    "train_service_minutes",
+    "total_service_minutes",
+    "passenger_travel_minutes",
+    "passengers_per_vehicle_minute",
+    "passengers_per_total_service_minute",
+    "resource_efficiency",
+    "rerouting_events",
+    "leftover_count",
+    "censored_count",
+    "completion_rate",
+    "penalized_makespan",
+    "first_arrival_time",
+    "median_arrival_time",
+    "p80_arrival_time",
+    "p95_arrival_time",
+    "service_breakdown",
+}
 
 
 @contextmanager
@@ -77,6 +108,7 @@ def make_config(
     lastmile_turnaround=None,
     lastmile_vehicle_capacity=None,
     lastmile_first_departure=None,
+    return_strategy=None,
 ):
     """Build a small deterministic config for scenario behavior tests."""
     bus_conf = {
@@ -107,7 +139,7 @@ def make_config(
     if lastmile_first_departure is not None:
         multimodal_conf["lastmile_first_departure_min"] = lastmile_first_departure
 
-    return {
+    config = {
         "network": {
             "nodes": ["H", "A", "S", "R", "D"],
             "road_links": [
@@ -150,6 +182,9 @@ def make_config(
             "time_limit": time_limit,
         },
     }
+    if return_strategy is not None:
+        config["fleet"] = {"return_strategy": return_strategy}
+    return config
 
 
 def run_fixed(config, scenario_type, policy, delays):
@@ -394,6 +429,111 @@ def test_explicit_rail_first_departure_is_honored():
     print("PASS: explicit rail first departure is honored")
 
 
+def test_explicit_available_rail_state_preserves_default_result():
+    """Explicit available state must be identical to the legacy default."""
+    implicit = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=0.0,
+        rail_time=10.0,
+        rail_headway=10.0,
+        rail_capacity=2,
+        lastmile_time=0.0,
+        time_limit=100.0,
+    )
+    explicit = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=0.0,
+        rail_time=10.0,
+        rail_headway=10.0,
+        rail_capacity=2,
+        lastmile_time=0.0,
+        time_limit=100.0,
+    )
+    explicit["multimodal"]["rail_status"] = "available"
+
+    implicit_result = run_fixed(implicit, "multimodal", StrictPolicy(), [0.0, 0.0])
+    explicit_result = run_fixed(explicit, "multimodal", StrictPolicy(), [0.0, 0.0])
+
+    assert implicit_result == explicit_result
+    print("PASS: explicit available rail state preserves default result")
+
+
+def test_degraded_rail_state_multiplies_only_rail_travel_time():
+    """Degraded rail must apply its configured travel-time multiplier."""
+    config = make_config(
+        total=1,
+        group_size=1,
+        shuttle_time=0.0,
+        rail_time=10.0,
+        rail_headway=10.0,
+        rail_capacity=1,
+        lastmile_time=0.0,
+        time_limit=100.0,
+    )
+    config["multimodal"].update(
+        rail_status="degraded",
+        rail_degradation_multiplier=2.0,
+    )
+
+    result = run_fixed(config, "multimodal", StrictPolicy(), [0.0])
+
+    assert result["success_count"] == 1
+    assert result["train_trips"] == 1
+    assert_close(result["makespan"], 30.0, label="degraded rail makespan")
+    assert_close(result["train_minutes"], 20.0, label="degraded rail minutes")
+    print("PASS: degraded rail state multiplies rail travel time")
+
+
+def test_unavailable_rail_state_produces_no_rail_departures_or_arrivals():
+    """Unavailable rail is structural absence, not a very slow train."""
+    config = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=0.0,
+        rail_time=10.0,
+        rail_headway=10.0,
+        rail_capacity=2,
+        lastmile_time=0.0,
+        time_limit=100.0,
+    )
+    config["multimodal"]["rail_status"] = "unavailable"
+
+    result = run_fixed(config, "multimodal", StrictPolicy(), [0.0, 0.0])
+
+    assert result["success_count"] == 0
+    assert result["completion_rate"] == 0.0
+    assert result["train_trips"] == 0
+    assert result["leftover_count"] == 2
+    print("PASS: unavailable rail state has no departures or arrivals")
+
+
+def test_invalid_rail_state_and_degradation_multiplier_fail_loudly():
+    """Rail state schema must reject unknown states and invalid multipliers."""
+    invalid_state = make_config(total=1, group_size=1, time_limit=100.0)
+    invalid_state["multimodal"]["rail_status"] = "delayed-ish"
+    try:
+        run_fixed(invalid_state, "multimodal", StrictPolicy(), [0.0])
+    except ValueError as exc:
+        assert "rail service state" in str(exc), str(exc)
+    else:
+        raise AssertionError("unknown rail status was accepted")
+
+    invalid_multiplier = make_config(total=1, group_size=1, time_limit=100.0)
+    invalid_multiplier["multimodal"].update(
+        rail_status="degraded",
+        rail_degradation_multiplier=0.5,
+    )
+    try:
+        run_fixed(invalid_multiplier, "multimodal", StrictPolicy(), [0.0])
+    except ValueError as exc:
+        assert "degradation_multiplier" in str(exc), str(exc)
+    else:
+        raise AssertionError("degraded rail multiplier below one was accepted")
+    print("PASS: invalid rail state and multiplier fail loudly")
+
+
 def test_lastmile_fleet_capacity_and_turnaround_create_bottleneck():
     """Finite last-mile capacity and turnaround should delay downstream delivery."""
     config = make_config(
@@ -543,6 +683,734 @@ def test_sample_disruptions_threads_road_travel_time_multiplier():
     print("PASS: _sample_disruptions threads road_travel_time_multiplier from config")
 
 
+def test_forced_edge_disruptions_use_sparse_deterministic_mapping():
+    """Revision runs should not allocate normal states for every graph edge."""
+    graph = nx.DiGraph()
+    graph.add_edge("A", "B", mode="road", t0=1.0, capacity=100.0, p_fail=0.0)
+    graph.add_edge("B", "C", mode="road", t0=1.0, capacity=100.0, p_fail=0.0)
+    config = {
+        "failure": {
+            "forced_edges": [["A", "B"]],
+            "mode": "capacity_reduction",
+            "capacity_reduction_factor": 0.75,
+            "road_travel_time_multiplier": 1.5,
+        }
+    }
+
+    original_sampler = scenario_module.sample_edge_disruptions
+    scenario_module.sample_edge_disruptions = lambda *args, **kwargs: (_ for _ in ()).throw(
+        AssertionError("forced-edge path called full-graph sampler")
+    )
+    try:
+        disruptions = scenario_module._sample_disruptions(
+            graph,
+            config,
+            PARAMS,
+            np.random.default_rng(123),
+        )
+    finally:
+        scenario_module.sample_edge_disruptions = original_sampler
+
+    assert set(disruptions) == {("A", "B")}
+    disruption = disruptions[("A", "B")]
+    assert disruption.status == "degraded"
+    assert disruption.capacity_factor == 0.75
+    assert disruption.travel_time_multiplier == 1.5
+
+    config["failure"]["forced_edges"] = [["missing", "edge"]]
+    try:
+        scenario_module._sample_disruptions(
+            graph,
+            config,
+            PARAMS,
+            np.random.default_rng(123),
+        )
+    except ValueError as exc:
+        assert "missing" in str(exc)
+    else:
+        raise AssertionError("missing forced edge should fail")
+    print("PASS: forced edge disruptions use sparse deterministic mapping")
+
+
+def test_dynamic_shortest_path_evaluates_edge_weights_lazily():
+    """Routing must not materialize weights for every edge in a large graph."""
+
+    class RecordingTraffic:
+        def __init__(self):
+            self.disruptions = {
+                ("A", "C"): EdgeDisruption(status="blocked"),
+            }
+            self.volume_window_min = 60.0
+            self.alpha = 0.0
+            self.beta = 4.0
+            self.scale = 1.0
+            self.evaluated_edges = []
+
+        def current_volume(self, edge, depart_time):
+            assert depart_time == 12.0
+            self.evaluated_edges.append(edge)
+            return 0.0
+
+    graph = nx.DiGraph()
+    graph.add_edge("A", "B", t0=1.0, capacity=100.0, mode="road")
+    graph.add_edge("B", "D", t0=1.0, capacity=100.0, mode="road")
+    graph.add_edge("A", "C", t0=0.1, capacity=100.0, mode="road")
+    graph.add_edge("C", "D", t0=0.1, capacity=100.0, mode="road")
+    for index in range(100):
+        graph.add_edge(
+            f"unused-{index}",
+            f"unused-{index + 1}",
+            t0=0.01,
+            capacity=100.0,
+            mode="road",
+        )
+
+    original_materializer = scenario_module._edge_weights_at_time
+
+    def fail_if_materialized(*args, **kwargs):
+        raise AssertionError("dynamic routing materialized the full edge-weight table")
+
+    scenario_module._edge_weights_at_time = fail_if_materialized
+    try:
+        traffic = RecordingTraffic()
+        path = scenario_module._shortest_path_at_time(
+            graph,
+            traffic,
+            "A",
+            "D",
+            12.0,
+            allowed_modes={"road"},
+        )
+    finally:
+        scenario_module._edge_weights_at_time = original_materializer
+
+    assert path == ["A", "B", "D"], path
+    assert traffic.evaluated_edges
+    assert all(not edge[0].startswith("unused-") for edge in traffic.evaluated_edges), (
+        "lazy routing evaluated disconnected edges: "
+        f"{traffic.evaluated_edges}"
+    )
+
+    traffic.disruptions[("B", "D")] = EdgeDisruption(status="blocked")
+    no_path = scenario_module._shortest_path_at_time(
+        graph,
+        traffic,
+        "A",
+        "D",
+        12.0,
+        allowed_modes={"road"},
+    )
+    assert no_path == [], no_path
+    print("PASS: dynamic shortest path evaluates edge weights lazily")
+
+
+def test_dynamic_shortest_path_accounts_for_direct_damage_multiplier():
+    """Slowdown must affect path choice, not only traversal after routing."""
+    graph = nx.DiGraph()
+    graph.add_edge("A", "B", t0=1.0, capacity=HIGH_CAPACITY, mode="road")
+    graph.add_edge("B", "D", t0=1.0, capacity=HIGH_CAPACITY, mode="road")
+    graph.add_edge("A", "C", t0=3.0, capacity=HIGH_CAPACITY, mode="road")
+    graph.add_edge("C", "D", t0=3.0, capacity=HIGH_CAPACITY, mode="road")
+    traffic = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+        disruptions={
+            ("A", "B"): EdgeDisruption(travel_time_multiplier=10.0),
+        },
+    )
+
+    path = scenario_module._shortest_path_at_time(
+        graph,
+        traffic,
+        "A",
+        "D",
+        0.0,
+        allowed_modes={"road"},
+    )
+    assert path == ["A", "C", "D"]
+    print("PASS: direct slowdown participates in route choice")
+
+
+def test_a2_route_cache_avoids_repeated_full_graph_search():
+    """Opt-in A2 cache reuses one disruption-aware path per route traveler."""
+    graph = nx.DiGraph()
+    graph.add_edge("A", "D", t0=5.0, capacity=HIGH_CAPACITY, mode="road")
+    traffic = DynamicRoadTraffic(
+        graph,
+        volume_window_min=60.0,
+        background_volume=0.0,
+        alpha=0.0,
+    )
+    original = scenario_module._shortest_path_at_time
+    calls = []
+
+    def counted(*args, **kwargs):
+        calls.append(args[4])
+        return original(*args, **kwargs)
+
+    scenario_module._shortest_path_at_time = counted
+    try:
+        traveler = scenario_module._make_route_traveler(
+            graph,
+            traffic,
+            "A",
+            "D",
+            allowed_modes={"road"},
+            rerouting_config={"cache_departure_path": True},
+        )
+        traveler(0.0)
+        traveler(10.0)
+    finally:
+        scenario_module._shortest_path_at_time = original
+
+    assert len(calls) == 1
+    print("PASS: opt-in A2 route cache avoids repeated graph search")
+
+
+def test_reverse_network_delay_controls_second_bus_trip():
+    """Empty reverse traversal must delay reuse on an asymmetric road graph."""
+    config = make_config(
+        total=2,
+        group_size=1,
+        bus_route_time=5.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        turnaround=0.0,
+        time_limit=100.0,
+        return_strategy="reverse_network",
+    )
+    config["network"]["road_links"].append(
+        ["D", "A", 20.0, HIGH_CAPACITY, 0.0]
+    )
+
+    result = run_fixed(config, "bus_only", StrictPolicy(), [0.0, 0.0])
+
+    assert result["success_count"] == 2
+    assert result["bus_trips"] == 2
+    assert_close(result["makespan"], 30.0, label="reverse-delayed makespan")
+    print("PASS: reverse road traversal delays second bus trip")
+
+
+def test_missing_reverse_route_retires_vehicle_after_delivery():
+    """Unreachable empty return must retire vehicle without undoing delivery."""
+    config = make_config(
+        total=2,
+        group_size=1,
+        bus_route_time=5.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        turnaround=0.0,
+        time_limit=100.0,
+        return_strategy="reverse_network",
+    )
+
+    result = run_fixed(config, "bus_only", StrictPolicy(), [0.0, 0.0])
+
+    assert result["success_count"] == 1
+    assert result["leftover_count"] == 1
+    assert result["bus_trips"] == 1
+    assert_close(result["makespan"], 5.0, label="delivered first trip makespan")
+    print("PASS: missing reverse route retires vehicle after delivery")
+
+
+def test_invalid_return_strategy_fails_loudly():
+    """Unknown fleet return strategy must not silently use legacy semantics."""
+    config = make_config(
+        total=1,
+        group_size=1,
+        return_strategy="teleport",
+    )
+
+    try:
+        run_fixed(config, "bus_only", StrictPolicy(), [0.0])
+    except ValueError as exc:
+        assert "fleet.return_strategy" in str(exc), str(exc)
+    else:
+        raise AssertionError("invalid fleet.return_strategy was accepted")
+    print("PASS: invalid return strategy fails loudly")
+
+
+def test_legacy_return_strategy_preserves_one_way_results():
+    """Absent and explicit legacy strategy must remain byte-level equivalent."""
+    implicit = make_config(
+        total=2,
+        group_size=1,
+        bus_route_time=5.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        turnaround=2.0,
+        time_limit=100.0,
+    )
+    explicit = make_config(
+        total=2,
+        group_size=1,
+        bus_route_time=5.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        turnaround=2.0,
+        time_limit=100.0,
+        return_strategy="legacy_none",
+    )
+    for config in (implicit, explicit):
+        config["network"]["road_links"].append(
+            ["D", "A", 50.0, HIGH_CAPACITY, 0.0]
+        )
+
+    implicit_result = run_fixed(implicit, "bus_only", StrictPolicy(), [0.0, 0.0])
+    explicit_result = run_fixed(explicit, "bus_only", StrictPolicy(), [0.0, 0.0])
+
+    assert implicit_result == explicit_result
+    assert_close(implicit_result["makespan"], 12.0, label="legacy makespan")
+    print("PASS: legacy return strategy preserves one-way results")
+
+
+def test_reverse_network_applies_to_multimodal_road_roles():
+    """Feeder and last-mile fleets must both traverse their reverse road legs."""
+    feeder_config = make_config(
+        total=2,
+        group_size=1,
+        shuttle_time=1.0,
+        rail_time=0.0,
+        rail_headway=1.0,
+        rail_capacity=2,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        lastmile_fleet_size=2,
+        lastmile_vehicle_capacity=1,
+        lastmile_turnaround=0.0,
+        time_limit=100.0,
+        return_strategy="reverse_network",
+    )
+    feeder_config["network"]["road_links"].extend(
+        [
+            ["S", "A", 10.0, HIGH_CAPACITY, 0.0],
+            ["D", "R", 0.0, HIGH_CAPACITY, 0.0],
+        ]
+    )
+    feeder_config["multimodal"]["shuttle_turnaround_min"] = 0.0
+    feeder_result = run_fixed(
+        feeder_config,
+        "multimodal",
+        StrictPolicy(),
+        [0.0, 0.0],
+    )
+    assert_close(feeder_result["makespan"], 13.0, label="feeder-return makespan")
+
+    lastmile_config = make_config(
+        total=2,
+        group_size=1,
+        shuttle_time=1.0,
+        rail_time=0.0,
+        rail_headway=1.0,
+        rail_capacity=2,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=2,
+        lastmile_fleet_size=1,
+        lastmile_vehicle_capacity=1,
+        lastmile_turnaround=0.0,
+        time_limit=100.0,
+        return_strategy="reverse_network",
+    )
+    lastmile_config["network"]["road_links"].extend(
+        [
+            ["S", "A", 0.0, HIGH_CAPACITY, 0.0],
+            ["D", "R", 20.0, HIGH_CAPACITY, 0.0],
+        ]
+    )
+    lastmile_config["multimodal"]["shuttle_turnaround_min"] = 0.0
+    lastmile_result = run_fixed(
+        lastmile_config,
+        "multimodal",
+        StrictPolicy(),
+        [0.0, 0.0],
+    )
+    assert_close(
+        lastmile_result["makespan"],
+        23.0,
+        label="last-mile-return makespan",
+    )
+    print("PASS: reverse network applies to feeder and last-mile fleets")
+
+
+def test_extended_metrics_are_opt_in_without_changing_legacy_keys():
+    """Default results must retain exact legacy key identity."""
+    config = make_config(
+        total=1,
+        group_size=1,
+        bus_route_time=2.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+    )
+
+    legacy = run_fixed(config, "bus_only", StrictPolicy(), [0.0])
+    assert set(legacy) == LEGACY_RESULT_KEYS, sorted(set(legacy) ^ LEGACY_RESULT_KEYS)
+    assert "vehicle_cycles" not in legacy
+
+    config["metrics"]["include_extended"] = True
+    extended = run_fixed(config, "bus_only", StrictPolicy(), [0.0])
+    assert {key: extended[key] for key in LEGACY_RESULT_KEYS} == legacy
+    assert extended["vehicle_cycles"] == 1
+    print("PASS: extended scenario metrics preserve default key identity")
+
+
+def test_extended_bus_metrics_include_fleet_delay_and_finite_returns():
+    """Road accounting must use actual departures, manifests, and return paths."""
+    config = make_config(
+        total=3,
+        group_size=2,
+        bus_route_time=5.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        turnaround=0.0,
+        time_limit=100.0,
+        return_strategy="reverse_network",
+    )
+    config["network"]["road_links"].append(
+        ["D", "A", 7.0, HIGH_CAPACITY, 0.0]
+    )
+    config["metrics"]["include_extended"] = True
+
+    result = run_fixed(config, "bus_only", StrictPolicy(), [0.0, 0.0, 0.0])
+
+    assert_close(result["makespan"], 17.0, label="return-delayed makespan")
+    assert result["vehicle_cycles"] == 2
+    assert result["empty_return_trips"] == 2
+    assert_close(result["empty_return_minutes"], 14.0, label="empty return minutes")
+    assert result["deployed_seat_capacity"] == 4
+    assert result["boarded_passengers"] == 3
+    assert_close(result["mean_vehicle_load_factor"], 0.75, label="load factor")
+    assert result["assembly_wait_passenger_count"] == 3
+    assert_close(
+        result["assembly_wait_passenger_minutes"],
+        12.0,
+        label="assembly passenger-minutes",
+    )
+    assert_close(result["mean_assembly_wait_min"], 4.0, label="mean assembly wait")
+    print("PASS: extended bus metrics include fleet delay and finite returns")
+
+
+def test_unreachable_empty_return_is_excluded_from_finite_metrics():
+    """A retired vehicle may deliver passengers but must not emit infinite metrics."""
+    config = make_config(
+        total=1,
+        group_size=1,
+        bus_route_time=5.0,
+        fleet_size=1,
+        return_strategy="reverse_network",
+    )
+    config["metrics"]["include_extended"] = True
+
+    result = run_fixed(config, "bus_only", StrictPolicy(), [0.0])
+
+    assert result["success_count"] == 1
+    assert result["vehicle_cycles"] == 0
+    assert result["empty_return_trips"] == 0
+    assert_close(result["empty_return_minutes"], 0.0, label="finite return minutes")
+    print("PASS: unreachable empty return stays out of finite metrics")
+
+
+def test_extended_multimodal_waits_split_transfer_and_rail_platform_time():
+    """Transfer processing and scheduled rail waiting must remain separate."""
+    config = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=2.0,
+        rail_time=3.0,
+        rail_headway=10.0,
+        rail_capacity=2,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        lastmile_fleet_size=1,
+        lastmile_vehicle_capacity=2,
+        time_limit=100.0,
+    )
+    config["multimodal"]["transfer_time_min"] = 4.0
+    config["metrics"]["include_extended"] = True
+
+    result = run_fixed(config, "multimodal", StrictPolicy(), [0.0, 0.0])
+
+    assert result["transfer_wait_passenger_count"] == 2
+    assert_close(result["mean_transfer_wait_min"], 4.0, label="transfer wait")
+    assert result["rail_wait_passenger_count"] == 2
+    assert_close(result["mean_rail_wait_min"], 4.0, label="rail platform wait")
+    assert result["deployed_seat_capacity"] == 4
+    assert result["boarded_passengers"] == 4
+    assert_close(result["mean_vehicle_load_factor"], 1.0, label="multimodal load")
+    assert result["road_vehicle_cycles"] == 2
+    assert result["road_deployed_seat_capacity"] == 4
+    assert result["road_boarded_passengers"] == 4
+    assert_close(result["road_mean_vehicle_load_factor"], 1.0, label="road load")
+    assert result["rail_deployed_seat_capacity"] == 2
+    assert result["rail_boarded_passengers"] == 2
+    assert_close(result["rail_mean_load_factor"], 1.0, label="rail load")
+    print("PASS: extended multimodal waits are stage-separated")
+
+
+def test_adaptive_rng_streams_are_independent_stable_and_crn_aligned():
+    """Adaptive arms need named RNG streams immune to sibling draw counts."""
+    config = make_config(
+        total=10,
+        group_size=10,
+        bus_route_time=1.0,
+        shuttle_time=1.0,
+        rail_time=1.0,
+        rail_headway=1.0,
+        rail_capacity=10,
+        lastmile_time=1.0,
+        time_limit=100.0,
+    )
+    config["adaptation"] = {"policy_id": "split_600_400"}
+    config["stochastic"] = {
+        "road_noise_sigma": 0.1,
+        "turnaround_noise_lambda": 1.0,
+    }
+
+    original_bus = scenario_module._run_bus_only
+    original_multi = scenario_module._run_multimodal
+
+    def capture(scenario_type, direct_extra_draws):
+        observed = {}
+
+        def fake_bus(*args, **kwargs):
+            road_rng = kwargs["rng_road"]
+            turnaround_rng = kwargs["rng_turnaround"]
+            observed["direct_road"] = road_rng.normal()
+            observed["direct_turnaround"] = turnaround_rng.poisson()
+            road_rng.normal(size=direct_extra_draws)
+            turnaround_rng.poisson(size=direct_extra_draws)
+
+        def fake_multi(*args, **kwargs):
+            road_rng = kwargs["rng_road_shuttle"]
+            turnaround_rng = kwargs["rng_turnaround_shuttle"]
+            observed["service_road"] = road_rng.normal()
+            observed["service_turnaround"] = turnaround_rng.poisson()
+
+        scenario_module._run_bus_only = fake_bus
+        scenario_module._run_multimodal = fake_multi
+        try:
+            run_fixed(config, scenario_type, StrictPolicy(), [0.0] * 10)
+        finally:
+            scenario_module._run_bus_only = original_bus
+            scenario_module._run_multimodal = original_multi
+        return observed
+
+    split_short = capture("adaptive_split", 1)
+    split_long = capture("adaptive_split", 100)
+    assert split_short["service_road"] == split_long["service_road"]
+    assert split_short["service_turnaround"] == split_long["service_turnaround"]
+    assert split_short["direct_road"] != split_short["service_road"]
+
+    direct_static = capture("bus_only", 0)
+    assert direct_static["direct_road"] == split_short["direct_road"]
+    assert (
+        direct_static["direct_turnaround"]
+        == split_short["direct_turnaround"]
+    )
+
+    service_static = capture("multimodal", 0)
+    assert service_static["service_road"] == split_short["service_road"]
+    assert (
+        service_static["service_turnaround"]
+        == split_short["service_turnaround"]
+    )
+    print("PASS: adaptive RNG streams are independent, stable, and CRN-aligned")
+
+
+def test_adaptive_split_uses_sixty_forty_allocation_and_conserves_passengers():
+    """Split policy must send floor(60%) by rail and every other person by bus."""
+    config = make_config(
+        total=10,
+        group_size=10,
+        bus_route_time=10.0,
+        shuttle_time=1.0,
+        rail_time=5.0,
+        rail_headway=1.0,
+        rail_capacity=10,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        lastmile_fleet_size=1,
+        lastmile_vehicle_capacity=10,
+        time_limit=100.0,
+    )
+    config["adaptation"] = {"policy_id": "split_600_400"}
+
+    result = run_fixed(config, "adaptive_split", StrictPolicy(), [0.0] * 10)
+
+    assert result["success_count"] == 10
+    assert result["leftover_count"] == 0
+    assert result["train_trips"] == 1
+    assert result["bus_trips"] == 2
+    # 4 * direct(10) + 6 * (shuttle(1) + rail(5) + last-mile(1)).
+    assert_close(
+        result["passenger_travel_minutes"],
+        82.0,
+        label="split passenger travel minutes",
+    )
+    print("PASS: adaptive split uses floor sixty-forty allocation")
+
+
+def test_adaptive_split_keeps_rail_share_incomplete_when_rail_is_unavailable():
+    """Unavailable rail must strand only the deterministic 60% rail share."""
+    config = make_config(
+        total=10,
+        group_size=10,
+        bus_route_time=10.0,
+        shuttle_time=1.0,
+        rail_time=5.0,
+        rail_headway=1.0,
+        rail_capacity=10,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        time_limit=100.0,
+    )
+    config["multimodal"]["rail_status"] = "unavailable"
+    config["adaptation"] = {"policy_id": "split_600_400"}
+
+    result = run_fixed(config, "adaptive_split", StrictPolicy(), [0.0] * 10)
+
+    assert result["success_count"] == 4
+    assert result["leftover_count"] == 6
+    assert_close(result["completion_rate"], 0.4, label="split completion rate")
+    assert result["train_trips"] == 0
+    print("PASS: unavailable rail strands only adaptive split rail share")
+
+
+def test_station_fallback_threshold_changes_makespan_and_completes():
+    """Unavailable rail must trigger finite S-to-D fallback after configured hold."""
+    base = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=1.0,
+        rail_time=5.0,
+        rail_headway=1.0,
+        rail_capacity=2,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        lastmile_fleet_size=1,
+        lastmile_turnaround=0.0,
+        lastmile_vehicle_capacity=2,
+        time_limit=200.0,
+        return_strategy="reverse_network",
+    )
+    base["network"]["road_links"].extend(
+        [
+            ["S", "D", 7.0, HIGH_CAPACITY, 0.0],
+            ["D", "S", 7.0, HIGH_CAPACITY, 0.0],
+        ]
+    )
+    base["multimodal"]["rail_status"] = "unavailable"
+    base["metrics"]["include_extended"] = True
+
+    fallback_30 = dict(base)
+    fallback_30["adaptation"] = {
+        "policy_id": "station_fallback_30",
+        "fallback_fleet_size": 1,
+    }
+    result_30 = run_fixed(
+        fallback_30,
+        "adaptive_fallback",
+        StrictPolicy(),
+        [0.0, 0.0],
+    )
+
+    fallback_90 = dict(base)
+    fallback_90["adaptation"] = {
+        "policy_id": "station_fallback_90",
+        "fallback_fleet_size": 1,
+    }
+    result_90 = run_fixed(
+        fallback_90,
+        "adaptive_fallback",
+        StrictPolicy(),
+        [0.0, 0.0],
+    )
+
+    assert result_30["success_count"] == 2
+    assert result_90["success_count"] == 2
+    assert_close(
+        result_90["makespan"] - result_30["makespan"],
+        60.0,
+        label="fallback hold delta",
+    )
+    assert result_30["empty_return_trips"] == 1
+    assert_close(result_30["empty_return_minutes"], 7.0, label="fallback return")
+    assert_close(
+        result_30["mean_transfer_wait_min"],
+        30.0,
+        label="fallback station hold",
+    )
+    print("PASS: station fallback threshold controls completion time")
+
+
+def test_available_or_degraded_station_fallback_is_identical_to_static_multimodal():
+    """Fallback policy must be inert while rail remains available or degraded."""
+    config = make_config(
+        total=2,
+        group_size=2,
+        shuttle_time=1.0,
+        rail_time=5.0,
+        rail_headway=1.0,
+        rail_capacity=2,
+        lastmile_time=1.0,
+        dispatch_interval=1.0,
+        fleet_size=1,
+        lastmile_fleet_size=1,
+        lastmile_vehicle_capacity=2,
+        time_limit=100.0,
+    )
+    config["adaptation"] = {"policy_id": "station_fallback_60"}
+
+    for rail_state in ("available", "degraded"):
+        config["multimodal"].update(
+            {
+                "rail_status": rail_state,
+                "rail_degradation_multiplier": 2.0,
+            }
+        )
+        static_result = run_fixed(
+            config,
+            "multimodal",
+            StrictPolicy(),
+            [0.0, 0.0],
+        )
+        adaptive_result = run_fixed(
+            config,
+            "adaptive_fallback",
+            StrictPolicy(),
+            [0.0, 0.0],
+        )
+        assert adaptive_result == static_result, rail_state
+    print("PASS: available and degraded fallback are multimodal-identical")
+
+
+def test_invalid_adaptive_policy_config_fails_loudly():
+    """Adaptive scenario types must reject missing or mismatched policy ids."""
+    missing = make_config(total=1, group_size=1)
+    try:
+        run_fixed(missing, "adaptive_split", StrictPolicy(), [0.0])
+    except ValueError as exc:
+        assert "adaptation.policy_id" in str(exc), str(exc)
+    else:
+        raise AssertionError("missing adaptive policy id was accepted")
+
+    mismatched = make_config(total=1, group_size=1)
+    mismatched["adaptation"] = {"policy_id": "station_fallback_30"}
+    try:
+        run_fixed(mismatched, "adaptive_split", StrictPolicy(), [0.0])
+    except ValueError as exc:
+        assert "adaptation.policy_id" in str(exc), str(exc)
+    else:
+        raise AssertionError("mismatched adaptive policy id was accepted")
+    print("PASS: invalid adaptive policy config fails loudly")
+
+
 TESTS = [
     test_origin_schedule_defaults_to_assembly_time,
     test_origin_schedule_accepts_explicit_first_departure,
@@ -553,10 +1421,33 @@ TESTS = [
     test_bus_fleet_allows_overlapping_trips,
     test_rail_departures_keep_fixed_headway_while_trains_are_in_transit,
     test_explicit_rail_first_departure_is_honored,
+    test_explicit_available_rail_state_preserves_default_result,
+    test_degraded_rail_state_multiplies_only_rail_travel_time,
+    test_unavailable_rail_state_produces_no_rail_departures_or_arrivals,
+    test_invalid_rail_state_and_degradation_multiplier_fail_loudly,
     test_lastmile_fleet_capacity_and_turnaround_create_bottleneck,
     test_censoring_penalty_prevents_failed_scenario_from_looking_better,
     test_arrival_delay_correction_factor_scales_lateness,
     test_sample_disruptions_threads_road_travel_time_multiplier,
+    test_forced_edge_disruptions_use_sparse_deterministic_mapping,
+    test_dynamic_shortest_path_evaluates_edge_weights_lazily,
+    test_dynamic_shortest_path_accounts_for_direct_damage_multiplier,
+    test_a2_route_cache_avoids_repeated_full_graph_search,
+    test_reverse_network_delay_controls_second_bus_trip,
+    test_missing_reverse_route_retires_vehicle_after_delivery,
+    test_invalid_return_strategy_fails_loudly,
+    test_legacy_return_strategy_preserves_one_way_results,
+    test_reverse_network_applies_to_multimodal_road_roles,
+    test_extended_metrics_are_opt_in_without_changing_legacy_keys,
+    test_extended_bus_metrics_include_fleet_delay_and_finite_returns,
+    test_unreachable_empty_return_is_excluded_from_finite_metrics,
+    test_extended_multimodal_waits_split_transfer_and_rail_platform_time,
+    test_adaptive_rng_streams_are_independent_stable_and_crn_aligned,
+    test_adaptive_split_uses_sixty_forty_allocation_and_conserves_passengers,
+    test_adaptive_split_keeps_rail_share_incomplete_when_rail_is_unavailable,
+    test_station_fallback_threshold_changes_makespan_and_completes,
+    test_available_or_degraded_station_fallback_is_identical_to_static_multimodal,
+    test_invalid_adaptive_policy_config_fails_loudly,
 ]
 
 

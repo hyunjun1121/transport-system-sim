@@ -7,7 +7,12 @@ from typing import Iterable
 
 import numpy as np
 
-from src.sim_types import VehicleTrip, require_int_at_least, require_non_negative
+from src.sim_types import (
+    VehicleTrip,
+    require_int_at_least,
+    require_non_negative,
+    require_non_negative_or_inf,
+)
 
 
 @dataclass(frozen=True)
@@ -32,7 +37,10 @@ class FleetAssignment:
         )
         depart_time = require_non_negative(self.depart_time, "depart_time")
         arrival_time = require_non_negative(self.arrival_time, "arrival_time")
-        available_time = require_non_negative(self.available_time, "available_time")
+        available_time = require_non_negative_or_inf(
+            self.available_time,
+            "available_time",
+        )
         if depart_time < requested_depart_time:
             raise ValueError("depart_time must be at or after requested_depart_time")
         if arrival_time < depart_time:
@@ -68,11 +76,19 @@ class FleetAvailability:
 
         return tuple(self._available_times)
 
-    def reserve(self, requested_depart_time: float, travel_time: float) -> FleetAssignment:
+    def reserve(
+        self,
+        requested_depart_time: float,
+        travel_time: float,
+        return_time: float = 0.0,
+    ) -> FleetAssignment:
         """Reserve the earliest available vehicle for a trip.
 
         The actual departure is delayed only when every vehicle is still busy.
         Ties are broken by the lowest vehicle id to keep assignments stable.
+        Passenger arrival occurs after ``travel_time``. Vehicle reuse additionally
+        waits for ``return_time`` and turnaround. A zero return preserves legacy
+        one-way availability semantics.
         """
 
         requested_depart_time = require_non_negative(
@@ -80,16 +96,18 @@ class FleetAvailability:
             "requested_depart_time",
         )
         travel_time = require_non_negative(travel_time, "travel_time")
+        return_time = require_non_negative_or_inf(return_time, "return_time")
 
         vehicle_id, vehicle_available = min(
             enumerate(self._available_times), key=lambda item: (item[1], item[0])
         )
         depart_time = max(requested_depart_time, vehicle_available)
         arrival_time = depart_time + travel_time
-        available_time = arrival_time + self.turnaround_time
+        return_arrival_time = arrival_time + return_time
+        available_time = return_arrival_time + self.turnaround_time
         if self._turnaround_noise_lambda > 0.0 and self._rng_turnaround is not None:
             noise = self._rng_turnaround.exponential(self._turnaround_noise_lambda)
-            available_time = arrival_time + self.turnaround_time * (1.0 + noise)
+            available_time = return_arrival_time + self.turnaround_time * (1.0 + noise)
         self._available_times[vehicle_id] = available_time
 
         return FleetAssignment(

@@ -91,6 +91,82 @@ def test_fleet_assignment_is_deterministic():
     print("PASS: fleet assignment is deterministic")
 
 
+def test_asymmetric_reverse_return_delays_vehicle_reuse():
+    """Vehicle reuse should wait for outbound, reverse return, and turnaround."""
+    fleet = FleetAvailability(fleet_size=1, turnaround_time=5.0)
+
+    first = fleet.reserve(
+        requested_depart_time=0.0,
+        travel_time=10.0,
+        return_time=30.0,
+    )
+    second = fleet.reserve(
+        requested_depart_time=20.0,
+        travel_time=10.0,
+        return_time=30.0,
+    )
+
+    assert first.arrival_time == 10.0
+    assert first.available_time == 45.0
+    assert second.depart_time == 45.0
+    assert second.arrival_time == 55.0
+    assert second.available_time == 90.0
+    print("PASS: asymmetric reverse return delays vehicle reuse")
+
+
+def test_omitted_return_time_matches_explicit_zero_return():
+    """Legacy calls should remain identical when return_time is omitted."""
+    legacy = FleetAvailability(fleet_size=1, turnaround_time=5.0)
+    explicit = FleetAvailability(fleet_size=1, turnaround_time=5.0)
+
+    legacy_assignment = legacy.reserve(
+        requested_depart_time=2.0,
+        travel_time=10.0,
+    )
+    explicit_assignment = explicit.reserve(
+        requested_depart_time=2.0,
+        travel_time=10.0,
+        return_time=0.0,
+    )
+
+    assert legacy_assignment == explicit_assignment
+    assert legacy.next_available_times == explicit.next_available_times
+    print("PASS: omitted return time matches explicit zero return")
+
+
+def test_negative_return_time_raises():
+    """Reverse travel duration should reject negative values."""
+    fleet = FleetAvailability(fleet_size=1)
+
+    try:
+        fleet.reserve(
+            requested_depart_time=0.0,
+            travel_time=10.0,
+            return_time=-1.0,
+        )
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("negative return_time should raise ValueError")
+    print("PASS: negative return time raises")
+
+
+def test_infinite_return_time_retires_vehicle_after_delivery():
+    """An unreachable reverse leg should retire the vehicle, not lose delivery."""
+    fleet = FleetAvailability(fleet_size=1, turnaround_time=5.0)
+
+    assignment = fleet.reserve(
+        requested_depart_time=0.0,
+        travel_time=10.0,
+        return_time=float("inf"),
+    )
+
+    assert assignment.arrival_time == 10.0
+    assert assignment.available_time == float("inf")
+    assert fleet.next_available_times == (float("inf"),)
+    print("PASS: infinite return time retires vehicle after delivery")
+
+
 def test_invalid_fleet_inputs_raise():
     """Fleet size and time inputs should reject invalid values."""
     for fleet_size in (0, 1.5):
@@ -120,5 +196,9 @@ if __name__ == "__main__":
     test_multiple_vehicles_allow_overlapping_trips()
     test_fleet_delay_preserves_requested_manifests()
     test_fleet_assignment_is_deterministic()
+    test_asymmetric_reverse_return_delays_vehicle_reuse()
+    test_omitted_return_time_matches_explicit_zero_return()
+    test_negative_return_time_raises()
+    test_infinite_return_time_retires_vehicle_after_delivery()
     test_invalid_fleet_inputs_raise()
     print("\n=== ALL FLEET TESTS PASSED ===")

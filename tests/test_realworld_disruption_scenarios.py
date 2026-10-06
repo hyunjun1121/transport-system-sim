@@ -22,10 +22,13 @@ from src.realworld.disruption_scenarios import (
     assert_required_family_coverage,
     build_scenario_disruption_map,
     build_scenario_edge_map,
+    hybrid_corridor_candidate_paths,
     load_disruption_scenarios,
     mark_scenario_edges,
     scenario_family_coverage,
     select_candidate_edges,
+    select_corridor_time_band_edges,
+    select_shortest_path_time_band_edges,
     write_disruption_scenario_manifest,
 )
 from src.realworld.pilot_experiments import load_pilot_inputs
@@ -134,20 +137,221 @@ def assert_raises_value_error(func, expected: str) -> None:
         raise AssertionError("expected ValueError")
 
 
+def time_band_graph() -> nx.DiGraph:
+    """Return a route whose edge midpoints land on and around 20--80%."""
+
+    graph = nx.DiGraph(region_id="synthetic_region")
+    for node in ("A", "n1", "n2", "n3", "n4", "n5", "D"):
+        graph.add_node(node)
+    durations = (2.0, 1.0, 2.0, 2.0, 1.0, 2.0)
+    nodes = ("A", "n1", "n2", "n3", "n4", "n5", "D")
+    for index, (u, v) in enumerate(zip(nodes, nodes[1:]), start=1):
+        _add_road_edge(graph, u, v, f"band-{index}", t0=durations[index - 1])
+    return graph
+
+
+def test_shortest_path_time_band_boundaries_and_determinism() -> None:
+    """Central-trunk selector includes midpoint boundaries and preserves direction."""
+
+    graph = time_band_graph()
+    first = select_shortest_path_time_band_edges(
+        graph,
+        source="A",
+        target="D",
+        lower_fraction=0.2,
+        upper_fraction=0.8,
+    )
+    second = select_shortest_path_time_band_edges(
+        graph,
+        source="A",
+        target="D",
+        lower_fraction=0.2,
+        upper_fraction=0.8,
+    )
+
+    # Total t0=10. Edge midpoints are 1, 2.5, 4, 6, 7.5, 9 minutes.
+    # Thus the inclusive 20--80% band selects edges 2--5, in A->D direction.
+    expected = (
+        ("n1", "n2"),
+        ("n2", "n3"),
+        ("n3", "n4"),
+        ("n4", "n5"),
+    )
+    assert first == expected
+    assert second == expected
+
+    # Connectors can participate in routing but are never physical damage targets.
+    graph.edges["n2", "n3"].update(
+        source="connector", highway="connector", length_m=0.0
+    )
+    assert select_shortest_path_time_band_edges(
+        graph, source="A", target="D", lower_fraction=0.2, upper_fraction=0.8
+    ) == (("n1", "n2"), ("n3", "n4"), ("n4", "n5"))
+
+    # Exact 20% and 80% midpoint boundaries are included.
+    boundary = nx.DiGraph(region_id="synthetic_region")
+    for node in ("A", "b1", "b2", "b3", "b4", "D"):
+        boundary.add_node(node)
+    for index, (u, v, t0) in enumerate(
+        (
+            ("A", "b1", 1.0),
+            ("b1", "b2", 2.0),
+            ("b2", "b3", 4.0),
+            ("b3", "b4", 2.0),
+            ("b4", "D", 1.0),
+        ),
+        start=1,
+    ):
+        _add_road_edge(boundary, u, v, f"boundary-{index}", t0=t0)
+    # Midpoints: 0.5, 2.0, 5.0, 8.0, 9.5. Both boundaries are included.
+    assert select_shortest_path_time_band_edges(
+        boundary, source="A", target="D", lower_fraction=0.2, upper_fraction=0.8
+    ) == (("b1", "b2"), ("b2", "b3"), ("b3", "b4"))
+
+    print("PASS: shortest-path time-band boundaries and deterministic order are fixed")
+
+
+def test_shortest_path_time_band_rejects_invalid_or_missing_paths() -> None:
+    """Central-trunk selector fails closed for invalid bands and road paths."""
+
+    graph = time_band_graph()
+    assert_raises_value_error(
+        lambda: select_shortest_path_time_band_edges(
+            graph, source="A", target="D", lower_fraction=0.8, upper_fraction=0.2
+        ),
+        "0 <= lower_fraction < upper_fraction <= 1",
+    )
+    assert_raises_value_error(
+        lambda: select_shortest_path_time_band_edges(
+            graph, source="D", target="A", lower_fraction=0.2, upper_fraction=0.8
+        ),
+        "has no road path",
+    )
+    graph.edges["A", "n1"]["t0"] = 0.0
+    assert_raises_value_error(
+        lambda: select_shortest_path_time_band_edges(
+            graph, source="A", target="D", lower_fraction=0.2, upper_fraction=0.8
+        ),
+        "positive finite t0",
+    )
+
+    print("PASS: shortest-path time-band selector rejects invalid/no-path inputs")
+
+
+def test_corridor_time_band_covers_each_preserved_candidate() -> None:
+    """A corridor-wide target covers central bands on every preserved A->D path."""
+
+    graph = nx.DiGraph(
+        region_id="synthetic_region",
+        corridor_path_count=2,
+    )
+    for node in ("A", "p1", "p2", "p3", "q1", "q2", "q3", "D", "S", "R"):
+        graph.add_node(node)
+    for index, (u, v) in enumerate(
+        (("A", "p1"), ("p1", "p2"), ("p2", "p3"), ("p3", "D")),
+        start=1,
+    ):
+        _add_road_edge(graph, u, v, f"p-{index}", t0=1.0)
+    for index, (u, v) in enumerate(
+        (("A", "q1"), ("q1", "q2"), ("q2", "q3"), ("q3", "D")),
+        start=1,
+    ):
+        _add_road_edge(graph, u, v, f"q-{index}", t0=1.1)
+
+    first = select_corridor_time_band_edges(graph, source="A", target="D")
+    second = select_corridor_time_band_edges(graph, source="A", target="D")
+    expected = {
+        ("p1", "p2"),
+        ("p2", "p3"),
+        ("q1", "q2"),
+        ("q2", "q3"),
+    }
+    assert set(first) == expected
+    assert second == first
+
+    print("PASS: corridor time band covers every preserved A->D candidate")
+
+
+def test_shared_hybrid_candidate_builder_accepts_exact_seed_paths() -> None:
+    """Graph-scope builder and target selector share one route algorithm."""
+
+    graph = nx.DiGraph()
+    for node in ("A", "p", "q", "D"):
+        graph.add_node(node)
+    _add_road_edge(graph, "A", "p", "ap", t0=1.0)
+    _add_road_edge(graph, "p", "D", "pd", t0=1.0)
+    _add_road_edge(graph, "A", "q", "aq", t0=1.2)
+    _add_road_edge(graph, "q", "D", "qd", t0=1.2)
+
+    automatic = hybrid_corridor_candidate_paths(
+        graph,
+        source="A",
+        target="D",
+        path_count=2,
+    )
+    seeded = hybrid_corridor_candidate_paths(
+        graph,
+        source="A",
+        target="D",
+        seed_paths=automatic[:1],
+        path_count=2,
+    )
+    assert seeded == automatic
+
+    print("PASS: one hybrid candidate builder serves both call paths")
+
+
+def test_longhaul_scenario_requires_canonical_time_band_target() -> None:
+    """Long-haul family cannot regress to one route or an S->R target."""
+
+    assert_raises_value_error(
+        lambda: make_scenario(
+            "bad_longhaul",
+            "long_haul",
+            "corridor_time_band",
+            "S->R",
+        ),
+        "A_to_D_corridor_time_band_20_80",
+    )
+
+    scenario = make_scenario(
+        "central_longhaul",
+        "long_haul",
+        "corridor_time_band",
+        "A_to_D_corridor_time_band_20_80",
+    )
+    selected = select_candidate_edges(time_band_graph(), scenario)
+    assert tuple(item.edge for item in selected) == (
+        ("n1", "n2"),
+        ("n2", "n3"),
+        ("n3", "n4"),
+        ("n4", "n5"),
+    )
+    assert {item.reason_category for item in selected} == {
+        "long_haul:A_to_D_corridor_time_band_20_80"
+    }
+
+    print("PASS: long-haul family is locked to canonical A->D central time band")
+
+
 def test_csv_schema_validation_and_family_coverage() -> None:
     """The committed scenario table should cover every Workstream 7 family."""
 
-    scenarios = load_disruption_scenarios(DEFAULT_SCENARIO_PATH, region_id="songpa_public_demo")
+    scenarios = load_disruption_scenarios(
+        "data/scenarios/goseong_disruption_scenarios.csv",
+        region_id="goseong_mobilization",
+    )
     assert_required_family_coverage(scenarios, REQUIRED_FAMILIES)
     coverage = scenario_family_coverage(scenarios)
 
     assert coverage["random"] == 2
     assert coverage["critical_link"] == 1
-    assert coverage["access_road"] == 3
-    assert coverage["last_mile"] == 1
+    assert coverage["access_road"] == 6
+    assert coverage["long_haul"] == 3
+    assert coverage["last_mile"] == 5
     assert coverage["rail_station_access"] == 1
-    assert coverage["spatial_hazard_overlay"] == 6
-    assert coverage["rail_service"] == 8
+    assert coverage["spatial_hazard_overlay"] == 5
+    assert coverage["rail_service"] == 1
     for scenario in scenarios:
         if scenario.family == "spatial_hazard_overlay":
             assert scenario.evidence_class == "scenario_based"
@@ -386,9 +590,9 @@ def test_goseong_segment_damage_rows_parse() -> None:
     Replaces the retired globally-targeted (edge_betweenness/all_road) damage
     ladder, which was multimodal-inert because the betweenness edges fell off the
     rail-bound corridor. The new rows target the multimodal road legs directly:
-    access A->S and last-mile R->D (bite BOTH alternatives) plus a long-haul S->R
-    trunk row (bites bus_only; multimodal is rail-immune = the rail-substitution
-    finding). All use selection_method=shortest_path + capacity_factor=1.0 to
+    Access and last-mile rows use whole shortest paths. Long-haul rows instead
+    target only the central 20--80% temporal band of the A->D shortest road path,
+    preventing endpoint access/return overlap. All use capacity_factor=1.0 to
     isolate the road_travel_time_multiplier direct-slowdown lever.
     """
     goseong_path = Path("data/scenarios/goseong_disruption_scenarios.csv")
@@ -410,15 +614,35 @@ def test_goseong_segment_damage_rows_parse() -> None:
         ("goseong_last_mile_damage_mild", "last_mile", "R->D", 1.5),
         ("goseong_last_mile_damage_severe", "last_mile", "R->D", 3.0),
         ("goseong_last_mile_damage_extreme", "last_mile", "R->D", 8.0),
-        ("goseong_long_haul_damage_severe", "access_road", "S->R", 3.0),
-        ("goseong_long_haul_damage_mild", "access_road", "S->R", 1.2),
-        ("goseong_long_haul_damage_moderate", "access_road", "S->R", 1.5),
+        (
+            "goseong_long_haul_damage_severe",
+            "long_haul",
+            "A_to_D_corridor_time_band_20_80",
+            3.0,
+        ),
+        (
+            "goseong_long_haul_damage_mild",
+            "long_haul",
+            "A_to_D_corridor_time_band_20_80",
+            1.2,
+        ),
+        (
+            "goseong_long_haul_damage_moderate",
+            "long_haul",
+            "A_to_D_corridor_time_band_20_80",
+            1.5,
+        ),
     ]
     for sid, family, target_segment, mult in expected:
         assert sid in scenarios, f"missing segment-damage scenario {sid}"
         scenario = scenarios[sid]
         assert scenario.family == family, f"{sid} family={scenario.family!r} want {family!r}"
-        assert scenario.selection_method == "shortest_path", f"{sid} method={scenario.selection_method!r}"
+        expected_method = (
+            "corridor_time_band" if family == "long_haul" else "shortest_path"
+        )
+        assert scenario.selection_method == expected_method, (
+            f"{sid} method={scenario.selection_method!r}"
+        )
         assert scenario.target_segment == target_segment, f"{sid} target={scenario.target_segment!r}"
         assert scenario.disruption_mode == "capacity_reduction"
         assert scenario.capacity_factor == 1.0
@@ -430,16 +654,7 @@ def test_goseong_segment_damage_rows_parse() -> None:
 
 
 def test_goseong_segment_damage_targets_canonical_paths() -> None:
-    """Bite-verification guard: segment damage rows target the canonical road legs.
-
-    Direct negation of the retired multimodal-inert defect (where globally-targeted
-    betweenness edges fell off the rail-bound corridor). select_candidate_edges must
-    return the access A->S / last-mile R->D / long-haul S->R road path (path starts
-    at the canonical start node and ends at the canonical end node), and
-    build_scenario_disruption_map must mark those edges degraded with the
-    road_travel_time_multiplier applied. Permanently guards that the damage lever
-    reaches the multimodal road legs (so the paired comparison is valid).
-    """
+    """Actual top3 guard: central trunk is stable and endpoint-leg disjoint."""
     goseong_path = Path("data/scenarios/goseong_disruption_scenarios.csv")
     inputs = load_pilot_inputs(
         region_path="data/regions/goseong_mobilization.yaml",
@@ -449,13 +664,10 @@ def test_goseong_segment_damage_targets_canonical_paths() -> None:
     graph = inputs.graph
     scenarios = {s.scenario_id: s for s in load_disruption_scenarios(str(goseong_path))}
 
-    # (scenario_id, path-start canonical node, path-end canonical node, multiplier)
+    # Whole-path access and last-mile selectors retain their endpoint contract.
     checks = [
         ("goseong_access_road_damage_severe", "A", "S", 3.0),
         ("goseong_last_mile_damage_severe", "R", "D", 3.0),
-        ("goseong_long_haul_damage_severe", "S", "R", 3.0),
-        ("goseong_long_haul_damage_mild", "S", "R", 1.2),
-        ("goseong_long_haul_damage_moderate", "S", "R", 1.5),
     ]
     for sid, start, end, mult in checks:
         scenario = scenarios[sid]
@@ -469,7 +681,46 @@ def test_goseong_segment_damage_targets_canonical_paths() -> None:
         assert disruption.status == "degraded"
         assert disruption.travel_time_multiplier == mult
         assert not disruption.is_blocked
-    print("PASS: goseong segment damage rows target canonical road legs + apply multiplier")
+
+    longhaul_ids = (
+        "goseong_long_haul_damage_severe",
+        "goseong_long_haul_damage_mild",
+        "goseong_long_haul_damage_moderate",
+    )
+    central_edge_sets = []
+    for sid in longhaul_ids:
+        scenario = scenarios[sid]
+        selected = select_candidate_edges(graph, scenario)
+        assert selected, f"{sid} selected no central road edges"
+        central_edge_sets.append(tuple(item.edge for item in selected))
+        assert all(item.source != "connector" for item in selected)
+        assert all(graph.edges[item.edge].get("highway") != "connector" for item in selected)
+        assert all(float(graph.edges[item.edge].get("length_m", 1.0)) > 0.0 for item in selected)
+        disruption_map = build_scenario_disruption_map(graph, scenario)
+        assert set(disruption_map) == {item.edge for item in selected}
+        assert all(item.status == "degraded" for item in disruption_map.values())
+    assert central_edge_sets[0] == central_edge_sets[1] == central_edge_sets[2]
+
+    endpoint_scenarios = (
+        make_scenario("fixture_a_s", "access_road", "shortest_path", "A->S"),
+        make_scenario("fixture_s_a", "access_road", "shortest_path", "S->A"),
+        make_scenario("fixture_r_d", "last_mile", "shortest_path", "R->D"),
+        make_scenario("fixture_d_r", "last_mile", "shortest_path", "D->R"),
+    )
+    # make_scenario uses the fixture region; clone only its selection contract.
+    endpoint_edges = set()
+    for template in endpoint_scenarios:
+        scenario = DisruptionScenario(
+            **{
+                **template.__dict__,
+                "scenario_id": f"actual_{template.scenario_id}",
+                "region_id": "goseong_mobilization",
+            }
+        )
+        endpoint_edges.update(item.edge for item in select_candidate_edges(graph, scenario))
+    assert set(central_edge_sets[0]).isdisjoint(endpoint_edges)
+
+    print("PASS: goseong central time band is deterministic, physical, and endpoint-disjoint")
 
 
 def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
@@ -487,7 +738,10 @@ def test_committed_pilot_scenarios_map_offline_to_all_families() -> None:
         for scenario_edges in first_map.values()
         for selected in scenario_edges
     }
-    assert edge_families == (REQUIRED_FAMILIES - {"rail_service"})
+    expected_edge_families = {
+        scenario.family for scenario in scenarios if scenario.family != "rail_service"
+    }
+    assert edge_families == expected_edge_families
     assert {
         scenario_id: [selected.edge for selected in scenario_edges]
         for scenario_id, scenario_edges in first_map.items()
@@ -535,7 +789,9 @@ def test_disruption_manifest_records_checksums_and_temporal_scope() -> None:
         "rail_service": 8,
     }
     assert len(manifest["scenario_table_sha256"]) == 64
-    assert REQUIRED_FAMILIES <= set(manifest["family_checksums"])
+    assert {scenario.family for scenario in scenarios} <= set(
+        manifest["family_checksums"]
+    )
     assert all(len(value) == 64 for value in manifest["family_checksums"].values())
     assert manifest["temporal_scope_counts"] == {
         "metadata_only_not_dynamic_recovery": 22
@@ -568,6 +824,11 @@ def test_disruption_manifest_records_checksums_and_temporal_scope() -> None:
 
 
 if __name__ == "__main__":
+    test_shortest_path_time_band_boundaries_and_determinism()
+    test_shortest_path_time_band_rejects_invalid_or_missing_paths()
+    test_corridor_time_band_covers_each_preserved_candidate()
+    test_shared_hybrid_candidate_builder_accepts_exact_seed_paths()
+    test_longhaul_scenario_requires_canonical_time_band_target()
     test_csv_schema_validation_and_family_coverage()
     test_spatial_hazard_rows_must_not_claim_observed_data()
     test_deterministic_hash_and_critical_link_mapping()

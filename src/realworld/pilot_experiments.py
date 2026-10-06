@@ -21,7 +21,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from itertools import islice
 from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Callable, Iterable, Mapping, Sequence
 
 import networkx as nx
 import yaml
@@ -42,6 +42,7 @@ from src.realworld.disruption_scenarios import (
     DEFAULT_SCENARIO_PATH,
     DisruptionScenario,
     ScenarioEdge,
+    hybrid_corridor_candidate_paths,
     load_disruption_scenarios,
     select_candidate_edges,
 )
@@ -108,6 +109,11 @@ DEFAULT_SAMPLE_SCENARIO_IDS = (
     "songpa_last_mile_station_to_destination",
 )
 DEFAULT_ROUTE_CORRIDOR_PAIRS = (("A", "D"), ("A", "S"), ("R", "D"))
+HYBRID_CORRIDOR_METHOD_VERSION = "hybrid_exact3_penalty_v1"
+EXACT_CORRIDOR_CANDIDATE_METHOD = "exact_shortest_simple_paths"
+EXPANDED_CORRIDOR_CANDIDATE_METHOD = (
+    "exact_top3_plus_deterministic_penalty_diversification"
+)
 CLAIM_SCOPE = (
     "Pilot scaffold sample output only; not calibrated real-world results or an "
     "operational forecast."
@@ -1051,6 +1057,127 @@ def pilot_experiment_multi_corridor_subgraph(
     )
 
 
+def pilot_experiment_multi_corridor_subgraphs(
+    graph: nx.DiGraph,
+    *,
+    path_counts: Sequence[int] = (3, 5, 10),
+    progress: Callable[[Mapping[str, Any]], None] | None = None,
+) -> dict[int, nx.DiGraph]:
+    """Build nested sensitivity scopes without enumerating exact global top-10.
+
+    Each canonical leg preserves its first three exact
+    ``shortest_simple_paths``. Wider scopes add deterministic, penalty-
+    diversified shortest paths from the full graph. Thus ``top3`` retains its
+    established exact meaning; ``top5`` and ``top10`` are nested sensitivity
+    envelopes, not claims about exact global k-shortest ranks.
+    """
+
+    counts = tuple(path_counts)
+    if not counts:
+        raise ValueError("path_counts must not be empty")
+    if any(
+        isinstance(count, bool) or not isinstance(count, int) or count < 1
+        for count in counts
+    ):
+        raise ValueError("path_counts must contain positive integers")
+    if len(set(counts)) != len(counts):
+        raise ValueError("path_counts must not contain duplicates")
+
+    emit = progress or (lambda event: None)
+    road_view = _road_mode_view(graph)
+    paths_by_pair: dict[tuple[Any, Any], tuple[tuple[Any, ...], ...]] = {}
+    for source, target in DEFAULT_ROUTE_CORRIDOR_PAIRS:
+        exact_paths = _route_candidate_paths(
+            road_view,
+            source,
+            target,
+            path_count=min(3, max(counts)),
+        )
+        if not exact_paths:
+            return {count: graph.copy() for count in counts}
+        emit(
+            {
+                "event": "exact_top3_ready",
+                "leg": _corridor_leg_id(source, target),
+                "candidate_count": len(exact_paths),
+            }
+        )
+        paths = hybrid_corridor_candidate_paths(
+            road_view,
+            source=source,
+            target=target,
+            seed_paths=exact_paths,
+            path_count=max(counts),
+            progress=emit,
+            leg_id=_corridor_leg_id(source, target),
+        )
+        paths_by_pair[(source, target)] = paths
+        emit(
+            {
+                "event": "leg_candidates_ready",
+                "leg": _corridor_leg_id(source, target),
+                "candidate_count": len(paths),
+                "exact_shortest_count": min(3, len(exact_paths)),
+                "expansion_count": max(0, len(paths) - len(exact_paths)),
+                "method_version": HYBRID_CORRIDOR_METHOD_VERSION,
+            }
+        )
+
+    scopes: dict[int, nx.DiGraph] = {}
+    for count in counts:
+        selected_edges: set[tuple[Any, Any]] = set()
+        leg_metadata: dict[str, dict[str, Any]] = {}
+        for paths in paths_by_pair.values():
+            for path in paths[:count]:
+                selected_edges.update(zip(path, path[1:]))
+        for (source, target), paths in paths_by_pair.items():
+            candidate_count = min(count, len(paths))
+            exact_count = min(3, candidate_count)
+            method = (
+                EXACT_CORRIDOR_CANDIDATE_METHOD
+                if count <= 3
+                else EXPANDED_CORRIDOR_CANDIDATE_METHOD
+            )
+            leg_metadata[_corridor_leg_id(source, target)] = {
+                "candidate_count": candidate_count,
+                "exact_shortest_count": exact_count,
+                "expansion_count": max(0, candidate_count - exact_count),
+                "method": method,
+            }
+        scope = _build_route_corridor_graph(
+            graph,
+            selected_edges,
+            path_count=count,
+            strategy="hybrid_multi_corridor_sensitivity_envelope",
+        )
+        scope.graph["corridor_method_version"] = HYBRID_CORRIDOR_METHOD_VERSION
+        scope.graph["corridor_candidate_method"] = (
+            EXACT_CORRIDOR_CANDIDATE_METHOD
+            if count <= 3
+            else EXPANDED_CORRIDOR_CANDIDATE_METHOD
+        )
+        scope.graph["corridor_leg_candidates_json"] = json.dumps(
+            leg_metadata,
+            ensure_ascii=True,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        scopes[count] = scope
+        emit(
+            {
+                "event": "scope_materialized",
+                "scope": f"top{count}",
+                "nodes": scope.number_of_nodes(),
+                "edges": scope.number_of_edges(),
+            }
+        )
+    return scopes
+
+
+def _corridor_leg_id(source: Any, target: Any) -> str:
+    return f"{source}_to_{target}"
+
+
 def _route_corridor_subgraph(
     graph: nx.DiGraph,
     *,
@@ -1073,6 +1200,23 @@ def _route_corridor_subgraph(
             return graph.copy()
         for path in paths:
             selected_edges.update(zip(path, path[1:]))
+
+    return _build_route_corridor_graph(
+        graph,
+        selected_edges,
+        path_count=path_count,
+        strategy=strategy,
+    )
+
+
+def _build_route_corridor_graph(
+    graph: nx.DiGraph,
+    selected_edges: set[tuple[Any, Any]],
+    *,
+    path_count: int,
+    strategy: str,
+) -> nx.DiGraph:
+    """Materialize one corridor graph from a selected directed edge set."""
 
     # Include the reverse directions where present so scenario edge selection
     # and route alternatives can remain bidirectional around the corridors.
@@ -1832,14 +1976,16 @@ SEED_STREAM_OFFSETS = (0, 10_000, 20_000, 30_000)
 
 
 def _seed_stream_id(seed: int) -> str:
-    """Deterministic provenance id for the 4 CRN streams derived from ``seed``.
+    """Deterministic provenance id for CRN family roots derived from ``seed``.
 
-    Encodes the four stream seeds declared in ``src/scenario.py`` (arrival=seed,
-    failure=seed+10_000, road=seed+20_000, turnaround=seed+30_000) so a reviewer
-    can verify common-random-number pairing from the result CSV alone: any two
-    rows that share ``seed`` share the same stream bundle (and hence the same id)
-    regardless of mode/policy. Pure function of ``seed``; not acceptance evidence.
-    Proven behaviorally by ``tests/test_realworld_crn_seed_stream.py``.
+    Encodes four stable family roots (arrival, failure, road, turnaround). Road
+    and turnaround families are further partitioned by transport role through
+    ``SeedSequence`` in ``src/scenario.py``. Thus rows sharing ``seed`` share
+    the same named CRN bundle while draw consumption in one role cannot shift
+    another. The historical identifier payload stays unchanged for result-file
+    compatibility; it is a pairing marker, not serialized generator state.
+    Pure function of ``seed``; not acceptance evidence. Proven behaviorally by
+    ``tests/test_realworld_crn_seed_stream.py``.
     """
     payload = "|".join(str(seed + offset) for offset in SEED_STREAM_OFFSETS)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]
@@ -2888,6 +3034,7 @@ __all__ = [
     "load_pilot_experiment_design",
     "make_pilot_base_config",
     "pilot_experiment_multi_corridor_subgraph",
+    "pilot_experiment_multi_corridor_subgraphs",
     "pilot_experiment_subgraph",
     "reduce_pilot_analysis_graph",
     "resolve_pilot_experiment_profile",

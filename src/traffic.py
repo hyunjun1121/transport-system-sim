@@ -8,6 +8,7 @@ BPR travel time at the moment a vehicle enters each road edge.
 
 from __future__ import annotations
 
+import copy
 from collections import defaultdict, deque
 from collections.abc import Iterable, Mapping, Sequence
 from math import inf, isfinite
@@ -107,18 +108,53 @@ class DynamicRoadTraffic:
         """Clear all dynamic traffic history."""
         self._entries.clear()
 
+    def set_road_noise_rng(
+        self,
+        rng_road: np.random.Generator | None,
+    ) -> None:
+        """Bind RNG used by subsequent road traversals.
+
+        Scenario orchestration switches this binding at role boundaries so
+        direct-bus, feeder, last-mile, and fallback draws cannot consume one
+        another's random stream. Traffic-entry history remains shared.
+        """
+
+        if rng_road is not None and not isinstance(rng_road, np.random.Generator):
+            raise TypeError("rng_road must be a numpy.random.Generator or None")
+        self._rng_road = rng_road
+
+    def clone_empty(self) -> "DynamicRoadTraffic":
+        """Return an input-identical traffic state with no recorded entries."""
+
+        return DynamicRoadTraffic(
+            self.graph,
+            volume_window_min=self.volume_window_min,
+            background_volume=self.background_volume,
+            alpha=self.alpha,
+            beta=self.beta,
+            scale=self.scale,
+            disruptions=self.disruptions,
+            road_noise_sigma=self._road_noise_sigma,
+            rng_road=copy.deepcopy(self._rng_road),
+        )
+
     def entry_count(self, edge: Edge, at_time: float | None = None) -> int:
         """Return the number of recorded entries still in the rolling window."""
         self._require_edge(edge)
         if at_time is not None:
-            self._prune_entries(edge, require_non_negative(at_time, "at_time"))
+            at_time = require_non_negative(at_time, "at_time")
+            self._prune_entries(edge, at_time)
+            return self._window_entry_count(edge, at_time)
         return len(self._entries[edge])
 
     def current_volume(self, edge: Edge, at_time: float) -> float:
         """Return current hourly volume before recording a new edge entry."""
         self._require_edge(edge)
-        self._prune_entries(edge, require_non_negative(at_time, "at_time"))
-        return self._effective_volume_from_count(len(self._entries[edge]))
+        at_time = require_non_negative(at_time, "at_time")
+        self._prune_entries(edge, at_time)
+        return self._effective_volume_from_count(
+            self._window_entry_count(edge, at_time)
+        )
 
     def enter_edge(self, edge: Edge, entry_time: float) -> EdgeTraversal:
         """Record one vehicle entering an edge and return its traversal record."""
@@ -214,7 +250,9 @@ class DynamicRoadTraffic:
     def _record_entry_and_volume(self, edge: Edge, entry_time: float) -> float:
         self._prune_entries(edge, entry_time)
         self._entries[edge].append(entry_time)
-        return self._effective_volume_from_count(len(self._entries[edge]))
+        return self._effective_volume_from_count(
+            self._window_entry_count(edge, entry_time)
+        )
 
     def _effective_volume_from_count(self, entry_count: int) -> float:
         dynamic_volume = entry_count * 60.0 / self.volume_window_min
@@ -223,8 +261,11 @@ class DynamicRoadTraffic:
     def _prune_entries(self, edge: Edge, at_time: float) -> None:
         entries = self._entries[edge]
         cutoff = at_time - self.volume_window_min
-        while entries and entries[0] <= cutoff:
-            entries.popleft()
+        self._entries[edge] = deque(entry for entry in entries if entry > cutoff)
+
+    def _window_entry_count(self, edge: Edge, at_time: float) -> int:
+        cutoff = at_time - self.volume_window_min
+        return sum(cutoff < entry <= at_time for entry in self._entries[edge])
 
     def _effective_capacity(self, data: Mapping, disruption: EdgeDisruption) -> float:
         capacity = require_non_negative_or_inf(

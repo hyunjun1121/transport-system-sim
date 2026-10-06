@@ -13,9 +13,10 @@ import json
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from itertools import islice
 from math import isfinite
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import networkx as nx
 
@@ -31,10 +32,12 @@ ALLOWED_FAMILIES = frozenset(
         "random",
         "critical_link",
         "access_road",
+        "long_haul",
         "last_mile",
         "rail_station_access",
         "spatial_hazard_overlay",
         "rail_service",
+        "path_interdiction",
     }
 )
 REQUIRED_FAMILIES = ALLOWED_FAMILIES - {"rail_service"}
@@ -44,20 +47,28 @@ ALLOWED_SELECTION_METHODS = frozenset(
         "hash_rank",
         "edge_betweenness",
         "shortest_path",
+        "shortest_path_time_band",
+        "corridor_time_band",
         "station_access",
         "bbox_midpoint",
         "rail_param",
+        "path_interdiction",
     }
 )
 FAMILY_SELECTION_METHODS = {
     "random": frozenset({"hash_rank"}),
     "critical_link": frozenset({"edge_betweenness"}),
     "access_road": frozenset({"shortest_path"}),
+    "long_haul": frozenset({"corridor_time_band"}),
     "last_mile": frozenset({"shortest_path"}),
     "rail_station_access": frozenset({"station_access"}),
     "spatial_hazard_overlay": frozenset({"bbox_midpoint"}),
     "rail_service": frozenset({"rail_param"}),
+    "path_interdiction": frozenset({"path_interdiction"}),
 }
+CENTRAL_TRUNK_TARGET_SEGMENT = "A_to_D_corridor_time_band_20_80"
+CENTRAL_TRUNK_LOWER_FRACTION = 0.20
+CENTRAL_TRUNK_UPPER_FRACTION = 0.80
 CSV_COLUMNS = (
     "scenario_id",
     "region_id",
@@ -208,7 +219,7 @@ class DisruptionScenario:
     def reason_category(self) -> str:
         """Return the reason category assigned to selected edges."""
 
-        if self.family in {"access_road", "last_mile"}:
+        if self.family in {"access_road", "long_haul", "last_mile"}:
             return f"{self.family}:{self.target_segment}"
         if self.family == "spatial_hazard_overlay":
             return "scenario_based_hazard_overlay"
@@ -466,10 +477,32 @@ def select_candidate_edges(
         edges = _select_critical_link_edges(graph, scenario)
     elif scenario.selection_method == "shortest_path":
         edges = _select_shortest_path_edges(graph, scenario, node_ids)
+    elif scenario.selection_method == "shortest_path_time_band":
+        edges = list(
+            select_shortest_path_time_band_edges(
+                graph,
+                source=node_ids["assembly"],
+                target=node_ids["destination"],
+                lower_fraction=CENTRAL_TRUNK_LOWER_FRACTION,
+                upper_fraction=CENTRAL_TRUNK_UPPER_FRACTION,
+            )
+        )
+    elif scenario.selection_method == "corridor_time_band":
+        edges = list(
+            select_corridor_time_band_edges(
+                graph,
+                source=node_ids["assembly"],
+                target=node_ids["destination"],
+                lower_fraction=CENTRAL_TRUNK_LOWER_FRACTION,
+                upper_fraction=CENTRAL_TRUNK_UPPER_FRACTION,
+            )
+        )
     elif scenario.selection_method == "station_access":
         edges = _select_station_access_edges(graph, scenario, node_ids)
     elif scenario.selection_method == "bbox_midpoint":
         edges = _select_bbox_edges(graph, scenario)
+    elif scenario.selection_method == "path_interdiction":
+        edges = _select_path_interdiction_edges(graph, scenario, node_ids)
     else:
         raise ValueError(f"unsupported selection_method: {scenario.selection_method!r}")
 
@@ -697,13 +730,28 @@ def _validate_scenario(scenario: DisruptionScenario) -> None:
         return
     if scenario.selection_method == "shortest_path" and "->" not in scenario.target_segment:
         raise ValueError("shortest_path scenarios require target_segment like 'A->D'")
+    if (
+        scenario.selection_method == "corridor_time_band"
+        and scenario.target_segment != CENTRAL_TRUNK_TARGET_SEGMENT
+    ):
+        raise ValueError(
+            "corridor_time_band scenarios require target_segment "
+            f"{CENTRAL_TRUNK_TARGET_SEGMENT!r}"
+        )
     if scenario.selection_method == "bbox_midpoint" and scenario.hazard_bbox is None:
         raise ValueError("bbox_midpoint scenarios require hazard bbox fields")
+    if scenario.selection_method == "path_interdiction" and (scenario.max_edges is None or scenario.max_edges < 1):
+        raise ValueError("path_interdiction scenarios require max_edges >= 1")
     if scenario.family == "spatial_hazard_overlay":
         if scenario.evidence_class != "scenario_based" or scenario.observed_disaster_data:
             raise ValueError(
                 "spatial_hazard_overlay rows must be scenario_based and "
                 "observed_disaster_data=false"
+            )
+    if scenario.family == "path_interdiction":
+        if scenario.evidence_class != "scenario_based":
+            raise ValueError(
+                "path_interdiction rows must be scenario_based"
             )
 
 
@@ -790,6 +838,273 @@ def _select_shortest_path_edges(
     return list(zip(path, path[1:]))
 
 
+def select_shortest_path_time_band_edges(
+    graph: nx.DiGraph,
+    *,
+    source: Any,
+    target: Any,
+    lower_fraction: float = CENTRAL_TRUNK_LOWER_FRACTION,
+    upper_fraction: float = CENTRAL_TRUNK_UPPER_FRACTION,
+) -> tuple[Edge, ...]:
+    """Select central directed edges of the minimum-free-flow-time road path.
+
+    An edge is selected when its temporal midpoint along the source-to-target
+    path falls inside the inclusive ``lower_fraction``--``upper_fraction``
+    band.  The selector uses only graph topology and ``t0``; it does not expose
+    path-node or coordinate details in any persisted artifact.
+    """
+
+    if graph.is_multigraph():
+        raise ValueError("shortest-path time-band selection expects a DiGraph")
+    lower = _finite_float(lower_fraction, "lower_fraction")
+    upper = _finite_float(upper_fraction, "upper_fraction")
+    if not (0.0 <= lower < upper <= 1.0):
+        raise ValueError(
+            "shortest-path time band must satisfy "
+            "0 <= lower_fraction < upper_fraction <= 1"
+        )
+
+    road_graph = _road_subgraph(graph, include_connectors=True)
+    try:
+        path = nx.shortest_path(road_graph, source, target, weight="t0")
+    except (nx.NetworkXNoPath, nx.NodeNotFound) as exc:
+        raise ValueError("shortest-path time-band selector has no road path") from exc
+
+    path_edges = tuple(zip(path, path[1:]))
+    if not path_edges:
+        raise ValueError("shortest-path time-band selector requires a non-empty road path")
+
+    durations: list[float] = []
+    for edge in path_edges:
+        duration = _finite_float(graph.edges[edge].get("t0"), "path edge t0")
+        if duration <= 0.0:
+            raise ValueError("shortest-path time-band path edges require positive finite t0")
+        durations.append(duration)
+
+    total = sum(durations)
+    lower_time = lower * total
+    upper_time = upper * total
+    tolerance = 1e-12 * max(1.0, total)
+    selected: list[Edge] = []
+    elapsed = 0.0
+    for edge, duration in zip(path_edges, durations):
+        midpoint = elapsed + duration / 2.0
+        if (
+            lower_time - tolerance <= midpoint <= upper_time + tolerance
+            and _is_selectable_road_edge(
+                graph.edges[edge], include_connectors=False
+            )
+        ):
+            selected.append(edge)
+        elapsed += duration
+
+    if not selected:
+        raise ValueError("shortest-path time band selected no central road edges")
+    return tuple(selected)
+
+
+def select_corridor_time_band_edges(
+    graph: nx.DiGraph,
+    *,
+    source: Any,
+    target: Any,
+    path_count: int | None = None,
+    lower_fraction: float = CENTRAL_TRUNK_LOWER_FRACTION,
+    upper_fraction: float = CENTRAL_TRUNK_UPPER_FRACTION,
+    excluded_endpoint_pairs: Sequence[tuple[Any, Any]] = (
+        ("A", "S"),
+        ("S", "A"),
+        ("R", "D"),
+        ("D", "R"),
+    ),
+) -> tuple[Edge, ...]:
+    """Select central physical edges across a declared route envelope.
+
+    The candidate routes use the same hybrid construction as the graph-scope
+    builder: up to three exact shortest-simple paths followed by deterministic
+    penalty diversification.  Each route contributes physical-road edges whose
+    cumulative free-flow-time midpoint lies in the inclusive time band.
+    Canonical access and return shortest paths are removed so this stress does
+    not silently duplicate feeder or last-mile scenarios.
+    """
+
+    if graph.is_multigraph():
+        raise ValueError("corridor time-band selection expects a DiGraph")
+    lower = _finite_float(lower_fraction, "lower_fraction")
+    upper = _finite_float(upper_fraction, "upper_fraction")
+    if not (0.0 <= lower < upper <= 1.0):
+        raise ValueError(
+            "corridor time band must satisfy "
+            "0 <= lower_fraction < upper_fraction <= 1"
+        )
+    count = _corridor_candidate_count(graph, path_count)
+    road_graph = _road_subgraph(graph, include_connectors=True)
+    paths = hybrid_corridor_candidate_paths(
+        road_graph,
+        source=source,
+        target=target,
+        path_count=count,
+    )
+    if not paths:
+        raise ValueError("corridor time-band selector has no road path")
+
+    excluded: set[Edge] = set()
+    for endpoint_source, endpoint_target in excluded_endpoint_pairs:
+        try:
+            endpoint_path = nx.shortest_path(
+                road_graph,
+                endpoint_source,
+                endpoint_target,
+                weight="t0",
+            )
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            continue
+        excluded.update(zip(endpoint_path, endpoint_path[1:]))
+
+    selected: list[Edge] = []
+    seen: set[Edge] = set()
+    for path in paths:
+        for edge in _time_band_edges_for_path(
+            graph,
+            path,
+            lower_fraction=lower,
+            upper_fraction=upper,
+        ):
+            if edge in excluded or edge in seen:
+                continue
+            seen.add(edge)
+            selected.append(edge)
+
+    if not selected:
+        raise ValueError("corridor time band selected no central road edges")
+    return tuple(selected)
+
+
+def _corridor_candidate_count(graph: nx.DiGraph, path_count: int | None) -> int:
+    raw = graph.graph.get("corridor_path_count", 3) if path_count is None else path_count
+    if isinstance(raw, bool):
+        raise ValueError("corridor path_count must be a positive integer")
+    try:
+        numeric = float(raw)
+        count = int(numeric)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("corridor path_count must be a positive integer") from exc
+    if not isfinite(numeric) or numeric != count or count < 1:
+        raise ValueError("corridor path_count must be a positive integer")
+    return count
+
+
+def hybrid_corridor_candidate_paths(
+    graph: nx.DiGraph,
+    *,
+    source: Any,
+    target: Any,
+    path_count: int,
+    seed_paths: Sequence[Sequence[Any]] | None = None,
+    progress: Callable[[Mapping[str, Any]], None] | None = None,
+    leg_id: str = "",
+) -> tuple[tuple[Any, ...], ...]:
+    """Build exact-seeded, deterministic penalty-diversified route candidates."""
+
+    if isinstance(path_count, bool) or not isinstance(path_count, int) or path_count < 1:
+        raise ValueError("corridor path_count must be a positive integer")
+    if seed_paths is None:
+        try:
+            candidates = nx.shortest_simple_paths(graph, source, target, weight="t0")
+            paths = [
+                tuple(path)
+                for path in islice(candidates, min(3, path_count))
+            ]
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            return ()
+    else:
+        paths = [tuple(path) for path in seed_paths]
+    if not paths or len(paths) >= path_count:
+        return tuple(paths[:path_count])
+
+    seen = set(paths)
+    usage: Counter[Edge] = Counter()
+    for path in paths:
+        usage.update(zip(path, path[1:]))
+    first_edges = tuple(zip(paths[0], paths[0][1:]))
+    first_cost = sum(
+        _finite_float(graph.edges[edge].get("t0"), "candidate edge t0")
+        for edge in first_edges
+    )
+    penalty_unit = max(first_cost * 2.0, 1e-9)
+    attempts = 0
+    max_attempts = max(12, (path_count - len(paths)) * 4)
+    while len(paths) < path_count and attempts < max_attempts:
+        attempts += 1
+
+        def penalized_weight(u: Any, v: Any, data: Mapping[str, Any]) -> float:
+            base = _finite_float(data.get("t0"), "candidate edge t0")
+            return base + penalty_unit * float(usage[(u, v)])
+
+        try:
+            candidate = tuple(
+                nx.shortest_path(
+                    graph,
+                    source,
+                    target,
+                    weight=penalized_weight,
+                )
+            )
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            break
+        candidate_edges = tuple(zip(candidate, candidate[1:]))
+        if candidate not in seen:
+            paths.append(candidate)
+            seen.add(candidate)
+            if progress is not None:
+                progress(
+                    {
+                        "event": "penalty_candidate_added",
+                        "leg": leg_id,
+                        "candidate_count": len(paths),
+                        "target_count": path_count,
+                        "search_attempt": attempts,
+                    }
+                )
+        usage.update(candidate_edges)
+    return tuple(paths)
+
+
+def _time_band_edges_for_path(
+    graph: nx.DiGraph,
+    path: Sequence[Any],
+    *,
+    lower_fraction: float,
+    upper_fraction: float,
+) -> tuple[Edge, ...]:
+    path_edges = tuple(zip(path, path[1:]))
+    if not path_edges:
+        return ()
+    durations = [
+        _finite_float(graph.edges[edge].get("t0"), "candidate edge t0")
+        for edge in path_edges
+    ]
+    if any(duration <= 0.0 for duration in durations):
+        raise ValueError("corridor time-band path edges require positive finite t0")
+    total = sum(durations)
+    lower_time = lower_fraction * total
+    upper_time = upper_fraction * total
+    tolerance = 1e-12 * max(1.0, total)
+    selected: list[Edge] = []
+    elapsed = 0.0
+    for edge, duration in zip(path_edges, durations):
+        midpoint = elapsed + duration / 2.0
+        if (
+            lower_time - tolerance <= midpoint <= upper_time + tolerance
+            and _is_selectable_road_edge(
+                graph.edges[edge], include_connectors=False
+            )
+        ):
+            selected.append(edge)
+        elapsed += duration
+    return tuple(selected)
+
+
 def _select_station_access_edges(
     graph: nx.DiGraph,
     scenario: DisruptionScenario,
@@ -833,6 +1148,34 @@ def _limit_edges(edges: Sequence[Edge], max_edges: int | None) -> list[Edge]:
     if max_edges is None:
         return list(edges)
     return list(edges[:max_edges])
+
+
+def _select_path_interdiction_edges(
+    graph: nx.DiGraph, scenario: DisruptionScenario, node_ids: Mapping[str, Any]
+) -> list[Edge]:
+    """Budget-k shortest-path interdiction (Israeli & Wood 2002).
+
+    Removes k edges from the shortest A->D path to maximize travel-time increase.
+    Based on public road network topology (표준노드링크).
+    """
+    k = scenario.max_edges if scenario.max_edges is not None else 3
+    source = str(node_ids["assembly"])
+    target = str(node_ids["destination"])
+    try:
+        shortest_path = nx.shortest_path(graph, source=source, target=target, weight="t0")
+    except nx.NetworkXNoPath:
+        raise ValueError(f"scenario {scenario.scenario_id!r}: no A->D path exists")
+    path_edges = list(zip(shortest_path[:-1], shortest_path[1:]))
+    if len(path_edges) <= k:
+        return path_edges
+    edge_weights = []
+    for u, v in path_edges:
+        wt = graph[u][v].get("t0", 1.0)
+        impact = wt * graph[u][v].get("capacity", 1.0)
+        edge_weights.append((impact, (u, v)))
+    edge_weights.sort(reverse=True)
+    selected = [edge for _, edge in edge_weights[:k]]
+    return selected
 
 
 def _scenario_edge(
@@ -1144,6 +1487,9 @@ __all__ = [
     "ALLOWED_DISRUPTION_MODES",
     "ALLOWED_FAMILIES",
     "ALLOWED_SELECTION_METHODS",
+    "CENTRAL_TRUNK_LOWER_FRACTION",
+    "CENTRAL_TRUNK_TARGET_SEGMENT",
+    "CENTRAL_TRUNK_UPPER_FRACTION",
     "CSV_COLUMNS",
     "DEFAULT_RECOVERY_PROFILE",
     "DEFAULT_REQUIRED_NODES",
@@ -1163,6 +1509,7 @@ __all__ = [
     "build_disruption_scenario_markdown",
     "build_scenario_disruption_map",
     "build_scenario_edge_map",
+    "hybrid_corridor_candidate_paths",
     "load_disruption_scenarios",
     "mark_candidate_edges",
     "mark_scenario_edges",
@@ -1170,6 +1517,8 @@ __all__ = [
     "scenario_to_disruption_map",
     "scenario_to_edge_map",
     "select_candidate_edges",
+    "select_corridor_time_band_edges",
+    "select_shortest_path_time_band_edges",
     "validate_scenario_table",
     "write_disruption_scenario_manifest",
 ]

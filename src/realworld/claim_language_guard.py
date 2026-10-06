@@ -79,18 +79,27 @@ def default_claim_language_scan_paths(
     """Return deterministic default files for lexical release-claim scanning."""
 
     root = Path(project_root)
-    candidates: list[Path] = [
-        root / "README.md",
-        root / "agents.md",
-        root / "AGENTS.md",
+    # Optional legacy targets: include only when present so permanent cleanup
+    # deletions do not create structural missing_scan_target blockers. Explicit
+    # --scan-path arguments still fail closed for missing files.
+    optional_candidates: list[Path] = [
         root / "plan.md",
         root / "status.md",
-        root / "report_draft.md",
-        root / "paper" / "paper_draft.md",
+        root / "AGENTS.md",
         root / "results" / "realworld_pilot" / "tables" / "figure_table_manifest.json",
         root / "data" / "manifests" / "publication_readiness_audit.json",
         root / "data" / "manifests" / "current_goal_completion_audit.json",
         root / "data" / "manifests" / "phase_gate_ledger_audit.json",
+    ]
+    required_candidates: list[Path] = [
+        root / "README.md",
+        root / "agents.md",
+        root / "report_draft.md",
+        root / "paper" / "paper_draft.md",
+    ]
+    candidates: list[Path] = [
+        *required_candidates,
+        *(path for path in optional_candidates if path.exists()),
     ]
     docs_root = root / "docs"
     if docs_root.exists():

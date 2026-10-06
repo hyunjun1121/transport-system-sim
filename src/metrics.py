@@ -31,6 +31,16 @@ class MetricsCollector:
         - completion_rate: fraction delivered within the simulation horizon
         - penalized_makespan: makespan with a penalty for censored personnel
         - first/median/80th/95th arrival time for successful arrivals
+        - road_vehicle_cycles / road_deployed_seat_capacity /
+          road_boarded_passengers / road_mean_vehicle_load_factor: road-only
+          utilization accounting
+        - rail_deployed_seat_capacity / rail_boarded_passengers /
+          rail_mean_load_factor: rail-only utilization accounting
+
+    With ``include_extended=True``, ``vehicle_cycles``,
+    ``deployed_seat_capacity``, ``boarded_passengers``, and
+    ``mean_vehicle_load_factor`` remain transitional aliases for their
+    canonical ``road_*`` counterparts.
     """
 
     total_personnel: int = 0
@@ -74,8 +84,112 @@ class MetricsCollector:
     # Personnel still waiting at end
     leftover_count: int = 0
 
+    # Opt-in transport accounting. Appended after every legacy dataclass field
+    # to preserve positional construction as well as the default dict contract.
+    empty_return_trips: int = 0
+    empty_return_minutes: float = 0.0
+    # These three storage names predate rail load accounting and are road-only.
+    # Explicit ``road_*`` properties/keys below are canonical; ambiguous names
+    # remain transitional aliases for existing result readers.
+    vehicle_cycles: int = 0
+    deployed_seat_capacity: int = 0
+    boarded_passengers: int = 0
+    rail_deployed_seat_capacity: int = 0
+    rail_boarded_passengers: int = 0
+    assembly_wait_passenger_minutes: float = 0.0
+    assembly_wait_passenger_count: int = 0
+    transfer_wait_passenger_minutes: float = 0.0
+    transfer_wait_passenger_count: int = 0
+    rail_wait_passenger_minutes: float = 0.0
+    rail_wait_passenger_count: int = 0
+
+    def __post_init__(self) -> None:
+        self._validate_extended_state()
+
     def record_arrival(self, person_id: int, arrival_time: float) -> None:
         self.arrivals.append((person_id, arrival_time))
+
+    def record_empty_return(
+        self,
+        travel_time_min: float,
+        trips: int = 1,
+    ) -> None:
+        """Record one or more unladen vehicle-return movements."""
+        travel_time_min = self._validated_time(travel_time_min, "travel_time_min")
+        trips = self._validated_count(trips, "trips")
+        self.empty_return_trips += trips
+        self.empty_return_minutes += travel_time_min * trips
+
+    def record_road_vehicle_cycle(self, count: int = 1) -> None:
+        """Record completed road-vehicle service cycles."""
+        self.vehicle_cycles += self._validated_count(count, "count")
+
+    def record_vehicle_cycle(self, count: int = 1) -> None:
+        """Compatibility alias for :meth:`record_road_vehicle_cycle`."""
+        self.record_road_vehicle_cycle(count)
+
+    def record_road_vehicle_load(
+        self,
+        boarded_passengers: int,
+        seat_capacity: int,
+    ) -> None:
+        """Accumulate road-boarded passengers and deployed road seats."""
+        boarded_passengers = self._validated_count(
+            boarded_passengers,
+            "boarded_passengers",
+        )
+        seat_capacity = self._validated_count(seat_capacity, "seat_capacity")
+        if boarded_passengers > seat_capacity:
+            raise ValueError("boarded_passengers cannot exceed seat_capacity")
+        self.boarded_passengers += boarded_passengers
+        self.deployed_seat_capacity += seat_capacity
+
+    def record_vehicle_load(
+        self,
+        boarded_passengers: int,
+        seat_capacity: int,
+    ) -> None:
+        """Compatibility alias for :meth:`record_road_vehicle_load`."""
+        self.record_road_vehicle_load(boarded_passengers, seat_capacity)
+
+    def record_rail_load(
+        self,
+        boarded_passengers: int,
+        seat_capacity: int,
+    ) -> None:
+        """Accumulate rail-boarded passengers and deployed train seats."""
+
+        boarded_passengers = self._validated_count(
+            boarded_passengers,
+            "boarded_passengers",
+        )
+        seat_capacity = self._validated_count(seat_capacity, "seat_capacity")
+        if boarded_passengers > seat_capacity:
+            raise ValueError("boarded_passengers cannot exceed seat_capacity")
+        self.rail_boarded_passengers += boarded_passengers
+        self.rail_deployed_seat_capacity += seat_capacity
+
+    def record_passenger_wait(
+        self,
+        stage: str,
+        wait_time_min: float,
+        passenger_count: int = 1,
+        *,
+        count_passengers: bool = True,
+    ) -> None:
+        """Record passenger-weighted wait at assembly, transfer, or rail stage."""
+        if stage not in {"assembly", "transfer", "rail"}:
+            raise ValueError(
+                "stage must be one of: assembly, transfer, rail"
+            )
+        wait_time_min = self._validated_time(wait_time_min, "wait_time_min")
+        passenger_count = self._validated_count(passenger_count, "passenger_count")
+        passenger_minutes = wait_time_min * passenger_count
+        minutes_field = f"{stage}_wait_passenger_minutes"
+        count_field = f"{stage}_wait_passenger_count"
+        setattr(self, minutes_field, getattr(self, minutes_field) + passenger_minutes)
+        if count_passengers:
+            setattr(self, count_field, getattr(self, count_field) + passenger_count)
 
     @property
     def makespan(self) -> float:
@@ -176,6 +290,26 @@ class MetricsCollector:
         return self.bus_minutes + self.lastmile_vehicle_minutes
 
     @property
+    def road_vehicle_operating_minutes(self) -> float:
+        """Loaded road service plus finite empty-return vehicle minutes."""
+
+        return self.road_vehicle_service_minutes + self.empty_return_minutes
+
+    @property
+    def total_operating_minutes(self) -> float:
+        """All finite vehicle/train operating minutes including empty returns."""
+
+        return self.road_vehicle_operating_minutes + self.train_service_minutes
+
+    @property
+    def passengers_per_operating_vehicle_minute(self) -> float:
+        """Delivered passengers per road vehicle-minute including returns."""
+
+        return self._delivered_per_service_minute(
+            self.road_vehicle_operating_minutes
+        )
+
+    @property
     def train_service_minutes(self) -> float:
         """Total train service minutes."""
         return self.train_minutes
@@ -194,6 +328,64 @@ class MetricsCollector:
     def passengers_per_total_service_minute(self) -> float:
         """Delivered passengers per total vehicle/train service minute."""
         return self._delivered_per_service_minute(self.total_service_minutes)
+
+    @property
+    def mean_vehicle_load_factor(self) -> float:
+        """Compatibility alias for road_mean_vehicle_load_factor."""
+        return self.road_mean_vehicle_load_factor
+
+    @property
+    def road_vehicle_cycles(self) -> int:
+        """Completed road-vehicle cycles."""
+        return self.vehicle_cycles
+
+    @property
+    def road_deployed_seat_capacity(self) -> int:
+        """Seats offered across dispatched road vehicles."""
+        return self.deployed_seat_capacity
+
+    @property
+    def road_boarded_passengers(self) -> int:
+        """Passenger boardings across dispatched road vehicles."""
+        return self.boarded_passengers
+
+    @property
+    def road_mean_vehicle_load_factor(self) -> float:
+        """Road boardings divided by deployed road-seat capacity."""
+        if self.deployed_seat_capacity <= 0:
+            return 0.0
+        return self.boarded_passengers / self.deployed_seat_capacity
+
+    @property
+    def rail_mean_load_factor(self) -> float:
+        """Rail boardings divided by deployed train-seat capacity."""
+        if self.rail_deployed_seat_capacity <= 0:
+            return 0.0
+        return self.rail_boarded_passengers / self.rail_deployed_seat_capacity
+
+    @property
+    def mean_assembly_wait_min(self) -> float:
+        """Passenger-weighted mean assembly wait in minutes."""
+        return self._passenger_weighted_mean(
+            self.assembly_wait_passenger_minutes,
+            self.assembly_wait_passenger_count,
+        )
+
+    @property
+    def mean_transfer_wait_min(self) -> float:
+        """Passenger-weighted mean transfer wait in minutes."""
+        return self._passenger_weighted_mean(
+            self.transfer_wait_passenger_minutes,
+            self.transfer_wait_passenger_count,
+        )
+
+    @property
+    def mean_rail_wait_min(self) -> float:
+        """Passenger-weighted mean rail wait in minutes."""
+        return self._passenger_weighted_mean(
+            self.rail_wait_passenger_minutes,
+            self.rail_wait_passenger_count,
+        )
 
     @property
     def resource_efficiency(self) -> float:
@@ -241,9 +433,68 @@ class MetricsCollector:
             return 0.0
         return self.success_count / service_minutes
 
-    def as_dict(self) -> dict:
-        """Return all KPIs as a dictionary."""
-        return {
+    @staticmethod
+    def _passenger_weighted_mean(
+        passenger_minutes: float,
+        passenger_count: int,
+    ) -> float:
+        """Return a finite zero when no passengers contribute to a wait metric."""
+        if passenger_count <= 0:
+            return 0.0
+        return passenger_minutes / passenger_count
+
+    @staticmethod
+    def _validated_count(value: int, name: str) -> int:
+        """Return a nonnegative integral count or raise ValueError."""
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"{name} must be a nonnegative integer")
+        return value
+
+    @staticmethod
+    def _validated_time(value: float, name: str) -> float:
+        """Return a finite nonnegative duration or raise ValueError."""
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{name} must be a finite nonnegative number") from exc
+        if not math.isfinite(numeric) or numeric < 0:
+            raise ValueError(f"{name} must be a finite nonnegative number")
+        return numeric
+
+    def _validate_extended_state(self) -> None:
+        """Validate all opt-in counters and durations."""
+        for name in (
+            "empty_return_trips",
+            "vehicle_cycles",
+            "deployed_seat_capacity",
+            "boarded_passengers",
+            "rail_deployed_seat_capacity",
+            "rail_boarded_passengers",
+            "assembly_wait_passenger_count",
+            "transfer_wait_passenger_count",
+            "rail_wait_passenger_count",
+        ):
+            self._validated_count(getattr(self, name), name)
+        for name in (
+            "empty_return_minutes",
+            "assembly_wait_passenger_minutes",
+            "transfer_wait_passenger_minutes",
+            "rail_wait_passenger_minutes",
+        ):
+            self._validated_time(getattr(self, name), name)
+        if self.boarded_passengers > self.deployed_seat_capacity:
+            raise ValueError(
+                "boarded_passengers cannot exceed deployed_seat_capacity"
+            )
+        if self.rail_boarded_passengers > self.rail_deployed_seat_capacity:
+            raise ValueError(
+                "rail_boarded_passengers cannot exceed "
+                "rail_deployed_seat_capacity"
+            )
+
+    def as_dict(self, include_extended: bool = False) -> dict:
+        """Return KPIs, optionally including extended transport accounting."""
+        result = {
             "makespan": self.makespan,
             "success_count": self.success_count,
             "success_rate": self.success_rate,
@@ -281,3 +532,62 @@ class MetricsCollector:
                 for mode in sorted(set(self.service_trips) | set(self.service_minutes))
             },
         }
+        if not include_extended:
+            return result
+
+        self._validate_extended_state()
+        result.update(
+            {
+                "empty_return_trips": self.empty_return_trips,
+                "empty_return_minutes": round(self.empty_return_minutes, 2),
+                "road_vehicle_operating_minutes": round(
+                    self.road_vehicle_operating_minutes,
+                    2,
+                ),
+                "total_operating_minutes": round(
+                    self.total_operating_minutes,
+                    2,
+                ),
+                "passengers_per_operating_vehicle_minute": round(
+                    self.passengers_per_operating_vehicle_minute,
+                    4,
+                ),
+                "road_vehicle_cycles": self.road_vehicle_cycles,
+                "road_deployed_seat_capacity": self.road_deployed_seat_capacity,
+                "road_boarded_passengers": self.road_boarded_passengers,
+                "road_mean_vehicle_load_factor": round(
+                    self.road_mean_vehicle_load_factor,
+                    4,
+                ),
+                "rail_deployed_seat_capacity": self.rail_deployed_seat_capacity,
+                "rail_boarded_passengers": self.rail_boarded_passengers,
+                "rail_mean_load_factor": round(self.rail_mean_load_factor, 4),
+                # Transitional road-only aliases retained for existing readers.
+                "vehicle_cycles": self.vehicle_cycles,
+                "deployed_seat_capacity": self.deployed_seat_capacity,
+                "boarded_passengers": self.boarded_passengers,
+                "mean_vehicle_load_factor": round(
+                    self.mean_vehicle_load_factor,
+                    4,
+                ),
+                "assembly_wait_passenger_minutes": round(
+                    self.assembly_wait_passenger_minutes,
+                    2,
+                ),
+                "assembly_wait_passenger_count": self.assembly_wait_passenger_count,
+                "mean_assembly_wait_min": round(self.mean_assembly_wait_min, 2),
+                "transfer_wait_passenger_minutes": round(
+                    self.transfer_wait_passenger_minutes,
+                    2,
+                ),
+                "transfer_wait_passenger_count": self.transfer_wait_passenger_count,
+                "mean_transfer_wait_min": round(self.mean_transfer_wait_min, 2),
+                "rail_wait_passenger_minutes": round(
+                    self.rail_wait_passenger_minutes,
+                    2,
+                ),
+                "rail_wait_passenger_count": self.rail_wait_passenger_count,
+                "mean_rail_wait_min": round(self.mean_rail_wait_min, 2),
+            }
+        )
+        return result

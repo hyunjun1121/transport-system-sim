@@ -8,10 +8,12 @@ import simpy
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.rail import (
+    RailServiceState,
     RailServiceConfig,
     board_passengers,
     departure_times,
     next_departure_time,
+    resolve_rail_service,
     start_fixed_headway_service,
 )
 
@@ -131,10 +133,66 @@ def test_rail_validation_rejects_non_finite_and_non_integral_inputs():
     print("PASS: rail validation rejects invalid inputs")
 
 
+def test_rail_service_states_resolve_availability_and_travel_time():
+    """Explicit states should replace sentinel travel-time multipliers."""
+    available = resolve_rail_service(
+        travel_time_min=114.0,
+        state=RailServiceState.AVAILABLE,
+    )
+    degraded = resolve_rail_service(
+        travel_time_min=114.0,
+        state="degraded",
+        degradation_multiplier=1.5,
+    )
+    unavailable = resolve_rail_service(
+        travel_time_min=114.0,
+        state=RailServiceState.UNAVAILABLE,
+    )
+
+    assert available.state is RailServiceState.AVAILABLE
+    assert available.is_available is True
+    assert available.effective_travel_time_min == 114.0
+    assert degraded.state is RailServiceState.DEGRADED
+    assert degraded.is_available is True
+    assert degraded.effective_travel_time_min == 171.0
+    assert unavailable.state is RailServiceState.UNAVAILABLE
+    assert unavailable.is_available is False
+    assert unavailable.effective_travel_time_min is None
+    print("PASS: rail states resolve structurally")
+
+
+def test_rail_service_state_validation_rejects_invalid_values():
+    """State resolution should reject unknown states and faster degradation."""
+    invalid_calls = [
+        lambda: resolve_rail_service(114.0, state="delayed"),
+        lambda: resolve_rail_service(
+            114.0,
+            state=RailServiceState.DEGRADED,
+            degradation_multiplier=0.99,
+        ),
+        lambda: resolve_rail_service(
+            114.0,
+            state=RailServiceState.DEGRADED,
+            degradation_multiplier=float("nan"),
+        ),
+    ]
+
+    for call in invalid_calls:
+        try:
+            call()
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("invalid rail service state should raise ValueError")
+    print("PASS: rail state validation rejects invalid values")
+
+
 if __name__ == "__main__":
     test_board_passengers_leaves_excess_queued()
     test_departure_schedule_defaults_to_one_headway()
     test_fixed_headway_dispatches_while_prior_trains_are_in_transit()
     test_fixed_headway_skips_empty_departure_and_keeps_running()
     test_rail_validation_rejects_non_finite_and_non_integral_inputs()
+    test_rail_service_states_resolve_availability_and_travel_time()
+    test_rail_service_state_validation_rejects_invalid_values()
     print("\n=== ALL RAIL TESTS PASSED ===")
