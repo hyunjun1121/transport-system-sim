@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "source_file": "03_rewrite.md",
+    "output_file": "03_rewrite_v2.md",
+    "char_count_before": 1589,
+    "char_count_after": 1408,
+    "levenshtein_distance": 260,
+    "change_rate": 0.1636,
+    "revision_reason": "DOCX visual review found one orphaned table row on page 2; wording was tightened before reducing type size.",
+    "over_polish_warning": false
+  },
+  "edits": [
+    {
+      "finding_id": "layout-r1",
+      "before": "도로가 느려지거나 끊기거나 철도를 제때 이용하기 어려울 때 어느 방식이 유리해지는지도 살펴본다.",
+      "after": "도로·철도 이용 여건이 달라질 때 어느 방식이 유리해지는지도 살펴본다.",
+      "category": "A-18",
+      "reason": "동일한 연구 범위를 더 짧은 일반어로 표현했다."
+    },
+    {
+      "finding_id": "layout-r2",
+      "before": "전시에는 열차를 1편만 확보할지, 2편 이상 쓸 수 있을지조차 불확실하다. 일반 승객이나 다른 군 수송수요가 함께 타면 모든 좌석을 동원예비군에게 배정할 수도 없다. 버스와 운전자를 얼마나 확보할 수 있는지도 미리 알기 어렵다.",
+      "after": "실제 전시에는 열차를 1편만 쓸지 2편 이상 쓸지, 일반 승객이나 다른 군 수송수요와 좌석을 나눌지, 버스와 운전자를 얼마나 확보할지 불확실하다.",
+      "category": "E-5",
+      "reason": "세 판단은 유지하고 중복되는 가능형 표현을 줄였다."
+    },
+    {
+      "finding_id": "layout-r3",
+      "before": "표의 18개 세부 결정문",
+      "after": "같은 뜻을 유지한 짧은 세부 결정문",
+      "category": "F-4",
+      "reason": "연구자용 명사구와 중복 설명을 덜어 제3자 가독성을 높였다."
+    }
+  ],
+  "unresolved_findings": [
+    {
+      "finding_id": "f003",
+      "reason": "결정표의 기능상 종결어미 '정한다'는 유지했다."
+    }
+  ]
+}

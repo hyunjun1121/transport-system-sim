@@ -1,0 +1,47 @@
+graph-scope cache: build_started
+graph-scope cache: exact_top3_ready (leg=A_to_D, candidate_count=3)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=4)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=5)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=6)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=7)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=8)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=9)
+graph-scope cache: penalty_candidate_added (leg=A_to_D, candidate_count=10)
+graph-scope cache: leg_candidates_ready (leg=A_to_D, candidate_count=10)
+graph-scope cache: exact_top3_ready (leg=A_to_S, candidate_count=3)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=4)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=5)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=6)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=7)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=8)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=9)
+graph-scope cache: penalty_candidate_added (leg=A_to_S, candidate_count=10)
+graph-scope cache: leg_candidates_ready (leg=A_to_S, candidate_count=10)
+graph-scope cache: exact_top3_ready (leg=R_to_D, candidate_count=3)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=4)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=5)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=6)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=7)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=8)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=9)
+graph-scope cache: penalty_candidate_added (leg=R_to_D, candidate_count=10)
+graph-scope cache: leg_candidates_ready (leg=R_to_D, candidate_count=10)
+graph-scope cache: scope_materialized (scope=top3, nodes=752, edges=1512)
+graph-scope cache: scope_materialized (scope=top5, nodes=2733, edges=5532)
+graph-scope cache: scope_materialized (scope=top10, nodes=9089, edges=18602)
+graph-scope cache: scope_cached (scope=top3, nodes=752, edges=1512)
+graph-scope cache: scope_cached (scope=top5, nodes=2733, edges=5532)
+graph-scope cache: scope_cached (scope=top10, nodes=9089, edges=18602)
+graph-scope cache: build_complete
+revision campaigns: 11; new runs: 24630
+paired_reanalysis: 2520/2520 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\paired_reanalysis\full_results.csv
+graph_scope: 1330/1330 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\graph_scope\full_results.csv
+break_even: 1920/1920 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\break_even\full_results.csv
+break_even_fine: 2040/2040 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\break_even_fine\full_results.csv
+demand_fleet: 1920/1920 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\demand_fleet\full_results.csv
+road_rail_map: 3600/3600 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\road_rail_map\full_results.csv
+random_threat_outer: 6000/6000 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\random_threat_outer\full_results.csv
+adaptive_policies: 1260/1260 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\adaptive_policies\full_results.csv
+morris: 1400/1400 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\morris\full_results.csv
+scale_sensitivity: 240/240 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\scale_sensitivity\full_results.csv
+path_interdiction_threat: 2400/2400 -> C:\project\transport-system-sim\results\paper_revision_top10_corridor_v4_20260721\path_interdiction_threat\full_results.csv

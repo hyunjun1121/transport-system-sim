@@ -1,6 +1,0 @@
-name: catalog
-datasets:
-  - name: name1
-    package: package1.yaml
-  - name: name2
-    package: package2.yaml

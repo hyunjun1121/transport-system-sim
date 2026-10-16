@@ -1,0 +1,374 @@
+{
+  "campaign_id": "graph_scope",
+  "canonical_results_read_only": "results\\realworld_pilot_nodelink",
+  "claim_boundary": "Public-data-based conditional scenario simulation for decision support; not a field-calibrated prediction or route prescription.",
+  "completed_run_count": 64,
+  "design_id": "paper_revision_20260721",
+  "final_study_ready": false,
+  "frozen_scenario_edge_checksums": {
+    "goseong_access_origin_to_destination": "74ec3c7020ad61948997f590033caede12bb4f24e5e753c3f54a8e42b97d740a",
+    "goseong_access_origin_to_station": "a7c9b2aeb5ec32d0dba25b14302e9b640c559345794d58e6d15ed9e255ac2512",
+    "goseong_access_road_damage_extreme": "a7c9b2aeb5ec32d0dba25b14302e9b640c559345794d58e6d15ed9e255ac2512",
+    "goseong_access_road_damage_mild": "a7c9b2aeb5ec32d0dba25b14302e9b640c559345794d58e6d15ed9e255ac2512",
+    "goseong_access_road_damage_severe": "a7c9b2aeb5ec32d0dba25b14302e9b640c559345794d58e6d15ed9e255ac2512",
+    "goseong_access_road_damage_severe_plus50": "a7c9b2aeb5ec32d0dba25b14302e9b640c559345794d58e6d15ed9e255ac2512",
+    "goseong_critical_link_blockage": "77292be6e4ac737edf2c207601eed11f898304f2d34480f6980a003130e1ac71",
+    "goseong_last_mile_damage_extreme": "ce8211b1c776dd75871e66452a2aeda146e2751d1bb11806ff02a47a23cae73d",
+    "goseong_last_mile_damage_mild": "ce8211b1c776dd75871e66452a2aeda146e2751d1bb11806ff02a47a23cae73d",
+    "goseong_last_mile_damage_severe": "ce8211b1c776dd75871e66452a2aeda146e2751d1bb11806ff02a47a23cae73d",
+    "goseong_last_mile_damage_severe_plus50": "ce8211b1c776dd75871e66452a2aeda146e2751d1bb11806ff02a47a23cae73d",
+    "goseong_last_mile_station_to_destination": "ce8211b1c776dd75871e66452a2aeda146e2751d1bb11806ff02a47a23cae73d",
+    "goseong_long_haul_damage_mild": "5c351d991742741caaa6af7b3468d264d253204c9b9c230bf9241ec312bd504d",
+    "goseong_long_haul_damage_moderate": "5c351d991742741caaa6af7b3468d264d253204c9b9c230bf9241ec312bd504d",
+    "goseong_long_haul_damage_severe": "5c351d991742741caaa6af7b3468d264d253204c9b9c230bf9241ec312bd504d",
+    "goseong_rail_station_access": "8e7a93dc404bf951ca1131749942541310aba58edf3241af49934d068b988401",
+    "goseong_rail_unavailable": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "goseong_random_blockage": "74c2ef597fe4acb676f1bc191f9f4b27785785951d0b60ea3c3ce677df023f4a",
+    "goseong_random_capacity_reduction": "f529847617f4f876d33dbbc9b447a418ccb8f84b52f3003ff0760e1b2ddf79c5",
+    "goseong_spatial_assembly_egress": "0f46b76044c804ce313574866e96d9e06d796b22ba7bed866d42e6782cb9ebca"
+  },
+  "frozen_selected_edges_from": "top3",
+  "graph_loaded_once": true,
+  "graph_scope_cache": {
+    "manifest_path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\_graph_scope_cache\\manifest.json",
+    "method_version": "hybrid_exact3_penalty_v1",
+    "progress_path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\_graph_scope_cache\\build_progress.jsonl",
+    "schema_version": 1,
+    "scopes": {
+      "top10": {
+        "candidate_method": "exact_top3_plus_deterministic_penalty_diversification",
+        "edges": 18602,
+        "file": "top10.graphml",
+        "leg_candidates": {
+          "A_to_D": {
+            "candidate_count": 10,
+            "exact_shortest_count": 3,
+            "expansion_count": 7,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          },
+          "A_to_S": {
+            "candidate_count": 10,
+            "exact_shortest_count": 3,
+            "expansion_count": 7,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          },
+          "R_to_D": {
+            "candidate_count": 10,
+            "exact_shortest_count": 3,
+            "expansion_count": 7,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          }
+        },
+        "nodes": 9089,
+        "sha256": "cbf7c126fd0f2693d57f9e6365d4eff4921ddd38135e1c0dc7119fc478575c3d",
+        "size_bytes": 25276184
+      },
+      "top3": {
+        "candidate_method": "exact_shortest_simple_paths",
+        "edges": 1512,
+        "file": "top3.graphml",
+        "leg_candidates": {
+          "A_to_D": {
+            "candidate_count": 3,
+            "exact_shortest_count": 3,
+            "expansion_count": 0,
+            "method": "exact_shortest_simple_paths"
+          },
+          "A_to_S": {
+            "candidate_count": 3,
+            "exact_shortest_count": 3,
+            "expansion_count": 0,
+            "method": "exact_shortest_simple_paths"
+          },
+          "R_to_D": {
+            "candidate_count": 3,
+            "exact_shortest_count": 3,
+            "expansion_count": 0,
+            "method": "exact_shortest_simple_paths"
+          }
+        },
+        "nodes": 752,
+        "sha256": "5cda693cfe2273cbbe5615e0dcdbc70da4c8709dc38752ad802293c0bd10e488",
+        "size_bytes": 2049175
+      },
+      "top5": {
+        "candidate_method": "exact_top3_plus_deterministic_penalty_diversification",
+        "edges": 5532,
+        "file": "top5.graphml",
+        "leg_candidates": {
+          "A_to_D": {
+            "candidate_count": 5,
+            "exact_shortest_count": 3,
+            "expansion_count": 2,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          },
+          "A_to_S": {
+            "candidate_count": 5,
+            "exact_shortest_count": 3,
+            "expansion_count": 2,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          },
+          "R_to_D": {
+            "candidate_count": 5,
+            "exact_shortest_count": 3,
+            "expansion_count": 2,
+            "method": "exact_top3_plus_deterministic_penalty_diversification"
+          }
+        },
+        "nodes": 2733,
+        "sha256": "1d7bd1a6fb5b300fc026de1acde83f7f7f4828017bfe999b6efff767ffe16208",
+        "size_bytes": 7478885
+      }
+    },
+    "source_graphml_sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+    "status": "hit"
+  },
+  "graph_scope_route_evidence": {
+    "manifest_path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope_route_metrics_manifest.json",
+    "metrics_path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope_route_metrics.csv",
+    "output_artifact": {
+      "path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope_route_metrics.csv",
+      "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541",
+      "size_bytes": 4631
+    },
+    "row_count": 16
+  },
+  "graph_scopes": {
+    "full": {
+      "edges": 971680,
+      "nodes": 360556
+    },
+    "top10": {
+      "edges": 18602,
+      "nodes": 9089
+    },
+    "top3": {
+      "edges": 1512,
+      "nodes": 752
+    },
+    "top5": {
+      "edges": 5532,
+      "nodes": 2733
+    }
+  },
+  "implementation_artifacts": {
+    "scripts/run_paper_revision_experiments.py": {
+      "path": "C:\\project\\transport-system-sim\\scripts\\run_paper_revision_experiments.py",
+      "sha256": "25a99b6b6aa456f59ebb4f62483b51904051adebb3185940ff6ff782dfe6ebbb",
+      "size_bytes": 32017
+    },
+    "src/fleet.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\fleet.py",
+      "sha256": "e5c4c7c94e9d4b1e3354efa9a23d5556b0db06f37fbcc329e514a48f7e0e6bb5",
+      "size_bytes": 6468
+    },
+    "src/metrics.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\metrics.py",
+      "sha256": "34b669da88994c516dfc54ab698d187ab399f5fbbdc45afb7051cfa85097cccb",
+      "size_bytes": 25168
+    },
+    "src/rail.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\rail.py",
+      "sha256": "70c8e9a71e52d1462391cfd587c805ccd7e7d224290b3488573e9a08185ee7c2",
+      "size_bytes": 10438
+    },
+    "src/realworld/pilot_experiments.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\pilot_experiments.py",
+      "sha256": "843535c559090217c920fe24680355758e92c0158c78e1449b3f028cbe8d437c",
+      "size_bytes": 124088
+    },
+    "src/realworld/revision_analysis.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_analysis.py",
+      "sha256": "779c3ac964fcecd3dcf8b35a73001670e78fefd71fe78194f51614df347c5058",
+      "size_bytes": 43715
+    },
+    "src/realworld/revision_campaign.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_campaign.py",
+      "sha256": "ff5a02a9f6f4f6309035ac32213b6d2d2a767a3420b9c25002bfc85e81a24628",
+      "size_bytes": 16721
+    },
+    "src/realworld/revision_design.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_design.py",
+      "sha256": "16882cc59947b3c12345c3aa0efb3c41b42a4417ba916b4eb581384cdf24fe4c",
+      "size_bytes": 23056
+    },
+    "src/realworld/revision_execution.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_execution.py",
+      "sha256": "b2d5215e2a9fc26c3b7898594baf411301d991bc0bd13df9e8ac12f7d6e1f1c7",
+      "size_bytes": 12508
+    },
+    "src/realworld/revision_graph_scope_cache.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_graph_scope_cache.py",
+      "sha256": "40a988baa6f2dc55b650b2c89be1ec100b02388977aa977ae2cfe216e7b9ba6c",
+      "size_bytes": 14210
+    },
+    "src/realworld/revision_graph_validation.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_graph_validation.py",
+      "sha256": "3782a209e4f5def374a813ae3b8f93da6e2ac7881b96e5cc74bd526f7e72f2ed",
+      "size_bytes": 18266
+    },
+    "src/realworld/revision_morris.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_morris.py",
+      "sha256": "3030aa3ca7ea80f46c51c54c1848b1516217af684003bcda71faff2acecc3920",
+      "size_bytes": 20359
+    },
+    "src/realworld/revision_planner.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_planner.py",
+      "sha256": "f342f528db3e7e8b8bb34f37860a6026540c9bbf5a771e464b0fa4f6f7ce727c",
+      "size_bytes": 22663
+    },
+    "src/realworld/revision_policies.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_policies.py",
+      "sha256": "cd203eaf71f910346686e203d98051dc386856a45d3c25cd183ca59e4406d88b",
+      "size_bytes": 11051
+    },
+    "src/realworld/revision_runner.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_runner.py",
+      "sha256": "47d1ccf5a4480d89b6a75ba7e8a573e385bbe73425052c55e0c4d6ab0003dcfc",
+      "size_bytes": 12087
+    },
+    "src/realworld/revision_statistics.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\realworld\\revision_statistics.py",
+      "sha256": "d754c959ec14f5c74c9c37fb6e3bc376c4b9abc9829f632778e44cccb1dc985b",
+      "size_bytes": 23857
+    },
+    "src/scenario.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\scenario.py",
+      "sha256": "36e9f2f66bcccbc7ac354507fa1fa0b3bec5afe88967e1b5a1b1d5c500d14082",
+      "size_bytes": 57458
+    },
+    "src/traffic.py": {
+      "path": "C:\\project\\transport-system-sim\\src\\traffic.py",
+      "sha256": "9302a1dff7b0e54599743ee8aee0a4fca7c65ec86517650566b1deb5107328c3",
+      "size_bytes": 11772
+    }
+  },
+  "implementation_fingerprint": "d3168c88f40bac8ca2eddb25f4d9be442458085677c64773de69855742a0b707",
+  "input_artifacts": {
+    "cache": {
+      "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+      "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+      "size_bytes": 497224671
+    },
+    "demand_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+      "sha256": "7570066baa06465e27213a5a0140e7b185a884e56380a2092e736adb74866875",
+      "size_bytes": 1930
+    },
+    "design": {
+      "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+      "sha256": "b37c9b661b57d309b02d07ee0ced6cb696c6095fad94fecf57b98cfe43767f23",
+      "size_bytes": 5517
+    },
+    "fleet_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+      "sha256": "c8ae1141aaafb5c552c1c49cf082707ccc8c23dfe2be96e1f3e7e0df6f8726bd",
+      "size_bytes": 4254
+    },
+    "overrides": {
+      "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+      "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+      "size_bytes": 17872
+    },
+    "region": {
+      "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+      "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+      "size_bytes": 3764
+    },
+    "scenarios": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+      "sha256": "c0e3a90081cbd5d93d25c51c98dd1a709635178588aab9617d14a0709f032c47",
+      "size_bytes": 11994
+    }
+  },
+  "max_runs": null,
+  "new_run_count": 64,
+  "output_artifacts": {
+    "checkpoint": {
+      "path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope\\smoke_checkpoint.jsonl",
+      "sha256": "93d097aef32a72ca82ca53c02d88f78f15d28307af5a300cff186bae4b81e0c2",
+      "size_bytes": 204277
+    },
+    "results": {
+      "path": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope\\smoke_results.csv",
+      "sha256": "3f54210251552ed5113073a63e53ded72a2c9f92e24a55358cea9628fd21bcbc",
+      "size_bytes": 46036
+    }
+  },
+  "paths": {
+    "cache": "data\\cache\\goseong_nodelink_road.graphml",
+    "checkpoint": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope\\smoke_checkpoint.jsonl",
+    "demand_profiles": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+    "design": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+    "fleet_profiles": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+    "overrides": "data\\parameters\\road_class_overrides.csv",
+    "region": "data\\regions\\goseong_mobilization.yaml",
+    "results": "C:\\project\\transport-system-sim\\results\\paper_revision_20260721\\graph_scope\\smoke_results.csv",
+    "scenarios": "data\\scenarios\\goseong_disruption_scenarios.csv"
+  },
+  "pending_run_count": 0,
+  "planned_run_count": 64,
+  "profile_inputs": {
+    "applied_field_count": 19,
+    "applied_fields": [
+      "bus.dispatch_interval_min",
+      "bus.first_departure_min",
+      "bus.fleet_size",
+      "bus.turnaround_min",
+      "lateness.distribution",
+      "lateness.mu",
+      "lateness.sigma_levels",
+      "multimodal.lastmile_dispatch_interval_min",
+      "multimodal.lastmile_first_departure_min",
+      "multimodal.lastmile_fleet_size",
+      "multimodal.lastmile_turnaround_min",
+      "multimodal.lastmile_vehicle_capacity",
+      "multimodal.shuttle_dispatch_interval_min",
+      "multimodal.shuttle_first_departure_min",
+      "multimodal.shuttle_fleet_size",
+      "multimodal.shuttle_turnaround_min",
+      "personnel.assembly_time",
+      "personnel.group_size",
+      "personnel.total"
+    ],
+    "can_support_acceptance_gate": false,
+    "can_support_final_study_gate": false,
+    "can_support_parameter_evidence_gate": false,
+    "can_support_publication_gate": false,
+    "claim_boundary": "Phase 5 profile CSV consumption only; not calibrated demand, not agency fleet validation, not no-show behavior, not publication readiness, and not final-study readiness.",
+    "demand_profile_id": "pilot_default_demand",
+    "demand_profiles_path": "data/scenarios/demand_profiles.csv",
+    "demand_profiles_sha256": "7570066baa06465e27213a5a0140e7b185a884e56380a2092e736adb74866875",
+    "demand_row_count": 1,
+    "evidence_statuses": [
+      "bounded_scenario_assumption_not_calibration",
+      "bounded_scenario_assumption_not_inventory"
+    ],
+    "fleet_profile_id": "pilot_default_fleet",
+    "fleet_profiles_path": "data/scenarios/fleet_profiles.csv",
+    "fleet_profiles_sha256": "c8ae1141aaafb5c552c1c49cf082707ccc8c23dfe2be96e1f3e7e0df6f8726bd",
+    "fleet_row_count": 3,
+    "remaining_blockers": [
+      "profile rows are bounded scenario assumptions, not calibration evidence",
+      "agency fleet roster and operating timetable evidence remain absent",
+      "no-show and partial non-arrival semantics are still not implemented"
+    ],
+    "runtime_profile_inputs_consumed": true,
+    "schema_version": 1,
+    "source_classes": [
+      "sensitivity-only"
+    ]
+  },
+  "resume_enabled": false,
+  "resumed_run_count": 0,
+  "schema_version": 1,
+  "stage": "smoke",
+  "status": "complete",
+  "unrepresented_top3_scenarios": {
+    "goseong_spatial_feeder_east": "scenario 'goseong_spatial_feeder_east' selected no candidate edges",
+    "goseong_spatial_lastmile_west": "scenario 'goseong_spatial_lastmile_west' selected no candidate edges",
+    "goseong_spatial_tancheon_corridor": "scenario 'goseong_spatial_tancheon_corridor' selected no candidate edges",
+    "goseong_transfer_point_blockage": "scenario 'goseong_transfer_point_blockage' selected no candidate edges"
+  },
+  "written_at_utc": "2026-07-21T02:20:40.733315+00:00"
+}

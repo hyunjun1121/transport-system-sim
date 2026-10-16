@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "source_file": "01_input_v2.txt",
+    "rewrite_file": "03_rewrite.md",
+    "total_edits": 3,
+    "edits_passed": 3,
+    "edits_flagged": 0,
+    "rollback_required": 0,
+    "warnings": 0,
+    "audit_verdict": "full_pass"
+  },
+  "checks": {
+    "proper_nouns_preserved": true,
+    "numbers_and_units_preserved": true,
+    "dates_and_times_preserved": true,
+    "direct_quotes_preserved": true,
+    "claim_direction_preserved": true,
+    "causality_preserved": true,
+    "quantifiers_preserved": true,
+    "negation_preserved": true,
+    "ordered_items_preserved": true,
+    "unauthorized_additions_or_omissions": false
+  },
+  "flagged_edits": [],
+  "notes": [
+    "열차 편수, 공동이용 좌석, 버스·운전자 확보의 불확실성을 세 문장으로 나눴지만 의미와 순서는 그대로다.",
+    "약 1,000명과 열차 1편·2편 이상의 수치 범위가 유지됐다.",
+    "이번 입력본은 사용자 요청에 따라 내부 변수명과 파일명을 미리 제거한 제3자 독자용 초안이다."
+  ]
+}

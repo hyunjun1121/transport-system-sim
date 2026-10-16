@@ -1,1 +1,0 @@
-RUN: $(knapsack_2d_sat) --input $(Class_01.2bp) --instance 2

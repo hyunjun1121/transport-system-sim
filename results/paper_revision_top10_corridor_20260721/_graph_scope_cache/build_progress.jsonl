@@ -1,0 +1,2 @@
+{"at_utc": "2026-07-21T06:28:42.262921+00:00", "event": "build_started", "method_version": "hybrid_exact3_penalty_v1", "path_counts": [3, 5, 10]}
+{"at_utc": "2026-07-21T06:31:17.043312+00:00", "candidate_count": 3, "event": "exact_top3_ready", "leg": "A_to_D"}

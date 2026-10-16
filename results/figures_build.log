@@ -1,0 +1,11 @@
+fig2 overlap guards: all pass (41 texts, 11 line groups)
+wrote paper\figures\fig2_corridor_map.png 196374 bytes
+fig3 text-overlap guard: pass (51 texts)
+wrote paper\figures\fig3_bpr_noop.png 66180 bytes
+fig4 text-overlap guard: pass (27 texts)
+wrote paper\figures\fig4_segment_decomposition.png 58340 bytes
+fig5 text-overlap guard: pass (66 texts)
+wrote paper\figures\fig5_rail_substitution.png 90350 bytes
+fig6 text-overlap guard: pass (67 texts)
+wrote paper\figures\fig6_assumption_collapse.png 123290 bytes
+done.

@@ -1,0 +1,15 @@
+﻿policy_id,response_metric,analysis_status,factor_name,mu,mu_star,sigma,mu_star_conf,trajectory_count,sample_point_count,expected_arrival_seed_count,incomplete_group_count,missing_seed_count,nonfinite_seed_count,outcome_scope
+bus_only,makespan,incomplete_replications,,,,,,20,140,5,88,0,438,all_expected_seeds_full_completion_and_finite_makespan
+static_multimodal,makespan,incomplete_replications,,,,,,20,140,5,39,0,195,all_expected_seeds_full_completion_and_finite_makespan
+bus_only,completion_rate,available,road_longhaul_multiplier,-0.1870326746926841,0.1870326746926841,0.17734458422417745,0.07621683220043082,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,rail_travel_multiplier,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,demand,-0.8149892961570595,0.8149892961570595,0.2108613022296072,0.09004469201290827,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,road_fleet_total,0.3406542584138919,0.3406542584138919,0.20301591066229338,0.08496035966774912,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,transfer_time_min,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,arrival_sigma,-4.166666666666208e-05,4.166666666666208e-05,0.000186338998124962,7.934745060093592e-05,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,road_longhaul_multiplier,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,rail_travel_multiplier,-0.05486528822055138,0.05486528822055138,0.08331851042358815,0.03472398674165892,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,demand,-0.27257406910132476,0.27257406910132476,0.2256762590103965,0.09311247542117936,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,road_fleet_total,0.18026203902613677,0.18026203902613677,0.22236437047742544,0.09484899810453945,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,transfer_time_min,-0.005111663086287161,0.005111663086287161,0.010193849472692041,0.00420885406437585,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,arrival_sigma,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate

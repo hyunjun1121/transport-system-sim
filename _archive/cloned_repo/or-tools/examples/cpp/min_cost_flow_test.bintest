@@ -1,1 +1,0 @@
-RUN: $(min_cost_flow)

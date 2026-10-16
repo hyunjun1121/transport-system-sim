@@ -1,3 +1,0 @@
-RUN: $(cpp_example)
-CHECK: "Termination is optimal: 1"
-CHECK: "Objective value: 1"

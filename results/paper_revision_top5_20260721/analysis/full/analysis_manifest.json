@@ -1,0 +1,332 @@
+{
+  "analyses": {
+    "adaptive_policies": {
+      "campaign_id": "adaptive_policies",
+      "input_row_count": 1260,
+      "output_row_count": 42,
+      "status": "available"
+    },
+    "break_even": {
+      "campaign_id": "break_even",
+      "input_row_count": 1920,
+      "output_row_count": 2,
+      "status": "available"
+    },
+    "demand_fleet": {
+      "campaign_id": "demand_fleet",
+      "input_row_count": 1920,
+      "output_row_count": 32,
+      "status": "available"
+    },
+    "graph_scope_route_metrics": {
+      "input_row_count": 16,
+      "output_row_count": 16,
+      "stage_independent": true,
+      "status": "available"
+    },
+    "graph_scope_stability": {
+      "campaign_id": "graph_scope",
+      "input_row_count": 1330,
+      "output_row_count": 3,
+      "status": "available"
+    },
+    "morris_effects": {
+      "campaign_id": "morris",
+      "input_row_count": 1400,
+      "output_row_count": 24,
+      "status": "available"
+    },
+    "paired_summary": {
+      "campaign_id": "paired_reanalysis",
+      "input_row_count": 2520,
+      "output_row_count": 42,
+      "status": "available"
+    },
+    "random_threat_hierarchical": {
+      "campaign_id": "random_threat_outer",
+      "input_row_count": 6000,
+      "output_row_count": 1,
+      "status": "available"
+    },
+    "replicate_convergence": {
+      "campaign_id": "paired_reanalysis",
+      "input_row_count": 2520,
+      "output_row_count": 160,
+      "status": "available"
+    },
+    "road_rail_map": {
+      "campaign_id": "road_rail_map",
+      "input_row_count": 3600,
+      "output_row_count": 60,
+      "status": "available"
+    }
+  },
+  "analysis_directory": "C:\\project\\transport-system-sim\\results\\paper_revision_top5_20260721\\analysis\\full",
+  "available_campaigns": [
+    "paired_reanalysis",
+    "graph_scope",
+    "break_even",
+    "demand_fleet",
+    "road_rail_map",
+    "random_threat_outer",
+    "adaptive_policies",
+    "morris"
+  ],
+  "blank_numeric_value_count": 30040,
+  "bootstrap": {
+    "confidence": 0.95,
+    "replicates": 10000,
+    "seed": 20260721
+  },
+  "campaign_manifests": [
+    {
+      "campaign_id": "paired_reanalysis",
+      "completed_run_count": 2520,
+      "path": "full_manifest.json",
+      "planned_run_count": 2520,
+      "sha256": "8ccbe968eea007b77cfaec1afbadea18b58dc7f8221229ba099dbd8acf761057",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "graph_scope",
+      "completed_run_count": 1330,
+      "path": "full_manifest.json",
+      "planned_run_count": 1330,
+      "sha256": "36275db20b392b579173ab8504e7c7e6cbff9a6292fd4ed0b8756dd28fceec81",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "break_even",
+      "completed_run_count": 1920,
+      "path": "full_manifest.json",
+      "planned_run_count": 1920,
+      "sha256": "3c5f266a04f0dc1b5fd8d2ff5767283963c2b84844fd2b17f2f079df5a44392e",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "demand_fleet",
+      "completed_run_count": 1920,
+      "path": "full_manifest.json",
+      "planned_run_count": 1920,
+      "sha256": "a5456a21e6ff5c22a5c5c77c84845cd770a793f20144dedbeabfb38bc2cd2210",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "road_rail_map",
+      "completed_run_count": 3600,
+      "path": "full_manifest.json",
+      "planned_run_count": 3600,
+      "sha256": "6886ee5273be2ef6eadaf54d02beaa776b3d3fd9b11c396a594b625305216b68",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "random_threat_outer",
+      "completed_run_count": 6000,
+      "path": "full_manifest.json",
+      "planned_run_count": 6000,
+      "sha256": "118e5876237cd7f0262fc9c0fdd16eec19f48f8b9c1c84194cc4fabcb9c616a7",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "adaptive_policies",
+      "completed_run_count": 1260,
+      "path": "full_manifest.json",
+      "planned_run_count": 1260,
+      "sha256": "66d0b86c7c50c5a6e0195683f8412d5a7d8f1d69aa0b3edb1b3a68bfa23a2949",
+      "stage": "full",
+      "status": "complete"
+    },
+    {
+      "campaign_id": "morris",
+      "completed_run_count": 1400,
+      "path": "full_manifest.json",
+      "planned_run_count": 1400,
+      "sha256": "fa1a5a2f54ec057f8c9e9de1b3da70dcd6463fb352ce33f31afb5053c831b7e6",
+      "stage": "full",
+      "status": "complete"
+    }
+  ],
+  "claim_boundary": "Public-data-based conditional scenario simulation for decision support; not a field-calibrated prediction or route prescription.",
+  "comparison_definition": "bus_only minus static_multimodal; makespan inference uses only finite pairs with equal completion rates",
+  "design_id": "paper_revision_top5_20260721",
+  "final_study_ready": false,
+  "generated_csv_files": [
+    {
+      "data_row_count": 16,
+      "path": "graph_scope_route_metrics.csv",
+      "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541"
+    },
+    {
+      "data_row_count": 42,
+      "path": "paired_summary.csv",
+      "sha256": "91ceae710e2ec1ab009d116e2c6cd4f85dfbe366f77a7de365d803c64a63e0e4"
+    },
+    {
+      "data_row_count": 160,
+      "path": "replicate_convergence.csv",
+      "sha256": "4bd6827104b64e5f8ded4f967c775fecefaae01b6d9aa67e47d18c70981364cd"
+    },
+    {
+      "data_row_count": 2,
+      "path": "break_even.csv",
+      "sha256": "9b44b6b4f67359f020c4f7579980307328227eb3575900388beb0c3d761a852f"
+    },
+    {
+      "data_row_count": 3,
+      "path": "graph_scope_stability.csv",
+      "sha256": "47c8c013be82aba1825596fd4b688481680b1a7b54e3c8fc36def009395845fa"
+    },
+    {
+      "data_row_count": 1,
+      "path": "random_threat_hierarchical.csv",
+      "sha256": "297c7431d5b1f959c00e517c15112b516f52fd87de32640c21e476d850effb47"
+    },
+    {
+      "data_row_count": 32,
+      "path": "demand_fleet.csv",
+      "sha256": "172474e3f627ff44ced6fdb689dcf5f16fb1c40651eceb4ae30ab744b9dd0194"
+    },
+    {
+      "data_row_count": 60,
+      "path": "road_rail_map.csv",
+      "sha256": "a4270cb0d0e943e2e6452b4dabc479a1a7d525304793f055042bddcae9b552ef"
+    },
+    {
+      "data_row_count": 42,
+      "path": "adaptive_policies.csv",
+      "sha256": "f26df4b594e1c3556cc0a3d022809071666f8a6d9f89d0f00261719e78fce06c"
+    },
+    {
+      "data_row_count": 24,
+      "path": "morris_effects.csv",
+      "sha256": "c6bcdf40c60995b185bbb20eb75bdd10db2f5d2894b01e740a7af5335a9093af"
+    }
+  ],
+  "graph_scope_route_evidence_manifest": {
+    "final_study_ready": false,
+    "input_artifacts": {
+      "cache": {
+        "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+        "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+        "size_bytes": 497224671
+      },
+      "demand_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+        "sha256": "7570066baa06465e27213a5a0140e7b185a884e56380a2092e736adb74866875",
+        "size_bytes": 1930
+      },
+      "design": {
+        "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+        "sha256": "a8aa6271b72acf0ea1d6026780b4d3a130815bd7a5be8666ec97b6def20a94e7",
+        "size_bytes": 6262
+      },
+      "fleet_profiles": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+        "sha256": "c8ae1141aaafb5c552c1c49cf082707ccc8c23dfe2be96e1f3e7e0df6f8726bd",
+        "size_bytes": 4254
+      },
+      "overrides": {
+        "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+        "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+        "size_bytes": 17872
+      },
+      "region": {
+        "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+        "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+        "size_bytes": 3764
+      },
+      "scenarios": {
+        "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+        "sha256": "7201f0b49cbc683eb26c17b32ccbd290f6622e7189b62309fc42ef47feaf0f2d",
+        "size_bytes": 12336
+      }
+    },
+    "path": "graph_scope_route_metrics_manifest.json",
+    "row_count": 16,
+    "sha256": "bae2d86e26bdcdd4a3e671859202b590be6d58628a9164af8ec7c73038c9e249",
+    "stage_independent": true
+  },
+  "implementation_fingerprint": "515efc6100298d7533850459db4bb1b995d560cd2d8bf961d7f0c6f6bddb9465",
+  "inference_definitions": {
+    "adaptive_ranking": "dense_rank_with_exact_ties_and_co_winners",
+    "descriptive_winner": "lexicographic point-estimate label; separate from confidence-interval statistical resolution",
+    "paired_completion_rate": "all seed-paired valid completion-rate differences; paired t and seeded percentile-bootstrap confidence intervals",
+    "random_threat_nested_sample_sizes": "completion_threat_draw_count and completion_observation_count describe completion-delta bootstrap input; completion_empty_threat_draws lists draws without paired valid completion results; probability_proxy_observation_count counts paired valid result observations used by every probability proxy",
+    "random_threat_probability_proxies": "empirical result frequencies from two-level threat-draw/arrival-seed bootstrap; not event probabilities"
+  },
+  "missing_campaigns": [],
+  "morris": {
+    "confidence": 0.95,
+    "resamples": 1000,
+    "seed": 20260722
+  },
+  "output_root": "C:\\project\\transport-system-sim\\results\\paper_revision_top5_20260721",
+  "publication_blockers": [],
+  "publishable_full": true,
+  "schema_version": 2,
+  "skipped_source_files": [],
+  "source_files": [
+    {
+      "accepted_row_count": 2520,
+      "data_row_count": 2520,
+      "path": "paired_reanalysis/full_results.csv",
+      "sha256": "99b780138e69193feb64a8d3d0aae8225a6a69793378a6c76c2f9277ef93c2f1"
+    },
+    {
+      "accepted_row_count": 1330,
+      "data_row_count": 1330,
+      "path": "graph_scope/full_results.csv",
+      "sha256": "adc660973da6fa4b31a8c15f08e506add13299041d768edf1e81e8856b0f45ff"
+    },
+    {
+      "accepted_row_count": 1920,
+      "data_row_count": 1920,
+      "path": "break_even/full_results.csv",
+      "sha256": "31fc4545fbc26aa32ec265aa26fe293894da1b12f8df1f854861671e98aac2c2"
+    },
+    {
+      "accepted_row_count": 1920,
+      "data_row_count": 1920,
+      "path": "demand_fleet/full_results.csv",
+      "sha256": "c30720c3e33c7bc77659b82d5ed581b14f5f0a240e16c584a32d72b3c8feea7e"
+    },
+    {
+      "accepted_row_count": 3600,
+      "data_row_count": 3600,
+      "path": "road_rail_map/full_results.csv",
+      "sha256": "2d3a29852fa4a85c560e7f0849223f2e528163c72760c964fa90c634f6ff1dd1"
+    },
+    {
+      "accepted_row_count": 6000,
+      "data_row_count": 6000,
+      "path": "random_threat_outer/full_results.csv",
+      "sha256": "021e8d5973d3d8769bfd07f9dfb1b2ca5b97867e0c36e19d318d8273152de56e"
+    },
+    {
+      "accepted_row_count": 1260,
+      "data_row_count": 1260,
+      "path": "adaptive_policies/full_results.csv",
+      "sha256": "c5ddd5dca0835305ef883a7666ca9ea60c9d48cd2377e3cb6d13f2f73eb0b337"
+    },
+    {
+      "accepted_row_count": 1400,
+      "data_row_count": 1400,
+      "path": "morris/full_results.csv",
+      "sha256": "f7f5c6c05f8bda9943106b47e4b8a4e88ff08b0ce750af68055f400da58fd8e4"
+    },
+    {
+      "accepted_row_count": 16,
+      "data_row_count": 16,
+      "evidence_type": "coordinate_free_graph_scope_route_metrics",
+      "path": "graph_scope_route_metrics.csv",
+      "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541"
+    }
+  ],
+  "stage": "full"
+}

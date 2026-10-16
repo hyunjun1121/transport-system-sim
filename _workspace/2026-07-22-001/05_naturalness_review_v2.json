@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "score_before": 2.0,
+    "score_after": 1.0,
+    "score_improvement": 1.0,
+    "s1_residual": 0,
+    "s2_residual": 1,
+    "over_polish_signals": [],
+    "verdict": "accept_with_note",
+    "quality_level": "A",
+    "metrics_risk_before": "low",
+    "metrics_risk_after": "low",
+    "metrics_risk_score_after": 0,
+    "relative_clause_nesting_before": 3,
+    "relative_clause_nesting_after": 1
+  },
+  "residual_findings": [
+    {
+      "category": "E-2",
+      "severity": "S2",
+      "text_span": "정한다",
+      "reason": "세부 결정문이 같은 동사로 끝나지만 자문표의 기능에 맞는 반복이다.",
+      "action": "none"
+    }
+  ],
+  "over_polish_findings": [],
+  "unclassified_candidates": [],
+  "next_action": {
+    "type": "accept",
+    "targets": []
+  }
+}

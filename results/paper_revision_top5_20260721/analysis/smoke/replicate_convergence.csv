@@ -1,0 +1,7 @@
+﻿scenario_id,resource_frame,graph_scope,corridor_path_count,rail_status,rail_multiplier,return_strategy,departure_policy_id,replicate_count,seed_max,mean_delta_bus_minus_multimodal,t_ci_lower,t_ci_upper,t_ci_half_width,estimate_change_from_previous,half_width_ratio_to_previous
+goseong_random_blockage,configured_bundle,top5,5,available,1.0,reverse_network,strict,2,3102,-222.16258803272206,-1722.4877831818449,1278.1626071164005,1500.3251951491227,,
+goseong_random_capacity_reduction,configured_bundle,top5,5,available,1.0,reverse_network,strict,2,3102,54.10433243395252,-72.95632311757316,181.1649879854782,127.06065555152568,,
+no_disruption,configured_bundle,top5,5,available,1.0,reverse_network,strict,2,3102,54.10430678290689,-72.9563487686188,181.16496233443257,127.06065555152568,,
+goseong_random_blockage,matched_road_fleet,top5,5,available,1.0,reverse_network,strict,2,3102,-708.8988235671513,-740.66753295391,-677.1301141803926,31.7687093867587,,
+goseong_random_capacity_reduction,matched_road_fleet,top5,5,available,1.0,reverse_network,strict,2,3102,-70.11319437215363,-101.88131369154094,-38.34507505276632,31.76811931938731,,
+no_disruption,matched_road_fleet,top5,5,available,1.0,reverse_network,strict,2,3102,-70.11322002319926,-101.88133934258657,-38.34510070381195,31.76811931938731,,

@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "run_id": "2026-07-22-001",
+    "input_file": "01_input_v2.txt",
+    "input_length": 1622,
+    "estimated_genre": "보고서형 자문자료",
+    "sentence_count": 40,
+    "detected_count": 3,
+    "ai_tell_density": 0.097,
+    "severity_weighted_score": 12.0,
+    "category_summary": {
+      "A": 2,
+      "B": 0,
+      "C": 0,
+      "D": 0,
+      "E": 1,
+      "F": 0,
+      "G": 0,
+      "H": 0,
+      "I": 0,
+      "J": 0
+    },
+    "metrics_risk_band": "low"
+  },
+  "findings": [
+    {
+      "id": "f001",
+      "category": "A-18",
+      "category_label": "번역투: 긴 좌향 수식",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "현재 계산에는 열차와 버스가 일정 수준 확보되고 철도가 정상적으로 운행한다는 임시 조건이 들어가 있다.",
+      "start": 246,
+      "end": 303,
+      "reason": "두 조건이 한 명사구 앞에 겹쳐 처음 읽는 사람이 핵심을 늦게 만난다.",
+      "suggested_fix": "계산이 임시로 무엇을 전제하는지 짧은 능동문으로 바꾼다."
+    },
+    {
+      "id": "f002",
+      "category": "A-18",
+      "category_label": "번역투: 긴 병렬 조건절",
+      "severity": "S2",
+      "scope": "span",
+      "text_span": "열차를 1편만 확보할 수 있는지 2편 이상 사용할 수 있는지, 일반 승객이나 다른 군 수송수요와 좌석을 나눠 써야 하는지, 버스와 운전자를 얼마나 확보할 수 있는지부터 불확실하다.",
+      "start": 313,
+      "end": 413,
+      "reason": "서로 다른 세 판단을 한 문장에 이어 붙여 읽기 부담이 크다.",
+      "suggested_fix": "열차 편수, 좌석 공동이용, 버스·운전자 확보를 두세 문장으로 나눈다."
+    },
+    {
+      "id": "f003",
+      "category": "E-2",
+      "category_label": "리듬: 동일 종결어미 반복",
+      "severity": "S2",
+      "scope": "document",
+      "reason": "결정표의 19개 문장이 모두 '정한다'로 끝난다. 결정사항을 명확히 적는 문서 성격상 반복 자체는 필요하지만, 긴 문장까지 같은 리듬으로 이어져 기계적으로 느껴질 수 있다.",
+      "suggested_fix": "결정 동사는 유지하되 문장 길이와 내부 구조를 달리한다."
+    }
+  ]
+}

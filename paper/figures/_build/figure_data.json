@@ -1,0 +1,46 @@
+{
+  "_source": "results/realworld_pilot_nodelink/pilot_full_summary.csv (30-seed mean) + data/scenarios/goseong_disruption_scenarios.csv (multipliers). Cross-verified 2026-07-18.",
+  "_claim_discipline": "quasi-real decision-support sensitivity; not operational/forecast/calibrated. Collapse rows = completion 0.000 within 1440-min window (미도착).",
+  "baseline": {"bus": 283.1, "multi": 363.8, "cr_bus": 1.0, "cr_multi": 1.0, "note": "no_disruption, 완료율 양쪽 1.000"},
+  "sim_window_min": 1440,
+
+  "access_road": {
+    "_segment": "접근로 A→S (복합운송 전용 셔틀 leg; 버스는 A 인근 공유 간선만)",
+    "mult": [1.5, 3.0, 4.5, 8.0],
+    "xlabels": ["경미\n1.5×", "심각\n3.0×", "민감도 교란\n4.5×", "극심\n8.0×"],
+    "bus": [284.9, 290.5, 296.4, 310.6],
+    "multi": [371.1, 393.8, 416.1, 464.4]
+  },
+  "last_mile": {
+    "_segment": "종단 R→D (D 접근 공유 도로, 양 대안 모두 사용)",
+    "mult": [1.5, 3.0, 4.5, 8.0],
+    "xlabels": ["경미\n1.5×", "심각\n3.0×", "민감도 교란\n4.5×", "극심\n8.0×"],
+    "bus": [293.9, 329.3, 367.5, 457.9],
+    "multi": [394.5, 502.1, 641.8, 976.3]
+  },
+  "long_haul": {
+    "_segment": "장거리 S→R (버스 전-도로 노출; 복합운송은 가정 A1 아래 철도로 우회)",
+    "mult": [1.2, 1.5, 3.0],
+    "xlabels": ["경미\n1.2×", "중간\n1.5×", "심각\n3.0×"],
+    "bus": [317.4, 374.7, 670.8],
+    "multi": [363.8, 363.8, 363.8]
+  },
+
+  "rail_sub_curve": {
+    "_segment": "장거리 S→R, baseline(1.0×) 포함",
+    "mult": [1.0, 1.2, 1.5, 3.0],
+    "bus": [283.1, 317.4, 374.7, 670.8],
+    "multi": [363.8, 363.8, 363.8, 363.8]
+  },
+
+  "collapse": {
+    "_note": "null makespan = 완료율 0.000 (미도착, 1,440분 창 내 도착 0명)",
+    "scenarios": ["정상 기준", "임계링크 차단\n(도로 매개중심성 상위 3)", "철도 사용불가\n(통행시간 100배, 가정 A1 제거)"],
+    "bus_makespan": [283.1, null, 283.1],
+    "multi_makespan": [363.8, 363.8, null],
+    "bus_cr": [1.0, 0.0, 1.0],
+    "multi_cr": [1.0, 1.0, 0.0]
+  },
+
+  "bpr_noop_csv": "results/bpr_noop_sweep.csv"
+}

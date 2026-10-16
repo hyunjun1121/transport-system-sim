@@ -1,0 +1,88 @@
+{
+  "claim_boundary": "Public-data-based conditional scenario simulation for decision support; not a field-calibrated prediction or route prescription.",
+  "contains_coordinates": false,
+  "detour_definition": "scope shortest-path value divided by full-graph value",
+  "distance_field": "length_m",
+  "final_study_ready": false,
+  "graph_scopes": [
+    "full",
+    "top10",
+    "top3",
+    "top5"
+  ],
+  "input_artifacts": {
+    "cache": {
+      "path": "C:\\project\\transport-system-sim\\data\\cache\\goseong_nodelink_road.graphml",
+      "sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14",
+      "size_bytes": 497224671
+    },
+    "demand_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\demand_profiles.csv",
+      "sha256": "ca91fde4aed7567b30cd2fc06ae9b99ae66abfe360c63133868051a6959d1c5c",
+      "size_bytes": 2709
+    },
+    "design": {
+      "path": "C:\\project\\transport-system-sim\\data\\manifests\\paper_revision_experiment_design.json",
+      "sha256": "93a138e4d02ad03c2302cb419503bf4c0eedfb6de19322072f97c306ed917656",
+      "size_bytes": 10437
+    },
+    "fleet_profiles": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\fleet_profiles.csv",
+      "sha256": "2d956a5df63c2818294aba5199e6972802d3d70f89f52170fa29ae9df2f01242",
+      "size_bytes": 4612
+    },
+    "overrides": {
+      "path": "C:\\project\\transport-system-sim\\data\\parameters\\road_class_overrides.csv",
+      "sha256": "e45b0cd470ad2799e54b76e2f2d0e124beb5af5980bb559e37fa4df60c825889",
+      "size_bytes": 17872
+    },
+    "region": {
+      "path": "C:\\project\\transport-system-sim\\data\\regions\\goseong_mobilization.yaml",
+      "sha256": "54b469bf95260dd7d84939e07a71cded86cd4d239a8ca31f51a153eb26238022",
+      "size_bytes": 3764
+    },
+    "scenarios": {
+      "path": "C:\\project\\transport-system-sim\\data\\scenarios\\goseong_disruption_scenarios.csv",
+      "sha256": "44b574242678d91de67468c43968a1cc924495226e0a986495e64d5d259a256b",
+      "size_bytes": 13495
+    }
+  },
+  "leg_ids": [
+    "A_to_D",
+    "A_to_S",
+    "R_to_D",
+    "S_to_R"
+  ],
+  "output_artifact": {
+    "path": "C:\\project\\transport-system-sim\\results\\paper_revision_top10_corridor_v4_20260721\\graph_scope_route_metrics.csv",
+    "sha256": "31cc0a1be11f473033f945f52dbb67480025a3842325803a8add3aaa13faf541",
+    "size_bytes": 4631
+  },
+  "overlap_definition": "directed shortest-path edge intersection divided by full-path edge count; Jaccard reported separately",
+  "path_diversity_cost_guard": {
+    "legs": [
+      "S_to_R"
+    ],
+    "meaning": "zero is a non-enumeration sentinel, not evidence of zero route diversity",
+    "scopes": [
+      "full"
+    ],
+    "sentinel_count": 0,
+    "status": "not_enumerated_cost_guard"
+  },
+  "path_diversity_count_source": "reduced-scope corridor_leg_candidates_json metadata",
+  "path_diversity_definition": "reduced-scope candidate count copied from graph-build metadata, capped at path_diversity_limit; validation performs no path enumeration",
+  "path_diversity_method_field": "path_diversity_method",
+  "path_identity_storage": "sha256_only",
+  "public_canonical_node_ids_only": true,
+  "reduced_scope_candidate_methods": [
+    "exact_shortest_simple_paths",
+    "exact_top3_plus_deterministic_penalty_diversification"
+  ],
+  "road_mode_only": true,
+  "row_count": 16,
+  "schema_version": 2,
+  "shortest_path_weight": "t0_min",
+  "stage_independent": true,
+  "written_at_utc": "2026-09-22T08:27:11.085952+00:00"
+}

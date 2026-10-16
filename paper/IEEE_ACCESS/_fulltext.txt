@@ -1,0 +1,930 @@
+===== PAGE 1 =====
+Date of publication xxxx 00, 0000, date of current version xxxx 00, 0000.
+Digital Object Identifier 10.1109/ACCESS.2024.0429000
+Resource Frames, Graph Scope, and Rail States:
+Conditional Decision Boundaries for
+Reserve-Force Bus versus Rail–Bus Multimodal
+Transport
+AUTHOR NAME1, AUTHOR NAME2, AND AUTHOR NAME1
+1Department Name, Institution, City, Country (e-mail: author@institution.edu)
+2Department Name, Institution, City, Country
+Corresponding author: Author Name (e-mail: author@institution.edu).
+Support information, sponsor, and financial support acknowledgment may be placed here.
+ABSTRACT Wartime reserve-force transport planning often compares bus-only road movement with rail–
+bus multimodal movement under disrupted links, yet a modal ranking is uninterpretable unless the resource
+frame, reduced-graph scope, rail availability state, and response rule are stated explicitly. This article reports
+a public-data-based conditional scenario simulation on a Songpa–Goseong case corridor using the Korean
+Standard Node-Link road network. Top-10 corridor graphs (9,089 nodes; 18,602 edges) are audited against
+a full reference graph (360,556 nodes; 971,680 edges); road vehicles complete passenger travel, traverse the
+reverse road network empty, and incur turnaround before reuse; rail is represented by available, degraded, and
+unavailable service states. Eleven restartable campaigns produced 24,630 full runs under common-random-
+number seed blocks with paired t intervals, 10,000-replicate percentile bootstrap intervals, a joint-seed break-
+even bootstrap, a two-level random-threat bootstrap, and Morris elementary-effect screening on completion
+rate. Under configured resource bundles (23 direct road vehicles versus 46 road vehicles plus rail), mean
+completion times are 374.1 and 363.8 min and the paired difference includes zero. Under an equal total road
+fleet of 23 vehicles, means are 374.1 and 475.8 min; bus-only is faster, and with normally available rail
+the long-haul road-damage break-even multiplier is 1.742 (joint-seed bootstrap 95% interval 1.550–2.003).
+Top-5 and top-10 graphs match full-scope connectivity and policy ranking in the tested conditions, whereas
+top-3 does not. When rail is unavailable, static multimodal transport does not complete, while a precheck
+switching policy ties bus-only. The contribution is a conditional decision boundary and a reporting protocol
+for resource frames and graph scope, not a general claim that either mode is superior.
+INDEX TERMS Break-even analysis, common random numbers, discrete-event simulation, multimodal
+transport, network reduction, reserve-force transport.
+I. INTRODUCTION
+R
+ESERVE-FORCE mobilization transport must move
+large person batches from assembly zones to destina-
+tion areas under wartime disruption, limited road fleets, and
+uncertain rail service. Decision makers frequently frame the
+problem as bus-only versus rail–bus multimodal comparison.
+Simulation studies of wartime multimodal movement show
+that terrain-aware speeds, transfer stages, and finite fleets can
+reverse naive capacity rankings [1]. Yet published compar-
+isons rarely separate three design choices that jointly deter-
+mine the reported winner: (i) how road and rail resources are
+counted, (ii) whether the analysis graph is a reduced corridor
+envelope or the full national network, and (iii) whether rail is
+available, degraded, or unavailable as an explicit service state.
+This article develops conditional decision boundaries for
+a public-data Songpa–Goseong case corridor over a 24-h
+(1,440 min) window with approximately 1,000 mobilized re-
+servists. Two alternatives share the same disruption scenarios
+and common-random-number (CRN) seed block: bus-only
+moves assembly A to destination D by road; static multimodal
+moves A to rail access S by feeder shuttle, S to rail egress R
+by chartered nonstop rail, then R to D by last-mile bus.
+VOLUME 11, 2023
+1
+
+===== PAGE 2 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+Coordinates are public administrative centroids and public
+rail stations only; no unit facility location, order of battle, or
+movement schedule is modeled.
+The study asks four questions. First, how well do top-
+3, top-5, and top-10 corridor graphs preserve full-graph
+connectivity, normal travel time, and bus-versus-multimodal
+ranking under shared stress conditions? Second, how does
+the no-disruption comparison change between a configured
+resource-bundle frame and an equal-total-road-fleet frame?
+Third, with normally available rail in the equal-road-fleet
+frame, at what long-haul road slowdown does the mean
+completion-time ordering cross? Fourth, how do rail degrada-
+tion, rail unavailability, random threat locations, fleet scarcity,
+and adaptive response policies alter the comparison?
+Five methodological contributions organize the experi-
+ments. (1) Graph scope is audited against a full reference
+graph rather than justified only by normal shortest-path time.
+(2) Vehicle reuse requires a physical empty return over the
+current reverse road network plus turnaround. (3) Config-
+ured bundles and equal-total-road-fleet comparisons are re-
+ported separately; the latter still includes rail and is not an
+equal-cost comparison. (4) Paired t intervals, percentile boot-
+strap intervals, joint-seed break-even uncertainty, two-level
+threat/arrival uncertainty, and Morris elementary effects on
+completion rate are reported as distinct inference products.
+(5) Results are stated as conditional decision boundaries and
+response-policy rankings rather than a single modal ranking.
+The remainder of this article is organized as follows. Sec-
+tion II positions the work relative to network vulnerability,
+degradable systems, and simulation methodology. Section III
+describes the case corridor and public-coordinate rule. Sec-
+tion IV presents the simulation model. Section V details the
+experimental design and inference rules. Section VI reports
+results. Section VII discusses interpretation. Section VIII
+states limitations and claim boundaries. Section IX con-
+cludes, and Section X describes code and data availability.
+II. RELATED WORK
+A. NETWORK VULNERABILITY AND CRITICAL LINKS
+Transport network vulnerability literature separates link im-
+portance from site exposure and measures consequences of
+closure through generalized travel-cost increases [10]. Net-
+work robustness index methods reassign all traffic after a sin-
+gle link is removed and score the change in system travel-time
+cost [15]. Game-theoretic formulations treat an adversary
+that selects link-performance scenarios to maximize expected
+trip cost [4]. Security frameworks evaluate capacity loss be-
+tween origin–destination pairs under targeting and collateral
+damage [13]. Shortest-path interdiction under a budget-k
+edge-removal rule is a standard adversarial construction for
+critical corridors [35], [36]. These ideas motivate segment-
+targeted road-damage ladders and a separate path-interdiction
+campaign design; the present article emphasizes that threat
+construction, response rule, and graph scope must be reported
+together because they change whether a corridor disconnects
+or merely reroutes.
+B. DEGRADABLE AND DISRUPTED MULTIMODAL
+SYSTEMS
+Degradable transportation systems model components sub-
+ject to capacity loss and reliability deterioration within an
+integrated equilibrium [14]. Korean wartime multimodal
+simulation work combines geographic terrain analysis with
+discrete-event simulation and shows that fixed speed assump-
+tions can overstate throughput [1]. Multimodal comparison
+under infrastructure disruption is therefore a resource-and-
+state problem, not a mode label alone. The present study
+contributes explicit resource frames (configured versus equal
+road fleet) and explicit rail states (available, degraded, un-
+available) to that line of work.
+C. SIMULATION METHODOLOGY, CRN, AND SCREENING
+Discrete-event simulation methodology treats CRN pairing as
+a primary variance-reduction device for alternative compari-
+son [11]. Link performance is commonly represented by the
+Bureau of Public Roads volume–delay function t = t0[1 +
+α(V/C)β] [5], [16]; under the low civilian background traffic
+planning input used here, that term is nearly a no-op by con-
+struction, so disruption effects enter through direct slowdown,
+blocking with rerouting, rail state, demand, and fleet. Morris
+elementary effects provide economical factor screening with
+randomized one-factor-at-a-time trajectories [12]. NetworkX
+supplies shortest paths and betweenness utilities on directed
+graphs [8], and NumPy underpins the numerical stack [9].
+Guidance on simulation output analysis, confidence intervals,
+and alternative comparison follows Law [11].
+D. GRAPH REDUCTION AND PUBLIC NETWORK DATA
+Corridor reduction of national road graphs is common for
+tractable microsimulation but can silently change connectiv-
+ity and path cost. This article therefore treats top-k corridor
+envelopes as sensitivity objects audited against the full ref-
+erence graph, not as free substitutes. Road geometry and at-
+tributes come from the Korean Standard Node-Link national
+dataset [17]; per-class speeds and capacities follow public
+road-capacity manuals and statutory speed limits [2], [3]; rail
+runtime anchors use public KORAIL Gangneung Line KTX-
+Eum timetable material [18].
+III. CASE CORRIDOR AND PUBLIC-COORDINATE RULE
+The conceptual chain is A (Songpa public assembly centroid)
+→S (Cheongnyangni public station) →R (Gangneung public
+station) →D (Goseong public administrative centroid). Bus-
+only uses A→D roads. Static multimodal uses A→S roads,
+S→R rail, and R→D roads. Canonical coordinates are public
+administrative or station points: A (37.5202, 127.1210), S
+(37.5806, 127.0484), R (37.7645, 128.8996), D (38.3000,
+128.5500). No real unit location, force structure, or movement
+schedule is included; drawn route schematics are explanatory
+only.
+Road networks are built offline from the Korean Standard
+Node-Link (pyojun node-link) shapefile into a GraphML
+cache. The source graph has 360,562 nodes and 972,134
+2
+VOLUME 11, 2023
+
+===== PAGE 3 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+FIGURE 1. Songpa–Goseong case corridor and exposure structure of the
+two transport configurations. Road centerlines derive from the Standard
+Node-Link cache; A, S, R, and D are public administrative centroids and
+public rail-station coordinates. Drawn links explain the comparison
+structure and are not a field movement plan.
+directed edges; after simulator filtering the full reference
+used for scope audit is 360,556 nodes and 971,680 edges.
+Analysis scopes are nested corridor envelopes: top-3 is the
+union of three exact shortest simple paths for each of A→D,
+A→S, and R→D (752 nodes; 1,512 edges); top-5 and top-10
+add deterministic penalty-diversified paths (2,733/5,532 and
+9,089/18,602). Top-10 is the paper graph. These envelopes
+are sensitivity sets, not exact global k-shortest sets.
+Wartime planning assumptions used as scope conditions
+are: (A1) chartered nonstop rail is the normally available
+baseline, with degraded multipliers 1.25/1.5/2.0 and explicit
+unavailability tested separately; (A2) civilian background
+traffic is a low planning input of 100 veh/h rather than literal
+zero, so the BPR term is small by construction; (A3) road
+fleets are fixed and compared in two explicit frames; (A4)
+disruption severity and location are stress inputs, not asserted
+real damage.
+IV. SIMULATION MODEL
+A. ALTERNATIVES AND OUTCOME RULE
+Both alternatives are discrete-event microsimulations over a
+1,440 min horizon. Demand is 1,000 passengers at A with log-
+normal arrival fixture, boarding batch 45. The outcome rule is
+lexicographic: maximize completion rate within the window;
+when completion rates match, minimize finite completion
+time. Incomplete runs are never converted into an arbitrary
+finite time penalty for the main ranking.
+B. RESOURCE FRAMES
+Two resource frames are reported separately.
+Configured bundle: bus-only uses 23 direct road vehicles;
+static multimodal uses 23 feeder shuttles, 23 last-mile buses,
+and rail.
+Equal total road fleet: bus-only uses 23 direct road vehi-
+cles; static multimodal uses 12 feeder shuttles, 11 last-mile
+buses, and rail. This frame equalizes road-vehicle count only.
+Rail capacity, cost, and energy remain unmatched.
+Fleet roles carry 45 seats per vehicle, 5 min dispatch in-
+terval, first departure at t = 0, and 8 min turnaround after
+empty return. Every road vehicle completes passenger travel,
+traverses the current reverse road network empty, and only
+then may be reused; if no reverse path exists, that vehicle
+cannot return. Empty-return mileage is therefore active rather
+than implicit.
+C. RAIL SERVICE STATES
+Rail is a wartime chartered nonstop service from S to R
+with planning travel time 114 min, capacity 600 passengers
+per train, and 30 min dispatch interval—a charter dispatch
+assumption, not a public headway claim. States are: available
+(multiplier 1.0), degraded (1.25, 1.5, or 2.0), and unavail-
+able (service out of the model, not an arbitrarily large travel
+time). Adaptive policies may precheck-switch, split groups
+(600/400), or fall back to station transfer after 30/60/90 min.
+D. ROAD NETWORK DYNAMICS AND DISRUPTIONS
+Edge free-flow times and capacities come from per-class
+overrides grounded in public capacity manuals and statutory
+speed limits [2], [3], [5], [16]. Dynamic volume enters a
+BPR update; under A2 the multiplicative congestion term
+is near 1. Disruptions apply deterministic scenario over-
+lays with p_fail_scale=0 for paper campaigns: selected
+edges receive blocking (removed and rerouted), capacity re-
+duction, or direct travel-time multipliers. Segment-targeted
+road damage uses a direct-slowdown lever (travel_time_
+multiplier on selected edges with capacity factor 1.0) so
+road damage is isolated from the wartime-inert BPR path.
+Targeting is by functional-segment shortest path: A→S ac-
+cess damage bites the multimodal feeder leg; R→D last-mile
+damage bites both alternatives; S→R long-haul damage bites
+bus-only while multimodal substitutes rail under A1. Blocked
+edges are removed and remaining routes are searched again;
+a road leg fails only when no path remains.
+E. DISCRETE-EVENT MECHANICS
+Passengers queue at assembly, board under strict dispatch
+policy (depart on time with arrived passengers only for all re-
+ported paper campaigns), travel road or rail legs with transfer
+delay, and unload at D. Makespan is the time of last successful
+arrival when completion rate is 1.0; completion rate is the
+fraction of demand delivered within 1,440 min. Resource
+KPIs include vehicle cycles, empty-return trips, and operating
+minutes.
+V. EXPERIMENTAL DESIGN
+A. CAMPAIGNS
+Eleven restartable campaigns produced 24,630 full rows on
+the top-10 graph (Table 1). All campaigns use CRN seed
+blocks (arrival seeds 3101–3130 unless a campaign nests
+additional threat draws) and force_deterministic
+=True within scenario. Fixed-scenario campaigns hold the
+threat set constant and vary arrival seeds. The random-threat
+VOLUME 11, 2023
+3
+
+===== PAGE 4 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+TABLE 1. Paper-revision campaigns (top-10 corridor graph).
+Campaign
+Design summary
+Rows
+Paired reanalysis
+21 × 2 × 2 × 30
+2,520
+Graph scope
+top-3/5/10/full
+1,330
+Break-even (coarse)
+16 × 2 × 2 × 30
+1,920
+Break-even (fine)
+17 × 2 × 2 × 30
+2,040
+Demand–fleet
+4 × 4 × 2 × 2 × 30
+1,920
+Scale sensitivity
+4 × 1 × 30 × 2
+240
+Road–rail map
+6 × 5 × 2 × 2 × 30
+3,600
+Path interdiction
+2k × 10 × 2 × 2 × 30
+2,400
+Random threat outer
+100 × 30 × 2
+6,000
+Adaptive policies
+3 × 2 × 7 × 30
+1,260
+Morris
+6 × 20 × 5 × 2
+1,400
+Total
+24,630
+FIGURE 2. Research procedure and feedback structure. Public regional
+inputs and road-network preparation lead to threat and policy definition,
+microsimulation, alternative evaluation, and evidence checks with
+sensitivity analysis; closing checks feed back into threat and policy inputs.
+campaign nests 30 arrival seeds inside each of 100 indepen-
+dently generated eight-edge threat sets.
+The road–rail map uses road multipliers 1.0, 1.2, 1.4,
+1.6, 2.0, and 3.0 and rail conditions available 1.0, degraded
+1.25/1.5/2.0, and unavailable. Adaptive policies use available
+1.0, degraded 1.5, and unavailable. Break-even (coarse) spans
+16 multipliers from 1.0 to 3.0; break-even (fine) refines the
+bracket with 17 multipliers including 1.70–1.78 at 0.01–0.02
+spacing near the estimated crossing. Scale sensitivity tests de-
+mand 2,000, 6,000, 8,000, and 12,000 at the estimated break-
+even road multiplier 1.742. Path interdiction uses budget-
+k ∈{3, 5} edge removal on the A–D shortest path with
+blocked-edge recovery; those runs are retained in the cam-
+paign inventory, and their zero-completion outcome under the
+reduced corridor envelope is discussed only as a graph-scope-
+sensitive stress result, not as a break-even estimate.
+B. INFERENCE RULES
+For each configuration and seed s with equal completion rates
+and finite makespans,
+∆s = MSbus,s −MSmulti,s.
+(1)
+Negative ∆favors bus-only on completion time; positive ∆
+favors static multimodal. We report paired-t 95% intervals
+and 10,000-replicate percentile bootstrap intervals. Break-
+even uses linear interpolation of mean ∆across road mul-
+tipliers bracketing a sign change, with a joint-seed boot-
+strap (10,000 replicates over complete seeds) for the cross-
+ing. The random-threat campaign uses a two-level bootstrap
+over threat draws and arrival seeds. Replicate-count tables at
+TABLE 2. Baseline mean completion time (min) and paired difference ∆
+= bus −multimodal (30 CRN pairs, top-10, reverse empty return, strict
+dispatch).
+Frame
+Bus
+Multi.
+Mean ∆
+t 95% CI
+Configured bundle
+374.1
+363.8
++10.3
+[−12.6, 33.2]
+Equal road fleet
+374.1
+475.8
+−101.7
+[−125.0, −78.4]
+FIGURE 3. Reduced-graph scope sensitivity. (a) Functional-segment
+travel-time ratios of top-3, top-5, and top-10 envelopes versus the full
+reference graph; (b) connectivity agreement (70 outcomes) and (c)
+bus–static policy-ranking agreement (35 comparisons) under seven
+configured-bundle scenarios and five common seeds. Top-5 and top-10
+equal 1.00 on both agreements; top-3 is 0.786 and 0.686. S→R
+normal-time ratios are 1.218 (top-3) and 1.015 (top-10). Results hold only
+for the tested conditions.
+5/10/20/30 prevent a blanket claim that 30 runs are universally
+adequate. Completion frequencies of 1.0 describe generated
+simulation draws, not real-event probabilities.
+C. GRAPH-SCOPE AUDIT
+For seven configured-bundle scenarios × five common seeds,
+connectivity agreement uses 70 outcomes and policy-ranking
+agreement uses 35 bus-versus-static comparisons against the
+full reference graph. Functional-segment normal times are
+compared for A→D, A→S, R→D, and S→R. The central
+long-haul target contains 3,582 physical edges with matching
+checksums in top-10 and full scope; extreme multipliers are
+checked for top-10/full A→D travel-time ratio.
+VI. RESULTS
+A. BASELINE BY RESOURCE FRAME
+Table 2 reports the no-disruption (and access-segment) base-
+line on the top-10 graph. Under the configured bundle the
+point estimate favors multimodal by about 10 min, but both
+the t and bootstrap intervals include zero. Under the equal
+total road fleet, bus-only is about 102 min faster with inter-
+vals far from zero. Resource definition therefore changes the
+baseline interpretation before any disruption is applied.
+B. GRAPH-SCOPE AUDIT
+Table 3 and Fig. 3 show that top-5 and top-10 preserve
+full-scope connectivity and bus-versus-static ranking in the
+tested conditions, while top-3 does not. Top-3 S→R normal
+time is 1.218× full and top-10 is 1.015×. At a 3.0 long-
+haul road multiplier, the top-10/full A→D travel-time ratio
+reaches 1.157, so the extreme point is treated as a graph-scope
+boundary. This audit does not directly re-prove the equal-
+road-fleet conclusion on the full graph; it bounds how far the
+reduced envelope may be trusted for the tested stress set.
+4
+VOLUME 11, 2023
+
+===== PAGE 5 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+TABLE 3. Graph-scope agreement with the full reference graph
+(configured bundle, seven scenarios, five seeds).
+Scope
+Nodes
+Edges
+Connectivity
+Ranking
+top-3
+752
+1,512
+0.786
+0.686
+top-5
+2,733
+5,532
+1.000
+1.000
+top-10
+9,089
+18,602
+1.000
+1.000
+full
+360,556
+971,680
+ref.
+ref.
+TABLE 4. Equal-road-fleet stress results (top-10; completion rates and
+mean ∆with bootstrap 95% interval where both complete).
+Scenario
+Comp. bus/multi.
+Mean ∆
+Bootstrap CI
+No disruption
+1.00/1.00
+−101.7
+[−126.0, −81.0]
+Access severe
+1.00/1.00
+−106.5
+[−128.8, −87.0]
+Last-mile severe
+1.00/1.00
+−113.8
+[−139.4, −92.1]
+Long-haul 1.2×
+1.00/1.00
+−74.3
+[−100.9, −51.6]
+Long-haul 1.5×
+1.00/1.00
+−33.2
+[−63.3, −7.3]
+Long-haul 3.0×
+1.00/1.00
++173.7
+[125.5, 215.1]
+Critical-link block
+1.00/1.00
+−103.6
+[−128.1, −82.7]
+Rail unavailable
+1.00/0.00
+—
+—
+FIGURE 4. Equal-road-fleet paired stress comparison (top-10, reverse
+empty return, 30 CRN seeds; road-vehicle totals matched, rail cost not
+matched). (a) Completion rate within 24 h; (b) mean completion-time
+difference ∆= bus-only −static multimodal with percentile-bootstrap
+95% intervals. Negative values favor bus-only; positive values favor
+multimodal. Only the extreme long-haul damage cell flips the time
+ordering; rail-unavailable cells are ranked on completion rate only.
+C. SEGMENT-TARGETED STRESS UNDER THE EQUAL
+ROAD FLEET
+Table 4 summarizes key equal-road-fleet stress cells. Critical-
+link and fixed random-blockage cases still complete for both
+alternatives after rerouting; they do not support a network-
+collapse claim on this graph. Long-haul slowdown moves ∆
+from clearly negative (bus faster) at mild/moderate damage
+toward positive at 3.0×, where multimodal becomes faster
+because rail bypasses the shared trunk. Rail unavailability
+yields completion 1.00 versus 0.00, so makespan comparison
+is withheld (completion mismatch).
+D. BREAK-EVEN BOUNDARY
+In the equal-road-fleet frame with normally available rail,
+mean ∆changes from −19.49 min at 1.6× long-haul road
+slowdown to +7.91 min at 1.8×. Linear interpolation gives
+a crossing of 1.742. The joint-seed bootstrap 95% interval is
+[1.550, 2.003] (10,000 replicates; 30 complete seeds). The
+fine grid (17 multipliers) places the sign change between
+1.74 (∆= −0.31) and 1.75 (∆= +1.06), with interpo-
+lated crossing 1.742—consistent with the coarse estimate.
+FIGURE 5. Equal-road-fleet road–rail decision boundary (top-10, reverse
+empty return, 30 CRN seeds). (a) Mean completion-time difference versus
+long-haul road multiplier with normally available rail; interpolated
+crossing 1.742 with joint-seed bootstrap 95% interval 1.550–2.003. (b)
+Technical winner across road slowdown and rail-state combinations; cells
+with both alternatives complete show time difference, rail-unavailable
+cells show completion rates. The crossing is a conditional boundary for
+the stated demand, resource frame, and rail state.
+TABLE 5. Selected road–rail map cells: mean ∆(bus −multi.) or
+completion rates when makespans are not comparable (top-10, 30 seeds).
+Road mult.
+Rail state
+Frame
+Result
+1.0
+available 1.0
+configured
++10.3 [−12.9, 31.1]
+1.0
+available 1.0
+equal fleet
+−101.7 [−126.0, −81.0]
+1.6
+available 1.0
+equal fleet
+−19.5
+2.0
+available 1.0
+equal fleet
++35.4
+3.0
+available 1.0
+equal fleet
++173.7
+1.0
+unavailable
+both
+bus 1.00, multi. 0.00
+1.0
+degraded 1.5
+equal fleet
+−161.7
+3.0
+degraded 1.5
+equal fleet
++113.7
+The configured-bundle curve has no zero crossing on 1.0–3.0
+because mean ∆is already positive at 1.0. The 1.742 estimate
+is therefore resource-frame-specific.
+E. ROAD–RAIL STATE MAP
+Across the road–rail map, rail unavailability dominates out-
+come: both resource frames show bus completion 1.00 and
+static multimodal completion 0.00 at every road multiplier
+(Table 5 excerpts). With available rail, equal-road-fleet ∆is
+negative through 1.6× and positive by 2.0–3.0×. Configured-
+bundle available-rail ∆is positive for road multipliers ≥1.2.
+Mild rail degradation (1.25×) shifts equal-road-fleet ∆up-
+ward relative to available rail but does not reverse the 1.0–1.6
+bus advantage; at 1.5× rail degradation the equal-road-fleet
+baseline still favors bus-only (−161.7 min at road 1.0).
+F. DEMAND–FLEET AND SCALE
+For the equal-road-fleet demand–fleet campaign, all sixteen
+cells with demand 2,000 and road fleets 10–23 complete for
+both alternatives; bus-only has the shorter mean completion
+time in each cell (e.g., demand 2,000 and 23 vehicles: 506.0
+versus 730.2 min). Under the configured bundle at the same
+demand, multimodal is faster because of the doubled road
+bundle plus rail. As demand rises to 4,000–8,000, configured-
+bundle completion often separates (multimodal completes
+more often when road fleets are small), while equal-road-
+fleet cells with both complete still show shorter bus means.
+At demand 1,000 and equal fleet 23 in the paired reanalysis
+baseline, the engine records on the order of 24 mean road-
+VOLUME 11, 2023
+5
+
+===== PAGE 6 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+FIGURE 6. Fleet scarcity and rail-state response policies (top-10, reverse
+empty return, 30 CRN seeds). (a) Mean completion-time difference across
+demand and equal road-fleet size with available rail and no road damage;
+all sixteen tested cells complete for both alternatives and bus-only is
+faster. (b) Policy ranking at demand 1,000 and 23 road vehicles under
+completion-rate-then-makespan ordering; when rail is unavailable,
+precheck switching ties bus-only while static multimodal has completion
+0.00.
+vehicle cycles for bus-only versus 48 for multimodal under
+the configured-style return bookkeeping—empty returns are
+therefore observable in KPIs rather than implicit.
+Scale sensitivity at road multiplier 1.742 shows configured-
+bundle completion saturation at demand 2,000 (both 1.00)
+and rising incompleteness at 6,000–12,000 (bus completion
+falls faster than multimodal when multimodal retains the
+larger road bundle plus rail). These higher-demand cells are
+completion-stress results, not pure makespan comparisons.
+G. RAIL-STATE RESPONSE POLICIES
+Table 6 ranks adaptive policies with the same lexicographic
+rule. Under the equal road fleet with available rail, bus-
+only ranks first (374.1 min); static and precheck policies
+take 475.8 min and split 600/400 takes 690.4 min. Under
+rail unavailable, static multimodal completion is 0.0; split
+600/400 completion is 0.4 (rail-assigned group incomplete);
+precheck switching ties bus-only at 374.1 min with comple-
+tion 1.0; station fallback after 30/60/90 min completes near
+1,044/1,074/1,104 min. Under the configured bundle with
+available rail, split 600/400 ranks first (342.5 min), ahead
+of static/precheck/fallback (363.8) and bus-only (374.1). All
+policies in this comparison use 23 road vehicles on the equal-
+road-fleet side (bus 23 direct; static/precheck 12 feeder +
+11 last-mile; split 6 direct + 9 feeder + 8 last-mile; fallback
+8 feeder + 8 last-mile + 7 reserve); rail remains additional.
+Rail unavailability therefore bounds a static policy, not every
+multimodal response design.
+H. RANDOM THREAT-SET UNCERTAINTY
+Across 100 random eight-edge threat sets and 30 arrival
+seeds per set, all 3,000 configured-bundle pairs complete for
+both alternatives. Mean ∆is +11.674 min with two-level
+bootstrap interval [9.221, 14.257]. Completion frequencies
+of 1.0 are empirical frequencies among generated draws, not
+estimates of real-event probabilities.
+TABLE 6. Adaptive policy means (completion rate then finite makespan;
+top-10, 30 seeds).
+Frame / rail
+Policy
+Rate
+Mean min
+Configured / avail.
+split 600/400
+1.00
+342.5
+Configured / avail.
+static, precheck, fallback
+1.00
+363.8
+Configured / avail.
+bus-only
+1.00
+374.1
+Configured / degr. 1.5
+bus-only
+1.00
+374.1
+Configured / unavail.
+bus-only, precheck
+1.00
+374.1
+Configured / unavail.
+split 600/400
+0.40
+246.1a
+Configured / unavail.
+static multimodal
+0.00
+—
+Equal fleet / avail.
+bus-only
+1.00
+374.1
+Equal fleet / avail.
+static, precheck
+1.00
+475.8
+Equal fleet / unavail.
+bus-only, precheck
+1.00
+374.1
+Equal fleet / unavail.
+static multimodal
+0.00
+—
+aMean over finite incomplete-run times; not used for full-completion
+ranking.
+I. SCREENING AND REPLICATION DIAGNOSTICS
+Morris trajectories screen six factors (demand, arrival sigma,
+rail multiplier, road fleet, transfer time, long-haul road mul-
+tiplier) on completion rate. For bus-only completion rate,
+µ∗ranks demand 0.533, road fleet 0.241, and long-haul
+multiplier 0.188; rail, transfer, and arrival sigma are 0 on
+the configured-bundle completion-rate scale. For static mul-
+timodal completion rate all six µ∗values are 0 (ceiling at 1.0
+under the tested configured-bundle ranges), with road fleet at
+0.009. Morris makespan elementary effects are not reported
+for this top-10 campaign: bus-only has 59 incomplete groups
+and 294 nonfinite seed outcomes and static multimodal has
+1 incomplete group and 5 nonfinite outcomes, so the all-
+seed finite-makespan screening scope is incomplete by de-
+sign. Completion-rate screening answers a different response
+question and is retained as such.
+At 30 baseline replications, paired-t half-width is 22.88
+min for the configured bundle and 23.35 min for the equal-
+road-fleet no-disruption cell. Half-widths shrink from 5 to
+10 to 20 to 30 runs but remain wide relative to the +10 min
+configured-bundle point estimate; thirty runs are fixed for this
+design and do not establish universal adequacy.
+VII. DISCUSSION
+Four bounded statements follow from the experiments.
+First, resource definition can reverse the baseline interpre-
+tation. Configured bundles nearly tie (unresolved +10 min),
+whereas equal road fleets favor bus-only by about 102 min
+while still granting multimodal an unmatched rail resource.
+Any modal claim that suppresses the frame is uninterpretable.
+Second, under equal total road fleets and normally avail-
+able rail, the mean ordering crosses near a 1.742 long-haul
+road multiplier (joint-seed interval 1.550–2.003). The fine
+grid independently places the sign change between 1.74 and
+1.75. The configured-bundle curve does not cross on 1.0–3.0,
+so 1.742 is not a frame-free constant.
+Third, under the equal-road-fleet frame, rail-unavailable
+failure belongs to static multimodal without a fallback rule;
+precheck switching completes at the bus-only time. Adaptive
+structure therefore matters as much as mode labels.
+6
+VOLUME 11, 2023
+
+===== PAGE 7 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+Fourth, in the configured-bundle graph-scope check, top-
+5 and top-10 preserve tested connectivity and ranking while
+top-3 does not, and extreme long-haul slowdown grows top-
+10/full divergence. Reduced graphs must be audited, not as-
+sumed.
+Blocked roads reroute: critical-link and fixed random-
+blockage scenarios complete for both alternatives and do
+not support a collapse narrative on this envelope. By con-
+trast, budget-k path interdiction under blocked-edge recovery
+yields zero completion for both alternatives in all 2,400 path-
+interdiction runs on the top-10 graph (both k, all road multi-
+pliers, both frames, demand 1,000). We interpret that outcome
+as the interdicted sets forming a cut for the reduced corridor
+envelope under static full-horizon recovery; it is a graph-
+scope-sensitive stress result and is not used to re-estimate
+the break-even multiplier. Cause separation between envelope
+disconnection and full-network behavior would require a full-
+graph interdiction rerun and is left open.
+It would be incorrect to read these results as proof that one
+mode is superior under all conditions. The strongest portable
+claim is conditional: under stated corridor, graph, resource,
+rail, window, and policy conditions, average completion-time
+ordering behaves as reported.
+VIII. LIMITATIONS AND CLAIM BOUNDARIES
+This work is a public-data-based conditional scenario simula-
+tion for decision support. It is not a field-use movement plan.
+Formal study flags remain false by design; human review
+is required before any stronger claim. Specific limitations
+include: a single public-data case corridor; planning assump-
+tions for charter rail, low background traffic, fleet allocation,
+and threat generation; equal road-vehicle count that is not
+equal cost; top-10 divergence from full scope under extreme
+slowdown; random threat sets that are generated stress sam-
+ples rather than an empirical threat distribution; thirty paired
+replications with wide intervals for small effects; a 24-h
+window that saturates completion on part of the demand–
+fleet grid; path-interdiction zero-completion outcomes that
+are envelope-specific and not full-graph proofs; and omitted
+modeling of station processing limits, train acquisition under
+contingency, crew constraints, and monetary cost. Morris
+makespan screening is withheld for incomplete top-10 repli-
+cation scopes. Simulation frequencies are not event prob-
+abilities. Claims of the form ‘‘field-verified,’’ ‘‘empirically
+fitted,’’ ‘‘predictive,’’ ‘‘live,’’ ‘‘best route,’’ or ‘‘ready for field
+use’’ are outside the evidence boundary of this study.
+IX. CONCLUSION
+This study turns a modal-ranking question into a conditional
+boundary problem. Graph-scope auditing removes unsup-
+ported top-3 disconnection claims; physical empty returns
+make fleet scarcity active; resource-frame separation exposes
+the role of unequal bundles; paired, bootstrap, joint-seed, and
+two-level inference separate arrival and threat-set variation;
+and adaptive policies distinguish static rail dependence from
+recoverable response designs.
+Under equal total road fleets and normally available rail in
+this case corridor, average completion-time ordering changes
+near a 1.742 long-haul road multiplier, with a wide but fi-
+nite uncertainty interval. Under configured bundles the base-
+line difference is unresolved. When rail is unavailable, only
+static multimodal fails while precheck switching recovers
+bus-level completion. Every reuse of these boundaries must
+retain corridor, graph, resource, rail, time-window, and policy
+conditions. The methodological package—resource frames,
+reverse-network empty return, explicit rail states, reduced-
+graph audit, and separated inference products—is offered as
+a reporting protocol for conditional wartime transport simu-
+lation, not as a general ranking of modes.
+CODE AND DATA AVAILABILITY
+The simulation engine, experiment design manifest, cam-
+paign outputs, and analysis tables that support this article are
+available in the project repository described in Section X.
+Road-network geometry is regenerable from the public Stan-
+dard Node-Link shapefile via the committed cache-build
+scripts; the large GraphML cache itself is intentionally ex-
+cluded from the repository and is identified by a committed
+SHA-256 manifest. No live external network calls are re-
+quired on the default run path. Inputs carry explicit source
+classes (public, literature-derived, sensitivity-only) in the de-
+sign and parameter tables.
+ACKNOWLEDGMENT
+The preferred spelling of ‘‘acknowledgment’’ in American
+English omits the ‘‘e’’ after the ‘‘g.’’ Sponsor and financial
+support acknowledgments, if any, belong in the first-page
+footnote.
+REFERENCES
+[1] H. Jin, S. Park, and C. Suh, ‘‘A study on wartime multimodal transportation
+decision-making using simulation,’’ J. Korea Soc. Comput. Appl., vol. 23,
+no. 4, pp. 252–258, 2022, doi: 10.5762/KAIS.2022.23.4.252.
+[2] Ministry of Land, Infrastructure and Transport and Korea Transport Insti-
+tute, 2013 Highway Capacity Manual (Doro Yongnyang Pyoram). Sejong,
+South Korea: MOLIT/KOTI, 2013.
+[3] Enforcement Rules of the Road Traffic Act, Art. 19 (Speed of Motor
+Vehicles, etc.), National Law Information Center, Seoul, South Korea
+[Online]. Available: https://www.law.go.kr
+[4] M. G. H. Bell, ‘‘A game theory approach to measuring the performance
+reliability of transport networks,’’ Transp. Res. Part B Methodol., vol. 34,
+no. 6, pp. 533–545, 2000, doi: 10.1016/S0191-2615(99)00042-9.
+[5] Bureau of Public Roads, Traffic Assignment Manual for Application with
+a Large, High Speed Computer. Washington, DC, USA: U.S. Dept. Com-
+merce, 1964.
+[6] C. F. Daganzo, ‘‘The cell transmission model: A dynamic representation
+of highway traffic consistent with the hydrodynamic theory,’’ Transp. Res.
+Part B Methodol., vol. 28, no. 4, pp. 269–287, 1994, doi: 10.1016/0191-
+2615(94)90002-7.
+[7] T. F. Fwa, Ed., The Handbook of Highway Engineering. Boca Raton, FL,
+USA: CRC Press, 2006, doi: 10.1201/9781420039504.
+[8] A. Hagberg, D. Schult, and P. Swart, ‘‘Exploring network structure, dy-
+namics, and function using NetworkX,’’ in Proc. SciPy, 2008, pp. 11–15,
+doi: 10.25080/TCWV9851.
+[9] C. R. Harris et al., ‘‘Array programming with NumPy,’’ Nature, vol. 585,
+pp. 357–362, 2020, doi: 10.1038/s41586-020-2649-2.
+[10] E. Jenelius, T. Petersen, and L.-G. Mattsson, ‘‘Importance and exposure
+in road network vulnerability analysis,’’ Transp. Res. Part A Policy Pract.,
+vol. 40, no. 7, pp. 537–560, 2006, doi: 10.1016/j.tra.2005.11.003.
+VOLUME 11, 2023
+7
+
+===== PAGE 8 =====
+Author et al.: Conditional Decision Boundaries for Reserve-Force Transport
+[11] A. M. Law, Simulation Modeling and Analysis, 5th ed. New York, NY,
+USA: McGraw-Hill Education, 2014.
+[12] M. D. Morris, ‘‘Factorial sampling plans for preliminary computational
+experiments,’’ Technometrics, vol. 33, no. 2, pp. 161–174, 1991, doi:
+10.1080/00401706.1991.10484804.
+[13] P. M. Murray-Tuite, ‘‘A framework for evaluating risk to the transportation
+network from terrorism and security policies,’’ Int. J. Crit. Infrastruct., vol.
+3, no. 3/4, pp. 389–407, 2007, doi: 10.1504/IJCIS.2007.014117.
+[14] A. Nicholson and Z.-P. Du, ‘‘Degradable transportation systems: An inte-
+grated equilibrium model,’’ Transp. Res. Part B Methodol., vol. 31, no. 3,
+pp. 209–223, 1997, doi: 10.1016/S0191-2615(96)00022-7.
+[15] D. M. Scott, D. C. Novak, L. Aultman-Hall, and F. Guo, ‘‘Network robust-
+ness index: A new method for identifying critical links and evaluating the
+performance of transportation networks,’’ J. Transport Geogr., vol. 14, no.
+3, pp. 215–227, 2006, doi: 10.1016/j.jtrangeo.2005.10.003.
+[16] Y. Sheffi, Urban Transportation Networks: Equilibrium Analysis with
+Mathematical Programming Methods. Englewood Cliffs, NJ, USA:
+Prentice-Hall, 1985.
+[17] Ministry of Land, Infrastructure and Transport, Standard Node-Link (py-
+ojun node-link), National Transport Information Center (NTIS), Seoul,
+South Korea [Online]. Available: https://www.its.go.kr
+[18] KORAIL, Gangneung Line KTX-Eum timetable, Seoul, South Korea [On-
+line]. Available: https://www.korail.com (accessed: 2026-07-18).
+[19] L. Mattsson and E. Jenelius, ‘‘Vulnerability and resilience of transport
+systems—A discussion of recent research,’’ Transp. Res. Part A Policy
+Pract., vol. 81, pp. 1–18, 2015, doi: 10.1016/j.tra.2015.06.002.
+[20] M. G. H. Bell and H. Iida, Transportation Network Analysis. Chichester,
+U.K.: Wiley, 1997.
+[21] Y. Boykov and O. Veksler, ‘‘Graph cuts in vision and graphics: A tutorial,’’
+in Markov Models for Image and Video Processing and Analysis, M. A. T.
+Figueiredo et al., Eds. Berlin, Germany: De Gruyter, 2012, pp. 79–111.
+[22] R. K. Ahuja, T. L. Magnanti, and J. B. Orlin, Network Flows: Theory,
+Algorithms, and Applications. Englewood Cliffs, NJ, USA: Prentice-Hall,
+1993.
+[23] S. Kirkpatrick, C. D. Gelatt Jr., and M. P. Vecchi, ‘‘Optimization by
+simulated annealing,’’ Science, vol. 220, no. 4598, pp. 671–680, 1983, doi:
+10.1126/science.220.4598.671.
+[24] A. Saltelli, S. Tarantola, F. Campolongo, and T. Ratto, Sensitivity Analysis:
+A Guide to Scientific Assessment. Hoboken, NJ, USA: Wiley, 2008.
+[25] J. Kleijnen, Design and Analysis of Simulation Experiments, 2nd ed. Cham,
+Switzerland: Springer, 2015.
+[26] C. J. L. Boader and R. Sargent, ‘‘A tutorial on simulation optimization,’’ in
+Proc. Winter Simul. Conf., 2012, pp. 1–22.
+[27] P. J. Davis, ‘‘Applied approximation theory,’’ in Approximation Theory and
+Applications, L. A. Cirdal et al., Eds. New York, NY, USA: Academic,
+1980, pp. 1–16.
+[28] F. S. Hillier and G. J. Lieberman, Introduction to Operations Research,
+11th ed. New York, NY, USA: McGraw-Hill Education, 2021.
+[29] D. P. Bertsekas, Network Optimization: Continuous and Discrete Models.
+Belmont, MA, USA: Athena Scientific, 1998.
+[30] B. Schoeneburg and F. Brandt, ‘‘Modern Heuristics,’’ in Handbook of
+Combinatorial Optimization, P. M. Pardalos et al., Eds. New York, NY,
+USA: Springer, 2013, pp. 1–37.
+[31] K. G. Murty, Network Programming: Algorithms, Models and Applications
+for Road, Rail, Air and Water Transportation. Hoboken, NJ, USA: Wiley,
+2022.
+[32] E. W. Dijkstra, ‘‘A note on two problems in connexion with graphs,’’
+Numer. Math., vol. 1, pp. 269–271, 1959, doi: 10.1007/BF01386390.
+[33] J. Yen, ‘‘Finding the shortest loopless paths in a network,’’ Manage. Sci.,
+vol. 17, no. 11, pp. 712–716, 1971, doi: 10.1287/mnsc.17.11.712.
+[34] T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, Introduction to
+Algorithms, 4th ed. Cambridge, MA, USA: MIT Press, 2022.
+[35] E. Israeli and R. K. Wood, ‘‘Shortest-path network interdiction,’’ Networks,
+vol. 40, no. 2, pp. 97–111, 2002, doi: 10.1002/net.10047.
+[36] D. W. Smith and H. N. Song, ‘‘A survey of network interdiction models
+and methods,’’ Eur. J. Oper. Res., vol. 276, no. 2, pp. 395–411, 2019, doi:
+10.1016/j.ejor.2019.01.014 (survey-style secondary source; verify pagina-
+tion before submission).
+[37] L. G. Valiant, ‘‘A bridging model for parallel computation,’’ Commun.
+ACM, vol. 33, no. 8, pp. 103–111, 1990, doi: 10.1145/79173.79181.
+[38] J. D. Lafferty, A. McCallum, and F. C. N. Pereira, ‘‘Conditional random
+fields: Probabilistic models for segmenting and labeling sequence data,’’
+in Proc. ICML, 2001, pp. 282–289.
+[39] S. Russell and P. Norvig, Artificial Intelligence: A Modern Approach, 4th
+ed. Hoboken, NJ, USA: Pearson, 2020.
+[40] National
+Transport
+Information
+Center,
+Public
+Data
+Portal
+road-
+network
+file
+metadata,
+Seoul,
+South
+Korea
+[Online].
+Available:
+https://www.data.go.kr
+AUTHOR NAME received the B.S. and M.S. degrees in ... from ... in ....
+He/She is currently a ... with ..., ....
+His/Her research interests include ... .
+AUTHOR NAME received the Ph.D. degree in ... from ... in ....
+His/Her research interests include ... .
+8
+VOLUME 11, 2023
+

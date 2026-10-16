@@ -1,1 +1,0 @@
-RUN: $(sports_scheduling_sat)

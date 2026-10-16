@@ -1,0 +1,5 @@
+﻿graph_scope,normal_time_match_count,normal_time_mean_absolute_error,normal_time_mean_absolute_percentage_error,connectivity_match_count,connectivity_agreement,policy_ranking_match_count,policy_ranking_agreement
+top10,10,2.201659299316816e-09,1.5307901887593454e-12,70,1.0,35,1.0
+top3,10,2.201659299316816e-09,1.5307901887593454e-12,70,0.7857142857142857,35,0.7142857142857143
+top5,10,2.201659299316816e-09,1.5307901887593454e-12,70,1.0,35,1.0
+full,10,0.0,0.0,70,1.0,35,1.0

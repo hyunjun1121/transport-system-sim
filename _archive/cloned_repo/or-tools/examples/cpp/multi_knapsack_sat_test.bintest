@@ -1,1 +1,0 @@
-RUN: $(multi_knapsack_sat)

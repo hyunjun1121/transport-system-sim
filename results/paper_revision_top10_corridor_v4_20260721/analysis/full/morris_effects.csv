@@ -1,0 +1,15 @@
+﻿policy_id,response_metric,analysis_status,factor_name,mu,mu_star,sigma,mu_star_conf,trajectory_count,sample_point_count,expected_arrival_seed_count,incomplete_group_count,missing_seed_count,nonfinite_seed_count,outcome_scope
+bus_only,makespan,incomplete_replications,,,,,,20,140,5,59,0,294,all_expected_seeds_full_completion_and_finite_makespan
+static_multimodal,makespan,incomplete_replications,,,,,,20,140,5,1,0,5,all_expected_seeds_full_completion_and_finite_makespan
+bus_only,completion_rate,available,road_longhaul_multiplier,-0.18775995047141664,0.18775995047141664,0.2287636926454014,0.09772037960809725,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,rail_travel_multiplier,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,demand,-0.5330615957884128,0.5330615957884128,0.37556330083931233,0.16163882958420162,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,road_fleet_total,0.2414771133355876,0.2414771133355876,0.25645773224087165,0.10900008311034912,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,transfer_time_min,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+bus_only,completion_rate,available,arrival_sigma,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,road_longhaul_multiplier,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,rail_travel_multiplier,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,demand,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,road_fleet_total,0.008958333333333346,0.008958333333333346,0.0400628845968713,0.016832905328914263,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,transfer_time_min,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate
+static_multimodal,completion_rate,available,arrival_sigma,0.0,0.0,0.0,0.0,20,140,5,0,0,0,all_expected_seeds_valid_completion_rate

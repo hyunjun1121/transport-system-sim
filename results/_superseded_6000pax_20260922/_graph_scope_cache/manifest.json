@@ -1,0 +1,105 @@
+{
+  "builder_fingerprint": "b7127e34c34f3fae8298b1487fbe6316c18925b697c12a7274aaa8af762e0340",
+  "builder_module": "src.realworld.pilot_experiments",
+  "builder_name": "pilot_experiment_multi_corridor_subgraphs",
+  "cache_kind": "paper_revision_graph_scope_cache",
+  "created_at_utc": "2026-09-22T08:07:45.879669+00:00",
+  "final_study_ready": false,
+  "method_version": "hybrid_exact3_penalty_v1",
+  "path_counts": [
+    3,
+    5,
+    10
+  ],
+  "schema_version": 2,
+  "scope_input_fingerprint": "bbcb5b1fb4699bd808dfcf7675f384b1134fd1801d7dcfc52bafe33bfa542f2c",
+  "scopes": {
+    "top10": {
+      "candidate_method": "exact_top3_plus_deterministic_penalty_diversification",
+      "edges": 18602,
+      "file": "top10.graphml",
+      "leg_candidates": {
+        "A_to_D": {
+          "candidate_count": 10,
+          "exact_shortest_count": 3,
+          "expansion_count": 7,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        },
+        "A_to_S": {
+          "candidate_count": 10,
+          "exact_shortest_count": 3,
+          "expansion_count": 7,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        },
+        "R_to_D": {
+          "candidate_count": 10,
+          "exact_shortest_count": 3,
+          "expansion_count": 7,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        }
+      },
+      "nodes": 9089,
+      "sha256": "cbf7c126fd0f2693d57f9e6365d4eff4921ddd38135e1c0dc7119fc478575c3d",
+      "size_bytes": 25276184
+    },
+    "top3": {
+      "candidate_method": "exact_shortest_simple_paths",
+      "edges": 1512,
+      "file": "top3.graphml",
+      "leg_candidates": {
+        "A_to_D": {
+          "candidate_count": 3,
+          "exact_shortest_count": 3,
+          "expansion_count": 0,
+          "method": "exact_shortest_simple_paths"
+        },
+        "A_to_S": {
+          "candidate_count": 3,
+          "exact_shortest_count": 3,
+          "expansion_count": 0,
+          "method": "exact_shortest_simple_paths"
+        },
+        "R_to_D": {
+          "candidate_count": 3,
+          "exact_shortest_count": 3,
+          "expansion_count": 0,
+          "method": "exact_shortest_simple_paths"
+        }
+      },
+      "nodes": 752,
+      "sha256": "5cda693cfe2273cbbe5615e0dcdbc70da4c8709dc38752ad802293c0bd10e488",
+      "size_bytes": 2049175
+    },
+    "top5": {
+      "candidate_method": "exact_top3_plus_deterministic_penalty_diversification",
+      "edges": 5532,
+      "file": "top5.graphml",
+      "leg_candidates": {
+        "A_to_D": {
+          "candidate_count": 5,
+          "exact_shortest_count": 3,
+          "expansion_count": 2,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        },
+        "A_to_S": {
+          "candidate_count": 5,
+          "exact_shortest_count": 3,
+          "expansion_count": 2,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        },
+        "R_to_D": {
+          "candidate_count": 5,
+          "exact_shortest_count": 3,
+          "expansion_count": 2,
+          "method": "exact_top3_plus_deterministic_penalty_diversification"
+        }
+      },
+      "nodes": 2733,
+      "sha256": "1d7bd1a6fb5b300fc026de1acde83f7f7f4828017bfe999b6efff767ffe16208",
+      "size_bytes": 7478885
+    }
+  },
+  "source_graph_edges": 971680,
+  "source_graph_nodes": 360556,
+  "source_graphml_sha256": "ef96e6a44a4f624094a782f9417ee87ac78a0dfe4583324eb451bcdc2671aa14"
+}

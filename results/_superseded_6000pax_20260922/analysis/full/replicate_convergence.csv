@@ -1,0 +1,1 @@
+﻿scenario_id,resource_frame,graph_scope,corridor_path_count,rail_status,rail_multiplier,return_strategy,departure_policy_id,replicate_count,seed_max,mean_delta_bus_minus_multimodal,t_ci_lower,t_ci_upper,t_ci_half_width,estimate_change_from_previous,half_width_ratio_to_previous

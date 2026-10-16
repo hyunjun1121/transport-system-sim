@@ -1,1 +1,0 @@
-RUN: $(constraint_programming_cp)

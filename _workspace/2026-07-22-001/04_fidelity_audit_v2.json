@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "source_file": "03_rewrite.md",
+    "rewrite_file": "03_rewrite_v2.md",
+    "total_edit_groups": 3,
+    "edits_passed": 3,
+    "edits_flagged": 0,
+    "rollback_required": 0,
+    "warnings": 0,
+    "audit_verdict": "full_pass"
+  },
+  "checks": {
+    "proper_nouns_preserved": true,
+    "numbers_and_units_preserved": true,
+    "claim_direction_preserved": true,
+    "uncertainty_preserved": true,
+    "rail_capacity_sharing_issue_preserved": true,
+    "six_decision_categories_preserved": true,
+    "eighteen_decision_details_preserved": true,
+    "unauthorized_additions_or_omissions": false
+  },
+  "flagged_edits": [],
+  "notes": [
+    "열차 1편·2편 이상, 다른 수송수요와의 좌석 분담, 버스·운전자 확보 불확실성이 모두 남아 있다.",
+    "실제 작전계획이나 특정 이동경로를 제시하지 않는다는 연구 범위를 유지했다."
+  ]
+}

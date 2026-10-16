@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "score_before": 12.0,
+    "score_after": 2.0,
+    "score_improvement": 10.0,
+    "score_improvement_rate": 0.833,
+    "s1_residual": 0,
+    "s2_residual": 1,
+    "over_polish_signals": [],
+    "verdict": "accept_with_note",
+    "quality_level": "A",
+    "metrics_risk_before": "low",
+    "metrics_risk_after": "low",
+    "metrics_risk_score_before": 2,
+    "metrics_risk_score_after": 0
+  },
+  "residual_findings": [
+    {
+      "category": "E-2",
+      "severity": "S2",
+      "scope": "document",
+      "text_span": "정한다",
+      "reason": "결정표의 문장 끝이 반복되지만, 자문자가 정해야 할 사항을 빠르게 찾는 문서 기능에 맞는 반복이다.",
+      "action": "none"
+    }
+  ],
+  "over_polish_findings": [],
+  "unclassified_candidates": [],
+  "next_action": {
+    "type": "accept",
+    "targets": []
+  }
+}

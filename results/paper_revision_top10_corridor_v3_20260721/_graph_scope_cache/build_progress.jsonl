@@ -1,0 +1,3 @@
+{"at_utc": "2026-07-21T07:10:00.859496+00:00", "builder_fingerprint": "9f5539c75b18a3c99fdea15846e381e6afbd4d2cebfebc8fcf43208180b4de1e", "event": "build_started", "method_version": "hybrid_exact3_penalty_v1", "path_counts": [3, 5, 10], "scope_input_fingerprint": "6b2362924653ae14751eebd69d4b1a04f01f4d5ccdcda737cf4aaae8fda0a9f4"}
+{"at_utc": "2026-07-21T07:12:34.660426+00:00", "candidate_count": 3, "event": "exact_top3_ready", "leg": "A_to_D"}
+{"at_utc": "2026-07-21T07:12:36.049848+00:00", "candidate_count": 4, "event": "penalty_candidate_added", "leg": "A_to_D", "search_attempt": 1, "target_count": 10}

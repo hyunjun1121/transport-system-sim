@@ -1,0 +1,4 @@
+﻿graph_scope,normal_time_match_count,normal_time_mean_absolute_error,normal_time_mean_absolute_percentage_error,connectivity_match_count,connectivity_agreement,policy_ranking_match_count,policy_ranking_agreement
+top10,10,0.0,0.0,40,1.0,20,1.0
+top3,10,0.0,0.0,40,0.625,20,0.65
+top5,10,0.0,0.0,40,1.0,20,1.0

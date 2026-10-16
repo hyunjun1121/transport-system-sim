@@ -1,0 +1,2366 @@
+{
+  "schema_version": 1,
+  "plan_id": "kiie-paper-revision-v4-20260721",
+  "source_sha256": "21be7ac0a9732f35151234e28223b5f30172687c42ca2ef6d44ec0d36c8b9ee3",
+  "analysis_manifest_sha256": "fb7f4b2e0efe8cb87ae3e03968284b100d688186e5636b7f42a06e253426b300",
+  "description": "Verified full-analysis rewrite: graph scope, resource frames, paired inference, decision boundary, adaptive policies, and claim limits.",
+  "operations": [
+    {
+      "id": "title-ko",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 동원예비군 수송대안 비교를 위한",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "자원조건과 네트워크 범위에 따른 전시 동원예비군 수송대안의 조건부 비교"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subtitle-ko",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "표준노드링크 기반 송파–고성 동원 코리더 사례",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "— 표준노드링크 기반 송파–고성 사례의 쌍대 시뮬레이션 —"
+          }
+        ]
+      }
+    },
+    {
+      "id": "title-en",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "A Wartime-Assumption-Driven Road-Network Simulation",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Conditional Comparison of Reserve-Force Transport Alternatives under Resource and Network-Scope Constraints: A Paired Simulation Study on the Songpa–Goseong Corridor"
+          }
+        ]
+      }
+    },
+    {
+      "id": "abstract-purpose",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "Purpose. Wartime reserve-force mobilization",
+        "mode": "contains"
+      },
+      "first_run_label": "Purpose.",
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Purpose. This study identifies conditional decision boundaries between bus-only and rail–bus multimodal transport for a reserve-force mobilization corridor. It asks how network reduction, unequal resource bundles, road and rail degradation, fleet scarcity, and response policies change the comparison."
+          }
+        ]
+      }
+    },
+    {
+      "id": "abstract-methods",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "Methods. Wartime conditions are treated",
+        "mode": "contains"
+      },
+      "first_run_label": "Methods.",
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Methods. A public-data-based conditional scenario simulation was built on the Korean Standard Node-Link network. Top-3, top-5, and top-10 corridor graphs were checked against the full road graph, and top-10 was used for the main experiments. Vehicles physically return through the reverse road network before reuse. Eleven restartable campaigns generated 24,630 runs. Common-random-number pairs were analyzed with paired t intervals, 10,000-replicate percentile bootstrap intervals, a joint-seed bootstrap for the road-damage break-even point, a two-level bootstrap for random threat sets, and Morris elementary effects."
+          }
+        ]
+      }
+    },
+    {
+      "id": "abstract-results",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "Results. Completion saturates",
+        "mode": "contains"
+      },
+      "first_run_label": "Results.",
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Results. Resource definition changed the baseline conclusion. With the configured bundles (23 road vehicles for bus-only versus 46 road vehicles plus rail for multimodal), mean completion times were 374.1 and 363.8 min; the paired difference of 10.3 min was unresolved by its 95% t interval [−12.6, 33.2]. With equal total road fleets of 23 vehicles, mean Δ(bus-only−multimodal) was −101.7 min, with a 95% t interval [−125.0, −78.4]. Under the equal-road-fleet frame and normally available rail, the estimated long-haul road-damage break-even multiplier was 1.742, with a joint-seed bootstrap interval [1.550, 2.003]. In the configured-bundle graph-scope check, top-5 and top-10 matched full-graph connectivity and policy ranking in the tested conditions; top-3 did not. In the equal-road-fleet frame, static multimodal transport failed to complete when rail was unavailable, while a precheck switching policy tied bus-only."
+          }
+        ]
+      }
+    },
+    {
+      "id": "abstract-conclusion",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "Conclusion. Mode superiority",
+        "mode": "contains"
+      },
+      "first_run_label": "Conclusion.",
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Conclusion. The contribution is a conditional decision boundary, not a general modal ranking. Comparisons must state the resource frame, network scope, rail state, and response rule. Results apply only to the specified public-data corridor and planning assumptions."
+          }
+        ]
+      }
+    },
+    {
+      "id": "keywords",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "Keywords:",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Keywords: Reserve-Force Transport, Discrete-Event Simulation, Common Random Numbers, Network Reduction, Break-Even Analysis, Multimodal Transport"
+          }
+        ]
+      }
+    },
+    {
+      "id": "study-status",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 연구는 공개 데이터",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구는 공개 데이터와 재현 가능한 시뮬레이션 코드에 기반한 조건부 사례분석이다. 산출물은 의사결정지원용 민감도 결과이며, 현장 적용을 위한 이동계획이 아니다. final_study_ready=false 상태는 유지한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "intro-identity",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 또는 국가비상사태에서 동원예비군",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "전시 또는 국가비상사태의 동원수송은 제한시간, 도로 단절, 철도 상태, 수요 집결, 유한 함대가 동시에 작용하는 조건부 의사결정 문제다. 본 연구는 어느 수단이 일반적으로 우월한지를 묻지 않는다. 대신 공공 도로망과 명시적 계획가정 아래에서 자원구성·위협 위치·철도 상태가 바뀔 때 두 수송구성의 완료율과 완료시간 경계가 어디에서 달라지는지를 공통난수 쌍대 시뮬레이션으로 분석한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "research-questions",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 연구의 핵심 질문은 다음 세 가지다",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구의 질문은 네 가지다. 첫째, top-k 축약망은 전체망의 정상 통행시간·연결성·대안 순위를 어느 범위까지 보존하는가. 둘째, 구성된 자원번들과 동일 도로차량 총수라는 두 자원 프레임에서 기준선 비교가 어떻게 달라지는가. 셋째, 철도 정상가용 조건에서 장거리 도로 감속이 어느 수준에 이르면 우위가 바뀌는가. 넷째, 철도 열화·사용불가와 무작위 위협 위치에 대해 사전확인·분할·사후전환 정책이 정적 대안보다 어떤 결과를 보이는가."
+          }
+        ]
+      }
+    },
+    {
+      "id": "contributions",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 연구의 기여는 네 가지다",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구의 기여는 다섯 가지다. 첫째, 표준노드링크 전체망과 top-3·top-5·top-10 축약망을 동일 조건에서 비교해 축약 범위를 명시한다. 둘째, 차량 재사용 전에 역방향 도로망 공차회송을 거치도록 하여 함대 희소성이 물리적으로 작동하게 한다. 셋째, 구성 번들과 동일 도로차량 총수 프레임을 분리해 자원 불균형에 따른 결론 변화를 드러낸다. 넷째, 시드별 쌍대차·부트스트랩·위협집합 외부반복·Morris elementary effects로 불확실성의 층위를 구분한다. 다섯째, 평균값 나열을 넘어 도로 감속과 철도 상태의 조건부 의사결정 경계 및 대응정책을 제시한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "scope-limit",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 연구는 단일 코리더",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구는 송파–고성 단일 사례 코리더의 조건부 시나리오 분석이다. A1–A4는 측정된 속성이 아니라 범위 조건이며, 철도·민간교통·함대·위협 입력의 현실 적합성을 입증하지 않는다. 동일 도로차량 총수 프레임도 철도자원이나 비용까지 동등화한 비교가 아니다. 모든 결론은 공개 좌표, top-10 분석망, 지정 수요·함대, 24시간 창, 시험한 위협 범위에 한정한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "paper-structure",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 논문의 구성은 다음과 같다",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 논문은 관련 연구, 프레임워크, 코리더와 자료, 시뮬레이션 모형, 실험설계, 결과, 논의와 한계, 결론의 순서로 구성한다. 실험은 열한 캠페인 24,630행이며, 핵심 비교는 top-10 분석망·공통난수 30회·역방향 공차회송 조건에서 수행한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "literature-position",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 절은 본 연구가 위치하는 다섯 문헌 흐름",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 절은 도로망 취약성, 교통류, 비상수송, 복합운송, 시뮬레이션 실험설계, 공공 도로망의 여섯 흐름을 연결한다. 본 연구는 이 문헌을 토대로 축약망 범위, 자원 프레임, 물리적 차량 회송, 쌍대 추론, 다층 불확실성, 대응정책이라는 공동 간극을 다룬다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "vulnerability-literature",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "도로망의 일부 간선이 차단되거나",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "도로망 취약성 연구는 간선 제거가 통행시간과 연결성에 미치는 영향을 다룬다(Bell, 2000; Nicholson·Du, 1997; Jenelius 외, 2006; Scott 외, 2006). 본 연구는 매개중심성·구간표적·무작위 간선집합을 스트레스 생성 규칙으로 사용하되, 차단 후 재탐색을 허용하고 결과를 국가망 전체의 임계성으로 확대하지 않는다. 특히 축약망이 우회로를 제거할 수 있다는 위험을 top-k와 전체망의 연결성·대안 순위 일치율로 별도 점검한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "bpr-literature",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "링크 통행시간을 교통량의 함수로 모델링",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "BPR 링크 성능함수는 교통량과 용량으로 링크 통행시간을 표현한다(Bureau of Public Roads, 1964; Sheffi, 1985). 본 모형은 이 함수를 유지하지만 A2의 민간 배경교통을 용량 대비 낮은 계획값 100차량/시간으로 둔다. 따라서 낮은 혼잡효과는 독립적 발견이 아니라 입력가정의 수학적 귀결이며, 중심 결과는 직접 감속·차단·재탐색·철도 상태와 자원구성이 만드는 조건부 차이다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "literature-observation-boundary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "교통망 회복력(resilience) 연구는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "교통망 회복력 연구는 평시 간선 장애, 대피, 복합운송 신뢰성을 다뤄 왔다(Jenelius 외, 2006; Bell, 2000; Scott 외, 2006; Nicholson·Du, 1997; Murray-Tuite, 2007). 국내 동원수송 논의도 존재하지만(진학은 외, 2022), 공식 도로망의 축약 범위와 자원 프레임을 함께 밝히고 동일 난수 아래 대안을 쌍대 비교한 사례는 드물다. 전시 자료가 제한된 요소는 범위 조건으로 선언하고, 그 조건이 바뀌는 스트레스를 별도 실험하는 접근이 필요하다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "emergency-multimodal-literature",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "비상교통 복원력 분야에서",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "비상교통 연구는 네트워크 장애와 수송수단 연계를 함께 다루며(Murray-Tuite, 2007), 국내 동원수송 연구는 철도–도로 결합의 가능성을 제시한다(진학은 외, 2022). 본 연구는 접근·장거리·종단 구간의 노출을 분리하고, 수단명 자체가 아니라 자원 프레임·철도 상태·대응규칙의 조합을 비교단위로 삼는다. 위협은 수단·기능구간·장애기제·표적방식·강도라는 축으로 정의하고, 실행은 연구질문별 캠페인으로 조직한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "statistics-literature",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "시뮬레이션 실험설계 측면에서",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "공통난수는 동일 외생 난수 아래 대안 차이를 직접 추정하는 분산감소 기법이다(Law, 2014). 본 연구는 시드별 Δ=버스 단독−고정 복합운송을 계산하고 쌍대 t 구간과 10,000회 퍼센타일 부트스트랩 구간을 함께 보고한다. 무작위 위협은 위협간선집합 외부반복과 집결시드 내부반복으로 분리한다. Morris(1991)는 설계된 궤적에서 elementary effects의 μ*와 σ를 산출하며, 비유한 완료시간이 포함된 반응은 불완전으로 표시하고 순위를 보고하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "data-infrastructure-literature",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "공공 도로망 데이터로 국토교통부 표준노드링크",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "도로망은 국토교통부 표준노드링크를 사용한다. 버스 통행필터 후 전체 참조망은 360,556노드·971,680간선이며, top-3는 752·1,512, top-5는 2,733·5,532, top-10은 9,089·18,602다. 주 분석망은 top-10이고 전체망은 범위 비교의 참조로 사용한다. 철도 입력은 청량리–강릉 114분·600명 정원을 참고하되 30분 전세 배차와 서비스 상태는 계획 입력으로 구분한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "research-gap",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "앞의 다섯 흐름은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "기존 흐름을 결합할 때 남는 간극은 세 가지다. 축약망이 장애 후 우회구조를 얼마나 보존하는지, 서로 다른 자원번들을 어떻게 공정하게 해석할지, 위협 위치와 집결 변동을 어떻게 분리할지다. 본 연구는 전체망 대비 범위점검, 두 자원 프레임, 쌍대·계층 부트스트랩, 실제 Morris 설계, 철도 상태별 대응정책으로 이 간극을 다룬다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "literature-result-summary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이 간극의 산물로 본 연구의 기준선 결과",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "결과의 핵심은 자원조건이 기준선 해석을 바꾼다는 점이다. 구성 번들에서는 복합운송 평균이 10.3분 짧지만 95% 쌍대 t 구간이 0을 포함한다. 동일 도로차량 총수에서는 버스 단독이 101.7분 짧고 구간 전체가 0보다 작다. 후자의 조건에서 장거리 도로 감속 손익분기점은 1.742배로 추정되며, 철도 사용불가 시 정적 복합운송은 미완료지만 사전확인 전환은 버스 단독과 같은 결과를 낸다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "framework-philosophy",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 동원수송을 다룰 때 평시",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "전시 조건에서 직접 관측하기 어려운 요소는 명시적 계획가정으로 처리하되, 그 귀결을 경험적 발견처럼 해석하지 않는다. 반대로 비교 결과를 바꾸는 도로망 범위, 차량 회송, 자원 번들, 철도 상태, 위협 위치는 실험요인으로 드러낸다. 이 프레임워크는 공공데이터 기반 조건부 시나리오 분석이며, 현장 이동계획을 산출하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "layer-rationale",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이 분할의 핵심은 A층의 가정",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "A층은 범위 조건과 그 실패 상태를 명시하고, B층은 공공 도로망의 축약오차와 입력 출처를 점검하며, C층은 두 대안의 노출구간·자원 프레임·정책을 비교한다. 층 구분은 증거 수준의 우열이 아니라 어떤 요소를 가정·자료·실험 중 어느 방식으로 처리하는지 나타낸다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure1-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 1>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 1> 연구 절차와 환류 구조. 공개 권역 입력과 도로망 준비에서 시작해 위협·정책 정의, 미세 시뮬레이션, 대안 평가, 증거 점검·민감도 분석으로 이어지는 일곱 단계를 나타낸다. 하단 A·B·C 표시는 가정-처리, 실데이터 핵심, 비교 무대의 역할을 구분하며, 마지막 점검 결과는 위협·정책 입력으로 환류한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "assumptions-intro",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "A층을 구성하는 네 가정은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "A1–A4는 결과의 적용범위를 한정하는 계획가정이다. 기준선 가정과 함께 철도 열화·사용불가, 수요·함대 변화, 무작위 위협집합을 별도 실험하여 가정 변화가 결론에 미치는 영향을 분리한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "assumption-claim-boundary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "가정 자체가 연구의 한계가 아니라",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "가정의 직접적 귀결은 경계조건으로 보고하고, 독립적인 실험결과와 구분한다. 예를 들어 정상가용 철도가 도로 장거리 감속의 영향을 받지 않는 것은 A1 구현의 결과다. 연구의 정량적 기여는 이 조건에서 도로 감속이 어느 수준에 이르면 고정비를 상쇄하는지, 그리고 철도 상태 대응정책이 실패를 얼마나 줄이는지에 있다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "pipeline-feedback",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "일곱 계층은 단방향 파이프라인",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "일곱 단계는 점검 결과가 위협·정책 정의로 돌아가는 반복구조다. 본 연구에서는 top-3 범위점검 실패가 top-10 주 분석망 선택으로, 정적 복합운송의 철도 사용불가 실패가 사전확인·사후전환 정책 추가로 환류하였다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "data-section-intro",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 절은 의사결정지원 민감도 실험의 입력",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 절은 공개 코리더 좌표, 표준노드링크 전체 참조망과 top-k 분석망, 도로 속성, 철도 상태, 수요·함대, 두 자원 프레임을 정의한다. 실제 부대 시설 좌표·부대편제·이동일정은 사용하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure2-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 2>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 2> 송파–고성 사례 코리더와 두 수송구성의 노출구조. 도로 대표선은 표준노드링크 캐시, 해안선과 철도 개념선은 공개 행정경계·철도중심선 자료, A·S·R·D는 공개 행정중심점·공공 철도역 좌표에 기초한다. 확대 창은 약 12 km의 A→S 접근구간을 보이며, 표시 선형은 비교구조 설명용으로 현장 이동계획을 뜻하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "graph-construction",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "도로망은 국토교통부 표준노드링크(SHP)",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "표준노드링크 캐시를 버스 통행가능 간선으로 필터링한 전체 참조망은 360,556노드·971,680간선이다. A→D·A→S·R→D 세 도로구간의 정확한 최단 단순경로 3개를 합쳐 top-3(752·1,512)를 만들고, 결정론적 벌점 다변화 경로를 중첩 추가해 top-5(2,733·5,532)와 top-10(9,089·18,602) 민감도 범위를 구성하였다. top-5와 top-10은 정확한 전역 k-최단경로 집합이 아니다. 정상 통행시간뿐 아니라 차단·감속 조건의 연결성과 대안 순위를 전체망과 비교했으며, 구성 번들로 시험한 조건에서 top-5와 top-10의 두 일치율이 모두 1.0이어서 우회 후보를 더 남기는 top-10을 주 분석망으로 사용하였다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "road-parameter-scope",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "도로 등급별 통행 매개변수는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "도로 등급별 통행속도는 관측 최고속도 중앙값과 법정 속도를, 용량은 관측 차로 수와 차로당 기준값을, 기저 파손률은 문헌 기본값을 결합한 계획 입력이다. 다만 본 논문의 열한 캠페인은 p_fail_scale=0으로 기저 파손률을 비활성화하고, 시나리오가 선정한 간선에 결정적 장애를 강제한다. 따라서 표 6의 기저 파손률은 그래프 속성에 보존된 참고값일 뿐 현재 수치에 작용하지 않는다. 속도·용량도 현장 적용값이 아니라 조건부 사례 입력이다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "table6-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 6> 도로 등급별",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 6> 도로 등급별 통행속도·용량과 보존 기저 파손률(현 캠페인 p_fail_scale=0으로 비활성)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "rail-input",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "철도 구간은 전시 가정 A1",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "철도 입력은 S→R 114분, 열차당 600명, 30분 전세 배차로 둔다. 114분과 정원은 공개 자료를 참고하고, 전세 배차는 계획 입력이다. 대응정책 캠페인은 정상가용·1.5배 열화·사용불가의 세 상태를 사용하고, 도로–철도 지도는 1.25·1.5·2.0배 열화를 더 세분한다. 사용불가는 통행시간을 임의로 크게 만드는 대신 서비스 상태 자체로 처리한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "demand-fleet-input",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "수요는 1,000명의 동원예비군",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "기본 수요는 1,000명이고 집결지연은 로그정규분포(μ=2.45, σ=0.75)를 따른다. 차량 정원은 45명, 배차간격은 5분, 정차 회차시간은 8분이다. 구성 번들 프레임은 버스 단독 23대와 복합운송의 접근 23대·종단 23대·철도를 비교한다. 동일 도로차량 총수 프레임은 양쪽을 23대로 맞추고 복합운송을 접근 12대·종단 11대와 철도로 구성한다. 두 프레임 모두 승객운송 후 역방향 도로망 공차회송과 회차시간을 마쳐야 차량을 재사용한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "model-intro",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "두 대안을 비교하기 위한 이산사건",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 절은 버스 단독과 철도–버스 고정 복합운송, 그리고 철도 상태 대응정책을 위한 이산사건 시뮬레이션을 기술한다. 공개 도로망 위에서 인원 집결, 대기열, 배차, 도로통행, 공차회송, 철도상태, 환승, 재탐색, 도착을 사건 단위로 처리한다. 산출물은 조건부 대안 비교용이며 현장 이동계획을 제시하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "event-loop",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "모형은 (1) 확률적으로 도착하는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "개체는 인원, 역할별 도로차량, 철도서비스, 도로간선, 환승노드다. 사건은 집결→적재·출발→도로 또는 철도 통행→환승→도착→도로차량 공차회송→회차완료 순으로 진행된다. 고정 시나리오에서는 위협간선집합을 고정하고 집결시드만 바꾸며, 무작위 위협 캠페인에서는 위협집합 100개를 외부반복하고 각 집합 안에서 집결시드 30개를 반복한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "alternatives-resource-frames",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "두 대안은 4절의 코리더 정의",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "버스 단독은 A→D 도로 직행, 고정 복합운송은 A→S 도로·S→R 철도·R→D 도로의 연결이다. 구성 번들은 현재 지정된 역할별 자원을 그대로 비교하고, 동일 도로차량 총수 프레임은 두 대안의 도로차량 합계를 맞춘다. 후자도 복합운송에 철도자원이 남으므로 동일비용 비교가 아니다. 결과는 항상 자원 프레임과 함께 보고한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "bpr-model",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "도로 간선 e의 통행시간은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "도로 간선 e의 통행시간은 t=t0·(1+α(v/C)^β)로 계산한다(Bureau of Public Roads, 1964; Sheffi, 1985). t0는 등급별 자유통행시간, v는 유효 교통량, C는 용량이며 α=0.36, β=4.0을 사용한다. A2 조건에서는 v가 작아 혼잡항이 거의 변하지 않으므로, 도로 파손의 효과는 별도 직접감속과 차단 상태로 부여한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "bpr-scope",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 가정 A2(3절)는 방향 비대칭",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "A2는 민간 배경교통을 용량 대비 낮은 계획값인 100차량/시간으로 두는 범위 조건이다. 본 연구에서 ‘≈0’은 정확한 영이 아니라 이 저수준 입력을 뜻한다. 이 조건에서는 BPR 체적–지연항이 수학적으로 작아지므로, 이를 현실의 혼잡 부재를 입증한 결과로 해석하지 않는다. 판별력을 만드는 변화는 도로 직접감속·차단 후 재탐색·철도 상태·수요와 함대다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "fleet-return",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "배차는 대기열 기반으로 동작하며",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "엔진은 STRICT와 GRACE 출발정책을 지원하지만, 본 논문의 열한 캠페인은 모두 STRICT만 사용한다. STRICT는 도착 대기열을 기준으로 정시 출발 인원과 적재량을 정한다. 도로차량은 편도 운행이 끝난 지점에서 즉시 출발지에 재등장하지 않는다. 승객 하차 후 현재 도로망의 역방향 경로를 공차로 이동하고 8분 회차를 마쳐야 다음 운행에 투입된다. 복귀경로가 없으면 해당 차량은 재사용할 수 없다. 차량순환 횟수·공차운행 횟수·공차시간·적재율을 보조지표로 기록한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "rail-policy",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "철도 구간은 고정 배차간격의 전세열차",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "철도서비스는 정상가용·열화·사용불가 상태를 가진다. 도로–철도 지도는 열화를 1.25·1.5·2.0배로 나누고, 대응정책 캠페인은 1.5배를 대표 열화조건으로 사용한다. 대응정책은 고정 복합운송, 철도 사용불가를 출발 전에 확인할 때만 전원 버스로 전환하는 precheck, 600명 철도·400명 버스 분할, 역에서 30·60·90분 후 버스로 전환하는 정책이다. 동일 도로차량 총수 프레임의 배분은 버스 23대, 고정 복합·precheck 12+11대, 분할 6+9+8대, 사후전환 8+8+예비 7대로 모두 23대이며 철도자원은 별도다. 사용불가 상태에서는 정적 복합운송을 큰 완료시간으로 치환하지 않고 완료율 0의 미완료로 기록한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "threat-routing",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "위협은 각 도로 간선에 세 가지 장애 상태",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "도로간선은 정상·직접감속·용량저감·차단 상태를 가진다. 차단된 간선은 현재 경로에서 제거하고 목적지까지 경로를 다시 탐색한다. 재탐색 뒤에도 경로가 없을 때만 도로구간을 미완료로 처리한다. 철도 상태는 도로 차단과 분리한다. 표적간선이 분석망에 존재하는지, 출발·도착 연결부를 우연히 절단하지 않는지, top-10과 전체망에서 같은 물리간선 집합을 사용하는지를 실행 전 점검한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "direct-slowdown",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 가정 A2 하에서 민간 체적",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "직접감속은 선정된 물리간선의 자유통행시간에 배율을 적용하고 용량계수는 1.0으로 둔다. 표적은 접근 A→S, 종단 R→D, 중앙 장거리 코리더로 구분하며 출발·도착 연결부와 겹치지 않게 한다. 장거리 표적 3,582개 물리간선은 top-10과 전체망에서 같은 체크섬으로 고정한다. 차단은 같은 표적 규칙 뒤 재탐색을 수행한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "model-outputs",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "모형은 매 실행마다 완료시간",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "실행별 산출은 완료율·미도착 인원·완료시간, 50·80·95% 도착시각, 도로·철도 서비스시간, 차량순환, 공차운행, 좌석공급, 적재율, 대기시간이다. 정책 비교는 완료율을 먼저 최대화하고, 완료율이 같을 때 유한 완료시간을 최소화한다. 임의 페널티를 핵심 순위에 사용하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "experiment-section-intro",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 절은 평가 지표, 시나리오 분류체계",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 절은 평가규칙, 열한 추가실험 캠페인, 공통난수 쌍대추론, 그래프 범위점검, 위협집합 외부반복, Morris 설계, 재현성 기준을 정의한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "metrics",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "1,000명 수요·1,440분 제한시간",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "핵심 평가지표는 24시간 내 완료율과 유한 완료시간이다. 비교는 완료율 우선·완료시간 차순의 사전 규칙을 따른다. 마지막 한 명에 민감한 완료시간을 보완하기 위해 최초·중앙값·80%·95% 도착시각을 기록하며, 자원기제 확인을 위해 차량순환·공차시간·좌석 적재율을 함께 사용한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "metric-saturation",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이 설계의 두드러진 특성은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "기본 수요와 시험한 수요–함대 격자에서는 완료율이 자주 1.0으로 포화하므로, 같은 완료율에서는 완료시간이 판별지표가 된다. 다만 철도 사용불가의 정적 복합운송처럼 완료율이 다르면 완료시간 차를 계산하지 않는다. 포화는 시험한 24시간 창의 성질이지 일반적 수송능력 주장이 아니다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "campaign-design",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "설계 시나리오는 위협의 구조적 역할에 따라",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "위협은 수단(도로·철도), 기능구간(접근·장거리·종단), 장애기제(감속·차단·사용불가), 표적방식(구간·중심성·무작위), 강도, 대응정책의 축으로 정의한다. 분석은 이 축을 한 목록에 혼합하지 않고 연구질문별 열한 캠페인으로 실행한다: 쌍대 재분석, 그래프 범위, 손익분기, 손익분기 세분, 수요–함대, 규모 민감도, 도로–철도 지도, 경로 차단 위협, 무작위 위협 외부반복, 대응정책, Morris."
+          }
+        ]
+      }
+    },
+    {
+      "id": "campaign-table-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 9>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 9> 추가실험 캠페인, 설계축과 실행 행 수"
+          }
+        ]
+      }
+    },
+    {
+      "id": "experiment-scale",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "완전 실행 설계는 23개 정책",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "열한 캠페인의 전체 실행은 24,630행이다. 쌍대 재분석 2,520행, 그래프 범위 1,330행, 손익분기 1,920행, 손익분기 세분 2,040행, 수요–함대 1,920행, 규모 민감도 240행, 도로–철도 지도 3,600행, 경로 차단 위협 2,400행, 무작위 위협 외부반복 6,000행, 대응정책 1,260행, Morris 1,400행으로 구성한다. 캠페인은 체크포인트와 입력·구현·런타임 지문을 남기며 중단 후 재개할 수 있다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "crn-design",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "공통난수 쌍대설계는 버스 단독",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "버스 단독과 고정 복합운송은 같은 집결시드 3101–3130을 공유한다. 각 시드에서 Δ=완료시간(버스)−완료시간(복합)을 계산한다. 완료율이 같고 양쪽 완료시간이 유한한 쌍만 완료시간 추론에 포함하며, 제외사유를 별도 집계한다. 무작위 위협에서는 위협집합 100개 각각에 30개 집결시드를 중첩한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "statistical-estimation",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "각 (정책, 시나리오) 칸에서",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "쌍대 완료시간 차이는 평균, 자유도 29의 t 95% 구간, 고정 시드의 10,000회 퍼센타일 부트스트랩 95% 구간으로 보고한다. 장거리 감속 교차점은 관측 격자에서 선형보간하고 공통시드 전체 곡선을 함께 재표집한 joint-seed bootstrap으로 구간을 구한다. 무작위 위협은 위협집합과 집결시드를 함께 재표집하는 2수준 bootstrap을 쓴다. 반복수 5·10·20·30의 구간 반폭을 보고하되, 30회를 보편적으로 충분하다고 주장하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "graph-validation-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "6.5 전시 조건에서 BPR",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "6.5 도로망 축약 범위 점검"
+          }
+        ]
+      }
+    },
+    {
+      "id": "graph-validation-results",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "전시 가정 A2(3절) 아래 배경 교통량",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "top-3·top-5·top-10과 전체망의 네 기능구간 정상 최단시간을 비교하고, 구성 번들의 7개 공통 시나리오×5개 공통시드에서 연결성 70건과 버스–고정복합 순위 35건을 비교하였다. top-3의 연결성·순위 일치율은 0.786·0.686이었고 S→R 정상 통행시간비는 1.218이었다. top-5와 top-10은 두 일치율이 각각 1.0·1.0이었으며, top-10의 S→R 정상 통행시간비는 1.015였다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "graph-selection",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "즉 본 연구의 범위에서 BPR 혼잡",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "주 분석망은 우회대안을 더 보존하는 top-10으로 선택하였다. 중앙 장거리 표적은 top-10과 전체망에서 같은 3,582개 물리간선으로 고정되었다. 다만 감속 3.0배에서 top-10/전체망 통행시간비가 1.157로 커지므로, 3.0배 결과는 축약 범위의 극단 경계로 해석한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure3-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 3>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 3> 축약망 범위 민감도 점검. (a) top-3·top-5·top-10 축약망의 기능구간별 통행시간을 전체망 대비 비율로 나타내고, (b)와 (c)는 구성 번들의 7개 시나리오×5개 공통시드에서 전체망과의 연결성 일치율(70개 결과)과 버스–고정복합 순위 일치율(35개 쌍대 비교)을 나타낸다. top-5와 top-10은 두 일치율이 모두 1.00이었으나 top-3는 각각 0.79와 0.69였고, S→R 통행시간비는 top-3 1.218, top-10 1.015였다. 결과는 시험한 조건에 한정된다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "reproducibility-heading-body",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "재현성은 두 축으로 보증된다",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "재현성 관리는 입력·구현·런타임 지문, 콘텐츠 주소형 실행키, 체크포인트, 캠페인 manifest, 분석 CSV 해시로 구성한다. 분석기는 11개 캠페인과 24,630행의 교차합, 중앙 표적 체크섬, 그래프 범위 증거, 무작위 위협 표적 체크섬을 교차 점검하고 누락·불일치가 있으면 종료한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "reproducibility-details",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이상의 모든 산출물은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "분석 완료 표지는 analysis_complete_full=true이고 누락 캠페인과 무결성 차단항목은 0개다. 이는 동일 산출물을 추적할 수 있다는 뜻이며 모형의 현실 적합성을 뜻하지 않는다. final_study_ready=false를 유지한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-overview",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 절은 단일 동원 코리더",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "결과는 top-10 분석망, 역방향 공차회송, 24시간 창을 기준으로 보고한다. 열한 캠페인의 전체 실행은 24,630행이며, 기준 쌍대비교는 시드 3101–3130을 사용한다. Δ는 버스 단독−고정 복합운송이므로 음수면 버스 단독, 양수면 복합운송의 완료시간이 짧다. 완료율이 다르면 완료시간 Δ를 보고하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-baseline-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "7.1 정상 조건 기준선",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "7.1 자원 프레임별 정상 조건 쌍대 비교"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-baseline",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "위협이 없는 정상 조건에서 버스 단독",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "구성 번들에서 버스 단독은 도로차량 23대, 복합운송은 접근 23대·종단 23대와 철도를 사용한다. 평균 완료시간은 "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "mean_bus_makespan",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "분과 "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "mean_multimodal_makespan",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "분, Δ="
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "mean_delta_bus_minus_multimodal",
+              "format": "+.1f"
+            }
+          },
+          {
+            "literal": "분이었으나 t 95% 구간 ["
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "t_ci_lower",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": ", "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "t_ci_upper",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "]과 부트스트랩 구간 ["
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "bootstrap_ci_lower",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": ", "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "configured_bundle"
+              },
+              "column": "bootstrap_ci_upper",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "]이 0을 포함해 우위를 해소하지 못했다. 동일 도로차량 총수 23대 프레임에서는 복합운송을 접근 12대·종단 11대로 구성하며, 평균은 "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "mean_bus_makespan",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "분과 "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "mean_multimodal_makespan",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "분, Δ="
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "mean_delta_bus_minus_multimodal",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "분이었다. t 구간 ["
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "t_ci_lower",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": ", "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "t_ci_upper",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "]과 부트스트랩 구간 ["
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "bootstrap_ci_lower",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": ", "
+          },
+          {
+            "evidence": {
+              "table": "paired_summary",
+              "where": {
+                "scenario_id": "no_disruption",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "bootstrap_ci_upper",
+              "format": ".1f"
+            }
+          },
+          {
+            "literal": "]은 모두 버스 단독의 짧은 완료시간을 지지한다. 후자는 철도자원·비용 동등화 비교가 아니다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "baseline-table-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 10>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 10> 자원 프레임별 정상 조건 결과(공통난수 30회, 단위: 분)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-graph-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "7.2 구간별 도로 파손 분해",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "7.2 그래프 범위와 핵심 스트레스의 쌍대 결과"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-graph-paired",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "위협의 종류와 위치가 대안의 우위를",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "top-3는 전체망 대비 연결성·대안 순위 일치가 낮아 주 분석에서 제외했고, top-10을 사용하였다. 동일 도로차량 총수 프레임에서 접근 심각, 종단 심각, 장거리 경미·중간, 임계링크 차단은 모두 부트스트랩 구간이 0보다 작아 버스 단독의 완료시간이 짧았다. 장거리 심각 3.0배에서만 Δ=+173.7분, 구간 [125.5, 215.1]로 복합운송 우위가 나타났다. 임계링크와 무작위 8간선 차단은 재탐색 후 두 대안 모두 완료율 1.0이었으므로, 구 축약망의 미완료 결과는 유지하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "paired-table-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 11>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 11> 동일 도로차량 총수 조건의 핵심 스트레스 쌍대 결과(top-10, 공통난수 30회)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure4-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 4>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 4> 동일 도로차량 총수 조건의 핵심 스트레스 시나리오 쌍대 비교(top-10, 역방향 회송, 공통난수 30회; 철도자원 비용 동등화는 아님). (a)는 24시간 내 완료율, (b)는 시드별 완료시간 차이 Δ=버스 단독−고정 복합운송의 평균과 퍼센타일 부트스트랩 95% 신뢰구간이다. Δ<0이면 버스 단독, Δ>0이면 복합운송이 빠르다. 장거리 심각 조건에서만 시간 우위가 복합운송으로 바뀌며, 철도 사용불가 조건은 완료율이 버스 1.00, 고정 복합 0.00이므로 완료시간 비교에서 제외한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-boundary-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "7.3 장거리 도로 파손과 철도 우회의",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "7.3 장거리 도로–철도 상태의 조건부 의사결정 경계"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-boundary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "복합운송의 우위가 발현되는 구조적 조건",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "동일 도로차량 총수·철도 정상가용 조건에서 장거리 도로 감속 1.6배의 Δ는 −19.5분, 1.8배는 +7.9분이었다. 관측 격자의 선형 교차점은 "
+          },
+          {
+            "evidence": {
+              "table": "break_even",
+              "where": {
+                "scenario_id": "long_haul_break_even",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "crossing_road_multiplier",
+              "format": ".3f"
+            }
+          },
+          {
+            "literal": "배이고, 공통시드 곡선을 재표집한 95% 구간은 ["
+          },
+          {
+            "evidence": {
+              "table": "break_even",
+              "where": {
+                "scenario_id": "long_haul_break_even",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "joint_seed_bootstrap_ci_lower",
+              "format": ".3f"
+            }
+          },
+          {
+            "literal": ", "
+          },
+          {
+            "evidence": {
+              "table": "break_even",
+              "where": {
+                "scenario_id": "long_haul_break_even",
+                "resource_frame": "matched_road_fleet"
+              },
+              "column": "joint_seed_bootstrap_ci_upper",
+              "format": ".3f"
+            }
+          },
+          {
+            "literal": "]이다. 구성 번들은 감속 1.0–3.0에서 평균 Δ가 이미 양수여서 교차점이 괄호화되지 않았다. 따라서 손익분기점은 자원 프레임에 종속된다. 도로–철도 지도는 도로 감속 6수준과 철도 정상가용·1.25·1.5·2.0배 열화·사용불가의 5조건을 결합하며, 철도 사용불가 시 정적 복합운송의 완료율이 0이므로 시간 차 대신 완료율을 표시한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure5-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 5>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 5> 동일 도로차량 총수 조건의 장거리 도로–철도 상태별 의사결정 경계(top-10, 역방향 회송, 공통난수 30회). (a)는 철도 정상가용 조건에서 장거리 도로 감속배율에 따른 평균 완료시간 차이를 나타내며, 교차점 추정치는 1.742배, 공통 시드 부트스트랩 95% 신뢰구간은 1.550–2.003배이다. (b)는 도로 감속과 철도 상태의 조합별 기술적 우위를 나타낸다. 양 대안이 모두 완료된 셀은 버스−복합 완료시간 차이, 철도 사용불가 셀은 각 대안의 완료율을 표시한다. 교차점은 지정된 수요·자원·철도조건에 한정된 조건부 경계다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-resource-policy-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "7.4 가정-실패 조건에서의 붕괴",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "7.4 수요–함대와 철도상태 대응정책"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-resource-policy",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "그림 6은 두 가지 가정-실패 조건",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "동일 도로차량 총수 프레임의 수요 500–2,000명×차량 10·15·20·23대 16개 조합에서 두 대안은 모두 완료율 1.0이었고 버스 단독 평균 완료시간이 짧았다. 수요 1,000명에서 차량 10대의 평균은 683.2분과 760.7분, 23대는 374.1분과 475.8분이었다. 후자 조건에서 실제 공차회송을 포함한 평균 도로차량 순환은 버스 단독 약 24.3회, 고정 복합운송 약 47.9회였다. 대응정책도 총 도로차량 23대를 유지했다: 버스 23대, 고정 복합·사전확인 12+11대, 분할 6+9+8대, 사후전환 8+8+예비 7대다. 철도 정상가용과 1.5배 열화에서는 버스 단독 374.1분이 1위였다. 철도 사용불가에서는 버스 단독과 사전확인 전환이 374.1분·완료율 1.0으로 공동 1위였고, 고정 복합운송은 완료율 0이었다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure6-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<그림 6>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<그림 6> 자원 희소성과 철도상태 대응정책 비교(top-10, 역방향 회송, 공통난수 30회). (a)는 정상 철도·도로파손 없음 조건에서 수요 500–2,000명과 동일 도로차량 총수 10–23대 조합의 평균 완료시간 차이를 나타낸다. 시험한 16개 조합은 양 대안 모두 완료율 1.00이었고 버스 단독의 평균 완료시간이 짧았다. (b)는 기본 수요 1,000명·도로차량 23대에서 완료율 우선, 유한 완료시간 차순으로 정한 정책 순위다. 셀은 순위·평균 완료율·평균 완료시간을 표시하며, 철도 사용불가 조건에서 사전확인 전환은 버스 단독과 공동 1위이고 고정 복합운송은 완료율 0.00이다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-uncertainty-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "7.5 확률적 위협과 혼잡 사다리",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "7.5 무작위 위협 외부반복·Morris·반복수 진단"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-uncertainty",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "무작위 차단(8 간선)은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "무작위 8간선 차단은 구성 번들에서 100개 위협집합×30개 집결시드로 반복하였다. 두 대안은 3,000쌍 모두 완료했고 평균 Δ=+11.674분, 2수준 부트스트랩 구간 [9.221, 14.257]이었다. 이는 생성한 위협집합에서의 결과 빈도이며 실제 위협 발생확률이 아니다. 구성 번들의 Morris 분석에서 고정 복합운송 완료시간 μ*는 수요 206.65, 집결 σ 125.32, 철도배율 116.67, 도로차량 108.47, 환승 22.36, 장거리 도로 0 순이었다. 버스 완료시간 반응은 3개 불완전 그룹과 11개 비유한 시드를 포함해 요인순위를 보고하지 않는다. 기준선 Δ의 t 구간 반폭은 30회에서 구성 번들 22.88분, 동일 도로차량 총수 23.34분으로 남아 있어 30회의 보편적 충분성을 주장하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "diagnostic-table-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 12>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 12> 그래프 범위·무작위 위협·민감도·반복수 점검 요약"
+          }
+        ]
+      }
+    },
+    {
+      "id": "results-summary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "결과를 종합하면 대안의 우위는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "결과는 네 범위조건을 요구한다. 첫째, 구성 번들의 정상 평균차는 통계적으로 미해결이며 동일 도로차량 총수에서는 버스 단독이 빠르다. 둘째, 후자의 철도 정상가용 조건에서 장거리 도로 감속 약 1.742배가 평균 우위의 교차점이다. 셋째, 철도 사용불가에서 실패하는 것은 대체규칙이 없는 정적 복합운송이며, 사전확인 전환은 완료한다. 넷째, top-10은 구성 번들 범위점검에서 시험한 연결성과 순위를 보존했지만 3.0배 감속은 전체망과 차이가 커지는 극단 경계다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-intro",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "어떻게 우위를 달리하는지를",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "논의는 24,630행의 조건부 시나리오 결과를 자원 프레임, 축약망 범위, 도로–철도 상태, 대응정책, 두 불확실성 층으로 나누어 해석한다. 평균 순위와 신뢰구간 해석을 구분하고, 완료율이 다른 경우 완료시간 차를 비교하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-resource-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.1 위협의 위치가 수송 대안의 우위를 결정",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.1 자원 프레임이 기준선 결론을 바꾼다"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-resource",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "위협이 없는 기준 조건에서",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "구성 번들의 복합운송은 도로차량 46대와 철도를 사용해 버스 단독 23대보다 큰 자원번들을 가진다. 이 조건의 평균은 복합운송이 10.3분 짧지만 신뢰구간은 우위를 해소하지 못한다. 도로차량 총수를 23대로 맞추면 버스 단독이 101.7분 짧다. 따라서 ‘버스 대 철도’라는 수단 일반화보다 ‘지정된 자원번들’ 또는 ‘동일 도로차량 총수와 추가 철도자원’이라는 비교정의를 먼저 밝혀야 한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-main-contribution",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "위협이 가해지면 우위는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구의 실질적 발견은 철도가 도로파손의 영향을 받지 않는다는 가정 자체가 아니다. 동일 도로차량 총수와 정상가용 철도라는 조건에서 장거리 도로 감속이 어느 수준에 이르면 복합운송의 고정비를 상쇄하는지, 그리고 철도 상태를 확인해 전환하는 정책이 정적 실패를 피하는지를 수치화한 점이다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-graph-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.2 코리더 구간 분해",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.2 축약망 범위와 우회구조"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-graph",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "비교를 정밀화하기 위해 코리더를",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "top-3는 A→D·A→S·R→D 정상 통행시간을 보존했지만 S→R은 전체망보다 21.8% 길었고, 구성 번들에서 시험한 장애 후 연결성과 대안 순위도 충분히 일치하지 않았다. top-5와 top-10은 구성 번들의 7개 시나리오×5개 시드에서 얻은 70개 연결성 결과와 35개 버스–고정복합 순위 비교에 모두 일치했고, 주 분석은 우회 후보를 더 남기는 top-10을 사용했다. 그러나 top-10의 S→R 정상 통행시간은 전체망보다 1.5% 길고, 중앙 표적 감속 3.0배에서는 A→D 통행시간이 15.7% 길다. 그러므로 극심 감속의 절대값은 축약망 민감도를 함께 붙여 해석해야 한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "decision-summary-table-caption",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "<표 13>",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "<표 13> 자원·도로·철도·정책 조건별 의사결정 요약"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-boundary-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.3 장거리 도로 파손과 철도 우회",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.3 손익분기점은 조건부 의사결정 경계다"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-boundary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "장거리 S→R 구간에서 버스 단독은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "동일 도로차량 총수 프레임의 교차점 1.742배는 지정 수요 1,000명, 도로차량 23대, 철도 114분·정상가용, top-10 분석망, 24시간 창에서의 평균 경계다. 부트스트랩 구간 [1.550, 2.003]은 집결시드 변동에 따른 교차점 불확실성을 나타낸다. 위협 발생확률이나 다른 코리더의 임계값을 뜻하지 않는다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-a1",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이 불변성은 경험적으로 측정된 견고성",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "철도 정상가용에서 복합운송이 장거리 도로감속에 직접 노출되지 않는 것은 A1의 구현이다. 이를 독립적인 철도 견고성 증거로 해석하지 않는다. 대신 철도 1.5배 열화와 사용불가 상태를 별도 축으로 두어, 가정이 약해질 때 대안·정책 순위가 어떻게 바뀌는지 보고한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-fleet-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.4 접근로·종단 파손에서",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.4 수요·함대와 물리적 차량 회송"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-fleet",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "복합운송이 우위를 보이는 것은",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "기본함대가 수요를 한 번에 수용하더라도 역방향 공차회송을 포함하면 지연집결 인원을 위한 후속 순환이 발생한다. 시험한 수요–함대 격자에서 완료율은 모두 1.0이었지만 완료시간은 비선형으로 변했다. 동일 도로차량 총수·수요 1,000명에서 차량 10대는 버스 683.2분·복합 760.7분, 15대는 443.0·618.7분, 20대는 418.8·503.4분, 23대는 374.1·475.8분이었다. 이는 함대 희소성이 완료시간과 차량순환에 작동함을 보여주지만 비용효율 비교는 아니다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-adaptive-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.5 철도-신뢰 가정(A1) 제거",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.5 철도상태와 대응정책"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-adaptive",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "가정 A1의 실패 경계를 명시하기 위해",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "총 도로차량 23대를 맞춘 조건에서 철도 사용불가 시 정적 복합운송의 완료율은 0이지만, 사전확인 전환은 전원을 버스로 보내 완료율 1.0·374.1분으로 버스 단독과 같다. 역에서 30·60·90분 후 전환하는 정책은 각각 약 1,044.2·1,074.2·1,104.2분으로 완료하지만, 7대의 예비버스로 전환하므로 사전확인보다 크게 늦다. 600/400 분할은 철도 몫이 미완료되어 완료율 0.4다. 따라서 결과는 복합운송 일반의 실패가 아니라 지정된 동일 도로차량 배분과 대체규칙 없는 정적 정책의 경계다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-random-threat",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "무작위 차단(8 간선)에서는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "구성 번들의 무작위 위협 결과는 단일 해시 간선집합이 아니라 100개 위협집합의 외부반복을 사용한다. 위협집합별로 같은 30개 집결시드를 쌍대 적용해 공간적 위협 변동과 집결 변동을 분리했다. 두 대안의 완료 결과 빈도 1.0은 생성한 표본 안의 모의결과 빈도이며 실제 사건발생확률이 아니다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-sensitivity-heading",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "8.6 전시-가정 기반 모형 단순화",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "8.6 민감도와 통계적 해석"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discussion-sensitivity",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 모형은 BPR 체적-지연항을 포함하되",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "Morris 분석은 구성 번들에서 20개 궤적·요인당 5개 집결시드로 수행하였다. 고정 복합운송 완료시간에서는 수요와 집결분산의 μ*가 가장 컸고, 철도배율·도로차량·환승이 뒤를 이었다. A1 아래 장거리 도로배율의 μ*=0은 모형 구조의 귀결이다. 버스 완료시간은 비유한 결과 때문에 완전사례 조건을 만족하지 못해 요인순위를 제시하지 않는다. 또한 30회 기준선 구간 반폭이 약 23분이므로 작은 평균차는 미해결로 남길 필요가 있다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "limitations",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 연구의 산출은 단일 코리더",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "한계는 다음과 같다. 첫째, 단일 코리더와 공개 좌표에 한정되며 현장 자료와 대조하지 않았다. 둘째, A1–A4와 철도 전세입력은 계획가정이다. 셋째, 동일 도로차량 총수는 철도자원·인건비·운영비까지 맞춘 비교가 아니다. 넷째, top-10은 구성 번들로 시험한 조건에서 전체망 순위를 보존했지만 극심 감속에서 통행시간 차가 커진다. 다섯째, 무작위 위협집합은 임의 생성분포이며 실제 위협확률이 아니다. 여섯째, 30회 반복은 작은 효과를 판별하기에 제한적이다. 일곱째, 수요–함대 격자에서도 24시간 완료율이 포화해 더 짧은 시간창이나 큰 수요의 용량경계는 다루지 않았다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "decision-implication",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "정책 함의는 처방적이지 않고 진단적",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "의사결정지원 가치는 단일 수단 추천이 아니라 조건표에 있다. 자원 프레임을 먼저 고정하고, 도로 장거리 감속과 철도 상태를 배치한 뒤, 완료율 우선 규칙으로 정적·분할·전환 정책을 비교한다. 특히 철도 상태를 출발 전에 확인할 수 있다면 정적 복합운송의 사용불가 실패를 피할 수 있다. 실제 적용 전에는 비용, 열차 확보 가능성, 역 처리용량, 다른 코리더, 더 넓은 수요범위를 추가해야 한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "conclusion-main",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "고성 전시 동원 코리더",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "본 연구는 표준노드링크 기반 송파–고성 사례에서 두 수송구성을 24,630행의 조건부 시뮬레이션으로 비교하였다. top-k와 전체망 범위를 점검하고, 차량의 역방향 공차회송, 두 자원 프레임, 시드별 쌍대차, 철도상태, 무작위 위협 외부반복, 실제 Morris 설계를 반영하였다. 구성 번들의 정상 평균차는 통계적으로 미해결이었고, 동일 도로차량 총수에서는 버스 단독이 101.7분 짧았다. 후자의 철도 정상가용 조건에서 장거리 도로감속 교차점은 1.742배로 추정되었다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "conclusion-meaning",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "이 결과의 핵심 의미는",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "핵심 결론은 자원·망·철도·정책 조건을 빼고 수단 우열을 말할 수 없다는 것이다. 철도 사용불가에서 실패한 것은 대체규칙이 없는 정적 복합운송이며, 사전확인 전환은 버스 단독과 같은 결과를 냈다. 무작위 위협 외부반복에서도 두 대안은 모두 완료했으며, 비교우위는 완료시간 차로 나타났다. 따라서 연구의 기여는 특정 수단 추천보다 조건부 우위 경계를 재현 가능하게 추정하는 방법에 있다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "conclusion-boundary",
+      "kind": "paragraph",
+      "anchor": {
+        "text": "본 결과는 전시 가정 A1-A4",
+        "mode": "contains"
+      },
+      "replacement": {
+        "fragments": [
+          {
+            "literal": "결과는 공개데이터 기반 단일 사례의 의사결정지원 민감도 산출물이다. 철도와 차량의 실제 확보가능성, 비용, 역 처리용량, 현장 통행시간, 위협분포를 반영한 외부 근거가 없으므로 다른 코리더나 실제 이동에 직접 적용할 수 없다. final_study_ready=false 상태를 유지한다."
+          }
+        ]
+      }
+    },
+    {
+      "id": "table1-literature",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 1> 선행연구 흐름",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "문헌 흐름",
+        "대표 인용",
+        "본 연구의 연결·확장"
+      ],
+      "rows": [
+        [
+          "도로망 취약성·임계간선",
+          "Bell(2000); Jenelius 외(2006); Scott 외(2006); Nicholson·Du(1997)",
+          "차단 후 재탐색과 top-k/전체망 연결성·대안순위 비교"
+        ],
+        [
+          "교통류·링크 성능함수",
+          "Bureau of Public Roads(1964); Sheffi(1985); Daganzo(1994)",
+          "A2의 낮은 BPR 효과를 가정의 귀결로 한정하고 직접감속을 분리"
+        ],
+        [
+          "대피·비상 수송",
+          "Murray-Tuite(2007)",
+          "동원 코리더의 조건부 시나리오 분석과 완료율 우선 규칙"
+        ],
+        [
+          "복합운송·철도–도로 통합",
+          "진학은 외(2022)",
+          "자원 프레임·철도상태·분할·전환 정책 비교"
+        ],
+        [
+          "실험설계·민감도",
+          "Law(2014); Morris(1991)",
+          "CRN 쌍대 t/부트스트랩, 위협 외부반복, 실제 elementary effects"
+        ],
+        [
+          "데이터 인프라",
+          "국토교통부 표준노드링크; KORAIL; Hagberg 외(2008); Harris 외(2020)",
+          "top-3/5/10과 전체망 범위점검; 공개 좌표만 사용"
+        ]
+      ]
+    },
+    {
+      "id": "table2-layers",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 2> 시스템 3층",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "층",
+        "대상",
+        "처리 방식",
+        "상세 절"
+      ],
+      "rows": [
+        [
+          "A 가정-처리층",
+          "철도 기준상태·민간 배경교통·함대 배정·위협강도",
+          "범위조건을 명시하고 열화·사용불가·수요·함대 변화로 경계를 시험",
+          "3·6절"
+        ],
+        [
+          "B 실데이터 핵심층",
+          "표준노드링크 도로망과 공개 거점",
+          "전체망과 top-k 축약망을 구축하고 통행시간·연결성·순위 차이를 점검",
+          "4·6절"
+        ],
+        [
+          "C 비교 무대층",
+          "접근·장거리·종단 구간, 자원 프레임, 철도상태, 정책",
+          "동일 난수 아래 완료율 우선·완료시간 차순으로 비교",
+          "5·7절"
+        ]
+      ]
+    },
+    {
+      "id": "table3-assumptions",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 3> 전시 가정",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "#",
+        "가정",
+        "범위 근거",
+        "실험 처리"
+      ],
+      "rows": [
+        [
+          "A1",
+          "기준선 철도는 전세·무정차·정상가용",
+          "군사우선 전세라는 계획조건",
+          "정상가용 외에 1.5배 열화·사용불가 상태와 대응정책을 별도 비교"
+        ],
+        [
+          "A2",
+          "군사축 민간 배경교통 저수준",
+          "100차량/시간의 계획조건",
+          "정확한 0이 아님; BPR 효과는 가정의 귀결로만 해석"
+        ],
+        [
+          "A3",
+          "도로함대는 고정 배정",
+          "시장반응이 아닌 지정 자원",
+          "구성 번들과 동일 도로차량 총수, 수요 500–2,000명·차량 10–23대 비교"
+        ],
+        [
+          "A4",
+          "위협강도·위치는 시나리오 입력",
+          "특정 손상에 대한 확정값이 아님",
+          "구간 사다리, 100개 무작위 위협집합 외부반복, Morris 궤적으로 민감도 분석"
+        ]
+      ]
+    },
+    {
+      "id": "table4-pipeline",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 4> 프레임워크의 일곱",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "단계",
+        "역할"
+      ],
+      "rows": [
+        [
+          "1 권역 입력",
+          "공개 행정중심점·공공 철도역과 사례 범위를 정의"
+        ],
+        [
+          "2 망 준비",
+          "전체 표준노드링크와 top-3·5·10 분석망을 구축"
+        ],
+        [
+          "3 위협",
+          "도로 감속·차단·무작위 표적과 철도 상태를 정의"
+        ],
+        [
+          "4 정책",
+          "버스, 고정 복합, 분할, 사전확인, 역 대기후 전환을 정의"
+        ],
+        [
+          "5 미세-시뮬레이션",
+          "집결·배차·통행·환승·공차회송·재탐색을 사건 단위로 모의"
+        ],
+        [
+          "6 평가",
+          "완료율 우선·완료시간 차순, 도착분위·자원지표를 산출"
+        ],
+        [
+          "7 증거 점검·민감도",
+          "그래프 범위, 쌍대·계층 추론, Morris, 반복수, 해시를 점검"
+        ]
+      ]
+    },
+    {
+      "id": "table7-inputs",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 7> 전세 철도",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "입력 항목",
+        "값",
+        "근거·해석 범위"
+      ],
+      "rows": [
+        [
+          "철도 운행시간·정원·배차",
+          "114분·600명·30분",
+          "운행시간·정원은 공개자료 참고; 전세 배차는 계획입력"
+        ],
+        [
+          "대응정책 철도 상태",
+          "정상가용·1.5배 열화·사용불가",
+          "정책 캠페인의 세 조건"
+        ],
+        [
+          "도로–철도 지도 상태",
+          "정상·1.25·1.5·2.0배·사용불가",
+          "의사결정 지도의 다섯 조건"
+        ],
+        [
+          "기본 수요",
+          "1,000명",
+          "수요–함대 캠페인: 500·1,000·1,500·2,000명"
+        ],
+        [
+          "집결 지연",
+          "LogNormal(μ=2.45, σ=0.75)",
+          "집결시드 3101–3130 공유"
+        ],
+        [
+          "차량 정원·배차",
+          "45명·5분",
+          "두 대안 공통 차량 단위"
+        ],
+        [
+          "구성 번들",
+          "버스 23대 / 복합 도로차량 46대+철도",
+          "현재 지정 자원구성 비교"
+        ],
+        [
+          "동일 도로차량 총수",
+          "양쪽 23대; 복합 12+11대+철도",
+          "철도자원·비용 동등화는 아님"
+        ],
+        [
+          "대응정책 차량배분",
+          "버스 23; 분할 6+9+8; 사후전환 8+8+7",
+          "모든 정책 총 도로차량 23대; 철도 별도"
+        ],
+        [
+          "민간 배경교통",
+          "100차량/시간",
+          "용량 대비 저수준 계획값; 정확한 0이 아님"
+        ],
+        [
+          "차량 재사용",
+          "역방향 공차회송+8분 회차",
+          "복귀경로가 없으면 재사용 불가"
+        ],
+        [
+          "모의 시간 제한",
+          "1,440분",
+          "계획 입력"
+        ],
+        [
+          "기본 반복",
+          "공통난수 30회",
+          "반복수 수렴표와 함께 해석"
+        ]
+      ]
+    },
+    {
+      "id": "table8-threat-states",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 8> 간선 장애",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "상태",
+        "작용 대상",
+        "모형 처리",
+        "판정"
+      ],
+      "rows": [
+        [
+          "직접감속",
+          "도로 통행시간",
+          "선정 물리간선의 자유통행시간에 배율 적용",
+          "재탐색 가능"
+        ],
+        [
+          "용량저감",
+          "도로 용량",
+          "BPR 용량항을 통해 작용",
+          "A2 조건에서는 영향 작음"
+        ],
+        [
+          "차단",
+          "도로 통행가능성",
+          "간선 제거 후 목적지까지 경로 재탐색",
+          "대체경로가 없을 때만 미완료"
+        ],
+        [
+          "철도 열화",
+          "철도 서비스시간",
+          "지도 1.25·1.5·2.0배; 정책 1.5배",
+          "완료율·완료시간 비교"
+        ],
+        [
+          "철도 사용불가",
+          "철도 서비스 상태",
+          "서비스를 이용할 수 없는 상태로 처리",
+          "정적 복합은 미완료; 전환정책 별도"
+        ]
+      ]
+    },
+    {
+      "id": "table9-campaigns",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 9> 시나리오 분류체계",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "캠페인",
+        "핵심 설계축",
+        "정책/비교",
+        "반복 구조",
+        "실행 행",
+        "주 산출"
+      ],
+      "rows": [
+        [
+          "쌍대 재분석",
+          "21 핵심 시나리오×2 자원 프레임",
+          "버스 vs 고정 복합",
+          "30 시드",
+          "2,520",
+          "쌍대 Δ·CI"
+        ],
+        [
+          "그래프 범위",
+          "top-3·5·10·전체망",
+          "연결성·순위",
+          "고정 비교세트",
+          "1,330",
+          "범위 일치율"
+        ],
+        [
+          "손익분기",
+          "장거리 감속 16수준×2 프레임",
+          "버스 vs 고정 복합",
+          "30 시드",
+          "1,920",
+          "교차점·CI"
+        ],
+        [
+          "수요–함대",
+          "4수요×4함대×2 프레임",
+          "버스 vs 고정 복합",
+          "30 시드",
+          "1,920",
+          "자원 격자"
+        ],
+        [
+          "도로–철도 지도",
+          "도로 6수준×철도 5조건×2 프레임",
+          "버스 vs 고정 복합",
+          "30 시드",
+          "3,600",
+          "의사결정 지도"
+        ],
+        [
+          "무작위 위협",
+          "100 위협집합",
+          "버스 vs 고정 복합",
+          "집합당 30 시드",
+          "6,000",
+          "2수준 bootstrap"
+        ],
+        [
+          "대응정책",
+          "철도 3상태×2 프레임",
+          "7개 정책",
+          "30 시드",
+          "1,260",
+          "완료율 우선 순위"
+        ],
+        [
+          "Morris",
+          "6요인·20궤적",
+          "버스·고정 복합",
+          "점당 5 시드",
+          "1,400",
+          "μ*·σ·완전성"
+        ]
+      ]
+    },
+    {
+      "id": "table10-baseline",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 10> 정상 기준선",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "자원 프레임",
+        "도로차량(버스/복합)",
+        "평균 완료시간(버스/복합)",
+        "평균 Δ(버스−복합)",
+        "95% 구간·해석"
+      ],
+      "rows": [
+        [
+          "구성 번들",
+          "23 / 46",
+          "374.1 / 363.8",
+          "+10.3",
+          "t [−12.6, 33.2]; bootstrap [−12.9, 31.1] — 미해결"
+        ],
+        [
+          "동일 도로차량 총수",
+          "23 / 23",
+          "374.1 / 475.8",
+          "−101.7",
+          "t [−125.0, −78.4]; bootstrap [−125.9, −81.0] — 버스 단독"
+        ]
+      ]
+    },
+    {
+      "id": "table11-paired",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 11> 구간별 도로",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "시나리오",
+        "완료율(버스/복합)",
+        "평균 Δ(분)",
+        "bootstrap 95% CI",
+        "해석"
+      ],
+      "rows": [
+        [
+          "정상",
+          "1.00 / 1.00",
+          "−101.7",
+          "[−125.9, −81.0]",
+          "버스 단독"
+        ],
+        [
+          "접근 심각",
+          "1.00 / 1.00",
+          "−106.5",
+          "[−128.8, −87.0]",
+          "버스 단독"
+        ],
+        [
+          "종단 심각",
+          "1.00 / 1.00",
+          "−113.8",
+          "[−139.4, −92.1]",
+          "버스 단독"
+        ],
+        [
+          "장거리 경미 1.2×",
+          "1.00 / 1.00",
+          "−74.3",
+          "[−100.9, −51.6]",
+          "버스 단독"
+        ],
+        [
+          "장거리 중간 1.5×",
+          "1.00 / 1.00",
+          "−33.2",
+          "[−63.3, −7.3]",
+          "버스 단독"
+        ],
+        [
+          "장거리 심각 3.0×",
+          "1.00 / 1.00",
+          "+173.7",
+          "[125.5, 215.1]",
+          "고정 복합"
+        ],
+        [
+          "임계링크 차단",
+          "1.00 / 1.00",
+          "−103.6",
+          "[−128.1, −82.7]",
+          "재탐색 후 버스 단독"
+        ],
+        [
+          "철도 사용불가",
+          "1.00 / 0.00",
+          "—",
+          "—",
+          "완료율 기준 버스 단독"
+        ]
+      ]
+    },
+    {
+      "id": "table12-diagnostics",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 12> 혼잡 사다리",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "점검",
+        "설계",
+        "핵심 결과",
+        "해석 범위"
+      ],
+      "rows": [
+        [
+          "top-3",
+          "752노드·1,512간선",
+          "S→R 시간비 1.218; 연결성 0.786; 순위 0.686",
+          "구성 번들 범위점검; 주 분석 제외"
+        ],
+        [
+          "top-5",
+          "2,733노드·5,532간선",
+          "연결성 1.000; 순위 1.000",
+          "구성 번들의 시험조건에서 전체망 일치"
+        ],
+        [
+          "top-10",
+          "9,089노드·18,602간선",
+          "연결성 1.000; 순위 1.000; S→R 시간비 1.015",
+          "구성 번들 범위점검; 주 분석망"
+        ],
+        [
+          "전체망",
+          "360,556노드·971,680간선",
+          "범위 비교 기준",
+          "주 캠페인의 직접 실행망 아님"
+        ],
+        [
+          "무작위 위협",
+          "구성 번들·100집합×30시드",
+          "Δ=+11.674; 계층 CI [9.221, 14.257]; 양쪽 완료율 1.0",
+          "실제 사건확률 아님"
+        ],
+        [
+          "Morris",
+          "구성 번들·6요인·20궤적·점당 5시드",
+          "복합 μ*: 수요 206.65>집결σ 125.32>철도 116.67>함대 108.47",
+          "버스 완료시간 순위는 불완전으로 미보고"
+        ],
+        [
+          "반복수",
+          "5·10·20·30 시드",
+          "30회 기준선 반폭: 구성 22.88분; 동일함대 23.34분",
+          "30회의 보편적 충분성 아님"
+        ]
+      ]
+    },
+    {
+      "id": "table13-decisions",
+      "kind": "table_rows",
+      "anchor": {
+        "text": "<표 13> 구간 표적",
+        "mode": "contains"
+      },
+      "preserve_leading_rows": 1,
+      "header": [
+        "조건",
+        "자원 프레임",
+        "정책·비교",
+        "결과",
+        "판단"
+      ],
+      "rows": [
+        [
+          "정상",
+          "구성 번들",
+          "버스 vs 고정 복합",
+          "Δ=+10.3; t CI가 0 포함",
+          "평균은 복합 쪽이나 미해결"
+        ],
+        [
+          "정상",
+          "동일 도로차량 총수",
+          "버스 vs 고정 복합",
+          "Δ=−101.7; t CI<0",
+          "버스 단독"
+        ],
+        [
+          "장거리 도로감속",
+          "동일 도로차량 총수",
+          "철도 정상가용",
+          "교차점 1.742; CI [1.550, 2.003]",
+          "조건부 경계"
+        ],
+        [
+          "철도 정상가용",
+          "동일 도로차량 총수",
+          "버스 단독",
+          "완료율 1.0; 374.1분",
+          "시험 정책 중 1위"
+        ],
+        [
+          "철도 1.5배 열화",
+          "동일 도로차량 총수",
+          "버스 단독",
+          "완료율 1.0; 374.1분",
+          "시험 정책 중 1위"
+        ],
+        [
+          "철도 사용불가",
+          "동일 도로차량 총수",
+          "버스·사전확인 전환",
+          "각 374.1분; 공동 1위",
+          "정적 복합 완료율 0"
+        ],
+        [
+          "수요–함대 16조합",
+          "동일 도로차량 총수",
+          "버스 vs 고정 복합",
+          "양쪽 완료율 1.0; 버스 평균시간 짧음",
+          "시험 격자 한정"
+        ],
+        [
+          "무작위 8간선",
+          "구성 번들",
+          "100집합×30시드",
+          "Δ=+11.674; CI>0",
+          "생성 표본에서 복합 평균시간 짧음"
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "source_file": "01_input_v2.txt",
+    "output_file": "03_rewrite.md",
+    "char_count_before": 1622,
+    "char_count_after": 1589,
+    "levenshtein_distance": 163,
+    "change_rate": 0.1005,
+    "findings_resolved": 2,
+    "findings_unresolved": 1,
+    "over_polish_warning": false
+  },
+  "edits": [
+    {
+      "finding_id": "f001",
+      "before": "현재 계산에는 열차와 버스가 일정 수준 확보되고 철도가 정상적으로 운행한다는 임시 조건이 들어가 있다.",
+      "after": "현재 계산은 열차와 버스가 일정량 확보되고 철도를 정상적으로 이용할 수 있다고 임시로 본다.",
+      "category": "A-18",
+      "reason": "겹친 관형절을 줄이고 핵심 전제를 바로 제시했다."
+    },
+    {
+      "finding_id": "f002",
+      "before": "열차를 1편만 확보할 수 있는지 2편 이상 사용할 수 있는지, 일반 승객이나 다른 군 수송수요와 좌석을 나눠 써야 하는지, 버스와 운전자를 얼마나 확보할 수 있는지부터 불확실하다.",
+      "after": "전시에는 열차를 1편만 확보할지, 2편 이상 쓸 수 있을지조차 불확실하다. 일반 승객이나 다른 군 수송수요가 함께 타면 모든 좌석을 동원예비군에게 배정할 수도 없다. 버스와 운전자를 얼마나 확보할 수 있는지도 미리 알기 어렵다.",
+      "category": "A-18",
+      "reason": "열차 편수, 좌석 공동이용, 버스·운전자 확보를 세 문장으로 나눴다."
+    },
+    {
+      "finding_id": "f003",
+      "before": "확보할 수 있는 자원 / 실제로 배정할 수 있는 좌석 / 실제로 투입할 수 있는 버스",
+      "after": "확보한 자원 / 실제로 배정할 좌석 / 실제로 투입할 버스",
+      "category": "E-2",
+      "reason": "결정표의 뜻은 유지하면서 반복되는 가능형 표현을 줄였다."
+    }
+  ],
+  "unresolved_findings": [
+    {
+      "finding_id": "f003",
+      "reason": "각 행이 결정사항임을 분명히 해야 하므로 종결어미 '정한다'는 유지했다."
+    }
+  ]
+}

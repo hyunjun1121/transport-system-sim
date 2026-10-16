@@ -1,1 +1,0 @@
-RUN: $(simple_glop_program_cc)
